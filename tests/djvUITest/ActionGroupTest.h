@@ -11,7 +11,9 @@ namespace djv
         class ActionGroupTest : public Test::ITickTest
         {
         public:
-            ActionGroupTest(const std::shared_ptr<Core::Context>&);
+            ActionGroupTest(
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
         };

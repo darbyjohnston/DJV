@@ -7,7 +7,7 @@
 #include <djvUI/EventSystem.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 //#pragma optimize("", off)
 
@@ -22,7 +22,7 @@ namespace djv
             bool closed = false;
         };
 
-        void Window::_init(const std::shared_ptr<Context>& context)
+        void Window::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Window");
@@ -42,7 +42,7 @@ namespace djv
         Window::~Window()
         {}
 
-        std::shared_ptr<Window> Window::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Window> Window::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<Window>(new Window);
             out->_init(context);
@@ -62,17 +62,17 @@ namespace djv
             moveToBack();
         }
 
-        void Window::_preLayoutEvent(Event::PreLayout&)
+        void Window::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), Layout::Margin(), _getStyle()));
         }
 
-        void Window::_layoutEvent(Event::Layout&)
+        void Window::_layoutEvent(System::Event::Layout&)
         {
             StackLayout::layout(getGeometry(), getChildWidgets(), Layout::Margin(), _getStyle());
         }
 
-        void Window::_initEvent(Event::Init& event)
+        void Window::_initEvent(System::Event::Init& event)
         {
             if (event.getData().redraw)
             {

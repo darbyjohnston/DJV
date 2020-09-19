@@ -20,12 +20,12 @@ namespace djv
             DJV_NON_COPYABLE(ApplicationSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>& context);
+            void _init(const std::shared_ptr<System::Context>& context);
 
             ApplicationSettings();
 
         public:
-            static std::shared_ptr<ApplicationSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ApplicationSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IMapSubject<std::string, bool> > observeSettingsBellows() const;
             void setSettingsBellows(const std::map<std::string, bool>&);

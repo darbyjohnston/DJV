@@ -16,19 +16,19 @@ namespace djv
             DJV_NON_COPYABLE(TimeUnitsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             TimeUnitsWidget();
 
         public:
-            static std::shared_ptr<TimeUnitsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TimeUnitsWidget> create(const std::shared_ptr<System::Context>&);
 
             float getHeightForWidth(float) const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -43,11 +43,11 @@ namespace djv
             DJV_NON_COPYABLE(TimeSettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             TimeSettingsWidget();
 
         public:
-            static std::shared_ptr<TimeSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TimeSettingsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
@@ -55,7 +55,7 @@ namespace djv
             void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

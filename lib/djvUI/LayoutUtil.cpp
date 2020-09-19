@@ -4,6 +4,8 @@
 
 #include <djvUI/LayoutUtil.h>
 
+#include <djvMath/MathFunc.h>
+
 #include <map>
 
 using namespace djv::Core;
@@ -14,7 +16,7 @@ namespace djv
     {
         namespace Layout
         {
-            BBox2f getAlign(const BBox2f& value, const glm::vec2& minimumSize, HAlign hAlign, VAlign vAlign)
+            Math::BBox2f getAlign(const Math::BBox2f& value, const glm::vec2& minimumSize, HAlign hAlign, VAlign vAlign)
             {
                 float x = 0.F;
                 float y = 0.F;
@@ -60,34 +62,34 @@ namespace djv
                     break;
                 default: break;
                 }
-                return BBox2f(x, y, w, h);
+                return Math::BBox2f(x, y, w, h);
             }
 
-            BBox2f getPopupGeometry(
+            Math::BBox2f getPopupGeometry(
                 Popup value,
                 const glm::vec2& pos,
                 const glm::vec2& minimumSize)
             {
-                BBox2f out;
+                Math::BBox2f out;
                 switch (value)
                 {
                 case Popup::BelowRight:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(pos.x, pos.y),
                         glm::vec2(pos.x + minimumSize.x, pos.y + minimumSize.y));
                     break;
                 case Popup::BelowLeft:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(pos.x - minimumSize.x, pos.y),
                         glm::vec2(pos.x, pos.y + minimumSize.y));
                     break;
                 case Popup::AboveRight:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(pos.x, pos.y - minimumSize.y),
                         glm::vec2(pos.x + minimumSize.x, pos.y));
                     break;
                 case Popup::AboveLeft:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(pos.x - minimumSize.x, pos.y - minimumSize.y),
                         glm::vec2(pos.x, pos.y));
                     break;
@@ -96,16 +98,16 @@ namespace djv
                 return out;
             }
 
-            BBox2f getPopupGeometry(
+            Math::BBox2f getPopupGeometry(
                 Popup value,
-                const BBox2f& button,
+                const Math::BBox2f& button,
                 const glm::vec2& minimumSize)
             {
-                BBox2f out;
+                Math::BBox2f out;
                 switch (value)
                 {
                 case Popup::BelowLeft:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(
                             std::min(button.max.x - minimumSize.x, button.min.x),
                             button.max.y),
@@ -114,7 +116,7 @@ namespace djv
                             button.max.y + minimumSize.y));
                     break;
                 case Popup::BelowRight:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(
                             button.min.x,
                             button.max.y),
@@ -123,7 +125,7 @@ namespace djv
                             button.max.y + minimumSize.y));
                     break;
                 case Popup::AboveRight:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(
                             button.min.x,
                             button.min.y - minimumSize.y),
@@ -132,7 +134,7 @@ namespace djv
                             button.min.y));
                     break;
                 case Popup::AboveLeft:
-                    out = BBox2f(
+                    out = Math::BBox2f(
                         glm::vec2(
                             std::min(button.max.x - minimumSize.x, button.min.x),
                             button.min.y - minimumSize.y),
@@ -147,7 +149,7 @@ namespace djv
 
             Popup getPopup(
                 Popup value,
-                const BBox2f& area,
+                const Math::BBox2f& area,
                 const glm::vec2& pos,
                 const glm::vec2& minimumSize)
             {
@@ -172,8 +174,8 @@ namespace djv
                 for (; j < popupListSize; ++j)
                 {
                     Popup popup = popupList[j];
-                    const BBox2f g = getPopupGeometry(popup, pos, minimumSize);
-                    const BBox2f clipped = g.intersect(area);
+                    const Math::BBox2f g = getPopupGeometry(popup, pos, minimumSize);
+                    const Math::BBox2f clipped = g.intersect(area);
                     if (g == clipped)
                     {
                         out = popup;
@@ -190,8 +192,8 @@ namespace djv
 
             Popup getPopup(
                 Popup value,
-                const BBox2f& area,
-                const BBox2f& button,
+                const Math::BBox2f& area,
+                const Math::BBox2f& button,
                 const glm::vec2& minimumSize)
             {
                 Popup out = Popup::First;
@@ -215,8 +217,8 @@ namespace djv
                 for (; j < popupListSize; ++j)
                 {
                     Popup popup = popupList[j];
-                    const BBox2f g = getPopupGeometry(popup, button, minimumSize);
-                    const BBox2f clipped = g.intersect(area);
+                    const Math::BBox2f g = getPopupGeometry(popup, button, minimumSize);
+                    const Math::BBox2f clipped = g.intersect(area);
                     const float area = clipped.getArea();
                     if (popupAreas.find(area) == popupAreas.end())
                     {

@@ -14,7 +14,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/ToolBar.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -25,16 +25,16 @@ namespace djv
         struct LayersWidget::Private
         {
             std::shared_ptr<Media> currentMedia;
-            std::vector<AV::Image::Info> layers;
+            std::vector<Image::Info> layers;
             int currentLayer = -1;
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<Image::Info>, int> > > layersObserver;
         };
 
-        void LayersWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void LayersWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -96,9 +96,9 @@ namespace djv
                             widget->_p->currentMedia = value;
                             if (value)
                             {
-                                widget->_p->layersObserver = ValueObserver<std::pair<std::vector<AV::Image::Info>, int> >::create(
+                                widget->_p->layersObserver = ValueObserver<std::pair<std::vector<Image::Info>, int> >::create(
                                     value->observeLayers(),
-                                    [weak](const std::pair<std::vector<AV::Image::Info>, int>& value)
+                                    [weak](const std::pair<std::vector<Image::Info>, int>& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -127,14 +127,14 @@ namespace djv
         LayersWidget::~LayersWidget()
         {}
 
-        std::shared_ptr<LayersWidget> LayersWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<LayersWidget> LayersWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<LayersWidget>(new LayersWidget);
             out->_init(context);
             return out;
         }
 
-        void LayersWidget::_initEvent(Event::Init & event)
+        void LayersWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             if (event.getData().text)

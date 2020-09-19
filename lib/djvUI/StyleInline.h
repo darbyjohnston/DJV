@@ -8,7 +8,7 @@ namespace djv
     {
         namespace Style
         {
-            inline const AV::Image::Color& Palette::getColor(ColorRole value) const
+            inline const Image::Color& Palette::getColor(ColorRole value) const
             {
                 return _colors.at(value);
             }
@@ -50,7 +50,7 @@ namespace djv
 
             inline float Style::getScale() const
             {
-                return _dpi.x / static_cast<float>(AV::dpiDefault);
+                return _dpi.x / static_cast<float>(Render2D::dpiDefault);
             }
 
             inline float Style::getMetric(MetricsRole role) const

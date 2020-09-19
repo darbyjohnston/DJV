@@ -6,7 +6,7 @@
 
 #include <djvUI/UI.h>
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
 
 #include <functional>
 
@@ -15,18 +15,18 @@ namespace djv
     namespace UI
     {
         //! This class provides standard dialogs.
-        class DialogSystem : public Core::ISystem
+        class DialogSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(DialogSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             DialogSystem();
 
         public:
             ~DialogSystem() override;
 
-            static std::shared_ptr<DialogSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<DialogSystem> create(const std::shared_ptr<System::Context>&);
 
             //! Show a message dialog.
             void message(

@@ -11,9 +11,9 @@
 #include <djvUI/Spacer.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Animation.h>
+#include <djvSystem/Animation.h>
 
 using namespace djv::Core;
 
@@ -33,13 +33,13 @@ namespace djv
                     DJV_NON_COPYABLE(Button);
 
                 protected:
-                    void _init(const std::shared_ptr<Context>&);
+                    void _init(const std::shared_ptr<System::Context>&);
                     Button();
 
                 public:
                     ~Button() override;
 
-                    static std::shared_ptr<Button> create(const std::shared_ptr<Context>&);
+                    static std::shared_ptr<Button> create(const std::shared_ptr<System::Context>&);
 
                     void setIcon(const std::string&);
 
@@ -49,9 +49,9 @@ namespace djv
                     float getHeightForWidth(float) const override;
 
                 protected:
-                    void _preLayoutEvent(Event::PreLayout&) override;
-                    void _layoutEvent(Event::Layout&) override;
-                    void _paintEvent(Event::Paint&) override;
+                    void _preLayoutEvent(System::Event::PreLayout&) override;
+                    void _layoutEvent(System::Event::Layout&) override;
+                    void _paintEvent(System::Event::Paint&) override;
 
                 private:
                     std::shared_ptr<Icon> _icon;
@@ -59,7 +59,7 @@ namespace djv
                     std::shared_ptr<HorizontalLayout> _layout;
                 };
 
-                void Button::_init(const std::shared_ptr<Context>& context)
+                void Button::_init(const std::shared_ptr<System::Context>& context)
                 {
                     Widget::_init(context);
 
@@ -93,7 +93,7 @@ namespace djv
                 Button::~Button()
                 {}
 
-                std::shared_ptr<Button> Button::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Button> Button::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Button>(new Button);
                     out->_init(context);
@@ -115,20 +115,20 @@ namespace djv
                     return _layout->getHeightForWidth(value);
                 }
 
-                void Button::_preLayoutEvent(Event::PreLayout&)
+                void Button::_preLayoutEvent(System::Event::PreLayout&)
                 {
                     _setMinimumSize(_layout->getMinimumSize());
                 }
 
-                void Button::_layoutEvent(Event::Layout&)
+                void Button::_layoutEvent(System::Event::Layout&)
                 {
                     _layout->setGeometry(getGeometry());
                 }
 
-                void Button::_paintEvent(Event::Paint& event)
+                void Button::_paintEvent(System::Event::Paint& event)
                 {
                     Widget::_paintEvent(event);
-                    const BBox2f& g = getGeometry();
+                    const Math::BBox2f& g = getGeometry();
                     const auto& render = _getRender();
                     const auto& style = _getStyle();
                     if (_isPressed())
@@ -148,13 +148,13 @@ namespace djv
                     DJV_NON_COPYABLE(ChildLayout);
 
                 protected:
-                    void _init(const std::shared_ptr<Context>&);
+                    void _init(const std::shared_ptr<System::Context>&);
                     ChildLayout();
 
                 public:
                     ~ChildLayout() override;
 
-                    static std::shared_ptr<ChildLayout> create(const std::shared_ptr<Context>&);
+                    static std::shared_ptr<ChildLayout> create(const std::shared_ptr<System::Context>&);
 
                     void setOpen(float);
 
@@ -165,15 +165,15 @@ namespace djv
                     void clearChildren() override;
 
                 protected:
-                    void _preLayoutEvent(Event::PreLayout&) override;
-                    void _layoutEvent(Core::Event::Layout&) override;
+                    void _preLayoutEvent(System::Event::PreLayout&) override;
+                    void _layoutEvent(System::Event::Layout&) override;
 
                 private:
                     float _open = 1.F;
                     std::shared_ptr<StackLayout> _layout;
                 };
 
-                void ChildLayout::_init(const std::shared_ptr<Context>& context)
+                void ChildLayout::_init(const std::shared_ptr<System::Context>& context)
                 {
                     Widget::_init(context);
                     
@@ -187,7 +187,7 @@ namespace djv
                 ChildLayout::~ChildLayout()
                 {}
 
-                std::shared_ptr<ChildLayout> ChildLayout::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<ChildLayout> ChildLayout::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<ChildLayout>(new ChildLayout);
                     out->_init(context);
@@ -220,17 +220,17 @@ namespace djv
                     _layout->clearChildren();
                 }
 
-                void ChildLayout::_preLayoutEvent(Event::PreLayout& event)
+                void ChildLayout::_preLayoutEvent(System::Event::PreLayout& event)
                 {
                     glm::vec2 size = _layout->getMinimumSize();
                     _setMinimumSize(glm::vec2(size.x, size.y * _open));
                 }
 
-                void ChildLayout::_layoutEvent(Event::Layout& event)
+                void ChildLayout::_layoutEvent(System::Event::Layout& event)
                 {
-                    const BBox2f& g = getGeometry();
+                    const Math::BBox2f& g = getGeometry();
                     glm::vec2 size = _layout->getMinimumSize();
-                    _layout->setGeometry(BBox2f(g.min.x, g.min.y, g.w(), size.y));
+                    _layout->setGeometry(Math::BBox2f(g.min.x, g.min.y, g.w(), size.y));
                 }
 
             } // namespace
@@ -243,11 +243,11 @@ namespace djv
                 std::shared_ptr<ChildLayout> childLayout;
                 std::shared_ptr<VerticalLayout> layout;
                 bool open = false;
-                std::shared_ptr<Animation::Animation> openAnimation;
+                std::shared_ptr<System::Animation::Animation> openAnimation;
                 std::function<void(bool)> openCallback;
             };
 
-            void Bellows::_init(const std::shared_ptr<Context>& context)
+            void Bellows::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -255,7 +255,7 @@ namespace djv
                 setClassName("djv::UI::Layout::Bellows");
                 setVAlign(VAlign::Top);
                 
-                p.openAnimation = Animation::Animation::create(context);
+                p.openAnimation = System::Animation::Animation::create(context);
 
                 p.button = Button::create(context);
 
@@ -304,7 +304,7 @@ namespace djv
             Bellows::~Bellows()
             {}
 
-            std::shared_ptr<Bellows> Bellows::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Bellows> Bellows::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Bellows>(new Bellows);
                 out->_init(context);
@@ -441,12 +441,12 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void Bellows::_preLayoutEvent(Event::PreLayout& event)
+            void Bellows::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Bellows::_layoutEvent(Event::Layout& event)
+            void Bellows::_layoutEvent(System::Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

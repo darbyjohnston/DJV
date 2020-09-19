@@ -6,6 +6,9 @@
 
 #include <djvViewApp/IViewSystem.h>
 
+#include <djvMath/FrameNumber.h>
+#include <djvMath/Rational.h>
+
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
@@ -13,14 +16,14 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
 
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
 
     namespace ViewApp
     {
@@ -29,13 +32,13 @@ namespace djv
         //! This struct provides options for opening files.
         struct OpenOptions
         {
-            std::shared_ptr<glm::vec2>            pos;
-            std::shared_ptr<float>                spacing;
-            std::shared_ptr<Core::Math::Rational> speed;
-            std::shared_ptr<Core::Frame::Range>   startEnd;
-            std::shared_ptr<std::string>          inPoint;
-            std::shared_ptr<std::string>          outPoint;
-            std::shared_ptr<std::string>          frame;
+            std::shared_ptr<glm::vec2>          pos;
+            std::shared_ptr<float>              spacing;
+            std::shared_ptr<Math::Rational>     speed;
+            std::shared_ptr<Math::Frame::Range> startEnd;
+            std::shared_ptr<std::string>        inPoint;
+            std::shared_ptr<std::string>        outPoint;
+            std::shared_ptr<std::string>        frame;
         };
 
         //! This class provides the file system.
@@ -44,13 +47,13 @@ namespace djv
             DJV_NON_COPYABLE(FileSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             FileSystem();
 
         public:
             ~FileSystem() override;
 
-            static std::shared_ptr<FileSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FileSystem> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
             std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened2() const;
@@ -60,7 +63,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<float> > observeCachePercentage() const;
 
             void open();
-            void open(const Core::FileSystem::FileInfo&, const OpenOptions& = OpenOptions());
+            void open(const System::File::Info&, const OpenOptions& = OpenOptions());
             void open(const std::vector<std::string>&, OpenOptions = OpenOptions());
             void close(const std::shared_ptr<Media> &);
             void closeAll();

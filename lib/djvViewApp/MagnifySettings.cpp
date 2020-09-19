@@ -4,6 +4,8 @@
 
 #include <djvViewApp/MagnifySettings.h>
 
+#include <djvMath/BBoxFunc.h>
+
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
@@ -18,10 +20,10 @@ namespace djv
         {
             size_t magnify = 2;
             glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void MagnifySettings::_init(const std::shared_ptr<Core::Context>& context)
+        void MagnifySettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::MagnifySettings", context);
             _load();
@@ -34,7 +36,7 @@ namespace djv
         MagnifySettings::~MagnifySettings()
         {}
 
-        std::shared_ptr<MagnifySettings> MagnifySettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MagnifySettings> MagnifySettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MagnifySettings>(new MagnifySettings);
             out->_init(context);
@@ -61,12 +63,12 @@ namespace djv
             _p->magnifyPos = value;
         }
 
-        const std::map<std::string, BBox2f>& MagnifySettings::getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& MagnifySettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void MagnifySettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void MagnifySettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }

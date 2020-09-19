@@ -13,7 +13,9 @@ namespace djv
         class MapObserverTest : public Test::ITest
         {
         public:
-            MapObserverTest(const std::shared_ptr<Core::Context>&);
+            MapObserverTest(
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
         };

@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
+#include <djvSystem/Path.h>
 
-#include <djvCore/Path.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 
 namespace djv
 {
@@ -20,17 +20,17 @@ namespace djv
             //! This class provides a system for saving and restoring user settings.
             //!
             //! \bug How can we merge settings changes from multiple application instances?
-            class System : public Core::ISystem
+            class SettingsSystem : public System::ISystem
             {
-                DJV_NON_COPYABLE(System);
-                void _init(bool reset, const std::shared_ptr<Core::Context>&);
-                System();
+                DJV_NON_COPYABLE(SettingsSystem);
+                void _init(bool reset, const std::shared_ptr<System::Context>&);
+                SettingsSystem();
 
             public:
-                ~System() override;
+                ~SettingsSystem() override;
 
                 //! Create a new settings system.
-                static std::shared_ptr<System> create(bool reset, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<SettingsSystem> create(bool reset, const std::shared_ptr<System::Context>&);
 
                 //! Get the list of settings.
                 const std::vector<std::shared_ptr<ISettings> >& getSettings() const;
@@ -52,7 +52,7 @@ namespace djv
                 bool _reset = false;
                 rapidjson::Document _document;
                 std::vector<std::shared_ptr<ISettings> > _settings;
-                Core::FileSystem::Path _settingsPath;
+                System::File::Path _settingsPath;
                 bool _settingsIO = true;
 
                 friend class ISettings;

@@ -6,7 +6,7 @@
 
 #include <djvAV/SequenceIO.h>
 
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/String.h>
 
 #if defined(DJV_PLATFORM_WINDOWS)
@@ -36,6 +36,8 @@ namespace djv
                 struct Options
                 {
                     int quality = 90;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! This struct provides libjpeg error handling.
@@ -58,11 +60,11 @@ namespace djv
                     ~Read() override;
 
                     static std::shared_ptr<Read> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const ReadOptions&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Info _readInfo(const std::string& fileName) override;
@@ -85,13 +87,13 @@ namespace djv
                     ~Write() override;
 
                     static std::shared_ptr<Write> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const Info&,
                         const WriteOptions&,
                         const Options&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Image::Type _getImageType(Image::Type) const override;
@@ -112,13 +114,13 @@ namespace djv
                 public:
                     ~Plugin() override;
 
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
                     rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
                     void setOptions(const rapidjson::Value&) override;
 
-                    std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const override;
+                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
+                    std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();

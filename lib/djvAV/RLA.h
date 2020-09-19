@@ -34,18 +34,18 @@ namespace djv
                     ~Read() override;
 
                     static std::shared_ptr<Read> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const ReadOptions&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Info _readInfo(const std::string& fileName) override;
                     std::shared_ptr<Image::Image> _readImage(const std::string& fileName) override;
 
                 private:
-                    Info _open(const std::string&, const std::shared_ptr<Core::FileSystem::FileIO>&);
+                    Info _open(const std::string&, const std::shared_ptr<System::File::IO>&);
 
                     std::vector<int32_t> _rleOffset;
                 };
@@ -59,9 +59,9 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
-                    std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
+                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
 
                 private:
                     DJV_PRIVATE();

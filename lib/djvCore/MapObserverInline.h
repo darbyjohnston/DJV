@@ -31,7 +31,7 @@ namespace djv
         {
             if (auto subject = _subject.lock())
             {
-                subject->_remove(this);
+                subject->_removeExpired();
             }
         }
 
@@ -68,24 +68,12 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline void IMapSubject<T, U>::_remove(MapObserver<T, U> * observer)
+        inline void IMapSubject<T, U>::_removeExpired()
         {
             auto i = _observers.begin();
             while (i != _observers.end())
             {
-                bool erase = false;
-                if (auto j = i->lock())
-                {
-                    if (observer == j.get())
-                    {
-                        erase = true;
-                    }
-                }
-                else
-                {
-                    erase = true;
-                }
-                if (erase)
+                if (i->expired())
                 {
                     i = _observers.erase(i);
                 }
@@ -163,7 +151,7 @@ namespace djv
         }
 
         template<typename T, typename U>
-        void MapSubject<T, U>::setItem(const T& key, const U& value)
+        inline void MapSubject<T, U>::setItem(const T& key, const U& value)
         {
             _value[key] = value;
 
@@ -177,7 +165,7 @@ namespace djv
         }
 
         template<typename T, typename U>
-        void MapSubject<T, U>::setItemOnlyIfChanged(const T& key, const U& value)
+        inline void MapSubject<T, U>::setItemOnlyIfChanged(const T& key, const U& value)
         {
             const auto i = _value.find(key);
             if (i != _value.end() && i->second == value)

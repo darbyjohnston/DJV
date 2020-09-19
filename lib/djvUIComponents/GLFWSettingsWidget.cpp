@@ -9,9 +9,10 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/UISettings.h>
 
-#include <djvAV/GLFWSystem.h>
+#include <djvGL/EnumFunc.h>
+#include <djvGL/GLFWSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -21,13 +22,13 @@ namespace djv
     {
         struct GLFWSettingsWidget::Private
         {
-            AV::SwapInterval swapInterval = AV::SwapInterval::Default;
+            GL::SwapInterval swapInterval = GL::SwapInterval::Default;
             std::shared_ptr<ComboBox> swapIntervalComboBox;
             std::shared_ptr<FormLayout> layout;
-            std::shared_ptr<ValueObserver<AV::SwapInterval> > swapIntervalObserver;
+            std::shared_ptr<ValueObserver<GL::SwapInterval> > swapIntervalObserver;
         };
 
-        void GLFWSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void GLFWSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -41,7 +42,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<GLFWSettingsWidget>(std::dynamic_pointer_cast<GLFWSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.swapIntervalComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -49,16 +50,16 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto glfwSystem = context->getSystemT<AV::GLFW::System>();
-                            glfwSystem->setSwapInterval(static_cast<AV::SwapInterval>(value));
+                            auto glfwSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
+                            glfwSystem->setSwapInterval(static_cast<GL::SwapInterval>(value));
                         }
                     }
                 });
 
-            auto glfwSystem = context->getSystemT<AV::GLFW::System>();
-            p.swapIntervalObserver = ValueObserver<AV::SwapInterval>::create(
+            auto glfwSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
+            p.swapIntervalObserver = ValueObserver<GL::SwapInterval>::create(
                 glfwSystem->observeSwapInterval(),
-                [weak](AV::SwapInterval value)
+                [weak](GL::SwapInterval value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -72,7 +73,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<GLFWSettingsWidget> GLFWSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<GLFWSettingsWidget> GLFWSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<GLFWSettingsWidget>(new GLFWSettingsWidget);
             out->_init(context);
@@ -94,7 +95,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void GLFWSettingsWidget::_initEvent(Event::Init & event)
+        void GLFWSettingsWidget::_initEvent(System::Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             if (event.getData().text)
@@ -108,7 +109,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             std::vector<std::string> items;
-            for (auto i : AV::getSwapIntervalEnums())
+            for (auto i : GL::getSwapIntervalEnums())
             {
                 std::stringstream ss;
                 ss << i;

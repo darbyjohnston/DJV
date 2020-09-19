@@ -10,9 +10,9 @@ namespace djv
 {
     namespace Scene
     {
-        std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > IPrimitive::_meshesDummy;
-        std::vector<std::shared_ptr<AV::Geom::PointList> > IPrimitive::_polyLinesDummy;
-        std::shared_ptr<AV::Geom::PointList> IPrimitive::_pointListDummy;
+        std::vector<std::shared_ptr<Geom::TriangleMesh> > IPrimitive::_meshesDummy;
+        std::vector<std::shared_ptr<Geom::PointList> > IPrimitive::_polyLinesDummy;
+        std::shared_ptr<Geom::PointList> IPrimitive::_pointListDummy;
 
         void IPrimitive::addChild(const std::shared_ptr<IPrimitive>& value)
         {

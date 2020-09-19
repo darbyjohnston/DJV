@@ -6,7 +6,7 @@
 
 #include <djvViewApp/MDIWidget.h>
 
-#include <djvAV/Pixel.h>
+#include <djvImage/Pixel.h>
 
 namespace djv
 {
@@ -18,21 +18,21 @@ namespace djv
             DJV_NON_COPYABLE(ColorPickerWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorPickerWidget();
 
         public:
             ~ColorPickerWidget() override;
 
-            static std::shared_ptr<ColorPickerWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPickerWidget> create(const std::shared_ptr<System::Context>&);
             
             void setCurrentTool(bool);
 
             size_t getSampleSize() const;
             void setSampleSize(size_t);
 
-            AV::Image::Type getLockType() const;
-            void setLockType(AV::Image::Type);
+            Image::Type getLockType() const;
+            void setLockType(Image::Type);
 
             bool getApplyColorOperations() const;
             void setApplyColorOperations(bool);
@@ -44,7 +44,7 @@ namespace djv
             void setPickerPos(const glm::vec2&);
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             void _sampleUpdate();

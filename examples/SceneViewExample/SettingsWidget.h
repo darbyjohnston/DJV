@@ -19,13 +19,13 @@ class SettingsWidget : public djv::UI::Widget
     DJV_NON_COPYABLE(SettingsWidget);
 
 protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
+    void _init(const std::shared_ptr<djv::System::Context>&);
     SettingsWidget();
 
 public:
     ~SettingsWidget() override;
 
-    static std::shared_ptr<SettingsWidget> create(const std::shared_ptr<djv::Core::Context>&);
+    static std::shared_ptr<SettingsWidget> create(const std::shared_ptr<djv::System::Context>&);
 
     float getHeightForWidth(float) const override;
 
@@ -34,9 +34,9 @@ public:
     void clearChildren() override;
 
 protected:
-    void _initLayoutEvent(djv::Core::Event::InitLayout&) override;
-    void _preLayoutEvent(djv::Core::Event::PreLayout&) override;
-    void _layoutEvent(djv::Core::Event::Layout&) override;
+    void _initLayoutEvent(djv::System::Event::InitLayout&) override;
+    void _preLayoutEvent(djv::System::Event::PreLayout&) override;
+    void _layoutEvent(djv::System::Event::Layout&) override;
 
 private:
     std::shared_ptr<djv::UI::LabelSizeGroup> _sizeGroup;

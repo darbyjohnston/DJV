@@ -8,7 +8,7 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 #include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>
@@ -23,14 +23,14 @@ namespace djv
             DJV_NON_COPYABLE(WindowSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
 
             WindowSettings();
 
         public:
             ~WindowSettings() override;
 
-            static std::shared_ptr<WindowSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<WindowSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeRestorePos() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeRestoreSize() const;

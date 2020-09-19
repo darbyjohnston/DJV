@@ -20,13 +20,13 @@ namespace djv
                 DJV_NON_COPYABLE(Flow);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Flow();
 
             public:
                 ~Flow() override;
 
-                static std::shared_ptr<Flow> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Flow> create(const std::shared_ptr<System::Context>&);
 
                 const Spacing& getSpacing() const;
                 void setSpacing(const Spacing&);
@@ -34,8 +34,8 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();

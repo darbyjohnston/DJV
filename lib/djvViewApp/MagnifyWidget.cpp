@@ -16,11 +16,13 @@
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvAV/Image.h>
-#include <djvAV/OCIOSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvOCIO/OCIOSystem.h>
+
+#include <djvImage/Image.h>
+
+#include <djvSystem/Context.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -38,16 +40,16 @@ namespace djv
                 DJV_NON_COPYABLE(ImageWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 ImageWidget();
 
             public:
                 ~ImageWidget() override;
 
-                static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<ImageWidget> create(const std::shared_ptr<System::Context>&);
 
-                void setImage(const std::shared_ptr<AV::Image::Image>&);
-                void setImageOptions(const AV::Render2D::ImageOptions&);
+                void setImage(const std::shared_ptr<Image::Image>&);
+                void setImageOptions(const Render2D::ImageOptions&);
                 void setImagePos(const glm::vec2&);
                 void setImageZoom(float);
                 void setImageRotate(UI::ImageRotate);
@@ -57,40 +59,40 @@ namespace djv
                 void setMagnifyPos(const glm::vec2&);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
             private:
-                std::shared_ptr<AV::Image::Image> _image;
-                AV::Render2D::ImageOptions _imageOptions;
+                std::shared_ptr<Image::Image> _image;
+                Render2D::ImageOptions _imageOptions;
                 glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
                 float _imageZoom = 0.F;
                 UI::ImageRotate _imageRotate = UI::ImageRotate::First;
                 UI::ImageAspectRatio _imageAspectRatio = UI::ImageAspectRatio::First;
-                AV::OCIO::Config _ocioConfig;
+                OCIO::Config _ocioConfig;
                 std::string _outputColorSpace;
                 ViewBackgroundOptions _backgroundOptions;
                 int _magnify = 1;
                 glm::vec2 _magnifyPos = glm::vec2(0.F, 0.F);
-                std::shared_ptr<ValueObserver<AV::OCIO::Config> > _ocioConfigObserver;
+                std::shared_ptr<ValueObserver<OCIO::Config> > _ocioConfigObserver;
             };
 
-            void ImageWidget::_init(const std::shared_ptr<Context>& context)
+            void ImageWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
                 auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));
-                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                auto contextWeak = std::weak_ptr<Context>(context);
-                _ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                _ocioConfigObserver = ValueObserver<OCIO::Config>::create(
                     ocioSystem->observeCurrentConfig(),
-                    [weak, contextWeak](const AV::OCIO::Config& value)
+                    [weak, contextWeak](const OCIO::Config& value)
                     {
                         if (auto context = contextWeak.lock())
                         {
                             if (auto widget = weak.lock())
                             {
-                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                                 widget->_ocioConfig = value;
                                 widget->_outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
                                 widget->_redraw();
@@ -105,14 +107,14 @@ namespace djv
             ImageWidget::~ImageWidget()
             {}
 
-            std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ImageWidget>(new ImageWidget);
                 out->_init(context);
                 return out;
             }
 
-            void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value)
+            void ImageWidget::setImage(const std::shared_ptr<Image::Image>& value)
             {
                 if (value == _image)
                     return;
@@ -120,7 +122,7 @@ namespace djv
                 _redraw();
             }
 
-            void ImageWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
+            void ImageWidget::setImageOptions(const Render2D::ImageOptions& value)
             {
                 if (value == _imageOptions)
                     return;
@@ -184,17 +186,17 @@ namespace djv
                 _redraw();
             }
 
-            void ImageWidget::_preLayoutEvent(Event::PreLayout&)
+            void ImageWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 const auto& style = _getStyle();
                 const float sw = style->getMetric(UI::MetricsRole::Swatch);
                 _setMinimumSize(glm::vec2(sw, sw));
             }
 
-            void ImageWidget::_paintEvent(Event::Paint&)
+            void ImageWidget::_paintEvent(System::Event::Paint&)
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                 const auto& render = _getRender();
                 switch (_backgroundOptions.background)
@@ -216,7 +218,7 @@ namespace djv
 
                 if (_image)
                 {
-                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
+                    render->setFillColor(Image::Color(1.F, 1.F, 1.F));
 
                     const float magnify = powf(_magnify, 2.F);
                     glm::mat3x3 m(1.F);
@@ -224,7 +226,7 @@ namespace djv
                     m = glm::translate(m, g.min + glm::vec2(_imagePos.x * magnify, _imagePos.y * magnify));
                     m *= UI::ImageWidget::getXForm(_image, _imageRotate, glm::vec2(_imageZoom * magnify, _imageZoom * magnify), _imageAspectRatio);
                     render->pushTransform(m);
-                    AV::Render2D::ImageOptions options(_imageOptions);
+                    Render2D::ImageOptions options(_imageOptions);
                     auto i = _ocioConfig.imageColorSpaces.find(_image->getPluginName());
                     if (i != _ocioConfig.imageColorSpaces.end())
                     {
@@ -239,7 +241,7 @@ namespace djv
                         }
                     }
                     options.colorSpace.output = _outputColorSpace;
-                    options.cache = AV::Render2D::ImageCache::Dynamic;
+                    options.cache = Render2D::ImageCache::Dynamic;
                     render->drawImage(_image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
                 }
@@ -259,8 +261,8 @@ namespace djv
             std::shared_ptr<UI::IntSlider> magnifySlider;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
@@ -269,7 +271,7 @@ namespace djv
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
         };
 
-        void MagnifyWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void MagnifyWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -280,7 +282,7 @@ namespace djv
             p.imageWidget->setShadowOverlay({ UI::Side::Top });
             
             p.magnifySlider = UI::IntSlider::create(context);
-            p.magnifySlider->setRange(IntRange(1, 10));
+            p.magnifySlider->setRange(Math::IntRange(1, 10));
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setMargin(UI::MetricsRole::MarginSmall);
@@ -316,9 +318,9 @@ namespace djv
                             widget->_p->activeWidget = value;
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                                widget->_p->imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                                     widget->_p->activeWidget->getMedia()->observeCurrentImage(),
-                                    [weak](const std::shared_ptr<AV::Image::Image>& value)
+                                    [weak](const std::shared_ptr<Image::Image>& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -326,9 +328,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
+                                widget->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
                                     widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const AV::Render2D::ImageOptions& value)
+                                    [weak](const Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -423,7 +425,7 @@ namespace djv
         MagnifyWidget::~MagnifyWidget()
         {}
 
-        std::shared_ptr<MagnifyWidget> MagnifyWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MagnifyWidget> MagnifyWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MagnifyWidget>(new MagnifyWidget);
             out->_init(context);
@@ -469,7 +471,7 @@ namespace djv
             _redraw();
         }
 
-        void MagnifyWidget::_initEvent(Event::Init & event)
+        void MagnifyWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

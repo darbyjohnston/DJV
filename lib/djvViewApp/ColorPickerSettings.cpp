@@ -4,6 +4,10 @@
 
 #include <djvViewApp/ColorPickerSettings.h>
 
+#include <djvImage/ImageData.h>
+
+#include <djvMath/BBoxFunc.h>
+
 #if defined(GetObject)
 #undef GetObject
 #endif // GetObject
@@ -21,14 +25,14 @@ namespace djv
         struct ColorPickerSettings::Private
         {
             size_t sampleSize = 1;
-            AV::Image::Type lockType = AV::Image::Type::None;
+            Image::Type lockType = Image::Type::None;
             bool applyColorOperations = true;
             bool applyColorSpace = true;
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void ColorPickerSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void ColorPickerSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::ColorPickerSettings", context);
             _load();
@@ -41,7 +45,7 @@ namespace djv
         ColorPickerSettings::~ColorPickerSettings()
         {}
 
-        std::shared_ptr<ColorPickerSettings> ColorPickerSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ColorPickerSettings> ColorPickerSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorPickerSettings>(new ColorPickerSettings);
             out->_init(context);
@@ -58,12 +62,12 @@ namespace djv
             _p->sampleSize = value;
         }
 
-        AV::Image::Type ColorPickerSettings::getLockType() const
+        Image::Type ColorPickerSettings::getLockType() const
         {
             return _p->lockType;
         }
 
-        void ColorPickerSettings::setLockType(AV::Image::Type value)
+        void ColorPickerSettings::setLockType(Image::Type value)
         {
             _p->lockType = value;
         }
@@ -98,12 +102,12 @@ namespace djv
             _p->pickerPos = value;
         }
 
-        const std::map<std::string, BBox2f>& ColorPickerSettings::getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& ColorPickerSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void ColorPickerSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void ColorPickerSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }

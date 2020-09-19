@@ -20,12 +20,13 @@
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/GLFWSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/IEventSystem.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
+#include <djvGL/GLFWSystem.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/IEventSystem.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -44,7 +45,7 @@ namespace djv
 
         struct WindowSystem::Private
         {
-            std::shared_ptr<AV::GLFW::System> avGLFWSystem;
+            std::shared_ptr<GL::GLFW::GLFWSystem> glGLFWSystem;
             std::shared_ptr<Desktop::GLFWSystem> desktopGLFWSystem;
 
             std::shared_ptr<WindowSettings> settings;
@@ -58,7 +59,7 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
-            BBox2i windowGeom = BBox2i(0, 0, 0, 0);
+            Math::BBox2i windowGeom = Math::BBox2i(0, 0, 0, 0);
             
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
@@ -68,18 +69,18 @@ namespace djv
             void setFloatOnTop(bool);
         };
 
-        void WindowSystem::_init(const std::shared_ptr<Context>& context)
+        void WindowSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
 
-            p.avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+            p.glGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
             p.desktopGLFWSystem = context->getSystemT<Desktop::GLFWSystem>();
 
             p.settings = WindowSettings::create(context);
 
-            auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
+            auto glfwWindow = p.glGLFWSystem->getGLFWWindow();
             if (p.settings->observeRestoreSize()->get())
             {
                 const glm::ivec2& windowSize = p.settings->getWindowSize();
@@ -226,7 +227,7 @@ namespace djv
         WindowSystem::~WindowSystem()
         {
             DJV_PRIVATE_PTR();
-            auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
+            auto glfwWindow = p.glGLFWSystem->getGLFWWindow();
             if (!p.fullScreen->get())
             {
                 glm::ivec2 pos(0.F, 0.F);
@@ -238,7 +239,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<WindowSystem>(new WindowSystem);
             out->_init(context);
@@ -401,7 +402,7 @@ namespace djv
 
         void WindowSystem::Private::setFullScreen(bool value)
         {
-            auto glfwWindow = avGLFWSystem->getGLFWWindow();
+            auto glfwWindow = glGLFWSystem->getGLFWWindow();
             auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
             if (value && glfwWindow && !glfwMonitor)
             {
@@ -427,7 +428,7 @@ namespace djv
                 int h = 0;
                 glfwGetWindowPos(glfwWindow, &x, &y);
                 glfwGetWindowSize(glfwWindow, &w, &h);
-                windowGeom = BBox2i(x, y, w, h);
+                windowGeom = Math::BBox2i(x, y, w, h);
 
                 glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
                 glfwSetWindowMonitor(
@@ -463,7 +464,7 @@ namespace djv
 
         void WindowSystem::Private::setFloatOnTop(bool value)
         {
-            if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
+            if (auto glfwWindow = glGLFWSystem->getGLFWWindow())
             {
                 glfwSetWindowAttrib(glfwWindow, GLFW_FLOATING, value);
             }

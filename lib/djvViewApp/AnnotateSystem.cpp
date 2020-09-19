@@ -22,8 +22,8 @@
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -41,7 +41,7 @@ namespace djv
             bool currentTool = false;
             AnnotateTool tool = AnnotateTool::First;
             AnnotateLineSize lineSize = AnnotateLineSize::First;
-            std::vector<AV::Image::Color> colors;
+            std::vector<Image::Color> colors;
             int currentColor = -1;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
@@ -59,7 +59,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<AnnotateTool> > toolObserver;
             std::shared_ptr<ValueObserver<AnnotateLineSize> > lineSizeObserver;
-            std::shared_ptr<ListObserver<AV::Image::Color> > colorsObserver;
+            std::shared_ptr<ListObserver<Image::Color> > colorsObserver;
             std::shared_ptr<ValueObserver<int> > currentColorObserver;
             std::shared_ptr<ValueObserver<bool> > undoObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
@@ -70,7 +70,7 @@ namespace djv
             std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
-        void AnnotateSystem::_init(const std::shared_ptr<Context>& context)
+        void AnnotateSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::AnnotateSystem", context);
             DJV_PRIVATE_PTR();
@@ -141,13 +141,13 @@ namespace djv
             _textUpdate();
             _shortcutsUpdate();
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.toolActionGroup->setRadioCallback(
                 [contextWeak](int value)
             {
                 if (auto context = contextWeak.lock())
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                     auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
                     annotateSettings->setTool(static_cast<AnnotateTool>(value));
                 }
@@ -158,13 +158,13 @@ namespace djv
             {
                 if (auto context = contextWeak.lock())
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                     auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
                     annotateSettings->setLineSize(static_cast<AnnotateLineSize>(value));
                 }
             });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
             auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
             p.toolObserver = ValueObserver<AnnotateTool>::create(
@@ -189,9 +189,9 @@ namespace djv
                 }
             });
 
-            p.colorsObserver = ListObserver<AV::Image::Color>::create(
+            p.colorsObserver = ListObserver<Image::Color>::create(
                 annotateSettings->observeColors(),
-                [weak](const std::vector<AV::Image::Color>& value)
+                [weak](const std::vector<Image::Color>& value)
             {
                 if (auto system = weak.lock())
                 {
@@ -300,7 +300,7 @@ namespace djv
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
-        std::shared_ptr<AnnotateSystem> AnnotateSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<AnnotateSystem> AnnotateSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateSystem>(new AnnotateSystem);
             out->_init(context);
@@ -420,7 +420,7 @@ namespace djv
                 {
                     p.dragStart = value;
                     AnnotateOptions options;
-                    options.color = p.currentColor >= 0 && p.currentColor < p.colors.size() ? p.colors[p.currentColor] : AV::Image::Color();
+                    options.color = p.currentColor >= 0 && p.currentColor < p.colors.size() ? p.colors[p.currentColor] : Image::Color();
                     auto uiSystem = context->getSystemT<UI::UISystem>();
                     const auto& style = uiSystem->getStyle();
                     options.lineSize = getAnnotateLineSize(p.lineSize) * style->getScale();

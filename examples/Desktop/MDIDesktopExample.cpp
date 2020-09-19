@@ -16,8 +16,9 @@
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/Error.h>
-#include <djvCore/String.h>
+#include <djvCore/ErrorFunc.h>
+#include <djvCore/RandomFunc.h>
+#include <djvCore/StringFunc.h>
 
 using namespace djv;
 
@@ -26,21 +27,21 @@ class MDIWidget : public UI::MDI::IWidget
     DJV_NON_COPYABLE(MDIWidget);
 
 protected:
-    void _init(const std::string & title, const std::shared_ptr<Core::Context>&);
+    void _init(const std::string & title, const std::shared_ptr<System::Context>&);
     MDIWidget();
 
 public:
     ~MDIWidget() override;
 
-    static std::shared_ptr<MDIWidget> create(const std::string & title, const std::shared_ptr<Core::Context>&);
+    static std::shared_ptr<MDIWidget> create(const std::string & title, const std::shared_ptr<System::Context>&);
 
     void setClosedCallback(const std::function<void(void)> &);
 
     float getHeightForWidth(float) const override;
 
 protected:
-    void _preLayoutEvent(Core::Event::PreLayout&) override;
-    void _layoutEvent(Core::Event::Layout&) override;
+    void _preLayoutEvent(System::Event::PreLayout&) override;
+    void _layoutEvent(System::Event::Layout&) override;
 
 private:
     std::shared_ptr<UI::ToolButton> _closeButton;
@@ -48,7 +49,7 @@ private:
     std::function<void(void)> _closedCallback;
 };
 
-void MDIWidget::_init(const std::string & title, const std::shared_ptr<Core::Context>& context)
+void MDIWidget::_init(const std::string & title, const std::shared_ptr<System::Context>& context)
 {
     IWidget::_init(context);
 
@@ -93,7 +94,7 @@ MDIWidget::MDIWidget()
 MDIWidget::~MDIWidget()
 {}
 
-std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, const std::shared_ptr<System::Context>& context)
 {
     auto out = std::shared_ptr<MDIWidget>(new MDIWidget);
     out->_init(title, context);
@@ -110,12 +111,12 @@ float MDIWidget::getHeightForWidth(float value) const
     return _border->getHeightForWidth(value);
 }
 
-void MDIWidget::_preLayoutEvent(Core::Event::PreLayout&)
+void MDIWidget::_preLayoutEvent(System::Event::PreLayout&)
 {
     _setMinimumSize(_border->getMinimumSize());
 }
 
-void MDIWidget::_layoutEvent(Core::Event::Layout&)
+void MDIWidget::_layoutEvent(System::Event::Layout&)
 {
     _border->setGeometry(getGeometry());
 }
@@ -130,7 +131,7 @@ int main(int argc, char ** argv)
 
         auto canvas = UI::MDI::Canvas::create(app);
         glm::vec2 pos(50.f, 50.f);
-        Core::Math::setRandomSeed();
+        Core::Random::setRandomSeed();
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;

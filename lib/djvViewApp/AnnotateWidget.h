@@ -8,14 +8,11 @@
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Color;
-            
-        } // namespace Image
-    } // namespace AV
+        class Color;
+        
+    } // namespace Image
     
     namespace ViewApp
     {
@@ -27,7 +24,7 @@ namespace djv
         protected:
             void _init(
                 std::map<std::string, std::shared_ptr<UI::Action> >&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
             AnnotateWidget();
 
         public:
@@ -35,10 +32,10 @@ namespace djv
 
             static std::shared_ptr<AnnotateWidget> create(
                 std::map<std::string, std::shared_ptr<UI::Action> >&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             void _widgetUpdate();

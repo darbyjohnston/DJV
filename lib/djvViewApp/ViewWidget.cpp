@@ -18,14 +18,17 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/Image.h>
-#include <djvAV/OCIOSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
+#include <djvRender2D/Render2DSystem.h>
 
-#include <djvCore/Animation.h>
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvAV/AVSystem.h>
+#include <djvAV/TimeFunc.h>
+
+#include <djvOCIO/OCIOSystem.h>
+
+#include <djvSystem/Animation.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -45,11 +48,11 @@ namespace djv
 
         struct ViewWidget::Private
         {
-            Time::Units timeUnits = Time::Units::First;
+            AV::Time::Units timeUnits = AV::Time::Units::First;
             std::shared_ptr<Media> media;
-            std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > image;
-            std::shared_ptr<ValueSubject<AV::Render2D::ImageOptions> > imageOptions;
-            AV::OCIO::Config ocioConfig;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Image::Image> > > image;
+            std::shared_ptr<ValueSubject<Render2D::ImageOptions> > imageOptions;
+            OCIO::Config ocioConfig;
             std::string outputColorSpace;
             std::shared_ptr<ValueSubject<glm::vec2> > imagePos;
             std::shared_ptr<ValueSubject<float> > imageZoom;
@@ -61,8 +64,8 @@ namespace djv
             std::shared_ptr<ValueSubject<ViewBackgroundOptions> > backgroundOptions;
             Math::Rational speed;
             float realSpeed = 0.F;
-            Frame::Sequence sequence;
-            Frame::Index currentFrame = Frame::invalidIndex;
+            Math::Frame::Sequence sequence;
+            Math::Frame::Index currentFrame = Math::Frame::invalidIndex;
             std::vector<std::shared_ptr<AnnotatePrimitive> > annotations;
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
@@ -71,21 +74,21 @@ namespace djv
             std::shared_ptr<HUDOverlay> hudOverlay;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
-            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
+            std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<Image::Info>, int> > > layersObserver;
             std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
+            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Math::Frame::Index> > currentFrameObserver;
 
-            std::shared_ptr<Animation::Animation> zoomAnimation;
+            std::shared_ptr<System::Animation::Animation> zoomAnimation;
         };
 
         void ViewWidget::_init(
             const std::shared_ptr<Media>& media,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -93,17 +96,17 @@ namespace djv
             setClassName("djv::ViewApp::ViewWidget");
 
             p.media = media;
-            auto avSystem = context->getSystemT<AV::AVSystem>();
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto render2DSystem = context->getSystemT<Render2D::Render2DSystem>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.image = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
-            AV::Render2D::ImageOptions imageOptions;
-            imageOptions.alphaBlend = avSystem->observeAlphaBlend()->get();
+            p.image = ValueSubject<std::shared_ptr<Image::Image> >::create();
+            Render2D::ImageOptions imageOptions;
+            imageOptions.alphaBlend = render2DSystem->observeAlphaBlend()->get();
             imageOptions.colorEnabled = true;
             imageOptions.levelsEnabled = true;
             imageOptions.softClipEnabled = true;
-            p.imageOptions = ValueSubject<AV::Render2D::ImageOptions>::create(imageOptions);
+            p.imageOptions = ValueSubject<Render2D::ImageOptions>::create(imageOptions);
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create(1.F);
             p.imageRotate = ValueSubject<UI::ImageRotate>::create(imageSettings->observeRotate()->get());
@@ -129,10 +132,11 @@ namespace djv
 
             _hudUpdate();
 
+            auto avSystem = context->getSystemT<AV::AVSystem>();
             auto weak = std::weak_ptr<ViewWidget>(std::dynamic_pointer_cast<ViewWidget>(shared_from_this()));
-            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
+            p.timeUnitsObserver = ValueObserver<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
-                [weak](Time::Units value)
+                [weak](AV::Time::Units value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -141,9 +145,9 @@ namespace djv
                     }
                 });
 
-            p.layersObserver = ValueObserver<std::pair<std::vector<AV::Image::Info>, int> >::create(
+            p.layersObserver = ValueObserver<std::pair<std::vector<Image::Info>, int> >::create(
                 p.media->observeLayers(),
-                [weak](const std::pair<std::vector<AV::Image::Info>, int>& value)
+                [weak](const std::pair<std::vector<Image::Info>, int>& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -165,17 +169,17 @@ namespace djv
                     }
                 });
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+            auto contextWeak = std::weak_ptr<System::Context>(context);
+            p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
-                [weak, contextWeak](const AV::OCIO::Config& value)
+                [weak, contextWeak](const OCIO::Config& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                             widget->_p->ocioConfig = value;
                             widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
                             widget->_redraw();
@@ -205,9 +209,9 @@ namespace djv
                     }
                 });
 
-            p.sequenceObserver = ValueObserver<Frame::Sequence>::create(
+            p.sequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
                 p.media->observeSequence(),
-                [weak](const Frame::Sequence& value)
+                [weak](const Math::Frame::Sequence& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -216,9 +220,9 @@ namespace djv
                     }
                 });
 
-            p.currentFrameObserver = ValueObserver<Frame::Index>::create(
+            p.currentFrameObserver = ValueObserver<Math::Frame::Index>::create(
                 p.media->observeCurrentFrame(),
-                [weak](Frame::Index value)
+                [weak](Math::Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -227,8 +231,8 @@ namespace djv
                     }
                 });
                 
-            p.zoomAnimation = Animation::Animation::create(context);
-            p.zoomAnimation->setType(Animation::Type::SmoothStep);
+            p.zoomAnimation = System::Animation::Animation::create(context);
+            p.zoomAnimation->setType(System::Animation::Type::SmoothStep);
         }
 
         ViewWidget::ViewWidget() :
@@ -240,19 +244,19 @@ namespace djv
 
         std::shared_ptr<ViewWidget> ViewWidget::create(
             const std::shared_ptr<Media>& media,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewWidget>(new ViewWidget);
             out->_init(media, context);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ViewWidget::observeImage() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<Image::Image> > > ViewWidget::observeImage() const
         {
             return _p->image;
         }
 
-        void ViewWidget::setImage(const std::shared_ptr<AV::Image::Image>& value)
+        void ViewWidget::setImage(const std::shared_ptr<Image::Image>& value)
         {
             DJV_PRIVATE_PTR();
             if (p.image->setIfChanged(value))
@@ -267,12 +271,12 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<AV::Render2D::ImageOptions> > ViewWidget::observeImageOptions() const
+        std::shared_ptr<IValueSubject<Render2D::ImageOptions> > ViewWidget::observeImageOptions() const
         {
             return _p->imageOptions;
         }
 
-        void ViewWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
+        void ViewWidget::setImageOptions(const Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageOptions->setIfChanged(value))
@@ -304,7 +308,7 @@ namespace djv
             return _p->imageAspectRatio;
         }
 
-        BBox2f ViewWidget::getImageBBox() const
+        Math::BBox2f ViewWidget::getImageBBox() const
         {
             return _getBBox(_getImagePoints());
         }
@@ -332,7 +336,7 @@ namespace djv
 
         void ViewWidget::setImageZoomFocus(float value, bool animate)
         {
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const glm::vec2& c = g.getCenter();
             setImageZoomFocus(value, c, animate);
         }
@@ -379,10 +383,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image->get())
             {
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const auto pts = _getImagePoints();
                 const glm::vec2 c = _getCenter(pts);
-                const BBox2f bbox = _getBBox(pts);
+                const Math::BBox2f bbox = _getBBox(pts);
                 float zoom = g.w() / static_cast<float>(bbox.w());
                 if (zoom * bbox.h() > g.h())
                 {
@@ -402,7 +406,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image->get())
             {
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const glm::vec2 c = _getCenter(_getImagePoints());
                 setImagePosAndZoom(
                     glm::vec2(
@@ -461,7 +465,7 @@ namespace djv
             _redraw();
         }
 
-        void ViewWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ViewWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
@@ -471,7 +475,7 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void ViewWidget::_layoutEvent(Event::Layout&)
+        void ViewWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             switch (p.lock)
@@ -489,17 +493,17 @@ namespace djv
             {
                 p.viewInit = false;
             }
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             p.layout->setGeometry(g);
             p.gridOverlay->setImageBBox(getImageBBox());
         }
 
-        void ViewWidget::_paintEvent(Event::Paint &)
+        void ViewWidget::_paintEvent(System::Event::Paint &)
         {
             DJV_PRIVATE_PTR();
 
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
 
             // Draw the background.
             const auto& backgroundOptions = p.backgroundOptions->get();
@@ -525,7 +529,7 @@ namespace djv
             if (backgroundOptions.border && image)
             {
                 const auto points = _getImagePoints(true);
-                const BBox2f bbox = _getBBox(points);
+                const Math::BBox2f bbox = _getBBox(points);
                 render->setFillColor(backgroundOptions.borderColor);
                 UI::drawBorder(
                     render,
@@ -540,8 +544,8 @@ namespace djv
                 m = glm::translate(m, g.min + p.imagePos->get());
                 m *= UI::ImageWidget::getXForm(image, p.imageRotate->get(), glm::vec2(zoom, zoom), p.imageAspectRatio->get());
                 render->pushTransform(m);
-                render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
-                AV::Render2D::ImageOptions options(p.imageOptions->get());
+                render->setFillColor(Image::Color(1.F, 1.F, 1.F));
+                Render2D::ImageOptions options(p.imageOptions->get());
                 auto i = p.ocioConfig.imageColorSpaces.find(image->getPluginName());
                 if (i != p.ocioConfig.imageColorSpaces.end())
                 {
@@ -556,7 +560,7 @@ namespace djv
                     }
                 }
                 options.colorSpace.output = p.outputColorSpace;
-                options.cache = AV::Render2D::ImageCache::Dynamic;
+                options.cache = Render2D::ImageCache::Dynamic;
                 render->drawImage(image, glm::vec2(0.F, 0.F), options);
                 render->popTransform();
             }
@@ -583,7 +587,7 @@ namespace djv
             std::vector<glm::vec3> out;
             if (auto image = p.image->get())
             {
-                const AV::Image::Size& size = image->getSize();
+                const Image::Size& size = image->getSize();
                 out.resize(4);
                 out[0].x = 0.F;
                 out[0].y = 0.F;
@@ -601,7 +605,7 @@ namespace djv
                 if (posAndZoom)
                 {
                     const auto& style = _getStyle();
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                     m = glm::translate(m, g.min + p.imagePos->get());
                 }
                 const float zoom = p.imageZoom->get();
@@ -634,9 +638,9 @@ namespace djv
             return out;
         }
         
-        BBox2f ViewWidget::_getBBox(const std::vector<glm::vec3>& value)
+        Math::BBox2f ViewWidget::_getBBox(const std::vector<glm::vec3>& value)
         {
-            BBox2f out(0.F, 0.F, 0.F, 0.F);
+            Math::BBox2f out(0.F, 0.F, 0.F, 0.F);
             if (value.size())
             {
                 out.min = out.max = value[0];
@@ -700,7 +704,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             HUDData data;
-            data.fileName = p.media->getFileInfo().getFileName(Frame::invalid, false);
+            data.fileName = p.media->getFileInfo().getFileName(Math::Frame::invalid, false);
             const auto& layers = p.media->observeLayers()->get();
             if (layers.second >= 0 && layers.second < static_cast<int>(layers.first.size()))
             {
@@ -710,7 +714,7 @@ namespace djv
                 data.type = layer.type;
             }
             data.isSequence = p.sequence.getFrameCount() > 1;
-            data.currentFrame = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
+            data.currentFrame = AV::Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
             data.speed = p.speed;
             data.realSpeed = p.realSpeed;
             p.hudOverlay->setHUDData(data);

@@ -9,7 +9,9 @@
 #include <djvUI/Spacer.h>
 #include <djvUI/TextBlock.h>
 
-#include <djvCore/Math.h>
+#include <djvMath/Math.h>
+
+#include <array>
 
 //#pragma optimize("", off)
 
@@ -28,7 +30,7 @@ namespace djv
                 std::map<std::shared_ptr<Widget>, RowStretch> stretch;
             };
 
-            void Row::_init(Orientation orientation, const std::shared_ptr<Context>& context)
+            void Row::_init(Orientation orientation, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -44,7 +46,7 @@ namespace djv
             Row::~Row()
             {}
 
-            std::shared_ptr<Row> Row::create(Orientation orientation, const std::shared_ptr<Context>& context)
+            std::shared_ptr<Row> Row::create(Orientation orientation, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Row>(new Row);
                 out->_init(orientation, context);
@@ -200,7 +202,7 @@ namespace djv
                 }
             }
 
-            void Row::_preLayoutEvent(Event::PreLayout&)
+            void Row::_preLayoutEvent(System::Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
 
@@ -248,12 +250,12 @@ namespace djv
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
-            void Row::_layoutEvent(Event::Layout& event)
+            void Row::_layoutEvent(System::Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
 
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float gw = g.w();
                 const float gh = g.h();
 
@@ -335,8 +337,8 @@ namespace djv
                                 break;
                             default: break;
                             }
-                            const BBox2f cellGeometry(pos.x, pos.y, cellSize, gh);
-                            BBox2f childGeometry = getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            const Math::BBox2f cellGeometry(pos.x, pos.y, cellSize, gh);
+                            Math::BBox2f childGeometry = getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
                             childGeometry.max.x = std::min(childGeometry.max.x, g.max.x);
                             child->setGeometry(childGeometry);
                             pos.x += cellGeometry.w() + s.x;
@@ -369,8 +371,8 @@ namespace djv
                                 break;
                             default: break;
                             }
-                            const BBox2f cellGeometry(pos.x, pos.y, gw, cellSize);
-                            BBox2f childGeometry = getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            const Math::BBox2f cellGeometry(pos.x, pos.y, gw, cellSize);
+                            Math::BBox2f childGeometry = getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
                             childGeometry.max.y = std::min(childGeometry.max.y, g.max.y);
                             child->setGeometry(childGeometry);
                             pos.y += cellGeometry.h() + s.y;
@@ -382,7 +384,7 @@ namespace djv
                 }
             }
 
-            void Horizontal::_init(const std::shared_ptr<Context>& context)
+            void Horizontal::_init(const std::shared_ptr<System::Context>& context)
             {
                 Row::_init(Orientation::Horizontal, context);
             }
@@ -390,14 +392,14 @@ namespace djv
             Horizontal::Horizontal()
             {}
 
-            std::shared_ptr<Horizontal> Horizontal::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Horizontal> Horizontal::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Horizontal>(new Horizontal);
                 out->_init(context);
                 return out;
             }
 
-            void Vertical::_init(const std::shared_ptr<Context>& context)
+            void Vertical::_init(const std::shared_ptr<System::Context>& context)
             {
                 Row::_init(Orientation::Vertical, context);
             }
@@ -405,12 +407,14 @@ namespace djv
             Vertical::Vertical()
             {}
 
-            std::shared_ptr<Vertical> Vertical::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Vertical> Vertical::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Vertical>(new Vertical);
                 out->_init(context);
                 return out;
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(RowStretch);
 
         } // namespace Layout
     } // namespace UI    

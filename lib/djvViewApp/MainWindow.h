@@ -8,15 +8,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-    
-        } // namespace FileLSystem
-    } // namespce Core
-
     namespace ViewApp
     {
         class MediaCanvas;
@@ -27,20 +18,20 @@ namespace djv
             DJV_NON_COPYABLE(MainWindow);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             MainWindow();
 
         public:
             ~MainWindow() override;
 
-            static std::shared_ptr<MainWindow> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MainWindow> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<MediaCanvas>& getMediaCanvas() const;
 
         protected:
-            void _dropEvent(Core::Event::Drop&) override;
+            void _dropEvent(System::Event::Drop&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

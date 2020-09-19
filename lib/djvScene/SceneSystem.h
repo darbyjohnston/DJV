@@ -4,25 +4,25 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
 
 namespace djv
 {
     namespace Scene
     {
         //! This class provides the scene system.
-        class SceneSystem : public Core::ISystem
+        class SceneSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(SceneSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             SceneSystem();
 
         public:
             ~SceneSystem() override;
 
-            static std::shared_ptr<SceneSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<SceneSystem> create(const std::shared_ptr<System::Context>&);
 
         private:
             DJV_PRIVATE();

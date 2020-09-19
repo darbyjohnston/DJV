@@ -61,7 +61,7 @@ set(LIBRARIES)
 if(OpenNURBS_FOUND)
     set(LIBRARIES ${LIBRARIES} OpenNURBS)
 endif()
-set(LIBRARIES ${LIBRARIES} djvAV)
+set(LIBRARIES ${LIBRARIES} djvRender3D djvRender2D djvAV)
 target_link_libraries(djvScene ${LIBRARIES})
 set_target_properties(
     djvScene

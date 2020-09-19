@@ -8,22 +8,19 @@
 #include <djvUI/ISettings.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvCore/FileInfo.h>
+#include <djvSystem/FileInfo.h>
+
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
-#include <djvCore/Vector.h>
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Size;
-    
-        } // namespace Image
-    } // namespace AV
+        class Size;
+
+    } // namespace Image
 
     namespace UI
     {
@@ -35,14 +32,14 @@ namespace djv
                 DJV_NON_COPYABLE(FileBrowser);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>& context);
+                void _init(const std::shared_ptr<System::Context>& context);
 
                 FileBrowser();
 
             public:
                 ~FileBrowser() override;
 
-                static std::shared_ptr<FileBrowser> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<FileBrowser> create(const std::shared_ptr<System::Context>&);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observePathsOpen() const;
                 void setPathsOpen(bool);
@@ -50,17 +47,17 @@ namespace djv
                 std::shared_ptr<Core::IMapSubject<std::string, bool> > observePathsBellowsState() const;
                 void setPathsBellowsState(const std::map<std::string, bool>&);
 
-                std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
-                void setShortcuts(const std::vector<Core::FileSystem::Path>&);
+                std::shared_ptr<Core::IListSubject<System::File::Path> > observeShortcuts() const;
+                void setShortcuts(const std::vector<System::File::Path>&);
 
-                std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeRecentPaths() const;
-                void setRecentPaths(const std::vector<Core::FileSystem::Path>&);
+                std::shared_ptr<Core::IListSubject<System::File::Path> > observeRecentPaths() const;
+                void setRecentPaths(const std::vector<System::File::Path>&);
 
                 std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
                 void setViewType(ViewType);
 
-                std::shared_ptr<Core::IValueSubject<AV::Image::Size> > observeThumbnailSize() const;
-                void setThumbnailSize(const AV::Image::Size&);
+                std::shared_ptr<Core::IValueSubject<Image::Size> > observeThumbnailSize() const;
+                void setThumbnailSize(const Image::Size&);
 
                 std::shared_ptr<Core::IListSubject<float> > observeListViewHeaderSplit() const;
                 void setListViewHeaderSplit(const std::vector<float> &);
@@ -71,8 +68,8 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<bool> > observeShowHidden() const;
                 void setShowHidden(bool);
 
-                std::shared_ptr<Core::IValueSubject<Core::FileSystem::DirectoryListSort> > observeSort() const;
-                void setSort(Core::FileSystem::DirectoryListSort);
+                std::shared_ptr<Core::IValueSubject<System::File::DirectoryListSort> > observeSort() const;
+                void setSort(System::File::DirectoryListSort);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeReverseSort() const;
                 void setReverseSort(bool);

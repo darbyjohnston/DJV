@@ -6,7 +6,7 @@
 
 #include <djvUI/LayoutUtil.h>
 
-#include <djvCore/Math.h>
+#include <djvMath/Math.h>
 
 using namespace djv::Core;
 
@@ -21,7 +21,7 @@ namespace djv
                 Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
             };
 
-            void Flow::_init(const std::shared_ptr<Context>& context)
+            void Flow::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Flow");
@@ -34,7 +34,7 @@ namespace djv
             Flow::~Flow()
             {}
 
-            std::shared_ptr<Flow> Flow::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Flow> Flow::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Flow>(new Flow);
                 out->_init(context);
@@ -83,7 +83,7 @@ namespace djv
                 return out;
             }
 
-            void Flow::_preLayoutEvent(Event::PreLayout&)
+            void Flow::_preLayoutEvent(System::Event::PreLayout&)
             {
                 const auto& style = _getStyle();
                 const float tc = style->getMetric(MetricsRole::TextColumn);
@@ -98,10 +98,10 @@ namespace djv
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
-            void Flow::_layoutEvent(Event::Layout&)
+            void Flow::_layoutEvent(System::Event::Layout&)
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float gx = g.min.x;
                 const float gw = g.w();
                 const glm::vec2 s = _p->spacing.get(style);
@@ -109,7 +109,7 @@ namespace djv
                 glm::vec2 pos = g.min;
                 const auto& children = getChildWidgets();
                 const int childrenSize = static_cast<int>(children.size());
-                typedef std::pair<std::shared_ptr<Widget>, BBox2f> Pair;
+                typedef std::pair<std::shared_ptr<Widget>, Math::BBox2f> Pair;
                 std::map<int, std::vector<Pair> > rows;
                 for (int i = 0, j = 0, k = 0; i < childrenSize; ++i, ++j)
                 {
@@ -120,7 +120,7 @@ namespace djv
                         j = 0;
                         ++k;
                     }
-                    rows[k].push_back(std::make_pair(children[i], BBox2f(pos.x, pos.y, childMinimumSize.x, childMinimumSize.y)));
+                    rows[k].push_back(std::make_pair(children[i], Math::BBox2f(pos.x, pos.y, childMinimumSize.x, childMinimumSize.y)));
                     pos.x += childMinimumSize.x + s.x;
                 }
 
@@ -133,7 +133,7 @@ namespace djv
                     }
                     for (auto j : i.second)
                     {
-                        BBox2f g = j.second;
+                        Math::BBox2f g = j.second;
                         g.min.y = pos.y;
                         g.max.y = pos.y + h;
                         j.first->setGeometry(getAlign(g, j.first->getMinimumSize(), j.first->getHAlign(), j.first->getVAlign()));

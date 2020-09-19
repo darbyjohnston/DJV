@@ -24,19 +24,19 @@ namespace djv
             DJV_NON_COPYABLE(ColorSpaceConfigWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorSpaceConfigWidget();
 
         public:
             ~ColorSpaceConfigWidget() override;
 
-            static std::shared_ptr<ColorSpaceConfigWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSpaceConfigWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -50,21 +50,21 @@ namespace djv
             DJV_NON_COPYABLE(ColorSpaceDisplayWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorSpaceDisplayWidget();
 
         public:
             ~ColorSpaceDisplayWidget() override;
 
-            static std::shared_ptr<ColorSpaceDisplayWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSpaceDisplayWidget> create(const std::shared_ptr<System::Context>&);
 
             void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -78,21 +78,21 @@ namespace djv
             DJV_NON_COPYABLE(ColorSpaceViewWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorSpaceViewWidget();
 
         public:
             ~ColorSpaceViewWidget() override;
 
-            static std::shared_ptr<ColorSpaceViewWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSpaceViewWidget> create(const std::shared_ptr<System::Context>&);
 
             void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -106,21 +106,21 @@ namespace djv
             DJV_NON_COPYABLE(ColorSpaceImageWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorSpaceImageWidget();
 
         public:
             ~ColorSpaceImageWidget() override;
 
-            static std::shared_ptr<ColorSpaceImageWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSpaceImageWidget> create(const std::shared_ptr<System::Context>&);
 
             void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _valueUpdate();

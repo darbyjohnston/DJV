@@ -4,8 +4,6 @@
 
 #include <djvScene/PolyLinePrimitive.h>
 
-#include <djvScene/Render.h>
-
 using namespace djv::Core;
 
 namespace djv

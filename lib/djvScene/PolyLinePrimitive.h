@@ -6,7 +6,7 @@
 
 #include <djvScene/IPrimitive.h>
 
-#include <djvAV/PointList.h>
+#include <djvGeom/PointList.h>
 
 namespace djv
 {
@@ -23,16 +23,16 @@ namespace djv
         public:
             static std::shared_ptr<PolyLinePrimitive> create();
 
-            void setPointLists(const std::vector<std::shared_ptr<AV::Geom::PointList> >&);
-            void addPointList(const std::shared_ptr<AV::Geom::PointList>&);
+            void setPointLists(const std::vector<std::shared_ptr<Geom::PointList> >&);
+            void addPointList(const std::shared_ptr<Geom::PointList>&);
 
             std::string getClassName() const override;
             bool isShaded() const override;
-            const std::vector<std::shared_ptr<AV::Geom::PointList> >& getPolyLines() const override;
+            const std::vector<std::shared_ptr<Geom::PointList> >& getPolyLines() const override;
             size_t getPointCount() const override;
 
         private:
-            std::vector<std::shared_ptr<AV::Geom::PointList> > _pointLists;
+            std::vector<std::shared_ptr<Geom::PointList> > _pointLists;
             size_t _pointCount = 0;
         };
 

@@ -11,9 +11,9 @@
 #include <djvScene/Light.h>
 #include <djvScene/SceneSystem.h>
 
-#include <djvCore/LogSystem.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/Timer.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TimerFunc.h>
 
 using namespace djv;
 
@@ -46,14 +46,14 @@ std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 
 void Application::run()
 {
-    _futureTimer = Core::Time::Timer::create(shared_from_this());
+    _futureTimer = System::Timer::create(shared_from_this());
     _futureTimer->setRepeating(true);
 
     _mainWindow = MainWindow::create(shared_from_this());
 
     auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
     _mainWindow->setOpenCallback(
-        [weak](const Core::FileSystem::FileInfo& value)
+        [weak](const System::File::Info& value)
         {
             if (auto app = weak.lock())
             {
@@ -87,11 +87,11 @@ void Application::run()
     Desktop::Application::run();
 }
 
-void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
+void Application::_open(const System::File::Info& fileInfo)
 {
     if (_scene)
     {
-        _mainWindow->setScene(Core::FileSystem::FileInfo(), nullptr);
+        _mainWindow->setScene(System::File::Info(), nullptr);
         _scene.reset();
     }
     _fileInfo = fileInfo;
@@ -99,12 +99,12 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
     {
         try
         {
-            auto io = getSystemT<Scene::IO::System>();
+            auto io = getSystemT<Scene::IO::IOSystem>();
             _sceneRead = io->read(_fileInfo);
             _sceneReadFuture = _sceneRead->getScene();
             auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
             _futureTimer->start(
-                Core::Time::getTime(Core::Time::TimerValue::Medium),
+                System::getTimerDuration(System::TimerValue::Medium),
                 [weak, fileInfo](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
                 {
                     if (auto app = weak.lock())
@@ -122,16 +122,16 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
                         }
                         catch (const std::exception& e)
                         {
-                            auto logSystem = app->getSystemT<Core::LogSystem>();
-                            logSystem->log("SceneViewExample", e.what(), Core::LogLevel::Error);
+                            auto logSystem = app->getSystemT<System::LogSystem>();
+                            logSystem->log("SceneViewExample", e.what(), System::LogLevel::Error);
                         }
                     }
                 });
         }
         catch (const std::exception& e)
         {
-            auto logSystem = getSystemT<Core::LogSystem>();
-            logSystem->log("SceneViewExample", e.what(), Core::LogLevel::Error);
+            auto logSystem = getSystemT<System::LogSystem>();
+            logSystem->log("SceneViewExample", e.what(), System::LogLevel::Error);
         }
     }
 }

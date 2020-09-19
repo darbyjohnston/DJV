@@ -1,0 +1,9 @@
+{
+    "render3d_default_material_mode_default": "Sjálfgefið",
+    "render3d_default_material_mode_normals": "Venjuleg",
+    "render3d_default_material_mode_unlit": "Óupplýst",
+    "render3d_default_material_mode_uvs": "Útfjólubláir",
+    "render3d_depth_buffer_mode_reverse": "Afturábak",
+    "render3d_depth_buffer_mode_standard": "Standard"
+}
+

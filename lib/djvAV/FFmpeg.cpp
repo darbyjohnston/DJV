@@ -4,9 +4,10 @@
 
 #include <djvAV/FFmpeg.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileSystem.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
+
 #include <djvCore/String.h>
 
 extern "C"
@@ -45,7 +46,7 @@ namespace djv
                 std::string toString(AVSampleFormat value)
                 {
                     //! \todo How can we translate this?
-                    std::map<AVSampleFormat, std::string> data =
+                    const std::map<AVSampleFormat, std::string> data =
                     {
                         { AV_SAMPLE_FMT_NONE, DJV_TEXT("av_sample_format_none") },
                         { AV_SAMPLE_FMT_S16, DJV_TEXT("av_sample_format_s16") },
@@ -148,8 +149,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<int16_t*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }
@@ -163,8 +164,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<int32_t*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }
@@ -178,8 +179,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<float*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }
@@ -193,8 +194,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<double*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }
@@ -209,9 +210,14 @@ namespace djv
                     return std::string(buf);
                 }
 
+                bool Options::operator == (const Options& other) const
+                {
+                    return threadCount == other.threadCount;
+                }
+                
                 namespace
                 {
-                    std::weak_ptr<LogSystem> _logSystem;
+                    std::weak_ptr<System::LogSystem> _logSystem;
 
                     void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
                     {
@@ -232,7 +238,7 @@ namespace djv
                     Options options;
                 };
 
-                void Plugin::_init(const std::shared_ptr<Context>& context)
+                void Plugin::_init(const std::shared_ptr<System::Context>& context)
                 {
                     IPlugin::_init(
                         pluginName,
@@ -240,7 +246,7 @@ namespace djv
                         fileExtensions,
                         context);
                         
-                    _logSystem = context->getSystemT<LogSystem>();
+                    _logSystem = context->getSystemT<System::LogSystem>();
                     av_log_set_level(AV_LOG_ERROR);
                     av_log_set_callback(avLogCallback);
                }
@@ -249,7 +255,7 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(context);
@@ -268,7 +274,7 @@ namespace djv
                     fromJSON(value, p.options);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
+                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo, const ReadOptions& options) const
                 {
                     DJV_PRIVATE_PTR();
                     return Read::create(fileInfo, options, p.options, _textSystem, _resourceSystem, _logSystem);

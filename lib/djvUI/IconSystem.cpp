@@ -6,15 +6,17 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/Image.h>
+
+#include <djvImage/Image.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileInfoFunc.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TimerFunc.h>
 
 #include <djvCore/Cache.h>
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/FileSystem.h>
-#include <djvCore/LogSystem.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/Timer.h>
 
 #include <atomic>
 #include <thread>
@@ -70,36 +72,36 @@ namespace djv
                 std::string name;
                 uint16_t size;
                 size_t key;
-                FileSystem::Path path;
+                System::File::Path path;
                 std::shared_ptr<AV::IO::IRead> read;
-                std::promise<std::shared_ptr<AV::Image::Image> > promise;
+                std::promise<std::shared_ptr<Image::Image> > promise;
             };
 
         } // namespace
 
         struct IconSystem::Private
         {
-            FileSystem::Path iconPath;
+            System::File::Path iconPath;
             std::vector<uint16_t> dpiList;
-            std::shared_ptr<AV::IO::System> io;
+            std::shared_ptr<AV::IO::IOSystem> io;
             std::list<ImageRequest> imageQueue;
             std::condition_variable requestCV;
             std::mutex requestMutex;
             std::list<ImageRequest> newImageRequests;
             std::list<ImageRequest> pendingImageRequests;
 
-            Memory::Cache<size_t, std::shared_ptr<AV::Image::Image> > imageCache;
+            Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
             std::atomic<float> imageCachePercentage;
 
-            std::shared_ptr<Time::Timer> statsTimer;
+            std::shared_ptr<System::Timer> statsTimer;
             std::thread thread;
             std::atomic<bool> running;
 
-            FileSystem::Path getPath(const std::string& name, uint16_t dpi) const;
+            System::File::Path getPath(const std::string& name, uint16_t dpi) const;
             uint16_t findClosestDPI(uint16_t) const;
         };
 
-        void IconSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void IconSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::UI::IconSystem", context);
 
@@ -107,17 +109,17 @@ namespace djv
 
             addDependency(context->getSystemT<AV::AVSystem>());
 
-            p.iconPath = context->getSystemT<ResourceSystem>()->getPath(FileSystem::ResourcePath::Icons);
+            p.iconPath = context->getSystemT<System::ResourceSystem>()->getPath(System::File::ResourcePath::Icons);
                         
-            p.io = context->getSystemT<AV::IO::System>();
+            p.io = context->getSystemT<AV::IO::IOSystem>();
 
             p.imageCache.setMax(imageCacheMax);
             p.imageCachePercentage = 0.F;
 
-            p.statsTimer = Time::Timer::create(context);
+            p.statsTimer = System::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Time::getTime(Time::TimerValue::VerySlow),
+                System::getTimerDuration(System::TimerValue::VerySlow),
                 [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 DJV_PRIVATE_PTR();
@@ -136,9 +138,9 @@ namespace djv
                 try
                 {
                     // Find the DPI values.
-                    for (const auto& i : FileSystem::FileInfo::directoryList(p.iconPath))
+                    for (const auto& i : System::File::directoryList(p.iconPath))
                     {
-                        const std::string fileName = i.getFileName(Frame::invalid, false);
+                        const std::string fileName = i.getFileName(Math::Frame::invalid, false);
                         const size_t size = fileName.size();
                         if (size > 3 &&
                             fileName[size - 3] == 'D' &&
@@ -156,7 +158,7 @@ namespace djv
                         _log(ss.str());
                     }
 
-                    const auto timeout = Time::getValue(Time::TimerValue::Medium);
+                    const auto timeout = System::getTimerValue(System::TimerValue::Medium);
                     while (p.running)
                     {
                         {
@@ -181,7 +183,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             });
         }
@@ -200,14 +202,14 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IconSystem> IconSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<IconSystem> IconSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<IconSystem>(new IconSystem);
             out->_init(context);
             return out;
         }
 
-        std::future<std::shared_ptr<AV::Image::Image> > IconSystem::getIcon(const std::string& name, float size)
+        std::future<std::shared_ptr<Image::Image> > IconSystem::getIcon(const std::string& name, float size)
         {
             DJV_PRIVATE_PTR();
             ImageRequest request(name, static_cast<uint16_t>(Math::clamp(size, 0.F, 65535.F)));
@@ -232,7 +234,7 @@ namespace djv
             // Process new requests.
             for (auto& i : p.newImageRequests)
             {
-                std::shared_ptr<AV::Image::Image> image;
+                std::shared_ptr<Image::Image> image;
                 p.imageCache.get(i.key, image);
                 if (!image)
                 {
@@ -250,9 +252,9 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
-                        _log(e.what(), LogLevel::Error);
+                        _log(e.what(), System::LogLevel::Error);
                     }
                 }
                 if (image)
@@ -266,7 +268,7 @@ namespace djv
             auto i = p.pendingImageRequests.begin();
             while (i != p.pendingImageRequests.end())
             {
-                std::shared_ptr<AV::Image::Image> image;
+                std::shared_ptr<Image::Image> image;
                 bool finished = false;
                 {
                     std::lock_guard<std::mutex> lock(i->read->getMutex());
@@ -293,7 +295,7 @@ namespace djv
                     {
                         std::stringstream ss;
                         ss << "Error loading image" << " '" << i->path << "'.";
-                        throw FileSystem::Error(ss.str());
+                        throw System::File::Error(ss.str());
                     }
                     catch (const std::exception& e)
                     {
@@ -303,9 +305,9 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
-                        _log(e.what(), LogLevel::Error);
+                        _log(e.what(), System::LogLevel::Error);
                     }
                     i = p.pendingImageRequests.erase(i);
                 }
@@ -316,25 +318,25 @@ namespace djv
             }
         }
 
-        FileSystem::Path IconSystem::Private::getPath(const std::string& name, uint16_t dpi) const
+        System::File::Path IconSystem::Private::getPath(const std::string& name, uint16_t dpi) const
         {
-            FileSystem::Path out = iconPath;
+            System::File::Path out = iconPath;
             {
                 std::stringstream ss;
                 ss << dpi << "DPI";
-                out = FileSystem::Path(out, ss.str());
+                out = System::File::Path(out, ss.str());
             }
             {
                 std::stringstream ss;
                 ss << name << ".png";
-                out = FileSystem::Path(out, ss.str());
+                out = System::File::Path(out, ss.str());
             }
             return out;
         }
 
         uint16_t IconSystem::Private::findClosestDPI(uint16_t value) const
         {
-            const uint16_t dpi = static_cast<uint16_t>(value / static_cast<float>(Style::iconSizeDefault) * static_cast<float>(AV::dpiDefault));
+            const uint16_t dpi = static_cast<uint16_t>(value / static_cast<float>(Style::iconSizeDefault) * static_cast<float>(Render2D::dpiDefault));
             std::map<uint16_t, uint16_t> differenceToDPI;
             for (auto i : dpiList)
             {

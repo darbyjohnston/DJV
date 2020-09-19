@@ -10,10 +10,14 @@
 #include <djvUI/NumericEdit.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvAV/AVSystem.h>
+#include <djvAV/TimeFunc.h>
+
+#include <djvSystem/Context.h>
+
+#include <djvMath/Rational.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -26,18 +30,18 @@ namespace djv
     {
         struct FrameWidget::Private
         {
-            Core::Time::Units timeUnits = Core::Time::Units::First;
-            Core::Frame::Sequence sequence;
-            Core::Math::Rational speed;
-            Core::Frame::Index index = 0;
+            AV::Time::Units timeUnits = AV::Time::Units::First;
+            Math::Frame::Sequence sequence;
+            Math::Rational speed;
+            Math::Frame::Index index = 0;
             std::shared_ptr<UI::LineEditBase> lineEditBase;
             std::shared_ptr<UI::NumericEditButtons> buttons;
             std::shared_ptr<UI::HorizontalLayout> layout;
-            std::function<void(Core::Frame::Index)> callback;
-            std::shared_ptr<Core::ValueObserver<Core::Time::Units> > timeUnitsObserver;
+            std::function<void(Math::Frame::Index)> callback;
+            std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
         };
 
-        void FrameWidget::_init(const std::shared_ptr<Context>& context)
+        void FrameWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -55,7 +59,7 @@ namespace djv
             prevX10Action->setShortcut(GLFW_KEY_PAGE_DOWN);
 
             p.lineEditBase = UI::LineEditBase::create(context);
-            p.lineEditBase->setFont(AV::Font::familyMono);
+            p.lineEditBase->setFont(Render2D::Font::familyMono);
             p.lineEditBase->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.lineEditBase->setBackgroundRole(UI::ColorRole::None);
             p.lineEditBase->addAction(nextAction);
@@ -81,15 +85,15 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        Frame::Index index = Frame::invalidIndex;
+                        Math::Frame::Index index = Math::Frame::invalidIndex;
                         try
                         {
-                            index = widget->_p->sequence.getIndex(Time::fromString(value, widget->_p->speed, widget->_p->timeUnits));
+                            index = widget->_p->sequence.getIndex(AV::Time::fromString(value, widget->_p->speed, widget->_p->timeUnits));
                         }
                         catch (const std::exception&)
                         {
                             //! \todo How can we translate this?
-                            widget->_log(widget->_getText(DJV_TEXT("error_cannot_parse_the_value")), LogLevel::Error);
+                            widget->_log(widget->_getText(DJV_TEXT("error_cannot_parse_the_value")), System::LogLevel::Error);
                         }
                         widget->_setFrame(index);
                     }
@@ -155,9 +159,9 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
+            p.timeUnitsObserver = ValueObserver<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
-                [weak](Time::Units value)
+                [weak](AV::Time::Units value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -171,14 +175,14 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<FrameWidget> FrameWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FrameWidget> FrameWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<FrameWidget>(new FrameWidget);
             out->_init(context);
             return out;
         }
 
-        void FrameWidget::setSequence(const Frame::Sequence& value)
+        void FrameWidget::setSequence(const Math::Frame::Sequence& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.sequence)
@@ -196,7 +200,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void FrameWidget::setFrame(const Frame::Index value)
+        void FrameWidget::setFrame(const Math::Frame::Index value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.index)
@@ -205,31 +209,31 @@ namespace djv
             _widgetUpdate();
         }
 
-        void FrameWidget::setCallback(const std::function<void(Frame::Index)>& value)
+        void FrameWidget::setCallback(const std::function<void(Math::Frame::Index)>& value)
         {
             _p->callback = value;
         }
 
-        void FrameWidget::_preLayoutEvent(Event::PreLayout&)
+        void FrameWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             const auto& style = _getStyle();
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             _setMinimumSize(_p->layout->getMinimumSize() + btf * 2.F);
         }
 
-        void FrameWidget::_layoutEvent(Event::Layout&)
+        void FrameWidget::_layoutEvent(System::Event::Layout&)
         {
             const auto& style = _getStyle();
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             _p->layout->setGeometry(getGeometry().margin(-btf));
         }
 
-        void FrameWidget::_paintEvent(Event::Paint& event)
+        void FrameWidget::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             const auto& render = _getRender();
@@ -245,10 +249,10 @@ namespace djv
             }
         }
 
-        void FrameWidget::_setFrame(Frame::Index value)
+        void FrameWidget::_setFrame(Math::Frame::Index value)
         {
             DJV_PRIVATE_PTR();
-            if (value != Frame::invalidIndex)
+            if (value != Math::Frame::invalidIndex)
             {
                 p.index = value;
                 if (p.callback)
@@ -265,15 +269,15 @@ namespace djv
             std::string sizeString;
             switch (p.timeUnits)
             {
-            case Time::Units::Timecode: sizeString = "00:00:00:00"; break;
-            case Time::Units::Frames:   sizeString = "00000"; break;
+            case AV::Time::Units::Timecode: sizeString = "00:00:00:00"; break;
+            case AV::Time::Units::Frames:   sizeString = "00000"; break;
             default: break;
             }
             p.lineEditBase->setSizeString(sizeString);
             std::string text;
             if (p.sequence.getFrameCount() > 1)
             {
-                text = Time::toString(p.sequence.getFrame(p.index), p.speed, p.timeUnits);
+                text = AV::Time::toString(p.sequence.getFrame(p.index), p.speed, p.timeUnits);
             }
             p.lineEditBase->setText(text);
         }

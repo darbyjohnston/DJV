@@ -26,13 +26,13 @@ namespace djv
             DJV_NON_COPYABLE(EventSystem);
 
         protected:
-            void _init(GLFWwindow *, const std::shared_ptr<Core::Context>&);
+            void _init(GLFWwindow *, const std::shared_ptr<System::Context>&);
             EventSystem();
 
         public:
             ~EventSystem() override;
 
-            static std::shared_ptr<EventSystem> create(GLFWwindow *, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<EventSystem> create(GLFWwindow *, const std::shared_ptr<System::Context>&);
 
             std::string getClipboard() const override;
             void setClipboard(const std::string&) override;
@@ -40,17 +40,17 @@ namespace djv
             void tick() override;
 
         protected:
-            void _pushClipRect(const Core::BBox2f&) override;
+            void _pushClipRect(const Math::BBox2f&) override;
             void _popClipRect() override;
 
-            void _hover(Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&) override;
+            void _hover(System::Event::PointerMove&, std::shared_ptr<System::IObject>&) override;
 
         private:
             void _focus(bool);
             void _resize(const glm::ivec2&);
             void _contentScale(const glm::vec2&);
             void _redraw();
-            void _hover(const std::shared_ptr<UI::Widget>&, Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&);
+            void _hover(const std::shared_ptr<UI::Widget>&, System::Event::PointerMove&, std::shared_ptr<System::IObject>&);
 
             static void _focusCallback(GLFWwindow*, int);
             static void _resizeCallback(GLFWwindow*, int, int);

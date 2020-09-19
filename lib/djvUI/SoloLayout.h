@@ -28,12 +28,12 @@ namespace djv
                 DJV_NON_COPYABLE(Solo);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Solo();
 
             public:
                 ~Solo() override;
-                static std::shared_ptr<Solo> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Solo> create(const std::shared_ptr<System::Context>&);
 
                 const std::shared_ptr<Widget>& getCurrentWidget() const;
                 void setCurrentWidget(const std::shared_ptr<Widget>&);
@@ -48,8 +48,8 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 void _widgetUpdate();

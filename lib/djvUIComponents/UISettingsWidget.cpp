@@ -9,7 +9,7 @@
 #include <djvUI/ToggleButton.h>
 #include <djvUI/UISettings.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -24,7 +24,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
         };
 
-        void TooltipsSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void TooltipsSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -38,7 +38,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TooltipsSettingsWidget>(std::dynamic_pointer_cast<TooltipsSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.tooltipsButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -46,14 +46,14 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
                             uiSettings->setTooltips(value);
                         }
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
             p.tooltipsObserver = ValueObserver<bool>::create(
                 uiSettings->observeTooltips(),
@@ -70,7 +70,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<TooltipsSettingsWidget> TooltipsSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TooltipsSettingsWidget> TooltipsSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TooltipsSettingsWidget>(new TooltipsSettingsWidget);
             out->_init(context);
@@ -92,7 +92,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void TooltipsSettingsWidget::_initEvent(Event::Init & event)
+        void TooltipsSettingsWidget::_initEvent(System::Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -109,7 +109,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > reverseScrollingObserver;
         };
 
-        void ScrollSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void ScrollSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -123,7 +123,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<ScrollSettingsWidget>(std::dynamic_pointer_cast<ScrollSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.reverseScrollingButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -131,14 +131,14 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
                             uiSettings->setReverseScrolling(value);
                         }
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
             p.reverseScrollingObserver = ValueObserver<bool>::create(
                 uiSettings->observeReverseScrolling(),
@@ -155,7 +155,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ScrollSettingsWidget> ScrollSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ScrollSettingsWidget> ScrollSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ScrollSettingsWidget>(new ScrollSettingsWidget);
             out->_init(context);
@@ -177,7 +177,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void ScrollSettingsWidget::_initEvent(Event::Init& event)
+        void ScrollSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

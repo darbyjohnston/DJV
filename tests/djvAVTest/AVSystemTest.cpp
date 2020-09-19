@@ -5,8 +5,11 @@
 #include <djvAVTest/AVSystemTest.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/SpeedFunc.h>
+#include <djvAV/TimeFunc.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
@@ -16,8 +19,10 @@ namespace djv
 {
     namespace AVTest
     {
-        AVSystemTest::AVSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::AVSystemTest", context)
+        AVSystemTest::AVSystemTest(
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
+            ITest("djv::AVTest::AVSystemTest", tempPath, context)
         {}
         
         void AVSystemTest::run()
@@ -26,34 +31,25 @@ namespace djv
             {
                 auto system = context->getSystemT<AVSystem>();
                 
-                auto timeUnitsObserver = ValueObserver<Time::Units>::create(
+                auto timeUnitsObserver = ValueObserver<AV::Time::Units>::create(
                     system->observeTimeUnits(),
-                    [this](Time::Units value)
+                    [this](AV::Time::Units value)
                     {
                         std::stringstream ss;
-                        ss << "time units: " << value;
+                        ss << "Time units: " << value;
                         _print(ss.str());
                     });
-                auto alphaBlendObserver = ValueObserver<AlphaBlend>::create(
-                    system->observeAlphaBlend(),
-                    [this](AlphaBlend value)
-                    {
-                        std::stringstream ss;
-                        ss << "alpha blend: " << value;
-                        _print(ss.str());
-                    });
-                auto defaultSpeedObserver = ValueObserver<Time::FPS>::create(
+                auto defaultSpeedObserver = ValueObserver<FPS>::create(
                     system->observeDefaultSpeed(),
-                    [this](Time::FPS value)
+                    [this](FPS value)
                     {
                         std::stringstream ss;
-                        ss << "defaut speed: " << value;
+                        ss << "Default speed: " << value;
                         _print(ss.str());
                     });
 
-                system->setTimeUnits(Time::Units::Frames);
-                system->setAlphaBlend(AlphaBlend::Premultiplied);
-                system->setDefaultSpeed(Time::FPS::_60);
+                system->setTimeUnits(AV::Time::Units::Frames);
+                system->setDefaultSpeed(FPS::_60);
             }
         }
 

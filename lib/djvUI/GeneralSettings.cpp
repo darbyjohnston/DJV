@@ -4,8 +4,8 @@
 
 #include <djvUI/GeneralSettings.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -21,14 +21,14 @@ namespace djv
         {
             struct General::Private
             {
-                std::shared_ptr<TextSystem> textSystem;
+                std::shared_ptr<System::TextSystem> textSystem;
             };
 
-            void General::_init(const std::shared_ptr<Core::Context>& context)
+            void General::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::General", context);
                 DJV_PRIVATE_PTR();
-                p.textSystem = context->getSystemT<TextSystem>();
+                p.textSystem = context->getSystemT<System::TextSystem>();
                 p.textSystem->setCurrentLocale(p.textSystem->getSystemLocale());
                 _load();
             }
@@ -40,7 +40,7 @@ namespace djv
             General::~General()
             {}
 
-            std::shared_ptr<General> General::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<General> General::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<General>(new General);
                 out->_init(context);

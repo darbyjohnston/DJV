@@ -85,7 +85,7 @@ namespace djv
             return _data.fov;
         }
 
-        inline const Core::FloatRange& PolarCamera::getClip() const
+        inline const Math::FloatRange& PolarCamera::getClip() const
         {
             return _data.clip;
         }

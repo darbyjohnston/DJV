@@ -21,6 +21,7 @@ set(header
     FlowLayout.h
     FontSettings.h
     FormLayout.h
+    GLFWSettings.h
     GeneralSettings.h
     GridLayout.h
     GroupBox.h
@@ -60,6 +61,7 @@ set(header
     PopupLayout.h
     PopupWidget.h
     PushButton.h
+    Render2DSettings.h
     RowLayout.h
     ScrollWidget.h
     Separator.h
@@ -114,6 +116,7 @@ set(source
     FlowLayout.cpp
     FontSettings.cpp
     FormLayout.cpp
+    GLFWSettings.cpp
     GeneralSettings.cpp
     GridLayout.cpp
     GroupBox.cpp
@@ -148,6 +151,7 @@ set(source
     PopupLayout.cpp
     PopupWidget.cpp
     PushButton.cpp
+    Render2DSettings.cpp
     RowLayout.cpp
     ScrollWidget.cpp
     Separator.cpp

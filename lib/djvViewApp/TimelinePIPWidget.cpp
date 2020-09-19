@@ -16,14 +16,17 @@
 #include <djvUI/Style.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/FontSystem.h>
-#include <djvAV/IOSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Math.h>
-#include <djvCore/Timer.h>
+#include <djvAV/AVSystem.h>
+#include <djvAV/IOSystem.h>
+#include <djvAV/TimeFunc.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/TimerFunc.h>
+
+#include <djvMath/Math.h>
 
 using namespace djv::Core;
 
@@ -33,24 +36,24 @@ namespace djv
     {
         struct TimelinePIPWidget::Private
         {
-            Core::FileSystem::FileInfo fileInfo;
+            System::File::Info fileInfo;
             std::shared_ptr<AV::IO::IRead> read;
             AV::IO::Info info;
-            Frame::Sequence sequence;
+            Math::Frame::Sequence sequence;
             Math::Rational speed;
-            Time::Units timeUnits = Time::Units::First;
+            AV::Time::Units timeUnits = AV::Time::Units::First;
             glm::vec2 pipPos = glm::vec2(0.F, 0.F);
-            BBox2f timelineGeometry;
-            Frame::Index currentFrame = 0;
+            Math::BBox2f timelineGeometry;
+            Math::Frame::Index currentFrame = 0;
             float imageAspectRatio = 0.F;
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<UI::Label> timeLabel;
             std::shared_ptr<UI::StackLayout> layout;
-            std::shared_ptr<Time::Timer> timer;
-            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
+            std::shared_ptr<System::Timer> timer;
+            std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
         };
 
-        void TimelinePIPWidget::_init(const std::shared_ptr<Context>& context)
+        void TimelinePIPWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -61,7 +64,7 @@ namespace djv
             p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
 
             p.timeLabel = UI::Label::create(context);
-            p.timeLabel->setFontFamily(AV::Font::familyMono);
+            p.timeLabel->setFontFamily(Render2D::Font::familyMono);
             p.timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.timeLabel->setVAlign(UI::VAlign::Bottom);
@@ -74,10 +77,10 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TimelinePIPWidget>(std::dynamic_pointer_cast<TimelinePIPWidget>(shared_from_this()));
-            p.timer = Time::Timer::create(context);
+            p.timer = System::Timer::create(context);
             p.timer->setRepeating(true);
             p.timer->start(
-                Time::getTime(Time::TimerValue::VeryFast),
+                System::getTimerDuration(System::TimerValue::VeryFast),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto widget = weak.lock())
@@ -110,9 +113,9 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
+            p.timeUnitsObserver = ValueObserver<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
-                [weak](Time::Units value)
+                [weak](AV::Time::Units value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -129,14 +132,14 @@ namespace djv
         TimelinePIPWidget::~TimelinePIPWidget()
         {}
 
-        std::shared_ptr<TimelinePIPWidget> TimelinePIPWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TimelinePIPWidget> TimelinePIPWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TimelinePIPWidget>(new TimelinePIPWidget);
             out->_init(context);
             return out;
         }
 
-        void TimelinePIPWidget::setFileInfo(const Core::FileSystem::FileInfo& value)
+        void TimelinePIPWidget::setFileInfo(const System::File::Info& value)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -148,7 +151,7 @@ namespace djv
                 {
                     try
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
+                        auto io = context->getSystemT<AV::IO::IOSystem>();
                         AV::IO::ReadOptions options;
                         options.videoQueueSize = 1;
                         options.audioQueueSize = 0;
@@ -159,7 +162,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        _log(e.what(), LogLevel::Error);
+                        _log(e.what(), System::LogLevel::Error);
                     }
                 }
                 else
@@ -169,7 +172,7 @@ namespace djv
             }
         }
 
-        void TimelinePIPWidget::setPos(const glm::vec2& value, Frame::Index frame, const BBox2f& timelineGeometry)
+        void TimelinePIPWidget::setPos(const glm::vec2& value, Math::Frame::Index frame, const Math::BBox2f& timelineGeometry)
         {
             DJV_PRIVATE_PTR();
             if (value == p.pipPos && timelineGeometry == p.timelineGeometry)
@@ -183,11 +186,11 @@ namespace djv
             _resize();
         }
 
-        void TimelinePIPWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
+        void TimelinePIPWidget::setImageOptions(const Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
-            AV::Render2D::ImageOptions options = value;
-            options.alphaBlend = AV::AlphaBlend::Straight;
+            Render2D::ImageOptions options = value;
+            options.alphaBlend = Render2D::AlphaBlend::Straight;
             p.imageWidget->setImageOptions(options);
         }
 
@@ -203,17 +206,17 @@ namespace djv
             p.imageWidget->setImageAspectRatio(value);
         }
 
-        void TimelinePIPWidget::_layoutEvent(Event::Layout&)
+        void TimelinePIPWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const glm::vec2 size = p.layout->getMinimumSize();
             const glm::vec2 pos(
                 Math::clamp(p.pipPos.x - floorf(size.x / 2.F), p.timelineGeometry.min.x, p.timelineGeometry.max.x - size.x),
                 p.pipPos.y - size.y);
-            p.layout->setGeometry(BBox2f(pos.x, pos.y, size.x, size.y));
+            p.layout->setGeometry(Math::BBox2f(pos.x, pos.y, size.x, size.y));
         }
 
-        void TimelinePIPWidget::_paintEvent(Event::Paint& event)
+        void TimelinePIPWidget::_paintEvent(System::Event::Paint& event)
         {
             UI::Widget::_paintEvent(event);
             const auto& style = _getStyle();
@@ -224,7 +227,7 @@ namespace djv
             {
                 if (i->isVisible())
                 {
-                    BBox2f g = i->getGeometry();
+                    Math::BBox2f g = i->getGeometry();
                     g.min.x -= sh;
                     g.max.x += sh;
                     g.max.y += sh;

@@ -12,11 +12,11 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
         class Context;
     
-    } // namespace Core
+    } // namespace System
 
     namespace UI
     {
@@ -33,7 +33,7 @@ namespace djv
                 const std::shared_ptr<Window>&,
                 const glm::vec2& pos,
                 const std::shared_ptr<ITooltipWidget>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
             Tooltip();
 
         public:
@@ -43,7 +43,7 @@ namespace djv
                 const std::shared_ptr<Window>&,
                 const glm::vec2& pos,
                 const std::shared_ptr<ITooltipWidget>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<ITooltipWidget>& getWidget() const;
 

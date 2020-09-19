@@ -7,9 +7,13 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/Timer.h>
+#include <djvImage/ImageDataFunc.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TimerFunc.h>
+
+#include <djvCore/ErrorFunc.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -18,67 +22,134 @@ namespace djv
 {
     namespace AVTest
     {
-        ThumbnailSystemTest::ThumbnailSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::AVTest::ThumbnailSystemTest", context)
+        ThumbnailSystemTest::ThumbnailSystemTest(
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
+            ITickTest("djv::AVTest::ThumbnailSystemTest", tempPath, context)
         {}
         
         void ThumbnailSystemTest::run()
         {
             if (auto context = getContext().lock())
             {
-                auto resourceSystem = context->getSystemT<ResourceSystem>();
-                const FileSystem::FileInfo fileInfo(FileSystem::Path(
-                    resourceSystem->getPath(FileSystem::ResourcePath::Icons),
-                    "96DPI/djvIconFile.png"));
+                auto resourceSystem = context->getSystemT<System::ResourceSystem>();
                 auto system = context->getSystemT<ThumbnailSystem>();
-                auto infoFuture = system->getInfo(fileInfo);
-                auto imageFuture = system->getImage(fileInfo, Image::Size(32, 32));
                 
+                // Request a thumbnail.
+                std::vector<ThumbnailSystem::InfoFuture> infoFutures;
+                std::vector<ThumbnailSystem::ImageFuture> imageFutures;
+                const System::File::Info fileInfo(System::File::Path(
+                    resourceSystem->getPath(System::File::ResourcePath::Icons),
+                    "96DPI/djvIconFile.png"));
+                infoFutures.push_back(system->getInfo(fileInfo));
+                imageFutures.push_back(system->getImage(fileInfo, Image::Size(32, 32)));
+                
+                // Request the same thumbnail.
+                for (size_t i = 0; i < 10; ++i)
+                {
+                    infoFutures.push_back(system->getInfo(fileInfo));
+                    imageFutures.push_back(system->getImage(fileInfo, Image::Size(32, 32)));
+                }
+                
+                // Request different sizes of the thumbnail.
+                for (const auto& i : {
+                    Image::Size(16, 128),
+                    Image::Size(128, 16),
+                    Image::Size(0, 0) })
+                {
+                    infoFutures.push_back(system->getInfo(fileInfo));
+                    imageFutures.push_back(system->getImage(fileInfo, i));
+                }
+                
+                // Request a missing thumbnail.
+                infoFutures.push_back(system->getInfo(System::File::Info()));
+                imageFutures.push_back(system->getImage(System::File::Info(), Image::Size(32, 32)));
+
+                // Request and cancel a thumbnail.
                 auto infoCancelFuture = system->getInfo(fileInfo);
                 auto imageCancelFuture = system->getImage(fileInfo, Image::Size(32, 32));
                 system->cancelInfo(infoCancelFuture.uid);
                 system->cancelImage(imageCancelFuture.uid);
-                
-                IO::Info info;
-                std::shared_ptr<Image::Image> image;
-                while (
-                    infoFuture.future.valid() ||
-                    imageFuture.future.valid())
+
+                // Wait for and collect info.
+                std::vector<IO::Info> infos;
+                while (!infoFutures.empty())
                 {
-                    _tickFor(Time::getTime(Time::TimerValue::Fast));
-                    if (infoFuture.future.valid() &&
-                        infoFuture.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    _tickFor(System::getTimerDuration(System::TimerValue::Fast));
+                    auto i = infoFutures.begin();
+                    while (i != infoFutures.end())
                     {
-                        info = infoFuture.future.get();
+                        if (i->future.valid() &&
+                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            try
+                            {
+                                infos.push_back(i->future.get());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                _print(Error::format(e.what()));
+                            }
+                            i = infoFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
                     }
-                    if (imageFuture.future.valid() &&
-                        imageFuture.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                }
+                for (const auto& i : infos)
+                {
+                    if (i.video.size())
                     {
-                        image = imageFuture.future.get();
+                        std::stringstream ss;
+                        ss << "Info: " << i.video[0].size;
+                        _print(ss.str());
                     }
                 }
                 
-                if (info.video.size())
+                // Wait for and collect images.
+                std::vector<std::shared_ptr<Image::Image> > images;
+                while (!imageFutures.empty())
                 {
-                    std::stringstream ss;
-                    ss << "info: " << info.video[0].size;
-                    _print(ss.str());
+                    _tickFor(System::getTimerDuration(System::TimerValue::Fast));
+                    auto i = imageFutures.begin();
+                    while (i != imageFutures.end())
+                    {
+                        if (i->future.valid() &&
+                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            try
+                            {
+                                images.push_back(i->future.get());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                _print(Error::format(e.what()));
+                            }
+                            i = imageFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
                 }
-                if (image)
+                for (const auto& i : images)
                 {
                     std::stringstream ss;
-                    ss << "image: " << image->getSize();
+                    ss << "Image: " << i->getSize();
                     _print(ss.str());
                 }
                 
                 {
                     std::stringstream ss;
-                    ss << "info cache percentage: " << system->getInfoCachePercentage();
+                    ss << "Info cache percentage: " << system->getInfoCachePercentage();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "image cache percentage: " << system->getImageCachePercentage();
+                    ss << "Image cache percentage: " << system->getImageCachePercentage();
                     _print(ss.str());
                 }
                 

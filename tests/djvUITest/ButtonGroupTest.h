@@ -11,7 +11,9 @@ namespace djv
         class ButtonGroupTest : public Test::ITickTest
         {
         public:
-            ButtonGroupTest(const std::shared_ptr<Core::Context>&);
+            ButtonGroupTest(
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
         };

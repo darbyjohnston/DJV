@@ -11,8 +11,8 @@
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -34,7 +34,7 @@ namespace djv
             std::function<void(void)> clearCallback;
         };
 
-        void MessagesWidget::_init(const std::shared_ptr<Context>& context)
+        void MessagesWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -42,7 +42,7 @@ namespace djv
             setClassName("djv::ViewApp::MessagesWidget");
 
             p.textBlock = UI::TextBlock::create(context);
-            p.textBlock->setFontFamily(AV::Font::familyMono);
+            p.textBlock->setFontFamily(Render2D::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.textBlock->setMargin(UI::MetricsRole::Margin);
 
@@ -115,14 +115,14 @@ namespace djv
         MessagesWidget::~MessagesWidget()
         {}
 
-        std::shared_ptr<MessagesWidget> MessagesWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<MessagesWidget> MessagesWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MessagesWidget>(new MessagesWidget);
             out->_init(context);
             return out;
         }
 
-        void MessagesWidget::_initEvent(Event::Init & event)
+        void MessagesWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

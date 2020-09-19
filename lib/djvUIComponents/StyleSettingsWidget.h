@@ -16,16 +16,16 @@ namespace djv
             DJV_NON_COPYABLE(SizeWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             SizeWidget();
 
         public:
-            static std::shared_ptr<SizeWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<SizeWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _initEvent(Core::Event::Init&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -40,17 +40,17 @@ namespace djv
             DJV_NON_COPYABLE(PaletteWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             PaletteWidget();
 
         public:
-            static std::shared_ptr<PaletteWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<PaletteWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
             
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -65,11 +65,11 @@ namespace djv
             DJV_NON_COPYABLE(StyleSettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             StyleSettingsWidget();
 
         public:
-            static std::shared_ptr<StyleSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<StyleSettingsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
@@ -77,7 +77,7 @@ namespace djv
             void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             DJV_PRIVATE();

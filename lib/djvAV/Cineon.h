@@ -48,7 +48,10 @@ namespace djv
                     TopBottomLeftRight,
                     TopBottomRightLeft,
                     BottomTopLeftRight,
-                    BottomTopRightLeft
+                    BottomTopRightLeft,
+                    
+                    Count,
+                    First = LeftRightTopBottom
                 };
 
                 //! This enumeration provides the Cineon file descriptors.
@@ -60,7 +63,10 @@ namespace djv
                     BlueFilmPrint,
                     RedCCIRXA11,
                     GreenCCIRXA11,
-                    BlueCCIRXA11
+                    BlueCCIRXA11,
+                    
+                    Count,
+                    First = Luminance
                 };
 
                 //! This stuct provides the Cineon file header.
@@ -148,44 +154,6 @@ namespace djv
                     Film film;
                 };
 
-                //! Check whether the value is valid.
-                bool isValid(const char*, size_t size);
-                
-                //! Convert to std::string.
-                std::string toString(const char* in, size_t size);
-                
-                //! Convert from std::string.
-                size_t fromString(
-                    const std::string& string,
-                    char*              out,
-                    size_t             maxLen,
-                    bool               terminate);
-                    
-                //! Zero out the data in a Cineon file header.
-                void zero(Header&);
-
-                //! Read a Cineon file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                Header read(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    Info&,
-                    ColorProfile&,
-                    const std::shared_ptr<Core::TextSystem>&);
-                
-                //! Write a Cineon file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                void write(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    const Info& info,
-                    ColorProfile);
-
-                //! Finish writing the Cineon file header after image data is written.
-                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
-
                 //! This class provides the Cineon file reader.
                 class Read : public ISequenceRead
                 {
@@ -198,22 +166,22 @@ namespace djv
                     ~Read() override;
 
                     static std::shared_ptr<Read> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const ReadOptions&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                     static std::shared_ptr<Image::Image> readImage(
                         const Info&,
-                        const std::shared_ptr<Core::FileSystem::FileIO>&);
+                        const std::shared_ptr<System::File::IO>&);
 
                 protected:
                     Info _readInfo(const std::string&) override;
                     std::shared_ptr<Image::Image> _readImage(const std::string&) override;
 
                 private:
-                    Info _open(const std::string&, const std::shared_ptr<Core::FileSystem::FileIO>&);
+                    Info _open(const std::string&, const std::shared_ptr<System::File::IO>&);
 
                     DJV_PRIVATE();
                 };
@@ -230,12 +198,12 @@ namespace djv
                     ~Write() override;
 
                     static std::shared_ptr<Write> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const Info&,
                         const WriteOptions&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Image::Type _getImageType(Image::Type) const override;
@@ -255,10 +223,10 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
-                    std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const override;
+                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
+                    std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();

@@ -13,7 +13,9 @@ namespace djv
         class CacheTest : public Test::ITest
         {
         public:
-            CacheTest(const std::shared_ptr<Core::Context>&);
+            CacheTest(
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
         };

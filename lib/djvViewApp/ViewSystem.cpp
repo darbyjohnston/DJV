@@ -21,8 +21,8 @@
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -63,10 +63,10 @@ namespace djv
             std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
 
             void drag(const PointerData&);
-            void scroll(const ScrollData&, const std::weak_ptr<Context>&);
+            void scroll(const ScrollData&, const std::weak_ptr<System::Context>&);
         };
 
-        void ViewSystem::_init(const std::shared_ptr<Context>& context)
+        void ViewSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::ViewSystem", context);
 
@@ -190,7 +190,7 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["ViewControls"]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -491,7 +491,7 @@ namespace djv
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
-        std::shared_ptr<ViewSystem> ViewSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewSystem> ViewSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewSystem>(new ViewSystem);
             out->_init(context);
@@ -656,7 +656,7 @@ namespace djv
                 const float w = viewWidget->getWidth();
                 const float h = viewWidget->getHeight();
                 glm::vec2 focus = glm::vec2(0.F, 0.F);
-                if (BBox2f(0.F, 0.F, w, h).contains(p.hoverPos))
+                if (Math::BBox2f(0.F, 0.F, w, h).contains(p.hoverPos))
                 {
                     focus = p.hoverPos;
                 }
@@ -734,7 +734,7 @@ namespace djv
             }
         }
 
-        void ViewSystem::Private::scroll(const ScrollData& value, const std::weak_ptr<Context>& contextWeak)
+        void ViewSystem::Private::scroll(const ScrollData& value, const std::weak_ptr<System::Context>& contextWeak)
         {
             if (auto viewWidget = activeWidget->getViewWidget())
             {
@@ -749,7 +749,7 @@ namespace djv
                     {
                         settings->setLock(ViewLock::None);
                         const float zoom = viewWidget->observeImageZoom()->get();
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
                         const float speed = _getScrollWheelSpeed(mouseSettings->observeScrollWheelSpeed()->get());
                         viewWidget->setImageZoomFocus(zoom * (1.F + value.delta.y * speed), hoverPos);

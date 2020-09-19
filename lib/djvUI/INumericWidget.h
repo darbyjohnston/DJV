@@ -6,8 +6,9 @@
 
 #include <djvUI/Enum.h>
 
-#include <djvCore/INumericValueModel.h>
-#include <djvCore/Range.h>
+#include <djvMath/INumericValueModel.h>
+#include <djvMath/Range.h>
+
 #include <djvCore/Time.h>
 #include <djvCore/ValueObserver.h>
 
@@ -39,8 +40,8 @@ namespace djv
         public:
             virtual ~INumericWidget() = 0;
 
-            const Core::Range::Range<T>& getRange() const;
-            void setRange(const Core::Range::Range<T>&);
+            const Math::Range<T>& getRange() const;
+            void setRange(const Math::Range<T>&);
 
             T getValue() const;
             void setValue(T);
@@ -51,8 +52,8 @@ namespace djv
             void setSmallIncrement(T);
             void setLargeIncrement(T);
 
-            const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
-            virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
+            const std::shared_ptr<Math::INumericValueModel<T> >& getModel() const;
+            virtual void setModel(const std::shared_ptr<Math::INumericValueModel<T> >&);
 
         protected:
             void _doCallback(TextEditReason);
@@ -60,7 +61,7 @@ namespace djv
             virtual void _setIsMin(bool) {}
             virtual void _setIsMax(bool) {}
 
-            std::shared_ptr<Core::INumericValueModel<T> > _model;
+            std::shared_ptr<Math::INumericValueModel<T> > _model;
 
         private:
             std::shared_ptr<Core::ValueObserver<bool> > _isMinObserver;

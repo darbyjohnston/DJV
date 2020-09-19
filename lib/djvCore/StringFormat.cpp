@@ -31,6 +31,10 @@ namespace djv
                 };
 
             } // namespace
+            
+            Format::Format(const std::string& value) :
+                _text(value)
+            {}
 
             Format& Format::arg(const std::string& value)
             {
@@ -100,6 +104,21 @@ namespace djv
                 std::stringstream ss;
                 ss << value;
                 return arg(ss.str());
+            }
+            
+            bool Format::hasError() const
+            {
+                return _error.size() > 0;
+            }
+
+            const std::string& Format::getError() const
+            {
+                return _error;
+            }
+
+            Format::operator std::string() const
+            {
+                return _text;
             }
 
         } // namespace String

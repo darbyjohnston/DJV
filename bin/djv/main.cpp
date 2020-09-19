@@ -4,7 +4,7 @@
 
 #include <djvViewApp/Application.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 
 #if defined(DJV_PLATFORM_WINDOWS)
 #ifndef WIN32_LEAN_AND_MEAN

@@ -16,7 +16,7 @@ namespace djv
         class NumericSlider : public Widget
         {
         protected:
-            void _init(Orientation, const std::shared_ptr<Core::Context>&);
+            void _init(Orientation, const std::shared_ptr<System::Context>&);
             NumericSlider();
 
         public:
@@ -41,18 +41,18 @@ namespace djv
             virtual void _scroll(float) = 0;
             virtual void _valueUpdate() = 0;
             
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void _pointerMoveEvent(Core::Event::PointerMove&) override;
-            void _buttonPressEvent(Core::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _textFocusEvent(Core::Event::TextFocus&) override;
-            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
-            void _scrollEvent(Core::Event::Scroll&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _pointerEnterEvent(System::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+            void _pointerMoveEvent(System::Event::PointerMove&) override;
+            void _buttonPressEvent(System::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
+            void _keyPressEvent(System::Event::KeyPress&) override;
+            void _textFocusEvent(System::Event::TextFocus&) override;
+            void _textFocusLostEvent(System::Event::TextFocusLost&) override;
+            void _scrollEvent(System::Event::Scroll&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _resetTimer();

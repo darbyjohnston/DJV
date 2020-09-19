@@ -18,14 +18,15 @@
 #include <djvScene/IO.h>
 #include <djvScene/Scene.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TimerFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 using namespace djv;
 
-void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
+void MainWindow::_init(const std::shared_ptr<System::Context>& context)
 {
     Window::_init(context);
 
@@ -174,7 +175,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             {
                 if (widget->_openCallback)
                 {
-                    widget->_openCallback(Core::FileSystem::FileInfo());
+                    widget->_openCallback(System::File::Info());
                 }
             }
         });
@@ -219,7 +220,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    auto contextWeak = std::weak_ptr<Core::Context>(context);
+    auto contextWeak = std::weak_ptr<System::Context>(context);
     _settingsDrawer->setOpenCallback(
         [weak, contextWeak]() ->std::shared_ptr<Widget>
         {
@@ -274,9 +275,9 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
                             }
                         });
 
-                    widget->_bboxObserver = Core::ValueObserver<Core::BBox3f>::create(
+                    widget->_bboxObserver = Core::ValueObserver<Math::BBox3f>::create(
                         widget->_sceneWidget->observeBBox(),
-                        [infoWidget, weak](const Core::BBox3f& value)
+                        [infoWidget, weak](const Math::BBox3f& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -304,10 +305,10 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
                             }
                         });
 
-                    widget->_statsTimer = Core::Time::Timer::create(context);
+                    widget->_statsTimer = System::Timer::create(context);
                     widget->_statsTimer->setRepeating(true);
                     widget->_statsTimer->start(
-                        Core::Time::getTime(Core::Time::TimerValue::Slow),
+                        System::getTimerDuration(System::TimerValue::Slow),
                         [infoWidget, weak, contextWeak](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
                         {
                             if (auto context = contextWeak.lock())
@@ -333,7 +334,7 @@ MainWindow::~MainWindow()
 {}
 
 void MainWindow::setScene(
-    const djv::Core::FileSystem::FileInfo& fileInfo,
+    const djv::System::File::Info& fileInfo,
     const std::shared_ptr<Scene::Scene>& value)
 {
     _fileInfoLabel->setText(fileInfo.getFileName());
@@ -341,7 +342,7 @@ void MainWindow::setScene(
     _sceneWidget->frameView();
 }
 
-void MainWindow::setOpenCallback(const std::function<void(const Core::FileSystem::FileInfo)>& value)
+void MainWindow::setOpenCallback(const std::function<void(const System::File::Info)>& value)
 {
     _openCallback = value;
 }
@@ -356,14 +357,14 @@ void MainWindow::setExitCallback(const std::function<void(void)>& value)
     _exitCallback = value;
 }
 
-std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<System::Context>& context)
 {
     auto out = std::shared_ptr<MainWindow>(new MainWindow);
     out->_init(context);
     return out;
 }
 
-void MainWindow::_initEvent(Core::Event::Init&)
+void MainWindow::_initEvent(System::Event::Init&)
 {
     _actions["File"]["Open"]->setText(_getText(DJV_TEXT("action_file_open")));
     _actions["File"]["Open"]->setTooltip(_getText(DJV_TEXT("action_file_open_tooltip")));
@@ -403,12 +404,12 @@ void MainWindow::_open()
             _fileBrowserDialog->close();
         }
         _fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-        auto io = context->getSystemT<Scene::IO::System>();
+        auto io = context->getSystemT<Scene::IO::IOSystem>();
         _fileBrowserDialog->setFileExtensions(io->getFileExtensions());
         _fileBrowserDialog->setPath(_fileBrowserPath);
         auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
         _fileBrowserDialog->setCallback(
-            [weak](const Core::FileSystem::FileInfo& value)
+            [weak](const System::File::Info& value)
             {
                 if (auto widget = weak.lock())
                 {

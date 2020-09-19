@@ -4,7 +4,9 @@
 
 #include <djvAV/Cineon.h>
 
-#include <djvCore/FileIO.h>
+#include <djvAV/CineonFunc.h>
+
+#include <djvSystem/FileIO.h>
 
 using namespace djv::Core;
 
@@ -29,12 +31,12 @@ namespace djv
                 }
 
                 std::shared_ptr<Write> Write::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const Info& info,
                     const WriteOptions& writeOptions,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_init(fileInfo, info, writeOptions, textSystem, resourceSystem, logSystem);
@@ -56,8 +58,8 @@ namespace djv
                 
                 void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Image>& image)
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(fileName, FileSystem::FileIO::Mode::Write);
+                    auto io = System::File::IO::create();
+                    io->open(fileName, System::File::IO::Mode::Write);
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();

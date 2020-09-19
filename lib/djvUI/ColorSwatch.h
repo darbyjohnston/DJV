@@ -6,7 +6,7 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvAV/Color.h>
+#include <djvImage/Color.h>
 
 namespace djv
 {
@@ -18,16 +18,16 @@ namespace djv
             DJV_NON_COPYABLE(ColorSwatch);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorSwatch();
 
         public:
             ~ColorSwatch() override;
 
-            static std::shared_ptr<ColorSwatch> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSwatch> create(const std::shared_ptr<System::Context>&);
 
-            const AV::Image::Color& getColor() const;
-            void setColor(const AV::Image::Color&);
+            const Image::Color& getColor() const;
+            void setColor(const Image::Color&);
 
             MetricsRole getSwatchSizeRole() const;
             void setSwatchSizeRole(MetricsRole);
@@ -39,16 +39,16 @@ namespace djv
             bool acceptFocus(TextFocusDirection) override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void _pointerMoveEvent(Core::Event::PointerMove&) override;
-            void _buttonPressEvent(Core::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _textFocusEvent(Core::Event::TextFocus&) override;
-            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _paintEvent(System::Event::Paint&) override;
+            void _pointerEnterEvent(System::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+            void _pointerMoveEvent(System::Event::PointerMove&) override;
+            void _buttonPressEvent(System::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
+            void _keyPressEvent(System::Event::KeyPress&) override;
+            void _textFocusEvent(System::Event::TextFocus&) override;
+            void _textFocusLostEvent(System::Event::TextFocusLost&) override;
 
         private:
             DJV_PRIVATE();

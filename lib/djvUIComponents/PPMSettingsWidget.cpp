@@ -11,7 +11,7 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/PPM.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -25,7 +25,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void PPMSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void PPMSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -41,13 +41,13 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<PPMSettingsWidget>(std::dynamic_pointer_cast<PPMSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.comboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
+                        auto io = context->getSystemT<AV::IO::IOSystem>();
                         AV::IO::PPM::Options options;
                         rapidjson::Document document;
                         auto& allocator = document.GetAllocator();
@@ -62,7 +62,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PPMSettingsWidget> PPMSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<PPMSettingsWidget> PPMSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PPMSettingsWidget>(new PPMSettingsWidget);
             out->_init(context);
@@ -89,7 +89,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void PPMSettingsWidget::_initEvent(Event::Init& event)
+        void PPMSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -105,7 +105,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<AV::IO::IOSystem>();
                 AV::IO::PPM::Options options;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();

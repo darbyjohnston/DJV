@@ -6,9 +6,10 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvAV/Pixel.h>
+#include <djvImage/Pixel.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
+
 #include <djvCore/ValueObserver.h>
 
 #include <map>
@@ -23,20 +24,20 @@ namespace djv
             DJV_NON_COPYABLE(ColorPickerSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
 
             ColorPickerSettings();
 
         public:
             ~ColorPickerSettings() override;
 
-            static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<System::Context>&);
 
             size_t getSampleSize() const;
             void setSampleSize(size_t);
 
-            AV::Image::Type getLockType() const;
-            void setLockType(AV::Image::Type);
+            Image::Type getLockType() const;
+            void setLockType(Image::Type);
 
             bool getApplyColorOperations() const;
             void setApplyColorOperations(bool);
@@ -47,8 +48,8 @@ namespace djv
             const glm::vec2& getPickerPos() const;
             void setPickerPos(const glm::vec2&);
 
-            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
-            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

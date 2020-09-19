@@ -4,10 +4,10 @@
 
 #include <djvAV/IOPlugin.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -17,12 +17,15 @@ namespace djv
     {
         namespace IO
         {
+            ReadOptions::ReadOptions()
+            {}
+            
             void IIO::_init(
-                const FileSystem::FileInfo& fileInfo,
+                const System::File::Info& fileInfo,
                 const IOOptions& options,
-                const std::shared_ptr<TextSystem>& textSystem,
-                const std::shared_ptr<ResourceSystem>& resourceSystem,
-                const std::shared_ptr<LogSystem>& logSystem)
+                const std::shared_ptr<System::TextSystem>& textSystem,
+                const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                const std::shared_ptr<System::LogSystem>& logSystem)
             {
                 _logSystem      = logSystem;
                 _textSystem     = textSystem;
@@ -42,11 +45,11 @@ namespace djv
             }
 
             void IRead::_init(
-                const FileSystem::FileInfo& fileInfo,
+                const System::File::Info& fileInfo,
                 const ReadOptions& options,
-                const std::shared_ptr<TextSystem>& textSystem,
-                const std::shared_ptr<ResourceSystem>& resourceSystem,
-                const std::shared_ptr<LogSystem>& logSystem)
+                const std::shared_ptr<System::TextSystem>& textSystem,
+                const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                const std::shared_ptr<System::LogSystem>& logSystem)
             {
                 IIO::_init(fileInfo, options, textSystem, resourceSystem, logSystem);
                 _options = options;
@@ -73,6 +76,11 @@ namespace djv
                 _inOutPoints = value;
             }
             
+            bool IRead::hasCache() const
+            {
+                return false;
+            }
+
             bool IRead::isCacheEnabled() const
             {
                 return _cacheEnabled;
@@ -89,13 +97,13 @@ namespace djv
                 return _cacheByteCount;
             }
 
-            Frame::Sequence IRead::getCacheSequence()
+            Math::Frame::Sequence IRead::getCacheSequence()
             {
                 std::lock_guard<std::mutex> lock(_mutex);
                 return _cacheSequence;
             }
 
-            Frame::Sequence IRead::getCachedFrames()
+            Math::Frame::Sequence IRead::getCachedFrames()
             {
                 std::lock_guard<std::mutex> lock(_mutex);
                 return _cachedFrames;
@@ -114,12 +122,12 @@ namespace djv
             }
 
             void IWrite::_init(
-                const FileSystem::FileInfo& fileInfo,
+                const System::File::Info& fileInfo,
                 const Info& info,
                 const WriteOptions& options,
-                const std::shared_ptr<TextSystem>& textSystem,
-                const std::shared_ptr<ResourceSystem>& resourceSystem,
-                const std::shared_ptr<LogSystem>& logSystem)
+                const std::shared_ptr<System::TextSystem>& textSystem,
+                const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                const std::shared_ptr<System::LogSystem>& logSystem)
             {
                 IIO::_init(fileInfo, options, textSystem, resourceSystem, logSystem);
                 _info = info;
@@ -132,12 +140,12 @@ namespace djv
                 const std::string& pluginName,
                 const std::string& pluginInfo,
                 const std::set<std::string>& fileExtensions,
-                const std::shared_ptr<Context>& context)
+                const std::shared_ptr<System::Context>& context)
             {
                 _context        = context;
-                _logSystem      = context->getSystemT<LogSystem>();
-                _resourceSystem = context->getSystemT<ResourceSystem>();
-                _textSystem     = context->getSystemT<TextSystem>();
+                _logSystem      = context->getSystemT<System::LogSystem>();
+                _resourceSystem = context->getSystemT<System::ResourceSystem>();
+                _textSystem     = context->getSystemT<System::TextSystem>();
                 _pluginName     = pluginName;
                 _pluginInfo     = pluginInfo;
                 _fileExtensions = fileExtensions;
@@ -153,23 +161,23 @@ namespace djv
 
             namespace
             {
-                bool checkExtension(const std::string& value, const std::set<std::string>& extensions)
+                bool checkExtension(const System::File::Info& fileInfo, const std::set<std::string>& extensions)
                 {
-                    std::string extension = FileSystem::Path(value).getExtension();
+                    std::string extension = fileInfo.getPath().getExtension();
                     std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
                     return std::find(extensions.begin(), extensions.end(), extension) != extensions.end();
                 }
 
             } // namespace
 
-            bool IPlugin::canRead(const FileSystem::FileInfo& fileInfo) const
+            bool IPlugin::canRead(const System::File::Info& fileInfo) const
             {
-                return checkExtension(std::string(fileInfo), _fileExtensions);
+                return checkExtension(fileInfo, _fileExtensions);
             }
 
-            bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info&) const
+            bool IPlugin::canWrite(const System::File::Info& fileInfo, const Info&) const
             {
-                return checkExtension(std::string(fileInfo), _fileExtensions);
+                return checkExtension(fileInfo, _fileExtensions);
             }
 
             rapidjson::Value IPlugin::getOptions(rapidjson::Document::AllocatorType&) const
@@ -182,12 +190,12 @@ namespace djv
                 // Default implementation does nothing.
             }
 
-            std::shared_ptr<IRead> IPlugin::read(const FileSystem::FileInfo&, const ReadOptions&) const
+            std::shared_ptr<IRead> IPlugin::read(const System::File::Info&, const ReadOptions&) const
             {
                 return nullptr;
             }
 
-            std::shared_ptr<IWrite> IPlugin::write(const FileSystem::FileInfo&, const Info&, const WriteOptions&) const
+            std::shared_ptr<IWrite> IPlugin::write(const System::File::Info&, const Info&, const WriteOptions&) const
             {
                 return nullptr;
             }

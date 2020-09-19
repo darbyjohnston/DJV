@@ -4,17 +4,23 @@
 
 #include <djvCmdLineApp/Application.h>
 
-#include <djvAV/GLFWSystem.h>
-#include <djvAV/OpenGL.h>
-#include <djvAV/Render3D.h>
-#include <djvAV/Render3DCamera.h>
-#include <djvAV/Render3DMaterial.h>
-#include <djvAV/Shape.h>
-#include <djvAV/TriangleMesh.h>
+#include <djvRender3D/Camera.h>
+#include <djvRender3D/Light.h>
+#include <djvRender3D/Material.h>
+#include <djvRender3D/Render.h>
 
-#include <djvCore/Error.h>
-#include <djvCore/Math.h>
-#include <djvCore/Timer.h>
+#include <djvGL/GLFWSystem.h>
+#include <djvGL/GL.h>
+
+#include <djvSystem/Timer.h>
+
+#include <djvGeom/Shape.h>
+#include <djvGeom/TriangleMesh.h>
+
+#include <djvCore/ErrorFunc.h>
+#include <djvCore/RandomFunc.h>
+
+#include <djvMath/Math.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -40,11 +46,13 @@ public:
 private:
     void _render();
 
-    std::vector<AV::Geom::TriangleMesh> _meshes;
-    std::shared_ptr<AV::Render3D::IMaterial> _material;
-    glm::vec3 _camera = glm::vec3(15.F, 15.F, 15.F);
-    AV::Render3D::RenderOptions _options;
-    std::shared_ptr<Core::Time::Timer> _timer;
+    std::vector<Geom::TriangleMesh> _meshes;
+    std::shared_ptr<Render3D::IMaterial> _material;
+    glm::vec3 _cameraPos = glm::vec3(15.F, 15.F, 15.F);
+    std::shared_ptr<Render3D::DirectionalLight> _light;
+    std::shared_ptr<Render3D::DefaultCamera> _camera;
+    Render3D::RenderOptions _options;
+    std::shared_ptr<System::Timer> _timer;
 };
 
 void Application::_init(std::list<std::string>& args)
@@ -56,33 +64,33 @@ void Application::_init(std::list<std::string>& args)
     size_t meshNormals = 0;
     for (size_t i = 0; i < 10000; ++i)
     {
-        AV::Geom::TriangleMesh mesh;
-        switch (Core::Math::getRandom(0, 2))
+        Geom::TriangleMesh mesh;
+        switch (Core::Random::getRandom(0, 2))
         {
         case 0:
         {
-            AV::Geom::Cube shape(Core::Math::getRandom(.1F, .2F));
+            Geom::Cube shape(Core::Random::getRandom(.1F, .2F));
             shape.triangulate(mesh);
             break;
         }
         case 1:
         {
-            AV::Geom::Sphere shape(Core::Math::getRandom(.1F, .2F), AV::Geom::Sphere::Resolution(20, 20));
+            Geom::Sphere shape(Core::Random::getRandom(.1F, .2F), Geom::Sphere::Resolution(20, 20));
             shape.triangulate(mesh);
             break;
         }
         case 2:
         {
-            AV::Geom::Cylinder shape(Core::Math::getRandom(.1F, .2F), Core::Math::getRandom(.1F, 1.F), 20);
+            Geom::Cylinder shape(Core::Random::getRandom(.1F, .2F), Core::Random::getRandom(.1F, 1.F), 20);
             shape.setCapped(true);
             shape.triangulate(mesh);
             break;
         }
         }
         const glm::vec3 pos(
-            Core::Math::getRandom(-10.F, 10.F),
-            Core::Math::getRandom(-10.F, 10.F),
-            Core::Math::getRandom(-10.F, 10.F));
+            Core::Random::getRandom(-10.F, 10.F),
+            Core::Random::getRandom(-10.F, 10.F),
+            Core::Random::getRandom(-10.F, 10.F));
         for (size_t i = 0; i < mesh.v.size(); ++i)
         {
             auto& v = mesh.v[i];
@@ -99,20 +107,25 @@ void Application::_init(std::list<std::string>& args)
     //std::cout << "vertices = " << meshVertices << std::endl;
     //std::cout << "normals = " << meshNormals << std::endl;
 
-    _material = AV::Render3D::DefaultMaterial::create(shared_from_this());
+    _material = Render3D::DefaultMaterial::create(shared_from_this());
 
-    _options.size = AV::Image::Size(1280, 720);
+    _camera = Render3D::DefaultCamera::create();
+    
+    _light = Render3D::DirectionalLight::create();
+    
+    _options.camera = _camera;
+    _options.size = Image::Size(1280, 720);
 
-    _timer = Core::Time::Timer::create(shared_from_this());
+    _timer = System::Timer::create(shared_from_this());
     _timer->setRepeating(true);
     _timer->start(
         std::chrono::milliseconds(10),
         [this](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
     {
-            _camera.y += .1F;
+            _cameraPos.y += .1F;
     });
 
-    auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
+    auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
     glfwSetWindowSize(glfwWindow, _options.size.w, _options.size.h);
     glfwShowWindow(glfwWindow);
 }
@@ -129,7 +142,7 @@ std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 
 void Application::run()
 {
-    auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
+    auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
     while (!glfwWindowShouldClose(glfwWindow))
     {
         glfwPollEvents();
@@ -141,22 +154,22 @@ void Application::run()
 
 void Application::_render()
 {
-    auto render = getSystemT<AV::Render3D::Render>();
-    auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
+    auto render = getSystemT<Render3D::Render>();
+    auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
     glm::ivec2 windowSize = glm::ivec2(0, 0);
     glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
     glm::mat4x4 v(1.F);
     glm::mat4x4 p(1.F);
-    v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_camera.z));
-    v = glm::rotate(v, Core::Math::deg2rad(_camera.x), glm::vec3(1.F, 0.F, 0.F));
-    v = glm::rotate(v, Core::Math::deg2rad(_camera.y), glm::vec3(0.F, 1.F, 0.F));
+    v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_cameraPos.z));
+    v = glm::rotate(v, Math::deg2rad(_cameraPos.x), glm::vec3(1.F, 0.F, 0.F));
+    v = glm::rotate(v, Math::deg2rad(_cameraPos.y), glm::vec3(0.F, 1.F, 0.F));
     p = glm::perspective(45.F, windowSize.x / static_cast<float>(windowSize.y > 0 ? windowSize.y : 1.F), .01F, 1000.F);
-    auto renderCamera = AV::Render3D::DefaultCamera::create();
-    renderCamera->setV(v);
-    renderCamera->setP(p);
+    _camera->setV(v);
+    _camera->setP(p);
     _options.size.w = windowSize.x;
     _options.size.h = windowSize.y;
     render->beginFrame(_options);
+    render->addLight(_light);
     render->setMaterial(_material);
     for (const auto& i : _meshes)
     {

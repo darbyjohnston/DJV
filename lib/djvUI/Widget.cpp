@@ -15,10 +15,13 @@
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Math.h>
+#include <djvSystem/Context.h>
+
+#include <djvMath/Math.h>
+
+#include <djvCore/StringFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -44,7 +47,7 @@ namespace djv
             class DefaultTooltipWidget : public ITooltipWidget
             {
             protected:
-                void _init(const std::shared_ptr<Context>& context)
+                void _init(const std::shared_ptr<System::Context>& context)
                 {
                     ITooltipWidget::_init(context);
                     _textBlock = TextBlock::create(context);
@@ -55,7 +58,7 @@ namespace djv
                 }
 
             public:
-                static std::shared_ptr<DefaultTooltipWidget> create(const std::shared_ptr<Context>& context)
+                static std::shared_ptr<DefaultTooltipWidget> create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<DefaultTooltipWidget>(new DefaultTooltipWidget);
                     out->_init(context);
@@ -73,12 +76,12 @@ namespace djv
                 }
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override
+                void _preLayoutEvent(System::Event::PreLayout&) override
                 {
                     _setMinimumSize(_textBlock->getMinimumSize());
                 }
 
-                void _layoutEvent(Core::Event::Layout&) override
+                void _layoutEvent(System::Event::Layout&) override
                 {
                     _textBlock->setGeometry(getGeometry());
                 }
@@ -89,7 +92,7 @@ namespace djv
 
         } // namespace
 
-        void Widget::_init(const std::shared_ptr<Context>& context)
+        void Widget::_init(const std::shared_ptr<System::Context>& context)
         {
             IObject::_init(context);
             
@@ -98,7 +101,7 @@ namespace djv
             ++globalWidgetCount;
 
             _eventSystem = context->getSystemT<EventSystem>();
-            _render = context->getSystemT<AV::Render2D::Render>();
+            _render = context->getSystemT<Render2D::Render>();
             auto uiSystem = context->getSystemT<UISystem>();
             _style = uiSystem->getStyle();
         }
@@ -108,7 +111,7 @@ namespace djv
             --globalWidgetCount;
         }
         
-        std::shared_ptr<Widget> Widget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Widget> Widget::create(const std::shared_ptr<System::Context>& context)
         {
             //! \bug It would be prefereable to use std::make_shared() here, but how can we do that
             //! with protected contructors?
@@ -139,7 +142,7 @@ namespace djv
             _resize();
         }
 
-        void Widget::setGeometry(const BBox2f& value)
+        void Widget::setGeometry(const Math::BBox2f& value)
         {
             if (value == _geometry)
                 return;
@@ -430,16 +433,16 @@ namespace djv
             }
         }
 
-        bool Widget::event(Event::Event& event)
+        bool Widget::event(System::Event::Event& event)
         {
             bool out = IObject::event(event);
             if (!out)
             {
                 switch (event.getEventType())
                 {
-                case Event::Type::ParentChanged:
+                case System::Event::Type::ParentChanged:
                 {
-                    auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
+                    auto& parentChangedEvent = static_cast<System::Event::ParentChanged&>(event);
                     const bool newParent = parentChangedEvent.getNewParent() ? true : false;
                     if (!newParent)
                     {
@@ -459,13 +462,13 @@ namespace djv
                         }
                     }
                     _clipped = newParent;
-                    _clipRect = BBox2f(0.F, 0.F, 0.F, 0.F);
+                    _clipRect = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
                     _redraw();
                     break;
                 }
-                case Event::Type::ChildAdded:
+                case System::Event::Type::ChildAdded:
                 {
-                    auto& childAddedEvent = static_cast<Event::ChildAdded&>(event);
+                    auto& childAddedEvent = static_cast<System::Event::ChildAdded&>(event);
                     if (auto widget = std::dynamic_pointer_cast<Widget>(childAddedEvent.getChild()))
                     {
                         const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
@@ -478,9 +481,9 @@ namespace djv
                     _resize();
                     break;
                 }
-                case Event::Type::ChildRemoved:
+                case System::Event::Type::ChildRemoved:
                 {
-                    auto& childRemovedEvent = static_cast<Event::ChildRemoved&>(event);
+                    auto& childRemovedEvent = static_cast<System::Event::ChildRemoved&>(event);
                     if (auto widget = std::dynamic_pointer_cast<Widget>(childRemovedEvent.getChild()))
                     {
                         const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
@@ -492,13 +495,13 @@ namespace djv
                     _resize();
                     break;
                 }
-                case Event::Type::ChildOrder:
-                case Event::Type::Init:
+                case System::Event::Type::ChildOrder:
+                case System::Event::Type::Init:
                     _resize();
                     break;
-                case Event::Type::Update:
+                case System::Event::Type::Update:
                 {
-                    auto& updateEvent = static_cast<Event::Update&>(event);
+                    auto& updateEvent = static_cast<System::Event::Update&>(event);
                     _updateTime = updateEvent.getTime();
 
                     if (!_pointerToTooltips.empty())
@@ -540,19 +543,19 @@ namespace djv
                     }
                     break;
                 }
-                case Event::Type::InitLayout:
+                case System::Event::Type::InitLayout:
                     _visibleInit = false;
-                    _initLayoutEvent(static_cast<Event::InitLayout&>(event));
+                    _initLayoutEvent(static_cast<System::Event::InitLayout&>(event));
                     break;
-                case Event::Type::PreLayout:
-                    _preLayoutEvent(static_cast<Event::PreLayout&>(event));
+                case System::Event::Type::PreLayout:
+                    _preLayoutEvent(static_cast<System::Event::PreLayout&>(event));
                     break;
-                case Event::Type::Layout:
-                    _layoutEvent(static_cast<Event::Layout&>(event));
+                case System::Event::Type::Layout:
+                    _layoutEvent(static_cast<System::Event::Layout&>(event));
                     break;
-                case Event::Type::Clip:
+                case System::Event::Type::Clip:
                 {
-                    auto& clipEvent = static_cast<Event::Clip&>(event);
+                    auto& clipEvent = static_cast<System::Event::Clip&>(event);
                     if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                     {
                         _parentsVisible = parent->_visible && parent->_parentsVisible;
@@ -568,7 +571,7 @@ namespace djv
                     {
                         _parentsVisible = true;
                         _clipped = false;
-                        _clipRect = BBox2f(0.F, 0.F, 0.F, 0.F);
+                        _clipRect = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
                     }
                     if (_clipped)
                     {
@@ -582,7 +585,7 @@ namespace djv
                     _clipEvent(clipEvent);
                     break;
                 }
-                case Event::Type::Paint:
+                case System::Event::Type::Paint:
                 {
                     if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                     {
@@ -597,32 +600,32 @@ namespace djv
                         float opacity = getOpacity(true);
                         opacity *= isEnabled(true) ? 1.F : _style->getPalette().getDisabledMult();
                         _render->setAlphaMult(opacity);
-                        _paintEvent(static_cast<Event::Paint&>(event));
+                        _paintEvent(static_cast<System::Event::Paint&>(event));
                     }
                     break;
                 }
-                case Event::Type::PaintOverlay:
+                case System::Event::Type::PaintOverlay:
                 {
                     if (!_visibleInit)
                     {
-                        _paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
+                        _paintOverlayEvent(static_cast<System::Event::PaintOverlay&>(event));
                     }
                     break;
                 }
-                case Event::Type::PointerEnter:
+                case System::Event::Type::PointerEnter:
                 {
-                    auto& pointerEvent = static_cast<Event::PointerEnter&>(event);
+                    auto& pointerEvent = static_cast<System::Event::PointerEnter&>(event);
                     const auto& info = pointerEvent.getPointerInfo();
                     const auto id = info.id;
                     _pointerHover[id] = info.projectedPos;
                     _pointerToTooltips[id] = TooltipData();
                     _pointerToTooltips[id].timer = _updateTime;
-                    _pointerEnterEvent(static_cast<Event::PointerEnter&>(event));
+                    _pointerEnterEvent(static_cast<System::Event::PointerEnter&>(event));
                     break;
                 }
-                case Event::Type::PointerLeave:
+                case System::Event::Type::PointerLeave:
                 {
-                    auto& pointerEvent = static_cast<Event::PointerLeave&>(event);
+                    auto& pointerEvent = static_cast<System::Event::PointerLeave&>(event);
                     const auto id = pointerEvent.getPointerInfo().id;
                     const auto i = _pointerHover.find(id);
                     if (i != _pointerHover.end())
@@ -634,12 +637,12 @@ namespace djv
                     {
                         _pointerToTooltips.erase(j);
                     }
-                    _pointerLeaveEvent(static_cast<Event::PointerLeave&>(event));
+                    _pointerLeaveEvent(static_cast<System::Event::PointerLeave&>(event));
                     break;
                 }
-                case Event::Type::PointerMove:
+                case System::Event::Type::PointerMove:
                 {
-                    auto& pointerEvent = static_cast<Event::PointerMove&>(event);
+                    auto& pointerEvent = static_cast<System::Event::PointerMove&>(event);
                     const auto& info = pointerEvent.getPointerInfo();
                     const auto id = info.id;
                     const auto i = _pointerToTooltips.find(id);
@@ -654,35 +657,35 @@ namespace djv
                         }
                     }
                     _pointerHover[id] = info.projectedPos;
-                    _pointerMoveEvent(static_cast<Event::PointerMove&>(event));
+                    _pointerMoveEvent(static_cast<System::Event::PointerMove&>(event));
                     break;
                 }
-                case Event::Type::ButtonPress:
-                    _buttonPressEvent(static_cast<Event::ButtonPress&>(event));
+                case System::Event::Type::ButtonPress:
+                    _buttonPressEvent(static_cast<System::Event::ButtonPress&>(event));
                     break;
-                case Event::Type::ButtonRelease:
-                    _buttonReleaseEvent(static_cast<Event::ButtonRelease&>(event));
+                case System::Event::Type::ButtonRelease:
+                    _buttonReleaseEvent(static_cast<System::Event::ButtonRelease&>(event));
                     break;
-                case Event::Type::Scroll:
-                    _scrollEvent(static_cast<Event::Scroll&>(event));
+                case System::Event::Type::Scroll:
+                    _scrollEvent(static_cast<System::Event::Scroll&>(event));
                     break;
-                case Event::Type::Drop:
-                    _dropEvent(static_cast<Event::Drop&>(event));
+                case System::Event::Type::Drop:
+                    _dropEvent(static_cast<System::Event::Drop&>(event));
                     break;
-                case Event::Type::KeyPress:
-                    _keyPressEvent(static_cast<Event::KeyPress&>(event));
+                case System::Event::Type::KeyPress:
+                    _keyPressEvent(static_cast<System::Event::KeyPress&>(event));
                     break;
-                case Event::Type::KeyRelease:
-                    _keyReleaseEvent(static_cast<Event::KeyRelease&>(event));
+                case System::Event::Type::KeyRelease:
+                    _keyReleaseEvent(static_cast<System::Event::KeyRelease&>(event));
                     break;
-                case Event::Type::TextFocus:
-                    _textFocusEvent(static_cast<Event::TextFocus&>(event));
+                case System::Event::Type::TextFocus:
+                    _textFocusEvent(static_cast<System::Event::TextFocus&>(event));
                     break;
-                case Event::Type::TextFocusLost:
-                    _textFocusLostEvent(static_cast<Event::TextFocusLost&>(event));
+                case System::Event::Type::TextFocusLost:
+                    _textFocusLostEvent(static_cast<System::Event::TextFocusLost&>(event));
                     break;
-                case Event::Type::TextInput:
-                    _textInputEvent(static_cast<Event::TextInput&>(event));
+                case System::Event::Type::TextInput:
+                    _textInputEvent(static_cast<System::Event::TextInput&>(event));
                     break;
                 default: break;
                 }
@@ -691,7 +694,7 @@ namespace djv
             return out;
         }
 
-        void Widget::_paintEvent(Event::Paint& event)
+        void Widget::_paintEvent(System::Event::Paint& event)
         {
             if (_backgroundRole != ColorRole::None)
             {
@@ -700,29 +703,29 @@ namespace djv
             }
         }
 
-        void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
+        void Widget::_paintOverlayEvent(System::Event::PaintOverlay& event)
         {
             if (!_shadowOverlay.empty())
             {
                 const auto& style = _getStyle();
                 const float ss = style->getMetric(MetricsRole::ShadowSmall);
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 _render->setFillColor(_style->getColor(ColorRole::Shadow));
                 for (const auto& i : _shadowOverlay)
                 {
                     switch (i)
                     {
                     case Side::Left:
-                        _render->drawShadow(BBox2f(g.min.x, g.min.y, ss, g.h()), AV::Side::Right);
+                        _render->drawShadow(Math::BBox2f(g.min.x, g.min.y, ss, g.h()), Render2D::Side::Right);
                         break;
                     case Side::Right:
-                        _render->drawShadow(BBox2f(g.max.x - ss, g.min.y, ss, g.h()), AV::Side::Left);
+                        _render->drawShadow(Math::BBox2f(g.max.x - ss, g.min.y, ss, g.h()), Render2D::Side::Left);
                         break;
                     case Side::Top:
-                        _render->drawShadow(BBox2f(g.min.x, g.min.y, g.w(), ss), AV::Side::Bottom);
+                        _render->drawShadow(Math::BBox2f(g.min.x, g.min.y, g.w(), ss), Render2D::Side::Bottom);
                         break;
                     case Side::Bottom:
-                        _render->drawShadow(BBox2f(g.min.x, g.max.y - ss, g.w(), ss), AV::Side::Top);
+                        _render->drawShadow(Math::BBox2f(g.min.x, g.max.y - ss, g.w(), ss), Render2D::Side::Top);
                         break;
                     default: break;
                     }
@@ -730,7 +733,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerEnterEvent(Event::PointerEnter& event)
+        void Widget::_pointerEnterEvent(System::Event::PointerEnter& event)
         {
             if (_pointerEnabled && !event.isRejected())
             {
@@ -738,7 +741,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerLeaveEvent(Event::PointerLeave& event)
+        void Widget::_pointerLeaveEvent(System::Event::PointerLeave& event)
         {
             if (_pointerEnabled)
             {
@@ -746,7 +749,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerMoveEvent(Event::PointerMove& event)
+        void Widget::_pointerMoveEvent(System::Event::PointerMove& event)
         {
             if (_pointerEnabled)
             {
@@ -754,7 +757,7 @@ namespace djv
             }
         }
 
-        void Widget::_keyPressEvent(Event::KeyPress& event)
+        void Widget::_keyPressEvent(System::Event::KeyPress& event)
         {
             switch (event.getKey())
             {

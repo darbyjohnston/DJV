@@ -36,7 +36,7 @@ namespace djv
             _xform = value;
         }
 
-        inline const Core::BBox3f& Scene::getBBox() const
+        inline const Math::BBox3f& Scene::getBBox() const
         {
             return _bbox;
         }

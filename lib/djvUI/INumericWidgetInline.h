@@ -11,13 +11,13 @@ namespace djv
         {}
 
         template<typename T>
-        inline const Core::Range::Range<T>& INumericWidget<T>::getRange() const
+        inline const Math::Range<T>& INumericWidget<T>::getRange() const
         {
             return _model->observeRange()->get();
         }
 
         template<typename T>
-        inline void INumericWidget<T>::setRange(const Core::Range::Range<T>& value)
+        inline void INumericWidget<T>::setRange(const Math::Range<T>& value)
         {
             _model->setRange(value);
         }
@@ -65,13 +65,13 @@ namespace djv
         }
 
         template<typename T>
-        inline const std::shared_ptr<Core::INumericValueModel<T> >& INumericWidget<T>::getModel() const
+        inline const std::shared_ptr<Math::INumericValueModel<T> >& INumericWidget<T>::getModel() const
         {
             return _model;
         }
 
         template<typename T>
-        inline void INumericWidget<T>::setModel(const std::shared_ptr<Core::INumericValueModel<T> >& value)
+        inline void INumericWidget<T>::setModel(const std::shared_ptr<Math::INumericValueModel<T> >& value)
         {
             _model = value;
             _isMinObserver = Core::ValueObserver<bool>::create(

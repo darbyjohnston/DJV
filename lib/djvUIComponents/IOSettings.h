@@ -20,14 +20,14 @@ namespace djv
                 DJV_NON_COPYABLE(IO);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>& context);
+                void _init(const std::shared_ptr<System::Context>& context);
 
                 IO();
 
             public:
                 ~IO() override;
 
-                static std::shared_ptr<IO> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<IO> create(const std::shared_ptr<System::Context>&);
 
                 std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
                 void setThreadCount(size_t);

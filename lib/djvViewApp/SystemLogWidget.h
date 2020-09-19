@@ -16,19 +16,19 @@ namespace djv
             DJV_NON_COPYABLE(SystemLogWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             SystemLogWidget();
 
         public:
             ~SystemLogWidget() override;
 
-            static std::shared_ptr<SystemLogWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<SystemLogWidget> create(const std::shared_ptr<System::Context>&);
 
             void reloadLog();
             void clearLog();
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             void _widgetUpdate();

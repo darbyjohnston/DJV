@@ -10,14 +10,14 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
 
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
 
     namespace ViewApp
     {
@@ -27,18 +27,18 @@ namespace djv
             DJV_NON_COPYABLE(RecentFilesDialog);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             RecentFilesDialog();
 
         public:
             ~RecentFilesDialog() override;
 
-            static std::shared_ptr<RecentFilesDialog> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<RecentFilesDialog> create(const std::shared_ptr<System::Context>&);
 
-            void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);
+            void setCallback(const std::function<void(const System::File::Info&)>&);
 
         protected:
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             std::string _getItemCountLabel(size_t) const;

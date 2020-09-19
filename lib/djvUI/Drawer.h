@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Drawer);
 
             protected:
-                void _init(Side, const std::shared_ptr<Core::Context>&);
+                void _init(Side, const std::shared_ptr<System::Context>&);
                 Drawer();
 
             public:
                 ~Drawer() override;
 
-                static std::shared_ptr<Drawer> create(Side, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Drawer> create(Side, const std::shared_ptr<System::Context>&);
 
                 Side getSide() const;
 
@@ -37,8 +37,8 @@ namespace djv
                 void setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();

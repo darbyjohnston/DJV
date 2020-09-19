@@ -8,7 +8,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -25,7 +25,7 @@ namespace djv
                 std::shared_ptr<VerticalLayout> layout;
             };
 
-            void GroupBox::_init(const std::shared_ptr<Context>& context)
+            void GroupBox::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -58,7 +58,7 @@ namespace djv
             GroupBox::~GroupBox()
             {}
 
-            std::shared_ptr<GroupBox> GroupBox::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<GroupBox> GroupBox::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<GroupBox>(new GroupBox);
                 out->_init(context);
@@ -95,12 +95,12 @@ namespace djv
                 _p->childLayout->clearChildren();
             }
 
-            void GroupBox::_preLayoutEvent(Event::PreLayout& event)
+            void GroupBox::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void GroupBox::_layoutEvent(Event::Layout& event)
+            void GroupBox::_layoutEvent(System::Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

@@ -4,28 +4,26 @@
 
 #pragma once
 
-#include <djvAV/ImageData.h>
-#include <djvAV/Render3D.h>
-#include <djvAV/Render3DMaterial.h>
+#include <djvRender3D/Render.h>
+#include <djvRender3D/Material.h>
+
+#include <djvImage/ImageData.h>
 
 #include <glm/mat4x4.hpp>
 
 namespace djv
 {
-    namespace AV
+    namespace Render3D
     {
-        namespace Render3D
-        {
-            class Render;
+        class Render;
 
-        } // namespace Render3D
-    } // namespace AV
+    } // namespace Render3D
 
-    namespace Core
+    namespace System
     {
         class Context;
 
-    } // namespace Core
+    } // namespace System
 
     //! This namespace provides scene functionality.
     namespace Scene
@@ -38,11 +36,11 @@ namespace djv
         //! This struct provides render options.
         struct RenderOptions
         {
-            std::shared_ptr<ICamera>            camera;
-            AV::Image::Size                     size;
-            Core::FloatRange                    clip;
-            AV::Render3D::DefaultMaterialMode   shaderMode      = AV::Render3D::DefaultMaterialMode::Default;
-            AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Reverse;
+            std::shared_ptr<ICamera>      camera;
+            Image::Size                   size;
+            Math::FloatRange              clip;
+            Render3D::DefaultMaterialMode shaderMode      = Render3D::DefaultMaterialMode::Default;
+            Render3D::DepthBufferMode     depthBufferMode = Render3D::DepthBufferMode::Reverse;
 
             bool operator == (const RenderOptions&) const;
         };
@@ -51,30 +49,30 @@ namespace djv
         class Render : public std::enable_shared_from_this<Render>
         {
             DJV_NON_COPYABLE(Render);
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             Render();
 
         public:
-            static std::shared_ptr<Render> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Render> create(const std::shared_ptr<System::Context>&);
 
             void setScene(const std::shared_ptr<Scene>&);
 
             void render(
-                const std::shared_ptr<AV::Render3D::Render>&,
+                const std::shared_ptr<Render3D::Render>&,
                 const RenderOptions&);
 
             size_t getPrimitivesCount() const;
             size_t getPointCount() const;
 
         private:
-            AV::Image::Color _getColor(const std::shared_ptr<IPrimitive>&) const;
+            Image::Color _getColor(const std::shared_ptr<IPrimitive>&) const;
             std::shared_ptr<IMaterial> _getMaterial(const std::shared_ptr<IPrimitive>&) const;
             const glm::mat4x4& _getCurrentTransform() const;
             void _pushTransform(const glm::mat4x4&);
             void _popTransform();
             void _prePass(
                 const std::shared_ptr<IPrimitive>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
 
             DJV_PRIVATE();
         };

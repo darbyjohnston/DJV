@@ -30,7 +30,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
-        void ComboBox::_init(const std::shared_ptr<Context>& context)
+        void ComboBox::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -102,7 +102,7 @@ namespace djv
         ComboBox::~ComboBox()
         {}
 
-        std::shared_ptr<ComboBox> ComboBox::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ComboBox> ComboBox::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ComboBox>(new ComboBox);
             out->_init(context);
@@ -249,17 +249,17 @@ namespace djv
             return _p->button->getFocusWidget();
         }
 
-        void ComboBox::_preLayoutEvent(Event::PreLayout& event)
+        void ComboBox::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void ComboBox::_layoutEvent(Event::Layout& event)
+        void ComboBox::_layoutEvent(System::Event::Layout& event)
         {
             _p->button->setGeometry(getGeometry());
         }
 
-        void ComboBox::_keyPressEvent(Event::KeyPress& event)
+        void ComboBox::_keyPressEvent(System::Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();

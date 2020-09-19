@@ -25,8 +25,9 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/NumericValueModels.h>
+#include <djvSystem/Context.h>
+
+#include <djvMath/NumericValueModels.h>
 
 using namespace djv::Core;
 
@@ -51,7 +52,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > viewZoomObserver;
         };
 
-        void ViewControlsViewWidget::_init(const std::shared_ptr<Context>& context)
+        void ViewControlsViewWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -59,7 +60,7 @@ namespace djv
             for (size_t i = 0; i < 2; ++i)
             {
                 auto edit = UI::FloatEdit::create(context);
-                edit->setRange(FloatRange(-1000000.F, 1000000.F));
+                edit->setRange(Math::FloatRange(-1000000.F, 1000000.F));
                 edit->setSmallIncrement(1.F);
                 edit->setLargeIncrement(10.F);
                 p.viewPosEdit[i] = edit;
@@ -69,7 +70,7 @@ namespace djv
                 p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
             }
             p.viewZoomEdit = UI::FloatEdit::create(context);
-            p.viewZoomEdit->setRange(FloatRange(.1F, 1000.F));
+            p.viewZoomEdit->setRange(Math::FloatRange(.1F, 1000.F));
             p.viewZoomEdit->setSmallIncrement(.1F);
             p.viewZoomEdit->setLargeIncrement(1.F);
             p.viewZoomResetButton = UI::ToolButton::create(context);
@@ -203,7 +204,7 @@ namespace djv
         ViewControlsViewWidget::~ViewControlsViewWidget()
         {}
 
-        std::shared_ptr<ViewControlsViewWidget> ViewControlsViewWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewControlsViewWidget> ViewControlsViewWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewControlsViewWidget>(new ViewControlsViewWidget);
             out->_init(context);
@@ -215,17 +216,17 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void ViewControlsViewWidget::_preLayoutEvent(Event::PreLayout&)
+        void ViewControlsViewWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsViewWidget::_layoutEvent(Event::Layout&)
+        void ViewControlsViewWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsViewWidget::_initEvent(Event::Init& event)
+        void ViewControlsViewWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -246,7 +247,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                 viewSettings->setLock(ViewLock::None);
                 p.viewPos = value;
@@ -263,7 +264,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                 viewSettings->setLock(ViewLock::None);
                 p.viewZoom = value;
@@ -300,12 +301,12 @@ namespace djv
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
         };
 
-        void ViewControlsGridWidget::_init(const std::shared_ptr<Context>& context)
+        void ViewControlsGridWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.gridOptions = viewSettings->observeGridOptions()->get();
 
@@ -315,7 +316,7 @@ namespace djv
             p.gridEnabledButton->setCheckedIcon("djvIconVisible");
             p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.gridSizeSlider = UI::IntSlider::create(context);
-            p.gridSizeSlider->setRange(IntRange(1, 500));
+            p.gridSizeSlider->setRange(Math::IntRange(1, 500));
             p.gridSizeSlider->setSmallIncrement(1);
             p.gridSizeSlider->setLargeIncrement(10);
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
@@ -337,7 +338,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ViewControlsGridWidget>(std::dynamic_pointer_cast<ViewControlsGridWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.gridEnabledButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -351,7 +352,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setGridOptions(widget->_p->gridOptions);
                         }
@@ -370,14 +371,14 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setGridOptions(widget->_p->gridOptions);
                         }
                     }
                 });
             p.gridColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
+                [weak, contextWeak](const Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -389,7 +390,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setGridOptions(widget->_p->gridOptions);
                         }
@@ -408,14 +409,14 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setGridOptions(widget->_p->gridOptions);
                         }
                     }
                 });
             p.gridLabelsColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
+                [weak, contextWeak](const Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -427,7 +428,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setGridOptions(widget->_p->gridOptions);
                         }
@@ -472,7 +473,7 @@ namespace djv
         ViewControlsGridWidget::~ViewControlsGridWidget()
         {}
 
-        std::shared_ptr<ViewControlsGridWidget> ViewControlsGridWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewControlsGridWidget> ViewControlsGridWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewControlsGridWidget>(new ViewControlsGridWidget);
             out->_init(context);
@@ -489,17 +490,17 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void ViewControlsGridWidget::_preLayoutEvent(Event::PreLayout&)
+        void ViewControlsGridWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsGridWidget::_layoutEvent(Event::Layout&)
+        void ViewControlsGridWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsGridWidget::_initEvent(Event::Init& event)
+        void ViewControlsGridWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -542,12 +543,12 @@ namespace djv
             std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
         };
 
-        void ViewControlsHUDWidget::_init(const std::shared_ptr<Context>& context)
+        void ViewControlsHUDWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.hudOptions = viewSettings->observeHUDOptions()->get();
 
@@ -570,7 +571,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ViewControlsHUDWidget>(std::dynamic_pointer_cast<ViewControlsHUDWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.hudEnabledButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -584,14 +585,14 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setHUDOptions(widget->_p->hudOptions);
                         }
                     }
                 });
             p.hudColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
+                [weak, contextWeak](const Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -603,7 +604,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setHUDOptions(widget->_p->hudOptions);
                         }
@@ -622,7 +623,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setHUDOptions(widget->_p->hudOptions);
                         }
@@ -667,7 +668,7 @@ namespace djv
         ViewControlsHUDWidget::~ViewControlsHUDWidget()
         {}
 
-        std::shared_ptr<ViewControlsHUDWidget> ViewControlsHUDWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewControlsHUDWidget> ViewControlsHUDWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewControlsHUDWidget>(new ViewControlsHUDWidget);
             out->_init(context);
@@ -684,17 +685,17 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void ViewControlsHUDWidget::_preLayoutEvent(Event::PreLayout&)
+        void ViewControlsHUDWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsHUDWidget::_layoutEvent(Event::Layout&)
+        void ViewControlsHUDWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsHUDWidget::_initEvent(Event::Init& event)
+        void ViewControlsHUDWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -739,12 +740,12 @@ namespace djv
             std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
-        void ViewControlsBackgroundWidget::_init(const std::shared_ptr<Context>& context)
+        void ViewControlsBackgroundWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.backgroundOptions = viewSettings->observeBackgroundOptions()->get();
 
@@ -753,7 +754,7 @@ namespace djv
             p.solidPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.solidPickerSwatch->setHAlign(UI::HAlign::Fill);
             p.checkersSizeSlider = UI::FloatSlider::create(context);
-            p.checkersSizeSlider->setRange(FloatRange(10.F, 100.F));
+            p.checkersSizeSlider->setRange(Math::FloatRange(10.F, 100.F));
             p.checkersSizeSlider->setSmallIncrement(1);
             p.checkersSizeSlider->setLargeIncrement(10);
             p.checkersColorPickerSwatches[0] = UI::ColorPickerSwatch::create(context);
@@ -787,7 +788,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ViewControlsBackgroundWidget>(std::dynamic_pointer_cast<ViewControlsBackgroundWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.backgroundComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -801,14 +802,14 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                     }
                 });
             p.solidPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
+                [weak, contextWeak](const Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -820,7 +821,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
@@ -839,14 +840,14 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                     }
                 });
             p.checkersColorPickerSwatches[0]->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
+                [weak, contextWeak](const Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -858,14 +859,14 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                     }
                 });
             p.checkersColorPickerSwatches[1]->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
+                [weak, contextWeak](const Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -877,7 +878,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
@@ -922,7 +923,7 @@ namespace djv
         ViewControlsBackgroundWidget::~ViewControlsBackgroundWidget()
         {}
 
-        std::shared_ptr<ViewControlsBackgroundWidget> ViewControlsBackgroundWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewControlsBackgroundWidget> ViewControlsBackgroundWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewControlsBackgroundWidget>(new ViewControlsBackgroundWidget);
             out->_init(context);
@@ -937,17 +938,17 @@ namespace djv
             p.checkersLayout->setLabelSizeGroup(value);
         }
 
-        void ViewControlsBackgroundWidget::_preLayoutEvent(Event::PreLayout&)
+        void ViewControlsBackgroundWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsBackgroundWidget::_layoutEvent(Event::Layout&)
+        void ViewControlsBackgroundWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsBackgroundWidget::_initEvent(Event::Init& event)
+        void ViewControlsBackgroundWidget::_initEvent(System::Event::Init& event)
         {
             if (event.getData().text)
             {
@@ -1001,7 +1002,7 @@ namespace djv
             std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
-        void ViewControlsBorderWidget::_init(const std::shared_ptr<Context>& context)
+        void ViewControlsBorderWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -1012,7 +1013,7 @@ namespace djv
             p.borderEnabledButton->setCheckedIcon("djvIconVisible");
             p.borderEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.borderWidthSlider = UI::FloatSlider::create(context);
-            p.borderWidthSlider->setRange(FloatRange(1.F, 20.F));
+            p.borderWidthSlider->setRange(Math::FloatRange(1.F, 20.F));
             p.borderWidthSlider->setSmallIncrement(1.F);
             p.borderWidthSlider->setLargeIncrement(5.F);
             p.borderColorPickerSwatch = UI::ColorPickerSwatch::create(context);
@@ -1028,7 +1029,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ViewControlsBorderWidget>(std::dynamic_pointer_cast<ViewControlsBorderWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.borderEnabledButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -1042,7 +1043,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
@@ -1061,14 +1062,14 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                     }
                 });
             p.borderColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
+                [weak, contextWeak](const Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -1080,7 +1081,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
@@ -1125,7 +1126,7 @@ namespace djv
         ViewControlsBorderWidget::~ViewControlsBorderWidget()
         {}
 
-        std::shared_ptr<ViewControlsBorderWidget> ViewControlsBorderWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewControlsBorderWidget> ViewControlsBorderWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewControlsBorderWidget>(new ViewControlsBorderWidget);
             out->_init(context);
@@ -1142,17 +1143,17 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void ViewControlsBorderWidget::_preLayoutEvent(Event::PreLayout&)
+        void ViewControlsBorderWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsBorderWidget::_layoutEvent(Event::Layout&)
+        void ViewControlsBorderWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsBorderWidget::_initEvent(Event::Init& event)
+        void ViewControlsBorderWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)

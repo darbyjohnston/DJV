@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(ActionButton);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 ActionButton();
 
             public:
                 ~ActionButton() override;
 
-                static std::shared_ptr<ActionButton> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<ActionButton> create(const std::shared_ptr<System::Context>&);
 
                 bool hasShowShortcuts() const;
                 void setShowShortcuts(bool);
@@ -39,12 +39,12 @@ namespace djv
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _keyPressEvent(Core::Event::KeyPress&) override;
-                void _textFocusEvent(Core::Event::TextFocus&) override;
-                void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _keyPressEvent(System::Event::KeyPress&) override;
+                void _textFocusEvent(System::Event::TextFocus&) override;
+                void _textFocusLostEvent(System::Event::TextFocusLost&) override;
 
             private:
                 void _actionUpdate();

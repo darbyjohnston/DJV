@@ -14,11 +14,12 @@
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileIO.h>
-#include <djvCore/Path.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/String.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileIOFunc.h>
+#include <djvSystem/Path.h>
+#include <djvSystem/ResourceSystem.h>
+
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 
@@ -37,7 +38,7 @@ namespace djv
             std::shared_ptr<UI::SearchBox> searchBox;
         };
 
-        void SystemLogWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void SystemLogWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -45,7 +46,7 @@ namespace djv
             setClassName("djv::ViewApp::SystemLogWidget");
 
             p.textBlock = UI::TextBlock::create(context);
-            p.textBlock->setFontFamily(AV::Font::familyMono);
+            p.textBlock->setFontFamily(Render2D::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.textBlock->setWordWrap(false);
             p.textBlock->setMargin(UI::MetricsRole::Margin);
@@ -78,7 +79,7 @@ namespace djv
             addChild(layout);
 
             auto weak = std::weak_ptr<SystemLogWidget>(std::dynamic_pointer_cast<SystemLogWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.copyButton->setClickedCallback(
                 [weak, contextWeak]
                 {
@@ -128,7 +129,7 @@ namespace djv
         SystemLogWidget::~SystemLogWidget()
         {}
 
-        std::shared_ptr<SystemLogWidget> SystemLogWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<SystemLogWidget> SystemLogWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<SystemLogWidget>(new SystemLogWidget);
             out->_init(context);
@@ -140,12 +141,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             try
             {
-                p.log = FileSystem::FileIO::readLines(std::string(
-                    _getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile)));
+                p.log = System::File::readLines(
+                    std::string(_getResourceSystem()->getPath(System::File::ResourcePath::LogFile)));
             }
             catch (const std::exception & e)
             {
-                _log(e.what(), LogLevel::Error);
+                _log(e.what(), System::LogLevel::Error);
             }
             _widgetUpdate();
         }
@@ -160,7 +161,7 @@ namespace djv
             }
         }
 
-        void SystemLogWidget::_initEvent(Event::Init & event)
+        void SystemLogWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

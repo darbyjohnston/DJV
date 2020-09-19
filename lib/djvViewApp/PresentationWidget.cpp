@@ -13,7 +13,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -24,15 +24,15 @@ namespace djv
         struct PresentationWidget::Private
         {
             ViewLock viewLock = ViewLock::First;
-            uint32_t pressedID = Event::invalidID;
+            uint32_t pressedID = System::Event::invalidID;
 
             //std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<UI::StackLayout> layout;
 
             std::function<void(void)> closeCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
@@ -40,7 +40,7 @@ namespace djv
             std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
         };
 
-        void PresentationWidget::_init(const std::shared_ptr<Context>& context)
+        void PresentationWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -139,7 +139,7 @@ namespace djv
                     });
             }*/
 
-            auto settings = context->getSystemT<UI::Settings::System>();
+            auto settings = context->getSystemT<UI::Settings::SettingsSystem>();
             /*if (auto viewSettings = settings->getSettingsT<ViewSettings>())
             {
                 p.viewLockObserver = ValueObserver<ViewLock>::create(
@@ -170,7 +170,7 @@ namespace djv
         PresentationWidget::~PresentationWidget()
         {}
 
-        std::shared_ptr<PresentationWidget> PresentationWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<PresentationWidget> PresentationWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PresentationWidget>(new PresentationWidget);
             out->_init(context);
@@ -182,17 +182,17 @@ namespace djv
             _p->closeCallback = value;
         }
 
-        void PresentationWidget::_preLayoutEvent(Event::PreLayout&)
+        void PresentationWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void PresentationWidget::_layoutEvent(Event::Layout&)
+        void PresentationWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void PresentationWidget::_buttonPressEvent(Event::ButtonPress& event)
+        void PresentationWidget::_buttonPressEvent(System::Event::ButtonPress& event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID)
@@ -202,20 +202,20 @@ namespace djv
             p.pressedID = info.id;
         }
 
-        void PresentationWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void PresentationWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getPointerInfo().id != p.pressedID)
                 return;
             event.accept();
-            p.pressedID = Event::invalidID;
+            p.pressedID = System::Event::invalidID;
             if (p.closeCallback)
             {
                 p.closeCallback();
             }
         }
 
-        void PresentationWidget::_initEvent(Event::Init & event)
+        void PresentationWidget::_initEvent(System::Event::Init & event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)

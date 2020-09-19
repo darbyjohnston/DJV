@@ -20,13 +20,13 @@ namespace djv
                 DJV_NON_COPYABLE(ColorSpace);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 ColorSpace();
 
             public:
                 ~ColorSpace() override;
 
-                static std::shared_ptr<ColorSpace> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<ColorSpace> create(const std::shared_ptr<System::Context>&);
 
                 void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

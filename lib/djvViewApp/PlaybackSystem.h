@@ -7,8 +7,6 @@
 #include <djvViewApp/Enum.h>
 #include <djvViewApp/IViewSystem.h>
 
-#include <djvCore/Time.h>
-
 namespace djv
 {
     namespace ViewApp
@@ -19,13 +17,13 @@ namespace djv
             DJV_NON_COPYABLE(PlaybackSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             PlaybackSystem();
 
         public:
             ~PlaybackSystem() override;
 
-            static std::shared_ptr<PlaybackSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<PlaybackSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

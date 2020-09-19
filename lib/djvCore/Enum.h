@@ -6,12 +6,30 @@
 
 #include <djvCore/Core.h>
 
-#include <sstream>
-#include <vector>
-
 //! This macro provides enum helpers.
+//!
+//! Required includes:
+//! - vector
 #define DJV_ENUM_HELPERS(name)  \
-    inline std::vector<name> get##name##Enums() \
+    std::vector<name> get##name##Enums()
+
+//! This macro provides enum serialziation helpers.
+//!
+//! Required includes:
+//! - sstream
+//!
+//! oeprator >> throws:
+//! - std::invalid_argument
+#define DJV_ENUM_SERIALIZE_HELPERS(name) \
+    std::ostream& operator << (std::ostream&, name); \
+    std::istream& operator >> (std::istream&, name&);
+
+//! This macro provides the enum helpers implementation.
+//!
+//! Required includes:
+//! - vector
+#define DJV_ENUM_HELPERS_IMPLEMENTATION(name)  \
+    std::vector<name> get##name##Enums() \
     { \
         std::vector<name> out; \
         for (size_t i = 0; i < static_cast<size_t>(name::Count); ++i) \
@@ -21,42 +39,22 @@
         return out; \
     }
 
-//! This macro provides enum serialziation helpers.
-//!
-//! oeprator >> throws:
-//! - std::invalid_argument
-#define DJV_ENUM_SERIALIZE_HELPERS(name) \
-    std::ostream& operator << (std::ostream&, name); \
-    std::istream& operator >> (std::istream&, name&);
-
-namespace djv
-{
-    namespace Core
-    {
-        //! This enumeration provides the log levels.
-        enum class LogLevel
-        {
-            Information,
-            Warning,
-            Error
-        };
-    }
-}
-
 //! This macro provides the enum serialziation helpers implementation.
+//!
 //! Required includes:
 //! - algorithm
+//! - array
 //! - sstream
+//!
 //! \todo How can we translate this?
 #define DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(prefix, name, ...) \
     \
     std::ostream& operator << (std::ostream& os, prefix::name value) \
     { \
-        const std::vector<std::string> data = \
+        const std::array<std::string, static_cast<size_t>(prefix::name::Count)> data = \
         { \
             __VA_ARGS__ \
         }; \
-        DJV_ASSERT(static_cast<size_t>(prefix::name::Count) == data.size()); \
         os << data[static_cast<size_t>(value)]; \
         return os; \
     } \
@@ -65,11 +63,10 @@ namespace djv
     { \
         std::string s; \
         is >> s; \
-        const std::vector<std::string> data = \
+        const std::array<std::string, static_cast<size_t>(prefix::name::Count)> data = \
         { \
             __VA_ARGS__ \
         }; \
-        DJV_ASSERT(static_cast<size_t>(prefix::name::Count) == data.size()); \
         const auto i = std::find(data.begin(), data.end(), s); \
         if (i == data.end()) \
         { \

@@ -33,13 +33,13 @@ namespace djv
                 }
 
                 std::shared_ptr<Write> Write::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const Info& info,
                     const WriteOptions& writeOptions,
                     const Options& options,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_p->options = options;

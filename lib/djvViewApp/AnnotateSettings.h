@@ -8,7 +8,7 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
@@ -16,14 +16,11 @@
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Color;
+        class Color;
 
-        } // namespace Image
-    } // namespace AV
+    } // namespace Image
 
     namespace ViewApp
     {
@@ -33,14 +30,14 @@ namespace djv
             DJV_NON_COPYABLE(AnnotateSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
 
             AnnotateSettings();
 
         public:
             ~AnnotateSettings() override;
 
-            static std::shared_ptr<AnnotateSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AnnotateSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<AnnotateTool> > observeTool() const;
             void setTool(AnnotateTool);
@@ -48,14 +45,14 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<AnnotateLineSize> > observeLineSize() const;
             void setLineSize(AnnotateLineSize);
 
-            std::shared_ptr<Core::IListSubject<AV::Image::Color> > observeColors() const;
-            void setColors(const std::vector<AV::Image::Color>&);
+            std::shared_ptr<Core::IListSubject<Image::Color> > observeColors() const;
+            void setColors(const std::vector<Image::Color>&);
 
             std::shared_ptr<Core::IValueSubject<int> > observeCurrentColor() const;
             void setCurrentColor(int);
 
-            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
-            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

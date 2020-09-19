@@ -7,7 +7,7 @@
 #include <djvUI/INumericWidget.h>
 #include <djvUI/NumericSlider.h>
 
-#include <djvCore/Range.h>
+#include <djvMath/Range.h>
 
 namespace djv
 {
@@ -19,15 +19,15 @@ namespace djv
             DJV_NON_COPYABLE(BasicFloatSlider);
 
         protected:
-            void _init(Orientation, const std::shared_ptr<Core::Context>&);
+            void _init(Orientation, const std::shared_ptr<System::Context>&);
             BasicFloatSlider();
 
         public:
             ~BasicFloatSlider() override;
 
-            static std::shared_ptr<BasicFloatSlider> create(Orientation, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<BasicFloatSlider> create(Orientation, const std::shared_ptr<System::Context>&);
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&) override;
+            void setModel(const std::shared_ptr<Math::INumericValueModel<float> >&) override;
 
         protected:
             void _pointerMove(float) override;
@@ -37,7 +37,7 @@ namespace djv
             void _scroll(float) override;
             void _valueUpdate() override;
 
-            void _paintEvent(Core::Event::Paint&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
         private:
             float _valueToPos(float) const override;
@@ -52,18 +52,18 @@ namespace djv
             DJV_NON_COPYABLE(FloatSlider);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             FloatSlider();
 
         public:
             ~FloatSlider() override;
 
-            static std::shared_ptr<FloatSlider> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FloatSlider> create(const std::shared_ptr<System::Context>&);
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&);
+            void setModel(const std::shared_ptr<Math::INumericValueModel<float> >&);
 
-            Core::FloatRange getRange() const;
-            void setRange(const Core::FloatRange&);
+            Math::FloatRange getRange() const;
+            void setRange(const Math::FloatRange&);
 
             float getValue() const;
             void setValue(float);
@@ -82,13 +82,13 @@ namespace djv
             const Core::Time::Duration& getDelay() const;
             void setDelay(const Core::Time::Duration&);
 
-            const std::shared_ptr<Core::INumericValueModel<float>>& getModel() const;
+            const std::shared_ptr<Math::INumericValueModel<float>>& getModel() const;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _modelUpdate();

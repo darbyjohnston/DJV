@@ -7,11 +7,10 @@
 #include <djvUI/Enum.h>
 #include <djvUI/Margin.h>
 
-#include <djvAV/Enum.h>
+#include <djvSystem/Event.h>
+#include <djvSystem/IObject.h>
 
-#include <djvCore/BBox.h>
-#include <djvCore/Event.h>
-#include <djvCore/IObject.h>
+#include <djvMath/BBox.h>
 
 #include <functional>
 #include <memory>
@@ -19,15 +18,11 @@
 
 namespace djv
 {
-    namespace AV
+    namespace Render2D
     {
-        namespace Render2D
-        {
-            class Render;
+        class Render;
 
-        } // namespace Render
-
-    } // namespace AV
+    } // namespace Render
 
     namespace UI
     {
@@ -38,19 +33,19 @@ namespace djv
         class Window;
 
         //! This class provides the base widget functionality.
-        class Widget : public Core::IObject
+        class Widget : public System::IObject
         {
             DJV_NON_COPYABLE(Widget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             Widget();
 
         public:
             ~Widget() override;
 
             //! Create a new widget.
-            static std::shared_ptr<Widget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Widget> create(const std::shared_ptr<System::Context>&);
 
             //! Get the top-level window.
             std::shared_ptr<Window> getWindow() const;
@@ -66,7 +61,7 @@ namespace djv
             void hide();
 
             bool isClipped() const;
-            const Core::BBox2f& getClipRect() const;
+            const Math::BBox2f& getClipRect() const;
 
             float getOpacity(bool parents = false) const;
             void setOpacity(float);
@@ -77,11 +72,11 @@ namespace djv
             ///@{
 
             const glm::vec2& getMinimumSize() const;
-            const Core::BBox2f& getGeometry() const;
+            const Math::BBox2f& getGeometry() const;
             glm::vec2 getSize() const;
             float getWidth() const;
             float getHeight() const;
-            void setGeometry(const Core::BBox2f&);
+            void setGeometry(const Math::BBox2f&);
             void move(const glm::vec2&);
             void resize(const glm::vec2&);
 
@@ -154,30 +149,30 @@ namespace djv
             void moveToFront() override;
             void moveToBack() override;
             void setEnabled(bool) override;
-            bool event(Core::Event::Event&) override;
+            bool event(System::Event::Event&) override;
 
         protected:
             //! \name Events
             ///@{
 
-            virtual void _initLayoutEvent(Core::Event::InitLayout&) {}
-            virtual void _preLayoutEvent(Core::Event::PreLayout&) {}
-            virtual void _layoutEvent(Core::Event::Layout&) {}
-            virtual void _clipEvent(Core::Event::Clip&) {}
-            virtual void _paintEvent(Core::Event::Paint&);
-            virtual void _paintOverlayEvent(Core::Event::PaintOverlay&);
-            virtual void _pointerEnterEvent(Core::Event::PointerEnter&);
-            virtual void _pointerLeaveEvent(Core::Event::PointerLeave&);
-            virtual void _pointerMoveEvent(Core::Event::PointerMove&);
-            virtual void _buttonPressEvent(Core::Event::ButtonPress&) {}
-            virtual void _buttonReleaseEvent(Core::Event::ButtonRelease&) {}
-            virtual void _scrollEvent(Core::Event::Scroll&) {}
-            virtual void _dropEvent(Core::Event::Drop&) {}
-            virtual void _keyPressEvent(Core::Event::KeyPress&);
-            virtual void _keyReleaseEvent(Core::Event::KeyRelease&) {}
-            virtual void _textFocusEvent(Core::Event::TextFocus&) {}
-            virtual void _textFocusLostEvent(Core::Event::TextFocusLost&) {}
-            virtual void _textInputEvent(Core::Event::TextInput&) {}
+            virtual void _initLayoutEvent(System::Event::InitLayout&) {}
+            virtual void _preLayoutEvent(System::Event::PreLayout&) {}
+            virtual void _layoutEvent(System::Event::Layout&) {}
+            virtual void _clipEvent(System::Event::Clip&) {}
+            virtual void _paintEvent(System::Event::Paint&);
+            virtual void _paintOverlayEvent(System::Event::PaintOverlay&);
+            virtual void _pointerEnterEvent(System::Event::PointerEnter&);
+            virtual void _pointerLeaveEvent(System::Event::PointerLeave&);
+            virtual void _pointerMoveEvent(System::Event::PointerMove&);
+            virtual void _buttonPressEvent(System::Event::ButtonPress&) {}
+            virtual void _buttonReleaseEvent(System::Event::ButtonRelease&) {}
+            virtual void _scrollEvent(System::Event::Scroll&) {}
+            virtual void _dropEvent(System::Event::Drop&) {}
+            virtual void _keyPressEvent(System::Event::KeyPress&);
+            virtual void _keyReleaseEvent(System::Event::KeyRelease&) {}
+            virtual void _textFocusEvent(System::Event::TextFocus&) {}
+            virtual void _textFocusLostEvent(System::Event::TextFocusLost&) {}
+            virtual void _textInputEvent(System::Event::TextInput&) {}
             
             ///@}
 
@@ -185,7 +180,7 @@ namespace djv
             ///@{
 
             const std::weak_ptr<EventSystem>& _getEventSystem() const;
-            const std::shared_ptr<AV::Render2D::Render>& _getRender() const;
+            const std::shared_ptr<Render2D::Render>& _getRender() const;
             const std::shared_ptr<Style::Style>& _getStyle() const;
 
             ///@}
@@ -200,7 +195,7 @@ namespace djv
             void _setMinimumSize(const glm::vec2&);
 
             const std::chrono::steady_clock::time_point& _getUpdateTime();
-            const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
+            const std::map<System::Event::PointerID, glm::vec2> _getPointerHover() const;
 
             std::string _getTooltipText() const;
             std::shared_ptr<ITooltipWidget> _createTooltipDefault();
@@ -215,11 +210,11 @@ namespace djv
             bool                _visibleInit     = true;
             bool                _parentsVisible  = true;
             bool                _clipped         = false;
-            Core::BBox2f        _clipRect        = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
+            Math::BBox2f        _clipRect        = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
             float               _opacity         = 1.F;
             float               _parentsOpacity  = 1.F;
 
-            Core::BBox2f        _geometry        = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
+            Math::BBox2f        _geometry        = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
             glm::vec2           _minimumSize     = glm::vec2(0.F, 0.F);
             Layout::Margin      _margin;
             HAlign              _hAlign          = HAlign::Fill;
@@ -229,7 +224,7 @@ namespace djv
             std::set<Side>      _shadowOverlay;
 
             bool _pointerEnabled = false;
-            std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
+            std::map<System::Event::PointerID, glm::vec2> _pointerHover;
 
             std::vector<std::shared_ptr<Action> > _actions;
 
@@ -239,10 +234,10 @@ namespace djv
                 std::chrono::steady_clock::time_point timer;
                 std::shared_ptr<Tooltip> tooltip;
             };
-            std::map<Core::Event::PointerID, TooltipData> _pointerToTooltips;
+            std::map<System::Event::PointerID, TooltipData> _pointerToTooltips;
 
             std::weak_ptr<EventSystem> _eventSystem;
-            std::shared_ptr<AV::Render2D::Render> _render;
+            std::shared_ptr<Render2D::Render> _render;
             std::shared_ptr<Style::Style> _style;
 
             friend class EventSystem;

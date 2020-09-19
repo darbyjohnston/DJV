@@ -35,10 +35,10 @@ namespace djv
                     ~Read() override;
 
                     static std::shared_ptr<Read> create(
-                        const Core::FileSystem::FileInfo&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const System::File::Info&,
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                     std::future<Info> getInfo() override;
                     std::future<std::shared_ptr<Scene> > getScene() override;
@@ -58,12 +58,12 @@ namespace djv
                 public:
                     ~Plugin() override;
 
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
                     rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
                     void setOptions(const rapidjson::Value&) override;
 
-                    std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&) const override;
+                    std::shared_ptr<IRead> read(const System::File::Info&) const override;
 
                 private:
                     DJV_PRIVATE();

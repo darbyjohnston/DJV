@@ -8,11 +8,11 @@
 #include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/FontSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Timer.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -34,7 +34,7 @@ namespace djv
 
         struct LineEditBase::Private
         {
-            std::shared_ptr<AV::Font::System> fontSystem;
+            std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
 
             std::string text;
             std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32Convert;
@@ -45,8 +45,8 @@ namespace djv
             std::string font;
             std::string fontFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
-            AV::Font::Metrics fontMetrics;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
+            Render2D::Font::Metrics fontMetrics;
+            std::future<Render2D::Font::Metrics> fontMetricsFuture;
             
             glm::vec2 textSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> textSizeFuture;
@@ -57,21 +57,21 @@ namespace djv
             float viewOffset = 0.F;
             size_t cursorPos = 0;
             size_t selectionAnchor = std::string::npos;
-            std::future<std::vector<BBox2f> > glyphGeomFuture;
-            std::vector<BBox2f> glyphGeom;
-            std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
-            std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
+            std::future<std::vector<Math::BBox2f> > glyphGeomFuture;
+            std::vector<Math::BBox2f> glyphGeom;
+            std::vector<std::shared_ptr<Render2D::Font::Glyph> > glyphs;
+            std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > glyphsFuture;
             bool cursorBlink = false;
-            Event::PointerID pressedID = Event::invalidID;
+            System::Event::PointerID pressedID = System::Event::invalidID;
 
-            std::shared_ptr<Time::Timer> cursorBlinkTimer;
+            std::shared_ptr<System::Timer> cursorBlinkTimer;
             
             std::function<void(std::string)> textChangedCallback;
             std::function<void(const std::string&, TextEditReason)> textEditCallback;
             std::function<void(bool)> focusCallback;
         };
 
-        void LineEditBase::_init(const std::shared_ptr<Context>& context)
+        void LineEditBase::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -82,9 +82,9 @@ namespace djv
             setPointerEnabled(true);
             setBackgroundRole(UI::ColorRole::Trough);
 
-            p.fontSystem = context->getSystemT<AV::Font::System>();
+            p.fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
 
-            p.cursorBlinkTimer = Time::Timer::create(context);
+            p.cursorBlinkTimer = System::Timer::create(context);
             p.cursorBlinkTimer->setRepeating(true);
 
             _textUpdate();
@@ -97,7 +97,7 @@ namespace djv
         LineEditBase::~LineEditBase()
         {}
 
-        std::shared_ptr<LineEditBase> LineEditBase::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<LineEditBase> LineEditBase::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<LineEditBase>(new LineEditBase);
             out->_init(context);
@@ -239,7 +239,7 @@ namespace djv
             return out;
         }
 
-        void LineEditBase::_preLayoutEvent(Event::PreLayout& event)
+        void LineEditBase::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -249,10 +249,10 @@ namespace djv
             _setMinimumSize(size + m * 2.F + getMargin().getSize(style));
         }
 
-        void LineEditBase::_layoutEvent(Event::Layout&)
+        void LineEditBase::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const glm::vec2 size = g.getSize();
             if (size != p.widgetSize)
             {
@@ -262,7 +262,7 @@ namespace djv
             _viewUpdate();
         }
 
-        void LineEditBase::_clipEvent(Event::Clip& event)
+        void LineEditBase::_clipEvent(System::Event::Clip& event)
         {
             if (isClipped())
             {
@@ -271,12 +271,12 @@ namespace djv
             }
         }
 
-        void LineEditBase::_paintEvent(Event::Paint& event)
+        void LineEditBase::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
@@ -297,7 +297,7 @@ namespace djv
                     }
                     else
                     {
-                        const BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
+                        const Math::BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
                         x0 = geom.min.x + geom.w();
                     }
                     if (p.selectionAnchor < glyphGeomSize)
@@ -306,7 +306,7 @@ namespace djv
                     }
                     else
                     {
-                        const BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
+                        const Math::BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
                         x1 = geom.min.x + geom.w();
                     }
                 }
@@ -316,7 +316,7 @@ namespace djv
                     x0 = x1;
                     x1 = tmp;
                 }
-                render->drawRect(BBox2f(
+                render->drawRect(Math::BBox2f(
                     g.min.x + m + x0 - p.viewOffset,
                     g.min.y + m,
                     x1 - x0,
@@ -347,12 +347,12 @@ namespace djv
                     }
                     else
                     {
-                        const BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
+                        const Math::BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
                         x = geom.min.x + geom.w();
                     }
                 }
                 render->setFillColor(style->getColor(p.textColorRole));
-                render->drawRect(BBox2f(
+                render->drawRect(Math::BBox2f(
                     g.min.x + m + x - p.viewOffset,
                     g.min.y + m,
                     b,
@@ -360,7 +360,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_pointerEnterEvent(Event::PointerEnter& event)
+        void LineEditBase::_pointerEnterEvent(System::Event::PointerEnter& event)
         {
             if (!event.isRejected())
             {
@@ -368,12 +368,12 @@ namespace djv
             }
         }
 
-        void LineEditBase::_pointerLeaveEvent(Event::PointerLeave& event)
+        void LineEditBase::_pointerLeaveEvent(System::Event::PointerLeave& event)
         {
             event.accept();
         }
 
-        void LineEditBase::_pointerMoveEvent(Event::PointerMove& event)
+        void LineEditBase::_pointerMoveEvent(System::Event::PointerMove& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -381,7 +381,7 @@ namespace djv
             if (pointerInfo.id == p.pressedID)
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 float x = event.getPointerInfo().projectedPos.x - g.min.x - m + p.viewOffset;
                 size_t cursorPos = 0;
@@ -405,7 +405,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_buttonPressEvent(Event::ButtonPress& event)
+        void LineEditBase::_buttonPressEvent(System::Event::ButtonPress& event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID || !isEnabled(true))
@@ -415,7 +415,7 @@ namespace djv
             const auto& pointerInfo = event.getPointerInfo();
             p.pressedID = pointerInfo.id;
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             float x = event.getPointerInfo().projectedPos.x - g.min.x - m + p.viewOffset;
             size_t cursorPos = 0;
@@ -433,18 +433,18 @@ namespace djv
             _viewUpdate();
         }
 
-        void LineEditBase::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void LineEditBase::_buttonReleaseEvent(System::Event::ButtonRelease& event)
         {
             DJV_PRIVATE_PTR();
             const auto& pointerInfo = event.getPointerInfo();
             if (pointerInfo.id == p.pressedID)
             {
                 event.accept();
-                p.pressedID = Event::invalidID;
+                p.pressedID = System::Event::invalidID;
             }
         }
 
-        void LineEditBase::_keyPressEvent(Event::KeyPress& event)
+        void LineEditBase::_keyPressEvent(System::Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
@@ -673,7 +673,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_textFocusEvent(Event::TextFocus& event)
+        void LineEditBase::_textFocusEvent(System::Event::TextFocus& event)
         {
             event.accept();
             _cursorUpdate();
@@ -681,7 +681,7 @@ namespace djv
             _doFocusCallback(true);
         }
 
-        void LineEditBase::_textFocusLostEvent(Event::TextFocusLost& event)
+        void LineEditBase::_textFocusLostEvent(System::Event::TextFocusLost& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -692,7 +692,7 @@ namespace djv
             _doFocusCallback(false);
         }
 
-        void LineEditBase::_textInputEvent(Event::TextInput& event)
+        void LineEditBase::_textInputEvent(System::Event::TextInput& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -716,7 +716,7 @@ namespace djv
             _doTextChangedCallback();
         }
 
-        void LineEditBase::_initEvent(Event::Init& event)
+        void LineEditBase::_initEvent(System::Event::Init& event)
         {
             if (event.getData().resize || event.getData().font)
             {
@@ -727,7 +727,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_updateEvent(Event::Update& event)
+        void LineEditBase::_updateEvent(System::Event::Update& event)
         {
             DJV_PRIVATE_PTR();
             if (p.fontMetricsFuture.valid() &&
@@ -740,7 +740,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             if (p.textSizeFuture.valid() &&
@@ -753,7 +753,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             if (p.sizeStringFuture.valid() &&
@@ -766,7 +766,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             if (p.glyphGeomFuture.valid() &&
@@ -780,7 +780,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             if (p.glyphsFuture.valid() &&
@@ -793,7 +793,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
         }
@@ -809,7 +809,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << "Error converting string: " << e.what();
-                _log(ss.str(), LogLevel::Error);
+                _log(ss.str(), System::LogLevel::Error);
             }
             return out;
         }
@@ -837,15 +837,15 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << "Error converting string" << " '" << value << "': " << e.what();
-                _log(ss.str(), LogLevel::Error);
+                _log(ss.str(), System::LogLevel::Error);
             }
             return out;
         }
 
-        SizeTRange LineEditBase::_getSelection() const
+        Math::SizeTRange LineEditBase::_getSelection() const
         {
             DJV_PRIVATE_PTR();
-            return SizeTRange(p.cursorPos, p.selectionAnchor);
+            return Math::SizeTRange(p.cursorPos, p.selectionAnchor);
         }
 
         void LineEditBase::_textUpdate()
@@ -913,7 +913,7 @@ namespace djv
                 float viewOffset = p.viewOffset;
 
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 float xMin = 0.F;
                 float xMax = 0.F;

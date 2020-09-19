@@ -18,23 +18,23 @@ namespace djv
                 DJV_NON_COPYABLE(Popup);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Popup();
 
             public:
                 ~Popup() override;
 
-                static std::shared_ptr<Popup> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Popup> create(const std::shared_ptr<System::Context>&);
 
                 void setButton(const std::weak_ptr<Widget>&);
                 void setPopupDefault(UI::Popup);
                 void clearPopups();
 
             protected:
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
-                void _childRemovedEvent(Core::Event::ChildRemoved&) override;
+                void _childRemovedEvent(System::Event::ChildRemoved&) override;
 
             private:
                 DJV_PRIVATE();

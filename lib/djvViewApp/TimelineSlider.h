@@ -8,19 +8,17 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/Frame.h>
+#include <djvMath/FrameNumber.h>
+
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace AV
+    namespace Render2D
     {
-        namespace Render2D
-        {
-            class ImageOptions;
-    
-        } // namespace Render2D
-    } // namespace AV
+        class ImageOptions;
+
+    } // namespace Render2D
 
     namespace ViewApp
     {
@@ -32,50 +30,50 @@ namespace djv
             DJV_NON_COPYABLE(TimelineSlider);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             TimelineSlider();
 
         public:
             ~TimelineSlider() override;
 
-            static std::shared_ptr<TimelineSlider> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TimelineSlider> create(const std::shared_ptr<System::Context>&);
 
             void setMedia(const std::shared_ptr<Media>&);
             void setInOutPointsEnabled(bool);
-            void setInPoint(Core::Frame::Index);
-            void setOutPoint(Core::Frame::Index);
+            void setInPoint(Math::Frame::Index);
+            void setOutPoint(Math::Frame::Index);
             void setCacheEnabled(bool);
-            void setCacheSequence(const Core::Frame::Sequence&);
-            void setCachedFrames(const Core::Frame::Sequence&);
-            void setImageOptions(const AV::Render2D::ImageOptions&);
+            void setCacheSequence(const Math::Frame::Sequence&);
+            void setCachedFrames(const Math::Frame::Sequence&);
+            void setImageOptions(const Render2D::ImageOptions&);
             void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 
-            void setCurrentFrameCallback(const std::function<void(Core::Frame::Index)>&);
+            void setCurrentFrameCallback(const std::function<void(Math::Frame::Index)>&);
             void setCurrentFrameDragCallback(const std::function<void(bool)>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint &) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-            void _pointerMoveEvent(Core::Event::PointerMove &) override;
-            void _buttonPressEvent(Core::Event::ButtonPress &) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint &) override;
+            void _pointerEnterEvent(System::Event::PointerEnter &) override;
+            void _pointerLeaveEvent(System::Event::PointerLeave &) override;
+            void _pointerMoveEvent(System::Event::PointerMove &) override;
+            void _buttonPressEvent(System::Event::ButtonPress &) override;
+            void _buttonReleaseEvent(System::Event::ButtonRelease &) override;
 
-            void _initEvent(Core::Event::Init&) override;
-            void _updateEvent(Core::Event::Update &) override;
+            void _initEvent(System::Event::Init&) override;
+            void _updateEvent(System::Event::Update &) override;
 
         private:
             bool _isPIPEnabled() const;
-            Core::Frame::Index _posToFrame(float) const;
-            float _frameToPos(Core::Frame::Index) const;
+            Math::Frame::Index _posToFrame(float) const;
+            float _frameToPos(Math::Frame::Index) const;
             float _getFrameLength() const;
             float _getSecondLength() const;
             float _getMinuteLength() const;
             float _getHourLength() const;
-            Core::BBox2f _getHandleGeometry() const;
+            Math::BBox2f _getHandleGeometry() const;
             void _textUpdate();
             void _currentFrameUpdate();
             void _showPIP(bool);

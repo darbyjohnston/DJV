@@ -10,8 +10,8 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/DirectoryModel.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/DirectoryModel.h>
 
 using namespace djv::Core;
 
@@ -29,16 +29,16 @@ namespace djv
                 std::map<std::string, std::shared_ptr<Bellows> > bellows;
                 std::shared_ptr<VerticalLayout> layout;
 
-                std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
+                std::shared_ptr<ValueObserver<System::File::Path> > pathObserver;
                 std::shared_ptr<MapObserver<std::string, bool> > pathsBellowsStateObserver;
             };
 
             void DrawerWidget::_init(
-                const std::shared_ptr<FileSystem::DirectoryModel>& directoryModel,
+                const std::shared_ptr<System::File::DirectoryModel>& directoryModel,
                 const std::shared_ptr<ShortcutsModel>& shortcutsModel,
-                const std::shared_ptr<FileSystem::RecentFilesModel>& recentFilesModel,
-                const std::shared_ptr<FileSystem::DrivesModel>& drivesModel,
-                const std::shared_ptr<Context>& context)
+                const std::shared_ptr<System::File::RecentFilesModel>& recentFilesModel,
+                const std::shared_ptr<System::File::DrivesModel>& drivesModel,
+                const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -66,26 +66,26 @@ namespace djv
 
                 auto weak = std::weak_ptr<DrawerWidget>(std::dynamic_pointer_cast<DrawerWidget>(shared_from_this()));
                 p.shortcutsWidget->setCallback(
-                    [directoryModel](const FileSystem::Path& value)
+                    [directoryModel](const System::File::Path& value)
                     {
                         directoryModel->setPath(value);
                     });
 
                 recentPathsWidget->setCallback(
-                    [directoryModel](const FileSystem::Path& value)
+                    [directoryModel](const System::File::Path& value)
                     {
                         directoryModel->setPath(value);
                     });
 
                 drivesWidget->setCallback(
-                    [directoryModel](const FileSystem::Path& value)
+                    [directoryModel](const System::File::Path& value)
                     {
                         directoryModel->setPath(value);
                     });
 
-                p.pathObserver = ValueObserver<FileSystem::Path>::create(
+                p.pathObserver = ValueObserver<System::File::Path>::create(
                     directoryModel->observePath(),
-                    [weak](const FileSystem::Path& value)
+                    [weak](const System::File::Path& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -93,7 +93,7 @@ namespace djv
                         }
                     });
 
-                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                 p.pathsBellowsStateObserver = MapObserver<std::string, bool>::create(
                     fileBrowserSettings->observePathsBellowsState(),
@@ -133,28 +133,28 @@ namespace djv
             {}
 
             std::shared_ptr<DrawerWidget> DrawerWidget::create(
-                const std::shared_ptr<FileSystem::DirectoryModel>& directoryModel,
+                const std::shared_ptr<System::File::DirectoryModel>& directoryModel,
                 const std::shared_ptr<ShortcutsModel>& shortcutsModel,
-                const std::shared_ptr<FileSystem::RecentFilesModel>& recentFilesModel,
-                const std::shared_ptr<FileSystem::DrivesModel>& drivesModel,
-                const std::shared_ptr<Context>& context)
+                const std::shared_ptr<System::File::RecentFilesModel>& recentFilesModel,
+                const std::shared_ptr<System::File::DrivesModel>& drivesModel,
+                const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<DrawerWidget>(new DrawerWidget);
                 out->_init(directoryModel, shortcutsModel, recentFilesModel, drivesModel, context);
                 return out;
             }
 
-            void DrawerWidget::_preLayoutEvent(Event::PreLayout& event)
+            void DrawerWidget::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void DrawerWidget::_layoutEvent(Event::Layout& event)
+            void DrawerWidget::_layoutEvent(System::Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void DrawerWidget::_initEvent(Event::Init& event)
+            void DrawerWidget::_initEvent(System::Event::Init& event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
@@ -177,7 +177,7 @@ namespace djv
                         {
                             state[i.first] = i.second->isOpen();
                         }
-                        auto settingsSystem = context->getSystemT<Settings::System>();
+                        auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                         auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                         fileBrowserSettings->setPathsBellowsState(state);
                     }

@@ -8,7 +8,7 @@
 #include <djvUI/LineEditBase.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -21,7 +21,7 @@ namespace djv
             std::shared_ptr<LineEditBase> lineEditBase;
         };
 
-        void LineEdit::_init(const std::shared_ptr<Context>& context)
+        void LineEdit::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -51,7 +51,7 @@ namespace djv
         LineEdit::~LineEdit()
         {}
 
-        std::shared_ptr<LineEdit> LineEdit::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<LineEdit> LineEdit::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<LineEdit>(new LineEdit);
             out->_init(context);
@@ -154,7 +154,7 @@ namespace djv
             return _p->lineEditBase->getFocusWidget();
         }
         
-        void LineEdit::_preLayoutEvent(Event::PreLayout& event)
+        void LineEdit::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -163,23 +163,23 @@ namespace djv
             _setMinimumSize(size + btf * 2.F + getMargin().getSize(style));
         }
 
-        void LineEdit::_layoutEvent(Event::Layout& event)
+        void LineEdit::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
-            const BBox2f g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
             p.lineEditBase->setGeometry(g.margin(-btf));
         }
 
-        void LineEdit::_paintEvent(Event::Paint& event)
+        void LineEdit::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
-            const BBox2f g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
             const auto& render = _getRender();
             if (p.lineEditBase->hasTextFocus())
             {

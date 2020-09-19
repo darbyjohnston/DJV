@@ -13,7 +13,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -28,7 +28,7 @@ namespace djv
             std::shared_ptr<ValueObserver<ScrollWheelSpeed> > scrollWheelSpeedObserver;
         };
 
-        void MouseScrollWheelSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void MouseScrollWheelSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -42,7 +42,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MouseScrollWheelSettingsWidget>(std::dynamic_pointer_cast<MouseScrollWheelSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.scrollWheelSpeedComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -50,7 +50,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>())
                             {
                                 mouseSettings->setScrollWheelSpeed(static_cast<ScrollWheelSpeed>(value));
@@ -59,7 +59,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>())
             {
                 p.scrollWheelSpeedObserver = ValueObserver<ScrollWheelSpeed>::create(
@@ -78,7 +78,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<MouseScrollWheelSettingsWidget> MouseScrollWheelSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<MouseScrollWheelSettingsWidget> MouseScrollWheelSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MouseScrollWheelSettingsWidget>(new MouseScrollWheelSettingsWidget);
             out->_init(context);
@@ -100,7 +100,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void MouseScrollWheelSettingsWidget::_initEvent(Event::Init& event)
+        void MouseScrollWheelSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -123,7 +123,7 @@ namespace djv
                     ss << i;
                     items.push_back(_getText(ss.str()));
                 }
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
                 p.scrollWheelSpeedComboBox->setItems(items);
                 p.scrollWheelSpeedComboBox->setCurrentItem(static_cast<int>(mouseSettings->observeScrollWheelSpeed()->get()));

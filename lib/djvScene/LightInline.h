@@ -40,12 +40,12 @@ namespace djv
             return _up;
         }
 
-        inline const AV::Image::Color& HemisphereLight::getTopColor() const
+        inline const Image::Color& HemisphereLight::getTopColor() const
         {
             return _topColor;
         }
 
-        inline const AV::Image::Color& HemisphereLight::getBottomColor() const
+        inline const Image::Color& HemisphereLight::getBottomColor() const
         {
             return _bottomColor;
         }
@@ -55,12 +55,12 @@ namespace djv
             _up = value;
         }
 
-        inline void HemisphereLight::setTopColor(const AV::Image::Color& value)
+        inline void HemisphereLight::setTopColor(const Image::Color& value)
         {
             _topColor = value;
         }
 
-        inline void HemisphereLight::setBottomColor(const AV::Image::Color& value)
+        inline void HemisphereLight::setBottomColor(const Image::Color& value)
         {
             _bottomColor = value;
         }

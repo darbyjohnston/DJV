@@ -6,11 +6,13 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/Image.h>
-#include <djvAV/OCIOSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvOCIO/OCIOSystem.h>
+
+#include <djvImage/Image.h>
+
+#include <djvSystem/Context.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -23,36 +25,36 @@ namespace djv
     {
         struct ImageWidget::Private
         {
-            std::shared_ptr<AV::Image::Image> image;
-            AV::Render2D::ImageOptions imageOptions;
+            std::shared_ptr<Image::Image> image;
+            Render2D::ImageOptions imageOptions;
             ImageRotate imageRotate = ImageRotate::_0;
             ImageAspectRatio imageAspectRatio = ImageAspectRatio::FromSource;
             ColorRole imageColorRole = ColorRole::None;
             MetricsRole sizeRole = MetricsRole::None;
-            AV::OCIO::Config ocioConfig;
+            OCIO::Config ocioConfig;
             std::string outputColorSpace;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
         };
 
-        void ImageWidget::_init(const std::shared_ptr<Context>& context)
+        void ImageWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::ImageWidget");
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
             auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+            auto contextWeak = std::weak_ptr<System::Context>(context);
+            p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
-                [weak, contextWeak](const AV::OCIO::Config& value)
+                [weak, contextWeak](const OCIO::Config& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                             widget->_p->ocioConfig = value;
                             widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
                             widget->_redraw();
@@ -68,19 +70,19 @@ namespace djv
         ImageWidget::~ImageWidget()
         {}
 
-        std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ImageWidget>(new ImageWidget);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<AV::Image::Image>& ImageWidget::getImage() const
+        const std::shared_ptr<Image::Image>& ImageWidget::getImage() const
         {
             return _p->image;
         }
 
-        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value)
+        void ImageWidget::setImage(const std::shared_ptr<Image::Image>& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.image)
@@ -89,7 +91,7 @@ namespace djv
             _resize();
         }
 
-        void ImageWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
+        void ImageWidget::setImageOptions(const Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.imageOptions)
@@ -145,7 +147,7 @@ namespace djv
         }
 
         glm::mat3x3 ImageWidget::getXForm(
-            const std::shared_ptr<AV::Image::Image>& image,
+            const std::shared_ptr<Image::Image>& image,
             UI::ImageRotate rotate,
             const glm::vec2& scale,
             UI::ImageAspectRatio imageAspectRatio)
@@ -172,7 +174,7 @@ namespace djv
             return m;
         }
 
-        void ImageWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ImageWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size(0.F, 0.F);
@@ -216,14 +218,14 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void ImageWidget::_paintEvent(Event::Paint& event)
+        void ImageWidget::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             if (p.image)
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
                 const auto& info = p.image->getInfo();
                 glm::vec2 size(0.F, 0.F);
@@ -257,8 +259,8 @@ namespace djv
                 default: break;
                 }
 
-                AV::Render2D::ImageOptions options = p.imageOptions;
-                options.cache = AV::Render2D::ImageCache::Dynamic;
+                Render2D::ImageOptions options = p.imageOptions;
+                options.cache = Render2D::ImageCache::Dynamic;
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);
                 m *= getXForm(
@@ -287,7 +289,7 @@ namespace djv
                 switch (p.imageColorRole)
                 {
                 case ColorRole::None:
-                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, getOpacity(true)));
+                    render->setFillColor(Image::Color(1.F, 1.F, 1.F, getOpacity(true)));
                     render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                     break;
                 default:

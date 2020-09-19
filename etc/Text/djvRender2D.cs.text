@@ -1,0 +1,26 @@
+{
+    "render2d_alpha_none": "Žádný",
+    "render2d_alpha_premultiplied": "Předběžné použití",
+    "render2d_alpha_straight": "Rovný",
+    "render2d_side_bottom": "Dno",
+    "render2d_side_left": "Vlevo, odjet",
+    "render2d_side_none": "Žádný",
+    "render2d_side_right": "Že jo",
+    "render2d_side_top": "Horní",
+    "error_cannot_parse_the_value": "Nelze analyzovat hodnotu.",
+    "render2d_filter_linear": "Lineární",
+    "render2d_filter_nearest": "Nejbližší",
+    "render2d_image_cache_atlas": "Atlas",
+    "render2d_image_cache_dynamic": "Dynamický",
+    "render2d_image_channel_alpha": "Alfa",
+    "render2d_image_channel_blue": "Modrý",
+    "render2d_image_channel_display_alpha": "Alfa",
+    "render2d_image_channel_display_blue": "Modrý",
+    "render2d_image_channel_display_color": "Barva",
+    "render2d_image_channel_display_green": "Zelený",
+    "render2d_image_channel_display_red": "Červené",
+    "render2d_image_channel_green": "Zelený",
+    "render2d_image_channel_none": "Alfa",
+    "render2d_image_channel_red": "Červené"
+}
+

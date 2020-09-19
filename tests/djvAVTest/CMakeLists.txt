@@ -1,37 +1,35 @@
 set(header
     AVSystemTest.h
-    AudioDataTest.h
-    AudioTest.h
-    ColorTest.h
-    EnumTest.h
-    FontSystemTest.h
+    CineonFuncTest.h
+    DPXFuncTest.h
     IOTest.h
-    ImageConvertTest.h
-    ImageDataTest.h
-    ImageTest.h
-    OCIOSystemTest.h
-    OCIOTest.h
-    PixelTest.h
-    Render2DTest.h
+    PPMTest.h
+	SpeedFuncTest.h
     ThumbnailSystemTest.h
-    TagsTest.h)
+    TimeFuncTest.h)
 set(source
     AVSystemTest.cpp
-    AudioDataTest.cpp
-    AudioTest.cpp
-    ColorTest.cpp
-    EnumTest.cpp
-    FontSystemTest.cpp
+    CineonFuncTest.cpp
+    DPXFuncTest.cpp
     IOTest.cpp
-    ImageConvertTest.cpp
-    ImageDataTest.cpp
-    ImageTest.cpp
-    OCIOSystemTest.cpp
-    OCIOTest.cpp
-    PixelTest.cpp
-    Render2DTest.cpp
+    PPMTest.cpp
+	SpeedFuncTest.cpp
     ThumbnailSystemTest.cpp
-    TagsTest.cpp)
+    TimeFuncTest.cpp)
+if (NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
+    set(header
+        ${header}
+        FFmpegTest.h
+        JPEGTest.h
+        OpenEXRTest.h
+        TIFFTest.h)
+    set(header
+        ${header}
+        FFmpegTest.cpp
+        JPEGTest.cpp
+        OpenEXRTest.cpp
+        TIFFTest.cpp)
+endif()
 
 add_library(djvAVTest ${header} ${source})
 target_link_libraries(djvAVTest djvTestLib djvAV)
@@ -40,3 +38,4 @@ set_target_properties(
     PROPERTIES
     FOLDER tests
     CXX_STANDARD 11)
+

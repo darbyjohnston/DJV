@@ -17,12 +17,15 @@
 #include <djvUI/ShortcutData.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/FontSystem.h>
-#include <djvAV/Image.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvImage/Image.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
+
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 
@@ -37,56 +40,56 @@ namespace djv
                 DJV_NON_COPYABLE(MenuWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 MenuWidget();
 
             public:
-                static std::shared_ptr<MenuWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<MenuWidget> create(const std::shared_ptr<System::Context>&);
 
                 void setActions(const std::map<size_t, std::shared_ptr<Action> >&);
 
                 void setCloseCallback(const std::function<void(void)>&);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
-                void _pointerEnterEvent(Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Event::PointerLeave&) override;
-                void _pointerMoveEvent(Event::PointerMove&) override;
-                void _buttonPressEvent(Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Event::ButtonRelease&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _pointerEnterEvent(System::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
                 std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2& pos) override;
 
-                void _initEvent(Event::Init&) override;
-                void _updateEvent(Event::Update&) override;
+                void _initEvent(System::Event::Init&) override;
+                void _updateEvent(System::Event::Update&) override;
 
             private:
                 struct Item
                 {
                     ButtonType buttonType = ButtonType::First;
                     bool checked = false;
-                    std::shared_ptr<AV::Image::Image> icon;
+                    std::shared_ptr<Image::Image> icon;
                     std::string text;
                     std::string font;
-                    AV::Font::FontInfo fontInfo;
-                    AV::Font::Metrics fontMetrics;
+                    Render2D::Font::FontInfo fontInfo;
+                    Render2D::Font::Metrics fontMetrics;
                     glm::vec2 textSize = glm::vec2(0.F, 0.F);
-                    std::vector<std::shared_ptr<AV::Font::Glyph> > textGlyphs;
+                    std::vector<std::shared_ptr<Render2D::Font::Glyph> > textGlyphs;
                     std::string shortcutLabel;
                     glm::vec2 shortcutSize = glm::vec2(0.F, 0.F);
-                    std::vector<std::shared_ptr<AV::Font::Glyph> > shortcutGlyphs;
+                    std::vector<std::shared_ptr<Render2D::Font::Glyph> > shortcutGlyphs;
                     bool enabled = true;
                     glm::vec2 size = glm::vec2(0.F, 0.F);
-                    BBox2f geom = BBox2f(0.F, 0.F, 0.F, 0.F);
+                    Math::BBox2f geom = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
                 };
 
                 std::shared_ptr<Item> _getItem(const glm::vec2&) const;
                 void _itemsUpdate();
                 void _textUpdate();
 
-                std::shared_ptr<AV::Font::System> _fontSystem;
+                std::shared_ptr<Render2D::Font::FontSystem> _fontSystem;
                 std::map<size_t, std::shared_ptr<Action> > _actions;
                 bool _hasIcons = false;
                 bool _hasShortcuts = false;
@@ -94,14 +97,14 @@ namespace djv
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
                 std::map<std::shared_ptr<Item>, bool> _hasIcon;
-                std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<AV::Image::Image> > > _iconFutures;
-                std::map<std::shared_ptr<Item>, std::future<AV::Font::Metrics> > _fontMetricsFutures;
+                std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<Image::Image> > > _iconFutures;
+                std::map<std::shared_ptr<Item>, std::future<Render2D::Font::Metrics> > _fontMetricsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
-                std::map<std::shared_ptr<Item>, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > _textGlyphsFutures;
+                std::map<std::shared_ptr<Item>, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > _textGlyphsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
-                std::map<std::shared_ptr<Item>, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > _shortcutGlyphsFutures;
-                std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
-                std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
+                std::map<std::shared_ptr<Item>, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > _shortcutGlyphsFutures;
+                std::map<System::Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
+                std::pair<System::Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.F, 0.F);
                 std::function<void(void)> _closeCallback;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
@@ -114,17 +117,17 @@ namespace djv
                 bool _textUpdateRequest = false;
             };
 
-            void MenuWidget::_init(const std::shared_ptr<Context>& context)
+            void MenuWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuWidget");
-                _fontSystem = context->getSystemT<AV::Font::System>();
+                _fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
             }
 
             MenuWidget::MenuWidget()
             {}
 
-            std::shared_ptr<MenuWidget> MenuWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<MenuWidget> MenuWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<MenuWidget>(new MenuWidget);
                 out->_init(context);
@@ -142,7 +145,7 @@ namespace djv
                 _closeCallback = value;
             }
 
-            void MenuWidget::_preLayoutEvent(Event::PreLayout&)
+            void MenuWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginInside);
@@ -210,11 +213,11 @@ namespace djv
                 _setMinimumSize(size + b * 2.F);
             }
 
-            void MenuWidget::_layoutEvent(Event::Layout&)
+            void MenuWidget::_layoutEvent(System::Event::Layout&)
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
-                const BBox2f g = getGeometry().margin(-b);
+                const Math::BBox2f g = getGeometry().margin(-b);
                 float y = g.min.y;
                 for (auto& i : _items)
                 {
@@ -226,7 +229,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_paintEvent(Event::Paint& event)
+            void MenuWidget::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
 
@@ -235,12 +238,12 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
-                const BBox2f& g = getGeometry().margin(-b);
+                const Math::BBox2f& g = getGeometry();
 
                 const auto& render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, g, b);
-                const BBox2f g2 = g.margin(-b);
+                const Math::BBox2f g2 = g.margin(-b);
 
                 for (const auto& i : _items)
                 {
@@ -280,7 +283,7 @@ namespace djv
                     case ButtonType::Radio:
                     case ButtonType::Exclusive:
                     {
-                        const BBox2f checkBoxGeometry(
+                        const Math::BBox2f checkBoxGeometry(
                             x + m,
                             floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.F - checkBoxSize.y / 2.F)),
                             checkBoxSize.x,
@@ -325,7 +328,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_pointerEnterEvent(Event::PointerEnter& event)
+            void MenuWidget::_pointerEnterEvent(System::Event::PointerEnter& event)
             {
                 event.accept();
                 const auto& pointerInfo = event.getPointerInfo();
@@ -336,7 +339,7 @@ namespace djv
                 _redraw();
             }
 
-            void MenuWidget::_pointerLeaveEvent(Event::PointerLeave& event)
+            void MenuWidget::_pointerLeaveEvent(System::Event::PointerLeave& event)
             {
                 event.accept();
                 const auto& pointerInfo = event.getPointerInfo();
@@ -348,7 +351,7 @@ namespace djv
                 _redraw();
             }
 
-            void MenuWidget::_pointerMoveEvent(Event::PointerMove& event)
+            void MenuWidget::_pointerMoveEvent(System::Event::PointerMove& event)
             {
                 event.accept();
                 const auto& pointerInfo = event.getPointerInfo();
@@ -380,7 +383,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_buttonPressEvent(Event::ButtonPress& event)
+            void MenuWidget::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 if (_pressed.second)
                     return;
@@ -400,7 +403,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void MenuWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
             {
                 const auto& pointerInfo = event.getPointerInfo();
                 const auto id = pointerInfo.id;
@@ -450,7 +453,7 @@ namespace djv
                 return out;
             }
 
-            void MenuWidget::_initEvent(Event::Init& event)
+            void MenuWidget::_initEvent(System::Event::Init& event)
             {
                 if (event.getData().resize || event.getData().font)
                 {
@@ -458,7 +461,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_updateEvent(Event::Update&)
+            void MenuWidget::_updateEvent(System::Event::Update&)
             {
                 if (_textUpdateRequest)
                 {
@@ -476,7 +479,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -492,7 +495,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -508,7 +511,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -524,7 +527,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -540,7 +543,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -556,7 +559,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -677,7 +680,7 @@ namespace djv
                             {
                                 if (auto widget = weak.lock())
                                 {
-                                    auto textSystem = context->getSystemT<TextSystem>();
+                                    auto textSystem = context->getSystemT<System::TextSystem>();
                                     std::vector<std::string> labels;
                                     for (const auto& i : value)
                                     {
@@ -719,8 +722,8 @@ namespace djv
                 for (auto& i : _items)
                 {
                     i.second->fontInfo = i.second->font.empty() ?
-                        style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
-                        style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
+                        style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium) :
+                        style->getFontInfo(i.second->font, Render2D::Font::faceDefault, MetricsRole::FontMedium);
                     _fontMetricsFutures[i.second] = _fontSystem->getMetrics(i.second->fontInfo);
                     _textSizeFutures[i.second] = _fontSystem->measure(i.second->text, i.second->fontInfo);
                     _textGlyphsFutures[i.second] = _fontSystem->getGlyphs(i.second->text, i.second->fontInfo);
@@ -735,11 +738,11 @@ namespace djv
                 DJV_NON_COPYABLE(MenuPopupWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 MenuPopupWidget();
 
             public:
-                static std::shared_ptr<MenuPopupWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<MenuPopupWidget> create(const std::shared_ptr<System::Context>&);
 
                 void setActions(const std::map<size_t, std::shared_ptr<Action> >&);
 
@@ -749,17 +752,17 @@ namespace djv
                 void setCloseCallback(const std::function<void(void)>&);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-                void _buttonPressEvent(Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Event::ButtonRelease&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
             private:
                 std::shared_ptr<ScrollWidget> _scrollWidget;
                 std::shared_ptr<MenuWidget> _menuWidget;
             };
 
-            void MenuPopupWidget::_init(const std::shared_ptr<Context>& context)
+            void MenuPopupWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuPopupWidget");
@@ -776,7 +779,7 @@ namespace djv
             MenuPopupWidget::MenuPopupWidget()
             {}
 
-            std::shared_ptr<MenuPopupWidget> MenuPopupWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<MenuPopupWidget> MenuPopupWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr< MenuPopupWidget>(new MenuPopupWidget);
                 out->_init(context);
@@ -803,24 +806,24 @@ namespace djv
                 _menuWidget->setCloseCallback(callback);
             }
 
-            void MenuPopupWidget::_buttonPressEvent(Event::ButtonPress& event)
+            void MenuPopupWidget::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 event.accept();
             }
 
-            void MenuPopupWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void MenuPopupWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
             {
                 event.accept();
             }
 
-            void MenuPopupWidget::_preLayoutEvent(Event::PreLayout&)
+            void MenuPopupWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 _setMinimumSize(_scrollWidget->getMinimumSize());
             }
 
-            void MenuPopupWidget::_layoutEvent(Event::Layout&)
+            void MenuPopupWidget::_layoutEvent(System::Event::Layout&)
             {
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 _scrollWidget->setGeometry(g);
             }
 
@@ -829,21 +832,21 @@ namespace djv
                 DJV_NON_COPYABLE(MenuLayout);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 MenuLayout();
 
             public:
-                static std::shared_ptr<MenuLayout> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<MenuLayout> create(const std::shared_ptr<System::Context>&);
 
                 void setPos(const std::shared_ptr<MenuPopupWidget>&, const glm::vec2&);
                 void setButton(const std::shared_ptr<MenuPopupWidget>&, const std::weak_ptr<Button::Menu>&);
 
 
             protected:
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
-                void _childRemovedEvent(Event::ChildRemoved&) override;
+                void _childRemovedEvent(System::Event::ChildRemoved&) override;
 
             private:
                 std::map<std::shared_ptr<MenuPopupWidget>, glm::vec2> _widgetToPos;
@@ -851,7 +854,7 @@ namespace djv
                 std::map<std::shared_ptr<MenuPopupWidget>, Popup> _widgetToPopup;
             };
 
-            void MenuLayout::_init(const std::shared_ptr<Context>& context)
+            void MenuLayout::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuLayout");
@@ -860,7 +863,7 @@ namespace djv
             MenuLayout::MenuLayout()
             {}
 
-            std::shared_ptr<MenuLayout> MenuLayout::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<MenuLayout> MenuLayout::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<MenuLayout>(new MenuLayout);
                 out->_init(context);
@@ -877,10 +880,10 @@ namespace djv
                 _widgetToButton[widget] = button;
             }
 
-            void MenuLayout::_layoutEvent(Event::Layout&)
+            void MenuLayout::_layoutEvent(System::Event::Layout&)
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 for (const auto& i : _widgetToPos)
                 {
                     const auto& pos = i.second;
@@ -896,7 +899,7 @@ namespace djv
                         popup = Layout::getPopup(popup, g, pos, minimumSize);
                         _widgetToPopup[i.first] = popup;
                     }
-                    const BBox2f popupGeometry = Layout::getPopupGeometry(popup, pos, minimumSize);
+                    const Math::BBox2f popupGeometry = Layout::getPopupGeometry(popup, pos, minimumSize);
                     i.first->setGeometry(popupGeometry.intersect(g));
                 }
                 for (const auto& i : _widgetToButton)
@@ -915,13 +918,13 @@ namespace djv
                         {
                             popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
                         }
-                        const BBox2f popupGeometry = Layout::getPopupGeometry(popup, buttonBBox, minimumSize);
+                        const Math::BBox2f popupGeometry = Layout::getPopupGeometry(popup, buttonBBox, minimumSize);
                         i.first->setGeometry(popupGeometry.intersect(g));
                     }
                 }
             }
 
-            void MenuLayout::_paintEvent(Event::Paint& event)
+            void MenuLayout::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
@@ -930,7 +933,7 @@ namespace djv
                 render->setFillColor(style->getColor(ColorRole::Shadow));
                 for (const auto& i : getChildWidgets())
                 {
-                    BBox2f g = i->getGeometry();
+                    Math::BBox2f g = i->getGeometry();
                     g.min.x -= sh;
                     g.max.x += sh;
                     g.max.y += sh;
@@ -941,7 +944,7 @@ namespace djv
                 }
             }
 
-            void MenuLayout::_childRemovedEvent(Event::ChildRemoved& event)
+            void MenuLayout::_childRemovedEvent(System::Event::ChildRemoved& event)
             {
                 if (auto widget = std::dynamic_pointer_cast<MenuPopupWidget>(event.getChild()))
                 {
@@ -982,7 +985,7 @@ namespace djv
             void createOverlay();
         };
 
-        void Menu::_init(const std::shared_ptr<Context>& context)
+        void Menu::_init(const std::shared_ptr<System::Context>& context)
         {
             IObject::_init(context);
             DJV_PRIVATE_PTR();
@@ -1004,7 +1007,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Menu> Menu::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Menu> Menu::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<Menu>(new Menu);
             out->_init(context);

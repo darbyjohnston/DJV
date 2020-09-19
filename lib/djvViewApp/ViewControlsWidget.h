@@ -16,21 +16,21 @@ namespace djv
             DJV_NON_COPYABLE(ViewControlsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ViewControlsWidget();
 
         public:
             ~ViewControlsWidget() override;
 
-            static std::shared_ptr<ViewControlsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewControlsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, bool> getBellowsState() const;
             void setBellowsState(const std::map<std::string, bool>&);
 
         protected:
-            void _initLayoutEvent(Core::Event::InitLayout&) override;
+            void _initLayoutEvent(System::Event::InitLayout&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

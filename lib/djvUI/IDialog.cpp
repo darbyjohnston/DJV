@@ -24,7 +24,7 @@ namespace djv
                 DJV_NON_COPYABLE(DialogLayout);
 
             protected:
-                void _init(const std::shared_ptr<Context>& context)
+                void _init(const std::shared_ptr<System::Context>& context)
                 {
                     Vertical::_init(context);
                     setPointerEnabled(true);
@@ -34,7 +34,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<DialogLayout> create(const std::shared_ptr<Context>& context)
+                static std::shared_ptr<DialogLayout> create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<DialogLayout>(new DialogLayout);
                     out->_init(context);
@@ -42,12 +42,12 @@ namespace djv
                 }
 
             protected:
-                void _buttonPressEvent(Event::ButtonPress& event) override
+                void _buttonPressEvent(System::Event::ButtonPress& event) override
                 {
                     event.accept();
                 }
 
-                void _buttonReleaseEvent(Event::ButtonRelease& event) override
+                void _buttonReleaseEvent(System::Event::ButtonRelease& event) override
                 {
                     event.accept();
                 }
@@ -67,7 +67,7 @@ namespace djv
             std::function<void(void)> closeCallback;
         };
 
-        void IDialog::_init(const std::shared_ptr<Context>& context)
+        void IDialog::_init(const std::shared_ptr<System::Context>& context)
         {
             Window::_init(context);
             DJV_PRIVATE_PTR();
@@ -237,12 +237,12 @@ namespace djv
             }
         }
 
-        void IDialog::_preLayoutEvent(Event::PreLayout&)
+        void IDialog::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->overlay->getMinimumSize());
         }
 
-        void IDialog::_layoutEvent(Event::Layout&)
+        void IDialog::_layoutEvent(System::Event::Layout&)
         {
             _p->overlay->setGeometry(getGeometry());
             _p->overlayLayout->setGeometry(getGeometry());

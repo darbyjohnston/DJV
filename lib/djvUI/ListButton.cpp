@@ -9,7 +9,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 //#pragma optimize("", off)
 
@@ -35,7 +35,7 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
-            void List::_init(const std::shared_ptr<Context>& context)
+            void List::_init(const std::shared_ptr<System::Context>& context)
             {
                 IButton::_init(context);
 
@@ -54,7 +54,7 @@ namespace djv
             List::~List()
             {}
 
-            std::shared_ptr<List> List::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<List> List::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<List>(new List);
                 out->_init(context);
@@ -261,22 +261,22 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void List::_preLayoutEvent(Event::PreLayout& event)
+            void List::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void List::_layoutEvent(Event::Layout&)
+            void List::_layoutEvent(System::Event::Layout&)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void List::_paintEvent(Event::Paint& event)
+            void List::_paintEvent(System::Event::Paint& event)
             {
                 IButton::_paintEvent(event);
                 const auto& render = _getRender();
                 const auto& style = _getStyle();
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));

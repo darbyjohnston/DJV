@@ -8,7 +8,7 @@
 #include <djvUI/ToolButton.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -34,7 +34,7 @@ namespace djv
         void TitleBar::_init(
             const std::string& text,
             const std::string& toolTip,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -74,7 +74,7 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.closeButton->setClickedCallback(
                 [weak]
                 {
@@ -98,7 +98,7 @@ namespace djv
         std::shared_ptr<TitleBar> TitleBar::create(
             const std::string& text,
             const std::string& toolTip,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TitleBar>(new TitleBar);
             out->_init(text, toolTip, context);
@@ -133,7 +133,7 @@ namespace djv
             _p->closeCallback = value;
         }
 
-        void TitleBar::_preLayoutEvent(Event::PreLayout&)
+        void TitleBar::_preLayoutEvent(System::Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size = p.layout->getMinimumSize();
@@ -141,12 +141,12 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void TitleBar::_layoutEvent(Event::Layout&)
+        void TitleBar::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void TitleBar::_initEvent(Event::Init& event)
+        void TitleBar::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)

@@ -6,7 +6,7 @@
 
 #include <djvUI/LayoutUtil.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -23,7 +23,7 @@ namespace djv
                 std::map<std::shared_ptr<IObject>, UI::Popup> popups;
             };
 
-            void Popup::_init(const std::shared_ptr<Context>& context)
+            void Popup::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -37,7 +37,7 @@ namespace djv
             Popup::~Popup()
             {}
 
-            std::shared_ptr<Popup> Popup::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Popup> Popup::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Popup>(new Popup);
                 out->_init(context);
@@ -65,10 +65,10 @@ namespace djv
                 _p->popups.clear();
             }
 
-            void Popup::_layoutEvent(Event::Layout&)
+            void Popup::_layoutEvent(System::Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 if (auto button = p.button.lock())
                 {
                     for (const auto& i : getChildWidgets())
@@ -91,7 +91,7 @@ namespace djv
                 }
             }
 
-            void Popup::_paintEvent(Event::Paint& event)
+            void Popup::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
@@ -100,7 +100,7 @@ namespace djv
                 render->setFillColor(style->getColor(ColorRole::Shadow));
                 for (const auto& i : getChildWidgets())
                 {
-                    BBox2f g = i->getGeometry();
+                    Math::BBox2f g = i->getGeometry();
                     g.min.x -= sh;
                     g.max.x += sh;
                     g.max.y += sh;
@@ -111,7 +111,7 @@ namespace djv
                 }
             }
 
-            void Popup::_childRemovedEvent(Event::ChildRemoved& value)
+            void Popup::_childRemovedEvent(System::Event::ChildRemoved& value)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.popups.find(value.getChild());

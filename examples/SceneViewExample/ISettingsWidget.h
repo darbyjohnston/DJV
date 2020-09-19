@@ -15,7 +15,7 @@ class ISettingsWidget : public djv::UI::Widget
     DJV_NON_COPYABLE(ISettingsWidget);
 
 protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
+    void _init(const std::shared_ptr<djv::System::Context>&);
     ISettingsWidget();
 
 public:
@@ -33,8 +33,8 @@ public:
     void clearChildren() override;
 
 protected:
-    void _preLayoutEvent(djv::Core::Event::PreLayout&) override;
-    void _layoutEvent(djv::Core::Event::Layout&) override;
+    void _preLayoutEvent(djv::System::Event::PreLayout&) override;
+    void _layoutEvent(djv::System::Event::Layout&) override;
 
 private:
     std::weak_ptr<djv::UI::LabelSizeGroup> _sizeGroup;

@@ -13,7 +13,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -27,7 +27,7 @@ namespace djv
             std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
-        void KeyboardShortcutSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void KeyboardShortcutSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -37,19 +37,19 @@ namespace djv
             p.widget = UI::ShortcutsWidget::create(context);
             addChild(p.widget);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.widget->setShortcutsCallback(
                 [contextWeak](const UI::ShortcutDataMap& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         auto keyboardSettings = settingsSystem->getSettingsT<KeyboardSettings>();
                         keyboardSettings->setShortcuts(value);
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto keyboardSettings = settingsSystem->getSettingsT<KeyboardSettings>();
             auto weak = std::weak_ptr<KeyboardShortcutSettingsWidget>(std::dynamic_pointer_cast<KeyboardShortcutSettingsWidget>(shared_from_this()));
             p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
@@ -67,7 +67,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<KeyboardShortcutSettingsWidget> KeyboardShortcutSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<KeyboardShortcutSettingsWidget> KeyboardShortcutSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<KeyboardShortcutSettingsWidget>(new KeyboardShortcutSettingsWidget);
             out->_init(context);

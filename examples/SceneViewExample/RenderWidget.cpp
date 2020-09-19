@@ -13,7 +13,7 @@
 
 using namespace djv;
 
-void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
+void RenderWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     ISettingsWidget::_init(context);
 
@@ -55,7 +55,7 @@ void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_renderOptions.shaderMode = static_cast<AV::Render3D::DefaultMaterialMode>(value);
+                widget->_renderOptions.shaderMode = static_cast<Render3D::DefaultMaterialMode>(value);
                 if (widget->_renderOptionsCallback)
                 {
                     widget->_renderOptionsCallback(widget->_renderOptions);
@@ -68,7 +68,7 @@ void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_renderOptions.depthBufferMode = static_cast<AV::Render3D::DepthBufferMode>(value);
+                widget->_renderOptions.depthBufferMode = static_cast<Render3D::DepthBufferMode>(value);
                 if (widget->_renderOptionsCallback)
                 {
                     widget->_renderOptionsCallback(widget->_renderOptions);
@@ -81,7 +81,7 @@ void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_renderOptions.depthBufferType = static_cast<AV::OpenGL::OffscreenDepthType>(value);
+                widget->_renderOptions.depthBufferType = static_cast<GL::OffscreenDepthType>(value);
                 if (widget->_renderOptionsCallback)
                 {
                     widget->_renderOptionsCallback(widget->_renderOptions);
@@ -94,7 +94,7 @@ void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_renderOptions.multiSampling = static_cast<AV::OpenGL::OffscreenSampling>(value);
+                widget->_renderOptions.multiSampling = static_cast<GL::OffscreenSampling>(value);
                 if (widget->_renderOptionsCallback)
                 {
                     widget->_renderOptionsCallback(widget->_renderOptions);
@@ -109,7 +109,7 @@ RenderWidget::RenderWidget()
 RenderWidget::~RenderWidget()
 {}
 
-std::shared_ptr<RenderWidget> RenderWidget::create(const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<RenderWidget> RenderWidget::create(const std::shared_ptr<System::Context>& context)
 {
     auto out = std::shared_ptr<RenderWidget>(new RenderWidget);
     out->_init(context);
@@ -135,7 +135,7 @@ void RenderWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup
     }
 }
 
-void RenderWidget::_initEvent(Core::Event::Init&)
+void RenderWidget::_initEvent(System::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("widget_render")));
     _layouts["Shader"]->setText(_shaderModeComboBox, _getText(DJV_TEXT("widget_render_mode")) + ":");
@@ -151,7 +151,7 @@ void RenderWidget::_initEvent(Core::Event::Init&)
 void RenderWidget::_widgetUpdate()
 {
     std::vector<std::string> items;
-    for (const auto& i : AV::Render3D::getDefaultMaterialModeEnums())
+    for (const auto& i : Render3D::getDefaultMaterialModeEnums())
     {
         std::stringstream ss;
         ss << i;
@@ -161,7 +161,7 @@ void RenderWidget::_widgetUpdate()
     _shaderModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.shaderMode));
 
     items.clear();
-    for (const auto& i : AV::Render3D::getDepthBufferModeEnums())
+    for (const auto& i : Render3D::getDepthBufferModeEnums())
     {
         std::stringstream ss;
         ss << i;
@@ -171,7 +171,7 @@ void RenderWidget::_widgetUpdate()
     _depthBufferModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferMode));
 
     items.clear();
-    for (const auto& i : AV::OpenGL::getOffscreenDepthTypeEnums())
+    for (const auto& i : GL::getOffscreenDepthTypeEnums())
     {
         std::stringstream ss;
         ss << i;
@@ -181,7 +181,7 @@ void RenderWidget::_widgetUpdate()
     _depthBufferTypeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferType));
 
     items.clear();
-    for (const auto& i : AV::OpenGL::getOffscreenSamplingEnums())
+    for (const auto& i : GL::getOffscreenSamplingEnums())
     {
         std::stringstream ss;
         ss << i;

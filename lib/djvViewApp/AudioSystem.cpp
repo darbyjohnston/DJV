@@ -13,8 +13,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -38,7 +38,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > muteObserver;
         };
 
-        void AudioSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void AudioSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::AudioSystem", context);
 
@@ -162,7 +162,7 @@ namespace djv
         AudioSystem::~AudioSystem()
         {}
 
-        std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AudioSystem>(new AudioSystem);
             out->_init(context);

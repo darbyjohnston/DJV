@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(Icon);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             Icon();
 
         public:
             ~Icon() override;
 
-            static std::shared_ptr<Icon> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Icon> create(const std::shared_ptr<System::Context>&);
 
             const std::string& getIcon() const;
             void setIcon(const std::string&);
@@ -34,12 +34,12 @@ namespace djv
             void setIconSizeRole(MetricsRole);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
-            void _initEvent(Core::Event::Init&) override;
-            void _updateEvent(Core::Event::Update&) override;
+            void _initEvent(System::Event::Init&) override;
+            void _updateEvent(System::Event::Update&) override;
 
         private:
             DJV_PRIVATE();

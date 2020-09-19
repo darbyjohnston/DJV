@@ -6,8 +6,6 @@
 
 #include <djvAV/IOPlugin.h>
 
-#include <djvCore/Frame.h>
-
 #if defined(DJV_PLATFORM_LINUX)
 #define __STDC_CONSTANT_MACROS
 #endif // DJV_PLATFORM_LINUX
@@ -68,6 +66,8 @@ namespace djv
                 struct Options
                 {
                     size_t threadCount = 4;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! This class provides the FFmpeg file reader.
@@ -77,24 +77,24 @@ namespace djv
 
                 protected:
                     void _init(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const ReadOptions&,
                         const Options&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
                     Read();
 
                 public:
                     ~Read() override;
 
                     static std::shared_ptr<Read> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const ReadOptions&,
                         const Options&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                     bool isRunning() const override;
 
@@ -106,17 +106,17 @@ namespace djv
                     struct DecodeVideo
                     {
                         AVPacket*           packet       = nullptr;
-                        Core::Frame::Number seek         = -1;
+                        Math::Frame::Number seek         = -1;
                         bool                cacheEnabled = false;
                     };
-                    int _decodeVideo(const DecodeVideo&, Core::Frame::Number&);
+                    int _decodeVideo(const DecodeVideo&, Math::Frame::Number&);
 
                     struct DecodeAudio
                     {
                         AVPacket*           packet = nullptr;
-                        Core::Frame::Number seek   = -1;
+                        Math::Frame::Number seek   = -1;
                     };
-                    int _decodeAudio(const DecodeAudio&, Core::Frame::Number&);
+                    int _decodeAudio(const DecodeAudio&, Math::Frame::Number&);
 
                     DJV_PRIVATE();
                 };
@@ -127,17 +127,17 @@ namespace djv
                     DJV_NON_COPYABLE(Plugin);
 
                 protected:
-                    void _init(const std::shared_ptr<Core::Context>&);
+                    void _init(const std::shared_ptr<System::Context>&);
 
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
                     rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
                     void setOptions(const rapidjson::Value&) override;
 
-                    std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
+                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
 
                 private:
                     DJV_PRIVATE();

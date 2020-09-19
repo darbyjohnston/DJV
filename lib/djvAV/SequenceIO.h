@@ -6,10 +6,17 @@
 
 #include <djvAV/IOPlugin.h>
 
-#include <djvCore/Frame.h>
-
 namespace djv
 {
+    namespace System
+    {
+        namespace File
+        {
+            class IO;
+        
+        } // namespace File
+    } // namespace System
+    
     namespace AV
     {
         namespace IO
@@ -21,11 +28,11 @@ namespace djv
 
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
+                    const System::File::Info&,
                     const ReadOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
                 ISequenceRead();
 
             public:
@@ -41,14 +48,14 @@ namespace djv
                 virtual std::shared_ptr<Image::Image> _readImage(const std::string& fileName) = 0;
                 void _finish();
 
-                Core::Math::Rational _speed;
-                Core::Frame::Sequence _sequence;
+                Math::Rational _speed;
+                Math::Frame::Sequence _sequence;
 
             private:
                 bool _hasWork() const;
                 size_t _getQueueCount(size_t threadCount) const;
                 struct Future;
-                std::future<Future> _getFuture(Core::Frame::Number, std::string fileName);
+                std::future<Future> _getFuture(Math::Frame::Number, std::string fileName);
                 size_t _readQueue(size_t count, bool loop, bool cacheEnabled);
                 void _readCache(size_t count, const AV::IO::InOutPoints&);
 
@@ -62,12 +69,12 @@ namespace djv
 
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
+                    const System::File::Info&,
                     const Info&,
                     const WriteOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
                 ISequenceWrite();
 
             public:

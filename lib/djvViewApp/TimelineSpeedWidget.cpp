@@ -16,8 +16,11 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Speed.h>
+#include <djvAV/SpeedFunc.h>
+
+#include <djvSystem/Context.h>
+
+#include <cmath>
 
 using namespace djv::Core;
 
@@ -41,7 +44,7 @@ namespace djv
             bool playEveryFrame = false;
 
             std::map<PlaybackSpeed, std::shared_ptr<UI::CheckBox> > speedCheckBoxes;
-            std::map<Time::FPS, std::shared_ptr<UI::ListButton> > presetSpeedButtons;
+            std::map<AV::FPS, std::shared_ptr<UI::ListButton> > presetSpeedButtons;
             std::shared_ptr<UI::FloatEdit> customSpeedFloatEdit;
             std::shared_ptr<UI::Label> defaultSpeedLabel;
             std::shared_ptr<UI::ButtonGroup> speedButtonGroup;
@@ -62,7 +65,7 @@ namespace djv
 
         void SpeedWidget::_init(
             const std::shared_ptr<Media>& media,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -72,7 +75,7 @@ namespace djv
             p.media = media;
 
             p.customSpeedFloatEdit = UI::FloatEdit::create(context);
-            p.customSpeedFloatEdit->setRange(FloatRange(.1F, 1000.F));
+            p.customSpeedFloatEdit->setRange(Math::FloatRange(.1F, 1000.F));
             p.customSpeedFloatEdit->getModel()->setSmallIncrement(1.F);
             p.customSpeedFloatEdit->getModel()->setLargeIncrement(10.F);
 
@@ -117,7 +120,7 @@ namespace djv
             p.speedButtonGroup->setButtons(buttons);
             p.presetSpeedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             buttons.clear();
-            for (auto i : Time::getFPSEnums())
+            for (auto i : AV::getFPSEnums())
             {
                 auto button = UI::ListButton::create(context);
                 buttons.push_back(button);
@@ -148,7 +151,7 @@ namespace djv
             _textUpdate();
             _widgetUpdate();
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             auto weak = std::weak_ptr<SpeedWidget>(
                 std::dynamic_pointer_cast<SpeedWidget>(shared_from_this()));
             p.speedButtonGroup->setRadioCallback(
@@ -166,7 +169,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->setPlaybackSpeed(PlaybackSpeed::Custom);
-                        widget->_p->setCustomSpeed(Time::fromSpeed(static_cast<Time::FPS>(value)));
+                        widget->_p->setCustomSpeed(AV::fromSpeed(static_cast<AV::FPS>(value)));
                     }
                 });
 
@@ -183,7 +186,7 @@ namespace djv
                                 {
                                     media->setPlayEveryFrame(value);
                                 }
-                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                                 if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                                 {
                                     playbackSettings->setPlayEveryFrame(value);
@@ -201,7 +204,7 @@ namespace djv
                         Math::Rational customSpeed;
                         if (value >= 1.F)
                         {
-                            customSpeed = Time::fromSpeed(value);
+                            customSpeed = AV::fromSpeed(value);
                         }
                         else if (value > 0.F && value < 1.F)
                         {
@@ -265,26 +268,26 @@ namespace djv
 
         std::shared_ptr<SpeedWidget> SpeedWidget::create(
             const std::shared_ptr<Media>& media,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<SpeedWidget>(new SpeedWidget);
             out->_init(media, context);
             return out;
         }
 
-        void SpeedWidget::_preLayoutEvent(Event::PreLayout&)
+        void SpeedWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->scrollWidget->getMinimumSize() + getMargin().getSize(style));
         }
         
-        void SpeedWidget::_layoutEvent(Event::Layout&)
+        void SpeedWidget::_layoutEvent(System::Event::Layout&)
         {
             const auto& style = _getStyle();
             _p->scrollWidget->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void SpeedWidget::_initEvent(Event::Init & event)
+        void SpeedWidget::_initEvent(System::Event::Init & event)
         {
             if (event.getData().text)
             {
@@ -320,7 +323,7 @@ namespace djv
                 p.speedCheckBoxes[i]->setText(ss.str());
             }
 
-            for (auto i : Time::getFPSEnums())
+            for (auto i : AV::getFPSEnums())
             {
                 std::stringstream ss;
                 ss << i;
@@ -354,7 +357,7 @@ namespace djv
             }
             if (auto context = p.getContext().lock())
             {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                 {
                     playbackSettings->setPlaybackSpeed(value);
@@ -370,7 +373,7 @@ namespace djv
             }
             if (auto context = p.getContext().lock())
             {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                 {
                     playbackSettings->setCustomSpeed(value);

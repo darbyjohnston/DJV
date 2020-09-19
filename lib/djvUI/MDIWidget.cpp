@@ -6,7 +6,7 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -24,7 +24,7 @@ namespace djv
                 Handle pressed = Handle::None;
             };
 
-            void IWidget::_init(const std::shared_ptr<Context>& context)
+            void IWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setPointerEnabled(true);
@@ -37,10 +37,10 @@ namespace djv
             IWidget::~IWidget()
             {}
 
-            std::map<Handle, std::vector<BBox2f> > IWidget::_getHandles() const
+            std::map<Handle, std::vector<Math::BBox2f> > IWidget::_getHandles() const
             {
-                std::map<Handle, std::vector<BBox2f> > out;
-                const BBox2f& g = getGeometry();
+                std::map<Handle, std::vector<Math::BBox2f> > out;
+                const Math::BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
                 const float corner = style->getMetric(MetricsRole::Handle) * 2.F;
                 out =
@@ -54,7 +54,7 @@ namespace djv
                     {
                         Handle::ResizeE,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.min.y + corner),
                                 glm::vec2(g.min.x + corner, g.max.y - corner))
                         }
@@ -62,7 +62,7 @@ namespace djv
                     {
                         Handle::ResizeN,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x + corner, g.min.y),
                                 glm::vec2(g.max.x - corner, g.min.y + corner))
                         }
@@ -70,7 +70,7 @@ namespace djv
                     {
                         Handle::ResizeW,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - corner, g.min.y + corner),
                                 glm::vec2(g.max.x, g.max.y - corner))
                         }
@@ -78,7 +78,7 @@ namespace djv
                     {
                         Handle::ResizeS,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x + corner, g.max.y - corner),
                                 glm::vec2(g.max.x - corner, g.max.y))
                         }
@@ -86,7 +86,7 @@ namespace djv
                     {
                         Handle::ResizeNE,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.min.y),
                                 glm::vec2(g.min.x + corner, g.min.y + corner))
                         }
@@ -94,7 +94,7 @@ namespace djv
                     {
                         Handle::ResizeNW,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - corner, g.min.y),
                                 glm::vec2(g.max.x, g.min.y + corner))
                         }
@@ -102,7 +102,7 @@ namespace djv
                     {
                         Handle::ResizeSW,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - corner, g.max.y - corner),
                                 glm::vec2(g.max.x, g.max.y))
                         }
@@ -110,7 +110,7 @@ namespace djv
                     {
                         Handle::ResizeSE,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.max.y - corner),
                                 glm::vec2(g.min.x + corner, g.max.y))
                         }
@@ -119,10 +119,10 @@ namespace djv
                 return out;
             }
 
-            std::map<Handle, std::vector<BBox2f> > IWidget::_getHandlesDraw() const
+            std::map<Handle, std::vector<Math::BBox2f> > IWidget::_getHandlesDraw() const
             {
-                std::map<Handle, std::vector<BBox2f> > out;
-                const BBox2f& g = getGeometry();
+                std::map<Handle, std::vector<Math::BBox2f> > out;
+                const Math::BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
                 const float edge = ceilf(style->getMetric(MetricsRole::Handle) * .75F);
                 const float corner = style->getMetric(MetricsRole::Handle) * 2.F;
@@ -131,7 +131,7 @@ namespace djv
                     {
                         Handle::ResizeE,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.min.y + corner),
                                 glm::vec2(g.min.x + edge, g.max.y - corner))
                         }
@@ -139,7 +139,7 @@ namespace djv
                     {
                         Handle::ResizeN,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x + corner, g.min.y),
                                 glm::vec2(g.max.x - corner, g.min.y + edge))
                         }
@@ -147,7 +147,7 @@ namespace djv
                     {
                         Handle::ResizeW,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - edge, g.min.y + corner),
                                 glm::vec2(g.max.x, g.max.y - corner))
                         }
@@ -155,7 +155,7 @@ namespace djv
                     {
                         Handle::ResizeS,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x + corner, g.max.y - edge),
                                 glm::vec2(g.max.x - corner, g.max.y))
                             }
@@ -163,10 +163,10 @@ namespace djv
                     {
                         Handle::ResizeNE,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.min.y),
                                 glm::vec2(g.min.x + corner, g.min.y + edge)),
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.min.y + edge),
                                 glm::vec2(g.min.x + edge, g.min.y + corner))
                         }
@@ -174,10 +174,10 @@ namespace djv
                     {
                         Handle::ResizeNW,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - corner, g.min.y),
                                 glm::vec2(g.max.x, g.min.y + edge)),
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - edge, g.min.y + edge),
                                 glm::vec2(g.max.x, g.min.y + corner))
                         }
@@ -185,10 +185,10 @@ namespace djv
                     {
                         Handle::ResizeSW,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - corner, g.max.y - edge),
                                 glm::vec2(g.max.x, g.max.y)),
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.max.x - edge, g.max.y - corner),
                                 glm::vec2(g.max.x, g.max.y - edge))
                         }
@@ -196,10 +196,10 @@ namespace djv
                     {
                         Handle::ResizeSE,
                         {
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.max.y - edge),
                                 glm::vec2(g.min.x + corner, g.max.y)),
-                            BBox2f(
+                            Math::BBox2f(
                                 glm::vec2(g.min.x, g.max.y - corner),
                                 glm::vec2(g.min.x + edge, g.max.y - edge))
                         }
@@ -243,7 +243,7 @@ namespace djv
                 _redraw();
             }
 
-            void IWidget::_paintEvent(Event::Paint& event)
+            void IWidget::_paintEvent(System::Event::Paint& event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.maximize < 1.F)
@@ -252,7 +252,7 @@ namespace djv
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     const auto& render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Shadow));
-                    const BBox2f& g = getGeometry().margin(0, -sh, 0, 0);
+                    const Math::BBox2f& g = getGeometry().margin(0, -sh, 0, 0);
                     if (g.isValid())
                     {
                         render->drawShadow(g, sh);
@@ -260,7 +260,7 @@ namespace djv
                 }
             }
 
-            void IWidget::_paintOverlayEvent(Event::PaintOverlay&)
+            void IWidget::_paintOverlayEvent(System::Event::PaintOverlay&)
             {
                 DJV_PRIVATE_PTR();
                 if (p.maximize < 1.F)
@@ -269,7 +269,7 @@ namespace djv
                     const auto& render = _getRender();
                     const auto& handles = _getHandlesDraw();
                     const auto i = handles.find(p.pressed);
-                    std::vector<BBox2f> rects;
+                    std::vector<Math::BBox2f> rects;
                     if (i != handles.end())
                     {
                         for (const auto& j : i->second)

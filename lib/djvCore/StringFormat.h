@@ -58,4 +58,3 @@ namespace djv
     } // namespace Core
 } // namespace djv
 
-#include <djvCore/StringFormatInline.h>

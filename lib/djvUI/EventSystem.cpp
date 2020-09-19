@@ -10,10 +10,10 @@
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/AVSystem.h>
+#include <djvRender2D/Render2DSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Timer.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TimerFunc.h>
 
 //#pragma optimize("", off)
 
@@ -34,7 +34,7 @@ namespace djv
             bool tooltips = false;
             std::shared_ptr<ValueObserver<bool> > textLCDRenderingObserver;
             std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
-            std::shared_ptr<Time::Timer> statsTimer;
+            std::shared_ptr<System::Timer> statsTimer;
         };
 
         namespace
@@ -56,7 +56,7 @@ namespace djv
         
         } // namespace
         
-        void EventSystem::_init(const std::string& name, const std::shared_ptr<Core::Context>& context)
+        void EventSystem::_init(const std::string& name, const std::shared_ptr<System::Context>& context)
         {
             IEventSystem::_init(name, context);
 
@@ -64,10 +64,10 @@ namespace djv
             p.uiSystem = context->getSystemT<UI::UISystem>();
             addDependency(p.uiSystem);
 
-            auto avSystem = context->getSystemT<AV::AVSystem>();
+            auto render2DSystem = context->getSystemT<Render2D::Render2DSystem>();
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.textLCDRenderingObserver = ValueObserver<bool>::create(
-                avSystem->observeTextLCDRendering(),
+                render2DSystem->observeTextLCDRendering(),
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -76,7 +76,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
             p.tooltipsObserver = ValueObserver<bool>::create(
                 uiSettings->observeTooltips(),
@@ -88,10 +88,10 @@ namespace djv
                     }
                 });
 
-            p.statsTimer = Time::Timer::create(context);
+            p.statsTimer = System::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Time::getTime(Time::TimerValue::VerySlow),
+                System::getTimerDuration(System::TimerValue::VerySlow),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 if (auto system = weak.lock())
@@ -147,11 +147,11 @@ namespace djv
                 p.textLCDRenderingDirty = false;
                 if (redraw || resize || font)
                 {
-                    Event::InitData data;
+                    System::Event::InitData data;
                     data.redraw = redraw;
                     data.resize = resize;
                     data.font = font;
-                    Event::Init initEvent(data);
+                    System::Event::Init initEvent(data);
                     for (auto i : p.windows)
                     {
                         if (auto window = i.lock())
@@ -165,12 +165,12 @@ namespace djv
                 if (!p.newWindows.empty())
                 {
                     auto newWindows = std::move(p.newWindows);
-                    Event::InitData data;
+                    System::Event::InitData data;
                     data.redraw = true;
                     data.resize = true;
                     data.font = true;
                     data.text = true;
-                    Event::Init initEvent(data);
+                    System::Event::Init initEvent(data);
                     for (const auto& i : newWindows)
                     {
                         if (auto window = i.lock())
@@ -235,7 +235,7 @@ namespace djv
             return out;
         }
 
-        void EventSystem::_pushClipRect(const Core::BBox2f&)
+        void EventSystem::_pushClipRect(const Math::BBox2f&)
         {
             // Default implementation does nothing.
         }
@@ -245,7 +245,7 @@ namespace djv
             // Default implementation does nothing.
         }
 
-        void EventSystem::_initLayoutRecursive(const std::shared_ptr<Widget>& widget, Event::InitLayout& event)
+        void EventSystem::_initLayoutRecursive(const std::shared_ptr<Widget>& widget, System::Event::InitLayout& event)
         {
             for (const auto& child : widget->getChildWidgets())
             {
@@ -254,7 +254,7 @@ namespace djv
             widget->event(event);
         }
 
-        void EventSystem::_preLayoutRecursive(const std::shared_ptr<Widget>& widget, Event::PreLayout& event)
+        void EventSystem::_preLayoutRecursive(const std::shared_ptr<Widget>& widget, System::Event::PreLayout& event)
         {
             for (const auto& child : widget->getChildWidgets())
             {
@@ -263,7 +263,7 @@ namespace djv
             widget->event(event);
         }
 
-        void EventSystem::_layoutRecursive(const std::shared_ptr<Widget>& widget, Event::Layout& event)
+        void EventSystem::_layoutRecursive(const std::shared_ptr<Widget>& widget, System::Event::Layout& event)
         {
             if (widget->isVisible())
             {
@@ -275,10 +275,10 @@ namespace djv
             }
         }
 
-        void EventSystem::_clipRecursive(const std::shared_ptr<Widget>& widget, Event::Clip& event)
+        void EventSystem::_clipRecursive(const std::shared_ptr<Widget>& widget, System::Event::Clip& event)
         {
             widget->event(event);
-            const BBox2f clipRect = event.getClipRect();
+            const Math::BBox2f clipRect = event.getClipRect();
             for (const auto& child : widget->getChildWidgets())
             {
                 event.setClipRect(clipRect.intersect(child->getGeometry()));
@@ -289,17 +289,17 @@ namespace djv
 
         void EventSystem::_paintRecursive(
             const std::shared_ptr<Widget>& widget,
-            Event::Paint& event,
-            Event::PaintOverlay& overlayEvent)
+            System::Event::Paint& event,
+            System::Event::PaintOverlay& overlayEvent)
         {
             if (widget->isVisible() && !widget->isClipped())
             {
-                const BBox2f clipRect = event.getClipRect();
+                const Math::BBox2f clipRect = event.getClipRect();
                 _pushClipRect(clipRect);
                 widget->event(event);
                 for (const auto& child : widget->getChildWidgets())
                 {
-                    const BBox2f childClipRect = clipRect.intersect(child->getGeometry());
+                    const Math::BBox2f childClipRect = clipRect.intersect(child->getGeometry());
                     event.setClipRect(childClipRect);
                     overlayEvent.setClipRect(childClipRect);
                     _paintRecursive(child, event, overlayEvent);
@@ -311,7 +311,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_init(Event::Init& event)
+        void EventSystem::_init(System::Event::Init& event)
         {
             for (const auto& i : _p->windows)
             {
@@ -322,13 +322,13 @@ namespace djv
             }
         }
 
-        void EventSystem::_update(Event::Update& event)
+        void EventSystem::_update(System::Event::Update& event)
         {
             for (const auto& i : _p->windows)
             {
                 if (auto window = i.lock())
                 {
-                    _udateRecursive(window, event);
+                    _updateRecursive(window, event);
                 }
             }
         }

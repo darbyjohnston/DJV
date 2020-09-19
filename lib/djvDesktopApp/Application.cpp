@@ -10,12 +10,14 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/UISystem.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/GLFWSystem.h>
-#include <djvAV/IO.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/TextSystem.h>
+#include <djvAV/AVSystem.h>
+#include <djvAV/IO.h>
+
+#include <djvGL/GLFWSystem.h>
+
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -58,7 +60,7 @@ namespace djv
             // Create the systems.
             auto glfwSystem = GLFWSystem::create(shared_from_this());
             auto uiSystem = UI::UISystem::create(resetSettings, shared_from_this());
-            auto avGLFWSystem = getSystemT<AV::GLFW::System>();
+            auto avGLFWSystem = getSystemT<GL::GLFW::GLFWSystem>();
             auto glfwWindow = avGLFWSystem->getGLFWWindow();
             p.eventSystem = EventSystem::create(glfwWindow, shared_from_this());
         }
@@ -80,7 +82,7 @@ namespace djv
         void Application::run()
         {
             DJV_PRIVATE_PTR();
-            auto avGLFWSystem = getSystemT<AV::GLFW::System>();
+            auto avGLFWSystem = getSystemT<GL::GLFW::GLFWSystem>();
             if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
             {
                 glfwShowWindow(glfwWindow);
@@ -96,7 +98,7 @@ namespace djv
 
         void Application::_printUsage()
         {
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             std::cout << " " << textSystem->getText(DJV_TEXT("cli_ui_options")) << std::endl;
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_init_settings")) << std::endl;

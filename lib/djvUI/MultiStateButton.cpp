@@ -7,7 +7,7 @@
 #include <djvUI/Icon.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -24,12 +24,12 @@ namespace djv
                 std::shared_ptr<Icon> icon;
                 std::function<void(int)> callback;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
-                Event::PointerID pressedID = Event::invalidID;
+                System::Event::PointerID pressedID = System::Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 bool canRejectPressed = true;
             };
 
-            void MultiState::_init(const std::shared_ptr<Context>& context)
+            void MultiState::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -49,7 +49,7 @@ namespace djv
             MultiState::~MultiState()
             {}
 
-            std::shared_ptr<MultiState> MultiState::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<MultiState> MultiState::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<MultiState>(new MultiState);
                 out->_init(context);
@@ -116,7 +116,7 @@ namespace djv
                 _resize();
             }
             
-            void MultiState::_preLayoutEvent(Event::PreLayout&)
+            void MultiState::_preLayoutEvent(System::Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -126,23 +126,23 @@ namespace djv
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
-            void MultiState::_layoutEvent(Event::Layout&)
+            void MultiState::_layoutEvent(System::Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
                 p.icon->setGeometry(g.margin(-m));
             }
 
-            void MultiState::_paintEvent(Event::Paint& event)
+            void MultiState::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
-                if (p.pressedID != Event::invalidID)
+                if (p.pressedID != System::Event::invalidID)
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawRect(g);
@@ -154,7 +154,7 @@ namespace djv
                 }
             }
 
-            void MultiState::_pointerEnterEvent(Event::PointerEnter& event)
+            void MultiState::_pointerEnterEvent(System::Event::PointerEnter& event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -163,7 +163,7 @@ namespace djv
                 }
             }
 
-            void MultiState::_pointerLeaveEvent(Event::PointerLeave& event)
+            void MultiState::_pointerLeaveEvent(System::Event::PointerLeave& event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -172,7 +172,7 @@ namespace djv
                 }
             }
 
-            void MultiState::_pointerMoveEvent(Event::PointerMove& event)
+            void MultiState::_pointerMoveEvent(System::Event::PointerMove& event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
@@ -186,13 +186,13 @@ namespace djv
                     event.setAccepted(accepted);
                     if (!accepted)
                     {
-                        p.pressedID = Event::invalidID;
+                        p.pressedID = System::Event::invalidID;
                         _redraw();
                     }
                 }
             }
 
-            void MultiState::_buttonPressEvent(Event::ButtonPress& event)
+            void MultiState::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.pressedID)
@@ -204,15 +204,15 @@ namespace djv
                 _redraw();
             }
 
-            void MultiState::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void MultiState::_buttonReleaseEvent(System::Event::ButtonRelease& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& pointerInfo = event.getPointerInfo();
                 if (pointerInfo.id == p.pressedID)
                 {
                     event.accept();
-                    p.pressedID = Event::invalidID;
-                    const BBox2f& g = getGeometry();
+                    p.pressedID = System::Event::invalidID;
+                    const Math::BBox2f& g = getGeometry();
                     const auto& hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);
                     if (i != hover.end() && g.contains(i->second))

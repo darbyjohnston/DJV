@@ -8,7 +8,8 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
+
 #include <djvCore/ValueObserver.h>
 
 #include <map>
@@ -27,12 +28,12 @@ namespace djv
             DJV_NON_COPYABLE(ViewSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>& context);
+            void _init(const std::shared_ptr<System::Context>& context);
 
             ViewSettings();
 
         public:
-            static std::shared_ptr<ViewSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewSettings> create(const std::shared_ptr<System::Context>&);
 
             const std::map<std::string, bool> getBellowsState() const;
             void setBellowsState(const std::map<std::string, bool>&);
@@ -49,8 +50,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
             void setBackgroundOptions(const ViewBackgroundOptions&);
 
-            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
-            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

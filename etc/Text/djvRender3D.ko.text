@@ -1,0 +1,9 @@
+{
+    "render3d_default_material_mode_default": "기본",
+    "render3d_default_material_mode_normals": "법선",
+    "render3d_default_material_mode_unlit": "소등",
+    "render3d_default_material_mode_uvs": "UV",
+    "render3d_depth_buffer_mode_reverse": "역",
+    "render3d_depth_buffer_mode_standard": "표준"
+}
+

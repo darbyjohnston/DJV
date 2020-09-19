@@ -7,8 +7,8 @@
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvCore/FileInfo.h>
-#include <djvCore/RecentFilesModel.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/RecentFilesModel.h>
 
 using namespace djv::Core;
 
@@ -22,12 +22,14 @@ namespace djv
             {
                 std::shared_ptr<VerticalLayout> layout;
 
-                std::function<void(const FileSystem::Path&)> callback;
+                std::function<void(const System::File::Path&)> callback;
 
-                std::shared_ptr<ListObserver<FileSystem::FileInfo> > recentPathsObserver;
+                std::shared_ptr<ListObserver<System::File::Info> > recentPathsObserver;
             };
 
-            void RecentPathsWidget::_init(const std::shared_ptr<FileSystem::RecentFilesModel> & model, const std::shared_ptr<Context>& context)
+            void RecentPathsWidget::_init(
+                const std::shared_ptr<System::File::RecentFilesModel> & model,
+                const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -39,10 +41,10 @@ namespace djv
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<RecentPathsWidget>(std::dynamic_pointer_cast<RecentPathsWidget>(shared_from_this()));
-                auto contextWeak = std::weak_ptr<Context>(context);
-                p.recentPathsObserver = ListObserver<FileSystem::FileInfo>::create(
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                p.recentPathsObserver = ListObserver<System::File::Info>::create(
                     model->observeFiles(),
-                    [weak, contextWeak](const std::vector<FileSystem::FileInfo> & value)
+                    [weak, contextWeak](const std::vector<System::File::Info> & value)
                     {
                         if (auto context = contextWeak.lock())
                         {
@@ -87,24 +89,26 @@ namespace djv
             RecentPathsWidget::~RecentPathsWidget()
             {}
 
-            std::shared_ptr<RecentPathsWidget> RecentPathsWidget::create(const std::shared_ptr<FileSystem::RecentFilesModel> & model, const std::shared_ptr<Context>& context)
+            std::shared_ptr<RecentPathsWidget> RecentPathsWidget::create(
+                const std::shared_ptr<System::File::RecentFilesModel> & model,
+                const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<RecentPathsWidget>(new RecentPathsWidget);
                 out->_init(model, context);
                 return out;
             }
 
-            void RecentPathsWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
+            void RecentPathsWidget::setCallback(const std::function<void(const System::File::Path &)> & value)
             {
                 _p->callback = value;
             }
 
-            void RecentPathsWidget::_preLayoutEvent(Event::PreLayout& event)
+            void RecentPathsWidget::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void RecentPathsWidget::_layoutEvent(Event::Layout& event)
+            void RecentPathsWidget::_layoutEvent(System::Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

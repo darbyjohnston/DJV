@@ -74,11 +74,16 @@ SET(CMAKE_SHARED_LINKER_FLAGS_COVERAGE
     ""
     CACHE STRING "Flags used by the shared libraries linker during coverage builds."
     FORCE )
+SET(CMAKE_STATIC_LINKER_FLAGS_COVERAGE
+    ""
+    CACHE STRING "Flags used by the static libraries linker during coverage builds."
+    FORCE )
 MARK_AS_ADVANCED(
     CMAKE_CXX_FLAGS_COVERAGE
     CMAKE_C_FLAGS_COVERAGE
     CMAKE_EXE_LINKER_FLAGS_COVERAGE
-    CMAKE_SHARED_LINKER_FLAGS_COVERAGE )
+    CMAKE_SHARED_LINKER_FLAGS_COVERAGE
+    CMAKE_STATIC_LINKER_FLAGS_COVERAGE )
 
 IF ( NOT (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage"))
   MESSAGE( WARNING "Code coverage results with an optimized (non-Debug) build may be misleading" )
@@ -114,7 +119,7 @@ FUNCTION(SETUP_TARGET_FOR_COVERAGE _targetname _testrunner _outputname)
 		
 		# Capturing lcov counters and generating report
 		COMMAND ${LCOV_PATH} --directory . --capture --output-file ${_outputname}.info
-		COMMAND ${LCOV_PATH} --remove ${_outputname}.info 'tests/*' '/usr/*' --output-file ${_outputname}.info.cleaned
+		COMMAND ${LCOV_PATH} --remove ${_outputname}.info ${CMAKE_INSTALL_PREFIX}'/include/*' ${CMAKE_SOURCE_DIR}'/tests/*' '/usr/*' --output-file ${_outputname}.info.cleaned
 		COMMAND ${GENHTML_PATH} -o ${_outputname} ${_outputname}.info.cleaned
 		COMMAND ${CMAKE_COMMAND} -E remove ${_outputname}.info ${_outputname}.info.cleaned
 		

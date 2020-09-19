@@ -4,9 +4,11 @@
 
 #include <djvViewApp/ImageSettings.h>
 
-#include <djvAV/OCIOSystem.h>
+#include <djvOCIO/OCIOSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+
+#include <djvMath/BBoxFunc.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -24,10 +26,10 @@ namespace djv
             std::map<std::string, bool> colorSpaceBellowsState;
             std::shared_ptr<ValueSubject<UI::ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > aspectRatio;
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void ImageSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void ImageSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
@@ -41,7 +43,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageSettings> ImageSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ImageSettings> ImageSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ImageSettings>(new ImageSettings);
             out->_init(context);
@@ -88,12 +90,12 @@ namespace djv
             _p->aspectRatio->setIfChanged(value);
         }
 
-        const std::map<std::string, BBox2f>& ImageSettings::getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& ImageSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void ImageSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void ImageSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }

@@ -14,11 +14,11 @@ namespace djv
             return std::shared_ptr<PolyLinePrimitive>(new PolyLinePrimitive);
         }
 
-        inline void PolyLinePrimitive::setPointLists(const std::vector<std::shared_ptr<AV::Geom::PointList> >& value)
+        inline void PolyLinePrimitive::setPointLists(const std::vector<std::shared_ptr<Geom::PointList> >& value)
         {
             _pointLists = value;
             _pointCount = 0;
-            Core::BBox3f bbox = getBBox();
+            Math::BBox3f bbox = getBBox();
             for (const auto& i : _pointLists)
             {
                 auto j = i->v.begin();
@@ -35,11 +35,11 @@ namespace djv
             setBBox(bbox);
         }
 
-        inline void PolyLinePrimitive::addPointList(const std::shared_ptr<AV::Geom::PointList>& value)
+        inline void PolyLinePrimitive::addPointList(const std::shared_ptr<Geom::PointList>& value)
         {
             _pointLists.push_back(value);
             _pointCount += value->v.size();
-            Core::BBox3f bbox = getBBox();
+            Math::BBox3f bbox = getBBox();
             auto i = value->v.begin();
             if (i != value->v.end())
             {
@@ -62,7 +62,7 @@ namespace djv
             return false;
         }
 
-        inline const std::vector<std::shared_ptr<AV::Geom::PointList> >& PolyLinePrimitive::getPolyLines() const
+        inline const std::vector<std::shared_ptr<Geom::PointList> >& PolyLinePrimitive::getPolyLines() const
         {
             return _pointLists;
         }

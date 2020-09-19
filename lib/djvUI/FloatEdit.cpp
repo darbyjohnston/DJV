@@ -7,7 +7,8 @@
 #include <djvUI/FloatLabel.h>
 #include <djvUI/LineEdit.h>
 
-#include <djvCore/NumericValueModels.h>
+#include <djvMath/NumericValueModels.h>
+
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
@@ -19,15 +20,15 @@ namespace djv
         struct FloatEdit::Private
         {
             int precision = 2;
-            std::shared_ptr<ValueObserver<FloatRange> > rangeObserver;
+            std::shared_ptr<ValueObserver<Math::FloatRange> > rangeObserver;
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void FloatEdit::_init(const std::shared_ptr<Context>& context)
+        void FloatEdit::_init(const std::shared_ptr<System::Context>& context)
         {
             NumericEdit::_init(context);
             setClassName("djv::UI::FloatEdit");
-            setModel(FloatValueModel::create());
+            setModel(Math::FloatValueModel::create());
         }
 
         FloatEdit::FloatEdit() :
@@ -37,7 +38,7 @@ namespace djv
         FloatEdit::~FloatEdit()
         {}
         
-        std::shared_ptr<FloatEdit> FloatEdit::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FloatEdit> FloatEdit::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<FloatEdit>(new FloatEdit);
             out->_init(context);
@@ -58,16 +59,16 @@ namespace djv
             _textUpdate();
         }
 
-        void FloatEdit::setModel(const std::shared_ptr<INumericValueModel<float> >& model)
+        void FloatEdit::setModel(const std::shared_ptr<Math::INumericValueModel<float> >& model)
         {
             INumericEdit<float>::setModel(model);
             DJV_PRIVATE_PTR();
             if (model)
             {
                 auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
-                p.rangeObserver = ValueObserver<FloatRange>::create(
+                p.rangeObserver = ValueObserver<Math::FloatRange>::create(
                     model->observeRange(),
-                    [weak](const FloatRange& value)
+                    [weak](const Math::FloatRange& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -111,7 +112,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
                 _textUpdate();
                 _doCallback(reason);

@@ -9,8 +9,9 @@
 
 #include <djvUI/Window.h>
 
-#include <djvCore/Error.h>
-#include <djvCore/FileInfo.h>
+#include <djvSystem/FileInfoFunc.h>
+
+#include <djvCore/ErrorFunc.h>
 
 using namespace djv;
 
@@ -28,9 +29,9 @@ int main(int argc, char ** argv)
 
         // Create a file browser.
         auto fileBrowser = UI::FileBrowser::FileBrowser::create(app);
-        fileBrowser->setPath(Core::FileSystem::Path("."));
+        fileBrowser->setPath(System::File::Path("."));
         fileBrowser->setCallback(
-            [](const Core::FileSystem::FileInfo & value)
+            [](const System::File::Info & value)
         {
             std::cout << value << std::endl;
         });

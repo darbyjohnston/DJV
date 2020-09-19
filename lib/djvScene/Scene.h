@@ -6,30 +6,28 @@
 
 #include <djvScene/Enum.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 
 #include <glm/mat4x4.hpp>
 
 #include <list>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace djv
 {
-    namespace AV
+    namespace Render3D
     {
-        namespace Render3D
-        {
-            class Render;
+        class Render;
 
-        } // namespace Render3D
-    } // namespace AV
+    } // namespace Render3D
 
-    namespace Core
+    namespace System
     {
         class Context;
 
-    } // namespace Core
+    } // namespace System
 
     //! This namespace provides scene functionality.
     namespace Scene
@@ -61,7 +59,7 @@ namespace djv
             void setSceneXForm(const glm::mat4x4&);
 
             void bboxUpdate();
-            const Core::BBox3f& getBBox() const;
+            const Math::BBox3f& getBBox() const;
             float getBBoxMax() const;
 
             void printPrimitives();
@@ -81,7 +79,7 @@ namespace djv
             std::vector<std::shared_ptr<Layer> > _layers;
             SceneOrient _orient = SceneOrient::YUp;
             glm::mat4x4 _xform = glm::mat4x4(1.F);
-            Core::BBox3f _bbox = Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
+            Math::BBox3f _bbox = Math::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
             bool _bboxInit = true;
             std::list<glm::mat4x4> _xforms;
             const glm::mat4x4 _identity = glm::mat4x4(1.F);

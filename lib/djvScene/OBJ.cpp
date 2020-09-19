@@ -8,12 +8,14 @@
 #include <djvScene/MeshPrimitive.h>
 #include <djvScene/Scene.h>
 
-#include <djvAV/TriangleMesh.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/TextSystem.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/LogSystem.h>
+#include <djvGeom/TriangleMesh.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 
@@ -106,11 +108,11 @@ namespace djv
                         }
                     }
 
-                    void read(const std::string& fileName, AV::Geom::TriangleMesh& mesh, size_t threads)
+                    void read(const std::string& fileName, Geom::TriangleMesh& mesh, size_t threads)
                     {
                         // Open the file.
-                        auto io = FileSystem::FileIO::create();
-                        io->open(fileName, FileSystem::FileIO::Mode::Read);
+                        auto io = System::File::IO::create();
+                        io->open(fileName, System::File::IO::Mode::Read);
                         const size_t fileSize = io->getSize();
                         std::vector<char> data(fileSize);
                         char* fileStart = data.data();
@@ -136,11 +138,11 @@ namespace djv
                         }
 
                         // Read the file pieces.
-                        std::vector<AV::Geom::TriangleMesh*> meshPieces;
+                        std::vector<Geom::TriangleMesh*> meshPieces;
                         meshPieces.push_back(&mesh);
                         for (size_t i = 1; i < filePieces.size(); ++i)
                         {
-                            meshPieces.push_back(new AV::Geom::TriangleMesh);
+                            meshPieces.push_back(new Geom::TriangleMesh);
                         }
                         std::vector<std::future<void> > futures;
                         for (size_t i = 0; i < filePieces.size(); ++i)
@@ -154,7 +156,7 @@ namespace djv
                                     const char* line = filePiece.first;
                                     const char* lineEnd = filePiece.first;
                                     const char* word = nullptr;
-                                    AV::Geom::TriangleMesh::Face face;
+                                    Geom::TriangleMesh::Face face;
                                     glm::vec3 v;
                                     glm::vec3 c;
                                     for (; line < filePiece.second; ++lineEnd, line = lineEnd)
@@ -253,7 +255,7 @@ namespace djv
                                                     }
                                                 }
                                             }
-                                            AV::Geom::TriangleMesh::faceToTriangles(face, mesh->triangles);
+                                            Geom::TriangleMesh::faceToTriangles(face, mesh->triangles);
                                         }
                                     }
                                 }));
@@ -327,10 +329,10 @@ namespace djv
                 {}
 
                 std::shared_ptr<Read> Read::create(
-                    const Core::FileSystem::FileInfo& fileInfo,
-                    const std::shared_ptr<Core::TextSystem>& textSystem,
-                    const std::shared_ptr<Core::ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<Core::LogSystem>& logSystem)
+                    const System::File::Info& fileInfo,
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileInfo, textSystem, resourceSystem, logSystem);
@@ -358,7 +360,7 @@ namespace djv
                             {
                                 out = Scene::create();
                                 auto primitive = MeshPrimitive::create();
-                                auto mesh = std::shared_ptr<AV::Geom::TriangleMesh>(new AV::Geom::TriangleMesh);
+                                auto mesh = std::shared_ptr<Geom::TriangleMesh>(new Geom::TriangleMesh);
                                 read(_fileInfo.getFileName(), *mesh, threadCount);
                                 primitive->addMesh(mesh);
                                 auto material = DefaultMaterial::create();
@@ -372,7 +374,7 @@ namespace djv
                                     String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(_textSystem->getText(DJV_TEXT("error_file_write"))),
-                                    LogLevel::Error);
+                                    System::LogLevel::Error);
                             }
                             return out;
                         });
@@ -390,7 +392,7 @@ namespace djv
                 Plugin::~Plugin()
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
@@ -411,7 +413,7 @@ namespace djv
                     fromJSON(value, _p->options);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo) const
+                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo) const
                 {
                     return Read::create(fileInfo, _textSystem, _resourceSystem, _logSystem);
                 }

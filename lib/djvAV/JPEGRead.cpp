@@ -4,11 +4,14 @@
 
 #include <djvAV/JPEG.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/LogSystem.h>
-#include <djvCore/FileSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileFunc.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 
@@ -64,11 +67,11 @@ namespace djv
                 }
 
                 std::shared_ptr<Read> Read::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const ReadOptions& readOptions,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
@@ -135,7 +138,7 @@ namespace djv
                             {
                                 messages.push_back(i);
                             }
-                            throw FileSystem::Error(String::join(messages, ' '));
+                            throw System::File::Error(String::join(messages, ' '));
                         }
                     }
                     if (!jpegEnd(&f->jpeg, &f->jpegError))
@@ -148,7 +151,7 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
 
                     // Log any warnings.
@@ -157,7 +160,7 @@ namespace djv
                         _logSystem->log(
                             pluginName,
                             String::Format("{0}: {1}").arg(fileName).arg(i),
-                            LogLevel::Warning);
+                            System::LogLevel::Warning);
                     }
 
                     return out;
@@ -216,13 +219,13 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
                     f->jpegInit = true;
-                    f->f = FileSystem::fopen(fileName, "rb");
+                    f->f = System::File::fopen(fileName, "rb");
                     if (!f->f)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
@@ -236,13 +239,13 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
 
                     Image::Type imageType = Image::getIntType(f->jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_unsupported_color_components"))));
                     }
@@ -255,7 +258,7 @@ namespace djv
                     const jpeg_saved_marker_ptr marker = f->jpeg.marker_list;
                     if (marker)
                     {
-                        info.tags.setTag("Description", std::string((const char*)marker->data, marker->data_length));
+                        info.tags.set("Description", std::string((const char*)marker->data, marker->data_length));
                     }
 
                     return info;

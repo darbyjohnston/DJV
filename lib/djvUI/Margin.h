@@ -6,7 +6,7 @@
 
 #include <djvUI/Enum.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 
 #include <memory>
 
@@ -39,7 +39,7 @@ namespace djv
                 float getWidth(const std::shared_ptr<Style::Style>&) const;
                 float getHeight(const std::shared_ptr<Style::Style>&) const;
 
-                Core::BBox2f bbox(const Core::BBox2f&, const std::shared_ptr<Style::Style>&) const;
+                Math::BBox2f bbox(const Math::BBox2f&, const std::shared_ptr<Style::Style>&) const;
 
                 MetricsRole operator [] (Side) const;
                 MetricsRole& operator [] (Side);

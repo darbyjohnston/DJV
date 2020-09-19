@@ -6,7 +6,8 @@
 
 #include <djvUI/Label.h>
 
-#include <djvCore/NumericValueModels.h>
+#include <djvMath/NumericValueModels.h>
+
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
@@ -17,13 +18,13 @@ namespace djv
     {
         struct IntLabel::Private
         {
-            std::shared_ptr<IntValueModel> model;
+            std::shared_ptr<Math::IntValueModel> model;
             std::shared_ptr<Label> label;
-            std::shared_ptr<ValueObserver<IntRange> > rangeObserver;
+            std::shared_ptr<ValueObserver<Math::IntRange> > rangeObserver;
             std::shared_ptr<ValueObserver<int> > valueObserver;
         };
 
-        void IntLabel::_init(const std::shared_ptr<Context>& context)
+        void IntLabel::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -44,19 +45,19 @@ namespace djv
         IntLabel::~IntLabel()
         {}
 
-        std::shared_ptr<IntLabel> IntLabel::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<IntLabel> IntLabel::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<IntLabel>(new IntLabel);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<IntValueModel>& IntLabel::getModel() const
+        const std::shared_ptr<Math::IntValueModel>& IntLabel::getModel() const
         {
             return _p->model;
         }
 
-        void IntLabel::setModel(const std::shared_ptr<IntValueModel>& model)
+        void IntLabel::setModel(const std::shared_ptr<Math::IntValueModel>& model)
         {
             DJV_PRIVATE_PTR();
             if (p.model)
@@ -67,9 +68,9 @@ namespace djv
             if (p.model)
             {
                 auto weak = std::weak_ptr<IntLabel>(std::dynamic_pointer_cast<IntLabel>(shared_from_this()));
-                p.rangeObserver = ValueObserver<IntRange>::create(
+                p.rangeObserver = ValueObserver<Math::IntRange>::create(
                     p.model->observeRange(),
-                    [weak](const IntRange& value)
+                    [weak](const Math::IntRange& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -88,7 +89,7 @@ namespace djv
             }
         }
         
-        std::string IntLabel::getSizeString(const IntRange& range)
+        std::string IntLabel::getSizeString(const Math::IntRange& range)
         {
             std::string out;
             const size_t digits = std::max(Math::getNumDigits(range.getMin()), Math::getNumDigits(range.getMax()));
@@ -100,14 +101,14 @@ namespace djv
             return out;
         }
 
-        void IntLabel::_preLayoutEvent(Event::PreLayout& event)
+        void IntLabel::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.label->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void IntLabel::_layoutEvent(Event::Layout& event)
+        void IntLabel::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

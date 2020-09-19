@@ -8,6 +8,8 @@
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 
+#include <djvCore/StringFunc.h>
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
@@ -46,7 +48,7 @@ namespace djv
             static void initButton(const std::shared_ptr<ListButton>&, const ListItem&);
         };
 
-        void ListWidget::_init(ButtonType buttonType, const std::shared_ptr<Context>& context)
+        void ListWidget::_init(ButtonType buttonType, const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -67,7 +69,7 @@ namespace djv
         ListWidget::~ListWidget()
         {}
 
-        std::shared_ptr<ListWidget> ListWidget::create(ButtonType buttonType, const std::shared_ptr<Context>& context)
+        std::shared_ptr<ListWidget> ListWidget::create(ButtonType buttonType, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ListWidget>(new ListWidget);
             out->_init(buttonType, context);
@@ -157,17 +159,17 @@ namespace djv
             _filterUpdate();
         }
 
-        void ListWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ListWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ListWidget::_layoutEvent(Event::Layout& event)
+        void ListWidget::_layoutEvent(System::Event::Layout& event)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ListWidget::_keyPressEvent(Event::KeyPress& event)
+        void ListWidget::_keyPressEvent(System::Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();

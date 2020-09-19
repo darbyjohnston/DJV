@@ -7,11 +7,11 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/FontSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Animation.h>
-#include <djvCore/Context.h>
+#include <djvSystem/Animation.h>
+#include <djvSystem/Context.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -36,10 +36,10 @@ namespace djv
             struct Toggle::Private
             {
                 float animationValue = 0.F;
-                std::shared_ptr<Animation::Animation> animation;
+                std::shared_ptr<System::Animation::Animation> animation;
             };
 
-            void Toggle::_init(const std::shared_ptr<Context>& context)
+            void Toggle::_init(const std::shared_ptr<System::Context>& context)
             {
                 IButton::_init(context);
 
@@ -48,7 +48,7 @@ namespace djv
                 setButtonType(ButtonType::Toggle);
                 setHAlign(HAlign::Left);
                 setVAlign(VAlign::Center);
-                p.animation = Animation::Animation::create(context);
+                p.animation = System::Animation::Animation::create(context);
             }
 
             Toggle::Toggle() :
@@ -58,7 +58,7 @@ namespace djv
             Toggle::~Toggle()
             {}
 
-            std::shared_ptr<Toggle> Toggle::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Toggle> Toggle::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Toggle>(new Toggle);
                 out->_init(context);
@@ -102,7 +102,7 @@ namespace djv
                 return out;
             }
 
-            void Toggle::_preLayoutEvent(Event::PreLayout& event)
+            void Toggle::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
@@ -110,7 +110,7 @@ namespace djv
                 _setMinimumSize(glm::vec2(is * 2.F, is) + btf * 2.F + getMargin().getSize(style));
             }
 
-            void Toggle::_paintEvent(Event::Paint& event)
+            void Toggle::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
 
@@ -118,7 +118,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                 const auto& render = _getRender();
                 if (hasTextFocus())
@@ -132,7 +132,7 @@ namespace djv
                     drawBorder(render, g.margin(-b), b);
                 }
 
-                const BBox2f& g2 = g.margin(-btf);
+                const Math::BBox2f& g2 = g.margin(-btf);
                 render->setFillColor(style->getColor(ColorRole::Trough));
                 render->drawRect(g2);
 
@@ -144,7 +144,7 @@ namespace djv
 
                 const float r = g2.h() / 2.F;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
-                const BBox2f handleBBox = BBox2f(x - r, g2.min.y, r * 2.F, r * 2.F).margin(-b);
+                const Math::BBox2f handleBBox = Math::BBox2f(x - r, g2.min.y, r * 2.F, r * 2.F).margin(-b);
                 if (isChecked())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
@@ -165,7 +165,7 @@ namespace djv
                 }
             }
 
-            void Toggle::_buttonPressEvent(Event::ButtonPress& event)
+            void Toggle::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 IButton::_buttonPressEvent(event);
                 if (event.isAccepted())
@@ -174,7 +174,7 @@ namespace djv
                 }
             }
 
-            void Toggle::_keyPressEvent(Event::KeyPress& event)
+            void Toggle::_keyPressEvent(System::Event::KeyPress& event)
             {
                 IButton::_keyPressEvent(event);
                 if (!event.isAccepted() && hasTextFocus())
@@ -195,12 +195,12 @@ namespace djv
                 }
             }
 
-            void Toggle::_textFocusEvent(Event::TextFocus&)
+            void Toggle::_textFocusEvent(System::Event::TextFocus&)
             {
                 _redraw();
             }
 
-            void Toggle::_textFocusLostEvent(Event::TextFocusLost&)
+            void Toggle::_textFocusLostEvent(System::Event::TextFocusLost&)
             {
                 _redraw();
             }

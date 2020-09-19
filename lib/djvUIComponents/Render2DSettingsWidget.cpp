@@ -10,10 +10,10 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToggleButton.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/DataFunc.h>
+#include <djvRender2D/Render2DSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -23,13 +23,13 @@ namespace djv
     {
         struct Render2DImageSettingsWidget::Private
         {
-            AV::Render2D::ImageFilterOptions filterOptions;
+            Render2D::ImageFilterOptions filterOptions;
             std::shared_ptr<UI::ComboBox> filterComboBox[2];
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageFilterOptions> > filterOptionsObserver;
+            std::shared_ptr<ValueObserver<Render2D::ImageFilterOptions> > filterOptionsObserver;
         };
 
-        void Render2DImageSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void Render2DImageSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -45,7 +45,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<Render2DImageSettingsWidget>(std::dynamic_pointer_cast<Render2DImageSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.filterComboBox[0]->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -53,8 +53,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->filterOptions.min = static_cast<AV::Render2D::ImageFilter>(value);
-                            auto avSystem = context->getSystemT<AV::AVSystem>();
+                            widget->_p->filterOptions.min = static_cast<Render2D::ImageFilter>(value);
+                            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
                             avSystem->setImageFilterOptions(widget->_p->filterOptions);
                         }
                     }
@@ -66,17 +66,17 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->filterOptions.mag = static_cast<AV::Render2D::ImageFilter>(value);
-                            auto avSystem = context->getSystemT<AV::AVSystem>();
+                            widget->_p->filterOptions.mag = static_cast<Render2D::ImageFilter>(value);
+                            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
                             avSystem->setImageFilterOptions(widget->_p->filterOptions);
                         }
                     }
                 });
 
-            auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.filterOptionsObserver = ValueObserver<AV::Render2D::ImageFilterOptions>::create(
+            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
+            p.filterOptionsObserver = ValueObserver<Render2D::ImageFilterOptions>::create(
                 avSystem->observeImageFilterOptions(),
-                [weak](const AV::Render2D::ImageFilterOptions& value)
+                [weak](const Render2D::ImageFilterOptions& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -90,7 +90,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<Render2DImageSettingsWidget> Render2DImageSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Render2DImageSettingsWidget> Render2DImageSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<Render2DImageSettingsWidget>(new Render2DImageSettingsWidget);
             out->_init(context);
@@ -117,7 +117,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void Render2DImageSettingsWidget::_initEvent(Event::Init& event)
+        void Render2DImageSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -133,7 +133,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::vector<std::string> items;
-            for (auto i : AV::Render2D::getImageFilterEnums())
+            for (auto i : Render2D::getImageFilterEnums())
             {
                 std::stringstream ss;
                 ss << i;
@@ -152,7 +152,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > lcdRenderingObserver;
         };
 
-        void Render2DTextSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void Render2DTextSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -166,18 +166,18 @@ namespace djv
             p.layout->addChild(p.lcdRenderingButton);
             addChild(p.layout);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.lcdRenderingButton->setCheckedCallback(
                 [contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
                 {
-                    auto avSystem = context->getSystemT<AV::AVSystem>();
+                    auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
                     avSystem->setTextLCDRendering(value);
                 }
             });
 
-            auto avSystem = context->getSystemT<AV::AVSystem>();
+            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
             auto weak = std::weak_ptr<Render2DTextSettingsWidget>(std::dynamic_pointer_cast<Render2DTextSettingsWidget>(shared_from_this()));
             p.lcdRenderingObserver = ValueObserver<bool>::create(
                 avSystem->observeTextLCDRendering(),
@@ -194,7 +194,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<Render2DTextSettingsWidget> Render2DTextSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Render2DTextSettingsWidget> Render2DTextSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<Render2DTextSettingsWidget>(new Render2DTextSettingsWidget);
             out->_init(context);
@@ -221,7 +221,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void Render2DTextSettingsWidget::_initEvent(Event::Init& event)
+        void Render2DTextSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

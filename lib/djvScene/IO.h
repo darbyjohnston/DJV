@@ -4,9 +4,10 @@
 
 #pragma once
 
-#include <djvCore/FileInfo.h>
-#include <djvCore/ISystem.h>
-#include <djvCore/RapidJSON.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/ISystem.h>
+
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/ValueObserver.h>
 
 #include <future>
@@ -36,19 +37,19 @@ namespace djv
             {
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const System::File::Info&,
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
             public:
                 virtual ~IIO() = 0;
 
             protected:
-                std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
-                Core::FileSystem::FileInfo _fileInfo;
+                std::shared_ptr<System::LogSystem> _logSystem;
+                std::shared_ptr<System::ResourceSystem> _resourceSystem;
+                std::shared_ptr<System::TextSystem> _textSystem;
+                System::File::Info _fileInfo;
             };
 
             //! This class provides an interface for reading.
@@ -56,10 +57,10 @@ namespace djv
             {
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const System::File::Info&,
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
             public:
                 virtual ~IRead() = 0;
@@ -73,10 +74,10 @@ namespace djv
             {
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const System::File::Info&,
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
             public:
                 virtual ~IWrite() = 0;
@@ -92,7 +93,7 @@ namespace djv
                     const std::string& pluginName,
                     const std::string& pluginInfo,
                     const std::set<std::string>& fileExtensions,
-                    const std::shared_ptr<Core::Context>&);
+                    const std::shared_ptr<System::Context>&);
 
             public:
                 virtual ~IPlugin() = 0;
@@ -101,8 +102,8 @@ namespace djv
                 const std::string& getPluginInfo() const;
                 const std::set<std::string>& getFileExtensions() const;
 
-                virtual bool canRead(const Core::FileSystem::FileInfo&) const;
-                virtual bool canWrite(const Core::FileSystem::FileInfo&) const;
+                virtual bool canRead(const System::File::Info&) const;
+                virtual bool canWrite(const System::File::Info&) const;
 
                 virtual rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const;
 
@@ -111,36 +112,36 @@ namespace djv
                 virtual void setOptions(const rapidjson::Value&);
 
                 //! Throws:
-                //! - Core::FileSystem::Error
-                virtual std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&) const;
+                //! - System::File::Error
+                virtual std::shared_ptr<IRead> read(const System::File::Info&) const;
 
                 //! Throws:
-                //! - Core::FileSystem::Error
-                virtual std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&) const;
+                //! - System::File::Error
+                virtual std::shared_ptr<IWrite> write(const System::File::Info&) const;
 
             protected:
-                std::weak_ptr<Core::Context> _context;
-                std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
+                std::weak_ptr<System::Context> _context;
+                std::shared_ptr<System::LogSystem> _logSystem;
+                std::shared_ptr<System::ResourceSystem> _resourceSystem;
+                std::shared_ptr<System::TextSystem> _textSystem;
                 std::string _pluginName;
                 std::string _pluginInfo;
                 std::set<std::string> _fileExtensions;
             };
 
             //! This class provides an I/O system.
-            class System : public Core::ISystem
+            class IOSystem : public System::ISystem
             {
-                DJV_NON_COPYABLE(System);
+                DJV_NON_COPYABLE(IOSystem);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
-                System();
+                void _init(const std::shared_ptr<System::Context>&);
+                IOSystem();
 
             public:
-                ~System() override;
+                ~IOSystem() override;
 
-                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<IOSystem> create(const std::shared_ptr<System::Context>&);
 
                 std::set<std::string> getPluginNames() const;
                 std::set<std::string> getFileExtensions() const;
@@ -154,16 +155,16 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 
                 const std::set<std::string>& getSequenceExtensions() const;
-                bool canRead(const Core::FileSystem::FileInfo&) const;
-                bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
+                bool canRead(const System::File::Info&) const;
+                bool canWrite(const System::File::Info&, const Info&) const;
 
                 //! Throws:
-                //! - Core::FileSystem::Error
-                std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&);
+                //! - System::File::Error
+                std::shared_ptr<IRead> read(const System::File::Info&);
 
                 //! Throws:
-                //! - Core::FileSystem::Error
-                std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&);
+                //! - System::File::Error
+                std::shared_ptr<IWrite> write(const System::File::Info&);
 
             private:
                 DJV_PRIVATE();

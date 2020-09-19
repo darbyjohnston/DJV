@@ -4,7 +4,7 @@
 
 #include <djvViewApp/MediaWidgetPrivate.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -17,7 +17,7 @@ namespace djv
     {
         struct PointerWidget::Private
         {
-            uint32_t pressedID = Event::invalidID;
+            uint32_t pressedID = System::Event::invalidID;
             std::map<int, bool> buttons;
             int key = 0;
             int keyModifiers = 0;
@@ -26,7 +26,7 @@ namespace djv
             std::function<void(const ScrollData&)> scrollCallback;
         };
 
-        void PointerWidget::_init(const std::shared_ptr<Context>& context)
+        void PointerWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::ViewApp::PointerWidget");
@@ -36,7 +36,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PointerWidget> PointerWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<PointerWidget> PointerWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PointerWidget>(new PointerWidget);
             out->_init(context);
@@ -58,7 +58,7 @@ namespace djv
             _p->scrollCallback = callback;
         }
 
-        void PointerWidget::_pointerEnterEvent(Event::PointerEnter& event)
+        void PointerWidget::_pointerEnterEvent(System::Event::PointerEnter& event)
         {
             DJV_PRIVATE_PTR();
             if (!event.isRejected())
@@ -69,7 +69,7 @@ namespace djv
             }
         }
 
-        void PointerWidget::_pointerLeaveEvent(Event::PointerLeave& event)
+        void PointerWidget::_pointerLeaveEvent(System::Event::PointerLeave& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -77,7 +77,7 @@ namespace djv
             _doHoverCallback(PointerData(PointerState::End, pos, std::map<int, bool>(), p.key, p.keyModifiers));
         }
 
-        void PointerWidget::_pointerMoveEvent(Event::PointerMove& event)
+        void PointerWidget::_pointerMoveEvent(System::Event::PointerMove& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -92,7 +92,7 @@ namespace djv
             }
         }
 
-        void PointerWidget::_buttonPressEvent(Event::ButtonPress& event)
+        void PointerWidget::_buttonPressEvent(System::Event::ButtonPress& event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID)
@@ -104,19 +104,19 @@ namespace djv
             _doDragCallback(PointerData(PointerState::Start, info.pos, info.buttons, p.key, p.keyModifiers));
         }
 
-        void PointerWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void PointerWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getPointerInfo().id != p.pressedID)
                 return;
             event.accept();
             const auto& info = event.getPointerInfo();
-            p.pressedID = Event::invalidID;
+            p.pressedID = System::Event::invalidID;
             p.buttons = std::map<int, bool>();
             _doDragCallback(PointerData(PointerState::End, info.pos, info.buttons, p.key, p.keyModifiers));
         }
 
-        void PointerWidget::_keyPressEvent(Event::KeyPress& event)
+        void PointerWidget::_keyPressEvent(System::Event::KeyPress& event)
         {
             DJV_PRIVATE_PTR();
             if (!event.isAccepted())
@@ -138,14 +138,14 @@ namespace djv
             }
         }
 
-        void PointerWidget::_keyReleaseEvent(Event::KeyRelease& event)
+        void PointerWidget::_keyReleaseEvent(System::Event::KeyRelease& event)
         {
             DJV_PRIVATE_PTR();
             p.key = 0;
             p.keyModifiers = 0;
         }
 
-        void PointerWidget::_scrollEvent(Event::Scroll& event)
+        void PointerWidget::_scrollEvent(System::Event::Scroll& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();

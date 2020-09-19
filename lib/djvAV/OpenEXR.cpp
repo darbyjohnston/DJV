@@ -4,7 +4,9 @@
 
 #include <djvAV/OpenEXR.h>
 
-#include <djvCore/Time.h>
+#include <djvAV/TimeFunc.h>
+
+#include <djvCore/StringFunc.h>
 
 #include <ImfDoubleAttribute.h>
 #include <ImfFloatVectorAttribute.h>
@@ -12,6 +14,8 @@
 #include <ImfIntAttribute.h>
 #include <ImfStandardAttributes.h>
 #include <ImfThreading.h>
+
+#include <array>
 
 using namespace djv::Core;
 
@@ -115,7 +119,7 @@ namespace djv
                             return &i.channel();
                         }
                     }
-                    return 0;
+                    return nullptr;
                 }
 
                 namespace
@@ -300,10 +304,13 @@ namespace djv
                                 // Group as many additional channels as possible.
                                 for (;
                                     i != in.end() &&
-                                    i.channel() == channel &&
-                                    std::find(reserved.begin(), reserved.end(), &i.channel()) != reserved.end();
+                                    i.channel() == channel;
                                     ++i)
                                 {
+                                    if (std::find(reserved.begin(), reserved.end(), &i.channel()) != reserved.end())
+                                    {
+                                        continue;
+                                    }
                                     list.push_back(fromImf(i.name(), i.channel()));
                                 }
                             }
@@ -563,45 +570,45 @@ namespace djv
 
                 } // namespace
 
-                void readTags(const Imf::Header& header, Tags& tags, Math::Rational& speed)
+                void readTags(const Imf::Header& header, Image::Tags& tags, Math::Rational& speed)
                 {
                     // Predefined attributes.
-                    tags.setTag("Display Window", serialize(header.displayWindow()));
-                    tags.setTag("Data Window", serialize(header.dataWindow()));
-                    tags.setTag("Pixel Aspect Ratio", serialize(header.pixelAspectRatio()));
-                    tags.setTag("Screen Window Center", serialize(header.screenWindowCenter()));
-                    tags.setTag("Screen Window Width", serialize(header.screenWindowWidth()));
+                    tags.set("Display Window", serialize(header.displayWindow()));
+                    tags.set("Data Window", serialize(header.dataWindow()));
+                    tags.set("Pixel Aspect Ratio", serialize(header.pixelAspectRatio()));
+                    tags.set("Screen Window Center", serialize(header.screenWindowCenter()));
+                    tags.set("Screen Window Width", serialize(header.screenWindowWidth()));
                     {
                         std::vector<std::string> values;
                         for (auto i = header.channels().begin(); i != header.channels().end(); ++i)
                         {
                             values.push_back(i.name());
                         }
-                        tags.setTag("Channels", String::join(values, " "));
+                        tags.set("Channels", String::join(values, " "));
                     }
-                    tags.setTag("Line Order", serialize(header.lineOrder()));
-                    tags.setTag("Compression", serialize(header.compression()));
+                    tags.set("Line Order", serialize(header.lineOrder()));
+                    tags.set("Compression", serialize(header.compression()));
 
                     // Multipart attributes.
                     if (header.hasName())
                     {
-                        tags.setTag("Name", header.name());
+                        tags.set("Name", header.name());
                     }
                     if (header.hasType())
                     {
-                        tags.setTag("Type", header.type());
+                        tags.set("Type", header.type());
                     }
                     if (header.hasVersion())
                     {
-                        tags.setTag("Version", serialize(header.version()));
+                        tags.set("Version", serialize(header.version()));
                     }
                     if (header.hasChunkCount())
                     {
-                        tags.setTag("Chunk Count", serialize(header.chunkCount()));
+                        tags.set("Chunk Count", serialize(header.chunkCount()));
                     }
                     if (header.hasView())
                     {
-                        tags.setTag("View", header.view());
+                        tags.set("View", header.view());
                     }
 
                     // Tile description.
@@ -611,96 +618,96 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << value.xSize << " " << value.ySize;
-                            tags.setTag("Tile Size", ss.str());
+                            tags.set("Tile Size", ss.str());
                         }
-                        tags.setTag("Tile Level Mode", serialize(value.mode));
-                        tags.setTag("Tile Level Rounding Mode", serialize(value.roundingMode));
+                        tags.set("Tile Level Mode", serialize(value.mode));
+                        tags.set("Tile Level Rounding Mode", serialize(value.roundingMode));
                     }
 
                     // Standard attributes.
                     if (hasChromaticities(header))
                     {
-                        tags.setTag("Chromaticities", serialize(chromaticitiesAttribute(header).value()));
+                        tags.set("Chromaticities", serialize(chromaticitiesAttribute(header).value()));
                     }
                     if (hasWhiteLuminance(header))
                     {
-                        tags.setTag("White Luminance", serialize(whiteLuminanceAttribute(header).value()));
+                        tags.set("White Luminance", serialize(whiteLuminanceAttribute(header).value()));
                     }
                     if (hasAdoptedNeutral(header))
                     {
-                        tags.setTag("Adopted Neutral", serialize(adoptedNeutralAttribute(header).value()));
+                        tags.set("Adopted Neutral", serialize(adoptedNeutralAttribute(header).value()));
                     }
                     if (hasRenderingTransform(header))
                     {
-                        tags.setTag("Rendering Transform", renderingTransformAttribute(header).value());
+                        tags.set("Rendering Transform", renderingTransformAttribute(header).value());
                     }
                     if (hasLookModTransform(header))
                     {
-                        tags.setTag("Look Modification Transform", lookModTransformAttribute(header).value());
+                        tags.set("Look Modification Transform", lookModTransformAttribute(header).value());
                     }
                     if (hasXDensity(header))
                     {
-                        tags.setTag("X Density", serialize(xDensityAttribute(header).value()));
+                        tags.set("X Density", serialize(xDensityAttribute(header).value()));
                     }
                     if (hasOwner(header))
                     {
-                        tags.setTag("Owner", ownerAttribute(header).value());
+                        tags.set("Owner", ownerAttribute(header).value());
                     }
                     if (hasComments(header))
                     {
-                        tags.setTag("Comments", commentsAttribute(header).value());
+                        tags.set("Comments", commentsAttribute(header).value());
                     }
                     if (hasCapDate(header))
                     {
-                        tags.setTag("Capture Date", capDateAttribute(header).value());
+                        tags.set("Capture Date", capDateAttribute(header).value());
                     }
                     if (hasUtcOffset(header))
                     {
-                        tags.setTag("UTC Offset", serialize(utcOffsetAttribute(header).value()));
+                        tags.set("UTC Offset", serialize(utcOffsetAttribute(header).value()));
                     }
                     if (hasLongitude(header))
                     {
-                        tags.setTag("Longitude", serialize(longitudeAttribute(header).value()));
+                        tags.set("Longitude", serialize(longitudeAttribute(header).value()));
                     }
                     if (hasLatitude(header))
                     {
-                        tags.setTag("Latitude", serialize(latitudeAttribute(header).value()));
+                        tags.set("Latitude", serialize(latitudeAttribute(header).value()));
                     }
                     if (hasAltitude(header))
                     {
-                        tags.setTag("Altitude", serialize(altitudeAttribute(header).value()));
+                        tags.set("Altitude", serialize(altitudeAttribute(header).value()));
                     }
                     if (hasFocus(header))
                     {
-                        tags.setTag("Focus", serialize(focusAttribute(header).value()));
+                        tags.set("Focus", serialize(focusAttribute(header).value()));
                     }
                     if (hasExpTime(header))
                     {
-                        tags.setTag("Exposure Time", serialize(expTimeAttribute(header).value()));
+                        tags.set("Exposure Time", serialize(expTimeAttribute(header).value()));
                     }
                     if (hasAperture(header))
                     {
-                        tags.setTag("Aperture", serialize(apertureAttribute(header).value()));
+                        tags.set("Aperture", serialize(apertureAttribute(header).value()));
                     }
                     if (hasIsoSpeed(header))
                     {
-                        tags.setTag("ISO Speed", serialize(isoSpeedAttribute(header).value()));
+                        tags.set("ISO Speed", serialize(isoSpeedAttribute(header).value()));
                     }
                     if (hasEnvmap(header))
                     {
-                        tags.setTag("Environment Map", serialize(envmapAttribute(header).value()));
+                        tags.set("Environment Map", serialize(envmapAttribute(header).value()));
                     }
                     if (hasKeyCode(header))
                     {
-                        tags.setTag("Keycode", serialize(keyCodeAttribute(header).value()));
+                        tags.set("Keycode", serialize(keyCodeAttribute(header).value()));
                     }
                     if (hasTimeCode(header))
                     {
-                        tags.setTag("Timecode", serialize(timeCodeAttribute(header).value()));
+                        tags.set("Timecode", serialize(timeCodeAttribute(header).value()));
                     }
                     if (hasWrapmodes(header))
                     {
-                        tags.setTag("Wrap Modes", wrapmodesAttribute(header).value());
+                        tags.set("Wrap Modes", wrapmodesAttribute(header).value());
                     }
                     if (hasFramesPerSecond(header))
                     {
@@ -709,27 +716,27 @@ namespace djv
                     }
                     if (hasMultiView(header))
                     {
-                        tags.setTag("Multi-View", serialize(multiViewAttribute(header).value()));
+                        tags.set("Multi-View", serialize(multiViewAttribute(header).value()));
                     }
                     if (hasWorldToCamera(header))
                     {
-                        tags.setTag("World To Camera", serialize(worldToCameraAttribute(header).value()));
+                        tags.set("World To Camera", serialize(worldToCameraAttribute(header).value()));
                     }
                     if (hasWorldToNDC(header))
                     {
-                        tags.setTag("World To NDC", serialize(worldToNDCAttribute(header).value()));
+                        tags.set("World To NDC", serialize(worldToNDCAttribute(header).value()));
                     }
                     if (hasDeepImageState(header))
                     {
-                        tags.setTag("Deep Image State", serialize(deepImageStateAttribute(header).value()));
+                        tags.set("Deep Image State", serialize(deepImageStateAttribute(header).value()));
                     }
                     if (hasOriginalDataWindow(header))
                     {
-                        tags.setTag("Original Data Window", serialize(originalDataWindowAttribute(header).value()));
+                        tags.set("Original Data Window", serialize(originalDataWindowAttribute(header).value()));
                     }
                     if (hasDwaCompressionLevel(header))
                     {
-                        tags.setTag("DWA Compression Level", serialize(dwaCompressionLevelAttribute(header).value()));
+                        tags.set("DWA Compression Level", serialize(dwaCompressionLevelAttribute(header).value()));
                     }
 
                     // Other attributes.
@@ -742,144 +749,144 @@ namespace djv
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::StringAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), ta->value());
+                                    tags.set(i.name(), ta->value());
                                 }
                             }
                             else if ("stringVector" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::StringVectorAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("int" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::IntAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("float" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::FloatAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("floatVector" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::FloatVectorAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("double" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::DoubleAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("v2i" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::V2iAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("v2f" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::V2fAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("v2d" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::V2dAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("v3i" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::V3iAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("v3f" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::V3fAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("v3d" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::V3dAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("box2i" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::Box2iAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("box2f" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::Box2fAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("m33f" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::M33fAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("m33d" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::M33dAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("m44f" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::M44fAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("m44d" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::M44dAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                             else if ("rational" == std::string(i.attribute().typeName()))
                             {
                                 if (const auto ta = header.findTypedAttribute<Imf::RationalAttribute>(i.name()))
                                 {
-                                    tags.setTag(i.name(), serialize(ta->value()));
+                                    tags.set(i.name(), serialize(ta->value()));
                                 }
                             }
                         }
                     }
                 }
 
-                void writeTags(const Tags& tags, const Math::Rational& speed, Imf::Header& header)
+                void writeTags(const Image::Tags& tags, const Math::Rational& speed, Imf::Header& header)
                 {
-                    if (tags.hasTag("Chromaticities"))
+                    if (tags.contains("Chromaticities"))
                     {
-                        std::stringstream ss(tags.getTag("Chromaticities"));
+                        std::stringstream ss(tags.get("Chromaticities"));
                         std::vector<Imath::V2f> chromaticities;
                         chromaticities.resize(8);
                         for (size_t i = 0; i < 4; ++i)
@@ -894,72 +901,72 @@ namespace djv
                                 chromaticities[2],
                                 chromaticities[3]));
                     }
-                    if (tags.hasTag("White Luminance"))
+                    if (tags.contains("White Luminance"))
                     {
-                        addWhiteLuminance(header, std::stof(tags.getTag("White Luminance")));
+                        addWhiteLuminance(header, std::stof(tags.get("White Luminance")));
                     }
-                    if (tags.hasTag("X Density"))
+                    if (tags.contains("X Density"))
                     {
-                        addXDensity(header, std::stof(tags.getTag("X Desnity")));
+                        addXDensity(header, std::stof(tags.get("X Desnity")));
                     }
-                    if (tags.hasTag("Owner"))
+                    if (tags.contains("Owner"))
                     {
-                        addOwner(header, tags.getTag("Owner"));
+                        addOwner(header, tags.get("Owner"));
                     }
-                    if (tags.hasTag("Comments"))
+                    if (tags.contains("Comments"))
                     {
-                        addComments(header, tags.getTag("Comments"));
+                        addComments(header, tags.get("Comments"));
                     }
-                    if (tags.hasTag("Capture Date"))
+                    if (tags.contains("Capture Date"))
                     {
-                        addCapDate(header, tags.getTag("Capture Date"));
+                        addCapDate(header, tags.get("Capture Date"));
                     }
-                    if (tags.hasTag("UTC Offset"))
+                    if (tags.contains("UTC Offset"))
                     {
-                        addUtcOffset(header, std::stof(tags.getTag("UTC Offset")));
+                        addUtcOffset(header, std::stof(tags.get("UTC Offset")));
                     }
-                    if (tags.hasTag("Longitude"))
+                    if (tags.contains("Longitude"))
                     {
-                        addLongitude(header, std::stof(tags.getTag("Longitude")));
+                        addLongitude(header, std::stof(tags.get("Longitude")));
                     }
-                    if (tags.hasTag("Latitude"))
+                    if (tags.contains("Latitude"))
                     {
-                        addLatitude(header, std::stof(tags.getTag("Latitude")));
+                        addLatitude(header, std::stof(tags.get("Latitude")));
                     }
-                    if (tags.hasTag("Altitude"))
+                    if (tags.contains("Altitude"))
                     {
-                        addAltitude(header, std::stof(tags.getTag("Altitude")));
+                        addAltitude(header, std::stof(tags.get("Altitude")));
                     }
-                    if (tags.hasTag("Focus"))
+                    if (tags.contains("Focus"))
                     {
-                        addFocus(header, std::stof(tags.getTag("Focus")));
+                        addFocus(header, std::stof(tags.get("Focus")));
                     }
-                    if (tags.hasTag("Exposure Time"))
+                    if (tags.contains("Exposure Time"))
                     {
-                        addExpTime(header, std::stof(tags.getTag("Exposure Time")));
+                        addExpTime(header, std::stof(tags.get("Exposure Time")));
                     }
-                    if (tags.hasTag("Aperture"))
+                    if (tags.contains("Aperture"))
                     {
-                        addAperture(header, std::stof(tags.getTag("Aperture")));
+                        addAperture(header, std::stof(tags.get("Aperture")));
                     }
-                    if (tags.hasTag("ISO Speed"))
+                    if (tags.contains("ISO Speed"))
                     {
-                        addIsoSpeed(header, std::stof(tags.getTag("ISO Speed")));
+                        addIsoSpeed(header, std::stof(tags.get("ISO Speed")));
                     }
-                    if (tags.hasTag("Keycode"))
+                    if (tags.contains("Keycode"))
                     {
                         int id     = 0;
                         int type   = 0;
                         int prefix = 0;
                         int count  = 0;
                         int offset = 0;
-                        Time::stringToKeycode(tags.getTag("Keycode"), id, type, prefix, count, offset);
+                        Time::stringToKeycode(tags.get("Keycode"), id, type, prefix, count, offset);
                         addKeyCode(header, Imf::KeyCode(id, type, prefix, count, offset));
                     }
-                    if (tags.hasTag("Timecode"))
+                    if (tags.contains("Timecode"))
                     {
                         uint32_t timecode = 0;
-                        Time::stringToTimecode(tags.getTag("Timecode"), timecode);
+                        Time::stringToTimecode(tags.get("Timecode"), timecode);
                         addTimeCode(header, timecode);
                     }
                     addFramesPerSecond(
@@ -967,9 +974,9 @@ namespace djv
                         Imf::Rational(speed.getNum(), speed.getDen()));
                 }
 
-                BBox2i fromImath(const Imath::Box2i& value)
+                Math::BBox2i fromImath(const Imath::Box2i& value)
                 {
-                    return BBox2i(glm::ivec2(value.min.x, value.min.y), glm::ivec2(value.max.x, value.max.y));
+                    return Math::BBox2i(glm::ivec2(value.min.x, value.min.y), glm::ivec2(value.max.x, value.max.y));
                 }
 
                 Imf::PixelType toImf(Image::DataType value)
@@ -1004,7 +1011,16 @@ namespace djv
                         fromImf(channel.type),
                         glm::ivec2(channel.xSampling, channel.ySampling));
                 }
-
+                    
+                bool Options::operator == (const Options& other) const
+                {
+                    return
+                        threadCount == other.threadCount &&
+                        channels == other.channels &&
+                        compression == other.compression &&
+                        dwaCompressionLevel == other.dwaCompressionLevel;
+                }
+                
                 struct Plugin::Private
                 {
                     Options options;
@@ -1014,7 +1030,7 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     Imf::setGlobalThreadCount(out->_p->options.threadCount);
@@ -1038,15 +1054,18 @@ namespace djv
                     Imf::setGlobalThreadCount(p.options.threadCount);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
+                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo, const ReadOptions& options) const
                 {
                     return Read::create(fileInfo, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const System::File::Info& fileInfo, const Info& info, const WriteOptions& options) const
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
+
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Channels);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Compression);
 
             } // namespace OpenEXR
         } // namespace IO

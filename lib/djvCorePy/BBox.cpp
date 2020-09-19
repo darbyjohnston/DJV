@@ -4,7 +4,7 @@
 
 #include <djvCorePy/CorePy.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

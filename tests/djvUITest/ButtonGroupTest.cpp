@@ -18,7 +18,8 @@ namespace djv
         class TestEventSystem : public EventSystem
         {
             DJV_NON_COPYABLE(TestEventSystem);
-            void _init(const std::shared_ptr<Context>& context)
+            
+            void _init(const std::shared_ptr<System::Context>& context)
             {
                 EventSystem::_init("TestEventSystem", context);
             }
@@ -27,7 +28,7 @@ namespace djv
             {}
 
         public:
-            static std::shared_ptr<TestEventSystem> create(const std::shared_ptr<Context>& context)
+            static std::shared_ptr<TestEventSystem> create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
                 out->_init(context);
@@ -35,12 +36,14 @@ namespace djv
             }
 
         protected:
-            void _hover(Event::PointerMove&, std::shared_ptr<IObject>&) override
+            void _hover(System::Event::PointerMove&, std::shared_ptr<System::IObject>&) override
             {}
         };
 
-        ButtonGroupTest::ButtonGroupTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::UITest::ButtonGroupTest", context)
+        ButtonGroupTest::ButtonGroupTest(
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
+            ITickTest("djv::UITest::ButtonGroupTest", tempPath, context)
         {}
         
         void ButtonGroupTest::run()

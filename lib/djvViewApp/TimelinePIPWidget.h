@@ -6,29 +6,26 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/Frame.h>
+#include <djvMath/FrameNumber.h>
 
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
 
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace System
+    } // namespace File
 
-    namespace AV
+    namespace Render2D
     {
-        namespace Render2D
-        {
-            class ImageOptions;
+        class ImageOptions;
 
-        } // namespace Render2D
-    } // namespace AV
+    } // namespace Render2D
 
     namespace ViewApp
     {
@@ -39,24 +36,24 @@ namespace djv
             DJV_NON_COPYABLE(TimelinePIPWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             TimelinePIPWidget();
 
         public:
             ~TimelinePIPWidget() override;
 
-            static std::shared_ptr<TimelinePIPWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TimelinePIPWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setFileInfo(const Core::FileSystem::FileInfo&);
-            void setPos(const glm::vec2&, Core::Frame::Index, const Core::BBox2f&);
+            void setFileInfo(const System::File::Info&);
+            void setPos(const glm::vec2&, Math::Frame::Index, const Math::BBox2f&);
 
-            void setImageOptions(const AV::Render2D::ImageOptions&);
+            void setImageOptions(const Render2D::ImageOptions&);
             void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 
         protected:
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
         private:
             void _textUpdate();

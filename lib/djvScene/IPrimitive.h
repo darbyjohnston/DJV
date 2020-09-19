@@ -7,9 +7,10 @@
 #include <djvScene/Enum.h>
 #include <djvScene/Layer.h>
 
-#include <djvAV/Color.h>
+#include <djvImage/Color.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
+
 #include <djvCore/UID.h>
 
 #include <glm/mat4x4.hpp>
@@ -18,21 +19,18 @@
 
 namespace djv
 {
-    namespace AV
+    namespace Geom
     {
-        namespace Geom
-        {
-            class PointList;
-            class TriangleMesh;
+        class PointList;
+        class TriangleMesh;
 
-        } // namespace Geom
+    } // namespace Geom
 
-        namespace Render3D
-        {
-            class Render;
+    namespace Render3D
+    {
+        class Render;
 
-        } // namespace Render3D
-    } // namespace AV
+    } // namespace Render3D
 
     namespace Scene
     {
@@ -59,17 +57,17 @@ namespace djv
             bool isVisible() const;
             void setVisible(bool);
 
-            const Core::BBox3f& getBBox() const;
-            void setBBox(const Core::BBox3f&);
+            const Math::BBox3f& getBBox() const;
+            void setBBox(const Math::BBox3f&);
 
             const glm::mat4x4& getXForm() const;
             bool isXFormIdentity() const;
             void setXForm(const glm::mat4x4&);
 
             ColorAssignment getColorAssignment() const;
-            const AV::Image::Color& getColor() const;
+            const Image::Color& getColor() const;
             void setColorAssignment(ColorAssignment);
-            void setColor(const AV::Image::Color&);
+            void setColor(const Image::Color&);
 
             MaterialAssignment getMaterialAssignment() const;
             const std::shared_ptr<IMaterial>& getMaterial() const;
@@ -85,9 +83,9 @@ namespace djv
 
             virtual const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const;
 
-            virtual const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const;
-            virtual const std::vector<std::shared_ptr<AV::Geom::PointList> >& getPolyLines() const;
-            virtual const std::shared_ptr<AV::Geom::PointList>& getPointList() const;
+            virtual const std::vector<std::shared_ptr<Geom::TriangleMesh> >& getMeshes() const;
+            virtual const std::vector<std::shared_ptr<Geom::PointList> >& getPolyLines() const;
+            virtual const std::shared_ptr<Geom::PointList>& getPointList() const;
 
             virtual size_t getPointCount() const;
 
@@ -95,18 +93,18 @@ namespace djv
             Core::UID _uid = 0;
             std::string _name;
             bool _visible = true;
-            Core::BBox3f _bbox = Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
+            Math::BBox3f _bbox = Math::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
             glm::mat4x4 _xform = glm::mat4x4(1.F);
             bool _xformIdentity = true;
             ColorAssignment _colorAssignment = ColorAssignment::Primitive;
-            AV::Image::Color _color;
+            Image::Color _color;
             MaterialAssignment _materialAssignment = MaterialAssignment::Primitive;
             std::shared_ptr<IMaterial> _material;
             std::weak_ptr<IPrimitive> _parent;
             std::vector<std::shared_ptr<IPrimitive> > _children;
-            static std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > _meshesDummy;
-            static std::vector<std::shared_ptr<AV::Geom::PointList> > _polyLinesDummy;
-            static std::shared_ptr<AV::Geom::PointList> _pointListDummy;
+            static std::vector<std::shared_ptr<Geom::TriangleMesh> > _meshesDummy;
+            static std::vector<std::shared_ptr<Geom::PointList> > _polyLinesDummy;
+            static std::shared_ptr<Geom::PointList> _pointListDummy;
         };
 
     } // namespace Scene

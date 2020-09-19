@@ -6,26 +6,23 @@
 
 #include <djvScene/Enum.h>
 
-#include <djvAV/Color.h>
+#include <djvImage/Color.h>
 
 #include <memory>
 
 namespace djv
 {
-    namespace AV
+    namespace Render3D
     {
-        namespace Render3D
-        {
-            class IMaterial;
+        class IMaterial;
 
-        } // namespace Render3D
-    } // namespace AV
+    } // namespace Render3D
 
-    namespace Core
+    namespace System
     {
         class Context;
 
-    } // namespace AV
+    } // namespace System
 
     namespace Scene
     {
@@ -40,7 +37,7 @@ namespace djv
         public:
             virtual ~IMaterial() = 0;
 
-            virtual std::shared_ptr<AV::Render3D::IMaterial> createMaterial(const std::shared_ptr<Core::Context>&) = 0;
+            virtual std::shared_ptr<Render3D::IMaterial> createMaterial(const std::shared_ptr<System::Context>&) = 0;
         };
 
         //! This class provides a default material.
@@ -52,31 +49,31 @@ namespace djv
         public:
             static std::shared_ptr<DefaultMaterial> create();
 
-            std::shared_ptr<AV::Render3D::IMaterial> createMaterial(const std::shared_ptr<Core::Context>&) override;
+            std::shared_ptr<Render3D::IMaterial> createMaterial(const std::shared_ptr<System::Context>&) override;
 
-            const AV::Image::Color& getAmbient() const;
-            const AV::Image::Color& getDiffuse() const;
-            const AV::Image::Color& getEmission() const;
-            const AV::Image::Color& getSpecular() const;
+            const Image::Color& getAmbient() const;
+            const Image::Color& getDiffuse() const;
+            const Image::Color& getEmission() const;
+            const Image::Color& getSpecular() const;
             float getShine() const;
             float getTransparency() const;
             float getReflectivity() const;
             bool hasDisableLighting() const;
 
-            void setAmbient(const AV::Image::Color&);
-            void setDiffuse(const AV::Image::Color&);
-            void setEmission(const AV::Image::Color&);
-            void setSpecular(const AV::Image::Color&);
+            void setAmbient(const Image::Color&);
+            void setDiffuse(const Image::Color&);
+            void setEmission(const Image::Color&);
+            void setSpecular(const Image::Color&);
             void setShine(float);
             void setTransparency(float);
             void setReflectivity(float);
             void setDisableLighting(bool);
 
         private:
-            AV::Image::Color _ambient = AV::Image::Color::RGB_F32(0.F, 0.F, 0.4F);
-            AV::Image::Color _diffuse = AV::Image::Color::RGB_F32(.5F, .5F, .5F);
-            AV::Image::Color _emission = AV::Image::Color::RGB_F32(0.F, 0.F, 0.F);
-            AV::Image::Color _specular = AV::Image::Color::RGB_F32(1.F, 1.F, 1.F);
+            Image::Color _ambient = Image::Color::RGB_F32(0.F, 0.F, 0.4F);
+            Image::Color _diffuse = Image::Color::RGB_F32(.5F, .5F, .5F);
+            Image::Color _emission = Image::Color::RGB_F32(0.F, 0.F, 0.F);
+            Image::Color _specular = Image::Color::RGB_F32(1.F, 1.F, 1.F);
             float _shine = 0.F;
             float _transparency = 0.F;
             float _reflectivity = 0.F;

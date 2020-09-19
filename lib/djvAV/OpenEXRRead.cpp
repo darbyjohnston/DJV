@@ -4,10 +4,11 @@
 
 #include <djvAV/OpenEXR.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/FileSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
 
 #include <ImfChannelList.h>
 #include <ImfHeader.h>
@@ -27,10 +28,10 @@ namespace djv
 #if defined(DJV_MMAP)
                 struct MemoryMappedIStream::Private
                 {
-                    FileSystem::FileIO  f;
-                    uint64_t            size    = 0;
-                    uint64_t            pos     = 0;
-                    char*               p       = nullptr;
+                    System::File::IO f;
+                    uint64_t         size    = 0;
+                    uint64_t         pos     = 0;
+                    char*            p       = nullptr;
                 };
 
                 MemoryMappedIStream::MemoryMappedIStream(const char fileName[]) :
@@ -38,7 +39,7 @@ namespace djv
                     _p(new Private)
                 {
                     DJV_PRIVATE_PTR();
-                    p.f.open(fileName, FileSystem::FileIO::Mode::Read);
+                    p.f.open(fileName, System::File::IO::Mode::Read);
                     p.size = p.f.getSize();
                     p.p = (char*)(p.f.mmapP());
                 }
@@ -55,9 +56,9 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     if (p.pos >= p.size)
-                        throw FileSystem::Error("Error reading OpenEXR file.");
+                        throw System::File::Error("Error reading OpenEXR file.");
                     if (p.pos + n > p.size)
-                        throw FileSystem::Error("Error reading OpenEXR file.");
+                        throw System::File::Error("Error reading OpenEXR file.");
                     char* out = p.p + p.pos;
                     p.pos += n;
                     return out;
@@ -67,9 +68,9 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     if (p.pos >= p.size)
-                        throw FileSystem::Error("Error reading OpenEXR file.");
+                        throw System::File::Error("Error reading OpenEXR file.");
                     if (p.pos + n > p.size)
-                        throw FileSystem::Error("Error reading OpenEXR file.");
+                        throw System::File::Error("Error reading OpenEXR file.");
                     memcpy(c, p.p + p.pos, n);
                     p.pos += n;
                     return p.pos < p.size;
@@ -94,9 +95,9 @@ namespace djv
 
                     std::unique_ptr<MemoryMappedIStream> s;
                     std::unique_ptr<Imf::InputFile>      f;
-                    BBox2i                               displayWindow;
-                    BBox2i                               dataWindow;
-                    BBox2i                               intersectedWindow;
+                    Math::BBox2i                         displayWindow;
+                    Math::BBox2i                         dataWindow;
+                    Math::BBox2i                         intersectedWindow;
                     std::vector<OpenEXR::Layer>          layers;
                     bool                                 fast              = false;
                 };
@@ -116,12 +117,12 @@ namespace djv
                 }
 
                 std::shared_ptr<Read> Read::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const ReadOptions& readOptions,
                     const Options& options,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_p->options = options;
@@ -264,7 +265,7 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(String::Format("{0}: {1}").
+                            throw System::File::Error(String::Format("{0}: {1}").
                                 arg(fileName).
                                 arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                         }

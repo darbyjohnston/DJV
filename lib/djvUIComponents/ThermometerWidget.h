@@ -6,8 +6,6 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/Range.h>
-
 namespace djv
 {
     namespace UI
@@ -19,13 +17,13 @@ namespace djv
             DJV_NON_COPYABLE(ThermometerWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ThermometerWidget();
 
         public:
             ~ThermometerWidget() override;
 
-            static std::shared_ptr<ThermometerWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ThermometerWidget> create(const std::shared_ptr<System::Context>&);
 
             Orientation getOrientation() const;
             void setOrientation(Orientation);
@@ -40,9 +38,9 @@ namespace djv
             void setSizeRole(MetricsRole);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
         private:
             DJV_PRIVATE();

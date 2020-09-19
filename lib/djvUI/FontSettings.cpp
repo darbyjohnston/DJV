@@ -4,9 +4,9 @@
 
 #include <djvUI/FontSettings.h>
 
-#include <djvAV/FontSystem.h>
+#include <djvRender2D/FontSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #if defined(GetObject)
 #undef GetObject
@@ -29,13 +29,13 @@ namespace djv
                 std::shared_ptr<MapSubject<std::string, std::string> > localeFonts;
             };
 
-            void Font::_init(const std::shared_ptr<Core::Context>& context)
+            void Font::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::Font", context);
 
                 DJV_PRIVATE_PTR();
                 p.localeFonts = MapSubject<std::string, std::string>::create();
-                p.localeFonts->setItem("Default", AV::Font::familyDefault);
+                p.localeFonts->setItem("Default", Render2D::Font::familyDefault);
                 p.localeFonts->setItem("ja", "Noto Sans CJK JP");
                 p.localeFonts->setItem("ko", "Noto Sans CJK KR");
                 p.localeFonts->setItem("zh", "Noto Sans CJK SC");
@@ -50,7 +50,7 @@ namespace djv
             Font::~Font()
             {}
 
-            std::shared_ptr<Font> Font::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<Font> Font::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Font>(new Font);
                 out->_init(context);

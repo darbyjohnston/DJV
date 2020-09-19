@@ -6,8 +6,9 @@
 
 #include <djvViewApp/ViewApp.h>
 
-#include <djvCore/BBox.h>
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
+
+#include <djvMath/BBox.h>
 
 #include <functional>
 #include <map>
@@ -40,12 +41,12 @@ namespace djv
         };
 
         //! This class provides the base functionality for systems.
-        class IViewSystem : public Core::ISystem
+        class IViewSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(IViewSystem);
 
         protected:
-            void _init(const std::string & name, const std::shared_ptr<Core::Context>&);
+            void _init(const std::string & name, const std::shared_ptr<System::Context>&);
             IViewSystem();
 
         public:
@@ -62,8 +63,8 @@ namespace djv
             virtual void _closeWidget(const std::string&);
 
             const std::map<std::string, std::shared_ptr<MDIWidget> >& _getWidgets() const;
-            const std::map<std::string, Core::BBox2f>& _getWidgetGeom() const;
-            void _setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+            const std::map<std::string, Math::BBox2f>& _getWidgetGeom() const;
+            void _setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             UI::ShortcutDataPair _getShortcuts(const std::string&) const;
             void _addShortcut(const std::string&, const UI::ShortcutDataPair&);

@@ -10,14 +10,11 @@
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Image;
+        class Image;
 
-        } // namespace Image
-    } // namespace AV
+    } // namespace Image
 
     namespace ViewApp
     {
@@ -27,16 +24,16 @@ namespace djv
             DJV_NON_COPYABLE(ImageSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ImageSystem();
 
         public:
             ~ImageSystem() override;
 
-            static std::shared_ptr<ImageSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ImageSystem> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFrameStoreEnabled() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeFrameStore() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Image::Image> > > observeFrameStore() const;
             void setFrameStoreEnabled(bool);
             void loadFrameStore();
             void clearFrameStore();

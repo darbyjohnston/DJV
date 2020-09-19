@@ -8,11 +8,13 @@
 
 #include <djvAV/AVSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Error.h>
-#include <djvCore/FileIO.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/ResourceSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/PathFunc.h>
+#include <djvSystem/ResourceSystem.h>
+
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/StringFormat.h>
 
 #include <rapidjson/error/en.h>
@@ -34,9 +36,9 @@ namespace djv
 
             } // namespace
 
-            void System::_init(bool reset, const std::shared_ptr<Core::Context>& context)
+            void SettingsSystem::_init(bool reset, const std::shared_ptr<System::Context>& context)
             {
-                ISystem::_init("djv::UI::Settings::System", context);
+                ISystem::_init("djv::UI::Settings::SettingsSystem", context);
                 
                 //! \bug Is there a better way to disable settings for tests?
                 if ("djvTest" == context->getName())
@@ -46,9 +48,9 @@ namespace djv
 
                 addDependency(context->getSystemT<AV::AVSystem>());
 
-                if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                if (auto resourceSystem = context->getSystemT<System::ResourceSystem>())
                 {
-                    _settingsPath = resourceSystem->getPath(FileSystem::ResourcePath::SettingsFile);
+                    _settingsPath = resourceSystem->getPath(System::File::ResourcePath::SettingsFile);
                 }
 
                 if (!reset)
@@ -57,27 +59,27 @@ namespace djv
                 }
             }
 
-            System::System()
+            SettingsSystem::SettingsSystem()
             {}
 
-            System::~System()
+            SettingsSystem::~SettingsSystem()
             {
                 _saveSettings();
             }
 
-            std::shared_ptr<System> System::create(bool reset, const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<SettingsSystem> SettingsSystem::create(bool reset, const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<System>(new System);
+                auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
                 out->_init(reset, context);
                 return out;
             }
 
-            void System::_addSettings(const std::shared_ptr<ISettings>& value)
+            void SettingsSystem::_addSettings(const std::shared_ptr<ISettings>& value)
             {
                 _settings.push_back(value);
             }
 
-            void System::_removeSettings(const std::shared_ptr<ISettings>& value)
+            void SettingsSystem::_removeSettings(const std::shared_ptr<ISettings>& value)
             {
                 const auto i = std::find(_settings.begin(), _settings.end(), value);
                 if (i != _settings.end())
@@ -86,7 +88,7 @@ namespace djv
                 }
             }
 
-            void System::_loadSettings(const std::shared_ptr<ISettings>& settings)
+            void SettingsSystem::_loadSettings(const std::shared_ptr<ISettings>& settings)
             {
                 if (!_settingsIO)
                     return;
@@ -109,13 +111,13 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << "Cannot read settings" << " '" << name << "': " << e.what();
-                            _log(ss.str(), LogLevel::Error);
+                            _log(ss.str(), System::LogLevel::Error);
                         }
                     }
                 }
             }
 
-            void System::_saveSettings()
+            void SettingsSystem::_saveSettings()
             {
                 if (!_settingsIO)
                     return;
@@ -135,19 +137,19 @@ namespace djv
                 _writeSettingsFile(document);
             }
 
-            void System::_readSettingsFile()
+            void SettingsSystem::_readSettingsFile()
             {
                 std::string readSettingsVersion;
                 try
                 {
-                    if (FileSystem::FileInfo(_settingsPath).doesExist())
+                    if (System::File::Info(_settingsPath).doesExist())
                     {
                         std::stringstream ss;
                         ss << "Reading settings: " << _settingsPath;
                         _log(ss.str());
 
-                        auto fileIO = FileSystem::FileIO::create();
-                        fileIO->open(_settingsPath.get(), FileSystem::FileIO::Mode::Read);
+                        auto fileIO = System::File::IO::create();
+                        fileIO->open(_settingsPath.get(), System::File::IO::Mode::Read);
                         size_t bufSize = 0;
 #if defined(DJV_MMAP)
                         const char * bufP = reinterpret_cast<const char *>(fileIO->mmapP());
@@ -189,7 +191,7 @@ namespace djv
                 {
                     std::stringstream ss;
                     ss << "Cannot read settings" << " '" << _settingsPath << "': " << e.what();
-                    _log(ss.str(), LogLevel::Error);
+                    _log(ss.str(), System::LogLevel::Error);
                 }
                 if (settingsVersion != readSettingsVersion)
                 {
@@ -200,7 +202,7 @@ namespace djv
                 }
             }
 
-            void System::_writeSettingsFile(const rapidjson::Document& document)
+            void SettingsSystem::_writeSettingsFile(const rapidjson::Document& document)
             {
                 try
                 {
@@ -212,15 +214,15 @@ namespace djv
                     rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
                     document.Accept(writer);
 
-                    auto fileIO = FileSystem::FileIO::create();
-                    fileIO->open(_settingsPath.get(), FileSystem::FileIO::Mode::Write);
+                    auto fileIO = System::File::IO::create();
+                    fileIO->open(_settingsPath.get(), System::File::IO::Mode::Write);
                     fileIO->write(buffer.GetString());
                 }
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
                     ss << "Cannot write settings" << " '" << _settingsPath << "': " << e.what();
-                    _log(ss.str(), LogLevel::Error);
+                    _log(ss.str(), System::LogLevel::Error);
                 }
             }
 

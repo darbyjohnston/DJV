@@ -8,7 +8,7 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -25,7 +25,7 @@ namespace djv
                 Layout::Margin insideMargin;
             };
 
-            void Border::_init(const std::shared_ptr<Context>& context)
+            void Border::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Border");
@@ -38,7 +38,7 @@ namespace djv
             Border::~Border()
             {}
 
-            std::shared_ptr<Border> Border::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Border> Border::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Border>(new Border);
                 out->_init(context);
@@ -97,7 +97,7 @@ namespace djv
                 return out;
             }
 
-            void Border::_preLayoutEvent(Event::PreLayout& event)
+            void Border::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -106,21 +106,21 @@ namespace djv
                 _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), p.insideMargin, style) + b * 2.F + m);
             }
 
-            void Border::_layoutEvent(Event::Layout& event)
+            void Border::_layoutEvent(System::Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float b = style->getMetric(p.borderSize);
-                const BBox2f& g = getGeometry().margin(-b);
+                const Math::BBox2f& g = getGeometry().margin(-b);
                 StackLayout::layout(getMargin().bbox(g, style), getChildWidgets(), p.insideMargin, style);
             }
 
-            void Border::_paintEvent(Event::Paint& event)
+            void Border::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float b = style->getMetric(p.borderSize);
                 const auto& render = _getRender();
                 render->setFillColor(style->getColor(p.borderColor));

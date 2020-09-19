@@ -19,13 +19,14 @@
 #include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
 
+#include <djvRender2D/Render.h>
+
 #include <djvAV/IOSystem.h>
-#include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -42,7 +43,7 @@ namespace djv
             std::shared_ptr<UI::FormLayout> layout;
         };
 
-        void WindowGeometrySettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void WindowGeometrySettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -59,7 +60,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<WindowGeometrySettingsWidget>(std::dynamic_pointer_cast<WindowGeometrySettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.restorePosButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
             {
@@ -67,7 +68,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                         {
                             windowSettings->setRestorePos(value);
@@ -83,7 +84,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                         {
                             windowSettings->setRestoreSize(value);
@@ -92,7 +93,7 @@ namespace djv
                 }
             });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
                 p.restorePosObserver = ValueObserver<bool>::create(
@@ -124,7 +125,7 @@ namespace djv
         WindowGeometrySettingsWidget::~WindowGeometrySettingsWidget()
         {}
 
-        std::shared_ptr<WindowGeometrySettingsWidget> WindowGeometrySettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<WindowGeometrySettingsWidget> WindowGeometrySettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<WindowGeometrySettingsWidget>(new WindowGeometrySettingsWidget);
             out->_init(context);
@@ -146,7 +147,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void WindowGeometrySettingsWidget::_initEvent(Event::Init& event)
+        void WindowGeometrySettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -167,7 +168,7 @@ namespace djv
             std::shared_ptr<ValueObserver<int> > monitorObserver;
         };
 
-        void FullscreenMonitorSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void FullscreenMonitorSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -181,7 +182,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<FullscreenMonitorSettingsWidget>(std::dynamic_pointer_cast<FullscreenMonitorSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.monitorComboBox->setCallback(
                 [weak, contextWeak](int value)
             {
@@ -189,7 +190,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                         {
                             windowSettings->setFullScreenMonitor(value);
@@ -214,7 +215,7 @@ namespace djv
                 }
             });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
                 p.monitorObserver = ValueObserver<int>::create(
@@ -237,7 +238,7 @@ namespace djv
         FullscreenMonitorSettingsWidget::~FullscreenMonitorSettingsWidget()
         {}
 
-        std::shared_ptr<FullscreenMonitorSettingsWidget> FullscreenMonitorSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FullscreenMonitorSettingsWidget> FullscreenMonitorSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<FullscreenMonitorSettingsWidget>(new FullscreenMonitorSettingsWidget);
             out->_init(context);
@@ -259,7 +260,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void FullscreenMonitorSettingsWidget::_initEvent(Event::Init& event)
+        void FullscreenMonitorSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -280,10 +281,10 @@ namespace djv
         {
             std::string fileName;
             AV::ThumbnailSystem::ImageFuture imageFuture;
-            std::shared_ptr<AV::Image::Image> image;
+            std::shared_ptr<Image::Image> image;
             bool scale = false;
             bool colorize = false;
-            Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
+            System::File::Path fileBrowserPath = System::File::Path(".");
 
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<UI::LineEdit> lineEdit;
@@ -300,7 +301,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > backgroundImageColorizeObserver;
         };
 
-        void BackgroundImageSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void BackgroundImageSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -309,8 +310,8 @@ namespace djv
 
             p.imageWidget = UI::ImageWidget::create(context);
             p.imageWidget->setMargin(UI::MetricsRole::MarginSmall);
-            AV::Render2D::ImageOptions options;
-            options.alphaBlend = AV::AlphaBlend::Straight;
+            Render2D::ImageOptions options;
+            options.alphaBlend = Render2D::AlphaBlend::Straight;
             p.imageWidget->setImageOptions(options);
             p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
             p.imageWidget->setHAlign(UI::HAlign::Center);
@@ -346,7 +347,7 @@ namespace djv
             _imageUpdate();
 
             auto weak = std::weak_ptr<BackgroundImageSettingsWidget>(std::dynamic_pointer_cast<BackgroundImageSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.lineEdit->setTextEditCallback(
                 [weak, contextWeak](const std::string& value, UI::TextEditReason)
                 {
@@ -354,7 +355,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                             {
                                 windowSettings->setBackgroundImage(value);
@@ -375,11 +376,11 @@ namespace djv
                                 widget->_p->fileBrowserDialog->close();
                             }
                             widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                            auto io = context->getSystemT<AV::IO::System>();
+                            auto io = context->getSystemT<AV::IO::IOSystem>();
                             widget->_p->fileBrowserDialog->setFileExtensions(io->getFileExtensions());
                             widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
                             widget->_p->fileBrowserDialog->setCallback(
-                                [weak, contextWeak](const Core::FileSystem::FileInfo& value)
+                                [weak, contextWeak](const System::File::Info& value)
                                 {
                                     if (auto context = contextWeak.lock())
                                     {
@@ -388,7 +389,7 @@ namespace djv
                                             widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
                                             widget->_p->fileBrowserDialog->close();
                                             widget->_p->fileBrowserDialog.reset();
-                                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                                             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                                             {
                                                 windowSettings->setBackgroundImage(std::string(value.getPath()));
@@ -419,7 +420,7 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                         {
                             windowSettings->setBackgroundImage(std::string());
@@ -432,7 +433,7 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                         {
                             windowSettings->setBackgroundImageScale(value);
@@ -445,7 +446,7 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                         {
                             windowSettings->setBackgroundImageColorize(value);
@@ -453,7 +454,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
                 p.backgroundImageObserver = ValueObserver<std::string>::create(
@@ -505,7 +506,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<BackgroundImageSettingsWidget> BackgroundImageSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<BackgroundImageSettingsWidget> BackgroundImageSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<BackgroundImageSettingsWidget>(new BackgroundImageSettingsWidget);
             out->_init(context);
@@ -532,7 +533,7 @@ namespace djv
             _p->formLayout->setLabelSizeGroup(value);
         }
 
-        void BackgroundImageSettingsWidget::_initEvent(Event::Init& event)
+        void BackgroundImageSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -546,7 +547,7 @@ namespace djv
             _imageUpdate();
         }
 
-        void BackgroundImageSettingsWidget::_updateEvent(Event::Update&)
+        void BackgroundImageSettingsWidget::_updateEvent(System::Event::Update&)
         {
             DJV_PRIVATE_PTR();
             if (p.imageFuture.future.valid() &&
@@ -559,7 +560,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     p.image.reset();
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
                 p.imageWidget->setImage(p.image);
             }
@@ -584,7 +585,7 @@ namespace djv
                     const auto& style = _getStyle();
                     const float s = style->getMetric(UI::MetricsRole::TextColumn);
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                    p.imageFuture = thumbnailSystem->getImage(p.fileName, AV::Image::Size(s, s));
+                    p.imageFuture = thumbnailSystem->getImage(p.fileName, Image::Size(s, s));
                 }
             }
         }

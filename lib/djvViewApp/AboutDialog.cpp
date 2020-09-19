@@ -10,7 +10,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -24,7 +24,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
         };
 
-        void AboutDialog::_init(const std::shared_ptr<Core::Context>& context)
+        void AboutDialog::_init(const std::shared_ptr<System::Context>& context)
         {
             IDialog::_init(context);
 
@@ -285,14 +285,14 @@ namespace djv
         AboutDialog::~AboutDialog()
         {}
 
-        std::shared_ptr<AboutDialog> AboutDialog::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<AboutDialog> AboutDialog::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AboutDialog>(new AboutDialog);
             out->_init(context);
             return out;
         }
 
-        void AboutDialog::_initEvent(Event::Init & event)
+        void AboutDialog::_initEvent(System::Event::Init & event)
         {
             IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();

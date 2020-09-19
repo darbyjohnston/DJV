@@ -16,8 +16,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
 
 #include <iomanip>
 
@@ -76,10 +76,10 @@ namespace djv
         struct MediaWidget::Private
         {
             std::shared_ptr<Media> media;
-            std::shared_ptr<AV::Image::Image> image;
+            std::shared_ptr<Image::Image> image;
             ViewLock viewLock = ViewLock::First;
             bool frameStoreEnabled = false;
-            std::shared_ptr<AV::Image::Image> frameStore;
+            std::shared_ptr<Image::Image> frameStore;
             bool active = false;
             std::shared_ptr<ValueSubject<PointerData> > hover;
             std::shared_ptr<ValueSubject<PointerData> > drag;
@@ -90,14 +90,14 @@ namespace djv
             std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
         };
 
-        void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
+        void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
         {
             IWidget::_init(context);
 
@@ -110,7 +110,7 @@ namespace djv
             p.scroll = ValueSubject<ScrollData>::create();
 
             p.titleBar = TitleBar::create(
-                media->getFileInfo().getFileName(Frame::invalid, false),
+                media->getFileInfo().getFileName(Math::Frame::invalid, false),
                 std::string(media->getFileInfo()),
                 context);
 
@@ -142,7 +142,7 @@ namespace djv
                         }
                     }
                 });
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.titleBar->setCloseCallback(
                 [media, contextWeak]
                 {
@@ -158,7 +158,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        const BBox2f& g = widget->_p->viewWidget->getGeometry();
+                        const Math::BBox2f& g = widget->_p->viewWidget->getGeometry();
                         widget->_p->hover->setIfChanged(
                             PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
@@ -169,7 +169,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->moveToFront();
-                        const BBox2f& g = widget->_p->viewWidget->getGeometry();
+                        const Math::BBox2f& g = widget->_p->viewWidget->getGeometry();
                         widget->_p->drag->setIfChanged(
                             PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
@@ -184,9 +184,9 @@ namespace djv
                     }
                 });
 
-            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+            p.imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                 p.media->observeCurrentImage(),
-                [weak](const std::shared_ptr<AV::Image::Image>& value)
+                [weak](const std::shared_ptr<Image::Image>& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -205,7 +205,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
             {
                 p.viewLockObserver = ValueObserver<ViewLock>::create(
@@ -231,9 +231,9 @@ namespace djv
                             widget->_imageUpdate();
                         }
                     });
-                p.frameStoreObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                p.frameStoreObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                     imageSystem->observeFrameStore(),
-                    [weak](const std::shared_ptr<AV::Image::Image>& value)
+                    [weak](const std::shared_ptr<Image::Image>& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -251,7 +251,7 @@ namespace djv
         MediaWidget::~MediaWidget()
         {}
 
-        std::shared_ptr<MediaWidget> MediaWidget::create(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
+        std::shared_ptr<MediaWidget> MediaWidget::create(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MediaWidget>(new MediaWidget);
             out->_init(media, context);
@@ -273,7 +273,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const BBox2f imageBBox = p.viewWidget->getImageBBox();
+            const Math::BBox2f imageBBox = p.viewWidget->getImageBBox();
             const float zoom = p.viewWidget->observeImageZoom()->get();
             const glm::vec2 imageSize = imageBBox.getSize() * zoom;
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y + p.titleBar->getHeight()));
@@ -295,7 +295,7 @@ namespace djv
             return _p->scroll;
         }
 
-        std::map<UI::MDI::Handle, std::vector<BBox2f> > MediaWidget::_getHandles() const
+        std::map<UI::MDI::Handle, std::vector<Math::BBox2f> > MediaWidget::_getHandles() const
         {
             auto out = IWidget::_getHandles();
             out[UI::MDI::Handle::Move] = { _p->titleBar->getGeometry() };
@@ -320,7 +320,7 @@ namespace djv
             _imageUpdate();
         }
 
-        void MediaWidget::_preLayoutEvent(Event::PreLayout&)
+        void MediaWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -344,12 +344,12 @@ namespace djv
             _setMinimumSize(size + sh * 2.F);
         }
 
-        void MediaWidget::_layoutEvent(Event::Layout&)
+        void MediaWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const BBox2f g = getGeometry().margin(-sh);
+            const Math::BBox2f g = getGeometry().margin(-sh);
             p.layout->setGeometry(g);
         }
 

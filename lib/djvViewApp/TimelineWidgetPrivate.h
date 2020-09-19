@@ -6,6 +6,9 @@
 
 #include <djvViewApp/TimelineWidget.h>
 
+#include <djvMath/FrameNumber.h>
+#include <djvMath/Rational.h>
+
 namespace djv
 {
     namespace ViewApp
@@ -17,7 +20,7 @@ namespace djv
         protected:
             void _init(
                 const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
             SpeedWidget();
 
         public:
@@ -25,13 +28,13 @@ namespace djv
 
             static std::shared_ptr<SpeedWidget> create(
                 const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _textUpdate();
@@ -45,24 +48,24 @@ namespace djv
             DJV_NON_COPYABLE(FrameWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             FrameWidget();
 
         public:
-            static std::shared_ptr<FrameWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FrameWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setSequence(const Core::Frame::Sequence&);
-            void setSpeed(const Core::Math::Rational&);
-            void setFrame(const Core::Frame::Index);
-            void setCallback(const std::function<void(Core::Frame::Index)>&);
+            void setSequence(const Math::Frame::Sequence&);
+            void setSpeed(const Math::Rational&);
+            void setFrame(const Math::Frame::Index);
+            void setCallback(const std::function<void(Math::Frame::Index)>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
         private:
-            void _setFrame(Core::Frame::Index);
+            void _setFrame(Math::Frame::Index);
             void _widgetUpdate();
 
             DJV_PRIVATE();
@@ -75,19 +78,19 @@ namespace djv
         protected:
             void _init(
                 const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
             AudioWidget();
 
         public:
             static std::shared_ptr<AudioWidget> create(
                 const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();

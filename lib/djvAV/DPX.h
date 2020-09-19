@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <djvAV/Cineon.h>
 #include <djvAV/SequenceIO.h>
 
 namespace djv
@@ -33,7 +32,6 @@ namespace djv
                     Count,
                     First = _1_0
                 };
-                DJV_ENUM_HELPERS(Version);
 
                 //! This enumeration provides DPX file endian options.
                 enum class Endian
@@ -45,7 +43,6 @@ namespace djv
                     Count,
                     First = Auto
                 };
-                DJV_ENUM_HELPERS(Endian);
 
                 //! This constant provides the DPX file magic numbers.
                 static const char magic[][5] =
@@ -64,7 +61,10 @@ namespace djv
                     TopBottomLeftRight,
                     TopBottomRightLeft,
                     BottomTopLeftRight,
-                    BottomTopRightLeft
+                    BottomTopRightLeft,
+                    
+                    Count,
+                    First = LeftRightTopBottom
                 };
 
                 //! This enumeration provides the DPX file channel descriptors.
@@ -110,7 +110,10 @@ namespace djv
                     NTSC,
                     PAL,
                     Z,
-                    ZHomogeneous
+                    ZHomogeneous,
+                    
+                    Count,
+                    First = User
                 };
 
                 //! This enumeration provides the colorimetric information for 1.0 version
@@ -148,7 +151,10 @@ namespace djv
                 {
                     Pack,
                     TypeA,
-                    TypeB
+                    TypeB,
+                    
+                    Count,
+                    First = Pack
                 };
 
                 //! This stuct provides the DPX file header.
@@ -261,38 +267,13 @@ namespace djv
                     TV tv;
                 };
 
-                //! Zero out the data in a DPX file header.
-                void zero(Header&);
-
-                //! Read a DPX file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                Header read(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    Info&,
-                    Cineon::ColorProfile&,
-                    const std::shared_ptr<Core::TextSystem>&);
-                
-                //! Write a DPX file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                void write(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    const Info&,
-                    Version,
-                    Endian,
-                    Cineon::ColorProfile);
-
-                //! Finish writing the DPX file header after image data is written.
-                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
-
                 //! This struct provides the DPX file I/O options.
                 struct Options
                 {
-                    Version     version    = Version::_2_0;
-                    Endian      endian     = Endian::MSB;
+                    Version version = Version::_2_0;
+                    Endian  endian  = Endian::MSB;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! This class provides the DPX file reader.
@@ -307,19 +288,19 @@ namespace djv
                     ~Read() override;
 
                     static std::shared_ptr<Read> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const ReadOptions&,
                         const Options&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Info _readInfo(const std::string&) override;
                     std::shared_ptr<Image::Image> _readImage(const std::string&) override;
 
                 private:
-                    Info _open(const std::string&, const std::shared_ptr<Core::FileSystem::FileIO>&);
+                    Info _open(const std::string&, const std::shared_ptr<System::File::IO>&);
 
                     DJV_PRIVATE();
                 };
@@ -336,13 +317,13 @@ namespace djv
                     ~Write() override;
 
                     static std::shared_ptr<Write> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const Info&,
                         const WriteOptions&,
                         const Options&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Image::Type _getImageType(Image::Type) const override;
@@ -362,13 +343,13 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
                     rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
                     void setOptions(const rapidjson::Value&) override;
 
-                    std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const override;
+                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
+                    std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();
@@ -377,14 +358,4 @@ namespace djv
             } // namespace DPX
         } // namespace IO
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::DPX::Version);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::DPX::Endian);
-
-    rapidjson::Value toJSON(const AV::IO::DPX::Options&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::IO::DPX::Options&);
-
 } // namespace djv

@@ -6,7 +6,9 @@
 
 #include <djvViewApp/Media.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
+
+#include <array>
 
 using namespace djv::Core;
 
@@ -27,11 +29,11 @@ namespace djv
 
         struct AnnotatePrimitive::Private
         {
-            std::weak_ptr<Context> context;
+            std::weak_ptr<System::Context> context;
             AnnotateOptions options;
         };
         
-        void AnnotatePrimitive::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        void AnnotatePrimitive::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
@@ -50,7 +52,7 @@ namespace djv
             return _p->options;
         }
         
-        const std::weak_ptr<Context>& AnnotatePrimitive::getContext() const
+        const std::weak_ptr<System::Context>& AnnotatePrimitive::getContext() const
         {
             return _p->context;
         }
@@ -60,7 +62,7 @@ namespace djv
             std::vector<glm::vec2> points;
         };
         
-        void AnnotatePolyline::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        void AnnotatePolyline::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             AnnotatePrimitive::_init(options, context);
         }
@@ -72,14 +74,14 @@ namespace djv
         AnnotatePolyline::~AnnotatePolyline()
         {}
         
-        std::shared_ptr<AnnotatePolyline> AnnotatePolyline::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        std::shared_ptr<AnnotatePolyline> AnnotatePolyline::create(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AnnotatePolyline>(new AnnotatePolyline);
             out->_init(options, context);
             return out;
         }
             
-        void AnnotatePolyline::draw(const std::shared_ptr<AV::Render2D::Render>& render)
+        void AnnotatePolyline::draw(const std::shared_ptr<Render2D::Render>& render)
         {
             DJV_PRIVATE_PTR();
             const auto& options = getOptions();
@@ -98,7 +100,7 @@ namespace djv
             std::vector<glm::vec2> points;
         };
 
-        void AnnotateLine::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        void AnnotateLine::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             AnnotatePrimitive::_init(options, context);
         }
@@ -110,14 +112,14 @@ namespace djv
         AnnotateLine::~AnnotateLine()
         {}
 
-        std::shared_ptr<AnnotateLine> AnnotateLine::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        std::shared_ptr<AnnotateLine> AnnotateLine::create(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateLine>(new AnnotateLine);
             out->_init(options, context);
             return out;
         }
 
-        void AnnotateLine::draw(const std::shared_ptr<AV::Render2D::Render>& render)
+        void AnnotateLine::draw(const std::shared_ptr<Render2D::Render>& render)
         {
             DJV_PRIVATE_PTR();
             const auto& options = getOptions();
@@ -140,7 +142,7 @@ namespace djv
             std::vector<glm::vec2> points;
         };
 
-        void AnnotateRectangle::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        void AnnotateRectangle::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             AnnotatePrimitive::_init(options, context);
         }
@@ -152,14 +154,14 @@ namespace djv
         AnnotateRectangle::~AnnotateRectangle()
         {}
 
-        std::shared_ptr<AnnotateRectangle> AnnotateRectangle::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        std::shared_ptr<AnnotateRectangle> AnnotateRectangle::create(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateRectangle>(new AnnotateRectangle);
             out->_init(options, context);
             return out;
         }
 
-        void AnnotateRectangle::draw(const std::shared_ptr<AV::Render2D::Render>& render)
+        void AnnotateRectangle::draw(const std::shared_ptr<Render2D::Render>& render)
         {
             DJV_PRIVATE_PTR();
             const auto& options = getOptions();
@@ -178,7 +180,7 @@ namespace djv
             std::vector<glm::vec2> points;
         };
 
-        void AnnotateEllipse::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        void AnnotateEllipse::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             AnnotatePrimitive::_init(options, context);
         }
@@ -190,14 +192,14 @@ namespace djv
         AnnotateEllipse::~AnnotateEllipse()
         {}
 
-        std::shared_ptr<AnnotateEllipse> AnnotateEllipse::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        std::shared_ptr<AnnotateEllipse> AnnotateEllipse::create(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateEllipse>(new AnnotateEllipse);
             out->_init(options, context);
             return out;
         }
 
-        void AnnotateEllipse::draw(const std::shared_ptr<AV::Render2D::Render>& render)
+        void AnnotateEllipse::draw(const std::shared_ptr<Render2D::Render>& render)
         {
             DJV_PRIVATE_PTR();
             const auto& options = getOptions();
@@ -274,6 +276,9 @@ namespace djv
             }
             p.undo->setAlways(true);
         }
+
+        DJV_ENUM_HELPERS_IMPLEMENTATION(AnnotateTool);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(AnnotateLineSize);
 
     } // namespace ViewApp
 

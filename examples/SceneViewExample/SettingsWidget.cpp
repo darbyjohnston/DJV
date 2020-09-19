@@ -8,11 +8,11 @@
 
 #include <djvUI/ScrollWidget.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv;
 
-void SettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
+void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     Widget::_init(context);
 
@@ -34,7 +34,7 @@ SettingsWidget::SettingsWidget()
 SettingsWidget::~SettingsWidget()
 {}
 
-std::shared_ptr<SettingsWidget> SettingsWidget::create(const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<SettingsWidget> SettingsWidget::create(const std::shared_ptr<System::Context>& context)
 {
     auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
     out->_init(context);
@@ -76,17 +76,17 @@ void SettingsWidget::clearChildren()
     _childLayout->clearChildren();
 }
 
-void SettingsWidget::_initLayoutEvent(Core::Event::InitLayout& event)
+void SettingsWidget::_initLayoutEvent(System::Event::InitLayout& event)
 {
     _sizeGroup->calcMinimumSize();
 }
 
-void SettingsWidget::_preLayoutEvent(Core::Event::PreLayout& event)
+void SettingsWidget::_preLayoutEvent(System::Event::PreLayout& event)
 {
     _setMinimumSize(_scrollWidget->getMinimumSize());
 }
 
-void SettingsWidget::_layoutEvent(Core::Event::Layout&)
+void SettingsWidget::_layoutEvent(System::Event::Layout&)
 {
     _scrollWidget->setGeometry(getGeometry());
 }

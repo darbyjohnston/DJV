@@ -4,12 +4,13 @@
 
 #pragma once
 
-#include <djvAV/AudioData.h>
-#include <djvAV/Image.h>
-#include <djvAV/Tags.h>
+#include <djvImage/Image.h>
+#include <djvImage/Tags.h>
 
-#include <djvCore/Frame.h>
-#include <djvCore/Speed.h>
+#include <djvAudio/AudioData.h>
+
+#include <djvMath/FrameNumber.h>
+#include <djvMath/Rational.h>
 
 #include <future>
 #include <queue>
@@ -30,11 +31,11 @@ namespace djv
                 Info();
 
                 std::string              fileName;
-                Core::Math::Rational     videoSpeed;
-                Core::Frame::Sequence    videoSequence;
+                Math::Rational           videoSpeed;
+                Math::Frame::Sequence    videoSequence;
                 std::vector<Image::Info> video;
                 Audio::Info              audio;
-                Tags                     tags;
+                Image::Tags              tags;
 
                 bool operator == (const Info&) const;
             };
@@ -44,9 +45,9 @@ namespace djv
             {
             public:
                 VideoFrame();
-                VideoFrame(Core::Frame::Number, const std::shared_ptr<Image::Image>&);
+                VideoFrame(Math::Frame::Number, const std::shared_ptr<Image::Image>&);
 
-                Core::Frame::Number           frame = 0;
+                Math::Frame::Number           frame = 0;
                 std::shared_ptr<Image::Image> image;
 
                 bool operator == (const VideoFrame&) const;
@@ -124,20 +125,20 @@ namespace djv
             {
             public:
                 InOutPoints();
-                InOutPoints(bool, Core::Frame::Index, Core::Frame::Index);
+                InOutPoints(bool, Math::Frame::Index, Math::Frame::Index);
 
                 bool isEnabled() const;
-                Core::Frame::Index getIn() const;
-                Core::Frame::Index getOut() const;
+                Math::Frame::Index getIn() const;
+                Math::Frame::Index getOut() const;
 
-                Core::Range::Range<Core::Frame::Index> getRange(size_t) const;
+                Math::Range<Math::Frame::Index> getRange(size_t) const;
 
                 bool operator == (const InOutPoints&) const;
 
             private:
                 bool _enabled = false;
-                Core::Frame::Index _in = Core::Frame::invalid;
-                Core::Frame::Index _out = Core::Frame::invalid;
+                Math::Frame::Index _in = Math::Frame::invalid;
+                Math::Frame::Index _out = Math::Frame::invalid;
             };
 
             //! This enumeration provides the playback direction for caching.
@@ -156,18 +157,18 @@ namespace djv
                 size_t getMax() const;
                 size_t getCount() const;
                 size_t getTotalByteCount() const;
-                Core::Frame::Sequence getFrames() const;
+                Math::Frame::Sequence getFrames() const;
                 size_t getReadBehind() const;
-                const Core::Frame::Sequence& getSequence() const;
+                const Math::Frame::Sequence& getSequence() const;
                 void setMax(size_t);
                 void setSequenceSize(size_t);
                 void setInOutPoints(const InOutPoints&);
                 void setDirection(Direction);
-                void setCurrentFrame(Core::Frame::Index);
+                void setCurrentFrame(Math::Frame::Index);
 
-                bool contains(Core::Frame::Index) const;
-                bool get(Core::Frame::Index, std::shared_ptr<AV::Image::Image>&) const;
-                void add(Core::Frame::Index, const std::shared_ptr<AV::Image::Image>&);
+                bool contains(Math::Frame::Index) const;
+                bool get(Math::Frame::Index, std::shared_ptr<Image::Image>&) const;
+                void add(Math::Frame::Index, const std::shared_ptr<Image::Image>&);
                 void clear();
 
             private:
@@ -177,11 +178,11 @@ namespace djv
                 size_t _sequenceSize = 0;
                 InOutPoints _inOutPoints;
                 Direction _direction = Direction::Forward;
-                Core::Frame::Index _currentFrame = 0;
+                Math::Frame::Index _currentFrame = 0;
                 //! \todo Should this be configurable?
                 size_t _readBehind = 10;
-                Core::Frame::Sequence _sequence;
-                std::map<Core::Frame::Index, std::shared_ptr<AV::Image::Image> > _cache;
+                Math::Frame::Sequence _sequence;
+                std::map<Math::Frame::Index, std::shared_ptr<Image::Image> > _cache;
             };
 
         } // namespace IO

@@ -18,13 +18,13 @@ namespace djv
             DJV_NON_COPYABLE(MediaCanvas);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             MediaCanvas();
 
         public:
             ~MediaCanvas() override;
 
-            static std::shared_ptr<MediaCanvas> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MediaCanvas> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<MediaWidget> getActiveWidget() const;
             void setActiveCallback(const std::function<void(const std::shared_ptr<MediaWidget>&)>&);

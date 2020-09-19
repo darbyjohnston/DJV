@@ -31,13 +31,13 @@ namespace djv
                 DJV_NON_COPYABLE(Row);
 
             protected:
-                void _init(Orientation, const std::shared_ptr<Core::Context>&);
+                void _init(Orientation, const std::shared_ptr<System::Context>&);
                 Row();
 
             public:
                 ~Row() override;
 
-                static std::shared_ptr<Row> create(Orientation, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Row> create(Orientation, const std::shared_ptr<System::Context>&);
 
                 void addSeparator();
                 void addSpacer(MetricsRole = MetricsRole::Spacing);
@@ -58,8 +58,8 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();
@@ -71,11 +71,11 @@ namespace djv
                 DJV_NON_COPYABLE(Horizontal);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Horizontal();
 
             public:
-                static std::shared_ptr<Horizontal> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Horizontal> create(const std::shared_ptr<System::Context>&);
             };
 
             //! This class provides a layout that arranges it's children in a vertical row.
@@ -84,11 +84,11 @@ namespace djv
                 DJV_NON_COPYABLE(Vertical);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Vertical();
 
             public:
-                static std::shared_ptr<Vertical> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Vertical> create(const std::shared_ptr<System::Context>&);
             };
 
         } // namespace Layout

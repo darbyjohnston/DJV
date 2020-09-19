@@ -1,71 +1,35 @@
 set(header
-    AnimationTest.h
-    BBoxTest.h
 	CacheTest.h
-	ContextTest.h
-    DirectoryModelTest.h
-    DirectoryWatcherTest.h
-    DrivesModelTest.h
     EnumTest.h
-    ErrorTest.h
-    EventTest.h
-    FileIOTest.h
-    FileInfoTest.h
-	FrameTest.h
-	IEventSystemTest.h
-	ISystemTest.h
+    ErrorFuncTest.h
     ListObserverTest.h
-    LogSystemTest.h
     MapObserverTest.h
-    MathTest.h
-    MemoryTest.h
-    OSTest.h
-    ObjectTest.h
-    PathTest.h
-	RangeTest.h
-	RapidJSONTest.h
-	SpeedTest.h
+    MemoryFuncTest.h
+    OSFuncTest.h
+	RandomFuncTest.h
+	RapidJSONFuncTest.h
     StringFormatTest.h
-    StringTest.h
-    TextSystemTest.h
-    TimeTest.h
+    StringFuncTest.h
+    TimeFuncTest.h
+    UIDFuncTest.h
     UndoStackTest.h
-    ValueObserverTest.h
-    VectorTest.h)
+    ValueObserverTest.h)
 set(source
-    AnimationTest.cpp
-    BBoxTest.cpp
 	CacheTest.cpp
-	ContextTest.cpp
-    DirectoryModelTest.cpp
-    DirectoryWatcherTest.cpp
-    DrivesModelTest.cpp
     EnumTest.cpp
-    ErrorTest.cpp
-    EventTest.cpp
-    FileIOTest.cpp
-    FileInfoTest.cpp
-	FrameTest.cpp
-	IEventSystemTest.cpp
-	ISystemTest.cpp
+    ErrorFuncTest.cpp
     ListObserverTest.cpp
-    LogSystemTest.cpp
     MapObserverTest.cpp
-    MathTest.cpp
-    MemoryTest.cpp
-    OSTest.cpp
-    ObjectTest.cpp
-    PathTest.cpp
-	RangeTest.cpp
-	RapidJSONTest.cpp
-	SpeedTest.cpp
+    MemoryFuncTest.cpp
+    OSFuncTest.cpp
+	RandomFuncTest.cpp
+	RapidJSONFuncTest.cpp
     StringFormatTest.cpp
-    StringTest.cpp
-    TextSystemTest.cpp
-    TimeTest.cpp
+    StringFuncTest.cpp
+    TimeFuncTest.cpp
+    UIDFuncTest.cpp
     UndoStackTest.cpp
-    ValueObserverTest.cpp
-    VectorTest.cpp)
+    ValueObserverTest.cpp)
 
 add_library(djvCoreTest ${header} ${source})
 target_link_libraries(djvCoreTest djvTestLib)

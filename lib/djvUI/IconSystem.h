@@ -6,39 +6,36 @@
 
 #include <djvUI/Style.h>
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
 
 #include <future>
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Image;
+        class Image;
 
-        } // namespace Image
-    } // namespace AV
+    } // namespace Image
 
     namespace UI
     {
         //! This class provides an icon system.
-        class IconSystem : public Core::ISystem
+        class IconSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(IconSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             IconSystem();
 
         public:
             ~IconSystem() override;
 
-            static std::shared_ptr<IconSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<IconSystem> create(const std::shared_ptr<System::Context>&);
             
             //! Get an icon.
-            std::future<std::shared_ptr<AV::Image::Image> > getIcon(const std::string&, float size);
+            std::future<std::shared_ptr<Image::Image> > getIcon(const std::string&, float size);
 
             //! Get the cache percentage used.
             float getCachePercentage() const;

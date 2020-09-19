@@ -9,7 +9,8 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvCore/NumericValueModels.h>
+#include <djvMath/NumericValueModels.h>
+
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
@@ -23,11 +24,11 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void BasicFloatSlider::_init(Orientation orientation, const std::shared_ptr<Context>& context)
+        void BasicFloatSlider::_init(Orientation orientation, const std::shared_ptr<System::Context>& context)
         {
             NumericSlider::_init(orientation, context);
             setClassName("djv::UI::BasicFloatSlider");
-            setModel(FloatValueModel::create());
+            setModel(Math::FloatValueModel::create());
         }
 
         BasicFloatSlider::BasicFloatSlider() :
@@ -37,14 +38,14 @@ namespace djv
         BasicFloatSlider::~BasicFloatSlider()
         {}
 
-        std::shared_ptr<BasicFloatSlider> BasicFloatSlider::create(Orientation orientation, const std::shared_ptr<Context>& context)
+        std::shared_ptr<BasicFloatSlider> BasicFloatSlider::create(Orientation orientation, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<BasicFloatSlider>(new BasicFloatSlider);
             out->_init(orientation, context);
             return out;
         }
 
-        void BasicFloatSlider::setModel(const std::shared_ptr<INumericValueModel<float> >& model)
+        void BasicFloatSlider::setModel(const std::shared_ptr<Math::INumericValueModel<float> >& model)
         {
             INumericSlider<float>::setModel(model);
             DJV_PRIVATE_PTR();
@@ -101,7 +102,7 @@ namespace djv
             INumericSlider<float>::_valueUpdate();
         }
 
-        void BasicFloatSlider::_paintEvent(Event::Paint& event)
+        void BasicFloatSlider::_paintEvent(System::Event::Paint& event)
         {
             NumericSlider::_paintEvent(event);
             if (auto model = getModel())
@@ -118,13 +119,13 @@ namespace djv
             if (auto model = getModel())
             {
                 const auto& style = _getStyle();
-                const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto& range = model->observeRange()->get();
                 float v = (value - range.getMin()) / static_cast<float>(range.getMax() - range.getMin());
-                const BBox2f g2 = g.margin(-(m + b));
+                const Math::BBox2f g2 = g.margin(-(m + b));
                 switch (getOrientation())
                 {
                 case Orientation::Horizontal:
@@ -146,12 +147,12 @@ namespace djv
             if (auto model = getModel())
             {
                 const auto& style = _getStyle();
-                const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto& range = model->observeRange()->get();
-                const BBox2f g2 = g.margin(-(m + b));
+                const Math::BBox2f g2 = g.margin(-(m + b));
                 float v = 0.F;
                 switch (getOrientation())
                 {
@@ -170,7 +171,7 @@ namespace djv
 
         struct FloatSlider::Private
         {
-            std::shared_ptr<Core::INumericValueModel<float> > model;
+            std::shared_ptr<Math::INumericValueModel<float> > model;
             float defaultValue = 0.F;
             std::shared_ptr<FloatEdit> edit;
             std::shared_ptr<BasicFloatSlider> slider;
@@ -180,7 +181,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void FloatSlider::_init(const std::shared_ptr<Context>& context)
+        void FloatSlider::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -225,26 +226,26 @@ namespace djv
         FloatSlider::~FloatSlider()
         {}
 
-        std::shared_ptr<FloatSlider> FloatSlider::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FloatSlider> FloatSlider::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<FloatSlider>(new FloatSlider);
             out->_init(context);
             return out;
         }
 
-        void FloatSlider::setModel(const std::shared_ptr<Core::INumericValueModel<float> >& model)
+        void FloatSlider::setModel(const std::shared_ptr<Math::INumericValueModel<float> >& model)
         {
             DJV_PRIVATE_PTR();
             p.model = model;
             _modelUpdate();
         }
 
-        FloatRange FloatSlider::getRange() const
+        Math::FloatRange FloatSlider::getRange() const
         {
             return _p->slider->getRange();
         }
 
-        void FloatSlider::setRange(const FloatRange& value)
+        void FloatSlider::setRange(const Math::FloatRange& value)
         {
             _p->slider->setRange(value);
         }
@@ -318,24 +319,24 @@ namespace djv
             _p->slider->setDelay(value);
         }
 
-        const std::shared_ptr<INumericValueModel<float>>& FloatSlider::getModel() const
+        const std::shared_ptr<Math::INumericValueModel<float>>& FloatSlider::getModel() const
         {
             return _p->slider->getModel();
         }
 
-        void FloatSlider::_preLayoutEvent(Event::PreLayout& event)
+        void FloatSlider::_preLayoutEvent(System::Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void FloatSlider::_layoutEvent(Event::Layout& event)
+        void FloatSlider::_layoutEvent(System::Event::Layout& event)
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void FloatSlider::_initEvent(Event::Init& event)
+        void FloatSlider::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)

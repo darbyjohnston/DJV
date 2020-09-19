@@ -12,7 +12,7 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -27,13 +27,13 @@ namespace djv
                 DJV_NON_COPYABLE(TabBarButton);
 
             protected:
-                void _init(const std::string& text, const std::shared_ptr<Core::Context>&);
+                void _init(const std::string& text, const std::shared_ptr<System::Context>&);
                 TabBarButton();
 
             public:
                 ~TabBarButton() override;
 
-                static std::shared_ptr<TabBarButton> create(const std::string&, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<TabBarButton> create(const std::string&, const std::shared_ptr<System::Context>&);
 
                 const std::string& getText() const;
                 void setText(const std::string&);
@@ -43,16 +43,16 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
             private:
                 std::shared_ptr<Label> _label;
                 std::shared_ptr<StackLayout> _layout;
             };
 
-            void TabBarButton::_init(const std::string& text, const std::shared_ptr<Context>& context)
+            void TabBarButton::_init(const std::string& text, const std::shared_ptr<System::Context>& context)
             {
                 IButton::_init(context);
 
@@ -74,7 +74,7 @@ namespace djv
             TabBarButton::~TabBarButton()
             {}
 
-            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string& text, const std::shared_ptr<Context>& context)
+            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string& text, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<TabBarButton>(new TabBarButton);
                 out->_init(text, context);
@@ -102,19 +102,19 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void TabBarButton::_preLayoutEvent(Event::PreLayout& event)
+            void TabBarButton::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void TabBarButton::_layoutEvent(Event::Layout&)
+            void TabBarButton::_layoutEvent(System::Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void TabBarButton::_paintEvent(Event::Paint& event)
+            void TabBarButton::_paintEvent(System::Event::Paint& event)
             {
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const auto& render = _getRender();
                 const auto& style = _getStyle();
                 render->setFillColor(style->getColor(_isToggled() ? ColorRole::BackgroundToolBar : ColorRole::Background));
@@ -137,7 +137,7 @@ namespace djv
             std::function<void(size_t)> removedCallback;
         };
 
-        void TabBar::_init(const std::shared_ptr<Context>& context)
+        void TabBar::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             
@@ -177,7 +177,7 @@ namespace djv
         TabBar::~TabBar()
         {}
 
-        std::shared_ptr<TabBar> TabBar::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TabBar> TabBar::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TabBar>(new TabBar);
             out->_init(context);
@@ -241,14 +241,14 @@ namespace djv
             return _p->scrollWidget->getHeightForWidth(value);
         }
 
-        void TabBar::_preLayoutEvent(Event::PreLayout& event)
+        void TabBar::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
-        void TabBar::_layoutEvent(Event::Layout& event)
+        void TabBar::_layoutEvent(System::Event::Layout& event)
         {
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             _p->scrollWidget->setGeometry(getMargin().bbox(g, style));
         }

@@ -4,10 +4,12 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/FileSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/FileIOFunc.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -28,11 +30,11 @@ namespace djv
                 }
 
                 std::shared_ptr<Read> Read::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const ReadOptions& readOptions,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
@@ -41,14 +43,14 @@ namespace djv
 
                 Info Read::_readInfo(const std::string& fileName)
                 {
-                    auto io = FileSystem::FileIO::create();
+                    auto io = System::File::IO::create();
                     Data data = Data::First;
                     return _open(fileName, io, data);
                 }
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
                 {
-                    auto io = FileSystem::FileIO::create();
+                    auto io = System::File::IO::create();
                     Data data = Data::First;
                     const auto info = _open(fileName, io, data);
                     auto imageInfo = info.video[0];
@@ -69,33 +71,17 @@ namespace djv
                     }
                     case Data::Binary:
                     {
+                        if (imageInfo.layout.endian != Memory::getEndian())
+                        {
+                            imageInfo.layout.endian = Memory::getEndian();
+                        }
 #if defined(DJV_MMAP)
                         out = Image::Image::create(imageInfo, io);
 #else // DJV_MMAP
-                        bool convertEndian = false;
-                        if (imageInfo.layout.endian != Memory::getEndian())
-                        {
-                            convertEndian = true;
-                            imageInfo.layout.endian = Memory::getEndian();
-                        }
                         out = Image::Image::create(imageInfo);
-                        out->setPluginName(pluginName);
                         io->read(out->getData(), out->getDataByteCount());
-                        if (convertEndian)
-                        {
-                            const size_t dataByteCount = out->getDataByteCount();
-                            switch (Image::getDataType(imageInfo.type))
-                            {
-                                case Image::DataType::U10:
-                                    Memory::endian(out->getData(), dataByteCount / 4, 4);
-                                    break;
-                                case Image::DataType::U16:
-                                    Memory::endian(out->getData(), dataByteCount / 2, 2);
-                                    break;
-                                default: break;                            
-                            }
-                        }
 #endif // DJV_MMAP
+                        out->setPluginName(pluginName);
                         break;
                     }
                     default: break;
@@ -103,15 +89,15 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_open(const std::string& fileName, const std::shared_ptr<FileSystem::FileIO>& io, Data& data)
+                Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io, Data& data)
                 {
-                    io->open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->open(fileName, System::File::IO::Mode::Read);
 
                     char magic[] = { 0, 0, 0 };
                     io->read(magic, 2);
                     if (magic[0] != 'P')
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_bad_magic_number"))));
                     }
@@ -123,7 +109,7 @@ namespace djv
                     case '6': break;
                     default:
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_bad_magic_number"))));
                     }
@@ -141,17 +127,17 @@ namespace djv
                     default: break;
                     }
                     char tmp[String::cStringLength] = "";
-                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
+                    System::File::readWord(io, tmp, String::cStringLength);
                     const int w = std::stoi(tmp);
-                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
+                    System::File::readWord(io, tmp, String::cStringLength);
                     const int h = std::stoi(tmp);
-                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
+                    System::File::readWord(io, tmp, String::cStringLength);
                     const int maxValue = std::stoi(tmp);
                     const size_t bitDepth = maxValue < 256 ? 8 : 16;
                     const auto imageType = Image::getIntType(channelCount, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                     }
@@ -165,7 +151,7 @@ namespace djv
                     const size_t dataByteCount = imageInfo.getDataByteCount();
                     if (Data::Binary == data && dataByteCount > fileDataByteCount)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }

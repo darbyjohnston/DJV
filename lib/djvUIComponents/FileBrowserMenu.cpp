@@ -13,7 +13,8 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TimerFunc.h>
 
 using namespace djv::Core;
 
@@ -28,12 +29,12 @@ namespace djv
                 std::shared_ptr<IntSlider> thumbnailSizeSlider;
                 std::shared_ptr<ScrollWidget> scrollWidget;
 
-                std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeObserver;
+                std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeObserver;
             };
 
             void Menu::_init(
                 const std::map<std::string, std::shared_ptr<Action> >& actions,
-                const std::shared_ptr<Context>& context)
+                const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -65,7 +66,7 @@ namespace djv
                 decreaseThumbnailSizeButton->addAction(actions.at("DecreaseThumbnailSize"));
                 p.thumbnailSizeSlider = IntSlider::create(context);
                 p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
-                p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
+                p.thumbnailSizeSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
 
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(actions.at("FileSequences"));
@@ -99,24 +100,24 @@ namespace djv
                 p.scrollWidget->addChild(vLayout);
                 addChild(p.scrollWidget);
 
-                auto contextWeak = std::weak_ptr<Context>(context);
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.thumbnailSizeSlider->setValueCallback(
                     [contextWeak](int value)
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                            fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.F)));
+                            fileBrowserSettings->setThumbnailSize(Image::Size(value, ceilf(value / 2.F)));
                         }
                     });
 
-                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                 auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
-                p.thumbnailSizeObserver = ValueObserver<AV::Image::Size>::create(
+                p.thumbnailSizeObserver = ValueObserver<Image::Size>::create(
                     fileBrowserSettings->observeThumbnailSize(),
-                    [weak](const AV::Image::Size& value)
+                    [weak](const Image::Size& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -134,24 +135,24 @@ namespace djv
 
             std::shared_ptr<Menu> Menu::create(
                 const std::map<std::string, std::shared_ptr<Action> >& actions,
-                const std::shared_ptr<Context>& context)
+                const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Menu>(new Menu);
                 out->_init(actions, context);
                 return out;
             }
 
-            void Menu::_preLayoutEvent(Event::PreLayout& event)
+            void Menu::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
-            void Menu::_layoutEvent(Event::Layout& event)
+            void Menu::_layoutEvent(System::Event::Layout& event)
             {
                 _p->scrollWidget->setGeometry(getGeometry());
             }
 
-            void Menu::_initEvent(Event::Init& event)
+            void Menu::_initEvent(System::Event::Init& event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)

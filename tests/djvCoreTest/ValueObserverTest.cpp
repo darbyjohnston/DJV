@@ -12,32 +12,51 @@ namespace djv
 {
     namespace CoreTest
     {
-        ValueObserverTest::ValueObserverTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::ValueObserverTest", context)
+        ValueObserverTest::ValueObserverTest(
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
+            ITest("djv::CoreTest::ValueObserverTest", tempPath, context)
         {}
         
         void ValueObserverTest::run()
         {
             int value = 0;
             auto subject = ValueSubject<int>::create(value);
+            DJV_ASSERT(0 == subject->getObserversCount());
+            DJV_ASSERT(!subject->setIfChanged(value));
+            
             {
-                int value2 = 0;
+                int valueA = 0;
                 auto observer = ValueObserver<int>::create(
                     subject,
-                    [&value2](int value)
+                    [&valueA](int value)
                     {
-                        value2 = value;
+                        valueA = value;
                     });
                 DJV_ASSERT(1 == subject->getObserversCount());
 
-                DJV_ASSERT(!subject->setIfChanged(value));
-                ++value;
-                subject->setAlways(value);
-                DJV_ASSERT(subject->get() == value2);
-                ++value;
-                DJV_ASSERT(subject->setIfChanged(value));
-                DJV_ASSERT(!subject->setIfChanged(value));
-                DJV_ASSERT(subject->get() == value2);
+                {
+                    int valueB = 0;
+                    auto observer = ValueObserver<int>::create(
+                        subject,
+                        [&valueB](int value)
+                        {
+                            valueB = value;
+                        });
+                    DJV_ASSERT(2 == subject->getObserversCount());
+
+                    value = 1;
+                    subject->setAlways(value);
+                    DJV_ASSERT(subject->get() == valueA);
+                    DJV_ASSERT(subject->get() == valueB);
+                    
+                    value = 2;
+                    DJV_ASSERT(subject->setIfChanged(value));
+                    DJV_ASSERT(!subject->setIfChanged(value));
+                    DJV_ASSERT(subject->get() == valueA);
+                    DJV_ASSERT(subject->get() == valueB);
+                }
+                DJV_ASSERT(1 == subject->getObserversCount());
             }
             DJV_ASSERT(0 == subject->getObserversCount());
         }

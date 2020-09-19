@@ -6,7 +6,9 @@
 
 #include <djvUI/LayoutUtil.h>
 
-#include <djvCore/Animation.h>
+#include <djvSystem/Animation.h>
+
+#include <glm/glm.hpp>
 
 using namespace djv::Core;
 
@@ -30,10 +32,10 @@ namespace djv
                 Side side = Side::First;
                 std::shared_ptr<Widget> prevWidget;
                 float animationValue = 0.F;
-                std::shared_ptr<Animation::Animation> animation;
+                std::shared_ptr<System::Animation::Animation> animation;
             };
 
-            void Solo::_init(const std::shared_ptr<Context>& context)
+            void Solo::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -42,8 +44,8 @@ namespace djv
 
                 _widgetUpdate();
 
-                p.animation = Animation::Animation::create(context);
-                p.animation->setType(Animation::Type::SmoothStep);
+                p.animation = System::Animation::Animation::create(context);
+                p.animation->setType(System::Animation::Type::SmoothStep);
             }
 
             Solo::Solo() :
@@ -53,7 +55,7 @@ namespace djv
             Solo::~Solo()
             {}
 
-            std::shared_ptr<Solo> Solo::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Solo> Solo::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Solo>(new Solo);
                 out->_init(context);
@@ -189,7 +191,7 @@ namespace djv
                 setCurrentWidget(currentWidget);
             }
 
-            void Solo::_preLayoutEvent(Event::PreLayout&)
+            void Solo::_preLayoutEvent(System::Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
                 glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
@@ -211,11 +213,11 @@ namespace djv
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
-            void Solo::_layoutEvent(Event::Layout&)
+            void Solo::_layoutEvent(System::Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& childWidgets = getChildWidgets();
                 for (const auto& child : childWidgets)
                 {
@@ -225,18 +227,18 @@ namespace djv
                 {
                     const float w = g.w();
                     const float h = g.h();
-                    BBox2f currentG(g);
-                    BBox2f prevG(g);
+                    Math::BBox2f currentG(g);
+                    Math::BBox2f prevG(g);
                     switch (p.side)
                     {
                     case Side::Left:
-                        currentG = BBox2f(floorf(g.min.x + w - w * p.animationValue), g.min.y, w, h);
-                        prevG = BBox2f(floorf(g.min.x - w * p.animationValue), g.min.y, w, h);
+                        currentG = Math::BBox2f(floorf(g.min.x + w - w * p.animationValue), g.min.y, w, h);
+                        prevG = Math::BBox2f(floorf(g.min.x - w * p.animationValue), g.min.y, w, h);
                         break;
                     case Side::Top: break;
                     case Side::Right:
-                        currentG = BBox2f(floorf(g.min.x - w + w * p.animationValue), g.min.y, w, h);
-                        prevG = BBox2f(floorf(g.min.x + w * p.animationValue), g.min.y, w, h);
+                        currentG = Math::BBox2f(floorf(g.min.x - w + w * p.animationValue), g.min.y, w, h);
+                        prevG = Math::BBox2f(floorf(g.min.x + w * p.animationValue), g.min.y, w, h);
                         break;
                     case Side::Bottom: break;
                     default: break;

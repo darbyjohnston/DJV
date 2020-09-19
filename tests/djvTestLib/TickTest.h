@@ -16,7 +16,10 @@ namespace djv
         class ITickTest : public ITest
         {
         public:
-            ITickTest(const std::string & name, const std::shared_ptr<Core::Context>&);
+            ITickTest(
+                const std::string& name,
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             virtual ~ITickTest() = 0;
 
         protected:

@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Border);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Border();
 
             public:
                 ~Border() override;
 
-                static std::shared_ptr<Border> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Border> create(const std::shared_ptr<System::Context>&);
 
                 MetricsRole getBorderSize() const;
                 void setBorderSize(MetricsRole);
@@ -38,9 +38,9 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
             private:
                 DJV_PRIVATE();

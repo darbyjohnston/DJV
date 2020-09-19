@@ -25,7 +25,7 @@ namespace djv
             std::function<void(int)> callback;
         };
 
-        void TabWidget::_init(const std::shared_ptr<Context>& context)
+        void TabWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);            
             DJV_PRIVATE_PTR();
@@ -69,7 +69,7 @@ namespace djv
         TabWidget::~TabWidget()
         {}
 
-        std::shared_ptr<TabWidget> TabWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TabWidget> TabWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TabWidget>(new TabWidget);
             out->_init(context);
@@ -162,14 +162,14 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void TabWidget::_preLayoutEvent(Event::PreLayout& event)
+        void TabWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void TabWidget::_layoutEvent(Event::Layout& event)
+        void TabWidget::_layoutEvent(System::Event::Layout& event)
         {
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }

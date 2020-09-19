@@ -4,25 +4,25 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
 
 namespace djv
 {
     namespace UI
     {
         //! This class provides a UI system.
-        class UIComponentsSystem : public Core::ISystem
+        class UIComponentsSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(UIComponentsSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             UIComponentsSystem();
 
         public:
             ~UIComponentsSystem() override;
 
-            static std::shared_ptr<UIComponentsSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<UIComponentsSystem> create(const std::shared_ptr<System::Context>&);
 
         private:
             DJV_PRIVATE();

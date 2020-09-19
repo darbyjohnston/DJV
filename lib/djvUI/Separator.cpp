@@ -6,7 +6,7 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -21,7 +21,7 @@ namespace djv
                 float width = 0.F;
             };
 
-            void Separator::_init(const std::shared_ptr<Context>& context)
+            void Separator::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Separator");
@@ -35,14 +35,14 @@ namespace djv
             Separator::~Separator()
             {}
 
-            std::shared_ptr<Separator> Separator::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Separator> Separator::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Separator>(new Separator);
                 out->_init(context);
                 return out;
             }
 
-            void Separator::_preLayoutEvent(Event::PreLayout& event)
+            void Separator::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
 

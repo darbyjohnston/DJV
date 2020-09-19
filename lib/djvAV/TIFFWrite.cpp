@@ -4,9 +4,10 @@
 
 #include <djvAV/TIFF.h>
 
-#include <djvCore/FileSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -33,13 +34,13 @@ namespace djv
                 }
 
                 std::shared_ptr<Write> Write::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const Info& info,
                     const WriteOptions& writeOptions,
                     const Options& options,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_p->options = options;
@@ -112,7 +113,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
@@ -191,22 +192,22 @@ namespace djv
                     TIFFSetField(f.f, TIFFTAG_COMPRESSION, compression);
                     TIFFSetField(f.f, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 
-                    std::string tag = _info.tags.getTag("Creator");
+                    std::string tag = _info.tags.get("Creator");
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_ARTIST, tag.data());
                     }
-                    tag = _info.tags.getTag("Copyright");
+                    tag = _info.tags.get("Copyright");
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_COPYRIGHT, tag.data());
                     }
-                    tag = _info.tags.getTag("Time");
+                    tag = _info.tags.get("Time");
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_DATETIME, tag.data());
                     }
-                    tag = _info.tags.getTag("Description");;
+                    tag = _info.tags.get("Description");;
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_IMAGEDESCRIPTION, tag.data());
@@ -216,7 +217,7 @@ namespace djv
                     {
                         if (TIFFWriteScanline(f.f, (tdata_t *)image->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(String::Format("{0}: {1}").
+                            throw System::File::Error(String::Format("{0}: {1}").
                                 arg(fileName).
                                 arg(_textSystem->getText(DJV_TEXT("error_write_scanline"))));
                         }

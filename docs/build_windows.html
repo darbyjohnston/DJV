@@ -100,13 +100,17 @@ $ make install
 > cmake ..\DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug
 > cmake --build . --config Debug -j
 </pre>
-<p>Try running the confidence tests to make sure everything is working OK:</p>
-<pre>
-> cmake --build . --config Debug -j --target test
+    <p>If you get an error like:</p>
+    <pre>
+LINK : fatal error LNK1104: cannot open file 'djv.ilk' [djv..vcxproj]
 </pre>
-<p>Run the djv player application:</p>
-<pre>
+    <p>Run the build command a second time and the error should go away.</p>
+    <p>Try running the confidence tests to make sure everything is working OK:</p>
+    <pre>
+> cmake --build . --config Debug -j --target RUN_TESTS
+</pre>
+    <p>Run the djv player application:</p>
+    <pre>
 > build\bin\Debug\djv
 </pre>
 </div>
-

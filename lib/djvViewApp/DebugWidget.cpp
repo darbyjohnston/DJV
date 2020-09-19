@@ -17,13 +17,14 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
+
 #include <djvAV/IO.h>
-#include <djvAV/FontSystem.h>
-#include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Timer.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TimerFunc.h>
 
 using namespace djv::Core;
 
@@ -39,10 +40,10 @@ namespace djv
                 virtual ~IDebugWidget() = 0;
                 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
                 virtual void _widgetUpdate() = 0;
 
@@ -50,23 +51,23 @@ namespace djv
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::map<std::string, std::shared_ptr<UI::ThermometerWidget> > _thermometerWidgets;
                 std::shared_ptr<UI::VerticalLayout> _layout;
-                std::shared_ptr<Time::Timer> _timer;
+                std::shared_ptr<System::Timer> _timer;
             };
             
             IDebugWidget::~IDebugWidget()
             {}
 
-            void IDebugWidget::_preLayoutEvent(Event::PreLayout&)
+            void IDebugWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void IDebugWidget::_layoutEvent(Event::Layout&)
+            void IDebugWidget::_layoutEvent(System::Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void IDebugWidget::_initEvent(Event::Init& event)
+            void IDebugWidget::_initEvent(System::Event::Init& event)
             {
                 if (event.getData().text)
                 {
@@ -79,17 +80,17 @@ namespace djv
                 DJV_NON_COPYABLE(GeneralDebugWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 GeneralDebugWidget();
 
             public:
-                static std::shared_ptr<GeneralDebugWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<GeneralDebugWidget> create(const std::shared_ptr<System::Context>&);
 
             protected:
                 void _widgetUpdate() override;
             };
 
-            void GeneralDebugWidget::_init(const std::shared_ptr<Context>& context)
+            void GeneralDebugWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 IDebugWidget::_init(context);
 
@@ -97,7 +98,7 @@ namespace djv
 
                 _labels["FPS"] = UI::Label::create(context);
                 _labels["FPSValue"] = UI::Label::create(context);
-                _labels["FPSValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["FPSValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["FPS"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["FPS"]->setPrecision(2);
 
@@ -113,13 +114,13 @@ namespace djv
 
                 _labels["ObjectCount"] = UI::Label::create(context);
                 _labels["ObjectCountValue"] = UI::Label::create(context);
-                _labels["ObjectCountValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["ObjectCountValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["ObjectCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["ObjectCount"]->setPrecision(0);
 
                 _labels["WidgetCount"] = UI::Label::create(context);
                 _labels["WidgetCountValue"] = UI::Label::create(context);
-                _labels["WidgetCountValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["WidgetCountValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["WidgetCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["WidgetCount"]->setPrecision(0);
 
@@ -130,22 +131,22 @@ namespace djv
 
                 _labels["GlyphCache"] = UI::Label::create(context);
                 _labels["GlyphCacheValue"] = UI::Label::create(context);
-                _labels["GlyphCacheValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["GlyphCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["GlyphCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["ThumbnailInfoCache"] = UI::Label::create(context);
                 _labels["ThumbnailInfoCacheValue"] = UI::Label::create(context);
-                _labels["ThumbnailInfoCacheValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["ThumbnailInfoCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["ThumbnailInfoCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["ThumbnailImageCache"] = UI::Label::create(context);
                 _labels["ThumbnailImageCacheValue"] = UI::Label::create(context);
-                _labels["ThumbnailInfoCacheValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["ThumbnailInfoCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["ThumbnailImageCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["IconCache"] = UI::Label::create(context);
                 _labels["IconCacheValue"] = UI::Label::create(context);
-                _labels["IconCacheValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["IconCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["IconCache"] = UI::ThermometerWidget::create(context);
 
                 for (auto& i : _labels)
@@ -206,11 +207,11 @@ namespace djv
                 _layout->addChild(_thermometerWidgets["IconCache"]);
                 addChild(_layout);
 
-                _timer = Time::Timer::create(context);
+                _timer = System::Timer::create(context);
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<GeneralDebugWidget>(std::dynamic_pointer_cast<GeneralDebugWidget>(shared_from_this()));
                 _timer->start(
-                    Core::Time::getTime(Core::Time::TimerValue::Medium),
+                    System::getTimerDuration(System::TimerValue::Medium),
                     [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto widget = weak.lock())
@@ -223,7 +224,7 @@ namespace djv
             GeneralDebugWidget::GeneralDebugWidget()
             {}
 
-            std::shared_ptr<GeneralDebugWidget> GeneralDebugWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<GeneralDebugWidget> GeneralDebugWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<GeneralDebugWidget>(new GeneralDebugWidget);
                 out->_init(context);
@@ -252,7 +253,7 @@ namespace djv
                     const size_t objectCount = IObject::getGlobalObjectCount();
                     const size_t widgetCount = UI::Widget::getGlobalWidgetCount();
                     auto eventSystem = context->getSystemT<UI::EventSystem>();
-                    auto fontSystem = context->getSystemT<AV::Font::System>();
+                    auto fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
                     const float glyphCachePercentage = fontSystem->getGlyphCachePercentage();
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                     const float thumbnailInfoCachePercentage = thumbnailSystem->getInfoCachePercentage();
@@ -405,17 +406,17 @@ namespace djv
                 DJV_NON_COPYABLE(RenderDebugWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 RenderDebugWidget();
 
             public:
-                static std::shared_ptr<RenderDebugWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<RenderDebugWidget> create(const std::shared_ptr<System::Context>&);
 
             protected:
                 void _widgetUpdate() override;
             };
 
-            void RenderDebugWidget::_init(const std::shared_ptr<Context>& context)
+            void RenderDebugWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 IDebugWidget::_init(context);
 
@@ -423,24 +424,24 @@ namespace djv
 
                 _labels["Primitives"] = UI::Label::create(context);
                 _labels["PrimitivesValue"] = UI::Label::create(context);
-                _labels["PrimitivesValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["PrimitivesValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["Primitives"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["Primitives"]->setPrecision(0);
 
                 _labels["TextureAtlas"] = UI::Label::create(context);
                 _labels["TextureAtlasValue"] = UI::Label::create(context);
-                _labels["TextureAtlasValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["TextureAtlasValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["TextureAtlas"] = UI::ThermometerWidget::create(context);
 
                 _labels["DynamicTextureCount"] = UI::Label::create(context);
                 _labels["DynamicTextureCountValue"] = UI::Label::create(context);
-                _labels["DynamicTextureCountValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["DynamicTextureCountValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["DynamicTextureCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["DynamicTextureCount"]->setPrecision(0);
 
                 _labels["VBOSize"] = UI::Label::create(context);
                 _labels["VBOSizeValue"] = UI::Label::create(context);
-                _labels["VBOSizeValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["VBOSizeValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["VBOSize"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["VBOSize"]->setPrecision(0);
 
@@ -473,11 +474,11 @@ namespace djv
                 _layout->addChild(_lineGraphs["VBOSize"]);
                 addChild(_layout);
 
-                _timer = Time::Timer::create(context);
+                _timer = System::Timer::create(context);
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<RenderDebugWidget>(std::dynamic_pointer_cast<RenderDebugWidget>(shared_from_this()));
                 _timer->start(
-                    Core::Time::getTime(Core::Time::TimerValue::Medium),
+                    System::getTimerDuration(System::TimerValue::Medium),
                     [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto widget = weak.lock())
@@ -490,7 +491,7 @@ namespace djv
             RenderDebugWidget::RenderDebugWidget()
             {}
 
-            std::shared_ptr<RenderDebugWidget> RenderDebugWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<RenderDebugWidget> RenderDebugWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<RenderDebugWidget>(new RenderDebugWidget);
                 out->_init(context);
@@ -558,23 +559,23 @@ namespace djv
                 DJV_NON_COPYABLE(MediaDebugWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 MediaDebugWidget();
 
             public:
-                static std::shared_ptr<MediaDebugWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<MediaDebugWidget> create(const std::shared_ptr<System::Context>&);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 void _widgetUpdate();
 
-                Frame::Sequence _sequence;
-                Frame::Index _currentFrame = 0;
+                Math::Frame::Sequence _sequence;
+                Math::Frame::Index _currentFrame = 0;
                 size_t _videoQueueMax = 0;
                 size_t _videoQueueCount = 0;
                 size_t _audioQueueMax = 0;
@@ -583,15 +584,15 @@ namespace djv
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::shared_ptr<UI::VerticalLayout> _layout;
                 std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > _currentMediaObserver;
-                std::shared_ptr<ValueObserver<Frame::Sequence> > _sequenceObserver;
-                std::shared_ptr<ValueObserver<Frame::Index> > _currentFrameObserver;
+                std::shared_ptr<ValueObserver<Math::Frame::Sequence> > _sequenceObserver;
+                std::shared_ptr<ValueObserver<Math::Frame::Index> > _currentFrameObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueCountObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueCountObserver;
             };
 
-            void MediaDebugWidget::_init(const std::shared_ptr<Context>& context)
+            void MediaDebugWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -599,7 +600,7 @@ namespace djv
 
                 _labels["CurrentFrame"] = UI::Label::create(context);
                 _labels["CurrentFrameValue"] = UI::Label::create(context);
-                _labels["CurrentFrameValue"]->setFontFamily(AV::Font::familyMono);
+                _labels["CurrentFrameValue"]->setFontFamily(Render2D::Font::familyMono);
                 
                 _labels["VideoQueue"] = UI::Label::create(context);
                 _lineGraphs["VideoQueue"] = UI::LineGraphWidget::create(context);
@@ -642,9 +643,9 @@ namespace djv
 
                             if (value)
                             {
-                                widget->_sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                                widget->_sequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
                                     value->observeSequence(),
-                                    [weak](const Frame::Sequence& value)
+                                    [weak](const Math::Frame::Sequence& value)
                                 {
                                     if (auto widget = weak.lock())
                                     {
@@ -652,9 +653,9 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_currentFrameObserver = ValueObserver<Frame::Index>::create(
+                                widget->_currentFrameObserver = ValueObserver<Math::Frame::Index>::create(
                                     value->observeCurrentFrame(),
-                                    [weak](Frame::Index value)
+                                    [weak](Math::Frame::Index value)
                                 {
                                     if (auto widget = weak.lock())
                                     {
@@ -707,7 +708,7 @@ namespace djv
                             }
                             else
                             {
-                                widget->_sequence = Frame::Sequence();
+                                widget->_sequence = Math::Frame::Sequence();
                                 widget->_currentFrame = 0;
                                 widget->_videoQueueMax = 0;
                                 widget->_videoQueueCount = 0;
@@ -729,24 +730,24 @@ namespace djv
             MediaDebugWidget::MediaDebugWidget()
             {}
 
-            std::shared_ptr<MediaDebugWidget> MediaDebugWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<MediaDebugWidget> MediaDebugWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<MediaDebugWidget>(new MediaDebugWidget);
                 out->_init(context);
                 return out;
             }
 
-            void MediaDebugWidget::_preLayoutEvent(Event::PreLayout&)
+            void MediaDebugWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void MediaDebugWidget::_layoutEvent(Event::Layout&)
+            void MediaDebugWidget::_layoutEvent(System::Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void MediaDebugWidget::_initEvent(Event::Init& event)
+            void MediaDebugWidget::_initEvent(System::Event::Init& event)
             {
                 if (event.getData().text)
                 {
@@ -785,7 +786,7 @@ namespace djv
             std::map < std::string, std::shared_ptr<UI::Bellows> > bellows;
         };
 
-        void DebugWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void DebugWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -826,7 +827,7 @@ namespace djv
         DebugWidget::~DebugWidget()
         {}
 
-        std::shared_ptr<DebugWidget> DebugWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<DebugWidget> DebugWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<DebugWidget>(new DebugWidget);
             out->_init(context);
@@ -857,7 +858,7 @@ namespace djv
             }
         }
 
-        void DebugWidget::_initEvent(Event::Init & event)
+        void DebugWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

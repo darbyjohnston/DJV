@@ -9,7 +9,7 @@
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -27,7 +27,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > closedObserver;
         };
 
-        void MediaCanvas::_init(const std::shared_ptr<Context>& context)
+        void MediaCanvas::_init(const std::shared_ptr<System::Context>& context)
         {
             Canvas::_init(context);
 
@@ -35,7 +35,7 @@ namespace djv
             setClassName("djv::ViewApp::MediaCanvas");
 
             auto weak = std::weak_ptr<MediaCanvas>(std::dynamic_pointer_cast<MediaCanvas>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             Canvas::setActiveCallback(
                 [weak, contextWeak](const std::shared_ptr<UI::MDI::IWidget> & value)
             {
@@ -112,7 +112,7 @@ namespace djv
                                 {
                                     auto mediaWidget = MediaWidget::create(value.first, context);
                                     widget->addChild(mediaWidget);
-                                    widget->setWidgetGeometry(mediaWidget, BBox2f(value.second, value.second));
+                                    widget->setWidgetGeometry(mediaWidget, Math::BBox2f(value.second, value.second));
                                     widget->_p->mediaWidgets[value.first] = mediaWidget;
                                 }
                             }
@@ -146,7 +146,7 @@ namespace djv
         MediaCanvas::~MediaCanvas()
         {}
 
-        std::shared_ptr<MediaCanvas> MediaCanvas::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<MediaCanvas> MediaCanvas::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MediaCanvas>(new MediaCanvas);
             out->_init(context);

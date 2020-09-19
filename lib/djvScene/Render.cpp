@@ -10,13 +10,11 @@
 #include <djvScene/Material.h>
 #include <djvScene/Scene.h>
 
-#include <djvAV/PointList.h>
-#include <djvAV/Render3D.h>
-#include <djvAV/Render3DCamera.h>
-#include <djvAV/Render3DLight.h>
-#include <djvAV/Render3DMaterial.h>
+#include <djvRender3D/Camera.h>
+#include <djvRender3D/Light.h>
+#include <djvRender3D/Material.h>
 
-#include <djvCore/Matrix.h>
+#include <djvGeom/PointList.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -39,18 +37,18 @@ namespace djv
 
         struct Render::Private
         {
-            std::weak_ptr<Core::Context> context;
+            std::weak_ptr<System::Context> context;
             std::shared_ptr<Scene> scene;
-            std::map<std::shared_ptr<IMaterial>, std::shared_ptr<AV::Render3D::IMaterial> > materials;
-            std::shared_ptr<AV::Render3D::IMaterial> colorMaterial;
-            std::shared_ptr<AV::Render3D::IMaterial> defaultMaterial;
+            std::map<std::shared_ptr<IMaterial>, std::shared_ptr<Render3D::IMaterial> > materials;
+            std::shared_ptr<Render3D::IMaterial> colorMaterial;
+            std::shared_ptr<Render3D::IMaterial> defaultMaterial;
             std::list<glm::mat4x4> transforms;
             const glm::mat4x4 identity = glm::mat4x4(1.F);
             struct Key
             {
                 glm::mat4x4 transform = glm::mat4x4(1.F);
-                AV::Image::Color color;
-                std::shared_ptr<AV::Render3D::IMaterial> material;
+                Image::Color color;
+                std::shared_ptr<Render3D::IMaterial> material;
 
                 bool operator == (const Key& other) const
                 {
@@ -59,8 +57,8 @@ namespace djv
                         material == other.material;
                 }
             };
-            typedef std::pair<Key, std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > > TriangleMeshesKeyValue;
-            typedef std::pair<Key, std::vector<std::shared_ptr<AV::Geom::PointList> > > PointListsKeyValue;
+            typedef std::pair<Key, std::vector<std::shared_ptr<Geom::TriangleMesh> > > TriangleMeshesKeyValue;
+            typedef std::pair<Key, std::vector<std::shared_ptr<Geom::PointList> > > PointListsKeyValue;
             std::vector<TriangleMeshesKeyValue> triangleMeshes;
             std::vector<PointListsKeyValue> polyLines;
             std::vector<PointListsKeyValue> pointLists;
@@ -69,19 +67,19 @@ namespace djv
             size_t lightCount = 0;
         };
 
-        void Render::_init(const std::shared_ptr<Core::Context>& context)
+        void Render::_init(const std::shared_ptr<System::Context>& context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
-            p.colorMaterial = AV::Render3D::SolidColorMaterial::create(context);
-            p.defaultMaterial = AV::Render3D::DefaultMaterial::create(context);
+            p.colorMaterial = Render3D::SolidColorMaterial::create(context);
+            p.defaultMaterial = Render3D::DefaultMaterial::create(context);
         }
 
         Render::Render() :
             _p(new Private)
         {}
 
-        std::shared_ptr<Render> Render::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<Render> Render::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<Render>(new Render);
             out->_init(context);
@@ -129,7 +127,7 @@ namespace djv
         }
 
         void Render::render(
-            const std::shared_ptr<AV::Render3D::Render>& render,
+            const std::shared_ptr<Render3D::Render>& render,
             const RenderOptions& renderOptions)
         {
             DJV_PRIVATE_PTR();
@@ -138,28 +136,28 @@ namespace djv
                 // Set the default material shader mode.
                 for (const auto& i : p.materials)
                 {
-                    if (auto defaultMaterial = std::dynamic_pointer_cast<AV::Render3D::DefaultMaterial>(i.second))
+                    if (auto defaultMaterial = std::dynamic_pointer_cast<Render3D::DefaultMaterial>(i.second))
                     {
                         defaultMaterial->setMode(renderOptions.shaderMode);
                     }
                 }
 
                 // Create the render camera.
-                auto renderCamera = AV::Render3D::DefaultCamera::create();
+                auto renderCamera = Render3D::DefaultCamera::create();
                 renderCamera->setV(renderOptions.camera->getV());
                 renderCamera->setP(renderOptions.camera->getP());
 
                 // Create the default lights.
                 if (0 == p.lightCount)
                 {
-                    auto hemisphereLight = AV::Render3D::HemisphereLight::create();
+                    auto hemisphereLight = Render3D::HemisphereLight::create();
                     render->addLight(hemisphereLight);
-                    auto directionalLight = AV::Render3D::DirectionalLight::create();
+                    auto directionalLight = Render3D::DirectionalLight::create();
                     render->addLight(directionalLight);
                 }
 
                 // Setup the render options.
-                AV::Render3D::RenderOptions render3DOptions;
+                Render3D::RenderOptions render3DOptions;
                 render3DOptions.camera = renderCamera;
                 render3DOptions.size = renderOptions.size;
                 render3DOptions.clip = renderOptions.clip;
@@ -205,9 +203,9 @@ namespace djv
             return _p->pointCount;
         }
 
-        AV::Image::Color Render::_getColor(const std::shared_ptr<IPrimitive>& primitive) const
+        Image::Color Render::_getColor(const std::shared_ptr<IPrimitive>& primitive) const
         {
-            AV::Image::Color out(0.F, 0.F, 0.F);
+            Image::Color out(0.F, 0.F, 0.F);
             switch (primitive->getColorAssignment())
             {
             case ColorAssignment::Layer:
@@ -278,7 +276,7 @@ namespace djv
 
         void Render::_prePass(
             const std::shared_ptr<IPrimitive>& primitive,
-            const std::shared_ptr<Core::Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             DJV_PRIVATE_PTR();
 
@@ -302,7 +300,7 @@ namespace djv
                 if (visible)
                 {
                     // Get the material.
-                    std::shared_ptr<AV::Render3D::IMaterial> renderMaterial;
+                    std::shared_ptr<Render3D::IMaterial> renderMaterial;
                     if (auto material = _getMaterial(primitive))
                     {
                         auto j = p.materials.find(material);

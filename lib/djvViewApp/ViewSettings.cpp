@@ -6,7 +6,8 @@
 
 #include <djvViewApp/View.h>
 
-#include <djvCore/Context.h>
+#include <djvMath/BBoxFunc.h>
+#include <djvSystem/Context.h>
 
 #if defined(GetObject)
 #undef GetObject
@@ -29,10 +30,10 @@ namespace djv
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
             std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             std::shared_ptr<ValueSubject<ViewBackgroundOptions> > backgroundOptions;
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void ViewSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void ViewSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::ViewSettings", context);
 
@@ -48,7 +49,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ViewSettings> ViewSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ViewSettings> ViewSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewSettings>(new ViewSettings);
             out->_init(context);
@@ -105,12 +106,12 @@ namespace djv
             _p->backgroundOptions->setIfChanged(value);
         }
 
-        const std::map<std::string, BBox2f>& ViewSettings::getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& ViewSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void ViewSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void ViewSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }

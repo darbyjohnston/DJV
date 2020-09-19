@@ -17,13 +17,13 @@ class RenderWidget : public ISettingsWidget
     DJV_NON_COPYABLE(RenderWidget);
 
 protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
+    void _init(const std::shared_ptr<djv::System::Context>&);
     RenderWidget();
 
 public:
     ~RenderWidget() override;
 
-    static std::shared_ptr<RenderWidget> create(const std::shared_ptr<djv::Core::Context>&);
+    static std::shared_ptr<RenderWidget> create(const std::shared_ptr<djv::System::Context>&);
 
     void setRenderOptions(const djv::UI::SceneRenderOptions&);
     void setRenderOptionsCallback(const std::function<void(const djv::UI::SceneRenderOptions&)>&);
@@ -31,7 +31,7 @@ public:
     void setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) override;
 
 protected:
-    void _initEvent(djv::Core::Event::Init&) override;
+    void _initEvent(djv::System::Event::Init&) override;
 
 private:
     void _widgetUpdate();

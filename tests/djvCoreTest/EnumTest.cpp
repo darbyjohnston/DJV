@@ -4,7 +4,7 @@
 
 #include <djvCoreTest/EnumTest.h>
 
-#include <djvCore/Memory.h>
+#include <djvCore/MemoryFunc.h>
 
 using namespace djv::Core;
 
@@ -12,8 +12,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        EnumTest::EnumTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::EnumTest", context)
+        EnumTest::EnumTest(
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
+            ITest("djv::CoreTest::EnumTest", tempPath, context)
         {}
         
         void EnumTest::run()
@@ -22,9 +24,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "endian string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Endian: " + _getText(ss.str()));
             }
             
             for (auto i : Memory::getEndianEnums())
@@ -36,19 +36,16 @@ namespace djv
                 DJV_ASSERT(i == j);
             }
             
+            try
             {
+                Memory::Endian endian = Memory::Endian::First;
                 std::stringstream ss;
-                ss << "none";
-                try
-                {
-                    Memory::Endian endian = Memory::Endian::First;
-                    ss >> endian;
-                    DJV_ASSERT(true);
-                }
-                catch (const std::exception& e)
-                {
-                    _print(e.what());
-                }
+                ss >> endian;
+                DJV_ASSERT(true);
+            }
+            catch (const std::exception& e)
+            {
+                _print(e.what());
             }
         }
         

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvAV/Color.h>
+#include <djvImage/Color.h>
 
 #include <memory>
 #include <vector>
@@ -51,8 +51,8 @@ namespace djv
             bool isVisible() const;
             void setVisible(bool);
 
-            const AV::Image::Color& getColor() const;
-            void setColor(const AV::Image::Color&);
+            const Image::Color& getColor() const;
+            void setColor(const Image::Color&);
 
             const std::shared_ptr<IMaterial>& getMaterial() const;
             void setMaterial(const std::shared_ptr<IMaterial>&);
@@ -65,7 +65,7 @@ namespace djv
         private:
             std::string _name;
             bool _visible = true;
-            AV::Image::Color _color = AV::Image::Color(0.F, 0.F, 0.F);
+            Image::Color _color = Image::Color(0.F, 0.F, 0.F);
             std::shared_ptr<IMaterial> _material;
             std::vector<std::shared_ptr<ILayerItem> > _items;
         };

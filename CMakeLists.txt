@@ -40,14 +40,17 @@ set(DJV_GPROF FALSE CACHE BOOL "Enable gprof profiling")
 set(DJV_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 
 # Experimental options.
-set(DJV_OPENGL_ES2 FALSE CACHE BOOL "OpenGL ES 2.0 rendering (experiemental)")
-if(DJV_OPENGL_ES2)
-    add_definitions(-DDJV_OPENGL_ES2)
+set(DJV_GL_ES2 FALSE CACHE BOOL "OpenGL ES 2.0 rendering (experiemental)")
+if(DJV_GL_ES2)
+    add_definitions(-DDJV_GL_ES2)
 endif()
 set(DJV_PYTHON FALSE CACHE BOOL "Python support (experimental)")
 if(DJV_PYTHON)
     add_definitions(-DDJV_PYTHON)
 endif()
+
+# Debugging options.
+set(DJV_SYSTEM_DOT_GRAPH FALSE CACHE BOOL "Write a Graphviz .dot file (systems.dot) of the system dependencies")
 
 #-------------------------------------------------------------------------------
 # Configuration
@@ -97,7 +100,7 @@ include_directories(${INCLUDE_DIRS})
 
 # Miscellaneous settings.
 #add_definitions(-DDJV_MMAP)
-#add_definitions(-DDJV_OPENGL_PBO)
+#add_definitions(-DDJV_GL_PBO)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 if(DJV_DEMO)
@@ -116,9 +119,11 @@ if(UNIX)
         endif()
         if(DJV_GCOV)
             include(CodeCoverage)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
-            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_COVERAGE}")
+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_COVERAGE}")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_COVERAGE}")
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS_COVERAGE}")
+            set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} ${CMAKE_STATIC_LINKER_FLAGS_COVERAGE}")
         endif()
     endif()
 endif()
@@ -247,7 +252,7 @@ file(COPY ${DJV_AUDIO_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Audio)
 install(FILES ${DJV_AUDIO_FILES} DESTINATION etc/Audio)
 
 # Shaders.
-if(DJV_OPENGL_ES2)
+if(DJV_GL_ES2)
     file(GLOB_RECURSE DJV_SHADER_FILES ${CMAKE_SOURCE_DIR}/etc/Shaders/GL2ES/*.glsl)
 else()
     file(GLOB_RECURSE DJV_SHADER_FILES ${CMAKE_SOURCE_DIR}/etc/Shaders/GL4_1/*.glsl)

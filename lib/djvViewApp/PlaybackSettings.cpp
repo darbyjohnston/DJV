@@ -4,8 +4,9 @@
 
 #include <djvViewApp/PlaybackSettings.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Speed.h>
+#include <djvSystem/Context.h>
+
+#include <djvMath/RationalFunc.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -27,7 +28,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > pipEnabled;
         };
 
-        void PlaybackSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void PlaybackSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::PlaybackSettings", context);
 
@@ -45,7 +46,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PlaybackSettings> PlaybackSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<PlaybackSettings> PlaybackSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PlaybackSettings>(new PlaybackSettings);
             out->_init(context);

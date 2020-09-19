@@ -29,7 +29,7 @@ namespace djv
             return _clipped;
         }
 
-        inline const Core::BBox2f& Widget::getClipRect() const
+        inline const Math::BBox2f& Widget::getClipRect() const
         {
             return _clipRect;
         }
@@ -44,7 +44,7 @@ namespace djv
             return _minimumSize;
         }
 
-        inline const Core::BBox2f& Widget::getGeometry() const
+        inline const Math::BBox2f& Widget::getGeometry() const
         {
             return _geometry;
         }
@@ -67,7 +67,7 @@ namespace djv
         inline void Widget::move(const glm::vec2& value)
         {
             const glm::vec2 size = _geometry.getSize();
-            Core::BBox2f geometry;
+            Math::BBox2f geometry;
             geometry.min = value;
             geometry.max = value + size;
             setGeometry(geometry);
@@ -75,7 +75,7 @@ namespace djv
 
         inline void Widget::resize(const glm::vec2& value)
         {
-            setGeometry(Core::BBox2f(_geometry.min, _geometry.min + value));
+            setGeometry(Math::BBox2f(_geometry.min, _geometry.min + value));
         }
 
         inline float Widget::getHeightForWidth(float) const
@@ -133,7 +133,7 @@ namespace djv
             return _eventSystem;
         }
 
-        inline const std::shared_ptr<AV::Render2D::Render>& Widget::_getRender() const
+        inline const std::shared_ptr<Render2D::Render>& Widget::_getRender() const
         {
             return _render;
         }
@@ -148,7 +148,7 @@ namespace djv
             return _updateTime;
         }
 
-        inline const std::map<Core::Event::PointerID, glm::vec2> Widget::_getPointerHover() const
+        inline const std::map<System::Event::PointerID, glm::vec2> Widget::_getPointerHover() const
         {
             return _pointerHover;
         }

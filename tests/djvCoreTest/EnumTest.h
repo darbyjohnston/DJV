@@ -13,8 +13,10 @@ namespace djv
         class EnumTest : public Test::ITest
         {
         public:
-            EnumTest(const std::shared_ptr<Core::Context>&);
-            
+            EnumTest(
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
+
             void run() override;
         };
         

@@ -26,15 +26,20 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/IOSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Animation.h>
-#include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
+#include <djvAV/IOSystem.h>
+
+#include <djvSystem/Animation.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/TimerFunc.h>
+
+#include <djvMath/Math.h>
+
+#include <djvCore/RandomFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -55,24 +60,24 @@ namespace djv
                 DJV_NON_COPYABLE(BackgroundWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 BackgroundWidget()
                 {}
 
             public:
-                static std::shared_ptr<BackgroundWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<BackgroundWidget> create(const std::shared_ptr<System::Context>&);
 
             protected:
-                void _paintEvent(Event::Paint&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
             private:
                 void _primitivesUpdate(const Time::Duration&);
 
                 std::vector<std::shared_ptr<AV::IO::IRead> > _read;
-                std::vector<std::shared_ptr<AV::Image::Image> > _images;
+                std::vector<std::shared_ptr<Image::Image> > _images;
                 struct Primitive
                 {
-                    std::shared_ptr<AV::Image::Image> image;
+                    std::shared_ptr<Image::Image> image;
                     float size = 0.F;
                     glm::vec2 pos = glm::vec2(0.F, 0.F);
                     glm::vec2 vel = glm::vec2(0.F, 0.F);
@@ -80,33 +85,33 @@ namespace djv
                     float lifespan = 0.F;
                 };
                 std::vector<Primitive> _primitives;
-                std::shared_ptr<Time::Timer> _timer;
+                std::shared_ptr<System::Timer> _timer;
             };
 
-            void BackgroundWidget::_init(const std::shared_ptr<Context>& context)
+            void BackgroundWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
                 try
                 {
-                    auto io = context->getSystemT<AV::IO::System>();
-                    auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
-                    const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
-                    _read.push_back(io->read(FileSystem::Path(iconsPath, "djvLogo512.png")));
-                    _read.push_back(io->read(FileSystem::Path(iconsPath, "djvLogo1024.png")));
-                    _read.push_back(io->read(FileSystem::Path(iconsPath, "djvLogo2048.png")));
+                    auto io = context->getSystemT<AV::IO::IOSystem>();
+                    auto resourceSystem = context->getSystemT<System::ResourceSystem>();
+                    const auto& iconsPath = resourceSystem->getPath(System::File::ResourcePath::Icons);
+                    _read.push_back(io->read(System::File::Path(iconsPath, "djvLogo512.png")));
+                    _read.push_back(io->read(System::File::Path(iconsPath, "djvLogo1024.png")));
+                    _read.push_back(io->read(System::File::Path(iconsPath, "djvLogo2048.png")));
                 }
                 catch (const std::exception& e)
                 {
-                    auto logSystem = context->getSystemT<LogSystem>();
+                    auto logSystem = context->getSystemT<System::LogSystem>();
                     logSystem->log("djv::ViewApp::BackgroundWidget", e.what());
                 }
 
-                _timer = Time::Timer::create(context);
+                _timer = System::Timer::create(context);
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<BackgroundWidget>(std::dynamic_pointer_cast<BackgroundWidget>(shared_from_this()));
                 _timer->start(
-                    Time::getTime(Time::TimerValue::Fast),
+                    System::getTimerDuration(System::TimerValue::Fast),
                     [weak](const std::chrono::steady_clock::time_point&, const Time::Duration& dt)
                 {
                     if (auto widget = weak.lock())
@@ -142,23 +147,23 @@ namespace djv
                 });
             }
 
-            std::shared_ptr<BackgroundWidget> BackgroundWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<BackgroundWidget> BackgroundWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr< BackgroundWidget>(new BackgroundWidget);
                 out->_init(context);
                 return out;
             }
 
-            void BackgroundWidget::_paintEvent(Event::Paint&)
+            void BackgroundWidget::_paintEvent(System::Event::Paint&)
             {
                 const auto& render = _getRender();
                 const auto& style = _getStyle();
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 render->setFillColor(style->getColor(UI::ColorRole::Background));
                 render->drawRect(g);
                 for (const auto& i : _primitives)
                 {
-                    AV::Image::Color color = style->getColor(UI::ColorRole::Button);
+                    Image::Color color = style->getColor(UI::ColorRole::Button);
                     const float v = 1.F - ((cos((i.age / i.lifespan) * Math::pi * 2.F) + 1.F) * .5F);
                     color.setF32(color.getF32(3) * primitiveOpacity * v, 3);
                     render->setFillColor(color);
@@ -187,11 +192,11 @@ namespace djv
                 while (_primitives.size() < primitiveCount && _images.size())
                 {
                     Primitive p;
-                    p.image = _images[Math::getRandom(static_cast<int>(_images.size()) - 1)];
-                    p.size = Math::getRandom(1, 4) * 512.F;
-                    p.pos = glm::vec2(Math::getRandom(-1000.F, 1000.F), Math::getRandom(-1000.F, 1000.F));
-                    p.vel = glm::vec2(Math::getRandom(-50.F, 50.F), Math::getRandom(-50.F, 50.F));
-                    p.lifespan = Math::getRandom(5.F, 20.F);
+                    p.image = _images[Random::getRandom(static_cast<int>(_images.size()) - 1)];
+                    p.size = Random::getRandom(1, 4) * 512.F;
+                    p.pos = glm::vec2(Random::getRandom(-1000.F, 1000.F), Random::getRandom(-1000.F, 1000.F));
+                    p.vel = glm::vec2(Random::getRandom(-50.F, 50.F), Random::getRandom(-50.F, 50.F));
+                    p.lifespan = Random::getRandom(5.F, 20.F);
                     _primitives.push_back(p);
                 }
                 _redraw();
@@ -210,12 +215,12 @@ namespace djv
             std::shared_ptr<UI::Action> fullScreenAction;
             std::shared_ptr<UI::PopupMenu> settingsPopupMenu;
             std::shared_ptr<UI::Layout::Overlay> overlay;
-            std::shared_ptr<Animation::Animation> fadeOutAnimation;
+            std::shared_ptr<System::Animation::Animation> fadeOutAnimation;
             std::function<void(void)> finishCallback;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
         };
 
-        void NUXWidget::_init(const std::shared_ptr<Context>& context)
+        void NUXWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Window::_init(context);
             DJV_PRIVATE_PTR();
@@ -365,7 +370,7 @@ namespace djv
                 }
             });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.fullScreenAction->setCheckedCallback(
                 [contextWeak](bool value)
                 {
@@ -387,14 +392,14 @@ namespace djv
                     }
                 });
 
-            p.fadeOutAnimation = Animation::Animation::create(context);
+            p.fadeOutAnimation = System::Animation::Animation::create(context);
         }
 
         NUXWidget::NUXWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXWidget> NUXWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<NUXWidget> NUXWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<NUXWidget>(new NUXWidget);
             out->_init(context);
@@ -406,7 +411,7 @@ namespace djv
             _p->finishCallback = callback;
         }
 
-        void NUXWidget::_initEvent(Event::Init& event)
+        void NUXWidget::_initEvent(System::Event::Init& event)
         {
             Window::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -445,7 +450,7 @@ namespace djv
             std::shared_ptr<NUXSettings> settings;
         };
 
-        void NUXSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void NUXSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::NUXSystem", context);
 
@@ -457,7 +462,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSystem> NUXSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<NUXSystem> NUXSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<NUXSystem>(new NUXSystem);
             out->_init(context);

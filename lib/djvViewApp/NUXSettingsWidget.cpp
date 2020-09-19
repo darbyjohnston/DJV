@@ -10,7 +10,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -25,7 +25,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > nuxObserver;
         };
 
-        void NUXSettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void NUXSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -39,7 +39,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<NUXSettingsWidget>(std::dynamic_pointer_cast<NUXSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.button->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -47,7 +47,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                            if (auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>())
                             {
                                 if (auto nuxSettings = settingsSystem->getSettingsT<NUXSettings>())
                                 {
@@ -58,7 +58,7 @@ namespace djv
                     }
                 });
 
-            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+            if (auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>())
             {
                 if (auto nuxSettings = settingsSystem->getSettingsT<NUXSettings>())
                 {
@@ -79,7 +79,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSettingsWidget> NUXSettingsWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<NUXSettingsWidget> NUXSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<NUXSettingsWidget>(new NUXSettingsWidget);
             out->_init(context);
@@ -101,7 +101,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void NUXSettingsWidget::_initEvent(Event::Init & event)
+        void NUXSettingsWidget::_initEvent(System::Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

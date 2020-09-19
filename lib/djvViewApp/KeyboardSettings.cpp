@@ -6,7 +6,7 @@
 
 #include <djvUI/ShortcutData.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -23,7 +23,7 @@ namespace djv
             std::shared_ptr<MapSubject<std::string, UI::ShortcutDataPair> > shortcuts;
         };
 
-        void KeyboardSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void KeyboardSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::KeyboardSettings", context);
 
@@ -36,7 +36,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<KeyboardSettings> KeyboardSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<KeyboardSettings> KeyboardSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<KeyboardSettings>(new KeyboardSettings);
             out->_init(context);

@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Tool);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Tool();
 
             public:
                 ~Tool() override;
 
-                static std::shared_ptr<Tool> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Tool> create(const std::shared_ptr<System::Context>&);
 
                 void setIcon(const std::string&);
                 void setIconSizeRole(MetricsRole);
@@ -62,14 +62,14 @@ namespace djv
                 void _doClick() override;
                 void _doCheck(bool) override;
 
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _buttonPressEvent(Core::Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-                void _keyPressEvent(Core::Event::KeyPress&) override;
-                void _textFocusEvent(Core::Event::TextFocus&) override;
-                void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
+                void _keyPressEvent(System::Event::KeyPress&) override;
+                void _textFocusEvent(System::Event::TextFocus&) override;
+                void _textFocusLostEvent(System::Event::TextFocusLost&) override;
 
             private:
                 void _actionUpdate();

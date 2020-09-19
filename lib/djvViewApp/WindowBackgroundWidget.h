@@ -18,16 +18,16 @@ namespace djv
             DJV_NON_COPYABLE(WindowBackgroundWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             WindowBackgroundWidget();
 
         public:
             ~WindowBackgroundWidget() override;
 
-            static std::shared_ptr<WindowBackgroundWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<WindowBackgroundWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
-            void _paintEvent(Core::Event::Paint &) override;
+            void _paintEvent(System::Event::Paint &) override;
 
         private:
             DJV_PRIVATE();

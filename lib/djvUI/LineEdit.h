@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(LineEdit);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             LineEdit();
 
         public:
             ~LineEdit() override;
 
-            static std::shared_ptr<LineEdit> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<LineEdit> create(const std::shared_ptr<System::Context>&);
 
             const std::string& getText() const;
             void setText(const std::string&);
@@ -50,9 +50,9 @@ namespace djv
             std::shared_ptr<Widget> getFocusWidget() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
         private:
             DJV_PRIVATE();

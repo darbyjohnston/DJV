@@ -12,7 +12,7 @@
 #include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -27,7 +27,7 @@ namespace djv
                 DJV_NON_COPYABLE(MessageDialog);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>& context)
+                void _init(const std::shared_ptr<System::Context>& context)
                 {
                     IDialog::_init(context);
 
@@ -62,7 +62,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<MessageDialog> create(const std::shared_ptr<Core::Context>& context)
+                static std::shared_ptr<MessageDialog> create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<MessageDialog>(new MessageDialog);
                     out->_init(context);
@@ -89,7 +89,7 @@ namespace djv
                 DJV_NON_COPYABLE(ConfirmationDialog);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>& context)
+                void _init(const std::shared_ptr<System::Context>& context)
                 {
                     IDialog::_init(context);
 
@@ -147,7 +147,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<ConfirmationDialog> create(const std::shared_ptr<Core::Context>& context)
+                static std::shared_ptr<ConfirmationDialog> create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<ConfirmationDialog>(new ConfirmationDialog);
                     out->_init(context);
@@ -195,7 +195,7 @@ namespace djv
             std::shared_ptr<Window> confirmationWindow;
         };
 
-        void DialogSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void DialogSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::UI::DialogSystem", context);
 
@@ -219,7 +219,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<DialogSystem> DialogSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<DialogSystem> DialogSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
             out->_init(context);

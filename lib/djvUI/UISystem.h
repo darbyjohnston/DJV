@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
 
 namespace djv
 {
@@ -17,18 +17,18 @@ namespace djv
         } // namespace Style
 
         //! This class provides a UI system.
-        class UISystem : public Core::ISystem
+        class UISystem : public System::ISystem
         {
             DJV_NON_COPYABLE(UISystem);
 
         protected:
-            void _init(bool resetSettings, const std::shared_ptr<Core::Context>&);
+            void _init(bool resetSettings, const std::shared_ptr<System::Context>&);
             UISystem();
 
         public:
             ~UISystem() override;
 
-            static std::shared_ptr<UISystem> create(bool resetSettings, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<UISystem> create(bool resetSettings, const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<Style::Style>& getStyle() const;
 

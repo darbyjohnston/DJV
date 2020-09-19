@@ -73,7 +73,7 @@ namespace djv
 
         protected:
             void _add(const std::weak_ptr<MapObserver<T, U> >&);
-            void _remove(MapObserver<T, U> *);
+            void _removeExpired();
 
             std::vector<std::weak_ptr<MapObserver<T, U> > > _observers;
 

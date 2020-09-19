@@ -24,29 +24,29 @@ namespace djv
             DJV_NON_COPYABLE(GridOverlay);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             GridOverlay();
 
         public:
-            static std::shared_ptr<GridOverlay> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<GridOverlay> create(const std::shared_ptr<System::Context>&);
 
             void setOptions(const GridOptions&);
 
             void setImagePosAndZoom(const glm::vec2&, float);
             void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio, float aspectRatio, float pixelAspectRatio);
-            void setImageBBox(const Core::BBox2f&);
+            void setImageBBox(const Math::BBox2f&);
 
         protected:
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
-            void _initEvent(Core::Event::Init&) override;
-            void _updateEvent(Core::Event::Update&) override;
+            void _initEvent(System::Event::Init&) override;
+            void _updateEvent(System::Event::Update&) override;
 
         private:
-            Core::BBox2f _getViewportWorld() const;
-            Core::BBox2f _getViewport() const;
+            Math::BBox2f _getViewportWorld() const;
+            Math::BBox2f _getViewport() const;
             std::string _getLabel(const GridPos&) const;
             void _textCreate(const GridPos&);
             void _textUpdate();
@@ -59,23 +59,23 @@ namespace djv
             DJV_NON_COPYABLE(HUDOverlay);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             HUDOverlay();
 
         public:
             ~HUDOverlay() override;
 
-            static std::shared_ptr<HUDOverlay> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<HUDOverlay> create(const std::shared_ptr<System::Context>&);
 
-            void setHUDFrame(const Core::BBox2f&);
+            void setHUDFrame(const Math::BBox2f&);
             void setHUDData(const HUDData&);
             void setHUDOptions(const HUDOptions&);
 
         protected:
-            void _paintEvent(Core::Event::Paint&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
-            void _initEvent(Core::Event::Init&) override;
-            void _updateEvent(Core::Event::Update&) override;
+            void _initEvent(System::Event::Init&) override;
+            void _updateEvent(System::Event::Update&) override;
 
         private:
             void _textUpdate();

@@ -6,7 +6,7 @@ set(source
     TickTest.cpp)
 
 add_library(djvTestLib ${header} ${source})
-target_link_libraries(djvTestLib djvCore)
+target_link_libraries(djvTestLib djvSystem)
 set_target_properties(
     djvTestLib
     PROPERTIES

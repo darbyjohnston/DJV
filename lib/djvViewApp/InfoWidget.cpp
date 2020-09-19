@@ -18,8 +18,11 @@
 #include <djvUI/ToolBar.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/TimeFunc.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 
@@ -38,15 +41,15 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
 
-            std::shared_ptr<UI::TextBlock> createTextBlock(const std::shared_ptr<Context>& context)
+            std::shared_ptr<UI::TextBlock> createTextBlock(const std::shared_ptr<System::Context>& context)
             {
                 auto textBlock = UI::TextBlock::create(context);
-                textBlock->setFontFamily(AV::Font::familyMono);
+                textBlock->setFontFamily(Render2D::Font::familyMono);
                 textBlock->setMargin(UI::MetricsRole::MarginSmall);
                 return textBlock;
             }
 
-            std::shared_ptr<UI::FormLayout> createFormLayout(const std::shared_ptr<Context>& context)
+            std::shared_ptr<UI::FormLayout> createFormLayout(const std::shared_ptr<System::Context>& context)
             {
                 auto formLayout = UI::FormLayout::create(context);
                 formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
@@ -57,7 +60,7 @@ namespace djv
             }
         };
 
-        void InfoWidget::_init(const std::shared_ptr<Context>& context)
+        void InfoWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -136,19 +139,19 @@ namespace djv
         InfoWidget::~InfoWidget()
         {}
 
-        std::shared_ptr<InfoWidget> InfoWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<InfoWidget> InfoWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<InfoWidget>(new InfoWidget);
             out->_init(context);
             return out;
         }
 
-        void InfoWidget::_initLayoutEvent(Event::InitLayout&)
+        void InfoWidget::_initLayoutEvent(System::Event::InitLayout&)
         {
             _p->sizeGroup->calcMinimumSize();
         }
 
-        void InfoWidget::_initEvent(Event::Init & event)
+        void InfoWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -174,17 +177,17 @@ namespace djv
             return ss.str();
         }
 
-        std::string InfoWidget::_text(const Frame::Sequence& sequence, const Math::Rational& speed) const
+        std::string InfoWidget::_text(const Math::Frame::Sequence& sequence, const Math::Rational& speed) const
         {
             std::stringstream ss;
             if (auto context = getContext().lock())
             {
                 auto avSystem = context->getSystemT<AV::AVSystem>();
-                const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
-                ss << Time::toString(sequence.getFrameCount(), speed, timeUnits);
+                const AV::Time::Units timeUnits = avSystem->observeTimeUnits()->get();
+                ss << AV::Time::toString(sequence.getFrameCount(), speed, timeUnits);
                 switch (timeUnits)
                 {
-                case Time::Units::Frames:
+                case AV::Time::Units::Frames:
                     ss << " " << _getText(DJV_TEXT("widget_info_frames"));
                     break;
                 default: break;
@@ -193,14 +196,14 @@ namespace djv
             return ss.str();
         }
 
-        std::string InfoWidget::_text(AV::Image::Type value) const
+        std::string InfoWidget::_text(Image::Type value) const
         {
             std::stringstream ss;
             ss << value;
             return _getText(ss.str());
         }
 
-        std::string InfoWidget::_text(const AV::Image::Size& value) const
+        std::string InfoWidget::_text(const Image::Size& value) const
         {
             std::stringstream ss;
             ss << value.w << "x" << value.h;
@@ -209,7 +212,7 @@ namespace djv
             return ss.str();
         }
 
-        std::string InfoWidget::_text(AV::Audio::Type value) const
+        std::string InfoWidget::_text(Audio::Type value) const
         {
             std::stringstream ss;
             ss << value;
@@ -406,7 +409,7 @@ namespace djv
                 if (!p.info.tags.isEmpty())
                 {
                     bool match = false;
-                    for (const auto& i : p.info.tags.getTags())
+                    for (const auto& i : p.info.tags.get())
                     {
                         match |= String::match(i.first, p.filter);
                         match |= String::match(i.second, p.filter);
@@ -414,7 +417,7 @@ namespace djv
                     if (match)
                     {
                         auto formLayout = p.createFormLayout(context);
-                        for (const auto& i : p.info.tags.getTags())
+                        for (const auto& i : p.info.tags.get())
                         {
                             if (String::match(i.first, p.filter) || String::match(i.second, p.filter))
                             {

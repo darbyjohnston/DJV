@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(PopupWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             PopupWidget();
 
         public:
             ~PopupWidget() override;
 
-            static std::shared_ptr<PopupWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<PopupWidget> create(const std::shared_ptr<System::Context>&);
 
             void addChild(const std::shared_ptr<IObject>&) override;
             void removeChild(const std::shared_ptr<IObject>&) override;
@@ -31,10 +31,10 @@ namespace djv
             float getHeightForWidth(float) const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _buttonPressEvent(Core::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _buttonPressEvent(System::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
         private:
             DJV_PRIVATE();

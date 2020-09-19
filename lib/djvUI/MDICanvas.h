@@ -21,13 +21,13 @@ namespace djv
                 DJV_NON_COPYABLE(Canvas);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Canvas();
 
             public:
                 ~Canvas() override;
 
-                static std::shared_ptr<Canvas> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Canvas> create(const std::shared_ptr<System::Context>&);
 
                 const glm::vec2& getCanvasSize() const;
                 void setCanvasSize(const glm::vec2&);
@@ -41,20 +41,20 @@ namespace djv
                 //! \todo We should convert widgets to use local coordinates and then
                 //! we could remove this and use Widget::move() instead.
                 void setWidgetPos(const std::shared_ptr<IWidget>&, const glm::vec2&);
-                void setWidgetGeometry(const std::shared_ptr<IWidget>&, const Core::BBox2f&);
+                void setWidgetGeometry(const std::shared_ptr<IWidget>&, const Math::BBox2f&);
 
                 bool isMaximized() const;
                 void setMaximize(bool);
                 void setMaximizeCallback(const std::function<void(bool)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _childAddedEvent(Core::Event::ChildAdded&) override;
-                void _childRemovedEvent(Core::Event::ChildRemoved&) override;
-                void _childOrderEvent(Core::Event::ChildOrder&) override;
-                bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::Event&) override;
+                void _childAddedEvent(System::Event::ChildAdded&) override;
+                void _childRemovedEvent(System::Event::ChildRemoved&) override;
+                void _childOrderEvent(System::Event::ChildOrder&) override;
+                bool _eventFilter(const std::shared_ptr<System::IObject>&, System::Event::Event&) override;
 
             private:
                 void _doActiveCallback();

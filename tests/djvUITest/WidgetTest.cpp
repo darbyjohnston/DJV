@@ -22,7 +22,9 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+
+#include <djvCore/RandomFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -37,7 +39,8 @@ namespace djv
         class TestEventSystem : public EventSystem
         {
             DJV_NON_COPYABLE(TestEventSystem);
-            void _init(const std::shared_ptr<Context>& context)
+            
+            void _init(const std::shared_ptr<System::Context>& context)
             {
                 EventSystem::_init("TestEventSystem", context);
             }
@@ -46,7 +49,7 @@ namespace djv
             {}
 
         public:
-            static std::shared_ptr<TestEventSystem> create(const std::shared_ptr<Context>& context)
+            static std::shared_ptr<TestEventSystem> create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
                 out->_init(context);
@@ -65,15 +68,15 @@ namespace djv
                     {
                         window->resize(size);
 
-                        Event::PreLayout preLayout;
+                        System::Event::PreLayout preLayout;
                         _preLayoutRecursive(window, preLayout);
 
                         if (window->isVisible())
                         {
-                            Event::Layout layout;
+                            System::Event::Layout layout;
                             _layoutRecursive(window, layout);
 
-                            Event::Clip clip(BBox2f(0.F, 0.F, size.x, size.y));
+                            System::Event::Clip clip(Math::BBox2f(0.F, 0.F, size.x, size.y));
                             _clipRecursive(window, clip);
                         }
                     }
@@ -85,16 +88,16 @@ namespace djv
                     {
                         if (window->isVisible())
                         {
-                            Event::Paint paintEvent(BBox2f(0.F, 0.F, size.x, size.y));
-                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.F, 0.F, size.x, size.y));
+                            System::Event::Paint paintEvent(Math::BBox2f(0.F, 0.F, size.x, size.y));
+                            System::Event::PaintOverlay paintOverlayEvent(Math::BBox2f(0.F, 0.F, size.x, size.y));
                             _paintRecursive(window, paintEvent, paintOverlayEvent);
                         }
                     }
                 }
                 
                 _pointerMove(_pointerInfo);
-                _pointerInfo.projectedPos.x += Math::getRandom(1.f);
-                _pointerInfo.projectedPos.y += Math::getRandom(1.f);
+                _pointerInfo.projectedPos.x += Random::getRandom(1.f);
+                _pointerInfo.projectedPos.y += Random::getRandom(1.f);
                 switch (_tick)
                 {
                 case 1:
@@ -123,9 +126,9 @@ namespace djv
             }
             
         protected:
-            void _hover(const std::shared_ptr<IObject>& object, Core::Event::PointerMove& event, std::shared_ptr<Core::IObject>& hover)
+            void _hover(const std::shared_ptr<System::IObject>& object, System::Event::PointerMove& event, std::shared_ptr<System::IObject>& hover)
             {
-                const auto children = object->getChildrenT<IObject>();
+                const auto children = object->getChildrenT<System::IObject>();
                 for (auto i = children.rbegin(); i != children.rend(); ++i)
                 {
                     _hover(*i, event, hover);
@@ -144,7 +147,7 @@ namespace djv
                 }
             }
             
-            void _hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover) override
+            void _hover(System::Event::PointerMove& event, std::shared_ptr<System::IObject>& hover) override
             {
                 const auto& windows = _getWindows();
                 for (auto i = windows.rbegin(); i != windows.rend(); ++i)
@@ -162,11 +165,13 @@ namespace djv
                     
         private:
             size_t _tick = 0;
-            Event::PointerInfo _pointerInfo;
+            System::Event::PointerInfo _pointerInfo;
         };
         
-        WidgetTest::WidgetTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::UITest::WidgetTest", context)
+        WidgetTest::WidgetTest(
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
+            ITickTest("djv::UITest::WidgetTest", tempPath, context)
         {}
         
         void WidgetTest::run()

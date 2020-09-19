@@ -4,11 +4,6 @@
 
 #include <djvViewApp/IToolSystem.h>
 
-#include <djvUI/MDICanvas.h>
-
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -19,7 +14,7 @@ namespace djv
         {
         };
 
-        void IToolSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
+        void IToolSystem::_init(const std::string & name, const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init(name, context);
         }

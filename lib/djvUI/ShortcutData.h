@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 
 #include <map>
 #include <memory>
@@ -12,11 +12,11 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
         class TextSystem;
 
-    } // namespace Core
+    } // namespace System
 
     namespace UI
     {
@@ -42,11 +42,11 @@ namespace djv
 
             static std::string getText(
                 const ShortcutData&,
-                const std::shared_ptr<Core::TextSystem>&);
+                const std::shared_ptr<System::TextSystem>&);
             static std::string getText(
                 int key,
                 int keyModifiers,
-                const std::shared_ptr<Core::TextSystem>&);
+                const std::shared_ptr<System::TextSystem>&);
 
             bool operator == (const ShortcutData&) const;
             bool operator < (const ShortcutData&) const;

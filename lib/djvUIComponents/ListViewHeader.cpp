@@ -11,7 +11,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Splitter.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -26,13 +26,13 @@ namespace djv
                 DJV_NON_COPYABLE(HeaderButton);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 HeaderButton();
 
             public:
                 virtual ~HeaderButton();
 
-                static std::shared_ptr<HeaderButton> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<HeaderButton> create(const std::shared_ptr<System::Context>&);
 
                 void setIcon(const std::string &);
 
@@ -42,9 +42,9 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint &) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint &) override;
 
             private:
                 std::shared_ptr<Label> _label;
@@ -52,7 +52,7 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> _layout;
             };
 
-            void HeaderButton::_init(const std::shared_ptr<Context>& context)
+            void HeaderButton::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -82,7 +82,7 @@ namespace djv
             HeaderButton::~HeaderButton()
             {}
 
-            std::shared_ptr<HeaderButton> HeaderButton::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<HeaderButton> HeaderButton::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<HeaderButton>(new HeaderButton);
                 out->_init(context);
@@ -105,20 +105,20 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void HeaderButton::_preLayoutEvent(Event::PreLayout&)
+            void HeaderButton::_preLayoutEvent(System::Event::PreLayout&)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void HeaderButton::_layoutEvent(Event::Layout&)
+            void HeaderButton::_layoutEvent(System::Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void HeaderButton::_paintEvent(Event::Paint & event)
+            void HeaderButton::_paintEvent(System::Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const auto& render = _getRender();
                 const auto& style = _getStyle();
                 if (_isPressed())
@@ -144,7 +144,7 @@ namespace djv
             std::shared_ptr<Layout::Splitter> splitter;
         };
 
-        void ListViewHeader::_init(const std::shared_ptr<Context>& context)
+        void ListViewHeader::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -194,7 +194,7 @@ namespace djv
         ListViewHeader::~ListViewHeader()
         {}
 
-        std::shared_ptr<ListViewHeader> ListViewHeader::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ListViewHeader> ListViewHeader::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ListViewHeader>(new ListViewHeader);
             out->_init(context);
@@ -270,12 +270,12 @@ namespace djv
             _p->splitter->setSplitCallback(callback);
         }
 
-        void ListViewHeader::_preLayoutEvent(Event::PreLayout& event)
+        void ListViewHeader::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->splitter->getMinimumSize());
         }
 
-        void ListViewHeader::_layoutEvent(Event::Layout& event)
+        void ListViewHeader::_layoutEvent(System::Event::Layout& event)
         {
             _p->splitter->setGeometry(getGeometry());
         }

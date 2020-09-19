@@ -1,0 +1,26 @@
+{
+    "render2d_alpha_none": "Ninguna",
+    "render2d_alpha_premultiplied": "Premultiplicado",
+    "render2d_alpha_straight": "Derecho",
+    "render2d_side_bottom": "Fondo",
+    "render2d_side_left": "Izquierda",
+    "render2d_side_none": "Ninguna",
+    "render2d_side_right": "Derecho",
+    "render2d_side_top": "Parte superior",
+    "error_cannot_parse_the_value": "No se puede analizar el valor.",
+    "render2d_filter_linear": "Lineal",
+    "render2d_filter_nearest": "Más cercano",
+    "render2d_image_cache_atlas": "Atlas",
+    "render2d_image_cache_dynamic": "Dinámica",
+    "render2d_image_channel_alpha": "Alfa",
+    "render2d_image_channel_blue": "Azul",
+    "render2d_image_channel_display_alpha": "Alfa",
+    "render2d_image_channel_display_blue": "Azul",
+    "render2d_image_channel_display_color": "Color",
+    "render2d_image_channel_display_green": "Verde",
+    "render2d_image_channel_display_red": "rojo",
+    "render2d_image_channel_green": "Verde",
+    "render2d_image_channel_none": "Alfa",
+    "render2d_image_channel_red": "rojo"
+}
+

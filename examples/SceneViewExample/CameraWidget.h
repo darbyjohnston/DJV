@@ -17,13 +17,13 @@ class CameraWidget : public ISettingsWidget
     DJV_NON_COPYABLE(CameraWidget);
 
 protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
+    void _init(const std::shared_ptr<djv::System::Context>&);
     CameraWidget();
 
 public:
     ~CameraWidget() override;
 
-    static std::shared_ptr<CameraWidget> create(const std::shared_ptr<djv::Core::Context>&);
+    static std::shared_ptr<CameraWidget> create(const std::shared_ptr<djv::System::Context>&);
 
     void setCameraData(const djv::Scene::PolarCameraData&);
     void setCameraDataCallback(const std::function<void(const djv::Scene::PolarCameraData&)>&);
@@ -31,7 +31,7 @@ public:
     void setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) override;
 
 protected:
-    void _initEvent(djv::Core::Event::Init&) override;
+    void _initEvent(djv::System::Event::Init&) override;
 
 private:
     void _widgetUpdate();

@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(MultiState);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 MultiState();
 
             public:
                 ~MultiState() override;
 
-                static std::shared_ptr<MultiState> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<MultiState> create(const std::shared_ptr<System::Context>&);
                 
                 void addIcon(const std::string&);
                 void clearIcons();
@@ -38,14 +38,14 @@ namespace djv
                 void setInsideMargin(MetricsRole);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-                void _pointerMoveEvent(Core::Event::PointerMove&) override;
-                void _buttonPressEvent(Core::Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _pointerEnterEvent(System::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
             private:
                 void _widgetUpdate();

@@ -26,12 +26,17 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/DirectoryModel.h>
-#include <djvCore/DrivesModel.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/RecentFilesModel.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/DirectoryModel.h>
+#include <djvSystem/DrivesModel.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/PathFunc.h>
+#include <djvSystem/RecentFilesModel.h>
+
+#include <djvMath/MathFunc.h>
+
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 
 #include <ctime>
 
@@ -45,12 +50,13 @@ namespace djv
         {
             struct FileBrowser::Private
             {
-                std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
-                FileSystem::Path path;
+                System::File::DirectoryListOptions options;
+                std::shared_ptr<System::File::DirectoryModel> directoryModel;
+                System::File::Path path;
                 size_t itemCount = 0;
                 std::shared_ptr<ShortcutsModel> shortcutsModel;
-                std::shared_ptr<FileSystem::RecentFilesModel> recentPathsModel;
-                std::shared_ptr<FileSystem::DrivesModel> drivesModel;
+                std::shared_ptr<System::File::RecentFilesModel> recentPathsModel;
+                std::shared_ptr<System::File::DrivesModel> drivesModel;
 
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
@@ -65,45 +71,45 @@ namespace djv
                 std::shared_ptr<Label> itemCountLabel;
                 std::shared_ptr<VerticalLayout> layout;
 
-                std::function<void(const FileSystem::FileInfo &)> callback;
+                std::function<void(const System::File::Info &)> callback;
 
-                std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
-                std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
+                std::shared_ptr<ValueObserver<System::File::Path> > pathObserver;
+                std::shared_ptr<ListObserver<System::File::Info> > fileInfoObserver;
                 std::shared_ptr<ValueObserver<bool> > hasUpObserver;
-                std::shared_ptr<ListObserver<FileSystem::Path> > historyObserver;
+                std::shared_ptr<ListObserver<System::File::Path> > historyObserver;
                 std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
                 std::shared_ptr<ValueObserver<bool> > hasBackObserver;
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
                 std::shared_ptr<ValueObserver<bool> > pathsOpenSettingsObserver;
-                std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
-                std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsSettingsObserver;
-                std::shared_ptr<ListObserver<FileSystem::FileInfo> > recentPathsObserver;
-                std::shared_ptr<ListObserver<FileSystem::Path> > recentPathsSettingsObserver;
+                std::shared_ptr<ListObserver<System::File::Path> > shortcutsObserver;
+                std::shared_ptr<ListObserver<System::File::Path> > shortcutsSettingsObserver;
+                std::shared_ptr<ListObserver<System::File::Info> > recentPathsObserver;
+                std::shared_ptr<ListObserver<System::File::Path> > recentPathsSettingsObserver;
                 std::shared_ptr<ValueObserver<ViewType> > viewTypeSettingsObserver;
-                std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
+                std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
                 std::shared_ptr<ListObserver<float> > listViewHeaderSplitSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > showHiddenSettingsObserver;
-                std::shared_ptr<ValueObserver<FileSystem::DirectoryListSort> > sortSettingsObserver;
+                std::shared_ptr<ValueObserver<System::File::DirectoryListSort> > sortSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > reverseSortSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
                 std::shared_ptr<MapObserver<std::string, ShortcutDataPair> > keyShortcutsObserver;
             };
 
-            void FileBrowser::_init(const std::shared_ptr<Context>& context)
+            void FileBrowser::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::FileBrowser::FileBrowser");
 
-                p.directoryModel = FileSystem::DirectoryModel::create(context);
-                auto io = context->getSystemT<AV::IO::System>();
-                p.directoryModel->setFileSequenceExtensions(io->getSequenceExtensions());
+                auto io = context->getSystemT<AV::IO::IOSystem>();
+                p.options.sequenceExtensions = io->getSequenceExtensions();
+                p.directoryModel = System::File::DirectoryModel::create(context);
                 p.shortcutsModel = ShortcutsModel::create(context);
-                p.recentPathsModel = FileSystem::RecentFilesModel::create();
+                p.recentPathsModel = System::File::RecentFilesModel::create();
                 p.recentPathsModel->setFilesMax(10);
-                p.drivesModel = FileSystem::DrivesModel::create(context);
+                p.drivesModel = System::File::DrivesModel::create(context);
 
                 p.actions["Paths"] = Action::create();
                 p.actions["Paths"]->setButtonType(ButtonType::Toggle);
@@ -206,6 +212,8 @@ namespace djv
                 p.layout->setStretch(hLayout, RowStretch::Expand);
                 addChild(p.layout);
 
+                _optionsUpdate();
+
                 auto weak = std::weak_ptr<FileBrowser>(std::dynamic_pointer_cast<FileBrowser>(shared_from_this()));
                 p.actions["Paths"]->setCheckedCallback(
                     [weak](bool value)
@@ -243,13 +251,13 @@ namespace djv
                         }
                     });
 
-                auto contextWeak = std::weak_ptr<Context>(context);
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.actions["IncreaseThumbnailSize"]->setClickedCallback(
                     [contextWeak]
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             auto size = fileBrowserSettings->observeThumbnailSize()->get();
                             size.w = Math::clamp(static_cast<int>(size.w * 1.25F), thumbnailSizeRange.getMin(), thumbnailSizeRange.getMax());
@@ -263,7 +271,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             auto size = fileBrowserSettings->observeThumbnailSize()->get();
                             size.w = Math::clamp(static_cast<int>(size.w * .75F), thumbnailSizeRange.getMin(), thumbnailSizeRange.getMax());
@@ -277,7 +285,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setFileSequences(value);
                         }
@@ -288,7 +296,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setShowHidden(value);
                         }
@@ -299,7 +307,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setReverseSort(value);
                         }
@@ -310,7 +318,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setSortDirectoriesFirst(value);
                         }
@@ -339,7 +347,7 @@ namespace djv
                                 hLayout->addSeparator();
                                 out = hLayout;
 
-                                auto settingsSystem = context->getSystemT<Settings::System>();
+                                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                                 fileBrowserSettings->setPathsOpen(true);
                             }
@@ -352,14 +360,14 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setPathsOpen(false);
                         }
                     });
 
                 pathWidget->setPathCallback(
-                    [weak](const FileSystem::Path & value)
+                    [weak](const System::File::Path & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -374,7 +382,7 @@ namespace djv
                                 arg(value.get()).
                                 arg(widget->_getText(DJV_TEXT("error_file_browser_cannot_set_the_path"))));
                             messages.push_back(e.what());
-                            widget->_log(String::join(messages, ' '), LogLevel::Error);
+                            widget->_log(String::join(messages, ' '), System::LogLevel::Error);
                         }
                     }
                 });
@@ -392,7 +400,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->directoryModel->setFilter(value);
+                            widget->_p->options.filter = value;
+                            widget->_optionsUpdate();
                         }
                     });
 
@@ -411,27 +420,27 @@ namespace djv
                     });
 
                 p.itemView->setCallback(
-                    [weak](const FileSystem::FileInfo & value)
+                    [weak](const System::File::Info & value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (FileSystem::FileType::Directory == value.getType())
+                        if (System::File::Type::Directory == value.getType())
                         {
                             widget->_p->directoryModel->setPath(value.getPath());
                         }
                         else if (widget->_p->callback)
                         {
                             std::string s = value.getPath().getDirectoryName();
-                            FileSystem::Path::removeTrailingSeparator(s);
+                            System::File::removeTrailingSeparator(s);
                             widget->_p->recentPathsModel->addFile(s);
                             widget->_p->callback(value);
                         }
                     }
                 });
 
-                p.pathObserver = ValueObserver<FileSystem::Path>::create(
+                p.pathObserver = ValueObserver<System::File::Path>::create(
                     p.directoryModel->observePath(),
-                    [weak, pathWidget](const FileSystem::Path& value)
+                    [weak, pathWidget](const System::File::Path& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -441,9 +450,9 @@ namespace djv
                     }
                 });
 
-                p.fileInfoObserver = ListObserver<FileSystem::FileInfo>::create(
-                    p.directoryModel->observeFileInfo(),
-                    [weak](const std::vector<FileSystem::FileInfo> & value)
+                p.fileInfoObserver = ListObserver<System::File::Info>::create(
+                    p.directoryModel->observeInfo(),
+                    [weak](const std::vector<System::File::Info>& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -463,9 +472,9 @@ namespace djv
                     }
                 });
 
-                p.historyObserver = ListObserver<FileSystem::Path>::create(
+                p.historyObserver = ListObserver<System::File::Path>::create(
                     p.directoryModel->observeHistory(),
-                    [pathWidget](const std::vector<FileSystem::Path> & value)
+                    [pathWidget](const std::vector<System::File::Path> & value)
                 {
                     pathWidget->setHistory(value);
                 });
@@ -497,7 +506,7 @@ namespace djv
                     }
                 });
 
-                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                 p.pathsOpenSettingsObserver = ValueObserver<bool>::create(
                     fileBrowserSettings->observePathsOpen(),
@@ -510,9 +519,9 @@ namespace djv
                         }
                     });
 
-                p.shortcutsSettingsObserver = ListObserver<FileSystem::Path>::create(
+                p.shortcutsSettingsObserver = ListObserver<System::File::Path>::create(
                     fileBrowserSettings->observeShortcuts(),
-                    [weak](const std::vector<FileSystem::Path>& value)
+                    [weak](const std::vector<System::File::Path>& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -520,13 +529,13 @@ namespace djv
                         }
                     });
 
-                p.recentPathsSettingsObserver = ListObserver<FileSystem::Path>::create(
+                p.recentPathsSettingsObserver = ListObserver<System::File::Path>::create(
                     fileBrowserSettings->observeRecentPaths(),
-                    [weak](const std::vector<FileSystem::Path>& value)
+                    [weak](const std::vector<System::File::Path>& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            std::vector<FileSystem::FileInfo> tmp;
+                            std::vector<System::File::Info> tmp;
                             for (const auto& i : value)
                             {
                                 tmp.push_back(i);
@@ -547,9 +556,9 @@ namespace djv
                     }
                 });
 
-                p.thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
+                p.thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
                     fileBrowserSettings->observeThumbnailSize(),
-                    [weak](const AV::Image::Size & value)
+                    [weak](const Image::Size & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -574,8 +583,9 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setFileSequences(value);
+                        widget->_p->options.sequences = value;
                         widget->_p->actions["FileSequences"]->setChecked(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -585,20 +595,22 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setShowHidden(value);
+                        widget->_p->options.showHidden = value;
                         widget->_p->actions["ShowHidden"]->setChecked(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
-                p.sortSettingsObserver = ValueObserver<FileSystem::DirectoryListSort>::create(
+                p.sortSettingsObserver = ValueObserver<System::File::DirectoryListSort>::create(
                     fileBrowserSettings->observeSort(),
-                    [weak](FileSystem::DirectoryListSort value)
+                    [weak](System::File::DirectoryListSort value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setSort(value);
+                        widget->_p->options.sort = value;
                         widget->_p->sortActionGroup->setChecked(static_cast<int>(value));
                         widget->_p->listViewHeader->setSort(static_cast<size_t>(value));
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -608,9 +620,10 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setReverseSort(value);
+                        widget->_p->options.reverseSort = value;
                         widget->_p->actions["ReverseSort"]->setChecked(value);
                         widget->_p->listViewHeader->setReverseSort(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -620,8 +633,9 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setSortDirectoriesFirst(value);
+                        widget->_p->options.sortDirectoriesFirst = value;
                         widget->_p->actions["SortDirectoriesFirst"]->setChecked(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -714,7 +728,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setViewType(static_cast<ViewType>(value));
@@ -727,21 +741,21 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
-                                fileBrowserSettings->setSort(static_cast<FileSystem::DirectoryListSort>(value));
+                                fileBrowserSettings->setSort(static_cast<System::File::DirectoryListSort>(value));
                             }
                         }
                     });
 
-                p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
+                p.shortcutsObserver = ListObserver<System::File::Path>::create(
                     p.shortcutsModel->observeShortcuts(),
-                    [contextWeak](const std::vector<FileSystem::Path>& value)
+                    [contextWeak](const std::vector<System::File::Path>& value)
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setShortcuts(value);
@@ -749,16 +763,16 @@ namespace djv
                         }
                     });
 
-                p.recentPathsObserver = ListObserver<FileSystem::FileInfo>::create(
+                p.recentPathsObserver = ListObserver<System::File::Info>::create(
                     p.recentPathsModel->observeFiles(),
-                    [weak, contextWeak](const std::vector<FileSystem::FileInfo>& value)
+                    [weak, contextWeak](const std::vector<System::File::Info>& value)
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
-                                std::vector<FileSystem::Path> tmp;
+                                std::vector<System::File::Path> tmp;
                                 for (const auto& i : value)
                                 {
                                     tmp.push_back(i.getPath());
@@ -773,10 +787,10 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
-                                fileBrowserSettings->setSort(static_cast<FileSystem::DirectoryListSort>(sort));
+                                fileBrowserSettings->setSort(static_cast<System::File::DirectoryListSort>(sort));
                                 fileBrowserSettings->setReverseSort(reverse);
                             }
                         }
@@ -787,7 +801,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setListViewHeaderSplit(value);
@@ -803,7 +817,7 @@ namespace djv
             FileBrowser::~FileBrowser()
             {}
 
-            std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);
@@ -812,20 +826,23 @@ namespace djv
 
             void FileBrowser::setFileExtensions(const std::set<std::string>& value)
             {
-                _p->directoryModel->setFileExtensions(value);
+                if (value == _p->options.extensions)
+                    return;
+                _p->options.extensions = value;
+                _optionsUpdate();
             }
 
-            const FileSystem::Path& FileBrowser::getPath() const
+            const System::File::Path& FileBrowser::getPath() const
             {
                 return _p->directoryModel->observePath()->get();
             }
 
-            void FileBrowser::setPath(const FileSystem::Path & value)
+            void FileBrowser::setPath(const System::File::Path & value)
             {
                 _p->directoryModel->setPath(value);
             }
 
-            void FileBrowser::setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
+            void FileBrowser::setCallback(const std::function<void(const System::File::Info &)> & value)
             {
                 _p->callback = value;
             }
@@ -835,19 +852,19 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
             
-            void FileBrowser::_preLayoutEvent(Event::PreLayout& event)
+            void FileBrowser::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
-            void FileBrowser::_layoutEvent(Event::Layout& event)
+            void FileBrowser::_layoutEvent(System::Event::Layout& event)
             {
                 const auto& style = _getStyle();
                 _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 
-            void FileBrowser::_initEvent(Event::Init & event)
+            void FileBrowser::_initEvent(System::Event::Init & event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
@@ -909,6 +926,11 @@ namespace djv
                 std::stringstream ss;
                 ss << size << " " << _getText(DJV_TEXT("file_browser_items"));
                 return ss.str();
+            }
+
+            void FileBrowser::_optionsUpdate()
+            {
+                _p->directoryModel->setOptions(_p->options);
             }
 
         } // namespace FileBrowser

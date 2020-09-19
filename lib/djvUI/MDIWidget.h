@@ -38,15 +38,15 @@ namespace djv
                 DJV_NON_COPYABLE(IWidget);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 IWidget();
 
             public:
                 virtual ~IWidget() = 0;
 
             protected:
-                virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandles() const;
-                virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandlesDraw() const;
+                virtual std::map<Handle, std::vector<Math::BBox2f> > _getHandles() const;
+                virtual std::map<Handle, std::vector<Math::BBox2f> > _getHandlesDraw() const;
 
                 float _getMaximize() const;
                 virtual void _setMaximize(float);
@@ -55,8 +55,8 @@ namespace djv
 
                 virtual void _setActiveWidget(bool);
 
-                void _paintEvent(Core::Event::Paint&) override;
-                void _paintOverlayEvent(Core::Event::PaintOverlay&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _paintOverlayEvent(System::Event::PaintOverlay&) override;
 
             private:
                 DJV_PRIVATE();

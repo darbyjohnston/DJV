@@ -5,18 +5,18 @@
 #pragma once
 
 #include <djvCore/Enum.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
+
+#include <sstream>
+#include <vector>
 
 namespace djv
 {
-    namespace Core
+    namespace Math
     {
-        namespace Math
-        {
-            class Rational;
+        class Rational;
 
-        } // namespace Math
-    } // namespace Core
+    } // namespace Math
 
     namespace ViewApp
     {

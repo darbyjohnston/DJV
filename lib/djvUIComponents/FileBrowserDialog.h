@@ -8,15 +8,15 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
             class Path;
     
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
 
     namespace UI
     {
@@ -28,22 +28,22 @@ namespace djv
                 DJV_NON_COPYABLE(Dialog);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Dialog();
 
             public:
                 ~Dialog() override;
 
-                static std::shared_ptr<Dialog> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Dialog> create(const std::shared_ptr<System::Context>&);
 
                 void setFileExtensions(const std::set<std::string>&);
 
-                const Core::FileSystem::Path& getPath() const;
-                void setPath(const Core::FileSystem::Path&);
-                void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);
+                const System::File::Path& getPath() const;
+                void setPath(const System::File::Path&);
+                void setCallback(const std::function<void(const System::File::Info&)>&);
 
             protected:
-                void _initEvent(Core::Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();

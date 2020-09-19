@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Stack);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Stack();
 
             public:
                 ~Stack() override;
 
-                static std::shared_ptr<Stack> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Stack> create(const std::shared_ptr<System::Context>&);
 
                 float getHeightForWidth(float) const override;
 
@@ -40,14 +40,14 @@ namespace djv
                     const std::shared_ptr<Style::Style>&);
 
                 static void layout(
-                    const Core::BBox2f&,
+                    const Math::BBox2f&,
                     const std::vector<std::shared_ptr<Widget> >&,
                     const Layout::Margin&,
                     const std::shared_ptr<Style::Style>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();

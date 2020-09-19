@@ -5,7 +5,7 @@
 #include <djvCoreTest/UndoStackTest.h>
 
 #include <djvCore/ICommand.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/UndoStack.h>
 
 #include <sstream>
@@ -16,8 +16,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        UndoStackTest::UndoStackTest(const std::shared_ptr<Context>& context) :
-            ITest("djv::CoreTest::UndoStackTest", context)
+        UndoStackTest::UndoStackTest(
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
+            ITest("djv::CoreTest::UndoStackTest", tempPath, context)
         {}
         
         namespace
@@ -112,6 +114,10 @@ namespace djv
                 DJV_ASSERT(!undoStack->observeHasUndo()->get());
                 DJV_ASSERT(!undoStack->observeHasRedo()->get());
                 _printList(list);
+
+                undoStack->push(AddCommand::create(1, list));
+                undoStack->undo();
+                undoStack->push(AddCommand::create(2, list));
             }
         }
 

@@ -6,38 +6,29 @@
 
 #include <djvAV/IOPlugin.h>
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
+
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class FileInfo;
-
-        } // namespace FileSystem
-
-    } // namespace Core
-
     namespace AV
     {
         namespace IO
         {
             //! This class provides an I/O system.
-            class System : public Core::ISystem
+            class IOSystem : public System::ISystem
             {
-                DJV_NON_COPYABLE(System);
+                DJV_NON_COPYABLE(IOSystem);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
-                System();
+                void _init(const std::shared_ptr<System::Context>&);
+                IOSystem();
 
             public:
-                ~System() override;
+                ~IOSystem() override;
 
-                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<IOSystem> create(const std::shared_ptr<System::Context>&);
 
                 std::set<std::string> getPluginNames() const;
                 std::set<std::string> getFileExtensions() const;
@@ -52,17 +43,17 @@ namespace djv
 
                 const std::set<std::string>& getSequenceExtensions() const;
                 const std::set<std::string>& getNonSequenceExtensions() const;
-                bool canSequence(const Core::FileSystem::FileInfo&) const;
-                bool canRead(const Core::FileSystem::FileInfo&) const;
-                bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
+                bool canSequence(const System::File::Info&) const;
+                bool canRead(const System::File::Info&) const;
+                bool canWrite(const System::File::Info&, const Info&) const;
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions& = ReadOptions());
+                std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions& = ReadOptions());
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions& = WriteOptions());
+                std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions& = WriteOptions());
 
             private:
                 DJV_PRIVATE();

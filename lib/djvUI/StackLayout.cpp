@@ -6,6 +6,8 @@
 
 #include <djvUI/LayoutUtil.h>
 
+#include <glm/glm.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -17,7 +19,7 @@ namespace djv
             struct Stack::Private
             {};
 
-            void Stack::_init(const std::shared_ptr<Context>& context)
+            void Stack::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Stack");
@@ -30,7 +32,7 @@ namespace djv
             Stack::~Stack()
             {}
 
-            std::shared_ptr<Stack> Stack::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Stack> Stack::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Stack>(new Stack);
                 out->_init(context);
@@ -70,22 +72,22 @@ namespace djv
                 return minimumSize + margin.getSize(style);
             }
 
-            void Stack::layout(const Core::BBox2f& geometry, const std::vector<std::shared_ptr<Widget> >& children, const Layout::Margin& margin, const std::shared_ptr<Style::Style>& style)
+            void Stack::layout(const Math::BBox2f& geometry, const std::vector<std::shared_ptr<Widget> >& children, const Layout::Margin& margin, const std::shared_ptr<Style::Style>& style)
             {
-                const BBox2f& g = margin.bbox(geometry, style);
+                const Math::BBox2f& g = margin.bbox(geometry, style);
                 for (const auto& child : children)
                 {
-                    const BBox2f childGeometry = getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                    const Math::BBox2f childGeometry = getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
                     child->setGeometry(childGeometry);
                 }
             }
 
-            void Stack::_preLayoutEvent(Event::PreLayout&)
+            void Stack::_preLayoutEvent(System::Event::PreLayout&)
             {
                 _setMinimumSize(minimumSize(getChildWidgets(), getMargin(), _getStyle()));
             }
 
-            void Stack::_layoutEvent(Event::Layout&)
+            void Stack::_layoutEvent(System::Event::Layout&)
             {
                 layout(getGeometry(), getChildWidgets(), getMargin(), _getStyle());
             }

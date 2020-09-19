@@ -35,7 +35,7 @@ namespace djv
         {
             if (auto subject = _subject.lock())
             {
-                subject->_remove(this);
+                subject->_removeExpired();
             }
         }
 
@@ -62,24 +62,12 @@ namespace djv
         }
 
         template<typename T>
-        inline void IValueSubject<T>::_remove(ValueObserver<T> * observer)
+        inline void IValueSubject<T>::_removeExpired()
         {
             auto i = _observers.begin();
             while (i != _observers.end())
             {
-                bool erase = false;
-                if (auto j = i->lock())
-                {
-                    if (observer == j.get())
-                    {
-                        erase = true;
-                    }
-                }
-                else
-                {
-                    erase = true;
-                }
-                if (erase)
+                if (i->expired())
                 {
                     i = _observers.erase(i);
                 }

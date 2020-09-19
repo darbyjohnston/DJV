@@ -8,19 +8,12 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvMath/Rational.h>
+
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace Time
-        {
-            class Speed;
-
-        } // namespace Time
-    } // namespace Core
-
     namespace ViewApp
     {
         //! This class provides the playback settings.
@@ -29,12 +22,12 @@ namespace djv
             DJV_NON_COPYABLE(PlaybackSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
 
             PlaybackSettings();
 
         public:
-            static std::shared_ptr<PlaybackSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<PlaybackSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeStartPlayback() const;
             void setStartPlayback(bool);
@@ -42,8 +35,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
             void setPlaybackSpeed(PlaybackSpeed);
 
-            std::shared_ptr<Core::IValueSubject<Core::Math::Rational> > observeCustomSpeed() const;
-            void setCustomSpeed(const Core::Math::Rational&);
+            std::shared_ptr<Core::IValueSubject<Math::Rational> > observeCustomSpeed() const;
+            void setCustomSpeed(const Math::Rational&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
             void setPlayEveryFrame(bool);

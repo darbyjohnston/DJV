@@ -8,7 +8,7 @@
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 
 namespace djv
 {
@@ -22,12 +22,12 @@ namespace djv
                 DJV_NON_COPYABLE(Font);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>& context);
+                void _init(const std::shared_ptr<System::Context>& context);
                 Font();
 
             public:
                 ~Font() override;
-                static std::shared_ptr<Font> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Font> create(const std::shared_ptr<System::Context>&);
 
                 const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
 
