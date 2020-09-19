@@ -63,9 +63,10 @@ namespace djv
             {
                 const Audio::Info info(2, FFmpeg::toAudioType(i), 0, 1);
                 auto out = Audio::Data::create(info);
-                std::vector<uint8_t> in(info.getByteCount());
-                uint8_t* p = in.data();
-                FFmpeg::extractAudio(&p, i, 2, out);
+                std::vector<uint8_t> in0(info.getByteCount() / 2);
+                std::vector<uint8_t> in1(info.getByteCount() / 2);
+                uint8_t* p[2] = { in0.data(), in1.data() };
+                FFmpeg::extractAudio(p, i, 2, out);
             }
 
             for (const auto i : {
@@ -81,9 +82,12 @@ namespace djv
             {
                 const Audio::Info info(2, FFmpeg::toAudioType(i), 0, 1);
                 auto out = Audio::Data::create(info);
-                std::vector<uint8_t> in(info.getByteCount() * 2);
-                uint8_t* p = in.data();
-                FFmpeg::extractAudio(&p, i, 4, out);
+                std::vector<uint8_t> in0(info.getByteCount() / 2);
+                std::vector<uint8_t> in1(info.getByteCount() / 2);
+                std::vector<uint8_t> in2(info.getByteCount() / 2);
+                std::vector<uint8_t> in3(info.getByteCount() / 2);
+                uint8_t* p[4] = { in0.data(), in1.data(), in2.data(), in3.data() };
+                FFmpeg::extractAudio(p, i, 4, out);
             }
             
             for (const auto i : {

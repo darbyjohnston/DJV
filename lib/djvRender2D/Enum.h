@@ -37,6 +37,6 @@ namespace djv
             First = None
         };
 
-    } // namespace UI
+    } // namespace Render2D
 } // namespace djv
 

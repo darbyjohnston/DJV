@@ -335,7 +335,7 @@ namespace djv
                     void read(
                         const std::string& fileName,
                         ReadData& data,
-                        const std::shared_ptr<TextSystem>& textSystem,
+                        const std::shared_ptr<System::TextSystem>& textSystem,
                         const std::shared_ptr<IPrimitive>& parent = nullptr)
                     {
                         // Open the file.
@@ -611,7 +611,7 @@ namespace djv
                 Plugin::~Plugin()
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
@@ -632,7 +632,7 @@ namespace djv
                     fromJSON(value, _p->options);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo) const
+                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo) const
                 {
                     return Read::create(fileInfo, _textSystem, _resourceSystem, _logSystem);
                 }

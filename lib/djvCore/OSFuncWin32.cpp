@@ -14,6 +14,8 @@
 #define NOMINMAX
 #endif // NOMINMAX
 #include <windows.h>
+#include <Shlobj.h>
+#include <shellapi.h>
 #include <stdlib.h>
 #include <VersionHelpers.h>
 

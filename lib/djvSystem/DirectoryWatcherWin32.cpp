@@ -7,11 +7,11 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/Path.h>
+#include <djvSystem/TimerFunc.h>
 
 #include <djvCore/ErrorFunc.h>
 #include <djvCore/StringFunc.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/TimerFunc.h>
 
 #include <atomic>
 #include <condition_variable>
@@ -56,7 +56,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     Path path;
                     HANDLE changeHandle = INVALID_HANDLE_VALUE;
-                    const Time::Duration timeout = Time::getTimerDuration(TimerValue::Medium);
+                    const Time::Duration timeout = getTimerDuration(TimerValue::Medium);
                     while (p.running)
                     {
                         bool pathChanged = false;
@@ -141,7 +141,7 @@ namespace djv
                 p.timer = Timer::create(context);
                 p.timer->setRepeating(true);
                 p.timer->start(
-                    Time::getTimerDuration(TimerValue::Medium),
+                    getTimerDuration(TimerValue::Medium),
                     [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     DJV_PRIVATE_PTR();

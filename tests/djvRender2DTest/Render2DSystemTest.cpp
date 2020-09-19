@@ -31,9 +31,9 @@ namespace djv
             {
                 auto system = context->getSystemT<Render2DSystem>();
                 
-                auto alphaBlendObserver = ValueObserver<AlphaBlend>::create(
+                auto alphaBlendObserver = ValueObserver<Render2D::AlphaBlend>::create(
                     system->observeAlphaBlend(),
-                    [this](AlphaBlend value)
+                    [this](Render2D::AlphaBlend value)
                     {
                         std::stringstream ss;
                         ss << "Alpha blend: " << value;
