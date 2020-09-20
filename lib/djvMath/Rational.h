@@ -37,3 +37,4 @@ namespace djv
     } // namespace Math
 } // namespace djv
 
+#include <djvMath/RationalInline.h>

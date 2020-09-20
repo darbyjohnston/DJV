@@ -10,6 +10,21 @@ namespace djv
 {
     namespace Scene
     {
+        ILayerItem::ILayerItem()
+        {}
+
+        ILayerItem::~ILayerItem()
+        {}
+
+        Layer::Layer()
+        {}
+
+        std::shared_ptr<Layer> Layer::create()
+        {
+            auto out = std::shared_ptr<Layer>(new Layer);
+            return out;
+        }
+
         void Layer::addItem(const std::shared_ptr<ILayerItem>& value)
         {
             if (auto prevLayer = value->getLayer().lock())

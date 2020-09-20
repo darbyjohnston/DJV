@@ -86,3 +86,4 @@ namespace djv
     } // namespace Math
 } // namespace djv
 
+#include <djvMath/FrameNumberInline.h>

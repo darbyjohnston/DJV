@@ -10,6 +10,15 @@ namespace djv
 {
     namespace Render3D
     {
+        ICamera::ICamera()
+        {}
+
+        ICamera::~ICamera()
+        {}
+
+        DefaultCamera::DefaultCamera()
+        {}
+
         std::shared_ptr<DefaultCamera> DefaultCamera::create()
         {
             auto out = std::shared_ptr<DefaultCamera>(new DefaultCamera);

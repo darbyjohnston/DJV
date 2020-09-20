@@ -106,6 +106,9 @@ namespace djv
             _style = uiSystem->getStyle();
         }
 
+        Widget::Widget()
+        {}
+
         Widget::~Widget()
         {
             --globalWidgetCount;
@@ -148,6 +151,20 @@ namespace djv
                 return;
             _geometry = value;
             _resize();
+        }
+
+        void Widget::move(const glm::vec2& value)
+        {
+            const glm::vec2 size = _geometry.getSize();
+            Math::BBox2f geometry;
+            geometry.min = value;
+            geometry.max = value + size;
+            setGeometry(geometry);
+        }
+
+        void Widget::resize(const glm::vec2& value)
+        {
+            setGeometry(Math::BBox2f(_geometry.min, _geometry.min + value));
         }
 
         void Widget::setMargin(const Layout::Margin& value)

@@ -139,6 +139,7 @@ set(source
     LineEditBase.cpp
     MDICanvas.cpp
     MDIWidget.cpp
+    Margin.cpp
     Menu.cpp
     MenuBar.cpp
     MenuButton.cpp
@@ -159,6 +160,7 @@ set(source
     Shortcut.cpp
     ShortcutData.cpp
     Spacer.cpp
+    Spacing.cpp
     Splitter.cpp
     SoloLayout.cpp
     StackLayout.cpp

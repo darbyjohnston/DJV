@@ -14,6 +14,54 @@ namespace djv
 {
     namespace Image
     {
+        Color::Color()
+        {}
+
+        Color::Color(Type type) :
+            _type(type),
+            _data(getByteCount(_type))
+        {
+            zero();
+        }
+
+        Color::Color(int v) :
+            _type(Type::L_U8),
+            _data(getByteCount(_type))
+        {
+            auto p = reinterpret_cast<U8_T*>(_data.data());
+            p[0] = v;
+        }
+
+        Color::Color(int r, int g, int b, int a) :
+            _type(Type::RGBA_U8),
+            _data(getByteCount(_type))
+        {
+            auto p = reinterpret_cast<U8_T*>(_data.data());
+            p[0] = r;
+            p[1] = g;
+            p[2] = b;
+            p[3] = a;
+        }
+
+        Color::Color(F32_T r, F32_T g, F32_T b, F32_T a) :
+            _type(Type::RGBA_F32),
+            _data(getByteCount(_type))
+        {
+            auto p = reinterpret_cast<F32_T*>(_data.data());
+            p[0] = r;
+            p[1] = g;
+            p[2] = b;
+            p[3] = a;
+        }
+
+        Color::Color(F32_T v) :
+            _type(Type::L_F32),
+            _data(getByteCount(_type))
+        {
+            auto p = reinterpret_cast<F32_T*>(_data.data());
+            p[0] = v;
+        }
+
         void Color::setData(const uint8_t* value)
         {
             memcpy(_data.data(), value, getByteCount(_type));

@@ -6,12 +6,6 @@ namespace djv
 {
     namespace Scene
     {
-        inline ILight::ILight()
-        {}
-
-        inline ILight::~ILight()
-        {}
-
         inline bool ILight::isEnabled() const
         {
             return _enabled;
@@ -31,9 +25,6 @@ namespace djv
         {
             _intensity = value;
         }
-
-        inline HemisphereLight::HemisphereLight()
-        {}
 
         inline const glm::vec3& HemisphereLight::getUp() const
         {
@@ -70,9 +61,6 @@ namespace djv
             return "HemisphereLight";
         }
 
-        inline DirectionalLight::DirectionalLight()
-        {}
-
         inline const glm::vec3& DirectionalLight::getDirection() const
         {
             return _direction;
@@ -88,16 +76,10 @@ namespace djv
             return "DirectionalLight";
         }
 
-        inline PointLight::PointLight()
-        {}
-
         inline std::string PointLight::getClassName() const
         {
             return "PointLight";
         }
-
-        inline SpotLight::SpotLight()
-        {}
 
         inline float SpotLight::getConeAngle() const
         {

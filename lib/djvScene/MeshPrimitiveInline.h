@@ -6,30 +6,6 @@ namespace djv
 {
     namespace Scene
     {
-        inline MeshPrimitive::MeshPrimitive()
-        {}
-
-        inline std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
-        {
-            return std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
-        }
-
-        inline void MeshPrimitive::addMesh(const std::shared_ptr<Geom::TriangleMesh>& value)
-        {
-            _meshes.push_back(value);
-            Math::BBox3f bbox = getBBox();
-            if (!bbox.isValid())
-            {
-                bbox = value->bbox;
-            }
-            else
-            {
-                bbox.expand(value->bbox);
-            }
-            setBBox(bbox);
-            _pointCount += value->v.size();
-        }
-
         inline std::string MeshPrimitive::getClassName() const
         {
             return "MeshPrimitive";

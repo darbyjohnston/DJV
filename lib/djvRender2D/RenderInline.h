@@ -47,53 +47,6 @@ namespace djv
             }
         }
 
-        inline void Render::setFillColor(const Image::Color& value)
-        {
-            if (Image::Type::RGBA_F32 == value.getType())
-            {
-                const float* d = reinterpret_cast<const float*>(value.getData());
-                _fillColor[0] = d[0];
-                _fillColor[1] = d[1];
-                _fillColor[2] = d[2];
-                _fillColor[3] = d[3];
-            }
-            else
-            {
-                const Image::Color tmp = value.convert(Image::Type::RGBA_F32);
-                const float* d = reinterpret_cast<const float*>(tmp.getData());
-                _fillColor[0] = d[0];
-                _fillColor[1] = d[1];
-                _fillColor[2] = d[2];
-                _fillColor[3] = d[3];
-            }
-            _finalColor[0] = _fillColor[0] * _colorMult;
-            _finalColor[1] = _fillColor[1] * _colorMult;
-            _finalColor[2] = _fillColor[2] * _colorMult;
-            _finalColor[3] = _fillColor[3] * _alphaMult;
-        }
-
-        inline void Render::setColorMult(float value)
-        {
-            if (value == _colorMult)
-                return;
-            _colorMult = value;
-            _finalColor[0] = _fillColor[0] * _colorMult;
-            _finalColor[1] = _fillColor[1] * _colorMult;
-            _finalColor[2] = _fillColor[2] * _colorMult;
-            _finalColor[3] = _fillColor[3] * _alphaMult;
-        }
-
-        inline void Render::setAlphaMult(float value)
-        {
-            if (value == _alphaMult)
-                return;
-            _alphaMult = value;
-            _finalColor[0] = _fillColor[0] * _colorMult;
-            _finalColor[1] = _fillColor[1] * _colorMult;
-            _finalColor[2] = _fillColor[2] * _colorMult;
-            _finalColor[3] = _fillColor[3] * _alphaMult;
-        }
-
         inline void Render::setLineWidth(float value)
         {
             _lineWidth = value;

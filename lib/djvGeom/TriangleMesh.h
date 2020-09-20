@@ -28,13 +28,8 @@ namespace djv
             //! This struct provides a vertex.
             struct Vertex
             {
-                Vertex() {}
-
-                explicit constexpr Vertex(size_t v, size_t t = 0, size_t n = 0) :
-                    v(v),
-                    t(t),
-                    n(n)
-                {}
+                Vertex();
+                explicit constexpr Vertex(size_t v, size_t t = 0, size_t n = 0);
 
                 size_t v = 0;
                 size_t t = 0;
@@ -54,7 +49,7 @@ namespace djv
             //! This struct provides a triangle.
             struct Triangle
             {
-                Triangle() {}
+                Triangle();
 
                 Vertex v0;
                 Vertex v1;

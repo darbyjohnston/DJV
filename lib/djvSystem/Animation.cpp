@@ -38,30 +38,10 @@ namespace djv
                 return out;
             }
             
-            Type Animation::getType() const
-            {
-                return _type;
-            }
-
             void Animation::setType(Type type)
             {
                 _type = type;
                 _function = getFunction(_type);
-            }
-
-            bool Animation::isRepeating() const
-            {
-                return _repeating;
-            }
-
-            void Animation::setRepeating(bool value)
-            {
-                _repeating = value;
-            }
-
-            bool Animation::isActive() const
-            {
-                return _active;
             }
 
             void Animation::start(

@@ -18,19 +18,6 @@ namespace djv
     {
         namespace File
         {
-            bool DirectoryListOptions::operator == (const DirectoryListOptions& other) const
-            {
-                return
-                    extensions == other.extensions &&
-                    sequences == other.sequences &&
-                    sequenceExtensions == other.sequenceExtensions &&
-                    showHidden == other.showHidden &&
-                    sort == other.sort &&
-                    reverseSort == other.reverseSort &&
-                    sortDirectoriesFirst == other.sortDirectoriesFirst &&
-                    filter == other.filter;
-            }
-
             Info::Info()
             {}
 
@@ -47,16 +34,6 @@ namespace djv
             Info::Info(const Path& path, Type type, const Math::Frame::Sequence& sequence, bool stat)
             {
                 setPath(path, type, sequence, stat);
-            }
-
-            const Path& Info::getPath() const noexcept
-            {
-                return _path;
-            }
-            
-            bool Info::isEmpty() const noexcept
-            {
-                return _path.isEmpty();
             }
             
             void Info::setPath(const Path& value, bool stat)
@@ -126,54 +103,6 @@ namespace djv
                 return ss.str();
             }
 
-            bool Info::doesExist() const noexcept
-            {
-                return _exists;
-            }
-
-            Type Info::getType() const noexcept
-            {
-                return _type;
-            }
-
-            uint64_t Info::getSize() const noexcept
-            {
-                return _size;
-            }
-
-            uid_t Info::getUser() const noexcept
-            {
-                return _user;
-            }
-
-            int Info::getPermissions() const noexcept
-            {
-                return _permissions;
-            }
-
-            time_t Info::getTime() const noexcept
-            {
-                return _time;
-            }
-
-            const Math::Frame::Sequence& Info::getSequence() const noexcept
-            {
-                return _sequence;
-            }
-
-            bool Info::isCompatible(const Info& value) const
-            {
-                if (_path.getNumber().empty() || value._path.getNumber().empty())
-                    return false;
-                if (_path.getExtension() != value._path.getExtension())
-                    return false;
-                if (_path.getBaseName() != value._path.getBaseName())
-                    return false;
-                if (_path.getDirectoryName() != value._path.getDirectoryName())
-                    return false;
-                return true;
-            }
-
             void Info::setSequence(const Math::Frame::Sequence& in)
             {
                 _sequence = in;
@@ -220,32 +149,6 @@ namespace djv
                     return true;
                 }
                 return false;
-            }
-                        
-            bool Info::operator == (const Info& in) const
-            {
-                return
-                    in._path == _path &&
-                    in._type == _type &&
-                    in._size == _size &&
-                    in._user == _user &&
-                    in._permissions == _permissions &&
-                    in._time == _time;
-            }
-
-            bool Info::operator != (const Info& in) const
-            {
-                return !(in == *this);
-            }
-
-            bool Info::operator < (const Info& in) const
-            {
-                return in._path.get() < _path.get();
-            }
-
-            Info::operator std::string() const
-            {
-                return std::string(_path);
             }
             
             Math::Frame::Sequence Info::_parseSequence(const std::string& number)

@@ -290,6 +290,9 @@ namespace djv
             }
         }
 
+        OffscreenBuffer::OffscreenBuffer()
+        {}
+
         OffscreenBuffer::~OffscreenBuffer()
         {
             if (_id)

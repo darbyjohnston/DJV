@@ -125,3 +125,4 @@ namespace djv
     } // namespace System
 } // namespace djv
 
+#include <djvSystem/AnimationInline.h>

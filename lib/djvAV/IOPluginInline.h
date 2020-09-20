@@ -28,6 +28,21 @@ namespace djv
                 return  _audioQueue;
             }
 
+            inline bool IRead::hasCache() const
+            {
+                return false;
+            }
+
+            inline bool IRead::isCacheEnabled() const
+            {
+                return _cacheEnabled;
+            }
+
+            inline size_t IRead::getCacheMaxByteCount() const
+            {
+                return _cacheMaxByteCount;
+            }
+
             inline const std::string& IPlugin::getPluginName() const
             {
                 return _pluginName;
@@ -41,6 +56,11 @@ namespace djv
             inline const std::set<std::string>& IPlugin::getFileExtensions() const
             {
                 return _fileExtensions;
+            }
+
+            inline bool IPlugin::canSequence() const
+            {
+                return false;
             }
 
         } // namespace IO

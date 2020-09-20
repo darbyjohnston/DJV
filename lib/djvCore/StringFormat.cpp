@@ -105,21 +105,6 @@ namespace djv
                 ss << value;
                 return arg(ss.str());
             }
-            
-            bool Format::hasError() const
-            {
-                return _error.size() > 0;
-            }
-
-            const std::string& Format::getError() const
-            {
-                return _error;
-            }
-
-            Format::operator std::string() const
-            {
-                return _text;
-            }
 
         } // namespace String
     } // namespace Core

@@ -43,12 +43,12 @@ namespace djv
         void F32ToS8(F32_T, S8_T&) noexcept;
         void F32ToS16(F32_T, S16_T&) noexcept;
         void F32ToS32(F32_T, S32_T&) noexcept;
-        void F32ToS32(F32_T, F64_T&) noexcept;
+        void F32ToF64(F32_T, F64_T&) noexcept;
 
         void F64ToS8(F64_T, S8_T&) noexcept;
         void F64ToS16(F64_T, S16_T&) noexcept;
         void F64ToS32(F64_T, S32_T&) noexcept;
-        void F64ToS32(F64_T, F32_T&) noexcept;
+        void F64ToF32(F64_T, F32_T&) noexcept;
 
         DJV_ENUM_HELPERS(Type);
 

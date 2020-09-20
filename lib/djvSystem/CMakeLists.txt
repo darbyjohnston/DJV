@@ -1,6 +1,7 @@
 set(header
     Animation.h
     AnimationFunc.h
+    AnimationInline.h
     Context.h
     ContextInline.h
     CoreSystem.h
@@ -10,24 +11,30 @@ set(header
     Enum.h
     Event.h
     EventFunc.h
+    EventInline.h
     File.h
     FileFunc.h
     FileIO.h
     FileIOFunc.h
+    FileIOInline.h
     FileInfo.h
     FileInfoFunc.h
+    FileInfoInline.h
     FileInfoPrivate.h
     IEventSystem.h
     IObject.h
     IObjectInline.h
     ISystem.h
+    ISystemInline.h
     LogSystem.h
     PathFunc.h
     Path.h
+    PathInline.h
     RecentFilesModel.h
     ResourceSystem.h
     TextSystem.h
     Timer.h
+    TimerInline.h
     TimerFunc.h)
 set(source
     Animation.cpp

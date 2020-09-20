@@ -29,6 +29,9 @@ namespace djv
     {
         namespace IO
         {
+            Info::Info()
+            {}
+
             void IIO::_init(
                 const System::File::Info& fileInfo,
                 const std::shared_ptr<System::TextSystem>& textSystem,

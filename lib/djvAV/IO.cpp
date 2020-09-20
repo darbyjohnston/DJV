@@ -18,6 +18,17 @@ namespace djv
                 videoSpeed(fromSpeed(getDefaultSpeed()))
             {}
 
+            VideoFrame::VideoFrame()
+            {}
+
+            VideoFrame::VideoFrame(Math::Frame::Number frame, const std::shared_ptr<Image::Image> & image) :
+                frame(frame),
+                image(image)
+            {}
+
+            VideoQueue::VideoQueue()
+            {}
+
             void VideoQueue::setMax(size_t value)
             {
                 _max = value;
@@ -52,6 +63,16 @@ namespace djv
                 _finished = value;
             }
 
+            AudioFrame::AudioFrame()
+            {}
+
+            AudioFrame::AudioFrame(const std::shared_ptr<Audio::Data>& audio) :
+                audio(audio)
+            {}
+
+            AudioQueue::AudioQueue()
+            {}
+
             void AudioQueue::setMax(size_t value)
             {
                 _max = value;
@@ -85,6 +106,18 @@ namespace djv
             {
                 _finished = value;
             }
+
+            InOutPoints::InOutPoints()
+            {}
+
+            InOutPoints::InOutPoints(bool enabled, Math::Frame::Index in, Math::Frame::Index out) :
+                _enabled(enabled),
+                _in(std::min(in, out)),
+                _out(std::max(in, out))
+            {}
+
+            Cache::Cache()
+            {}
 
             Math::Frame::Sequence Cache::getFrames() const
             {

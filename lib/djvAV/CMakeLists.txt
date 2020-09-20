@@ -19,7 +19,8 @@ set(header
     Targa.h
     ThumbnailSystem.h
     Time.h
-    TimeFunc.h)
+    TimeFunc.h
+    TimeFuncInline.h)
 set(source
     AVSystem.cpp
     Cineon.cpp

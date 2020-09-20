@@ -7,6 +7,8 @@
 #include <djvViewApp/View.h>
 #include <djvViewApp/ViewWidget.h>
 
+#include <djvRender2D/FontSystem.h>
+
 namespace djv
 {
     namespace ViewApp

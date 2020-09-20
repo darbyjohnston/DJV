@@ -6,9 +6,6 @@ namespace djv
 {
     namespace GL
     {
-        inline Texture::Texture()
-        {}
-
         inline const Image::Info& Texture::getInfo() const
         {
             return _info;
@@ -19,10 +16,7 @@ namespace djv
             return _id;
         }
 
-        /*inline Texture1D::Texture1D()
-        {}
-
-        inline const Image::Info& Texture1D::getInfo() const
+        /*inline const Image::Info& Texture1D::getInfo() const
         {
             return _info;
         }

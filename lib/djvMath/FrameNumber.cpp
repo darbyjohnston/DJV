@@ -44,11 +44,6 @@ namespace djv
                     add(i);
                 }
             }
-
-            const std::vector<Range>& Sequence::getRanges() const noexcept
-            {
-                return _ranges;
-            }
             
             void Sequence::add(const Range& value)
             {
@@ -80,21 +75,6 @@ namespace djv
                 for (; i != _ranges.end() && *i < newRange; ++i)
                     ;
                 _ranges.insert(i, newRange);
-            }
-
-            bool Sequence::isValid() const noexcept
-            {
-                return _ranges.size() > 0;
-            }
-
-            size_t Sequence::getPad() const noexcept
-            {
-                return _pad;
-            }
-
-            void Sequence::setPad(size_t value)
-            {
-                _pad = value;
             }
 
             bool Sequence::contains(Index value) const noexcept
@@ -161,16 +141,6 @@ namespace djv
                     tmp += i.getMax() - i.getMin() + 1;
                 }
                 return _ranges.size() ? (tmp - 1) : invalidIndex;
-            }
-
-            bool Sequence::operator == (const Sequence& value) const
-            {
-                return _ranges == value._ranges && _pad == value._pad;
-            }
-
-            bool Sequence::operator != (const Sequence& value) const
-            {
-                return !(*this == value);
             }
             
         } // namespace Frame

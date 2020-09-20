@@ -1,10 +1,10 @@
 set(header
     PointList.h
-    PointListInline.h
     Shape.h
     TriangleMesh.h
     TriangleMeshInline.h)
 set(source
+    PointList.cpp
     Shape.cpp
     TriangleMesh.cpp)
 

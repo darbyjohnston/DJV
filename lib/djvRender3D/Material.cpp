@@ -37,6 +37,12 @@ namespace djv
             _shader = shaderSystem->getShader(vertex, fragment);
         }
 
+        IMaterial::IMaterial()
+        {}
+
+        IMaterial::~IMaterial()
+        {}
+
         void SolidColorMaterial::_init(const std::shared_ptr<System::Context>& context)
         {
             IMaterial::_init("djvRender3DSolidColorVertex.glsl", "djvRender3DSolidColorFragment.glsl", context);
@@ -45,6 +51,12 @@ namespace djv
             _locations["transform.mvp"] = glGetUniformLocation(program, "transform.mvp");
             _locations["color"] = glGetUniformLocation(program, "color");
         }
+
+        SolidColorMaterial::SolidColorMaterial()
+        {}
+
+        SolidColorMaterial::~SolidColorMaterial()
+        {}
 
         std::shared_ptr<SolidColorMaterial> SolidColorMaterial::create(const std::shared_ptr<System::Context>& context)
         {
@@ -89,6 +101,12 @@ namespace djv
             _locations["defaultMaterial.reflectivity"] = glGetUniformLocation(program, "defaultMaterial.reflectivity");
             _locations["defaultMaterial.disableLighting"] = glGetUniformLocation(program, "defaultMaterial.disableLighting");
         }
+
+        DefaultMaterial::DefaultMaterial()
+        {}
+
+        DefaultMaterial::~DefaultMaterial()
+        {}
 
         std::shared_ptr<DefaultMaterial> DefaultMaterial::create(const std::shared_ptr<System::Context>& context)
         {

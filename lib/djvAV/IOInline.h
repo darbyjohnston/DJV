@@ -18,22 +18,11 @@ namespace djv
                     audio == other.audio &&
                     tags == other.tags;
             }
-
-            inline VideoFrame::VideoFrame()
-            {}
-
-            inline VideoFrame::VideoFrame(Math::Frame::Number frame, const std::shared_ptr<Image::Image>& image) :
-                frame(frame),
-                image(image)
-            {}
             
             inline bool VideoFrame::operator == (const VideoFrame& other) const
             {
                 return frame == other.frame && image == other.image;
             }
-
-            inline VideoQueue::VideoQueue()
-            {}
 
             inline size_t VideoQueue::getMax() const
             {
@@ -59,21 +48,11 @@ namespace djv
             {
                 return _finished;
             }
-
-            inline AudioFrame::AudioFrame()
-            {}
-
-            inline AudioFrame::AudioFrame(const std::shared_ptr<Audio::Data>& audio) :
-                audio(audio)
-            {}
             
             inline bool AudioFrame::operator == (const AudioFrame& other) const
             {
                 return audio == other.audio;
             }
-
-            inline AudioQueue::AudioQueue()
-            {}
 
             inline size_t AudioQueue::getMax() const
             {
@@ -99,15 +78,6 @@ namespace djv
             {
                 return _queue.size() ? _queue.front() : AudioFrame();
             }
-
-            inline InOutPoints::InOutPoints()
-            {}
-
-            inline InOutPoints::InOutPoints(bool enabled, Math::Frame::Index in, Math::Frame::Index out) :
-                _enabled(enabled),
-                _in(std::min(in, out)),
-                _out(std::max(in, out))
-            {}
 
             inline bool InOutPoints::isEnabled() const
             {
@@ -148,9 +118,6 @@ namespace djv
                     _in == other._in &&
                     _out == other._out;
             }
-
-            inline Cache::Cache()
-            {}
             
             inline size_t Cache::getMax() const
             {

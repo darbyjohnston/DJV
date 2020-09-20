@@ -38,3 +38,5 @@ namespace djv
 
     } // namespace Image
 } // namespace djv
+
+#include <djvImage/ImageInline.h>

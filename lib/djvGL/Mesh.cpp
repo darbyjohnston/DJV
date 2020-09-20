@@ -64,6 +64,9 @@ namespace djv
             glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(_size * getVertexByteCount(type)), NULL, GL_DYNAMIC_DRAW);
         }
 
+        VBO::VBO()
+        {}
+
         VBO::~VBO()
         {
             if (_vbo)
@@ -404,6 +407,9 @@ namespace djv
             default: break;
             }
         }
+
+        VAO::VAO()
+        {}
 
         VAO::~VAO()
         {

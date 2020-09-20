@@ -6,6 +6,8 @@
 
 #include <djvViewApp/MDIWidget.h>
 
+#include <djvImage/ImageData.h>
+
 #include <djvAudio/Audio.h>
 
 #include <djvMath/FrameNumber.h>

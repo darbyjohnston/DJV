@@ -33,6 +33,44 @@ namespace djv
     {
         namespace Font
         {
+            FontInfo::FontInfo() noexcept
+            {}
+
+            FontInfo::FontInfo(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
+                _family(family),
+                _face(face),
+                _size(size),
+                _dpi(dpi)
+            {
+                Core::Memory::hashCombine(_hash, _family);
+                Core::Memory::hashCombine(_hash, _face);
+                Core::Memory::hashCombine(_hash, _size);
+                Core::Memory::hashCombine(_hash, _dpi);
+            }
+
+            Metrics::Metrics() noexcept
+            {}
+
+            GlyphInfo::GlyphInfo() noexcept
+            {}
+
+            GlyphInfo::GlyphInfo(uint32_t code, const FontInfo& fontInfo) noexcept :
+                code(code),
+                fontInfo(fontInfo)
+            {}
+
+            Glyph::Glyph()
+            {}
+
+            TextLine::TextLine()
+            {}
+
+            TextLine::TextLine(const std::string & text, const glm::vec2 & size, const std::vector<std::shared_ptr<Glyph> > & glyphs) :
+                text(text),
+                size(size),
+                glyphs(glyphs)
+            {}
+
             namespace
             {
                 //! \todo Should this be configurable?

@@ -12,6 +12,16 @@ namespace djv
 {
     namespace Geom
     {
+        TriangleMesh::TriangleMesh() :
+            _uid(createUID())
+        {}
+
+        TriangleMesh::Vertex::Vertex()
+        {}
+
+        TriangleMesh::Triangle::Triangle()
+        {}
+
         void TriangleMesh::clear()
         {
             v.clear();

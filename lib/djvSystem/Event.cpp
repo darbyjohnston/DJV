@@ -19,61 +19,21 @@ namespace djv
             Event::~Event()
             {}
 
-            Type Event::getEventType() const
-            {
-                return _eventType;
-            }
-
-            void Event::setAccepted(bool value)
-            {
-                _accepted = value;
-            }
-
-            void Event::accept()
-            {
-                _accepted = true;
-            }
-
-            bool Event::isAccepted() const
-            {
-                return _accepted;
-            }
-
             ParentChanged::ParentChanged(const std::shared_ptr<IObject>& prevParent, const std::shared_ptr<IObject>& newParent) :
                 Event(Type::ParentChanged),
                 _prevParent(prevParent),
                 _newParent(newParent)
             {}
 
-            const std::shared_ptr<IObject>& ParentChanged::getPrevParent() const
-            {
-                return _prevParent;
-            }
-
-            const std::shared_ptr<IObject>& ParentChanged::getNewParent() const
-            {
-                return _newParent;
-            }
-
             ChildAdded::ChildAdded(const std::shared_ptr<IObject>& child) :
                 Event(Type::ChildAdded),
                 _child(child)
             {}
 
-            const std::shared_ptr<IObject>& ChildAdded::getChild() const
-            {
-                return _child;
-            }
-
             ChildRemoved::ChildRemoved(const std::shared_ptr<IObject>& child) :
                 Event(Type::ChildRemoved),
                 _child(child)
             {}
-
-            const std::shared_ptr<IObject>& ChildRemoved::getChild() const
-            {
-                return _child;
-            }
 
             ChildOrder::ChildOrder() :
                 Event(Type::ChildOrder)
@@ -91,26 +51,11 @@ namespace djv
                 _data(data)
             {}
 
-            const InitData& Init::getData() const
-            {
-                return _data;
-            }
-
             Update::Update(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt) :
                 Event(Type::Update),
                 _t(t),
                 _dt(dt)
             {}
-
-            const std::chrono::steady_clock::time_point& Update::getTime() const
-            {
-                return _t;
-            }
-
-            const Time::Duration& Update::getDeltaTime() const
-            {
-                return _dt;
-            }
 
             InitLayout::InitLayout() :
                 Event(Type::InitLayout)
@@ -129,59 +74,19 @@ namespace djv
                 _clipRect(clipRect)
             {}
 
-            const Math::BBox2f& Clip::getClipRect() const
-            {
-                return _clipRect;
-            }
-
-            void Clip::setClipRect(const Math::BBox2f& value)
-            {
-                _clipRect = value;
-            }
-
             Paint::Paint(const Math::BBox2f& clipRect) :
                 Event(Type::Paint),
                 _clipRect(clipRect)
             {}
 
-            const Math::BBox2f& Paint::getClipRect() const
-            {
-                return _clipRect;
-            }
-
-            void Paint::setClipRect(const Math::BBox2f& value)
-            {
-                _clipRect = value;
-            }
-
             PaintOverlay::PaintOverlay(const Math::BBox2f& clipRect) :
                 Event(Type::PaintOverlay),
                 _clipRect(clipRect)
             {}
-
-            const Math::BBox2f& PaintOverlay::getClipRect() const
-            {
-                return _clipRect;
-            }
-
-            void PaintOverlay::setClipRect(const Math::BBox2f& value)
-            {
-                _clipRect = value;
-            }
             
             PointerInfo::PointerInfo()
             {}
             
-            bool PointerInfo::operator == (const PointerInfo& other) const
-            {
-                return
-                    id           == other.id           &&
-                    pos          == other.pos          &&
-                    dir          == other.dir          &&
-                    projectedPos == other.projectedPos &&
-                    buttons      == other.buttons;
-            }
-
             IPointer::IPointer(const PointerInfo& pointerInfo, Type type) :
                 Event(type),
                 _pointerInfo(pointerInfo)
@@ -189,26 +94,6 @@ namespace djv
 
             IPointer::~IPointer()
             {}
-
-            bool IPointer::isRejected() const
-            {
-                return _rejected;
-            }
-
-            void IPointer::setRejected(bool value)
-            {
-                _rejected = value;
-            }
-
-            void IPointer::reject()
-            {
-                _rejected = true;
-            }
- 
-            const PointerInfo& IPointer::getPointerInfo() const
-            {
-                return _pointerInfo;
-            }
 
             PointerEnter::PointerEnter(const PointerInfo& pointerInfo) :
                 IPointer(pointerInfo, Type::PointerEnter)
@@ -235,20 +120,10 @@ namespace djv
                 _scrollDelta(scrollDelta)
             {}
 
-            const glm::vec2& Scroll::getScrollDelta() const
-            {
-                return _scrollDelta;
-            }
-
             Drop::Drop(const std::vector<std::string>& dropPaths, const PointerInfo& info) :
                 IPointer(info, Type::Drop),
                 _dropPaths(dropPaths)
             {}
-
-            const std::vector<std::string>& Drop::getDropPaths() const
-            {
-                return _dropPaths;
-            }
 
             IKey::IKey(int key, int keyModifiers, const PointerInfo& info, Type type) :
                 IPointer(info, type),
@@ -258,16 +133,6 @@ namespace djv
 
             IKey::~IKey()
             {}
-
-            int IKey::getKey() const
-            {
-                return _key;
-            }
-
-            int IKey::getKeyModifiers() const
-            {
-                return _keyModifiers;
-            }
 
             KeyPress::KeyPress(int key, int keyModifiers, const PointerInfo& info)  :
                 IKey(key, keyModifiers, info, Type::KeyPress)
@@ -290,16 +155,6 @@ namespace djv
                 _utf32(utf32),
                 _textModifiers(textModifiers)
             {}
-
-            const std::basic_string<djv_char_t>& TextInput::getUtf32() const
-            {
-                return _utf32;
-            }
-
-            int TextInput::getTextModifiers() const
-            {
-                return _textModifiers;
-            }
 
         } // namespace Event
     } // namespace System

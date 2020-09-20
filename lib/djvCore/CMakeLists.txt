@@ -13,6 +13,7 @@ set(header
     MemoryFunc.h
     MemoryFuncInline.h
     OSFunc.h
+    OSFuncInline.h
     Observer.h
     RandomFunc.h
     RandomFuncInline.h
@@ -20,11 +21,13 @@ set(header
     RapidJSONTemplates.h
     RapidJSONTemplatesInline.h
     StringFormat.h
+    StringFormatInline.h
     StringFunc.h
     StringFuncInline.h
     String.h
     Time.h
     TimeFunc.h
+    TimeFuncInline.h
     UID.h
     UIDFunc.h
     UndoStack.h

@@ -10,6 +10,7 @@ set(header
     OffscreenBuffer.h
     OffscreenBufferInline.h
     Shader.h
+    ShaderInline.h
     ShaderSystem.h
     TextureAtlas.h
     Texture.h

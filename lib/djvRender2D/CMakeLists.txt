@@ -12,6 +12,7 @@ set(header
     RenderInline.h
     RenderPrivate.h)
 set(source
+    Data.cpp
     DataFunc.cpp
     EnumFunc.cpp
     FontSystem.cpp

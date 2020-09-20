@@ -10,16 +10,6 @@ namespace djv
 {
     namespace Audio
     {
-        inline Info::Info()
-        {}
-
-        inline Info::Info(uint8_t channelCount, Type type, size_t sampleRate, size_t sampleCount) :
-            channelCount(channelCount),
-            type(type),
-            sampleRate(sampleRate),
-            sampleCount(sampleCount)
-        {}
-
         inline bool Info::isValid() const
         {
             return type != Type::None;
@@ -46,15 +36,11 @@ namespace djv
             return !(*this == other);
         }
 
-
         inline const Info& Data::getInfo() const
         {
             return _info;
         }
-
-        inline Data::Data()
-        {}
-
+        
         inline uint8_t Data::getChannelCount() const
         {
             return _info.channelCount;
@@ -74,7 +60,7 @@ namespace djv
         {
             return _info.sampleCount;
         }
-        
+
         inline bool Data::isValid() const
         {
             return _info.isValid();
@@ -85,12 +71,12 @@ namespace djv
             return _info.getByteCount();
         }
 
-        inline uint8_t * Data::getData()
+        inline uint8_t* Data::getData()
         {
             return _data.data();
         }
 
-        inline const uint8_t * Data::getData() const
+        inline const uint8_t* Data::getData() const
         {
             return _data.data();
         }
