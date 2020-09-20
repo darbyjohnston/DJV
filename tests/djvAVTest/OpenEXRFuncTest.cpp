@@ -2,9 +2,9 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAVTest/OpenEXRTest.h>
+#include <djvAVTest/OpenEXRFuncTest.h>
 
-#include <djvAV/OpenEXR.h>
+#include <djvAV/OpenEXRFunc.h>
 
 #include <djvCore/ErrorFunc.h>
 
@@ -18,20 +18,20 @@ namespace djv
 {
     namespace AVTest
     {
-        OpenEXRTest::OpenEXRTest(
+        OpenEXRFuncTest::OpenEXRFuncTest(
             const System::File::Path& tempPath,
             const std::shared_ptr<System::Context>& context) :
-            ITest("djv::AVTest::OpenEXRTest", tempPath, context)
+            ITest("djv::AVTest::OpenEXRFuncTest", tempPath, context)
         {}
         
-        void OpenEXRTest::run()
+        void OpenEXRFuncTest::run()
         {
             _enum();
             _data();
             _serialize();
         }
 
-        void OpenEXRTest::_enum()
+        void OpenEXRFuncTest::_enum()
         {
             for (const auto& i : OpenEXR::getChannelsEnums())
             {
@@ -48,7 +48,7 @@ namespace djv
             }
         }
         
-        void OpenEXRTest::_data()
+        void OpenEXRFuncTest::_data()
         {
             {
                 const OpenEXR::Channel channel;
@@ -279,7 +279,7 @@ namespace djv
             }
         }
         
-        void OpenEXRTest::_serialize()
+        void OpenEXRFuncTest::_serialize()
         {
             {
                 OpenEXR::Options options;

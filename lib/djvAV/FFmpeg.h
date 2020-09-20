@@ -51,17 +51,6 @@ namespace djv
                     ".webp"
                 };
 
-                Audio::Type toAudioType(AVSampleFormat);
-                std::string toString(AVSampleFormat);
-
-                void extractAudio(
-                    uint8_t**                    inData,
-                    int                          inFormat,
-                    uint8_t                      inChannelCount,
-                    std::shared_ptr<Audio::Data> out);
-
-                std::string getErrorString(int);
-
                 //! This struct provides the FFmpeg file I/O optioms.
                 struct Options
                 {
@@ -146,11 +135,4 @@ namespace djv
             } // namespace FFmpeg
         } // namespace IO
     } // namespace AV
-
-    rapidjson::Value toJSON(const AV::IO::FFmpeg::Options&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::IO::FFmpeg::Options&);
-
 } // namespace djv

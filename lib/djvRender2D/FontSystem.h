@@ -6,8 +6,6 @@
 
 #include <djvRender2D/Render2D.h>
 
-#include <djvImage/ImageData.h>
-
 #include <djvSystem/ISystem.h>
 
 #include <djvMath/BBox.h>
@@ -19,6 +17,12 @@
 
 namespace djv
 {
+    namespace Image
+    {
+        class Data;
+    
+    }; // namespace Image
+
     namespace Render2D
     {
         //! This namespace provides font functionality.

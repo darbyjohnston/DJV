@@ -3,7 +3,7 @@ set(header
     CineonFuncTest.h
     DPXFuncTest.h
     IOTest.h
-    PPMTest.h
+    PPMFuncTest.h
 	SpeedFuncTest.h
     ThumbnailSystemTest.h
     TimeFuncTest.h)
@@ -12,23 +12,43 @@ set(source
     CineonFuncTest.cpp
     DPXFuncTest.cpp
     IOTest.cpp
-    PPMTest.cpp
+    PPMFuncTest.cpp
 	SpeedFuncTest.cpp
     ThumbnailSystemTest.cpp
     TimeFuncTest.cpp)
 if (NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
-    set(header
-        ${header}
-        FFmpegTest.h
-        JPEGTest.h
-        OpenEXRTest.h
-        TIFFTest.h)
-    set(header
-        ${header}
-        FFmpegTest.cpp
-        JPEGTest.cpp
-        OpenEXRTest.cpp
-        TIFFTest.cpp)
+    if(FFmpeg_FOUND)
+        set(header
+            ${header}
+            FFmpegFuncTest.h)
+        set(header
+            ${header}
+            FFmpegFuncTest.cpp)
+    endif()
+    if(JPEG_FOUND)
+        set(header
+            ${header}
+            JPEGFuncTest.h)
+        set(header
+            ${header}
+            JPEGFuncTest.cpp)
+    endif()
+    if(OpenEXR_FOUND)
+        set(header
+            ${header}
+            OpenEXRFuncTest.h)
+        set(header
+            ${header}
+            OpenEXRFuncTest.cpp)
+    endif()
+    if(TIFF_FOUND)
+        set(header
+            ${header}
+            TIFFFuncTest.h)
+        set(header
+            ${header}
+            TIFFFuncTest.cpp)
+    endif()
 endif()
 
 add_library(djvAVTest ${header} ${source})

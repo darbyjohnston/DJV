@@ -23,7 +23,6 @@ namespace djv
                 Count,
                 First = None
             };
-            DJV_ENUM_HELPERS(RowStretch);
 
             //! This class provides a layout that arranges it's children in a row.
             class Row : public Widget
@@ -101,8 +100,4 @@ namespace djv
         using Layout::RowStretch;
 
     } // namespace UI
-
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);
-
 } // namespace Gp

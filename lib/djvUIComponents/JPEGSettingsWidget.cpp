@@ -8,7 +8,7 @@
 #include <djvUI/IntSlider.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/JPEG.h>
+#include <djvAV/JPEGFunc.h>
 
 #include <djvSystem/Context.h>
 

@@ -7,7 +7,7 @@
 #include <djvRender2D/RenderPrivate.h>
 
 #include <djvGL/GLFWSystem.h>
-#include <djvGL/Mesh.h>
+#include <djvGL/MeshFunc.h>
 #include <djvGL/Shader.h>
 #include <djvGL/Texture.h>
 #include <djvGL/TextureAtlas.h>

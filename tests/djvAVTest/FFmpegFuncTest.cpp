@@ -2,9 +2,9 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAVTest/FFmpegTest.h>
+#include <djvAVTest/FFmpegFuncTest.h>
 
-#include <djvAV/FFmpeg.h>
+#include <djvAV/FFmpegFunc.h>
 
 #include <djvCore/ErrorFunc.h>
 
@@ -18,19 +18,19 @@ namespace djv
 {
     namespace AVTest
     {
-        FFmpegTest::FFmpegTest(
+        FFmpegFuncTest::FFmpegFuncTest(
             const System::File::Path& tempPath,
             const std::shared_ptr<System::Context>& context) :
-            ITest("djv::AVTest::FFmpegTest", tempPath, context)
+            ITest("djv::AVTest::FFmpegFuncTest", tempPath, context)
         {}
         
-        void FFmpegTest::run()
+        void FFmpegFuncTest::run()
         {
             _convert();
             _serialize();
         }
         
-        void FFmpegTest::_convert()
+        void FFmpegFuncTest::_convert()
         {
             for (const auto& i : {
                 AV_SAMPLE_FMT_NONE,
@@ -99,7 +99,7 @@ namespace djv
             }
         }
         
-        void FFmpegTest::_serialize()
+        void FFmpegFuncTest::_serialize()
         {
             {
                 FFmpeg::Options options;

@@ -4,8 +4,6 @@
 
 #include <djvGL/GLFWSystem.h>
 
-#include <djvGL/GL.h>
-
 #include <djvSystem/Context.h>
 #include <djvSystem/CoreSystem.h>
 #include <djvSystem/LogSystem.h>
@@ -69,26 +67,26 @@ namespace djv
                 }
 #endif // DJV_GL_ES2
 
-            } // namespace
-
-            std::string getErrorMessage(ErrorString error, const std::shared_ptr<System::TextSystem>& textSystem)
-            {
-                std::stringstream ss;
-                switch (error)
+                std::string getErrorMessage(ErrorString error, const std::shared_ptr<System::TextSystem>& textSystem)
                 {
-                case ErrorString::Init:
-                    ss << textSystem->getText(DJV_TEXT("error_glfw_init"));
-                    break;
-                case ErrorString::Window:
-                    ss << textSystem->getText(DJV_TEXT("error_glfw_window_creation"));
-                    break;
-                case ErrorString::GLAD:
-                    ss << textSystem->getText(DJV_TEXT("error_glad_init"));
-                    break;
-                default: break;
+                    std::stringstream ss;
+                    switch (error)
+                    {
+                    case ErrorString::Init:
+                        ss << textSystem->getText(DJV_TEXT("error_glfw_init"));
+                        break;
+                    case ErrorString::Window:
+                        ss << textSystem->getText(DJV_TEXT("error_glfw_window_creation"));
+                        break;
+                    case ErrorString::GLAD:
+                        ss << textSystem->getText(DJV_TEXT("error_glad_init"));
+                        break;
+                    default: break;
+                    }
+                    return ss.str();
                 }
-                return ss.str();
-            }
+
+            } // namespace
 
             Error::Error(const std::string& what) :
                 std::runtime_error(what)

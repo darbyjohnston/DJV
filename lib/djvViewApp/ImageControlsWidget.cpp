@@ -13,6 +13,7 @@
 #include <djvUI/Bellows.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/ComboBox.h>
+#include <djvUI/EnumFunc.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ImageWidget.h>

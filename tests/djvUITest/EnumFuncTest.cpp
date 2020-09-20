@@ -2,9 +2,9 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvUITest/EnumTest.h>
+#include <djvUITest/EnumFuncTest.h>
 
-#include <djvUI/Enum.h>
+#include <djvUI/EnumFunc.h>
 
 using namespace djv::Core;
 using namespace djv::UI;
@@ -13,13 +13,13 @@ namespace djv
 {
     namespace UITest
     {
-        EnumTest::EnumTest(
+        EnumFuncTest::EnumFuncTest(
             const System::File::Path& tempPath,
             const std::shared_ptr<System::Context>& context) :
-            ITest("djv::UITest::EnumTest", tempPath, context)
+            ITest("djv::UITest::EnumFuncTest", tempPath, context)
         {}
         
-        void EnumTest::run()
+        void EnumFuncTest::run()
         {
             for (auto i : getOrientationEnums())
             {

@@ -10,10 +10,7 @@
 
 #include <djvImage/Color.h>
 
-#include <djvMath/BBox.h>
-
 #include <djvCore/MapObserver.h>
-#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>
@@ -144,15 +141,6 @@ namespace djv
 
         } // namespace Style
     } // namespace UI
-
-    rapidjson::Value toJSON(const UI::Style::Palette&, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(const UI::Style::Metrics&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, UI::Style::Palette&);
-    void fromJSON(const rapidjson::Value&, UI::Style::Metrics&);
-
 } // namespace djv
 
 #include <djvUI/StyleInline.h>

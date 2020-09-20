@@ -11,6 +11,7 @@ set(header
     IOPluginInline.h
     IOSystem.h
     PPM.h
+    PPMFunc.h
     RLA.h
     SGI.h
     SequenceIO.h
@@ -37,6 +38,7 @@ set(source
     IOPlugin.cpp
     IOSystem.cpp
     PPM.cpp
+    PPMFunc.cpp
     PPMRead.cpp
     PPMWrite.cpp
     RLA.cpp
@@ -52,49 +54,59 @@ set(source
 if(FFmpeg_FOUND)
     set(header
         ${header}
-		FFmpeg.h)
+		FFmpeg.h
+        FFmpegFunc.h)
     set(source
         ${source}
 		FFmpeg.cpp
+        FFmpegFunc.cpp
 		FFmpegRead.cpp)
 endif()
 if(JPEG_FOUND)
     set(header
         ${header}
-        JPEG.h)
+        JPEG.h
+        JPEGFunc.h)
     set(source
         ${source}
         JPEG.cpp
+        JPEGFunc.cpp
         JPEGRead.cpp
         JPEGWrite.cpp)
 endif()
 if(PNG_FOUND)
     set(header
         ${header}
-        PNG.h)
+        PNG.h
+        PNGFunc.h)
     set(source
         ${source}
         PNG.cpp
+        PNGFunc.cpp
         PNGRead.cpp
         PNGWrite.cpp)
 endif()
 if(OpenEXR_FOUND)
     set(header
         ${header}
-        OpenEXR.h)
+        OpenEXR.h
+        OpenEXRFunc.h)
     set(source
         ${source}
         OpenEXR.cpp
+        OpenEXRFunc.cpp
         OpenEXRRead.cpp
         OpenEXRWrite.cpp)
 endif()
 if(TIFF_FOUND)
     set(header
         ${header}
-        TIFF.h)
+        TIFF.h
+        TIFFFunc.h)
     set(source
         ${source}
         TIFF.cpp
+        TIFFFunc.cpp
         TIFFRead.cpp
         TIFFWrite.cpp)
 endif()

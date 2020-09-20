@@ -4,6 +4,8 @@
 
 #include <djvAV/PNG.h>
 
+#include <djvAV/PNGFunc.h>
+
 #include <djvSystem/File.h>
 #include <djvSystem/FileFunc.h>
 #include <djvSystem/FileIO.h>

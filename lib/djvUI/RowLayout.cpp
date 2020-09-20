@@ -11,8 +11,6 @@
 
 #include <djvMath/Math.h>
 
-#include <array>
-
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -414,16 +412,7 @@ namespace djv
                 return out;
             }
 
-            DJV_ENUM_HELPERS_IMPLEMENTATION(RowStretch);
-
         } // namespace Layout
-    } // namespace UI    
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI::Layout,
-        RowStretch,
-        DJV_TEXT("layout_row_stretch_none"),
-        DJV_TEXT("layout_row_stretch_expand"));
-
+    } // namespace UI
 } // namespace ddjv
 

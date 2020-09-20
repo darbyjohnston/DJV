@@ -18,11 +18,9 @@ namespace djv
             void run() override;
             
         private:
-            void _enum();
             void _config();
             void _system();
             void _operators();
-            void _serialize();
         };
         
     } // namespace OCIOTest

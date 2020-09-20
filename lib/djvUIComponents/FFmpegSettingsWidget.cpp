@@ -8,7 +8,7 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/IntSlider.h>
 
-#include <djvAV/FFmpeg.h>
+#include <djvAV/FFmpegFunc.h>
 #include <djvAV/IOSystem.h>
 
 #include <djvSystem/Context.h>

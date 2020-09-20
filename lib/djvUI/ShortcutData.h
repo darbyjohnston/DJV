@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <djvCore/RapidJSONFunc.h>
+#include <djvUI/UI.h>
 
 #include <map>
 #include <memory>
-#include <vector>
+#include <string>
 
 namespace djv
 {
@@ -70,18 +70,6 @@ namespace djv
         typedef std::map<std::string, ShortcutDataPair> ShortcutDataMap;
 
     } // namespace UI
-
-    rapidjson::Value toJSON(const UI::ShortcutData&, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(const UI::ShortcutDataPair&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, UI::ShortcutData&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, UI::ShortcutDataPair&);
-
 } // namespace djv
 
 #include <djvUI/ShortcutDataInline.h>

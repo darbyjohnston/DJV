@@ -4,6 +4,9 @@
 
 #include <djvUIComponents/FileBrowserSettings.h>
 
+#include <djvUI/EnumFunc.h>
+#include <djvUI/ShortcutDataFunc.h>
+
 #include <djvImage/ImageData.h>
 #include <djvImage/ImageDataFunc.h>
 

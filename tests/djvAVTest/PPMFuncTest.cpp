@@ -2,9 +2,9 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAVTest/JPEGTest.h>
+#include <djvAVTest/PPMFuncTest.h>
 
-#include <djvAV/JPEG.h>
+#include <djvAV/PPMFunc.h>
 
 #include <djvCore/ErrorFunc.h>
 
@@ -16,25 +16,28 @@ namespace djv
 {
     namespace AVTest
     {
-        JPEGTest::JPEGTest(
+        PPMFuncTest::PPMFuncTest(
             const System::File::Path& tempPath,
             const std::shared_ptr<System::Context>& context) :
-            ITest("djv::AVTest::JPEGTest", tempPath, context)
+            ITest(
+                "djv::AVTest::PPMFuncTest",
+                System::File::Path(tempPath, "PPMFuncTest"),
+                context)
         {}
         
-        void JPEGTest::run()
+        void PPMFuncTest::run()
         {
             _serialize();
         }
-
-        void JPEGTest::_serialize()
+        
+        void PPMFuncTest::_serialize()
         {
             {
-                JPEG::Options options;
+                PPM::Options options;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 auto json = toJSON(options, allocator);
-                JPEG::Options options2;
+                PPM::Options options2;
                 fromJSON(json, options2);
                 DJV_ASSERT(options == options2);
             }
@@ -42,7 +45,7 @@ namespace djv
             try
             {
                 auto json = rapidjson::Value(rapidjson::kObjectType);
-                JPEG::Options options;
+                PPM::Options options;
                 fromJSON(json, options);
                 DJV_ASSERT(options == options);
             }

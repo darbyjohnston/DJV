@@ -6,12 +6,12 @@
 
 namespace djv
 {
-    namespace AVTest
+    namespace GLTest
     {
-        class OpenEXRTest : public Test::ITest
+        class OffscreenBufferFuncTest : public Test::ITest
         {
         public:
-            OpenEXRTest(
+            OffscreenBufferFuncTest(
                 const System::File::Path& tempPath,
                 const std::shared_ptr<System::Context>&);
             
@@ -19,10 +19,8 @@ namespace djv
 
         private:
             void _enum();
-            void _data();
-            void _serialize();
         };
         
-    } // namespace AVTest
+    } // namespace GLTest
 } // namespace djv
 

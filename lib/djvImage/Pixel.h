@@ -8,8 +8,6 @@
 
 #include <OpenEXR/half.h>
 
-#include <glad.h>
-
 #include <limits>
 
 namespace djv

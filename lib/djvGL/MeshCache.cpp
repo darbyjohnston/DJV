@@ -4,6 +4,8 @@
 
 #include <djvGL/MeshCache.h>
 
+#include <djvGL/MeshFunc.h>
+
 #include <djvMath/Range.h>
 
 #include <djvCore/UIDFunc.h>

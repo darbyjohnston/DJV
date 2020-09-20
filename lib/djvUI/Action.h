@@ -9,6 +9,8 @@
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
+#include <string>
+
 namespace djv
 {
     namespace UI

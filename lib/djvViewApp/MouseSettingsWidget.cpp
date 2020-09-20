@@ -4,6 +4,7 @@
 
 #include <djvViewApp/MouseSettingsWidget.h>
 
+#include <djvViewApp/EnumFunc.h>
 #include <djvViewApp/MouseSettings.h>
 
 #include <djvUIComponents/ShortcutsWidget.h>

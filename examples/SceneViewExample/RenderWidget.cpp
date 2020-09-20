@@ -11,6 +11,8 @@
 
 #include <djvScene/Render.h>
 
+#include <djvGL/OffscreenBufferFunc.h>
+
 using namespace djv;
 
 void RenderWidget::_init(const std::shared_ptr<System::Context>& context)

@@ -4,6 +4,8 @@
 
 #include <djvAV/TIFF.h>
 
+#include <djvAV/TIFFFunc.h>
+
 #include <djvSystem/File.h>
 #include <djvSystem/FileIO.h>
 #include <djvSystem/TextSystem.h>
@@ -80,7 +82,7 @@ namespace djv
                         }
                         if (f.palette)
                         {
-                            TIFF::readPalette(
+                            readPalette(
                                 out->getData(y),
                                 info.video[0].size.w,
                                 static_cast<int>(Image::getChannelCount(info.video[0].type)),

@@ -1,6 +1,7 @@
 set(header
     AboutDialog.h
 	Annotate.h
+	AnnotateFunc.h
 	AnnotateSettings.h
 	AnnotateSystem.h
 	AnnotateWidget.h
@@ -16,6 +17,7 @@ set(header
     DebugWidget.h
     EditSystem.h
     Enum.h
+    EnumFunc.h
     FileSystem.h
     FileSettings.h
     FileSettingsWidget.h
@@ -62,6 +64,7 @@ set(header
     ViewApp.h
     ViewControlsWidget.h
     ViewControlsWidgetPrivate.h
+	ViewFunc.h
 	ViewSettings.h
     ViewSystem.h
     ViewWidget.h
@@ -72,6 +75,7 @@ set(header
 set(source
     AboutDialog.cpp
 	Annotate.cpp
+	AnnotateFunc.cpp
 	AnnotateSettings.cpp
 	AnnotateSystem.cpp
 	AnnotateWidget.cpp
@@ -89,7 +93,7 @@ set(source
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
     EditSystem.cpp
-    Enum.cpp
+    EnumFunc.cpp
     FileSettings.cpp
     FileSettingsWidget.cpp
     FileSystem.cpp
@@ -138,6 +142,7 @@ set(source
 	View.cpp
     ViewControlsWidget.cpp
     ViewControlsWidgetPrivate.cpp
+	ViewFunc.cpp
 	ViewSettings.cpp
     ViewSystem.cpp
     ViewWidget.cpp

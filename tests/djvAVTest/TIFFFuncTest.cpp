@@ -2,9 +2,9 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAVTest/TIFFTest.h>
+#include <djvAVTest/TIFFFuncTest.h>
 
-#include <djvAV/TIFF.h>
+#include <djvAV/TIFFFunc.h>
 
 #include <djvCore/ErrorFunc.h>
 
@@ -16,18 +16,18 @@ namespace djv
 {
     namespace AVTest
     {
-        TIFFTest::TIFFTest(
+        TIFFFuncTest::TIFFFuncTest(
             const System::File::Path& tempPath,
             const std::shared_ptr<System::Context>& context) :
-            ITest("djv::AVTest::TIFFTest", tempPath, context)
+            ITest("djv::AVTest::TIFFFuncTest", tempPath, context)
         {}
         
-        void TIFFTest::run()
+        void TIFFFuncTest::run()
         {
             _serialize();
         }
 
-        void TIFFTest::_serialize()
+        void TIFFFuncTest::_serialize()
         {
             {
                 IO::TIFF::Options options;

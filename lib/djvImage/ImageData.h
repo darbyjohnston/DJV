@@ -9,6 +9,8 @@
 #include <djvCore/MemoryFunc.h>
 #include <djvCore/UID.h>
 
+#include <glad.h>
+
 #include <memory>
 
 namespace djv

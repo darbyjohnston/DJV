@@ -4,6 +4,8 @@
 
 #include <djvViewApp/PlaybackSettings.h>
 
+#include <djvViewApp/EnumFunc.h>
+
 #include <djvSystem/Context.h>
 
 #include <djvMath/RationalFunc.h>

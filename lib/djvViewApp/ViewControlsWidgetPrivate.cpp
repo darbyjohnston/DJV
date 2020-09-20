@@ -4,6 +4,7 @@
 
 #include <djvViewApp/ViewControlsWidgetPrivate.h>
 
+#include <djvViewApp/EnumFunc.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/View.h>
 #include <djvViewApp/ViewSettings.h>

@@ -8,15 +8,6 @@
 
 namespace djv
 {
-    namespace System
-    {
-        namespace File
-        {
-            class IO;
-        
-        } // namespace File
-    } // namespace System
-    
     namespace AV
     {
         namespace IO

@@ -8,17 +8,18 @@ namespace djv
 {
     namespace AVTest
     {
-        class FFmpegTest : public Test::ITest
+        class OpenEXRFuncTest : public Test::ITest
         {
         public:
-            FFmpegTest(
+            OpenEXRFuncTest(
                 const System::File::Path& tempPath,
                 const std::shared_ptr<System::Context>&);
             
             void run() override;
-        
+
         private:
-            void _convert();
+            void _enum();
+            void _data();
             void _serialize();
         };
         

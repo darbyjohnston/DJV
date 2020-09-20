@@ -8,10 +8,10 @@ namespace djv
 {
     namespace AVTest
     {
-        class TIFFTest : public Test::ITest
+        class TIFFFuncTest : public Test::ITest
         {
         public:
-            TIFFTest(
+            TIFFFuncTest(
                 const System::File::Path& tempPath,
                 const std::shared_ptr<System::Context>&);
             

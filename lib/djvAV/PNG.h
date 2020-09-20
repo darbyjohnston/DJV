@@ -102,11 +102,3 @@ namespace djv
         } // namespace IO
     } // namespace AV
 } // namespace djv
-
-extern "C"
-{
-    void djvPngError(png_structp, png_const_charp);
-    void djvPngWarning(png_structp, png_const_charp);
-
-} // extern "C"
-

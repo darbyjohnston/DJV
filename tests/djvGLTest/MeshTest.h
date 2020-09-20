@@ -18,7 +18,6 @@ namespace djv
             void run() override;
             
         private:
-            void _enum();
             void _convert();
         };
         

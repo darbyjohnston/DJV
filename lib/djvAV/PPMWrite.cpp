@@ -4,6 +4,8 @@
 
 #include <djvAV/PPM.h>
 
+#include <djvAV/PPMFunc.h>
+
 #include <djvSystem/FileIO.h>
 
 using namespace djv::Core;

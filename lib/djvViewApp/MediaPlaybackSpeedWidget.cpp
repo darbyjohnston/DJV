@@ -4,6 +4,7 @@
 
 #include <djvViewApp/MediaWidgetPrivate.h>
 
+#include <djvViewApp/EnumFunc.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/PlaybackSettings.h>
 

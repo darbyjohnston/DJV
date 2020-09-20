@@ -6,8 +6,10 @@ set(header
     ImageConvert.h
     MeshCache.h
     Mesh.h
+    MeshFunc.h
     MeshInline.h
     OffscreenBuffer.h
+    OffscreenBufferFunc.h
     OffscreenBufferInline.h
     Shader.h
     ShaderInline.h
@@ -21,7 +23,9 @@ set(source
     ImageConvert.cpp
     MeshCache.cpp
     Mesh.cpp
+    MeshFunc.cpp
     OffscreenBuffer.cpp
+    OffscreenBufferFunc.cpp
     Shader.cpp
     ShaderSystem.cpp
     TextureAtlas.cpp
