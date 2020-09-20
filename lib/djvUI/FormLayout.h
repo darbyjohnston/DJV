@@ -32,10 +32,12 @@ namespace djv
                 void setText(const std::shared_ptr<Widget>&, const std::string&);
 
                 const Spacing& getSpacing() const;
+
                 void setSpacing(const Spacing&);
 
                 const std::string& getFontFamily() const;
                 const std::string& getFontFace() const;
+
                 void setFontFamily(const std::string&);
                 void setFontFace(const std::string&);
 

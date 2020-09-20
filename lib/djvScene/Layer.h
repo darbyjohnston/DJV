@@ -28,6 +28,7 @@ namespace djv
             virtual ~ILayerItem() = 0;
 
             const std::weak_ptr<Layer>& getLayer() const;
+
             void setLayer(const std::shared_ptr<Layer>&);
 
         protected:
@@ -46,18 +47,23 @@ namespace djv
             static std::shared_ptr<Layer> create();
 
             const std::string& getName() const;
+
             void setName(const std::string&);
 
             bool isVisible() const;
+
             void setVisible(bool);
 
             const Image::Color& getColor() const;
+
             void setColor(const Image::Color&);
 
             const std::shared_ptr<IMaterial>& getMaterial() const;
+
             void setMaterial(const std::shared_ptr<IMaterial>&);
 
             const std::vector<std::shared_ptr<ILayerItem> >& getItems() const;
+
             void addItem(const std::shared_ptr<ILayerItem>&);
             void removeItem(const std::shared_ptr<ILayerItem>&);
             void clearItems();

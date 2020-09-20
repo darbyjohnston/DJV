@@ -28,6 +28,7 @@ namespace djv
             static std::shared_ptr<MouseSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<ScrollWheelSpeed> > observeScrollWheelSpeed() const;
+
             void setScrollWheelSpeed(ScrollWheelSpeed);
 
             void load(const rapidjson::Value &) override;

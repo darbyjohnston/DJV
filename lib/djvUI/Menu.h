@@ -39,6 +39,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
+
             void setIcon(const std::string&);
             void setText(const std::string&);
 
@@ -48,9 +49,11 @@ namespace djv
             void addSeparator();
 
             MetricsRole getMinimumSizeRole() const;
+            
             void setMinimumSizeRole(MetricsRole);
 
             ColorRole getBackgroundRole() const;
+            
             void setBackgroundRole(ColorRole);
 
             std::shared_ptr<Widget> popup(const glm::vec2&);
@@ -58,6 +61,7 @@ namespace djv
             std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu>& button, const std::weak_ptr<Widget>& anchor);
 
             bool isOpen() const;
+            
             void close();
 
             void setCloseCallback(const std::function<void(void)>&);

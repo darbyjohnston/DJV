@@ -22,6 +22,7 @@ namespace djv
             bool isValid() const noexcept;
 
             float toFloat() const noexcept;
+
             static Rational fromFloat(float);
 
             Rational swap() const noexcept;

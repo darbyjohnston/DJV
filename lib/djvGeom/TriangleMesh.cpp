@@ -4,6 +4,8 @@
 
 #include <djvGeom/TriangleMesh.h>
 
+#include <djvCore/UIDFunc.h>
+
 #include <glm/geometric.hpp>
 
 using namespace djv::Core;

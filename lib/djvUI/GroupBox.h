@@ -27,6 +27,7 @@ namespace djv
                 static std::shared_ptr<GroupBox> create(const std::shared_ptr<System::Context>&);
 
                 const std::string& getText() const;
+
                 void setText(const std::string&);
 
                 float getHeightForWidth(float) const override;

@@ -46,13 +46,16 @@ namespace djv
                 glm::ivec2 getGridSize() const;
 
                 glm::ivec2 getGridPos(const std::shared_ptr<Widget>&);
+
                 void setGridPos(const std::shared_ptr<Widget>&, const glm::ivec2&, GridStretch = GridStretch::None);
                 void setGridPos(const std::shared_ptr<Widget>&, int x, int y, GridStretch = GridStretch::None);
 
                 const Spacing& getSpacing() const;
+
                 void setSpacing(const Spacing&);
 
                 GridStretch getStretch(const std::shared_ptr<Widget>&) const;
+
                 void setStretch(const std::shared_ptr<Widget>&, GridStretch);
 
                 void setRowBackgroundRole(int, ColorRole);

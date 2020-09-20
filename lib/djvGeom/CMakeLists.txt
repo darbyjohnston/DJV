@@ -1,6 +1,8 @@
 set(header
     PointList.h
+    PointListInline.h
     Shape.h
+    ShapeInline.h
     TriangleMesh.h
     TriangleMeshInline.h)
 set(source

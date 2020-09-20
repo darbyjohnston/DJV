@@ -41,18 +41,22 @@ namespace djv
             virtual ~INumericWidget() = 0;
 
             const Math::Range<T>& getRange() const;
+
             void setRange(const Math::Range<T>&);
 
             T getValue() const;
+
             void setValue(T);
             void setValueCallback(const std::function<void(T, TextEditReason)>&);
 
             T getSmallIncrement() const;
             T getLargeIncrement() const;
+
             void setSmallIncrement(T);
             void setLargeIncrement(T);
 
             const std::shared_ptr<Math::INumericValueModel<T> >& getModel() const;
+
             virtual void setModel(const std::shared_ptr<Math::INumericValueModel<T> >&);
 
         protected:

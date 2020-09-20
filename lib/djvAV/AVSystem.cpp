@@ -74,14 +74,14 @@ namespace djv
             return _p->timeUnits;
         }
 
-        void AVSystem::setTimeUnits(Time::Units value)
-        {
-            _p->timeUnits->setIfChanged(value);
-        }
-
         std::shared_ptr<IValueSubject<FPS> > AVSystem::observeDefaultSpeed() const
         {
             return _p->defaultSpeed;
+        }
+
+        void AVSystem::setTimeUnits(Time::Units value)
+        {
+            _p->timeUnits->setIfChanged(value);
         }
 
         void AVSystem::setDefaultSpeed(FPS value)

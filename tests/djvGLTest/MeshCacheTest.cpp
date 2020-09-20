@@ -7,6 +7,8 @@
 #include <djvGL/Mesh.h>
 #include <djvGL/MeshCache.h>
 
+#include <djvCore/UIDFunc.h>
+
 #include <sstream>
 
 using namespace djv::Core;

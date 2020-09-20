@@ -18,6 +18,8 @@ namespace djv
             void run() override;
             
         private:
+            void _rgbToHSV(float, float, float);
+            void _util();
             void _serialize();
         };
         

@@ -6,6 +6,8 @@
 
 #include <djvMath/Range.h>
 
+#include <djvCore/UIDFunc.h>
+
 #include <map>
 #include <set>
 

@@ -23,6 +23,7 @@ namespace djv
             ~MDIWidget() override = 0;
 
             const std::string & getTitle() const;
+
             void setTitle(const std::string &);
 
             void close();

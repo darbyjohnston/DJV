@@ -27,9 +27,11 @@ namespace djv
             static std::shared_ptr<ColorSwatch> create(const std::shared_ptr<System::Context>&);
 
             const Image::Color& getColor() const;
+
             void setColor(const Image::Color&);
 
             MetricsRole getSwatchSizeRole() const;
+
             void setSwatchSizeRole(MetricsRole);
 
             void setBorder(bool);

@@ -155,6 +155,7 @@ namespace djv
             bool hasCache() const;
             size_t getCacheMaxByteCount() const;
             size_t getCacheByteCount() const;
+
             std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeCacheSequence() const;
             std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeCachedFrames() const;
 

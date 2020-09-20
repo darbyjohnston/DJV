@@ -100,4 +100,3 @@ namespace djv
 } // namespace djv
 
 #include <djvMath/MathFuncInline.h>
-

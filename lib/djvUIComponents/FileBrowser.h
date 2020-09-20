@@ -42,6 +42,7 @@ namespace djv
                 void setFileExtensions(const std::set<std::string>&);
 
                 const System::File::Path& getPath() const;
+
                 void setPath(const System::File::Path &);
                 void setCallback(const std::function<void(const System::File::Info&)>&);
 

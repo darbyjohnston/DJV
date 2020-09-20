@@ -63,6 +63,7 @@ namespace djv
                 GLFWwindow* getGLFWWindow() const;
 
                 std::shared_ptr<Core::IValueSubject<SwapInterval> > observeSwapInterval() const;
+
                 void setSwapInterval(SwapInterval);
 
             private:

@@ -20,7 +20,6 @@ namespace djv
         private:
             void _ctor();
             void _getSet();
-            void _rgbToHSV(float, float, float);
             void _util();
             void _operators();
         };

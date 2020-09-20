@@ -88,6 +88,7 @@ namespace djv
             void fitWindow();
 
             std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
+
             void setHUDOptions(const HUDOptions&);
 
             std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;

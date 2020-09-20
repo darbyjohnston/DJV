@@ -27,11 +27,13 @@ namespace djv
                 static std::shared_ptr<CheckBox> create(const std::shared_ptr<System::Context>&);
 
                 std::string getText() const;
+
                 void setText(const std::string&);
 
                 const std::string& getFontFamily() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
+
                 void setFontFamily(const std::string&);
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);

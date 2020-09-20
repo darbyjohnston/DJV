@@ -31,6 +31,7 @@ namespace djv
             void clearItems();
 
             int getCurrentItem() const;
+
             void setCurrentItem(int);
             void firstItem();
             void lastItem();
@@ -38,6 +39,7 @@ namespace djv
             void nextItem();
 
             bool isOpen() const;
+
             void open();
             void close();
 

@@ -44,12 +44,15 @@ namespace djv
                 void addExpander();
 
                 Orientation getOrientation() const;
+
                 void setOrientation(Orientation);
 
                 const Spacing& getSpacing() const;
+
                 void setSpacing(const Spacing&);
 
                 RowStretch getStretch(const std::shared_ptr<Widget>&) const;
+
                 void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
                 float getHeightForWidth(float) const override;

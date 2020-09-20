@@ -42,26 +42,31 @@ namespace djv
             static std::shared_ptr<FileSettings> create(const std::shared_ptr<System::Context>&);
             
             std::shared_ptr<Core::IValueSubject<size_t> > observeOpenMax() const;
+
             void setOpenMax(size_t);
 
             std::shared_ptr<Core::IListSubject<System::File::Info> > observeRecentFiles() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeRecentFilesMax() const;
             std::map<std::string, bool> getRecentFilesSettingsBellowsState() const;
+
             void setRecentFiles(const std::vector<System::File::Info>&);
             void setRecentFilesMax(size_t);
             void setRecentFilesSettingsBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeSequencesFirstFrame() const;
+
             void setAutoDetectSequences(bool);
             void setSequencesFirstFrame(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
             std::shared_ptr<Core::IValueSubject<int> > observeCacheSize() const;
+
             void setCacheEnabled(bool);
             void setCacheSize(int);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value&) override;

@@ -4,6 +4,8 @@
 
 #include <djvImage/ImageData.h>
 
+#include <djvCore/UIDFunc.h>
+
 namespace djv
 {
     namespace Image

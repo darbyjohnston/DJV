@@ -26,6 +26,7 @@ namespace djv
 
             std::vector<Number> toFrames(const Range&);
             std::vector<Number> toFrames(const Sequence&);
+
             Sequence fromFrames(const std::vector<Number>&);
 
             std::string toString(Number, size_t pad = 0);

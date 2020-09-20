@@ -22,6 +22,7 @@ namespace djv
             static std::shared_ptr<InstancePrimitive> create();
 
             const std::vector<std::shared_ptr<IPrimitive> >& getInstances() const;
+
             void setInstances(const std::vector<std::shared_ptr<IPrimitive> >&);
             void addInstance(const std::shared_ptr<IPrimitive>&);
 

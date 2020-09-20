@@ -33,9 +33,11 @@ namespace djv
             static std::shared_ptr<FloatLabel> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<Math::FloatValueModel>& getModel() const;
+
             void setModel(const std::shared_ptr<Math::FloatValueModel>&);
 
             size_t getPrecision();
+
             void setPrecision(size_t);
             
             static std::string getSizeString(const Math::FloatRange&, size_t precision);

@@ -4,6 +4,8 @@
 
 #include <djvGeom/PointList.h>
 
+#include <djvCore/UIDFunc.h>
+
 using namespace djv::Core;
 
 namespace djv

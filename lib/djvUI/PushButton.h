@@ -28,22 +28,27 @@ namespace djv
                 static std::shared_ptr<Push> create(const std::shared_ptr<System::Context>&);
 
                 std::string getIcon() const;
+
                 void setIcon(const std::string&);
 
                 std::string getText() const;
+
                 void setText(const std::string&);
 
                 TextHAlign getTextHAlign() const;
+
                 void setTextHAlign(TextHAlign);
 
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
+
                 void setFont(const std::string&);
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
                 const Layout::Margin& getInsideMargin() const;
+
                 void setInsideMargin(const Layout::Margin&);
 
                 void setForegroundColorRole(ColorRole) override;

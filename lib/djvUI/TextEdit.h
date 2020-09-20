@@ -26,16 +26,19 @@ namespace djv
             static std::shared_ptr<TextEdit> create(const std::shared_ptr<System::Context>&);
 
             const std::string& getText() const;
+
             void setText(const std::string&);
             void appendText(const std::string&);
             void clearText();
 
             MetricsRole getTextSizeRole() const;
+
             void setTextSizeRole(MetricsRole);
 
             const std::string& getFontFamily() const;
             const std::string& getFontFace() const;
             MetricsRole getFontSizeRole() const;
+
             void setFontFamily(const std::string&);
             void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);

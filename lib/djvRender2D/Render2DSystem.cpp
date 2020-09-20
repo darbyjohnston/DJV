@@ -57,14 +57,19 @@ namespace djv
             return _p->alphaBlend;
         }
 
-        void Render2DSystem::setAlphaBlend(AlphaBlend value)
-        {
-            _p->alphaBlend->setIfChanged(value);
-        }
-
         std::shared_ptr<IValueSubject<ImageFilterOptions> > Render2DSystem::observeImageFilterOptions() const
         {
             return _p->imageFilterOptions;
+        }
+
+        std::shared_ptr<IValueSubject<bool> > Render2DSystem::observeTextLCDRendering() const
+        {
+            return _p->textLCDRendering;
+        }
+
+        void Render2DSystem::setAlphaBlend(AlphaBlend value)
+        {
+            _p->alphaBlend->setIfChanged(value);
         }
 
         void Render2DSystem::setImageFilterOptions(const ImageFilterOptions& value)
@@ -74,11 +79,6 @@ namespace djv
             {
                 p.render->setImageFilterOptions(value);
             }
-        }
-
-        std::shared_ptr<IValueSubject<bool> > Render2DSystem::observeTextLCDRendering() const
-        {
-            return _p->textLCDRendering;
         }
 
         void Render2DSystem::setTextLCDRendering(bool value)

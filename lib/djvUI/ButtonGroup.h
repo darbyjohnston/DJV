@@ -35,10 +35,12 @@ namespace djv
                 const std::vector<std::shared_ptr<IButton> >& getButtons() const;
                 size_t getButtonCount() const;
                 int getButtonIndex(const std::shared_ptr<IButton>&) const;
+
                 void setButtons(const std::vector<std::shared_ptr<IButton> >&);
                 void clearButtons();
 
                 int getChecked() const;
+
                 void setChecked(int, bool = true);
 
                 void setPushCallback(const std::function<void(int)>&);

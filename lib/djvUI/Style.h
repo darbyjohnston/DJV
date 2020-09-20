@@ -35,9 +35,11 @@ namespace djv
                 Palette();
 
                 const Image::Color& getColor(ColorRole) const;
+
                 void setColor(ColorRole, const Image::Color&);
 
                 float getDisabledMult() const;
+
                 void setDisabledMult(float);
 
                 bool operator == (const Palette&) const;
@@ -54,6 +56,7 @@ namespace djv
                 Metrics();
 
                 float getMetric(MetricsRole role) const;
+
                 void setMetric(MetricsRole, float);
 
                 bool operator == (const Metrics&) const;

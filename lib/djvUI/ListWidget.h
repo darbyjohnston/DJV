@@ -47,6 +47,7 @@ namespace djv
             void clearItems();
 
             int getChecked() const;
+
             void setChecked(int, bool = true);
 
             void setPushCallback(const std::function<void(int)>&);

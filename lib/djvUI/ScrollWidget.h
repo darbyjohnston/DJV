@@ -44,9 +44,11 @@ namespace djv
             static std::shared_ptr<ScrollWidget> create(ScrollType, const std::shared_ptr<System::Context>&);
 
             ScrollType getScrollType() const;
+
             void setScrollType(ScrollType);
 
             const glm::vec2& getScrollPos() const;
+
             void setScrollPos(const glm::vec2&);
             void moveToBegin();
             void moveToEnd();
@@ -58,12 +60,14 @@ namespace djv
             void moveRight();
 
             bool hasAutoHideScrollBars() const;
+
             void setAutoHideScrollBars(bool);
 
             void setBorder(bool);
 
             MetricsRole getMinimumSizeRole() const;
             MetricsRole getScrollBarSizeRole() const;
+
             void setMinimumSizeRole(MetricsRole);
             void setScrollBarSizeRole(MetricsRole);
 

@@ -27,10 +27,12 @@ namespace djv
 
                 bool hasCapturePointer() const;
                 bool hasCaptureKeyboard() const;
+
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
 
                 bool hasFadeIn() const;
+
                 void setFadeIn(bool);
 
                 void setCloseCallback(const std::function<void(void)>&);

@@ -63,23 +63,28 @@ namespace djv
             void setModel(const std::shared_ptr<Math::INumericValueModel<float> >&);
 
             Math::FloatRange getRange() const;
+
             void setRange(const Math::FloatRange&);
 
             float getValue() const;
+
             void setValue(float);
             void setValueCallback(const std::function<void(float)>&);
             
             float getDefault() const;
+
             void setDefault(float);
             void setDefaultVisible(bool);
             void resetValue();
 
             float getSmallIncrement() const;
             float getLargeIncrement() const;
+
             void setSmallIncrement(float);
             void setLargeIncrement(float);
 
             const Core::Time::Duration& getDelay() const;
+
             void setDelay(const Core::Time::Duration&);
 
             const std::shared_ptr<Math::INumericValueModel<float>>& getModel() const;

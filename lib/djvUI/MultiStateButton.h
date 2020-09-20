@@ -30,11 +30,13 @@ namespace djv
                 void clearIcons();
 
                 int getCurrentIndex() const;
+
                 void setCurrentIndex(int);
 
                 void setCallback(const std::function<void(int)>&);
 
                 MetricsRole getInsideMargin() const;
+
                 void setInsideMargin(MetricsRole);
 
             protected:

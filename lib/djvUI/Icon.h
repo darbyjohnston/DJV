@@ -25,12 +25,15 @@ namespace djv
             static std::shared_ptr<Icon> create(const std::shared_ptr<System::Context>&);
 
             const std::string& getIcon() const;
+
             void setIcon(const std::string&);
 
             ColorRole getIconColorRole() const;
+
             void setIconColorRole(ColorRole);
 
             MetricsRole getIconSizeRole() const;
+
             void setIconSizeRole(MetricsRole);
 
         protected:

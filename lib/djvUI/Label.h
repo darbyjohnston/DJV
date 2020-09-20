@@ -24,38 +24,69 @@ namespace djv
         public:
             ~Label() override;
 
-            //! \name Label Creation
+            //! \name Creation
             ///@{
 
             static std::shared_ptr<Label> create(const std::shared_ptr<System::Context>&);
 
             ///@}
 
-            //! \name Label Text
+            //! \name Text
             ///@{
 
             const std::string& getText() const;
+
             void setText(const std::string&);
+
+            ///@}
+
+            //! \name Text Align
+            ///@{
 
             TextHAlign getTextHAlign() const;
             TextVAlign getTextVAlign() const;
+
             void setTextHAlign(TextHAlign);
             void setTextVAlign(TextVAlign);
 
+            ///@}
+
+            //! \name Text Color Role
+            ///@{
+
             ColorRole getTextColorRole() const;
+
             void setTextColorRole(ColorRole);
+
+            ///@}
+
+            //! \name Font
+            ///@{
 
             const std::string& getFontFamily() const;
             const std::string& getFontFace() const;
             MetricsRole getFontSizeRole() const;
+
             void setFontFamily(const std::string&);
             void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
 
+            ///@}
+
+            //! \name Elide
+            ///@{
+
             int getElide() const;
+
             void setElide(int);
 
+            ///@}
+
+            //! \name Size String
+            ///@{
+
             const std::string& getSizeString() const;
+
             void setSizeString(const std::string&);
 
             ///@}

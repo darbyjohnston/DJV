@@ -34,9 +34,11 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeRestorePos() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeRestoreSize() const;
+
             const glm::ivec2& getWindowPos() const;
             const glm::ivec2& getWindowSize() const;
             const glm::ivec2& getWindowSizeDefault() const;
+
             void setRestorePos(bool);
             void setRestoreSize(bool);
             void setWindowPos(const glm::ivec2&);
@@ -44,21 +46,26 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
             std::shared_ptr<Core::IValueSubject<int> > observeFullScreenMonitor() const;
+
             void setFullScreen(bool);
             void setFullScreenMonitor(int);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFloatOnTop() const;
+
             void setFloatOnTop(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeMaximize() const;
+
             void setMaximize(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoHide() const;
+
             void setAutoHide(bool);
             
             std::shared_ptr<Core::IValueSubject<std::string> > observeBackgroundImage() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageScale() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageColorize() const;
+
             void setBackgroundImage(const std::string&);
             void setBackgroundImageScale(bool);
             void setBackgroundImageColorize(bool);

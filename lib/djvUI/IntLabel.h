@@ -33,6 +33,7 @@ namespace djv
             static std::shared_ptr<IntLabel> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<Math::IntValueModel>& getModel() const;
+
             void setModel(const std::shared_ptr<Math::IntValueModel>&);
 
             static std::string getSizeString(const Math::IntRange&);

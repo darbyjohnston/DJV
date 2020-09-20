@@ -36,21 +36,27 @@ namespace djv
             static std::shared_ptr<ViewSettings> create(const std::shared_ptr<System::Context>&);
 
             const std::map<std::string, bool> getBellowsState() const;
+
             void setBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<ViewLock> > observeLock() const;
+
             void setLock(ViewLock);
 
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
+
             void setGridOptions(const GridOptions&);
 
             std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
+
             void setHUDOptions(const HUDOptions&);
 
             std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
+
             void setBackgroundOptions(const ViewBackgroundOptions&);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;

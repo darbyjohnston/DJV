@@ -30,6 +30,7 @@ namespace djv
             const std::shared_ptr<VAO>& getVAO() const;
 
             bool getItem(Core::UID, Math::SizeTRange&);
+
             Core::UID addItem(const std::vector<uint8_t>&, Math::SizeTRange&);
 
             float getPercentageUsed() const;

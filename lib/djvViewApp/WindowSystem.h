@@ -35,12 +35,15 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<MediaWidget> > > observeActiveWidget() const;
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
+
             void setFullScreen(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFloatOnTop() const;
+            
             void setFloatOnTop(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeMaximize() const;
+            
             void setMaximize(bool);
 
             std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
