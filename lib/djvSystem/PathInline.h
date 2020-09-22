@@ -73,11 +73,6 @@ namespace djv
                 _extension = value;
             }
 
-            inline bool Path::operator == (const Path& other) const
-            {
-                return get() == other.get();
-            }
-
             inline bool Path::operator != (const Path& other) const
             {
                 return !(*this == other);

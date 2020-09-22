@@ -51,6 +51,13 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            //! \todo Should this be configurable?
+            const size_t elide = 40;
+
+        } // namespace
+
         struct MainWindow::Private
         {
             std::vector<std::shared_ptr<Media> > media;
@@ -112,6 +119,7 @@ namespace djv
             addChild(p.mediaMenu);
             p.mediaButton = UI::Button::Menu::create(UI::MenuButtonStyle::Flat, context);
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
+            p.mediaButton->setElide(elide);
             p.mediaButton->setEnabled(false);
 
             auto viewFrameButton = UI::ToolButton::create(context);

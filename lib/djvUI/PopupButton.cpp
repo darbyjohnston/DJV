@@ -229,12 +229,12 @@ namespace djv
                 _p->button->setFontSizeRole(value);
             }
 
-            int Popup::getElide() const
+            size_t Popup::getElide() const
             {
                 return _p->button->getElide();
             }
 
-            void Popup::setElide(int value)
+            void Popup::setElide(size_t value)
             {
                 _p->button->setElide(value);
             }

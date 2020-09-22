@@ -35,7 +35,7 @@ namespace djv
             Render2D::Font::Metrics fontMetrics;
             std::future<Render2D::Font::Metrics> fontMetricsFuture;
 
-            int elide = 0;
+            size_t elide = 0;
 
             glm::vec2 textSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> textSizeFuture;
@@ -174,12 +174,12 @@ namespace djv
             _fontUpdate();
         }
 
-        int Label::getElide() const
+        size_t Label::getElide() const
         {
             return _p->elide;
         }
 
-        void Label::setElide(int value)
+        void Label::setElide(size_t value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.elide)

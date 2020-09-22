@@ -31,7 +31,7 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
-                int elide = 0;
+                size_t elide = 0;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
@@ -231,12 +231,12 @@ namespace djv
                 _widgetUpdate();
             }
 
-            int List::getElide() const
+            size_t List::getElide() const
             {
                 return _p->elide;
             }
 
-            void List::setElide(int value)
+            void List::setElide(size_t value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.elide)

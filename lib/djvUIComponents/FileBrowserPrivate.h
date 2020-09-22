@@ -34,6 +34,8 @@ namespace djv
     {
         namespace FileBrowser
         {
+            std::string getPathLabel(const System::File::Path&);
+
             const Math::IntRange thumbnailSizeRange(50, 800);
 
             //! This class provides a file browser path widget.
@@ -102,13 +104,19 @@ namespace djv
                 DJV_NON_COPYABLE(ShortcutsWidget);
 
             protected:
-                void _init(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<System::Context>&);
+                void _init(
+                    const std::shared_ptr<ShortcutsModel>&,
+                    size_t elide,
+                    const std::shared_ptr<System::Context>&);
                 ShortcutsWidget();
 
             public:
                 ~ShortcutsWidget() override;
 
-                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<ShortcutsWidget> create(
+                    const std::shared_ptr<ShortcutsModel>&,
+                    size_t elide,
+                    const std::shared_ptr<System::Context>&);
 
                 void setPath(const System::File::Path&);
                 void setCallback(const std::function<void(const System::File::Path&)>&);
@@ -129,13 +137,19 @@ namespace djv
                 DJV_NON_COPYABLE(RecentPathsWidget);
 
             protected:
-                void _init(const std::shared_ptr<System::File::RecentFilesModel>&, const std::shared_ptr<System::Context>&);
+                void _init(
+                    const std::shared_ptr<System::File::RecentFilesModel>&,
+                    size_t elide,
+                    const std::shared_ptr<System::Context>&);
                 RecentPathsWidget();
 
             public:
                 ~RecentPathsWidget() override;
 
-                static std::shared_ptr<RecentPathsWidget> create(const std::shared_ptr<System::File::RecentFilesModel>&, const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<RecentPathsWidget> create(
+                    const std::shared_ptr<System::File::RecentFilesModel>&,
+                    size_t elide,
+                    const std::shared_ptr<System::Context>&);
 
                 void setCallback(const std::function<void(const System::File::Path&)>&);
 
@@ -153,13 +167,19 @@ namespace djv
                 DJV_NON_COPYABLE(DrivesWidget);
 
             protected:
-                void _init(const std::shared_ptr<System::File::DrivesModel>&, const std::shared_ptr<System::Context>&);
+                void _init(
+                    const std::shared_ptr<System::File::DrivesModel>&,
+                    size_t elide,
+                    const std::shared_ptr<System::Context>&);
                 DrivesWidget();
 
             public:
                 ~DrivesWidget() override;
 
-                static std::shared_ptr<DrivesWidget> create(const std::shared_ptr<System::File::DrivesModel>&, const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<DrivesWidget> create(
+                    const std::shared_ptr<System::File::DrivesModel>&,
+                    size_t elide,
+                    const std::shared_ptr<System::Context>&);
 
                 void setCallback(const std::function<void(const System::File::Path&)>&);
 

@@ -21,6 +21,13 @@ namespace djv
     {
         namespace FileBrowser
         {
+            namespace
+            {
+                //! \todo Should this be configurable?
+                const size_t elide = 20;
+
+            } // namespace
+
             struct DrawerWidget::Private
             {
                 std::shared_ptr<ShortcutsWidget> shortcutsWidget;
@@ -45,15 +52,15 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::DrawerWidget");
 
-                p.shortcutsWidget = ShortcutsWidget::create(shortcutsModel, context);
+                p.shortcutsWidget = ShortcutsWidget::create(shortcutsModel, elide, context);
                 p.bellows["Shortcuts"] = Bellows::create(context);
                 p.bellows["Shortcuts"]->addChild(p.shortcutsWidget);
 
-                auto recentPathsWidget = RecentPathsWidget::create(recentFilesModel, context);
+                auto recentPathsWidget = RecentPathsWidget::create(recentFilesModel, elide, context);
                 p.bellows["Recent"] = Bellows::create(context);
                 p.bellows["Recent"]->addChild(recentPathsWidget);
 
-                auto drivesWidget = DrivesWidget::create(drivesModel, context);
+                auto drivesWidget = DrivesWidget::create(drivesModel, elide, context);
                 p.bellows["Drives"] = Bellows::create(context);
                 p.bellows["Drives"]->addChild(drivesWidget);
 

@@ -81,6 +81,9 @@ namespace djv
                         
             inline bool Info::operator == (const Info& in) const
             {
+                std::string path = _path.get();
+
+                std::string inPath = in._path.get();
                 return
                     in._path == _path &&
                     in._type == _type &&

@@ -20,6 +20,8 @@ namespace djv
         {
             struct RecentPathsWidget::Private
             {
+                size_t elide = 0;
+
                 std::shared_ptr<VerticalLayout> layout;
 
                 std::function<void(const System::File::Path&)> callback;
@@ -29,12 +31,15 @@ namespace djv
 
             void RecentPathsWidget::_init(
                 const std::shared_ptr<System::File::RecentFilesModel> & model,
+                size_t elide,
                 const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
-
                 DJV_PRIVATE_PTR();
+
                 setClassName("djv::UI::FileBrowser::RecentPathsWidget");
+
+                p.elide = elide;
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
@@ -55,13 +60,9 @@ namespace djv
                                 {
                                     auto button = ListButton::create(context);
                                     const auto path = i.getPath();
-                                    std::string s = path.getFileName();
-                                    if (s.empty())
-                                    {
-                                        s = std::string(i);
-                                    }
-                                    button->setText(s);
-                                    button->setTooltip(std::string(i));
+                                    button->setText(getPathLabel(path));
+                                    button->setElide(widget->_p->elide);
+                                    button->setTooltip(path.get());
 
                                     widget->_p->layout->addChild(button);
 
@@ -91,10 +92,11 @@ namespace djv
 
             std::shared_ptr<RecentPathsWidget> RecentPathsWidget::create(
                 const std::shared_ptr<System::File::RecentFilesModel> & model,
+                size_t elide,
                 const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<RecentPathsWidget>(new RecentPathsWidget);
-                out->_init(model, context);
+                out->_init(model, elide, context);
                 return out;
             }
 

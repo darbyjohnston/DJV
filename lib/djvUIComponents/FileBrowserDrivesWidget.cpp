@@ -22,6 +22,8 @@ namespace djv
             {
                 std::vector<System::File::Path> drives;
 
+                size_t elide = 0;
+
                 std::shared_ptr<VerticalLayout> layout;
 
                 std::function<void(const System::File::Path &)> callback;
@@ -29,12 +31,17 @@ namespace djv
                 std::shared_ptr<ListObserver<System::File::Path> > drivesObserver;
             };
 
-            void DrivesWidget::_init(const std::shared_ptr<System::File::DrivesModel>& model, const std::shared_ptr<System::Context>& context)
+            void DrivesWidget::_init(
+                const std::shared_ptr<System::File::DrivesModel>& model,
+                size_t elide,
+                const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::FileBrowser::DrivesWidget");
+
+                p.elide = elide;
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
@@ -54,12 +61,9 @@ namespace djv
                                 for (const auto& i : value)
                                 {
                                     auto button = ListButton::create(context);
-                                    std::string s = i.getFileName();
-                                    if (s.empty())
-                                    {
-                                        s = std::string(i);
-                                    }
-                                    button->setText(s);
+                                    button->setText(getPathLabel(i));
+                                    button->setElide(widget->_p->elide);
+                                    button->setTooltip(i.get());
 
                                     widget->_p->layout->addChild(button);
 
@@ -88,10 +92,13 @@ namespace djv
             DrivesWidget::~DrivesWidget()
             {}
 
-            std::shared_ptr<DrivesWidget> DrivesWidget::create(const std::shared_ptr<System::File::DrivesModel>& model, const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<DrivesWidget> DrivesWidget::create(
+                const std::shared_ptr<System::File::DrivesModel>& model,
+                size_t elide,
+                const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<DrivesWidget>(new DrivesWidget);
-                out->_init(model, context);
+                out->_init(model, elide, context);
                 return out;
             }
 

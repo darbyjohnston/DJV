@@ -29,6 +29,7 @@ set(source
     FileBrowserDialog.cpp
     FileBrowserDrawerWidget.cpp
     FileBrowserDrivesWidget.cpp
+    FileBrowserFunc.cpp
     FileBrowserItemView.cpp
     FileBrowserMenu.cpp
     FileBrowserPathWidget.cpp

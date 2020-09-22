@@ -24,6 +24,7 @@ namespace djv
             {
                 System::File::Path path;
                 bool edit = false;
+                size_t elide = 0;
                 std::shared_ptr<ToolButton> addButton;
                 std::shared_ptr<ToolButton> editButton;
                 std::shared_ptr<ButtonGroup> deleteButtonGroup;
@@ -35,12 +36,15 @@ namespace djv
 
             void ShortcutsWidget::_init(
                 const std::shared_ptr<ShortcutsModel> & model,
+                size_t elide,
                 const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ShortcutsWidget");
+
+                p.elide = elide;
 
                 p.addButton = ToolButton::create(context);
                 p.addButton->setIcon("djvIconAdd");
@@ -110,13 +114,9 @@ namespace djv
                                 for (const auto& i : value)
                                 {
                                     auto button = ListButton::create(context);
-                                    std::string s = i.getFileName();
-                                    if (s.empty())
-                                    {
-                                        s = std::string(i);
-                                    }
-                                    button->setText(s);
-                                    button->setTooltip(std::string(i));
+                                    button->setText(getPathLabel(i));
+                                    button->setElide(widget->_p->elide);
+                                    button->setTooltip(i.get());
 
                                     auto deleteButton = ToolButton::create(context);
                                     deleteButton->setIcon("djvIconClearSmall");
@@ -160,10 +160,11 @@ namespace djv
 
             std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(
                 const std::shared_ptr<ShortcutsModel> & model,
+                size_t elide,
                 const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ShortcutsWidget>(new ShortcutsWidget);
-                out->_init(model, context);
+                out->_init(model, elide, context);
                 return out;
             }
 

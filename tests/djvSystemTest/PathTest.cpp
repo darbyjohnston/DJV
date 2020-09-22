@@ -161,11 +161,19 @@ namespace djv
         
         void PathTest::_operators()
         {
-            const File::Path path("/a/b");
-            DJV_ASSERT(path == path);
-            File::Path path2;
-            DJV_ASSERT(path2 != path);
-            DJV_ASSERT(path2 < path);
+            {
+                const File::Path path("/a/b");
+                DJV_ASSERT(path == path);
+                File::Path path2;
+                DJV_ASSERT(path2 != path);
+                DJV_ASSERT(path2 < path);
+            }
+
+            {
+                const File::Path path("/a/b");
+                const File::Path path2("/a/b/");
+                DJV_ASSERT(path == path2);
+            }
         }
         
     } // namespace SystemTest

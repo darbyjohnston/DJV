@@ -142,6 +142,15 @@ namespace djv
                 set(_directoryName + value);
             }
 
+            bool Path::operator == (const Path& other) const
+            {
+                std::string s = get();
+                removeTrailingSeparator(s);
+                std::string s2 = other.get();
+                removeTrailingSeparator(s2);
+                return s == s2;
+            }
+
         } // namespace File
     } // namespace System
 } // namespace djv

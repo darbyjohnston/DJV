@@ -76,9 +76,9 @@ namespace djv
             //! \name Elide
             ///@{
 
-            int getElide() const;
+            size_t getElide() const;
 
-            void setElide(int);
+            void setElide(size_t);
 
             ///@}
 
