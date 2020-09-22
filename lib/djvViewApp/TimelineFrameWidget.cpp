@@ -61,7 +61,6 @@ namespace djv
             p.lineEditBase = UI::LineEditBase::create(context);
             p.lineEditBase->setFont(Render2D::Font::familyMono);
             p.lineEditBase->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.lineEditBase->setBackgroundRole(UI::ColorRole::None);
             p.lineEditBase->addAction(nextAction);
             p.lineEditBase->addAction(prevAction);
             p.lineEditBase->addAction(nextX10Action);
