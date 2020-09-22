@@ -11,7 +11,6 @@
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/ViewWidget.h>
 
-#include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
@@ -80,15 +79,13 @@ namespace djv
             ViewLock viewLock = ViewLock::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<Image::Image> frameStore;
-            bool active = false;
             std::shared_ptr<ValueSubject<PointerData> > hover;
             std::shared_ptr<ValueSubject<PointerData> > drag;
             std::shared_ptr<ValueSubject<ScrollData> > scroll;
 
-            std::shared_ptr<TitleBar> titleBar;
             std::shared_ptr<PointerWidget> pointerWidget;
             std::shared_ptr<ViewWidget> viewWidget;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::StackLayout> layout;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
@@ -99,7 +96,7 @@ namespace djv
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
         {
-            IWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MediaWidget");
@@ -109,50 +106,17 @@ namespace djv
             p.drag = ValueSubject<PointerData>::create();
             p.scroll = ValueSubject<ScrollData>::create();
 
-            p.titleBar = TitleBar::create(
-                media->getFileInfo().getFileName(Math::Frame::invalid, false),
-                std::string(media->getFileInfo()),
-                context);
-
             p.pointerWidget = PointerWidget::create(context);
 
             p.viewWidget = ViewWidget::create(media, context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout = UI::StackLayout::create(context);
             p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.layout->addChild(p.titleBar);
-            auto stackLayout = UI::StackLayout::create(context);
-            stackLayout->addChild(p.viewWidget);
-            stackLayout->addChild(p.pointerWidget);
-            p.layout->addChild(stackLayout);
-            p.layout->setStretch(stackLayout, UI::RowStretch::Expand);
+            p.layout->addChild(p.viewWidget);
+            p.layout->addChild(p.pointerWidget);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
-            p.titleBar->setMaximizeCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(widget->getParent().lock()))
-                        {
-                            widget->moveToFront();
-                            canvas->setMaximize(!canvas->isMaximized());
-                        }
-                    }
-                });
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.titleBar->setCloseCallback(
-                [media, contextWeak]
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto fileSystem = context->getSystemT<FileSystem>();
-                        fileSystem->close(media);
-                    }
-                });
-
             p.pointerWidget->setHoverCallback(
                 [weak](const PointerData& data)
                 {
@@ -268,18 +232,6 @@ namespace djv
             return _p->viewWidget;
         }
 
-        void MediaWidget::fitWindow()
-        {
-            DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const Math::BBox2f imageBBox = p.viewWidget->getImageBBox();
-            const float zoom = p.viewWidget->observeImageZoom()->get();
-            const glm::vec2 imageSize = imageBBox.getSize() * zoom;
-            glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y + p.titleBar->getHeight()));
-            resize(size + sh * 2.F);
-        }
-
         std::shared_ptr<IValueSubject<PointerData> > MediaWidget::observeHover() const
         {
             return _p->hover;
@@ -295,36 +247,10 @@ namespace djv
             return _p->scroll;
         }
 
-        std::map<UI::MDI::Handle, std::vector<Math::BBox2f> > MediaWidget::_getHandles() const
-        {
-            auto out = IWidget::_getHandles();
-            out[UI::MDI::Handle::Move] = { _p->titleBar->getGeometry() };
-            return out;
-        }
-
-        void MediaWidget::_setMaximize(float value)
-        {
-            IWidget::_setMaximize(value);
-            DJV_PRIVATE_PTR();
-            p.titleBar->setMaximize(value);
-            _resize();
-        }
-
-        void MediaWidget::_setActiveWidget(bool value)
-        {
-            IWidget::_setActiveWidget(value);
-            DJV_PRIVATE_PTR();
-            p.active = value;
-            p.titleBar->setActive(value);
-            p.scroll->setAlways(ScrollData(glm::vec2(0.F, 0.F), 0, 0));
-            _imageUpdate();
-        }
-
         void MediaWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float sh = style->getMetric(UI::MetricsRole::Shadow);
             const glm::vec2& minimumSize = p.layout->getMinimumSize();
 
             glm::vec2 imageSize = p.viewWidget->getMinimumSize();
@@ -341,22 +267,19 @@ namespace djv
             }
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
             
-            _setMinimumSize(size + sh * 2.F);
+            _setMinimumSize(size);
         }
 
         void MediaWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const Math::BBox2f g = getGeometry().margin(-sh);
-            p.layout->setGeometry(g);
+            p.layout->setGeometry(getGeometry());
         }
 
         void MediaWidget::_imageUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.viewWidget->setImage(p.active && p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
+            p.viewWidget->setImage(p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
         }
 
     } // namespace ViewApp

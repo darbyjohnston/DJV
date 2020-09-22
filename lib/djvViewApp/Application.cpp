@@ -173,8 +173,6 @@ namespace djv
 
             // Create the main window.
             p.mainWindow = MainWindow::create(shared_from_this());
-            auto windowSystem = getSystemT<WindowSystem>();
-            windowSystem->setMediaCanvas(p.mainWindow->getMediaCanvas());
 
             // NUX.
             auto nuxSystem = getSystemT<NUXSystem>();
@@ -258,6 +256,7 @@ namespace djv
             fileSystem->open(p.cmdlinePaths, openOptions);
 
             // Apply command-line arguments.
+            auto windowSystem = getSystemT<WindowSystem>();
             if (p.fullScreenMonitorCmdLine && windowSystem)
             {
                 auto settingsSystem = getSystemT<UI::Settings::SettingsSystem>();

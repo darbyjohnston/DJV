@@ -10,8 +10,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        class MediaCanvas;
-
         //! This class provides the main window.
         class MainWindow : public UI::Window
         {
@@ -25,8 +23,6 @@ namespace djv
             ~MainWindow() override;
 
             static std::shared_ptr<MainWindow> create(const std::shared_ptr<System::Context>&);
-
-            const std::shared_ptr<MediaCanvas>& getMediaCanvas() const;
 
         protected:
             void _dropEvent(System::Event::Drop&) override;

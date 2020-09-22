@@ -53,7 +53,6 @@ namespace djv
 
             std::shared_ptr<FileSettings> settings;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
-            std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
@@ -90,7 +89,6 @@ namespace djv
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.opened = ValueSubject<std::shared_ptr<Media> >::create();
-            p.opened2 = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
             p.closed = ValueSubject<std::shared_ptr<Media> >::create();
             p.media = ListSubject<std::shared_ptr<Media> >::create();
             p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
@@ -423,11 +421,6 @@ namespace djv
             return _p->opened;
         }
 
-        std::shared_ptr<IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > FileSystem::observeOpened2() const
-        {
-            return _p->opened2;
-        }
-
         std::shared_ptr<IValueSubject<std::shared_ptr<Media>> > FileSystem::observeClosed() const
         {
             return _p->closed;
@@ -526,20 +519,10 @@ namespace djv
                     }
                 }
                 p.media->pushBack(media);
-                if (options.pos)
-                {
-                    p.opened2->setIfChanged(std::make_pair(media, *options.pos));
-                    // Reset the observer so we don't have an extra shared_ptr holding
-                    // onto the media object.
-                    p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
-                }
-                else
-                {
-                    p.opened->setIfChanged(media);
-                    // Reset the observer so we don't have an extra shared_ptr holding
-                    // onto the media object.
-                    p.opened->setIfChanged(nullptr);
-                }
+                p.opened->setIfChanged(media);
+                // Reset the observer so we don't have an extra shared_ptr holding
+                // onto the media object.
+                p.opened->setIfChanged(nullptr);
                 setCurrentMedia(media);
                 p.recentFilesModel->addFile(fileInfo);
                 _cacheUpdate();
@@ -556,11 +539,6 @@ namespace djv
                     options.frame.reset(new std::string(i.second));
                 }
                 open(i.first, options);
-                if (options.pos && options.spacing)
-                {
-                    options.pos->x += *options.spacing;
-                    options.pos->y += *options.spacing;
-                }
             }
         }
 

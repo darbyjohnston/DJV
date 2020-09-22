@@ -10,7 +10,6 @@
 #include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
-#include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SettingsSystem.h>
@@ -63,17 +62,19 @@ namespace djv
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<UI::Layout::Separator> menuBarSeparator;
-            std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::shared_ptr<TimelineWidget> timelineWidget;
             std::shared_ptr<UI::Layout::Separator> timelineSeparator;
+            std::map<std::shared_ptr<Media>, std::shared_ptr<MediaWidget> > mediaWidgets;
+            std::shared_ptr<UI::SoloLayout> mediaLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<ValueObserver<bool> > settingsActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > openedObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > closedObserver;
             std::shared_ptr<ValueObserver<bool> > presentationObserver;
-            std::shared_ptr<ValueObserver<bool> > maximizeObserver;
         };
         
         void MainWindow::_init(const std::shared_ptr<System::Context>& context)
@@ -113,13 +114,6 @@ namespace djv
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
-            auto maximizeButton = UI::ToolButton::create(context);
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            if (windowSystem)
-            {
-                maximizeButton->addAction(windowSystem->getActions()["Maximize"]);
-            }
-
             auto viewFrameButton = UI::ToolButton::create(context);
             auto viewCenterButton = UI::ToolButton::create(context);
             auto viewSystem = context->getSystemT<ViewSystem>();
@@ -156,8 +150,6 @@ namespace djv
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(maximizeButton);
-            p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(viewFrameButton);
@@ -176,8 +168,6 @@ namespace djv
 
             auto backgroundWidget = WindowBackgroundWidget::create(context);
 
-            p.mediaCanvas = MediaCanvas::create(context);
-
             p.canvas = UI::MDI::Canvas::create(context);
             for (auto system : viewSystems)
             {
@@ -193,7 +183,8 @@ namespace djv
             p.layout->addChild(p.menuBarSeparator);
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(backgroundWidget);
-            stackLayout->addChild(p.mediaCanvas);
+            p.mediaLayout = UI::SoloLayout::create(context);
+            stackLayout->addChild(p.mediaLayout);
             stackLayout->addChild(p.canvas);
             stackLayout->addChild(settingsDrawer);
             p.layout->addChild(stackLayout);
@@ -314,28 +305,76 @@ namespace djv
 
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
                     fileSystem->observeCurrentMedia(),
+                    [weak, contextWeak](const std::shared_ptr<Media>& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
+                                if (i != widget->_p->media.end())
+                                {
+                                    widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
+                                }
+                                widget->_p->mediaButton->setText(
+                                    value ?
+                                    value->getFileInfo().getFileName(Math::Frame::invalid, false) :
+                                    "-");
+                                widget->_p->mediaButton->setTooltip(std::string(
+                                    value ?
+                                    value->getFileInfo() :
+                                    System::File::Info()));
+                                const auto j = widget->_p->mediaWidgets.find(value);
+                                if (j != widget->_p->mediaWidgets.end())
+                                {
+                                    widget->_p->mediaLayout->setCurrentWidget(j->second);
+                                    if (auto windowSystem = context->getSystemT<WindowSystem>())
+                                    {
+                                        windowSystem->setActiveWidget(j->second);
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                p.openedObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeOpened(),
+                    [weak, contextWeak](const std::shared_ptr<Media>& value)
+                    {
+                        if (value)
+                        {
+                            if (auto context = contextWeak.lock())
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    auto mediaWidget = MediaWidget::create(value, context);
+                                    widget->_p->mediaLayout->addChild(mediaWidget);
+                                    widget->_p->mediaWidgets[value] = mediaWidget;
+                                }
+                            }
+                        }
+                    });
+
+                p.closedObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeClosed(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
-                        if (auto widget = weak.lock())
+                        if (value)
                         {
-                            const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
-                            if (i != widget->_p->media.end())
+                            if (auto widget = weak.lock())
                             {
-                                widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
+                                const auto i = widget->_p->mediaWidgets.find(value);
+                                if (i != widget->_p->mediaWidgets.end())
+                                {
+                                    widget->_p->mediaLayout->removeChild(i->second);
+                                    widget->_p->mediaWidgets.erase(i);
+                                }
                             }
-                            widget->_p->mediaButton->setText(
-                                value ?
-                                value->getFileInfo().getFileName(Math::Frame::invalid, false) :
-                                "-");
-                            widget->_p->mediaButton->setTooltip(std::string(
-                                value ?
-                                value->getFileInfo() :
-                                System::File::Info()));
                         }
                     });
             }
 
-            if (windowSystem)
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.presentationObserver = ValueObserver<bool>::create(
                     windowSystem->observePresentation(),
@@ -347,16 +386,6 @@ namespace djv
                             widget->_p->menuBarSeparator->setVisible(!value);
                             widget->_p->timelineWidget->setVisible(!value);
                             widget->_p->timelineSeparator->setVisible(!value);
-                        }
-                    });
-
-                p.maximizeObserver = ValueObserver<bool>::create(
-                    windowSystem->observeMaximize(),
-                    [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->mediaCanvas->setMaximize(value);
                         }
                     });
             }
@@ -376,21 +405,12 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<MediaCanvas>& MainWindow::getMediaCanvas() const
-        {
-            return _p->mediaCanvas;
-        }
-
         void MainWindow::_dropEvent(System::Event::Drop & event)
         {
             if (auto context = getContext().lock())
             {
-                const auto& style = _getStyle();
-                OpenOptions openOptions;
-                openOptions.pos.reset(new glm::vec2(event.getPointerInfo().projectedPos));
-                openOptions.spacing.reset(new float(style->getMetric(UI::MetricsRole::SpacingLarge)));
                 auto fileSystem = context->getSystemT<FileSystem>();
-                fileSystem->open(event.getDropPaths(), openOptions);
+                fileSystem->open(event.getDropPaths());
             }
         }
 

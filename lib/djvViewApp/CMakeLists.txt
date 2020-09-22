@@ -37,7 +37,6 @@ set(header
     MagnifyWidget.h
     MainWindow.h
     Media.h
-	MediaCanvas.h
 	MediaWidget.h
 	MediaWidgetPrivate.h
 	MemorySettingsWidget.h
@@ -114,8 +113,6 @@ set(source
     MagnifyWidget.cpp
     MainWindow.cpp
     Media.cpp
-	MediaCanvas.cpp
-	MediaTitleBar.cpp
 	MediaPointerWidget.cpp
 	MediaWidget.cpp
 	MemorySettingsWidget.cpp

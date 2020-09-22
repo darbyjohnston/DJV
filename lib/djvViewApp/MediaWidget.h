@@ -6,7 +6,7 @@
 
 #include <djvViewApp/Enum.h>
 
-#include <djvUI/MDIWidget.h>
+#include <djvUI/Widget.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -63,7 +63,7 @@ namespace djv
         };
 
         //! This class provides a media widget.
-        class MediaWidget : public UI::MDI::IWidget
+        class MediaWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(MediaWidget);
 
@@ -84,17 +84,11 @@ namespace djv
 
             const std::shared_ptr<ViewWidget>& getViewWidget() const;
 
-            void fitWindow();
-
             std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
             std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
             std::shared_ptr<Core::IValueSubject<ScrollData> > observeScroll() const;
 
         protected:
-            virtual std::map<UI::MDI::Handle, std::vector<Math::BBox2f> > _getHandles() const override;
-            void _setMaximize(float) override;
-            void _setActiveWidget(bool) override;
-
             void _preLayoutEvent(System::Event::PreLayout&) override;
             void _layoutEvent(System::Event::Layout&) override;
 

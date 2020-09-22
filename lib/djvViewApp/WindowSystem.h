@@ -30,9 +30,9 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(const std::shared_ptr<System::Context>&);
 
-            void setMediaCanvas(const std::shared_ptr<MediaCanvas>&);
-
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<MediaWidget> > > observeActiveWidget() const;
+
+            void setActiveWidget(const std::shared_ptr<MediaWidget>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
 
@@ -44,10 +44,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeFloatOnTop() const;
             
             void setFloatOnTop(bool);
-
-            std::shared_ptr<Core::IValueSubject<bool> > observeMaximize() const;
-            
-            void setMaximize(bool);
 
             std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
 

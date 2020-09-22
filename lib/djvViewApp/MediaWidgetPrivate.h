@@ -6,55 +6,10 @@
 
 #include <djvViewApp/MediaWidget.h>
 
-#include <djvMath/FrameNumber.h>
-
 namespace djv
 {
-    namespace Math
-    {
-        class Rational;
-    
-    } // namespace Math
-
     namespace ViewApp
     {
-        class TitleBar : public UI::Widget
-        {
-            DJV_NON_COPYABLE(TitleBar);
-
-        protected:
-            void _init(
-                const std::string& text,
-                const std::string& tooltip,
-                const std::shared_ptr<System::Context>&);
-            TitleBar();
-
-        public:
-            ~TitleBar() override;
-
-            static std::shared_ptr<TitleBar> create(
-                const std::string& text,
-                const std::string& toolTip,
-                const std::shared_ptr<System::Context>&);
-
-            void setActive(bool);
-            void setMaximize(float);
-
-            void setMaximizeCallback(const std::function<void(void)>&);
-            void setCloseCallback(const std::function<void(void)>&);
-
-        protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-
-            void _initEvent(System::Event::Init&) override;
-
-        private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
         class PointerWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(PointerWidget);

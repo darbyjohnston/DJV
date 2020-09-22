@@ -32,8 +32,6 @@ namespace djv
         //! This struct provides options for opening files.
         struct OpenOptions
         {
-            std::shared_ptr<glm::vec2>          pos;
-            std::shared_ptr<float>              spacing;
             std::shared_ptr<Math::Rational>     speed;
             std::shared_ptr<Math::Frame::Range> startEnd;
             std::shared_ptr<std::string>        inPoint;
@@ -56,7 +54,6 @@ namespace djv
             static std::shared_ptr<FileSystem> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
-            std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened2() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
