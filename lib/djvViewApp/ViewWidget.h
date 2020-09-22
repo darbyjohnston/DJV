@@ -49,16 +49,20 @@ namespace djv
                 const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Image::Image> > > observeImage() const;
+
             void setImage(const std::shared_ptr<Image::Image>&);
 
             std::shared_ptr<Core::IValueSubject<Render2D::ImageOptions> > observeImageOptions() const;
+            
             void setImageOptions(const Render2D::ImageOptions&);
 
             std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
             std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeImageRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeImageAspectRatio() const;
+            
             Math::BBox2f getImageBBox() const;
+            
             void setImagePos(const glm::vec2&, bool animate = false);
             void setImageZoom(float, bool animate = false);
             void setImageZoomFocus(float, const glm::vec2&, bool animate = false);
@@ -71,12 +75,14 @@ namespace djv
             void imageCenter(bool animate = false);
 
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
+            
             void setGridOptions(const GridOptions&);
 
             std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
             void setHUDOptions(const HUDOptions&);
 
             std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
+            
             void setBackgroundOptions(const ViewBackgroundOptions&);
 
             void setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >&);

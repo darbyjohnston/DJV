@@ -6,9 +6,6 @@ namespace djv
 {
     namespace GL
     {
-        inline OffscreenBuffer::OffscreenBuffer()
-        {}
-        
         inline const Image::Size& OffscreenBuffer::getSize() const
         {
             return _size;

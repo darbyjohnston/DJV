@@ -27,14 +27,17 @@ namespace djv
                 static std::shared_ptr<Splitter> create(Orientation, const std::shared_ptr<System::Context>&);
 
                 Orientation getOrientation() const;
+
                 void setOrientation(Orientation);
 
                 const std::vector<float>& getSplit() const;
+
                 void setSplit(const std::vector<float>&);
                 void setSplitCallback(const std::function<void(const std::vector<float>&)>&);
                 void distributeEvenly();
 
                 ColorRole getHandleColorRole() const;
+
                 void setHandleColorRole(ColorRole);
 
                 float getHeightForWidth(float) const override;

@@ -10,21 +10,6 @@ namespace djv
     {
         namespace Font
         {
-            inline FontInfo::FontInfo() noexcept
-            {}
-
-            inline FontInfo::FontInfo(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
-                _family(family),
-                _face(face),
-                _size(size),
-                _dpi(dpi)
-            {
-                Core::Memory::hashCombine(_hash, _family);
-                Core::Memory::hashCombine(_hash, _face);
-                Core::Memory::hashCombine(_hash, _size);
-                Core::Memory::hashCombine(_hash, _dpi);
-            }
-
             inline FamilyID FontInfo::getFamily() const noexcept
             {
                 return _family;
@@ -55,17 +40,6 @@ namespace djv
                 return _hash < other._hash;
             }
 
-            inline Metrics::Metrics() noexcept
-            {}
-
-            inline GlyphInfo::GlyphInfo() noexcept
-            {}
-
-            inline GlyphInfo::GlyphInfo(uint32_t code, const FontInfo& fontInfo) noexcept :
-                code(code),
-                fontInfo(fontInfo)
-            {}
-
             inline bool GlyphInfo::operator == (const GlyphInfo& other) const noexcept
             {
                 return
@@ -77,18 +51,6 @@ namespace djv
             {
                 return std::tie(code, fontInfo) < std::tie(other.code, other.fontInfo);
             }
-
-            inline Glyph::Glyph()
-            {}
-
-            inline TextLine::TextLine()
-            {}
-
-            inline TextLine::TextLine(const std::string& text, const glm::vec2& size, const std::vector<std::shared_ptr<Glyph> >& glyphs) :
-                text(text),
-                size(size),
-                glyphs(glyphs)
-            {}
 
         } // namespace Font
     } // namespace Render2D

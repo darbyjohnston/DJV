@@ -9,7 +9,7 @@
 #include <djvUI/FormLayout.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/TIFF.h>
+#include <djvAV/TIFFFunc.h>
 
 #include <djvSystem/Context.h>
 

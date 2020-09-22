@@ -4,6 +4,8 @@
 
 #include <djvViewApp/MouseSettings.h>
 
+#include <djvViewApp/EnumFunc.h>
+
 #include <djvSystem/Context.h>
 
 // These need to be included last on macOS.

@@ -31,12 +31,11 @@ namespace djv
             static std::shared_ptr<Render2DSystem> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<AlphaBlend> > observeAlphaBlend() const;
-            void setAlphaBlend(AlphaBlend);
-
             std::shared_ptr<Core::IValueSubject<Render2D::ImageFilterOptions> > observeImageFilterOptions() const;
-            void setImageFilterOptions(const Render2D::ImageFilterOptions&);
-
             std::shared_ptr<Core::IValueSubject<bool> > observeTextLCDRendering() const;
+
+            void setAlphaBlend(AlphaBlend);
+            void setImageFilterOptions(const Render2D::ImageFilterOptions&);
             void setTextLCDRendering(bool);
 
         private:

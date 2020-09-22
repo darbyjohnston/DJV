@@ -4,7 +4,7 @@
 
 #include <djvViewApp/KeyboardSettings.h>
 
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 
 #include <djvSystem/Context.h>
 

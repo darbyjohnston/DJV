@@ -33,27 +33,33 @@ namespace djv
 
                 const std::string& getIcon() const;
                 const std::string& getPopupIcon() const;
+
                 void setIcon(const std::string&);
                 void setPopupIcon(const std::string&);
 
                 const std::string& getText() const;
+
                 void setText(const std::string&);
 
                 const std::string& getFontFamily() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
+
                 void setFontFamily(const std::string&);
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
                 int getElide() const;
+
                 void setElide(int);
 
                 MetricsRole getInsideMargin() const;
+
                 void setInsideMargin(MetricsRole);
 
                 bool hasCapturePointer() const;
                 bool hasCaptureKeyboard() const;
+
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
 

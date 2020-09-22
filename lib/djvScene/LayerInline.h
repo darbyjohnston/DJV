@@ -6,12 +6,6 @@ namespace djv
 {
     namespace Scene
     {
-        inline ILayerItem::ILayerItem()
-        {}
-
-        inline ILayerItem::~ILayerItem()
-        {}
-
         inline const std::weak_ptr<Layer>& ILayerItem::getLayer() const
         {
             return _layer;
@@ -20,15 +14,6 @@ namespace djv
         inline void ILayerItem::setLayer(const std::shared_ptr<Layer>& value)
         {
             _layer = value;
-        }
-
-        inline Layer::Layer()
-        {}
-
-        inline std::shared_ptr<Layer> Layer::create()
-        {
-            auto out = std::shared_ptr<Layer>(new Layer);
-            return out;
         }
 
         inline const std::string& Layer::getName() const

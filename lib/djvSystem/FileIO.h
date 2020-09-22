@@ -193,3 +193,4 @@ namespace djv
     } // namespace System
 } // namespace djv
 
+#include <djvSystem/FileIOInline.h>

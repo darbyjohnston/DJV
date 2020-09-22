@@ -41,21 +41,6 @@ namespace djv
             --systemCount;
         }
 
-        const std::string& ISystemBase::getSystemName() const
-        {
-            return _name;
-        }
-
-        const std::weak_ptr<Context>& ISystemBase::getContext() const
-        {
-            return _context;
-        }
-
-        const std::vector<std::shared_ptr<ISystemBase> >& ISystemBase::getDependencies() const
-        {
-            return _dependencies;
-        }
-
         void ISystemBase::addDependency(const std::shared_ptr<ISystemBase>& value)
         {
             _dependencies.push_back(value);
@@ -99,16 +84,6 @@ namespace djv
         const std::string& ISystem::_getText(const std::string& id) const
         {
             return _textSystem->getText(id);
-        }
-
-        std::shared_ptr<TextSystem> ISystem::_getTextSystem() const
-        {
-            return _textSystem;
-        }
-
-        std::shared_ptr<ResourceSystem> ISystem::_getResourceSystem() const
-        {
-            return _resourceSystem;
         }
 
     } // namespace System

@@ -72,17 +72,21 @@
 #include <djvAudioTest/AudioSystemTest.h>
 
 #include <djvGeomTest/ShapeTest.h>
+#include <djvGeomTest/TriangleMeshFuncTest.h>
 #include <djvGeomTest/TriangleMeshTest.h>
 
 #include <djvGLTest/EnumFuncTest.h>
 #include <djvGLTest/ImageConvertTest.h>
 #include <djvGLTest/MeshCacheTest.h>
+#include <djvGLTest/MeshFuncTest.h>
 #include <djvGLTest/MeshTest.h>
+#include <djvGLTest/OffscreenBufferFuncTest.h>
 #include <djvGLTest/OffscreenBufferTest.h>
 #include <djvGLTest/ShaderTest.h>
 #include <djvGLTest/TextureTest.h>
 #include <djvGLTest/TextureAtlasTest.h>
 
+#include <djvOCIOTest/OCIOSystemFuncTest.h>
 #include <djvOCIOTest/OCIOSystemTest.h>
 #include <djvOCIOTest/OCIOTest.h>
 
@@ -102,20 +106,20 @@
 #include <djvAVTest/CineonFuncTest.h>
 #include <djvAVTest/DPXFuncTest.h>
 #include <djvAVTest/IOTest.h>
-#include <djvAVTest/PPMTest.h>
+#include <djvAVTest/PPMFuncTest.h>
 #include <djvAVTest/SpeedFuncTest.h>
 #include <djvAVTest/ThumbnailSystemTest.h>
 #include <djvAVTest/TimeFuncTest.h>
 #if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
-#include <djvAVTest/FFmpegTest.h>
-#include <djvAVTest/JPEGTest.h>
-#include <djvAVTest/OpenEXRTest.h>
-#include <djvAVTest/TIFFTest.h>
+#include <djvAVTest/FFmpegFuncTest.h>
+#include <djvAVTest/JPEGFuncTest.h>
+#include <djvAVTest/OpenEXRFuncTest.h>
+#include <djvAVTest/TIFFFuncTest.h>
 #endif
 
 #include <djvUITest/ActionGroupTest.h>
 #include <djvUITest/ButtonGroupTest.h>
-#include <djvUITest/EnumTest.h>
+#include <djvUITest/EnumFuncTest.h>
 #include <djvUITest/WidgetTest.h>
 
 #if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
@@ -229,17 +233,21 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AudioTest::AudioSystemTest(tempPath, context));
 
         tests.emplace_back(new GeomTest::ShapeTest(tempPath, context));
+        tests.emplace_back(new GeomTest::TriangleMeshFuncTest(tempPath, context));
         tests.emplace_back(new GeomTest::TriangleMeshTest(tempPath, context));
 
         tests.emplace_back(new GLTest::EnumFuncTest(tempPath, context));
         tests.emplace_back(new GLTest::ImageConvertTest(tempPath, context));
         tests.emplace_back(new GLTest::MeshCacheTest(tempPath, context));
+        tests.emplace_back(new GLTest::MeshFuncTest(tempPath, context));
         tests.emplace_back(new GLTest::MeshTest(tempPath, context));
+        tests.emplace_back(new GLTest::OffscreenBufferFuncTest(tempPath, context));
         tests.emplace_back(new GLTest::OffscreenBufferTest(tempPath, context));
         tests.emplace_back(new GLTest::ShaderTest(tempPath, context));
         tests.emplace_back(new GLTest::TextureAtlasTest(tempPath, context));
         tests.emplace_back(new GLTest::TextureTest(tempPath, context));
 
+        tests.emplace_back(new OCIOTest::OCIOSystemFuncTest(tempPath, context));
         tests.emplace_back(new OCIOTest::OCIOSystemTest(tempPath, context));
         tests.emplace_back(new OCIOTest::OCIOTest(tempPath, context));
 
@@ -259,20 +267,20 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::CineonFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::DPXFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::IOTest(tempPath, context));
-        tests.emplace_back(new AVTest::PPMTest(tempPath, context));
+        tests.emplace_back(new AVTest::PPMFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::SpeedFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::ThumbnailSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::TimeFuncTest(tempPath, context));
 #if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
-        tests.emplace_back(new AVTest::FFmpegTest(tempPath, context));
-        tests.emplace_back(new AVTest::JPEGTest(tempPath, context));
-        tests.emplace_back(new AVTest::OpenEXRTest(tempPath, context));
-        tests.emplace_back(new AVTest::TIFFTest(tempPath, context));
+        tests.emplace_back(new AVTest::FFmpegFuncTest(tempPath, context));
+        tests.emplace_back(new AVTest::JPEGFuncTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenEXRFuncTest(tempPath, context));
+        tests.emplace_back(new AVTest::TIFFFuncTest(tempPath, context));
 #endif
 
         tests.emplace_back(new UITest::ActionGroupTest(tempPath, context));
         tests.emplace_back(new UITest::ButtonGroupTest(tempPath, context));
-        tests.emplace_back(new UITest::EnumTest(tempPath, context));
+        tests.emplace_back(new UITest::EnumFuncTest(tempPath, context));
         tests.emplace_back(new UITest::WidgetTest(tempPath, context));
 
 #if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)

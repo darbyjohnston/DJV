@@ -12,6 +12,15 @@ namespace djv
 {
     namespace Scene
     {
+        ILight::ILight()
+        {}
+
+        ILight::~ILight()
+        {}
+
+        HemisphereLight::HemisphereLight()
+        {}
+
         std::shared_ptr<HemisphereLight> HemisphereLight::create()
         {
             auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
@@ -24,6 +33,9 @@ namespace djv
             {
             }
         }*/
+
+        DirectionalLight::DirectionalLight()
+        {}
 
         std::shared_ptr<DirectionalLight> DirectionalLight::create()
         {
@@ -44,6 +56,9 @@ namespace djv
             }
         }*/
 
+        PointLight::PointLight()
+        {}
+
         std::shared_ptr<PointLight> PointLight::create()
         {
             auto out = std::shared_ptr<PointLight>(new PointLight);
@@ -61,6 +76,9 @@ namespace djv
                 render->addLight(renderLight);
             }
         }*/
+
+        SpotLight::SpotLight()
+        {}
 
         std::shared_ptr<SpotLight> SpotLight::create()
         {

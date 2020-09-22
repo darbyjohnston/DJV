@@ -8,54 +8,6 @@ namespace djv
 {
     namespace Image
     {
-        inline Color::Color()
-        {}
-
-        inline Color::Color(Type type) :
-            _type(type),
-            _data(getByteCount(_type))
-        {
-            zero();
-        }
-
-        inline Color::Color(int v) :
-            _type(Type::L_U8),
-            _data(getByteCount(_type))
-        {
-            auto p = reinterpret_cast<U8_T*>(_data.data());
-            p[0] = v;
-        }
-
-        inline Color::Color(int r, int g, int b, int a) :
-            _type(Type::RGBA_U8),
-            _data(getByteCount(_type))
-        {
-            auto p = reinterpret_cast<U8_T*>(_data.data());
-            p[0] = r;
-            p[1] = g;
-            p[2] = b;
-            p[3] = a;
-        }
-
-        inline Color::Color(F32_T r, F32_T g, F32_T b, F32_T a) :
-            _type(Type::RGBA_F32),
-            _data(getByteCount(_type))
-        {
-            auto p = reinterpret_cast<F32_T*>(_data.data());
-            p[0] = r;
-            p[1] = g;
-            p[2] = b;
-            p[3] = a;
-        }
-
-        inline Color::Color(F32_T v) :
-            _type(Type::L_F32),
-            _data(getByteCount(_type))
-        {
-            auto p = reinterpret_cast<F32_T*>(_data.data());
-            p[0] = v;
-        }
-
         inline Type Color::getType() const noexcept
         {
             return _type;

@@ -50,6 +50,9 @@ namespace djv
             }
         }
 
+        Texture::Texture()
+        {}
+
         Texture::~Texture()
         {
             if (_id)
@@ -316,6 +319,9 @@ namespace djv
                     0);
             }
         }
+        
+        Texture1D::Texture1D()
+        {}
 
         Texture1D::~Texture1D()
         {

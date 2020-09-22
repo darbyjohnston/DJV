@@ -34,12 +34,15 @@ namespace djv
             static std::shared_ptr<ToolSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeMessagesPopup() const;
+
             void setMessagesPopup(bool);
 
             std::map<std::string, bool> getDebugBellowsState() const;
+
             void setDebugBellowsState(const std::map<std::string, bool>&);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;

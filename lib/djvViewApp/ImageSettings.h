@@ -32,15 +32,18 @@ namespace djv
 
             std::map<std::string, bool> getControlsBellowsState() const;
             std::map<std::string, bool> getColorSpaceBellowsState() const;
+
             void setControlsBellowsState(const std::map<std::string, bool>&);
             void setColorSpaceBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeAspectRatio() const;
+
             void setRotate(UI::ImageRotate);
             void setAspectRatio(UI::ImageAspectRatio);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;

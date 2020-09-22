@@ -6,11 +6,6 @@ namespace djv
 {
     namespace Render3D
     {
-        inline ICamera::ICamera()
-        {}
-
-        inline ICamera::~ICamera()
-        {}
 
         inline const glm::mat4x4& ICamera::getV() const
         {
@@ -21,9 +16,6 @@ namespace djv
         {
             return _p;
         }
-
-        inline DefaultCamera::DefaultCamera()
-        {}
 
     } // namespace Render3D
 } // namespace djv

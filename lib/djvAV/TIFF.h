@@ -33,7 +33,6 @@ namespace djv
                     Count,
                     First
                 };
-                DJV_ENUM_HELPERS(Compression);
 
                 //! This struct provides the TIFF file I/O options.
                 struct Options
@@ -42,15 +41,6 @@ namespace djv
                     
                     bool operator == (const Options&) const;
                 };
-
-                //! Read a TIFF file palette.
-                void readPalette(
-                    uint8_t *  out,
-                    int        size,
-                    int        bytes,
-                    uint16_t * red,
-                    uint16_t * green,
-                    uint16_t * blue);
 
                 //! This class provides the TIFF file reader.
                 class Read : public ISequenceRead
@@ -133,13 +123,4 @@ namespace djv
             } // namespace TIFF
         } // namespace IO
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::TIFF::Compression);
-
-    rapidjson::Value toJSON(const AV::IO::TIFF::Options&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::IO::TIFF::Options&);
-
 } // namespace djv

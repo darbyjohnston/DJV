@@ -29,6 +29,7 @@ namespace djv
             void setMenu(const std::shared_ptr<Menu>&);
 
             MetricsRole getInsideMargin() const;
+
             void setInsideMargin(MetricsRole);
 
         protected:

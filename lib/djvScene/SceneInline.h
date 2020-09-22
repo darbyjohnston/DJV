@@ -21,14 +21,14 @@ namespace djv
             return _orient;
         }
 
-        inline void Scene::setSceneOrient(SceneOrient value)
-        {
-            _orient = value;
-        }
-
         inline const glm::mat4x4& Scene::getSceneXForm() const
         {
             return _xform;
+        }
+
+        inline void Scene::setSceneOrient(SceneOrient value)
+        {
+            _orient = value;
         }
 
         inline void Scene::setSceneXForm(const glm::mat4x4& value)

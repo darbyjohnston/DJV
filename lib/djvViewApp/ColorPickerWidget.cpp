@@ -34,6 +34,7 @@
 #include <djvGL/Shader.h>
 #endif // DJV_GL_ES2
 
+#include <djvImage/ColorFunc.h>
 #include <djvImage/ImageFunc.h>
 
 #include <djvSystem/Context.h>
@@ -197,7 +198,7 @@ namespace djv
                         if (auto eventSystem = widget->_getEventSystem().lock())
                         {
                             std::stringstream ss;
-                            ss << Image::Color::getLabel(widget->_p->color) << ", ";
+                            ss << Image::getLabel(widget->_p->color) << ", ";
                             ss << floorf(widget->_p->pixelPos.x) << " ";
                             ss << floorf(widget->_p->pixelPos.y);
                             eventSystem->setClipboard(ss.str());
@@ -663,7 +664,7 @@ namespace djv
             p.actions["ApplyColorSpace"]->setChecked(p.applyColorSpace);
 
             p.colorSwatch->setColor(p.color);
-            p.colorLabel->setText(Image::Color::getLabel(p.color, 2, false));
+            p.colorLabel->setText(Image::getLabel(p.color, 2, false));
             p.colorLabel->setTooltip(_getText(DJV_TEXT("color_label_tooltip")));
             {
                 std::stringstream ss;

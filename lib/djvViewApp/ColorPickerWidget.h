@@ -29,18 +29,23 @@ namespace djv
             void setCurrentTool(bool);
 
             size_t getSampleSize() const;
+
             void setSampleSize(size_t);
 
             Image::Type getLockType() const;
+
             void setLockType(Image::Type);
 
             bool getApplyColorOperations() const;
+
             void setApplyColorOperations(bool);
 
             bool getApplyColorSpace() const;
+
             void setApplyColorSpace(bool);
 
             const glm::vec2& getPickerPos() const;
+
             void setPickerPos(const glm::vec2&);
 
         protected:

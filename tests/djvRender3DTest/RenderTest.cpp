@@ -12,7 +12,7 @@
 #include <djvGL/OffscreenBuffer.h>
 
 #include <djvGeom/PointList.h>
-#include <djvGeom/TriangleMesh.h>
+#include <djvGeom/TriangleMeshFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
@@ -99,7 +99,7 @@ namespace djv
                 render->drawPolyLines({ pointList, pointList });
                 
                 auto mesh = std::shared_ptr<Geom::TriangleMesh>(new Geom::TriangleMesh);
-                Geom::TriangleMesh::triangulateBBox(
+                Geom::triangulateBBox(
                     Math::BBox3f(-100.F, -100.F, -100.F, 100.F, 100.F, 100.F),
                     *mesh);
                 render->drawTriangleMesh(*mesh);

@@ -36,10 +36,12 @@ namespace djv
                 static std::shared_ptr<Solo> create(const std::shared_ptr<System::Context>&);
 
                 const std::shared_ptr<Widget>& getCurrentWidget() const;
+
                 void setCurrentWidget(const std::shared_ptr<Widget>&);
                 void setCurrentWidget(const std::shared_ptr<Widget>&, Side);
 
                 SoloMinimumSize getSoloMinimumSize() const;
+
                 void setSoloMinimumSize(SoloMinimumSize);
 
                 float getHeightForWidth(float) const override;

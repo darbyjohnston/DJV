@@ -6,9 +6,6 @@ namespace djv
 {
     namespace UI
     {
-        inline Widget::Widget()
-        {}
-
         inline bool Widget::isVisible(bool parents) const
         {
             return parents ? (_parentsVisible && _visible) : _visible;
@@ -62,20 +59,6 @@ namespace djv
         inline float Widget::getHeight() const
         {
             return _geometry.h();
-        }
-
-        inline void Widget::move(const glm::vec2& value)
-        {
-            const glm::vec2 size = _geometry.getSize();
-            Math::BBox2f geometry;
-            geometry.min = value;
-            geometry.max = value + size;
-            setGeometry(geometry);
-        }
-
-        inline void Widget::resize(const glm::vec2& value)
-        {
-            setGeometry(Math::BBox2f(_geometry.min, _geometry.min + value));
         }
 
         inline float Widget::getHeightForWidth(float) const

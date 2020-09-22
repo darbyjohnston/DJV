@@ -45,6 +45,7 @@ namespace djv
             std::shared_ptr<Core::IListSubject<MonitorInfo> > observeMonitorInfo() const;
 
             bool isCursorVisible() const;
+
             void showCursor();
             void hideCursor();
 

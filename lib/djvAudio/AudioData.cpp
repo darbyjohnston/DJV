@@ -31,11 +31,24 @@ namespace djv
 {
     namespace Audio
     {
+        Info::Info()
+        {}
+
+        Info::Info(uint8_t channelCount, Type type, size_t sampleRate, size_t sampleCount) :
+            channelCount(channelCount),
+            type(type),
+            sampleRate(sampleRate),
+            sampleCount(sampleCount)
+        {}
+
         void Data::_init(const Info& info)
         {
             _info = info;
             _data.resize(getByteCount());
         }
+
+        Data::Data()
+        {}
 
         std::shared_ptr<Data> Data::create(const Info& info)
         {

@@ -3,6 +3,8 @@ set(header
     ImageConvertTest.h
     MeshCacheTest.h
     MeshTest.h
+    MeshFuncTest.h
+    OffscreenBufferFuncTest.h
     OffscreenBufferTest.h
     ShaderTest.h
     TextureAtlasTest.h
@@ -12,6 +14,8 @@ set(source
     ImageConvertTest.cpp
     MeshCacheTest.cpp
     MeshTest.cpp
+    MeshFuncTest.cpp
+    OffscreenBufferFuncTest.cpp
     OffscreenBufferTest.cpp
     ShaderTest.cpp
     TextureAtlasTest.cpp

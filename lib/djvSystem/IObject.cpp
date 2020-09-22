@@ -42,46 +42,6 @@ namespace djv
         {
             --globalObjectCount;
         }
-
-        const std::weak_ptr<Context>& IObject::getContext() const
-        {
-            return _context;
-        }
-
-        const std::string& IObject::getClassName() const
-        {
-            return _className;
-        }
-
-        const std::string& IObject::getObjectName() const
-        {
-            return _objectName;
-        }
-
-        void IObject::setClassName(const std::string& name)
-        {
-            _className = name;
-        }
-
-        void IObject::setObjectName(const std::string& name)
-        {
-            _objectName = name;
-        }
-
-        const std::weak_ptr<IObject>& IObject::getParent() const
-        {
-            return _parent;
-        }
-
-        const std::vector<std::shared_ptr<IObject> >& IObject::getChildren() const
-        {
-            return _children;
-        }
-
-        bool IObject::isEnabled(bool parents) const
-        {
-            return parents ? (_parentsEnabled && _enabled) : _enabled;
-        }
         
         void IObject::installEventFilter(const std::weak_ptr<IObject>& value)
         {
@@ -191,11 +151,6 @@ namespace djv
                 Event::ChildOrder childOrderEvent;
                 parent->event(childOrderEvent);
             }
-        }
-
-        void IObject::setEnabled(bool value)
-        {
-            _enabled = value;
         }
 
         bool IObject::event(System::Event::Event& event)
@@ -311,21 +266,6 @@ namespace djv
         void IObject::_log(const std::string& message, LogLevel level)
         {
             _logSystem->log(_className, message, level);
-        }
-
-        const std::shared_ptr<ResourceSystem>& IObject::_getResourceSystem() const
-        {
-            return _resourceSystem;
-        }
-
-        const std::shared_ptr<LogSystem>& IObject::_getLogSystem() const
-        {
-            return _logSystem;
-        }
-
-        const std::shared_ptr<TextSystem>& IObject::_getTextSystem() const
-        {
-            return _textSystem;
         }
         
         void IObject::_eventInitRecursive(const std::shared_ptr<IObject>& object, Event::Init& event)

@@ -9,6 +9,8 @@
 
 #include <djvCore/ErrorFunc.h>
 
+#include <iostream>
+
 using namespace djv;
 
 int main(int argc, char ** argv)

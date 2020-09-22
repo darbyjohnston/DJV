@@ -4,7 +4,7 @@
 
 #include <djvViewApp/AnnotateSystem.h>
 
-#include <djvViewApp/Annotate.h>
+#include <djvViewApp/AnnotateFunc.h>
 #include <djvViewApp/AnnotateSettings.h>
 #include <djvViewApp/AnnotateWidget.h>
 #include <djvViewApp/EditSystem.h>

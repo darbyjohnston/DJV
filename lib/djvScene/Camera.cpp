@@ -14,6 +14,23 @@ namespace djv
 {
     namespace Scene
     {
+        ICamera::ICamera()
+        {}
+
+        ICamera::~ICamera()
+        {}
+
+        DefaultCamera::DefaultCamera()
+        {
+            _update();
+        }
+
+        std::shared_ptr<DefaultCamera> DefaultCamera::create()
+        {
+            auto out = std::shared_ptr<DefaultCamera>(new DefaultCamera);
+            return out;
+        }
+
         void DefaultCamera::setData(const DefaultCameraData& value)
         {
             _data = value;
@@ -60,6 +77,17 @@ namespace djv
         {
             _v = glm::lookAt(_data.position, _data.target, _data.up);
             _p = glm::perspective(Math::deg2rad(_data.fov), _data.aspect, _data.clip.getMin(), _data.clip.getMax());
+        }
+
+        PolarCamera::PolarCamera()
+        {
+            _update();
+        }
+
+        std::shared_ptr<PolarCamera> PolarCamera::create()
+        {
+            auto out = std::shared_ptr<PolarCamera>(new PolarCamera);
+            return out;
         }
 
         void PolarCamera::setData(const PolarCameraData& value)

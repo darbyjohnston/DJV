@@ -24,7 +24,7 @@ namespace djv
         {
             std::string getPermissionsLabel(int in)
             {
-                const std::vector<std::string> data =
+                const std::array<std::string, 8> data =
                 {
                     "",
                     "r",

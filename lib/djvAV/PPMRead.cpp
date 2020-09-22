@@ -4,6 +4,8 @@
 
 #include <djvAV/PPM.h>
 
+#include <djvAV/PPMFunc.h>
+
 #include <djvSystem/File.h>
 #include <djvSystem/FileIO.h>
 #include <djvSystem/FileIOFunc.h>

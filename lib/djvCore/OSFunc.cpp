@@ -14,20 +14,6 @@ namespace djv
     {
         namespace OS
         {
-            char getListSeparator(ListSeparator value)
-            {
-                return ListSeparator::Unix == value ? ':' : ';';
-            }
-
-            char getCurrentListSeparator()
-            {
-#if defined(DJV_PLATFORM_WINDOWS)
-                return getListSeparator(ListSeparator::Windows);
-#else
-                return getListSeparator(ListSeparator::Unix);
-#endif // DJV_PLATFORM_WINDOWS
-            }
-
             bool getStringListEnv(const std::string& name, std::vector<std::string>& out)
             {
                 std::string value;

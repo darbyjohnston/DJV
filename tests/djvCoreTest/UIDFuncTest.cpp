@@ -5,7 +5,7 @@
 #include <djvCoreTest/UIDFuncTest.h>
 
 #include <djvCore/StringFormat.h>
-#include <djvCore/UID.h>
+#include <djvCore/UIDFunc.h>
 
 using namespace djv::Core;
 

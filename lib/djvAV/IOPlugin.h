@@ -48,6 +48,7 @@ namespace djv
                 virtual bool isRunning() const = 0;
 
                 size_t getThreadCount() const;
+
                 void setThreadCount(size_t);
 
                 std::mutex& getMutex();
@@ -104,6 +105,7 @@ namespace djv
                 size_t getCacheByteCount();
                 Math::Frame::Sequence getCacheSequence();
                 Math::Frame::Sequence getCachedFrames();
+
                 void setCacheEnabled(bool);
                 void setCacheMaxByteCount(size_t);
 

@@ -27,6 +27,7 @@ namespace djv
             void setText(const std::shared_ptr<Widget>&, const std::string&);
 
             int getCurrentTab() const;
+
             void setCurrentTab(int);
             void setCurrentTabCallback(const std::function<void(int)>&);
             void closeCurrentTab();

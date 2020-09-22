@@ -165,3 +165,4 @@ namespace djv
     } // namespace System
 } // namespace djv
 
+#include <djvSystem/PathInline.h>

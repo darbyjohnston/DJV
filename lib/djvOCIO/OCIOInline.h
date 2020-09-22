@@ -8,14 +8,6 @@ namespace djv
 {
     namespace OCIO
     {
-        inline Convert::Convert()
-        {}
-
-        inline Convert::Convert(const std::string& input, const std::string& output) :
-            input(input),
-            output(output)
-        {}
-
         inline bool Convert::isValid() const
         {
             return !(input.empty() || output.empty());
@@ -33,9 +25,6 @@ namespace djv
             return std::tie(input, output) < std::tie(other.input, other.output);
         }
 
-        inline View::View()
-        {}
-
         inline bool View::operator == (const View& other) const
         {
             return
@@ -43,9 +32,6 @@ namespace djv
                 colorSpace == other.colorSpace &&
                 looks == other.looks;
         }
-
-        inline Display::Display()
-        {}
 
         inline bool Display::operator == (const Display& other) const
         {

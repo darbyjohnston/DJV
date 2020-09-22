@@ -23,7 +23,57 @@ namespace djv
         
         void ColorFuncTest::run()
         {
+            _util();
             _serialize();
+        }
+
+        void ColorFuncTest::_rgbToHSV(float r, float g, float b)
+        {
+            float rgb[3] = { r, g, b };
+            float hsv[3] = { 0.F, 0.F, 0.F };
+            Image::rgbToHSV(rgb, hsv);
+            std::stringstream ss;
+            ss << "rgbToHSV: " << rgb[0] << "," << rgb[1] << "," << rgb[2] << " = " <<
+                hsv[0] << "," << hsv[1] << "," << hsv[2];
+            _print(ss.str());
+        }
+
+        void ColorFuncTest::_util()
+        {
+            {
+                float r = 0.F;
+                float g = 0.F;
+                float b = 0.F;
+                for (float r = -.1F; r <= 1.1F; r += .1F)
+                {
+                    _rgbToHSV(r, g, b);
+                }
+                for (float g = -.1F; g <= 1.1F; g += .1F)
+                {
+                    _rgbToHSV(r, g, b);
+                }
+                for (float b = -.1F; b <= 1.1F; b += .1F)
+                {
+                    _rgbToHSV(r, g, b);
+                }
+            }
+
+            for (float v = -1.F; v <= 1.1F; v += .1F)
+            {
+                float hsv[3] = { v, v, v };
+                float rgb[3] = { 0.F, 0.F, 0.F };
+                Image::hsvToRGB(hsv, rgb);
+                std::stringstream ss;
+                ss << "hsvToRGB: " << hsv[0] << "," << hsv[1] << "," << hsv[2] << " = " <<
+                    rgb[0] << "," << rgb[1] << "," << rgb[2];
+                _print(ss.str());
+            }
+
+            for (const auto& i : Image::getTypeEnums())
+            {
+                Image::Color c(i);
+                _print("Color: " + Image::getLabel(c));
+            }
         }
 
         void ColorFuncTest::_serialize()

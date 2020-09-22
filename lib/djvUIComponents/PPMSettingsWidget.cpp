@@ -9,7 +9,7 @@
 #include <djvUI/GroupBox.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/PPM.h>
+#include <djvAV/PPMFunc.h>
 
 #include <djvSystem/Context.h>
 

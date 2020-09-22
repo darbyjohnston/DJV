@@ -28,13 +28,8 @@ namespace djv
             //! This struct provides a vertex.
             struct Vertex
             {
-                Vertex() {}
-
-                explicit constexpr Vertex(size_t v, size_t t = 0, size_t n = 0) :
-                    v(v),
-                    t(t),
-                    n(n)
-                {}
+                Vertex();
+                explicit constexpr Vertex(size_t v, size_t t = 0, size_t n = 0);
 
                 size_t v = 0;
                 size_t t = 0;
@@ -54,7 +49,7 @@ namespace djv
             //! This struct provides a triangle.
             struct Triangle
             {
-                Triangle() {}
+                Triangle();
 
                 Vertex v0;
                 Vertex v1;
@@ -83,42 +78,6 @@ namespace djv
 
             //! Compute the bounding-box of the mesh.
             void bboxUpdate();
-
-            //! Convert a face into triangles.
-            static void faceToTriangles(const Face&, std::vector<Triangle>&);
-
-            //! Calculate the mesh normals.
-            //! \todo Implement smoothing.
-            //! \todo Add an option for CW and CCW.
-            static void calcNormals(TriangleMesh&);
-
-            //! Intersect a line with a triangle.
-            static bool intersectTriangle(
-                const glm::vec3& pos,
-                const glm::vec3& dir,
-                const glm::vec3& v0,
-                const glm::vec3& v1,
-                const glm::vec3& v2,
-                glm::vec3&       hit,
-                glm::vec3&       barycentric);
-
-            //! Intersect a line with a mesh.
-            static bool intersect(
-                const glm::vec3&    pos,
-                const glm::vec3&    dir,
-                const TriangleMesh& mesh,
-                glm::vec3&          hit);
-            static bool intersect(
-                const glm::vec3&    pos,
-                const glm::vec3&    dir,
-                const TriangleMesh& mesh,
-                glm::vec3&          hit,
-                glm::vec3&          hitColor,
-                glm::vec2&          hitTexture,
-                glm::vec3&          hitNormal);
-
-            //! Create a mesh from a bounding-box.
-            static void triangulateBBox(const Math::BBox3f&, TriangleMesh&);
 
             ///@}
 

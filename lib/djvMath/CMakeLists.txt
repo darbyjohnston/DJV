@@ -19,6 +19,7 @@ set(header
     RangeInline.h
     RationalFunc.h
     Rational.h
+    RationalInline.h
     RayFunc.h
     RayFuncInline.h
     Ray.h

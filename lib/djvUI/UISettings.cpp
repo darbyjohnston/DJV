@@ -52,14 +52,14 @@ namespace djv
                 return _p->tooltips;
             }
 
-            void UI::setTooltips(bool value)
-            {
-                _p->tooltips->setIfChanged(value);
-            }
-
             std::shared_ptr<IValueSubject<bool> > UI::observeReverseScrolling() const
             {
                 return _p->reverseScrolling;
+            }
+
+            void UI::setTooltips(bool value)
+            {
+                _p->tooltips->setIfChanged(value);
             }
 
             void UI::setReverseScrolling(bool value)

@@ -185,6 +185,7 @@ namespace djv
                 explicit Clip(const Math::BBox2f& clipRect);
 
                 const Math::BBox2f& getClipRect() const;
+
                 void setClipRect(const Math::BBox2f&);
 
             private:
@@ -198,6 +199,7 @@ namespace djv
                 explicit Paint(const Math::BBox2f& clipRect);
 
                 const Math::BBox2f& getClipRect() const;
+
                 void setClipRect(const Math::BBox2f&);
 
             private:
@@ -212,6 +214,7 @@ namespace djv
                 explicit PaintOverlay(const Math::BBox2f& clipRect);
 
                 const Math::BBox2f& getClipRect() const;
+
                 void setClipRect(const Math::BBox2f&);
 
             private:
@@ -248,6 +251,7 @@ namespace djv
                 ~IPointer() override = 0;
 
                 bool isRejected() const;
+
                 void setRejected(bool);
                 void reject();
 
@@ -380,3 +384,4 @@ namespace djv
     } // namespace System
 } // namespace djv
 
+#include <djvSystem/EventInline.h>

@@ -30,21 +30,6 @@ namespace djv
         Timer::Timer()
         {}
 
-        bool Timer::isRepeating() const
-        {
-            return _repeating;
-        }
-
-        void Timer::setRepeating(bool value)
-        {
-            _repeating = value;
-        }
-
-        bool Timer::isActive() const
-        {
-            return _active;
-        }
-
         void Timer::start(
             const Time::Duration& value,
             const std::function<void(const std::chrono::steady_clock::time_point&, const Time::Duration&)>& callback)
@@ -53,11 +38,6 @@ namespace djv
             _timeout  = value;
             _callback = callback;
             _start    = std::chrono::steady_clock::now();
-        }
-
-        void Timer::stop()
-        {
-            _active = false;
         }
 
         void Timer::_tick()

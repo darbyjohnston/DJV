@@ -39,15 +39,18 @@ namespace djv
             static std::shared_ptr<ImageWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<Image::Image>& getImage() const;
+
             void setImage(const std::shared_ptr<Image::Image>&);
             void setImageOptions(const Render2D::ImageOptions&);
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
 
             ColorRole getImageColorRole() const;
+
             void setImageColorRole(ColorRole);
 
             MetricsRole getSizeRole() const;
+
             void setSizeRole(MetricsRole);
 
             static glm::mat3x3 getXForm(

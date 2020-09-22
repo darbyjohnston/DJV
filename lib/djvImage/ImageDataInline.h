@@ -26,9 +26,6 @@ namespace djv
             return !(other == *this);
         }
 
-        inline Layout::Layout() noexcept
-        {}
-
         constexpr Layout::Layout(const Mirror& mirror, GLint alignment, Core::Memory::Endian endian) noexcept :
             mirror(mirror),
             alignment(alignment),
@@ -44,11 +41,6 @@ namespace djv
         {
             return !(other == *this);
         }
-
-        inline Size::Size(uint16_t w, uint16_t h) noexcept :
-            w(w),
-            h(h)
-        {}
 
         inline bool Size::isValid() const noexcept
         {
@@ -69,21 +61,6 @@ namespace djv
         {
             return !(*this == other);
         }
-
-        inline Info::Info()
-        {}
-
-        inline Info::Info(const Size& size, Type type, const Layout& layout) :
-            size(size),
-            type(type),
-            layout(layout)
-        {}
-
-        inline Info::Info(uint16_t width, uint16_t height, Type type, const Layout& layout) :
-            size(width, height),
-            type(type),
-            layout(layout)
-        {}
 
         inline float Info::getAspectRatio() const noexcept
         {
@@ -139,9 +116,6 @@ namespace djv
         {
             return !(other == *this);
         }
-
-        inline Data::Data()
-        {}
 
         inline Core::UID Data::getUID() const
         {
@@ -206,6 +180,11 @@ namespace djv
         inline size_t Data::getScanlineByteCount() const
         {
             return _scanlineByteCount;
+        }
+
+        inline size_t Data::getDataByteCount() const
+        {
+            return _dataByteCount;
         }
 
         inline const uint8_t* Data::getData() const

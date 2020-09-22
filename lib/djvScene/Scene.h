@@ -53,9 +53,9 @@ namespace djv
             void addLayer(const std::shared_ptr<Layer>&);
 
             SceneOrient getSceneOrient() const;
-            void setSceneOrient(SceneOrient);
-
             const glm::mat4x4& getSceneXForm() const;
+
+            void setSceneOrient(SceneOrient);
             void setSceneXForm(const glm::mat4x4&);
 
             void bboxUpdate();

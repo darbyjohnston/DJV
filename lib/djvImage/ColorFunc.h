@@ -10,6 +10,15 @@
 
 namespace djv
 {
+    namespace Image
+    {
+        void rgbToHSV(const float[3], float[3]);
+        void hsvToRGB(const float[3], float[3]);
+
+        std::string getLabel(const Color&, int precision = 2, bool pad = true);
+    
+    } // Image
+
     std::ostream& operator << (std::ostream&, const Image::Color&);
 
     //! Throws:

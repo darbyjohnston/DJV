@@ -4,7 +4,7 @@
 
 #include <djvAV/TIFF.h>
 
-#include <array>
+#include <djvAV/TIFFFunc.h>
 
 using namespace djv::Core;
 
@@ -16,45 +16,6 @@ namespace djv
         {
             namespace TIFF
             {
-                void readPalette(
-                    uint8_t *  in,
-                    int        size,
-                    int        bytes,
-                    uint16_t * red,
-                    uint16_t * green,
-                    uint16_t * blue)
-                {
-                    switch (bytes)
-                    {
-                    case 1:
-                    {
-                        const uint8_t * inP = in + size - 1;
-                        uint8_t * outP = in + (size_t(size) - 1) * 3;
-                        for (int x = 0; x < size; ++x, outP -= 3)
-                        {
-                            const uint8_t index = *inP--;
-                            outP[0] = static_cast<uint8_t>(red[index]);
-                            outP[1] = static_cast<uint8_t>(green[index]);
-                            outP[2] = static_cast<uint8_t>(blue[index]);
-                        }
-                    }
-                    break;
-                    case 2:
-                    {
-                        const uint16_t * inP = reinterpret_cast<const uint16_t *>(in) + size - 1;
-                        uint16_t * outP = reinterpret_cast<uint16_t *>(in) + (size_t(size) - 1) * 3;
-                        for (int x = 0; x < size; ++x, outP -= 3)
-                        {
-                            const uint16_t index = *inP--;
-                            outP[0] = red  [index];
-                            outP[1] = green[index];
-                            outP[2] = blue [index];
-                        }
-                    }
-                    break;
-                    }
-                }
-
                 bool Options::operator == (const Options& other) const
                 {
                     return compression == other.compression;
@@ -107,50 +68,7 @@ namespace djv
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                DJV_ENUM_HELPERS_IMPLEMENTATION(Compression);
-
             } // namespace TIFF
         } // namespace IO
     } // namespace AV
-
-    rapidjson::Value toJSON(const AV::IO::TIFF::Options& value, rapidjson::Document::AllocatorType& allocator)
-    {
-        rapidjson::Value out(rapidjson::kObjectType);
-        {
-            std::stringstream ss;
-            ss << value.compression;
-            const std::string& s = ss.str();
-            out.AddMember("Compression", rapidjson::Value(s.c_str(), s.size(), allocator), allocator);
-        }
-        return out;
-    }
-
-    void fromJSON(const rapidjson::Value& value, AV::IO::TIFF::Options& out)
-    {
-        if (value.IsObject())
-        {
-            for (const auto& i : value.GetObject())
-            {
-                if (0 == strcmp("Compression", i.name.GetString()) && i.value.IsString())
-                {
-                    std::stringstream ss(i.value.GetString());
-                    ss >> out.compression;
-                }
-            }
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::IO::TIFF,
-        Compression,
-        DJV_TEXT("tiff_compression_none"),
-        DJV_TEXT("tiff_compression_rle"),
-        DJV_TEXT("tiff_compression_lzw"));
-
 } // namespace djv
-

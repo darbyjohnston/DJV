@@ -30,6 +30,7 @@ namespace djv
             U32_T getU32(size_t channel) const;
             F16_T getF16(size_t channel) const;
             F32_T getF32(size_t channel) const;
+
             void setU8(U8_T, size_t channel);
             void setU10(U10_T, size_t channel);
             void setU16(U16_T, size_t channel);
@@ -47,11 +48,6 @@ namespace djv
 
             static Color RGB_U8(int, int, int);
             static Color RGB_F32(float, float, float);
-
-            static void rgbToHSV(const float[3], float[3]);
-            static void hsvToRGB(const float[3], float[3]);
-
-            static std::string getLabel(const Color&, int precision = 2, bool pad = true);
 
             bool operator == (const Color&) const;
             bool operator != (const Color&) const;

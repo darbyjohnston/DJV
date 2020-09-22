@@ -1,6 +1,5 @@
 set(header
-    Application.h
-    CmdLineApp.h)
+    Application.h)
 set(source
     Application.cpp)
 

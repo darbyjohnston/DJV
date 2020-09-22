@@ -4,6 +4,8 @@
 
 #include <djvScene/IPrimitive.h>
 
+#include <djvCore/UIDFunc.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -13,6 +15,13 @@ namespace djv
         std::vector<std::shared_ptr<Geom::TriangleMesh> > IPrimitive::_meshesDummy;
         std::vector<std::shared_ptr<Geom::PointList> > IPrimitive::_polyLinesDummy;
         std::shared_ptr<Geom::PointList> IPrimitive::_pointListDummy;
+        
+        IPrimitive::IPrimitive() :
+            _uid(Core::createUID())
+        {}
+
+        IPrimitive::~IPrimitive()
+        {}
 
         void IPrimitive::addChild(const std::shared_ptr<IPrimitive>& value)
         {

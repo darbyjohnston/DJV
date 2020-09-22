@@ -26,26 +26,6 @@ namespace djv
             return out;
         }
 
-        const std::string& Image::getPluginName() const
-        {
-            return _pluginName;
-        }
-
-        void Image::setPluginName(const std::string& value)
-        {
-            _pluginName = value;
-        }
-
-        const Tags& Image::getTags() const
-        {
-            return _tags;
-        }
-
-        void Image::setTags(const Tags& value)
-        {
-            _tags = value;
-        }
-
     } // namespace Image
 } // namespace djv
 

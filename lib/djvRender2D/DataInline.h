@@ -8,9 +8,6 @@ namespace djv
 {
     namespace Render2D
     {
-        inline ImageColor::ImageColor()
-        {}
-        
         inline bool ImageColor::operator == (const ImageColor& other) const
         {
             return
@@ -24,9 +21,6 @@ namespace djv
         {
             return !(*this == other);
         }
-        
-        inline ImageLevels::ImageLevels()
-        {}
         
         inline bool ImageLevels::operator == (const ImageLevels& other) const
         {
@@ -43,9 +37,6 @@ namespace djv
             return !(*this == other);
         }
 
-        inline ImageExposure::ImageExposure()
-        {}
-
         inline bool ImageExposure::operator == (const ImageExposure& other) const
         {
             return
@@ -59,9 +50,6 @@ namespace djv
         {
             return !(*this == other);
         }
-        
-        inline ImageOptions::ImageOptions()
-        {}
 
         inline bool ImageOptions::operator == (const ImageOptions& other) const
         {
@@ -97,19 +85,6 @@ namespace djv
             }
             return out;
         }
-
-        inline ImageFilterOptions::ImageFilterOptions()
-        {}
-
-        inline ImageFilterOptions::ImageFilterOptions(ImageFilter minMag) :
-            min(minMag),
-            mag(minMag)
-        {}
-
-        inline ImageFilterOptions::ImageFilterOptions(ImageFilter min, ImageFilter mag) :
-            min(min),
-            mag(mag)
-        {}
 
         inline bool ImageFilterOptions::operator == (const ImageFilterOptions& other) const
         {

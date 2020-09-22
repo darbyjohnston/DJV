@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvCmdLineApp/CmdLineApp.h>
-
 #include <djvAV/Time.h>
 
 #include <djvSystem/Context.h>
@@ -20,6 +18,7 @@ struct GLFWwindow;
 
 namespace djv
 {
+    //! This namespaces provides command line application functionality.
     namespace CmdLine
     {
         struct Arguments

@@ -33,6 +33,7 @@ namespace djv
             static std::shared_ptr<ColorTypeWidget> create(const std::shared_ptr<System::Context>&);
 
             Image::Type getType() const;
+
             void setType(Image::Type);
             void setTypeCallback(const std::function<void(Image::Type)> &);
 
@@ -65,10 +66,12 @@ namespace djv
             static std::shared_ptr<ColorSliders> create(const std::shared_ptr<System::Context>&);
 
             const Image::Color & getColor() const;
+
             void setColor(const Image::Color &);
             void setColorCallback(const std::function<void(const Image::Color &)> &);
             
             bool hasHSV() const;
+
             void setHSV(bool);
 
         protected:
@@ -100,6 +103,7 @@ namespace djv
             static std::shared_ptr<ColorPicker> create(const std::shared_ptr<System::Context>&);
 
             const Image::Color& getColor() const;
+
             void setColor(const Image::Color&);
             void setColorCallback(const std::function<void(const Image::Color&)>&);
 
@@ -128,10 +132,12 @@ namespace djv
             static std::shared_ptr<ColorPickerSwatch> create(const std::shared_ptr<System::Context>&);
 
             const Image::Color& getColor() const;
+
             void setColor(const Image::Color&);
             void setColorCallback(const std::function<void(const Image::Color&)>&);
 
             MetricsRole getSwatchSizeRole() const;
+
             void setSwatchSizeRole(MetricsRole);
 
             void open();

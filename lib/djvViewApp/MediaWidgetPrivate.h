@@ -10,6 +10,12 @@
 
 namespace djv
 {
+    namespace Math
+    {
+        class Rational;
+    
+    } // namespace Math
+
     namespace ViewApp
     {
         class TitleBar : public UI::Widget

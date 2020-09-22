@@ -6,13 +6,6 @@ namespace djv
 {
     namespace Scene
     {
-        inline IPrimitive::IPrimitive() :
-            _uid(Core::createUID())
-        {}
-
-        inline IPrimitive::~IPrimitive()
-        {}
-
         inline Core::UID IPrimitive::getUID() const
         {
             return _uid;

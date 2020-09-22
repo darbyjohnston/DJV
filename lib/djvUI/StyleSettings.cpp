@@ -6,6 +6,7 @@
 
 #include <djvUI/FontSettings.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/StyleFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>

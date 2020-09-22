@@ -25,12 +25,14 @@ namespace djv
             static std::shared_ptr<TabBar> create(const std::shared_ptr<System::Context>&);
 
             size_t getTabCount() const;
+
             void setTabs(const std::vector<std::string>&);
             void clearTabs();
 
             void setText(int, const std::string&);
 
             int getCurrentTab() const;
+            
             void setCurrentTab(int);
             void setCurrentTabCallback(const std::function<void(int)>&);
 

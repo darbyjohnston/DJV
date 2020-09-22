@@ -23,12 +23,15 @@ namespace djv
                 virtual ~IButton() = 0;
 
                 ButtonType getButtonType() const;
+
                 virtual void setButtonType(ButtonType);
 
                 bool isChecked() const;
+
                 virtual void setChecked(bool);
 
                 ColorRole getForegroundColorRole() const;
+
                 virtual void setForegroundColorRole(ColorRole);
 
                 void setClickedCallback(const std::function<void(void)>&);

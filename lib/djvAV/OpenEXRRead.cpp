@@ -4,6 +4,8 @@
 
 #include <djvAV/OpenEXR.h>
 
+#include <djvAV/OpenEXRFunc.h>
+
 #include <djvSystem/File.h>
 #include <djvSystem/FileIO.h>
 #include <djvSystem/TextSystem.h>

@@ -8,7 +8,7 @@
 #include <djvRender3D/Material.h>
 
 #include <djvGL/GLFWSystem.h>
-#include <djvGL/Mesh.h>
+#include <djvGL/MeshFunc.h>
 #include <djvGL/MeshCache.h>
 #include <djvGL/Shader.h>
 #include <djvGL/ShaderSystem.h>

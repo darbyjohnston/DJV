@@ -13,15 +13,6 @@ namespace djv
     {
         namespace Time
         {
-            void secondsToTime(double in, int& hour, int& minute, double& seconds)
-            {
-                hour     = static_cast<int>(in / 3600);
-                in      -= static_cast<int64_t>(hour) * static_cast<int64_t>(3600);
-                minute   = in / 60;
-                in      -= static_cast<int64_t>(minute) * static_cast<int64_t>(60);
-                seconds  = in;
-            }
-
             std::string getLabel(double value)
             {
                 int    hours   = 0;

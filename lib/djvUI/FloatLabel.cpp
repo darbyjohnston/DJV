@@ -10,6 +10,8 @@
 
 #include <djvCore/ValueObserver.h>
 
+#include <sstream>
+
 using namespace djv::Core;
 
 namespace djv

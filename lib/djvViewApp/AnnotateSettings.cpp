@@ -4,9 +4,17 @@
 
 #include <djvViewApp/AnnotateSettings.h>
 
+#include <djvViewApp/AnnotateFunc.h>
+
+#include <djvUI/EnumFunc.h>
+
 #include <djvImage/ColorFunc.h>
 
 #include <djvMath/BBoxFunc.h>
+
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

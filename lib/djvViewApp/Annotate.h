@@ -6,7 +6,6 @@
 
 #include <djvImage/Color.h>
 
-#include <djvCore/Enum.h>
 #include <djvCore/ICommand.h>
 #include <djvCore/ValueObserver.h>
 
@@ -42,7 +41,6 @@ namespace djv
             Count,
             First = Polyline
         };
-        DJV_ENUM_HELPERS(AnnotateTool);
 
         enum class AnnotateLineSize
         {
@@ -53,8 +51,6 @@ namespace djv
             Count,
             First = Small
         };
-        DJV_ENUM_HELPERS(AnnotateLineSize);
-        float getAnnotateLineSize(AnnotateLineSize);
 
         struct AnnotateOptions
         {
@@ -194,17 +190,5 @@ namespace djv
         };
 
     } // namespace ViewApp
-
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::AnnotateTool);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::AnnotateLineSize);
-
-    rapidjson::Value toJSON(ViewApp::AnnotateTool, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(ViewApp::AnnotateLineSize, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, ViewApp::AnnotateTool&);
-    void fromJSON(const rapidjson::Value&, ViewApp::AnnotateLineSize&);
-
 } // namespace djv
 

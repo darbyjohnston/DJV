@@ -11,7 +11,7 @@ namespace djv
     namespace System
     {
         namespace File
-            {
+        {
             Path::Path()
             {}
 
@@ -42,11 +42,6 @@ namespace djv
                 _number(number),
                 _extension(extension)
             {}
-
-            std::string Path::get() const
-            {
-                return _directoryName + _baseName + _number + _extension;
-            }
             
             void Path::set(std::string value)
             {
@@ -59,16 +54,6 @@ namespace djv
                 }
 #endif // DJV_PLATFORM_WINDOWS
                 split(value, _directoryName, _baseName, _number, _extension);
-            }
-
-            bool Path::isSeparator(char c) noexcept
-            {
-                return '/' == c || '\\' == c;
-            }
-
-            char Path::getSeparator(PathSeparator value) noexcept
-            {
-                return PathSeparator::Unix == value ? '/' : '\\';
             }
             
             void Path::append(const std::string& value, char separator)
@@ -83,11 +68,6 @@ namespace djv
                 {
                     set(path + value);
                 }
-            }
-
-            bool Path::isEmpty() const noexcept
-            {
-                return get().empty();
             }
 
             bool Path::isRoot() const
@@ -156,75 +136,10 @@ namespace djv
                 }
                 return false;
             }
-
-            const std::string& Path::getDirectoryName() const noexcept
-            {
-                return _directoryName;
-            }
-
-            std::string Path::getFileName() const
-            {
-                return _baseName + _number + _extension;
-            }
-
-            const std::string& Path::getBaseName() const noexcept
-            {
-                return _baseName;
-            }
-
-            const std::string& Path::getNumber() const noexcept
-            {
-                return _number;
-            }
-
-            const std::string& Path::getExtension() const noexcept
-            {
-                return _extension;
-            }
-
-            void Path::setDirectoryName(const std::string& value)
-            {
-                _directoryName = value;
-            }
-
+            
             void Path::setFileName(const std::string& value)
             {
                 set(_directoryName + value);
-            }
-
-            void Path::setBaseName(const std::string& value)
-            {
-                _baseName = value;
-            }
-
-            void Path::setNumber(const std::string& value)
-            {
-                _number = value;
-            }
-
-            void Path::setExtension(const std::string& value)
-            {
-                _extension = value;
-            }
-
-            bool Path::operator == (const Path& other) const
-            {
-                return get() == other.get();
-            }
-
-            bool Path::operator != (const Path& other) const
-            {
-                return !(*this == other);
-            }
-
-            bool Path::operator < (const Path& other) const
-            {
-                return get().compare(other.get()) < 0;
-            }
-
-            Path::operator std::string() const
-            {
-                return get();
             }
 
         } // namespace File

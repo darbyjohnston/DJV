@@ -10,6 +10,13 @@ namespace djv
 {
     namespace Scene
     {
+        InstancePrimitive::InstancePrimitive()
+        {}
+
+        std::shared_ptr<InstancePrimitive> InstancePrimitive::create()
+        {
+            return std::shared_ptr<InstancePrimitive>(new InstancePrimitive);
+        }
 
     } // namespace Scene
 } // namespace djv

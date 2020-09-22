@@ -21,11 +21,6 @@ namespace djv
     {
         namespace Time
         {
-            Math::Rational getTimebaseRational()
-            {
-                return Math::Rational(1, timebase);
-            }
-
             int64_t scale(int64_t value, const Math::Rational& br, const Math::Rational& cr) noexcept
             {
                 int64_t out = 0;
@@ -42,15 +37,6 @@ namespace djv
                     DJV_ASSERT(0);
                 }
                 return out;
-            }
-            
-            void secondsToTime(double in, int& hour, int& minute, double& seconds)
-            {
-                hour     = static_cast<int>(in / 3600);
-                in      -= static_cast<int64_t>(hour) * static_cast<int64_t>(3600);
-                minute   = in / 60;
-                in      -= static_cast<int64_t>(minute) * static_cast<int64_t>(60);
-                seconds  = in;
             }
 
             std::string getLabel(double value)
@@ -121,19 +107,6 @@ namespace djv
                 prefix = std::stoi(pieces[2]);
                 count  = std::stoi(pieces[3]);
                 offset = std::stoi(pieces[4]);
-            }
-
-            void timecodeToTime(
-                uint32_t in,
-                int& hour,
-                int& minute,
-                int& seconds,
-                int& frame)
-            {
-                hour    = (in >> 28 & 0x0f) * 10 + (in >> 24 & 0x0f);
-                minute  = (in >> 20 & 0x0f) * 10 + (in >> 16 & 0x0f);
-                seconds = (in >> 12 & 0x0f) * 10 + (in >>  8 & 0x0f);
-                frame   = (in >>  4 & 0x0f) * 10 + (in >>  0 & 0x0f);
             }
 
             uint32_t timeToTimecode(

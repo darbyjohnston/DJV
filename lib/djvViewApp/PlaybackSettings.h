@@ -30,21 +30,27 @@ namespace djv
             static std::shared_ptr<PlaybackSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeStartPlayback() const;
+
             void setStartPlayback(bool);
 
             std::shared_ptr<Core::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
+
             void setPlaybackSpeed(PlaybackSpeed);
 
             std::shared_ptr<Core::IValueSubject<Math::Rational> > observeCustomSpeed() const;
+
             void setCustomSpeed(const Math::Rational&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
+
             void setPlayEveryFrame(bool);
 
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
+
             void setPlaybackMode(PlaybackMode);
 
             std::shared_ptr<Core::IValueSubject<bool> > observePIPEnabled() const;
+
             void setPIPEnabled(bool);
 
             void load(const rapidjson::Value &) override;

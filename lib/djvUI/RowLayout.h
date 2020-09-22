@@ -23,7 +23,6 @@ namespace djv
                 Count,
                 First = None
             };
-            DJV_ENUM_HELPERS(RowStretch);
 
             //! This class provides a layout that arranges it's children in a row.
             class Row : public Widget
@@ -44,12 +43,15 @@ namespace djv
                 void addExpander();
 
                 Orientation getOrientation() const;
+
                 void setOrientation(Orientation);
 
                 const Spacing& getSpacing() const;
+
                 void setSpacing(const Spacing&);
 
                 RowStretch getStretch(const std::shared_ptr<Widget>&) const;
+
                 void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
                 float getHeightForWidth(float) const override;
@@ -98,8 +100,4 @@ namespace djv
         using Layout::RowStretch;
 
     } // namespace UI
-
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);
-
 } // namespace Gp

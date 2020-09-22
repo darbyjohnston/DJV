@@ -6,9 +6,6 @@
 
 #include <djvAV/SequenceIO.h>
 
-#include <djvCore/RapidJSONFunc.h>
-#include <djvCore/String.h>
-
 #if defined(DJV_PLATFORM_WINDOWS)
 #include <basetsd.h>
 #endif // DJV_PLATFORM_WINDOWS
@@ -136,11 +133,4 @@ namespace djv
             } // namespace JPEG
         } // namespace IO
     } // namespace AV
-
-    rapidjson::Value toJSON(const AV::IO::JPEG::Options&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::IO::JPEG::Options&);
-
 } // namespace djv

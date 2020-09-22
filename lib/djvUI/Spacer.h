@@ -27,12 +27,15 @@ namespace djv
                 static std::shared_ptr<Spacer> create(Orientation, const std::shared_ptr<System::Context>&);
 
                 Orientation getOrientation() const;
+
                 void setOrientation(Orientation);
 
                 MetricsRole getSpacerSize() const;
+
                 void setSpacerSize(MetricsRole);
 
                 MetricsRole getSpacerOppositeSize() const;
+
                 void setSpacerOppositeSize(MetricsRole);
 
             protected:

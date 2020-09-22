@@ -9,6 +9,8 @@
 #include <djvCore/Enum.h>
 #include <djvCore/RapidJSONFunc.h>
 
+#include <glad.h>
+
 #include <sstream>
 #include <vector>
 

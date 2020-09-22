@@ -75,21 +75,6 @@ namespace djv
                 std::lock_guard<std::mutex> lock(_mutex);
                 _inOutPoints = value;
             }
-            
-            bool IRead::hasCache() const
-            {
-                return false;
-            }
-
-            bool IRead::isCacheEnabled() const
-            {
-                return _cacheEnabled;
-            }
-
-            size_t IRead::getCacheMaxByteCount() const
-            {
-                return _cacheMaxByteCount;
-            }
 
             size_t IRead::getCacheByteCount()
             {
@@ -153,11 +138,6 @@ namespace djv
 
             IPlugin::~IPlugin()
             {}
-
-            bool IPlugin::canSequence() const
-            {
-                return false;
-            }
 
             namespace
             {

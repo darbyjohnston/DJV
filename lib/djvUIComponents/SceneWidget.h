@@ -72,15 +72,19 @@ namespace djv
             static std::shared_ptr<SceneWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<Scene::Scene>& getScene() const;
+
             void setScene(const std::shared_ptr<Scene::Scene>&);
 
             std::shared_ptr<Core::IValueSubject<SceneRotate> > observeSceneRotate() const;
+            
             void setSceneRotate(SceneRotate);
 
             std::shared_ptr<Core::IValueSubject<Scene::PolarCameraData> > observeCameraData() const;
+            
             void setCameraData(const Scene::PolarCameraData&);
 
             std::shared_ptr<Core::IValueSubject<SceneRenderOptions> > observeRenderOptions() const;
+            
             void setRenderOptions(const SceneRenderOptions&);
 
             void frameView();

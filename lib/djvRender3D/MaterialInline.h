@@ -6,12 +6,6 @@ namespace djv
 {
     namespace Render3D
     {
-        inline IMaterial::IMaterial()
-        {}
-
-        inline IMaterial::~IMaterial()
-        {}
-
         inline void IMaterial::bind(const BindData&)
         {
             // Default implementation does nothing.
@@ -26,18 +20,6 @@ namespace djv
         {
             return _shader;
         }
-
-        inline SolidColorMaterial::SolidColorMaterial()
-        {}
-
-        inline SolidColorMaterial::~SolidColorMaterial()
-        {}
-
-        inline DefaultMaterial::DefaultMaterial()
-        {}
-
-        inline DefaultMaterial::~DefaultMaterial()
-        {}
 
         inline void DefaultMaterial::setMode(DefaultMaterialMode value)
         {

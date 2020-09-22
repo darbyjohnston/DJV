@@ -100,3 +100,4 @@ namespace djv
     } // namespace System
 } // namespace djv
 
+#include <djvSystem/TimerInline.h>

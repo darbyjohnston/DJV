@@ -25,6 +25,7 @@ namespace djv
             static std::shared_ptr<SearchBox> create(const std::shared_ptr<System::Context>&);
 
             const std::string & getFilter() const;
+
             void setFilter(const std::string &);
             void clearFilter();
             void setFilterCallback(const std::function<void(const std::string &)>&);

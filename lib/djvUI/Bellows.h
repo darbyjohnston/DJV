@@ -27,9 +27,11 @@ namespace djv
                 static std::shared_ptr<Bellows> create(const std::shared_ptr<System::Context>&);
                 
                 const std::string& getText() const;
+
                 void setText(const std::string&);
 
                 bool isOpen() const;
+
                 void setOpen(bool, bool animate = true);
                 void open(bool animate = true);
                 void close(bool animate = true);

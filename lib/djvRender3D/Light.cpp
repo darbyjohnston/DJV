@@ -10,11 +10,23 @@ namespace djv
 {
     namespace Render3D
     {
+        ILight::ILight()
+        {}
+
+        ILight::~ILight()
+        {}
+
+        HemisphereLight::HemisphereLight()
+        {}
+
         std::shared_ptr<HemisphereLight> HemisphereLight::create()
         {
             auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
             return out;
         }
+
+        DirectionalLight::DirectionalLight()
+        {}
 
         std::shared_ptr<DirectionalLight> DirectionalLight::create()
         {
@@ -22,11 +34,17 @@ namespace djv
             return out;
         }
 
+        PointLight::PointLight()
+        {}
+
         std::shared_ptr<PointLight> PointLight::create()
         {
             auto out = std::shared_ptr<PointLight>(new PointLight);
             return out;
         }
+
+        SpotLight::SpotLight()
+        {}
 
         std::shared_ptr<SpotLight> SpotLight::create()
         {

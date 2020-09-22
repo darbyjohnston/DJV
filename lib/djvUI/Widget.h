@@ -54,6 +54,7 @@ namespace djv
             ///@{
 
             bool isVisible(bool parents = false) const;
+
             //! \todo Should we have show/hide events instead of making this function
             //! virtual?
             virtual void setVisible(bool);
@@ -64,6 +65,7 @@ namespace djv
             const Math::BBox2f& getClipRect() const;
 
             float getOpacity(bool parents = false) const;
+
             void setOpacity(float);
 
             ///@}
@@ -76,6 +78,7 @@ namespace djv
             glm::vec2 getSize() const;
             float getWidth() const;
             float getHeight() const;
+
             void setGeometry(const Math::BBox2f&);
             void move(const glm::vec2&);
             void resize(const glm::vec2&);
@@ -86,10 +89,12 @@ namespace djv
             virtual float getHeightForWidth(float) const;
 
             const Layout::Margin& getMargin() const;
+
             void setMargin(const Layout::Margin&);
 
             HAlign getHAlign() const;
             VAlign getVAlign() const;
+
             void setHAlign(HAlign);
             void setVAlign(VAlign);
 
@@ -99,9 +104,11 @@ namespace djv
             ///@{
 
             ColorRole getBackgroundRole() const;
+
             virtual void setBackgroundRole(ColorRole);
 
             const std::set<Side>& getShadowOverlay() const;
+
             void setShadowOverlay(const std::set<Side>&);
 
             ///@}
@@ -110,9 +117,11 @@ namespace djv
             ///@{
 
             bool isPointerEnabled() const;
+
             void setPointerEnabled(bool);
 
             virtual std::shared_ptr<Widget> getFocusWidget();
+
             virtual bool acceptFocus(TextFocusDirection);
             bool hasTextFocus();
             void takeTextFocus();
@@ -126,6 +135,7 @@ namespace djv
             ///@{
 
             const std::vector<std::shared_ptr<Action> >& getActions() const;
+
             virtual void addAction(const std::shared_ptr<Action>&);
             virtual void removeAction(const std::shared_ptr<Action>&);
             virtual void clearActions();
@@ -136,6 +146,7 @@ namespace djv
             ///@{
 
             const std::string& getTooltip() const;
+
             void setTooltip(const std::string&);
 
             ///@}

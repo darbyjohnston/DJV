@@ -1,9 +1,11 @@
 set(header
     ShapeTest.h
-    TriangleMeshTest.h)
+    TriangleMeshTest.h
+    TriangleMeshFuncTest.h)
 set(source
     ShapeTest.cpp
-    TriangleMeshTest.cpp)
+    TriangleMeshTest.cpp
+    TriangleMeshFuncTest.cpp)
 
 add_library(djvGeomTest ${header} ${source})
 target_link_libraries(djvGeomTest djvTestLib djvGeom)

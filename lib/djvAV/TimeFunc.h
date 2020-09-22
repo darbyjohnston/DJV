@@ -126,3 +126,4 @@ namespace djv
 
 } // namespace djv
 
+#include <djvAV/TimeFuncInline.h>

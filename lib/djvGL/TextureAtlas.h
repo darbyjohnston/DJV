@@ -39,6 +39,7 @@ namespace djv
             std::vector<GLuint> getTextures() const;
 
             bool getItem(Core::UID, TextureAtlasItem&);
+
             Core::UID addItem(const std::shared_ptr<Image::Data>&, TextureAtlasItem&);
 
             float getPercentageUsed() const;

@@ -31,19 +31,23 @@ namespace djv
                 void setCheckedIcon(const std::string&);
 
                 std::string getText() const;
+
                 void setText(const std::string&);
 
                 TextHAlign getTextHAlign() const;
+
                 void setTextHAlign(TextHAlign);
 
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
+
                 void setFont(const std::string&);
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
                 MetricsRole getInsideMargin() const;
+
                 void setInsideMargin(MetricsRole);
 
                 void setTextFocusEnabled(bool);

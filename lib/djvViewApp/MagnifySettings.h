@@ -32,10 +32,12 @@ namespace djv
 
             size_t getMagnify() const;
             const glm::vec2& getMagnifyPos() const;
+
             void setMagnify(size_t);
             void setMagnifyPos(const glm::vec2&);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+            
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;

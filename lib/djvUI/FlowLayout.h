@@ -29,6 +29,7 @@ namespace djv
                 static std::shared_ptr<Flow> create(const std::shared_ptr<System::Context>&);
 
                 const Spacing& getSpacing() const;
+
                 void setSpacing(const Spacing&);
 
                 float getHeightForWidth(float) const override;

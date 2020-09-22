@@ -29,7 +29,8 @@ namespace djv
         public:
             explicit Square(float radius = .5F);
 
-            float getRadius() const { return _radius; }
+            float getRadius() const;
+
             void setRadius(float);
 
             void triangulate(TriangleMesh&) const override;
@@ -44,8 +45,9 @@ namespace djv
         public:
             Circle(float radius = .5F, size_t resolution = 10);
 
-            float getRadius() const { return _radius; }
-            size_t getResolution() const { return _resolution; }
+            float getRadius() const;
+            size_t getResolution() const;
+
             void setRadius(float);
             void setResolution(size_t);
 
@@ -62,7 +64,8 @@ namespace djv
         public:
             explicit Cube(float radius = .5F);
 
-            float getRadius() const { return _radius; }
+            float getRadius() const;
+
             void setRadius(float);
 
             void triangulate(TriangleMesh&) const override;
@@ -80,11 +83,12 @@ namespace djv
 
             Sphere(float radius = .5F, const Resolution& = Resolution(10, 10));
 
-            float getRadius() const { return _radius; }
-            const Resolution& getResolution() const { return _resolution; }
-            const Span& getUSpan() const { return _uSpan; }
-            const Span& getVSpan() const { return _vSpan; }
-            bool hasTextureSpan() const { return _textureSpan; }
+            float getRadius() const;
+            const Resolution& getResolution() const;
+            const Span& getUSpan() const;
+            const Span& getVSpan() const;
+            bool hasTextureSpan() const;
+
             void setRadius(float);
             void setResolution(const Resolution&);
             void setUSpan(const Span&);
@@ -109,12 +113,13 @@ namespace djv
 
             Cylinder(float radius = .5F, float length = 1.F, size_t resolution = 100);
 
-            float getRadius() const { return _radius; }
-            float getLength() const { return _length; }
-            bool isCapped() const { return _capped; }
-            size_t getResolution() const { return _resolution; }
-            const Span& getSpan() const { return _span; }
-            bool hasTextureSpan() const { return _textureSpan; }
+            float getRadius() const;
+            float getLength() const;
+            bool isCapped() const;
+            size_t getResolution() const;
+            const Span& getSpan() const;
+            bool hasTextureSpan() const;
+
             void setRadius(float);
             void setLength(float);
             void setCapped(bool);
@@ -136,3 +141,4 @@ namespace djv
     } // namespace Geom
 } // namespace djv
 
+#include <djvGeom/ShapeInline.h>

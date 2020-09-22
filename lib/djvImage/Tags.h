@@ -32,8 +32,10 @@ namespace djv
 
         private:
             std::map<std::string, std::string> _map;
-            static const std::string _empty;
+            std::string _empty;
         };
 
     } // namespace Image
 } // namespace djv
+
+#include <djvImage/TagsInline.h>

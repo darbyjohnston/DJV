@@ -9,6 +9,8 @@
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
+#include <string>
+
 namespace djv
 {
     namespace UI
@@ -28,26 +30,33 @@ namespace djv
 
         public:
             virtual ~Action();
+
             static std::shared_ptr<Action> create();
             static std::shared_ptr<Action> create(const std::string& text);
 
             std::shared_ptr<Core::IValueSubject<ButtonType> > observeButtonType() const;
+
             void setButtonType(ButtonType);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeChecked() const;
+            
             void setChecked(bool);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
+            
             void setIcon(const std::string&);
             void setCheckedIcon(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
+            
             void setText(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeFont() const;
+            
             void setFont(const std::string&);
 
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
+            
             void setShortcuts(const ShortcutDataPair&);
             void setShortcut(const std::shared_ptr<Shortcut>&);
             void setShortcut(int key);
@@ -59,12 +68,15 @@ namespace djv
             void clearShortcuts();
 
             std::shared_ptr<Core::IValueSubject<bool> > observeEnabled() const;
+            
             void setEnabled(bool);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeTooltip() const;
+            
             void setTooltip(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoRepeat() const;
+            
             void setAutoRepeat(bool);
 
             void setClickedCallback(const std::function<void(void)>&);

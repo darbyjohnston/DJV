@@ -25,21 +25,6 @@ namespace djv
                 return std::shared_ptr<IO>(new IO);
             }
 
-            const std::string& IO::getFileName() const
-            {
-                return _fileName;
-            }
-
-            size_t IO::getSize() const
-            {
-                return _size;
-            }
-
-            size_t IO::getPos() const
-            {
-                return _pos;
-            }
-
             void IO::setPos(size_t in)
             {
                 _setPos(in, false);
@@ -158,28 +143,6 @@ namespace djv
             void IO::write(const std::string& value)
             {
                 write8(reinterpret_cast<const int8_t*>(value.c_str()), value.size());
-            }
-        
-#if defined(DJV_MMAP)
-            const uint8_t* IO::mmapP() const
-            {
-                return _mmapP;
-            }
-
-            const uint8_t* IO::mmapEnd() const
-            {
-                return _mmapEnd;
-            }
-#endif // DJV_MMAP
-
-            bool IO::hasEndianConversion() const
-            {
-                return _endianConversion;
-            }
-            
-            void IO::setEndianConversion(bool in)
-            {
-                _endianConversion = in;
             }
 
         } // namespace File

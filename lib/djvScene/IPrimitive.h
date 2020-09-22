@@ -52,31 +52,38 @@ namespace djv
             Core::UID getUID() const;
 
             const std::string& getName() const;
+
             void setName(const std::string&);
 
             bool isVisible() const;
+
             void setVisible(bool);
 
             const Math::BBox3f& getBBox() const;
+
             void setBBox(const Math::BBox3f&);
 
             const glm::mat4x4& getXForm() const;
             bool isXFormIdentity() const;
+
             void setXForm(const glm::mat4x4&);
 
             ColorAssignment getColorAssignment() const;
             const Image::Color& getColor() const;
+
             void setColorAssignment(ColorAssignment);
             void setColor(const Image::Color&);
 
             MaterialAssignment getMaterialAssignment() const;
             const std::shared_ptr<IMaterial>& getMaterial() const;
             virtual bool isShaded() const;
+
             void setMaterialAssignment(MaterialAssignment);
             void setMaterial(const std::shared_ptr<IMaterial>&);
 
             const std::weak_ptr<IPrimitive>& getParent() const;
             const std::vector<std::shared_ptr<IPrimitive> >& getChildren() const;
+
             void addChild(const std::shared_ptr<IPrimitive>&);
             void removeChild(const std::shared_ptr<IPrimitive>&);
             void clearChildren();

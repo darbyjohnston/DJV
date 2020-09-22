@@ -2,10 +2,12 @@ set(header
 	OCIO.h
 	OCIOInline.h
 	OCIOSystem.h
+	OCIOSystemFunc.h
 	OCIOSystemInline.h)
 set(source
 	OCIO.cpp
-	OCIOSystem.cpp)
+	OCIOSystem.cpp
+	OCIOSystemFunc.cpp)
 
 add_library(djvOCIO ${header} ${source})
 set(LIBRARIES

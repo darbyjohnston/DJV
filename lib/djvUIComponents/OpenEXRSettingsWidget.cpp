@@ -11,7 +11,7 @@
 #include <djvUI/IntSlider.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/OpenEXR.h>
+#include <djvAV/OpenEXRFunc.h>
 
 #include <djvSystem/Context.h>
 

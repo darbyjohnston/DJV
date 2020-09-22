@@ -7,11 +7,13 @@ set(header
     ImageDataInline.h
     Image.h
     ImageFunc.h
+    ImageInline.h
     Pixel.h
     PixelFunc.h
     PixelFuncInline.h
     PixelInline.h
-    Tags.h)
+    Tags.h
+    TagsInline.h)
 set(source
     Color.cpp
     ColorFunc.cpp

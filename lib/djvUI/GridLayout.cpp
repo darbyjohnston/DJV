@@ -11,7 +11,6 @@
 #include <djvMath/Math.h>
 #include <djvMath/VectorFunc.h>
 
-#include <array>
 #include <unordered_map>
 
 //#pragma optimize("", off)
@@ -560,18 +559,7 @@ namespace djv
                 }
             }
 
-            DJV_ENUM_HELPERS_IMPLEMENTATION(GridStretch);
-
         } // namespace Layout
     } // namespace UI
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI::Layout,
-        GridStretch,
-        DJV_TEXT("layout_grid_stretch_none"),
-        DJV_TEXT("layout_grid_stretch_horizontal"),
-        DJV_TEXT("layout_grid_stretch_vertical"),
-        DJV_TEXT("layout_grid_stretch_both"));
-
 } // namespace djv
 

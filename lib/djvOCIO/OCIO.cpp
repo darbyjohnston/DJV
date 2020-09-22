@@ -4,18 +4,26 @@
 
 #include <djvOCIO/OCIO.h>
 
-#include <tuple>
-
 using namespace djv::Core;
 
 namespace djv
 {
     namespace OCIO
     {
-        namespace OCIO
-        {
+        Convert::Convert()
+        {}
 
-        } // namespace OCIO
+        Convert::Convert(const std::string& input, const std::string& output) :
+            input(input),
+            output(output)
+        {}
+
+        View::View()
+        {}
+
+        Display::Display()
+        {}
+
     } // namespace OCIO
 } // namespace djv
 

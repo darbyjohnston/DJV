@@ -468,6 +468,446 @@ namespace djv
 {
     namespace Image
     {
+        Channels getChannels(Type value) noexcept
+        {
+            const std::array<Channels, static_cast<size_t>(Type::Count)> data =
+            {
+                Channels::None,
+
+                Channels::L,
+                Channels::L,
+                Channels::L,
+                Channels::L,
+                Channels::L,
+
+                Channels::LA,
+                Channels::LA,
+                Channels::LA,
+                Channels::LA,
+                Channels::LA,
+
+                Channels::RGB,
+                Channels::RGB,
+                Channels::RGB,
+                Channels::RGB,
+                Channels::RGB,
+                Channels::RGB,
+
+                Channels::RGBA,
+                Channels::RGBA,
+                Channels::RGBA,
+                Channels::RGBA,
+                Channels::RGBA
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        uint8_t getChannelCount(Type value) noexcept
+        {
+            const std::array<uint8_t, static_cast<size_t>(Type::Count)> data =
+            {
+                0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+                3, 3, 3, 3, 3, 3,
+                4, 4, 4, 4, 4
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        DataType getDataType(Type value) noexcept
+        {
+            const std::array<DataType, static_cast<size_t>(Type::Count)> data =
+            {
+                DataType::None,
+
+                DataType::U8,
+                DataType::U16,
+                DataType::U32,
+                DataType::F16,
+                DataType::F32,
+
+                DataType::U8,
+                DataType::U16,
+                DataType::U32,
+                DataType::F16,
+                DataType::F32,
+
+                DataType::U8,
+                DataType::U10,
+                DataType::U16,
+                DataType::U32,
+                DataType::F16,
+                DataType::F32,
+
+                DataType::U8,
+                DataType::U16,
+                DataType::U32,
+                DataType::F16,
+                DataType::F32
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        uint8_t getBitDepth(Type value) noexcept
+        {
+            const std::array<uint8_t, static_cast<size_t>(Type::Count)> data =
+            {
+                0,
+                8, 16, 32, 16, 32,
+                8, 16, 32, 16, 32,
+                8, 10, 16, 32, 16, 32,
+                8, 16, 32, 16, 32
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        uint8_t getBitDepth(DataType value) noexcept
+        {
+            const std::array<uint8_t, static_cast<size_t>(DataType::Count)> data =
+            {
+                0,
+                8,
+                10,
+                16,
+                32,
+                16,
+                32
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        size_t getByteCount(Type value) noexcept
+        {
+            const std::array<size_t, static_cast<size_t>(Type::Count)> data =
+            {
+                0,
+                1, 2, 4, 2, 4,
+                2, 4, 8, 4, 8,
+                3, 4, 6, 12, 6, 12,
+                4, 8, 16, 8, 16
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        size_t getByteCount(DataType value) noexcept
+        {
+            const std::array<size_t, static_cast<size_t>(DataType::Count)> data =
+            {
+                0,
+                1,
+                2,
+                2,
+                4,
+                2,
+                4
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        bool isIntType(Type value) noexcept
+        {
+            const std::array<bool, static_cast<size_t>(Type::Count)> data =
+            {
+                false,
+                true, true, true, false, false,
+                true, true, true, false, false,
+                true, true, true, true, false, false,
+                true, true, true, false, false,
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        bool isFloatType(Type value) noexcept
+        {
+            const std::array<bool, static_cast<size_t>(Type::Count)> data =
+            {
+                false,
+                false, false, false, true, true,
+                false, false, false, true, true,
+                false, false, false, false, true, true,
+                false, false, false, true, true
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        Math::IntRange getIntRange(Type value)
+        {
+            const std::array<Math::IntRange, static_cast<size_t>(Type::Count)> data =
+            {
+                Math::IntRange(0, 0),
+
+                Math::IntRange(U8Range.getMin(), U8Range.getMax()),
+                Math::IntRange(U16Range.getMin(), U16Range.getMax()),
+                Math::IntRange(U32Range.getMin(), U32Range.getMax()),
+                Math::IntRange(0, 0),
+                Math::IntRange(0, 0),
+
+                Math::IntRange(U8Range.getMin(), U8Range.getMax()),
+                Math::IntRange(U16Range.getMin(), U16Range.getMax()),
+                Math::IntRange(U32Range.getMin(), U32Range.getMax()),
+                Math::IntRange(0, 0),
+                Math::IntRange(0, 0),
+
+                Math::IntRange(U8Range.getMin(), U8Range.getMax()),
+                Math::IntRange(U10Range.getMin(), U10Range.getMax()),
+                Math::IntRange(U16Range.getMin(), U16Range.getMax()),
+                Math::IntRange(U32Range.getMin(), U32Range.getMax()),
+                Math::IntRange(0, 0),
+                Math::IntRange(0, 0),
+
+                Math::IntRange(U8Range.getMin(), U8Range.getMax()),
+                Math::IntRange(U16Range.getMin(), U16Range.getMax()),
+                Math::IntRange(U32Range.getMin(), U32Range.getMax()),
+                Math::IntRange(0, 0),
+                Math::IntRange(0, 0),
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        Math::FloatRange getFloatRange(Type value)
+        {
+            const std::array<Math::FloatRange, static_cast<size_t>(Type::Count)> data =
+            {
+                Math::FloatRange(0.F, 0.F),
+
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(F16Range.getMin(), F16Range.getMax()),
+                Math::FloatRange(F32Range.getMin(), F32Range.getMax()),
+
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(F16Range.getMin(), F16Range.getMax()),
+                Math::FloatRange(F32Range.getMin(), F32Range.getMax()),
+
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(F16Range.getMin(), F16Range.getMax()),
+                Math::FloatRange(F32Range.getMin(), F32Range.getMax()),
+
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(0.F, 0.F),
+                Math::FloatRange(F16Range.getMin(), F16Range.getMax()),
+                Math::FloatRange(F32Range.getMin(), F32Range.getMax()),
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        Type getIntType(uint8_t channelCount, uint8_t bitDepth) noexcept
+        {
+            switch (channelCount)
+            {
+            case 1:
+                switch (bitDepth)
+                {
+                case  8: return Type::L_U8;
+                case 16: return Type::L_U16;
+                case 32: return Type::L_U32;
+                default: break;
+                }
+                break;
+            case 2:
+                switch (bitDepth)
+                {
+                case  8: return Type::LA_U8;
+                case 16: return Type::LA_U16;
+                case 32: return Type::LA_U32;
+                default: break;
+                }
+                break;
+            case 3:
+                switch (bitDepth)
+                {
+                case  8: return Type::RGB_U8;
+                case 10: return Type::RGB_U10;
+                case 16: return Type::RGB_U16;
+                case 32: return Type::RGB_U32;
+                default: break;
+                }
+                break;
+            case 4:
+                switch (bitDepth)
+                {
+                case  8: return Type::RGBA_U8;
+                case 16: return Type::RGBA_U16;
+                case 32: return Type::RGBA_U32;
+                default: break;
+                }
+                break;
+            default: break;
+            }
+            return Type::None;
+        }
+
+        Type getFloatType(uint8_t channelCount, uint8_t bitDepth) noexcept
+        {
+            switch (channelCount)
+            {
+            case 1:
+                switch (bitDepth)
+                {
+                case 16: return Type::L_F16;
+                case 32: return Type::L_F32;
+                default: break;
+                }
+                break;
+            case 2:
+                switch (bitDepth)
+                {
+                case 16: return Type::LA_F16;
+                case 32: return Type::LA_F32;
+                default: break;
+                }
+                break;
+            case 3:
+                switch (bitDepth)
+                {
+                case 16: return Type::RGB_F16;
+                case 32: return Type::RGB_F32;
+                default: break;
+                }
+                break;
+            case 4:
+                switch (bitDepth)
+                {
+                case 16: return Type::RGBA_F16;
+                case 32: return Type::RGBA_F32;
+                default: break;
+                }
+                break;
+            default: break;
+            }
+            return Type::None;
+        }
+
+        GLenum getGLFormat(Type value) noexcept
+        {
+            const std::array<GLenum, static_cast<size_t>(Type::Count)> data =
+            {
+                GL_NONE,
+
+#if defined(DJV_GL_ES2)
+                GL_LUMINANCE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_LUMINANCE_ALPHA,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_RGB,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_RGBA,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE
+#else // DJV_GL_ES2
+                GL_RED,
+                GL_RED,
+                GL_RED,
+                GL_RED,
+                GL_RED,
+
+                GL_RG,
+                GL_RG,
+                GL_RG,
+                GL_RG,
+                GL_RG,
+
+                GL_RGB,
+                GL_RGBA,
+                GL_RGB,
+                GL_RGB,
+                GL_RGB,
+                GL_RGB,
+
+                GL_RGBA,
+                GL_RGBA,
+                GL_RGBA,
+                GL_RGBA,
+                GL_RGBA
+#endif // DJV_GL_ES2
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        GLenum getGLType(Type value) noexcept
+        {
+            const std::array<GLenum, static_cast<size_t>(Type::Count)> data =
+            {
+                GL_NONE,
+
+#if defined(DJV_GL_ES2)
+                GL_UNSIGNED_BYTE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_UNSIGNED_BYTE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_UNSIGNED_BYTE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_UNSIGNED_BYTE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+#else // DJV_GL_ES2
+                GL_UNSIGNED_BYTE,
+                GL_UNSIGNED_SHORT,
+                GL_UNSIGNED_INT,
+                GL_HALF_FLOAT,
+                GL_FLOAT,
+
+                GL_UNSIGNED_BYTE,
+                GL_UNSIGNED_SHORT,
+                GL_UNSIGNED_INT,
+                GL_HALF_FLOAT,
+                GL_FLOAT,
+
+                GL_UNSIGNED_BYTE,
+                GL_UNSIGNED_INT_10_10_10_2,
+                GL_UNSIGNED_SHORT,
+                GL_UNSIGNED_INT,
+                GL_HALF_FLOAT,
+                GL_FLOAT,
+
+                GL_UNSIGNED_BYTE,
+                GL_UNSIGNED_SHORT,
+                GL_UNSIGNED_INT,
+                GL_HALF_FLOAT,
+                GL_FLOAT
+#endif // DJV_GL_ES2
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
         namespace
         {
             CONVERT_L(U8);

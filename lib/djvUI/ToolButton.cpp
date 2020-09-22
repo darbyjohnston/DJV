@@ -8,6 +8,7 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
+#include <djvUI/Style.h>
 
 #include <djvRender2D/Render.h>
 

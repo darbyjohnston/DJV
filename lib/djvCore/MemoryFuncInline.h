@@ -8,6 +8,19 @@ namespace djv
     {
         namespace Memory
         {
+            inline Endian getEndian() noexcept
+            {
+                const int tmp = 1;
+                const uint8_t* const p = reinterpret_cast<const uint8_t*>(&tmp);
+                const Endian endian = *p ? Endian::LSB : Endian::MSB;
+                return endian;
+            }
+
+            inline Endian opposite(Endian in) noexcept
+            {
+                return Endian::MSB == in ? Endian::LSB : Endian::MSB;
+            }
+
             template <class T>
             inline void hashCombine(std::size_t& seed, const T& v)
             {

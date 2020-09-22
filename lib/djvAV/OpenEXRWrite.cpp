@@ -4,6 +4,8 @@
 
 #include <djvAV/OpenEXR.h>
 
+#include <djvAV/OpenEXRFunc.h>
+
 #include <ImfCompressionAttribute.h>
 #include <ImfOutputFile.h>
 #include <ImfStandardAttributes.h>

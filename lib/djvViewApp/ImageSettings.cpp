@@ -4,6 +4,8 @@
 
 #include <djvViewApp/ImageSettings.h>
 
+#include <djvUI/EnumFunc.h>
+
 #include <djvOCIO/OCIOSystem.h>
 
 #include <djvSystem/Context.h>

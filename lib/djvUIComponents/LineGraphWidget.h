@@ -27,6 +27,7 @@ namespace djv
             static std::shared_ptr<LineGraphWidget> create(const std::shared_ptr<System::Context>&);
 
             const Math::FloatRange& getSampleRange() const;
+
             void addSample(float);
             void resetSamples();
             void setPrecision(size_t);

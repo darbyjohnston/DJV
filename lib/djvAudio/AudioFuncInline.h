@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
 #include <djvMath/MathFunc.h>
@@ -8,92 +8,6 @@ namespace djv
 {
     namespace Audio
     {
-        inline uint8_t getByteCount(Type value)
-        {
-            const uint8_t data[] = { 0, 1, 2, 4, 4, 8 };
-            return data[static_cast<size_t>(value)];
-        }
-
-        inline Type getIntType(uint8_t value)
-        {
-            const Type data[] = { Type::None, Type::S8, Type::S16, Type::S32, Type::None, Type::None };
-            return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
-        }
-
-        inline Type getFloatType(uint8_t value)
-        {
-            const Type data[] = { Type::None, Type::None, Type::None, Type::None, Type::F32, Type::F64 };
-            return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
-        }
-
-        /*inline ALenum getALType(uint8_t channels, Type type)
-        {
-            ALenum out = AL_NONE;
-            switch (channels)
-            {
-            case 1:
-                switch (type)
-                {
-                case Type::U8:  out = AL_FORMAT_MONO8; break;
-                case Type::S16: out = AL_FORMAT_MONO16; break;
-                case Type::F32: out = AL_FORMAT_MONO_FLOAT32; break;
-                default: break;
-                }
-                break;
-            case 2:
-                switch (type)
-                {
-                case Type::U8:  out = AL_FORMAT_STEREO8; break;
-                case Type::S16: out = AL_FORMAT_STEREO16; break;
-                case Type::F32: out = AL_FORMAT_STEREO_FLOAT32; break;
-                default: break;
-                }
-                break;
-            case 6:
-                switch (type)
-                {
-                case Type::U8:  out = AL_FORMAT_51CHN8; break;
-                case Type::S16: out = AL_FORMAT_51CHN16; break;
-                case Type::F32: out = AL_FORMAT_51CHN32; break;
-                default: break;
-                }
-                break;
-            case 7:
-                switch (type)
-                {
-                case Type::U8:  out = AL_FORMAT_61CHN8; break;
-                case Type::S16: out = AL_FORMAT_61CHN16; break;
-                case Type::F32: out = AL_FORMAT_61CHN32; break;
-                default: break;
-                }
-                break;
-            case 8:
-                switch (type)
-                {
-                case Type::U8:  out = AL_FORMAT_71CHN8; break;
-                case Type::S16: out = AL_FORMAT_71CHN16; break;
-                case Type::F32: out = AL_FORMAT_71CHN32; break;
-                default: break;
-                }
-                break;
-            }
-            return out;
-        }*/
-
-        inline RtAudioFormat toRtAudio(Type value) noexcept
-        {
-            RtAudioFormat out = 0;
-            switch (value)
-            {
-            case Audio::Type::S16: out = RTAUDIO_SINT16; break;
-            case Audio::Type::S32: out = RTAUDIO_SINT32; break;
-            case Audio::Type::F32: out = RTAUDIO_FLOAT32; break;
-            case Audio::Type::F64: out = RTAUDIO_FLOAT64; break;
-            default: break;
-            }
-            return out;
-        }
-
         inline void S8ToS16(S8_T value, S16_T& out) noexcept
         {
             out = value * 256;

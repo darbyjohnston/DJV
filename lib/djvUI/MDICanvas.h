@@ -30,20 +30,24 @@ namespace djv
                 static std::shared_ptr<Canvas> create(const std::shared_ptr<System::Context>&);
 
                 const glm::vec2& getCanvasSize() const;
+
                 void setCanvasSize(const glm::vec2&);
 
                 const std::shared_ptr<IWidget>& getActiveWidget() const;
+
                 void nextWidget();
                 void prevWidget();
                 void setActiveCallback(const std::function<void(const std::shared_ptr<IWidget>&)>&);
 
                 glm::vec2 getWidgetPos(const std::shared_ptr<IWidget>&) const;
+
                 //! \todo We should convert widgets to use local coordinates and then
                 //! we could remove this and use Widget::move() instead.
                 void setWidgetPos(const std::shared_ptr<IWidget>&, const glm::vec2&);
                 void setWidgetGeometry(const std::shared_ptr<IWidget>&, const Math::BBox2f&);
 
                 bool isMaximized() const;
+
                 void setMaximize(bool);
                 void setMaximizeCallback(const std::function<void(bool)>&);
 

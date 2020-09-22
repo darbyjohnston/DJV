@@ -10,6 +10,13 @@ namespace djv
 {
     namespace Scene
     {
+        NullPrimitive::NullPrimitive()
+        {}
+
+        std::shared_ptr<NullPrimitive> NullPrimitive::create()
+        {
+            return std::shared_ptr<NullPrimitive>(new NullPrimitive);
+        }
 
     } // namespace Scene
 } // namespace djv

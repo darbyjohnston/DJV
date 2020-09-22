@@ -5,6 +5,7 @@
 #include <djvUI/PopupLayout.h>
 
 #include <djvUI/LayoutUtil.h>
+#include <djvUI/Style.h>
 
 #include <djvRender2D/Render.h>
 

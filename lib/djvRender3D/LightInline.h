@@ -6,11 +6,6 @@ namespace djv
 {
     namespace Render3D
     {
-        inline ILight::ILight()
-        {}
-
-        inline ILight::~ILight()
-        {}
 
         inline float ILight::getIntensity() const
         {
@@ -21,9 +16,6 @@ namespace djv
         {
             _intensity = value;
         }
-
-        inline HemisphereLight::HemisphereLight()
-        {}
 
         inline const glm::vec3& HemisphereLight::getUp() const
         {
@@ -55,9 +47,6 @@ namespace djv
             _bottomColor = value;
         }
 
-        inline DirectionalLight::DirectionalLight()
-        {}
-
         inline const glm::vec3& DirectionalLight::getDirection() const
         {
             return _direction;
@@ -68,9 +57,6 @@ namespace djv
             _direction = value;
         }
 
-        inline PointLight::PointLight()
-        {}
-
         inline const glm::vec3& PointLight::getPosition() const
         {
             return _position;
@@ -80,9 +66,6 @@ namespace djv
         {
             _position = value;
         }
-
-        inline SpotLight::SpotLight()
-        {}
 
         inline float SpotLight::getConeAngle() const
         {

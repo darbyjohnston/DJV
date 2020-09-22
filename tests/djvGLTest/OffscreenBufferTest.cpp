@@ -4,7 +4,7 @@
 
 #include <djvGLTest/OffscreenBufferTest.h>
 
-#include <djvGL/OffscreenBuffer.h>
+#include <djvGL/OffscreenBufferFunc.h>
 
 #include <djvImage/ImageDataFunc.h>
 
@@ -27,29 +27,6 @@ namespace djv
         {}
         
         void OffscreenBufferTest::run()
-        {
-            _enum();
-            _create();
-        }
-
-        void OffscreenBufferTest::_enum()
-        {
-            for (const auto& i : getOffscreenDepthTypeEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Depth type: " + _getText(ss.str()));
-            }
-            
-            for (const auto& i : getOffscreenSamplingEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Offscreen sampling: " + _getText(ss.str()));
-            }
-        }
-
-        void OffscreenBufferTest::_create()
         {
             if (auto context = getContext().lock())
             {

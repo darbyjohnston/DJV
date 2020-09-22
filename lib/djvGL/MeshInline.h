@@ -6,9 +6,6 @@ namespace djv
 {
     namespace GL
     {
-        inline VBO::VBO()
-        {}
-
         inline size_t VBO::getSize() const
         {
             return _size;
@@ -23,9 +20,6 @@ namespace djv
         {
             return _vbo;
         }
-
-        inline VAO::VAO()
-        {}
 
         inline GLuint VAO::getID() const
         {

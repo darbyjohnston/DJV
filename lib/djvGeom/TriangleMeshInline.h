@@ -6,7 +6,18 @@ namespace djv
 {
     namespace Geom
     {
-        inline bool TriangleMesh::Vertex::operator == (const TriangleMesh::Vertex& other) const
+        inline Core::UID TriangleMesh::getUID() const
+        {
+            return _uid;
+        }
+
+        constexpr TriangleMesh::Vertex::Vertex(size_t v, size_t t, size_t n) :
+            v(v),
+            t(t),
+            n(n)
+        {}
+
+        inline bool TriangleMesh::Vertex::operator == (const TriangleMesh::Vertex & other) const
         {
             return
                 v == other.v &&
@@ -14,26 +25,17 @@ namespace djv
                 n == other.n;
         }
 
-        inline bool TriangleMesh::Face::operator == (const TriangleMesh::Face& other) const
+        inline bool TriangleMesh::Face::operator == (const TriangleMesh::Face & other) const
         {
             return v == other.v;
         }
 
-        inline bool TriangleMesh::Triangle::operator == (const TriangleMesh::Triangle& other) const
+        inline bool TriangleMesh::Triangle::operator == (const TriangleMesh::Triangle & other) const
         {
             return
                 v0 == other.v0 &&
                 v1 == other.v1 &&
                 v2 == other.v2;
-        }
-
-        inline TriangleMesh::TriangleMesh() :
-            _uid(Core::createUID())
-        {}
-
-        inline Core::UID TriangleMesh::getUID() const
-        {
-            return _uid;
         }
 
     } // namespace Geom

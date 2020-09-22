@@ -8,6 +8,7 @@
 
 #include <functional>
 #include <memory>
+#include <vector>
 
 namespace djv
 {
@@ -33,10 +34,12 @@ namespace djv
             const std::vector<std::shared_ptr<Action> >& getActions() const;
             size_t getActionCount() const;
             int getActionIndex(const std::shared_ptr<Action>&) const;
+
             void setActions(const std::vector<std::shared_ptr<Action> >&);
             void clearActions();
 
             int getChecked() const;
+
             void setChecked(int, bool = true);
 
             void setPushCallback(const std::function<void(int)>&);

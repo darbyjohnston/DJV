@@ -12,7 +12,7 @@
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvGeom/TriangleMesh.h>
+#include <djvGeom/TriangleMeshFunc.h>
 
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
@@ -255,7 +255,7 @@ namespace djv
                                                     }
                                                 }
                                             }
-                                            Geom::TriangleMesh::faceToTriangles(face, mesh->triangles);
+                                            Geom::faceToTriangles(face, mesh->triangles);
                                         }
                                     }
                                 }));

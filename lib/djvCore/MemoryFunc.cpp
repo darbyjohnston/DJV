@@ -61,19 +61,6 @@ namespace djv
                 return ss.str();
             }
 
-            Endian getEndian() noexcept
-            {
-                const int tmp = 1;
-                const uint8_t* const p = reinterpret_cast<const uint8_t*>(&tmp);
-                const Endian endian = *p ? Endian::LSB : Endian::MSB;
-                return endian;
-            }
-            
-            Endian opposite(Endian in) noexcept
-            {
-                return Endian::MSB == in ? Endian::LSB : Endian::MSB;
-            }
-
             void endian(
                 void*  in,
                 size_t size,

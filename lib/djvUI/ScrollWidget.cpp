@@ -24,9 +24,6 @@
 
 #include <glm/geometric.hpp>
 
-#include <array>
-#include <list>
-
 using namespace djv::Core;
 
 namespace djv
@@ -1258,15 +1255,5 @@ namespace djv
             }
         }
 
-        DJV_ENUM_HELPERS_IMPLEMENTATION(ScrollType);
-
     } // namespace UI    
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI,
-        ScrollType,
-        DJV_TEXT("ui_scroll_type_both"),
-        DJV_TEXT("ui_scroll_type_horizontal"),
-        DJV_TEXT("ui_scroll_type_vertical"));
-
 } // namespace djv

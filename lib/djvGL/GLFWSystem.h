@@ -28,20 +28,12 @@ namespace djv
                 GLAD
             };
             
-            //! Get a GLFW error string.
-            std::string getErrorMessage(ErrorString);
-            
             //! This class provides a GLFW error.
             class Error : public std::runtime_error
             {
             public:
                 explicit Error(const std::string&);
             };
-        
-            //! Initialize GLFW.
-            //! Throws:
-            //! - Error
-            void init(const std::shared_ptr<System::Context>&);
         
             //! This class provides a system for GLFW functionality.
             class GLFWSystem : public System::ISystem
@@ -63,6 +55,7 @@ namespace djv
                 GLFWwindow* getGLFWWindow() const;
 
                 std::shared_ptr<Core::IValueSubject<SwapInterval> > observeSwapInterval() const;
+
                 void setSwapInterval(SwapInterval);
 
             private:

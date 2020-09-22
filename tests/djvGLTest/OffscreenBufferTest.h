@@ -16,10 +16,6 @@ namespace djv
                 const std::shared_ptr<System::Context>&);
             
             void run() override;
-
-        private:
-            void _enum();
-            void _create();
         };
         
     } // namespace GLTest

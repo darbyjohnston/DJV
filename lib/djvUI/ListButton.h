@@ -27,31 +27,39 @@ namespace djv
                 static std::shared_ptr<List> create(const std::shared_ptr<System::Context>&);
 
                 std::string getIcon() const;
+
                 void setIcon(const std::string&);
 
                 std::string getRightIcon() const;
+
                 void setRightIcon(const std::string&);
 
                 std::string getText() const;
+
                 void setText(const std::string&);
 
                 TextHAlign getTextHAlign() const;
+
                 void setTextHAlign(TextHAlign);
 
                 std::string getRightText() const;
+
                 void setRightText(const std::string&);
 
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
+
                 void setFont(const std::string&);
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
                 int getElide() const;
+
                 void setElide(int);
 
                 const Layout::Margin& getInsideMargin() const;
+
                 void setInsideMargin(const Layout::Margin&);
 
                 void setForegroundColorRole(ColorRole) override;

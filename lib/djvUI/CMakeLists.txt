@@ -14,6 +14,7 @@ set(header
     DrawUtil.h
     Drawer.h
     Enum.h
+    EnumFunc.h
     EventSystem.h
     FloatEdit.h
     FloatLabel.h
@@ -24,6 +25,7 @@ set(header
     GLFWSettings.h
     GeneralSettings.h
     GridLayout.h
+    GridLayoutFunc.h
     GroupBox.h
     IButton.h
     IDialog.h
@@ -63,12 +65,15 @@ set(header
     PushButton.h
     Render2DSettings.h
     RowLayout.h
+    RowLayoutFunc.h
     ScrollWidget.h
+    ScrollWidgetFunc.h
     Separator.h
     SettingsSystem.h
     SettingsSystemInline.h
     Shortcut.h
     ShortcutData.h
+    ShortcutDataFunc.h
     ShortcutDataInline.h
     Spacer.h
     Spacing.h
@@ -77,6 +82,7 @@ set(header
     SoloLayout.h
     StackLayout.h
     Style.h
+    StyleFunc.h
     StyleInline.h
     StyleSettings.h
     TabBar.h
@@ -108,7 +114,7 @@ set(source
     DialogSystem.cpp
     DrawUtil.cpp
     Drawer.cpp
-    Enum.cpp
+    EnumFunc.cpp
     EventSystem.cpp
     FloatEdit.cpp
     FloatLabel.cpp
@@ -119,6 +125,7 @@ set(source
     GLFWSettings.cpp
     GeneralSettings.cpp
     GridLayout.cpp
+    GridLayoutFunc.cpp
     GroupBox.cpp
     IButton.cpp
     IDialog.cpp
@@ -139,6 +146,7 @@ set(source
     LineEditBase.cpp
     MDICanvas.cpp
     MDIWidget.cpp
+    Margin.cpp
     Menu.cpp
     MenuBar.cpp
     MenuButton.cpp
@@ -153,16 +161,21 @@ set(source
     PushButton.cpp
     Render2DSettings.cpp
     RowLayout.cpp
+    RowLayoutFunc.cpp
     ScrollWidget.cpp
+    ScrollWidgetFunc.cpp
     Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp
     ShortcutData.cpp
+    ShortcutDataFunc.cpp
     Spacer.cpp
+    Spacing.cpp
     Splitter.cpp
     SoloLayout.cpp
     StackLayout.cpp
     Style.cpp
+    StyleFunc.cpp
     StyleSettings.cpp
     TabBar.cpp
     TabWidget.cpp

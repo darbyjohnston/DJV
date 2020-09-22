@@ -4,6 +4,8 @@
 
 #include <djvViewApp/ViewWidgetPrivate.h>
 
+#include <djvUI/Style.h>
+
 #include <djvRender2D/FontSystem.h>
 #include <djvRender2D/Render.h>
 
