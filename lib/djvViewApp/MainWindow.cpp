@@ -12,7 +12,6 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/PresentationWidget.h>
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/TimelineWidget.h>
@@ -33,6 +32,7 @@
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Separator.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
@@ -62,12 +62,12 @@ namespace djv
             std::shared_ptr<UI::Button::Menu> mediaButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
+            std::shared_ptr<UI::Layout::Separator> menuBarSeparator;
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::shared_ptr<TimelineWidget> timelineWidget;
-            std::shared_ptr<PresentationWidget> presentationWidget;
-            std::shared_ptr<UI::VerticalLayout> mainLayout;
-            std::shared_ptr<UI::SoloLayout> layout;
+            std::shared_ptr<UI::Layout::Separator> timelineSeparator;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<ValueObserver<bool> > settingsActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
@@ -186,24 +186,21 @@ namespace djv
 
             p.timelineWidget = TimelineWidget::create(context);
 
-            p.presentationWidget = PresentationWidget::create(context);
-
-            p.layout = UI::SoloLayout::create(context);
-            p.mainLayout = UI::VerticalLayout::create(context);
-            p.mainLayout->setSpacing(UI::MetricsRole::None);
-            p.mainLayout->addChild(p.menuBar);
-            p.mainLayout->addSeparator();
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.menuBar);
+            p.menuBarSeparator = UI::Layout::Separator::create(context);
+            p.layout->addChild(p.menuBarSeparator);
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(backgroundWidget);
             stackLayout->addChild(p.mediaCanvas);
             stackLayout->addChild(p.canvas);
             stackLayout->addChild(settingsDrawer);
-            p.mainLayout->addChild(stackLayout);
-            p.mainLayout->setStretch(stackLayout, UI::Layout::RowStretch::Expand);
-            p.mainLayout->addSeparator();
-            p.mainLayout->addChild(p.timelineWidget);
-            p.layout->addChild(p.mainLayout);
-            p.layout->addChild(p.presentationWidget);
+            p.layout->addChild(stackLayout);
+            p.layout->setStretch(stackLayout, UI::Layout::RowStretch::Expand);
+            p.timelineSeparator = UI::Layout::Separator::create(context);
+            p.layout->addChild(p.timelineSeparator);
+            p.layout->addChild(p.timelineWidget);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
@@ -281,18 +278,6 @@ namespace djv
                     }
                 }
             });
-            
-            p.presentationWidget->setCloseCallback(
-                [contextWeak]
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto windowSystem = context->getSystemT<WindowSystem>())
-                        {
-                            windowSystem->setPresentation(false);
-                        }
-                    }
-                });
 
             if (toolSystem)
             {
@@ -358,14 +343,10 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (value)
-                            {
-                                widget->_p->layout->setCurrentWidget(widget->_p->presentationWidget);
-                            }
-                            else
-                            {
-                                widget->_p->layout->setCurrentWidget(widget->_p->mainLayout);
-                            }
+                            widget->_p->menuBar->setVisible(!value);
+                            widget->_p->menuBarSeparator->setVisible(!value);
+                            widget->_p->timelineWidget->setVisible(!value);
+                            widget->_p->timelineSeparator->setVisible(!value);
                         }
                     });
 

@@ -50,7 +50,6 @@ set(header
 	PlaybackSettings.h
     PlaybackSettingsWidget.h
     PlaybackSystem.h
-    PresentationWidget.h
     RecentFilesDialog.h
     SettingsSystem.h
     SettingsWidget.h
@@ -129,7 +128,6 @@ set(source
 	PlaybackSettings.cpp
     PlaybackSettingsWidget.cpp
     PlaybackSystem.cpp
-    PresentationWidget.cpp
     RecentFilesDialog.cpp
     SettingsSystem.cpp
     SettingsWidget.cpp

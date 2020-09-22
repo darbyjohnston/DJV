@@ -136,10 +136,10 @@ namespace djv
                 UI::ShortcutData(GLFW_KEY_0),
                 UI::ShortcutData(GLFW_KEY_KP_0) });
             _addShortcut("shortcut_view_frame", {
-                UI::ShortcutData(GLFW_KEY_PERIOD),
+                UI::ShortcutData(GLFW_KEY_BACKSPACE),
                 UI::ShortcutData(GLFW_KEY_KP_DECIMAL) });
             _addShortcut("shortcut_view_frame_lock", {
-                UI::ShortcutData(GLFW_KEY_PERIOD, GLFW_MOD_SHIFT),
+                UI::ShortcutData(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_KP_DECIMAL, GLFW_MOD_SHIFT) });
             _addShortcut("shortcut_view_center", {
                 UI::ShortcutData(GLFW_KEY_BACKSLASH),

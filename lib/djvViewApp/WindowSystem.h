@@ -49,6 +49,8 @@ namespace djv
             
             void setMaximize(bool);
 
+            std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
+
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;
 
@@ -57,6 +59,10 @@ namespace djv
             void _shortcutsUpdate() override;
 
         private:
+            void _fadeStart();
+            void _fadeStop();
+
+            void _presentationUpdate();
             void _actionsUpdate();
 
             DJV_PRIVATE();
