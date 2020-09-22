@@ -10,7 +10,6 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/ListWidget.h>
-#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
