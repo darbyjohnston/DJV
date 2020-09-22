@@ -454,7 +454,6 @@ namespace djv
             }
             else
             {
-                p.fade->setIfChanged(1.F);
                 _fadeStop();
             }
             _actionsUpdate();
