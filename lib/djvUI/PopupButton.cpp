@@ -32,6 +32,7 @@ namespace djv
         {
             struct Popup::Private
             {
+                MenuButtonStyle buttonStyle = MenuButtonStyle::Flat;
                 bool capturePointer = true;
                 bool captureKeyboard = true;
                 UI::Popup popupDefault = UI::Popup::BelowRight;
@@ -52,8 +53,10 @@ namespace djv
 
                 setClassName("djv::UI::Button::Popup");
 
+                p.buttonStyle = buttonStyle;
+
                 p.button = Button::Menu::create(buttonStyle, context);
-                if (MenuButtonStyle::ComboBox == buttonStyle)
+                if (MenuButtonStyle::ComboBox == p.buttonStyle)
                 {
                     p.button->setTextFocusEnabled(true);
                     p.button->setBackgroundRole(ColorRole::Button);
@@ -150,6 +153,10 @@ namespace djv
                     p.window.reset();
                 }
                 p.button->setOpen(false);
+                if (MenuButtonStyle::ComboBox == p.buttonStyle)
+                {
+                    p.button->takeTextFocus();
+                }
                 if (p.closeCallback)
                 {
                     p.closeCallback(p.widget);
