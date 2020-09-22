@@ -173,8 +173,8 @@ namespace djv
                 Widget::_paintEvent(event);
 
                 const auto& style = _getStyle();
-                const Math::BBox2f& g = getGeometry();
                 const float b = style->getMetric(MetricsRole::Border);
+                const Math::BBox2f& g = getGeometry();
 
                 // Draw the background.
                 const auto& render = _getRender();
@@ -190,21 +190,20 @@ namespace djv
                     case Orientation::Horizontal:
                     {
                         const float x = _valueToPos(_scrollPos);
-                        handleGeom = Math::BBox2f(x, g.y(), _valueToPos(_scrollPos + _viewSize) - x, g.h()).margin(-b);
+                        handleGeom = Math::BBox2f(x, g.y(), _valueToPos(_scrollPos + _viewSize) - x, g.h());
                         break;
                     }
                     case Orientation::Vertical:
                     {
                         const float y = _valueToPos(_scrollPos);
-                        handleGeom = Math::BBox2f(g.x(), y, g.w(), _valueToPos(_scrollPos + _viewSize) - y).margin(-b);
+                        handleGeom = Math::BBox2f(g.x(), y, g.w(), _valueToPos(_scrollPos + _viewSize) - y);
                         break;
                     }
                     default: break;
                     }
-                    render->setFillColor(style->getColor(ColorRole::BorderButton));
-                    drawBorder(render, handleGeom, b);
+                    handleGeom = handleGeom.margin(-b);
                     render->setFillColor(style->getColor(ColorRole::Button));
-                    render->drawRect(handleGeom.margin(-b));
+                    render->drawRect(handleGeom);
 
                     // Draw the pressed and hovered state.
                     if (_pressedID)

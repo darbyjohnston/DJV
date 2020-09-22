@@ -200,7 +200,6 @@ namespace djv
         DJV_TEXT("ui_color_role_foreground"),
         DJV_TEXT("ui_color_role_foreground_dim"),
         DJV_TEXT("ui_color_role_border"),
-        DJV_TEXT("ui_color_role_border_button"),
         DJV_TEXT("ui_color_role_trough"),
         DJV_TEXT("ui_color_role_button"),
         DJV_TEXT("ui_color_role_hovered"),

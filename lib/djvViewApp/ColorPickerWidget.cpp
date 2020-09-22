@@ -135,10 +135,12 @@ namespace djv
             p.colorLabel = UI::Label::create(context);
             p.colorLabel->setFontFamily(Render2D::Font::familyMono);
             p.colorLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.colorLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.pixelLabel = UI::Label::create(context);
             p.pixelLabel->setFontFamily(Render2D::Font::familyMono);
             p.pixelLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.pixelLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
             p.sampleSizeSlider->setRange(Math::IntRange(1, sampleSizeMax));
@@ -158,8 +160,7 @@ namespace djv
             p.settingsPopupMenu->setMenu(p.settingsMenu);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setMargin(UI::MetricsRole::MarginSmall);
-            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.colorSwatch);

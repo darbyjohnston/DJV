@@ -15,7 +15,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/ToolBar.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/TimeFunc.h>
@@ -81,10 +80,12 @@ namespace djv
             scrollWidget->addChild(p.infoLayout);
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addChild(p.searchBox);
-            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
-            vLayout->addChild(toolBar);
+            vLayout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.searchBox);
+            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
+            vLayout->addChild(hLayout);
             addChild(vLayout);
 
             _widgetUpdate();

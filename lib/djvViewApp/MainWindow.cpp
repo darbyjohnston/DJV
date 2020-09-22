@@ -37,7 +37,6 @@
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvSystem/FileInfo.h>

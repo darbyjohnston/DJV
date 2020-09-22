@@ -10,7 +10,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
@@ -69,13 +68,15 @@ namespace djv
             layout->setBackgroundRole(UI::ColorRole::Background);
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addExpander();
-            toolBar->addChild(p.copyButton);
-            toolBar->addChild(p.reloadButton);
-            toolBar->addChild(p.clearButton);
-            toolBar->addChild(p.searchBox);
-            layout->addChild(toolBar);
+            layout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addExpander();
+            hLayout->addChild(p.copyButton);
+            hLayout->addChild(p.reloadButton);
+            hLayout->addChild(p.clearButton);
+            hLayout->addChild(p.searchBox);
+            layout->addChild(hLayout);
             addChild(layout);
 
             auto weak = std::weak_ptr<SystemLogWidget>(std::dynamic_pointer_cast<SystemLogWidget>(shared_from_this()));

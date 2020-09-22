@@ -34,7 +34,6 @@ namespace djv
                     { ColorRole::Foreground, Image::Color(1.F, 1.F, 1.F, 1.F) },
                     { ColorRole::ForegroundDim, Image::Color(.67F, .67F, .67F, 1.F) },
                     { ColorRole::Border, Image::Color(.25F, .25F, .25F, 1.F) },
-                    { ColorRole::BorderButton, Image::Color(.49F, .49F, .49F, 1.F) },
                     { ColorRole::Trough, Image::Color(.15F, .15F, .15F, 1.F) },
                     { ColorRole::Button, Image::Color(.4F, .4F, .4F, 1.F) },
                     { ColorRole::Hovered, Image::Color(1.F, 1.F, 1.F, .06F) },

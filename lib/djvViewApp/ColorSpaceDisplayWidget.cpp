@@ -12,7 +12,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
-#include <djvUI/ToolBar.h>
 
 #include <djvOCIO/OCIOSystem.h>
 
@@ -57,10 +56,12 @@ namespace djv
             scrollWidget->addChild(p.listWidget);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addChild(p.searchBox);
-            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
-            p.layout->addChild(toolBar);
+            p.layout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.searchBox);
+            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
+            p.layout->addChild(hLayout);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);

@@ -18,7 +18,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
-#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/IOSystem.h>
@@ -93,10 +92,12 @@ namespace djv
                 scrollWidget->addChild(_listWidget);
                 _layout->addChild(scrollWidget);
                 _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-                auto toolBar = UI::ToolBar::create(context);
-                toolBar->addChild(_searchBox);
-                toolBar->setStretch(_searchBox, UI::RowStretch::Expand);
-                _layout->addChild(toolBar);
+                _layout->addSeparator();
+                auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->setSpacing(UI::MetricsRole::None);
+                hLayout->addChild(_searchBox);
+                hLayout->setStretch(_searchBox, UI::RowStretch::Expand);
+                _layout->addChild(hLayout);
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<ColorSpacesWidget>(std::dynamic_pointer_cast<ColorSpacesWidget>(shared_from_this()));
@@ -263,11 +264,13 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addExpander();
-            toolBar->addChild(p.addButton);
-            toolBar->addChild(p.deleteButton);
-            p.layout->addChild(toolBar);
+            p.layout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addExpander();
+            hLayout->addChild(p.addButton);
+            hLayout->addChild(p.deleteButton);
+            p.layout->addChild(hLayout);
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
             p.layout->addChild(p.formLayout);

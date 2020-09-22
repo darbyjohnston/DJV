@@ -349,7 +349,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
@@ -363,11 +362,6 @@ namespace djv
                     {
                         render->setFillColor(style->getColor(ColorRole::TextFocus));
                         drawBorder(render, g, btf);
-                    }
-                    else
-                    {
-                        render->setFillColor(style->getColor(ColorRole::BorderButton));
-                        drawBorder(render, g2.margin(b), b);
                     }
                     break;
                 default:

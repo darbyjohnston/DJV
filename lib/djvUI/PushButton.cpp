@@ -242,7 +242,6 @@ namespace djv
             void Push::_paintEvent(System::Event::Paint& event)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const Math::BBox2f& g2 = g.margin(-btf);
@@ -251,11 +250,6 @@ namespace djv
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, btf);
-                }
-                else
-                {
-                    render->setFillColor(style->getColor(ColorRole::BorderButton));
-                    drawBorder(render, g.margin(-b), b);
                 }
                 if (_isToggled())
                 {

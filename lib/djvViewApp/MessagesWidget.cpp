@@ -8,7 +8,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvSystem/Context.h>
@@ -62,12 +61,14 @@ namespace djv
             layout->setBackgroundRole(UI::ColorRole::Background);
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addChild(p.popupCheckBox);
-            toolBar->addExpander();
-            toolBar->addChild(p.copyButton);
-            toolBar->addChild(p.clearButton);
-            layout->addChild(toolBar);
+            layout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.popupCheckBox);
+            hLayout->addExpander();
+            hLayout->addChild(p.copyButton);
+            hLayout->addChild(p.clearButton);
+            layout->addChild(hLayout);
             addChild(layout);
 
             auto weak = std::weak_ptr<MessagesWidget>(std::dynamic_pointer_cast<MessagesWidget>(shared_from_this()));

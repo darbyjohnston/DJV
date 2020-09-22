@@ -12,7 +12,6 @@
 #include <djvUI/ListWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/ToolBar.h>
 
 #include <djvSystem/Context.h>
 
@@ -54,10 +53,12 @@ namespace djv
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::Layout::RowStretch::Expand);
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addChild(p.searchBox);
-            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
-            p.layout->addChild(toolBar);
+            p.layout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.searchBox);
+            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
+            p.layout->addChild(hLayout);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));

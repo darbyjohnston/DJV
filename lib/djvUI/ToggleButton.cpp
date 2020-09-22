@@ -152,10 +152,8 @@ namespace djv
                 }
                 else
                 {
-                    render->setFillColor(style->getColor(ColorRole::BorderButton));
-                    render->drawRect(handleBBox);
                     render->setFillColor(style->getColor(ColorRole::Button));
-                    render->drawRect(handleBBox.margin(-b));
+                    render->drawRect(handleBBox);
                 }
 
                 if (_isPressed())
