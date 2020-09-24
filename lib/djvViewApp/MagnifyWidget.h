@@ -26,10 +26,6 @@ namespace djv
 
             void setCurrentTool(bool);
 
-            size_t getMagnify() const;
-
-            void setMagnify(size_t);
-
             const glm::vec2& getMagnifyPos() const;
             
             void setMagnifyPos(const glm::vec2&);

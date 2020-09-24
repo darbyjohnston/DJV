@@ -12,10 +12,6 @@
 
 #include <djvMath/BBoxFunc.h>
 
-#if defined(GetObject)
-#undef GetObject
-#endif // GetObject
-
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>

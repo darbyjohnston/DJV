@@ -14,12 +14,6 @@
 
 namespace djv
 {
-    namespace Render2D
-    {
-        class ImageOptions;
-
-    } // namespace Render2D
-
     namespace ViewApp
     {
         class Media;
@@ -45,9 +39,6 @@ namespace djv
             void setCacheEnabled(bool);
             void setCacheSequence(const Math::Frame::Sequence&);
             void setCachedFrames(const Math::Frame::Sequence&);
-            void setImageOptions(const Render2D::ImageOptions&);
-            void setImageRotate(UI::ImageRotate);
-            void setImageAspectRatio(UI::ImageAspectRatio);
 
             void setCurrentFrameCallback(const std::function<void(Math::Frame::Index)>&);
             void setCurrentFrameDragCallback(const std::function<void(bool)>&);

@@ -86,10 +86,6 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<Math::Frame::Sequence> > cacheSequenceObserver;
             std::shared_ptr<ValueObserver<Math::Frame::Sequence> > cachedFramesObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
-            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
         };
 
         void TimelineWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -708,56 +704,6 @@ namespace djv
                                 widget->_speedUpdate();
                                 widget->_realSpeedUpdate();
                                 widget->_audioUpdate();
-                            }
-                        }
-                    });
-            }
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (value)
-                            {
-                                widget->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
-                                    value->getViewWidget()->observeImageOptions(),
-                                    [weak](const Render2D::ImageOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->timelineSlider->setImageOptions(value);
-                                        }
-                                    });
-
-                                widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
-                                    value->getViewWidget()->observeImageRotate(),
-                                    [weak](UI::ImageRotate value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->timelineSlider->setImageRotate(value);
-                                        }
-                                    });
-
-                                widget->_p->imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    value->getViewWidget()->observeImageAspectRatio(),
-                                    [weak](UI::ImageAspectRatio value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->timelineSlider->setImageAspectRatio(value);
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->imageOptionsObserver.reset();
-                                widget->_p->imageRotateObserver.reset();
-                                widget->_p->imageAspectRatioObserver.reset();
                             }
                         }
                     });

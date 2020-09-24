@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
 #pragma once
@@ -11,22 +11,20 @@
 
 #include <glm/vec2.hpp>
 
-#include <memory>
-
 namespace djv
 {
     namespace System
     {
         class Context;
-        
+
     } // namespace System
-    
+
     namespace Render2D
     {
         class Render;
-        
-    } // namespace Render
-    
+
+    } // namespace Render2D
+
     namespace ViewApp
     {
         class Media;

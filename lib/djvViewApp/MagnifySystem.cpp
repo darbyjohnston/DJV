@@ -24,6 +24,7 @@ namespace djv
     {
         struct MagnifySystem::Private
         {
+            glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<MagnifySettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::weak_ptr<MagnifyWidget> widget;
@@ -83,8 +84,7 @@ namespace djv
                     if (auto context = getContext().lock())
                     {
                         auto widget = MagnifyWidget::create(context);
-                        widget->setMagnify(p.settings->getMagnify());
-                        widget->setMagnifyPos(p.settings->getMagnifyPos());
+                        widget->setMagnifyPos(p.magnifyPos);
                         p.widget = widget;
                         _openWidget("Magnify", widget);
                     }
@@ -115,8 +115,7 @@ namespace djv
             }
             if (auto widget = p.widget.lock())
             {
-                p.settings->setMagnify(widget->getMagnify());
-                p.settings->setMagnifyPos(widget->getMagnifyPos());
+                p.magnifyPos = widget->getMagnifyPos();
                 p.widget.reset();
             }
             IToolSystem::_closeWidget(value);

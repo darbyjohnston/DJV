@@ -4,6 +4,7 @@
 
 #include <djvViewApp/ImageControlsWidget.h>
 
+#include <djvViewApp/ImageData.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/MediaWidget.h>
@@ -39,13 +40,9 @@ namespace djv
     {
         struct ImageControlsWidget::Private
         {
-            Render2D::ImageOptions imageOptions;
-            UI::ImageRotate rotate = UI::ImageRotate::First;
-            UI::ImageAspectRatio aspectRatio = UI::ImageAspectRatio::First;
+            ImageData data;
             bool frameStoreEnabled = false;
             std::shared_ptr<Image::Image> frameStore;
-
-            std::shared_ptr<MediaWidget> activeWidget;
 
             std::shared_ptr<UI::ComboBox> channelDisplayComboBox;
             std::shared_ptr<UI::ComboBox> alphaComboBox;
@@ -73,10 +70,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
 
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<UI::ImageRotate> > rotateObserver;
-            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
+            std::shared_ptr<ValueObserver<ImageData> > dataObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
         };
@@ -274,21 +268,23 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ImageControlsWidget>(std::dynamic_pointer_cast<ImageControlsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.channelDisplayComboBox->setCallback(
-                [weak](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.channelDisplay = static_cast<Render2D::ImageChannelDisplay>(value);
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.channelDisplay = static_cast<Render2D::ImageChannelDisplay>(value);
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.alphaComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -296,41 +292,42 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->imageOptions.alphaBlend = static_cast<Render2D::AlphaBlend>(value);
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
-                            }
-                            auto render2DSystem = context->getSystemT<Render2D::Render2DSystem>();
-                            render2DSystem->setAlphaBlend(static_cast<Render2D::AlphaBlend>(value));
+                            auto data = widget->_p->data;
+                            data.alphaBlend = static_cast<Render2D::AlphaBlend>(value);
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
 
             p.mirrorButtons[0]->setCheckedCallback(
-                [weak](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.mirror.x = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.mirror.x = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.mirrorButtons[1]->setCheckedCallback(
-                [weak](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.mirror.y = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.mirror.y = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
@@ -342,15 +339,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->rotate = static_cast<UI::ImageRotate>(value);
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setImageRotate(widget->_p->rotate);
-                            }
+                            auto data = widget->_p->data;
+                            data.rotate = static_cast<UI::ImageRotate>(value);
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-                            imageSettings->setRotate(widget->_p->rotate);
+                            imageSettings->setData(data);
                         }
                     }
                 });
@@ -362,253 +355,285 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->aspectRatio = static_cast<UI::ImageAspectRatio>(value);
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setImageAspectRatio(widget->_p->aspectRatio);
-                            }
+                            auto data = widget->_p->data;
+                            data.aspectRatio = static_cast<UI::ImageAspectRatio>(value);
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-                            imageSettings->setAspectRatio(widget->_p->aspectRatio);
+                            imageSettings->setData(data);
                         }
                     }
                 });
 
             p.colorEnabledButton->setCheckedCallback(
-                [weak](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    widget->_p->imageOptions.colorEnabled = value;
-                    widget->_widgetUpdate();
-                    if (widget->_p->activeWidget)
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
-                    }
-                }
-            });
-            p.colorSliders["Brightness"]->setValueCallback(
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->imageOptions.color.brightness = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.colorEnabled = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
+                        }
+                    }
+                });
+            p.colorSliders["Brightness"]->setValueCallback(
+                [weak, contextWeak](float value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto data = widget->_p->data;
+                            data.color.brightness = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.colorSliders["Contrast"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.color.contrast = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.color.contrast = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.colorSliders["Saturation"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.color.saturation = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.color.saturation = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.colorInvertButton->setCheckedCallback(
-                [weak](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.color.invert = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.color.invert = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
 
             p.levelsEnabledButton->setCheckedCallback(
-                [weak](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    widget->_p->imageOptions.levelsEnabled = value;
-                    widget->_widgetUpdate();
-                    if (widget->_p->activeWidget)
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
-                    }
-                }
-            });
-            p.levelsSliders["InLow"]->setValueCallback(
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->imageOptions.levels.inLow = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.levelsEnabled = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
+                        }
+                    }
+                });
+            p.levelsSliders["InLow"]->setValueCallback(
+                [weak, contextWeak](float value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto data = widget->_p->data;
+                            data.levels.inLow = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.levelsSliders["InHigh"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.levels.inHigh = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.levels.inHigh = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.levelsSliders["Gamma"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.levels.gamma = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.levels.gamma = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.levelsSliders["OutLow"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.levels.outLow = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.levels.outLow = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.levelsSliders["OutHigh"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.levels.outHigh = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.levels.outHigh = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
 
             p.exposureEnabledButton->setCheckedCallback(
-                [weak](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.exposureEnabled = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.exposureEnabled = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.exposureSliders["Exposure"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.exposure.exposure = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.exposure.exposure = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.exposureSliders["Defog"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.exposure.defog = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.exposure.defog = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.exposureSliders["KneeLow"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.exposure.kneeLow = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.exposure.kneeLow = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
             p.exposureSliders["KneeHigh"]->setValueCallback(
-                [weak](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.exposure.kneeHigh = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.exposure.kneeHigh = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
 
             p.softClipEnabledButton->setCheckedCallback(
-                [weak](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    widget->_p->imageOptions.softClipEnabled = value;
-                    widget->_widgetUpdate();
-                    if (widget->_p->activeWidget)
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
-                    }
-                }
-            });
-            p.softClipSlider->setValueCallback(
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->imageOptions.softClip = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
+                            auto data = widget->_p->data;
+                            data.softClipEnabled = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
+                        }
+                    }
+                });
+            p.softClipSlider->setValueCallback(
+                [weak, contextWeak](float value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto data = widget->_p->data;
+                            data.softClip = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setData(data);
                         }
                     }
                 });
@@ -643,57 +668,18 @@ namespace djv
                 }
             });
 
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            p.dataObserver = ValueObserver<ImageData>::create(
+                imageSettings->observeData(),
+                [weak](const ImageData& value)
+                {
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const Render2D::ImageOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageOptions = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                                widget->_p->rotateObserver = ValueObserver<UI::ImageRotate>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageRotate(),
-                                    [weak](UI::ImageRotate value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->rotate = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                                widget->_p->aspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageAspectRatio(),
-                                    [weak](UI::ImageAspectRatio value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->aspectRatio = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->imageOptionsObserver.reset();
-                                widget->_p->rotateObserver.reset();
-                                widget->_p->aspectRatioObserver.reset();
-                            }
-                        }
-                    });
-            }
+                        widget->_p->data = value;
+                        widget->_widgetUpdate();
+                    }
+                });
 
             auto imageSystem = context->getSystemT<ImageSystem>();
             p.frameStoreEnabledObserver = ValueObserver<bool>::create(
@@ -706,7 +692,6 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
-
             p.frameStoreObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                 imageSystem->observeFrameStore(),
                 [weak](const std::shared_ptr<Image::Image>& value)
@@ -827,7 +812,7 @@ namespace djv
                 items.push_back(_getText(ss.str()));
             }
             p.channelDisplayComboBox->setItems(items);
-            p.channelDisplayComboBox->setCurrentItem(static_cast<int>(p.imageOptions.channelDisplay));
+            p.channelDisplayComboBox->setCurrentItem(static_cast<int>(p.data.channelDisplay));
 
             items.clear();
             for (auto i : Render2D::getAlphaBlendEnums())
@@ -837,10 +822,10 @@ namespace djv
                 items.push_back(_getText(ss.str()));
             }
             p.alphaComboBox->setItems(items);
-            p.alphaComboBox->setCurrentItem(static_cast<int>(p.imageOptions.alphaBlend));
+            p.alphaComboBox->setCurrentItem(static_cast<int>(p.data.alphaBlend));
 
-            p.mirrorButtons[0]->setChecked(p.imageOptions.mirror.x);
-            p.mirrorButtons[1]->setChecked(p.imageOptions.mirror.y);
+            p.mirrorButtons[0]->setChecked(p.data.mirror.x);
+            p.mirrorButtons[1]->setChecked(p.data.mirror.y);
 
             items.clear();
             for (auto i : UI::getImageRotateEnums())
@@ -850,7 +835,7 @@ namespace djv
                 items.push_back(_getText(ss.str()));
             }
             p.rotateComboBox->setItems(items);
-            p.rotateComboBox->setCurrentItem(static_cast<int>(p.rotate));
+            p.rotateComboBox->setCurrentItem(static_cast<int>(p.data.rotate));
 
             items.clear();
             for (auto i : UI::getImageAspectRatioEnums())
@@ -860,29 +845,29 @@ namespace djv
                 items.push_back(_getText(ss.str()));
             }
             p.aspectRatioComboBox->setItems(items);
-            p.aspectRatioComboBox->setCurrentItem(static_cast<int>(p.aspectRatio));
+            p.aspectRatioComboBox->setCurrentItem(static_cast<int>(p.data.aspectRatio));
             
-            p.colorEnabledButton->setChecked(p.imageOptions.colorEnabled);
-            p.colorSliders["Brightness"]->setValue(p.imageOptions.color.brightness);
-            p.colorSliders["Contrast"]->setValue(p.imageOptions.color.contrast);
-            p.colorSliders["Saturation"]->setValue(p.imageOptions.color.saturation);
-            p.colorInvertButton->setChecked(p.imageOptions.color.invert);
+            p.colorEnabledButton->setChecked(p.data.colorEnabled);
+            p.colorSliders["Brightness"]->setValue(p.data.color.brightness);
+            p.colorSliders["Contrast"]->setValue(p.data.color.contrast);
+            p.colorSliders["Saturation"]->setValue(p.data.color.saturation);
+            p.colorInvertButton->setChecked(p.data.color.invert);
 
-            p.levelsEnabledButton->setChecked(p.imageOptions.levelsEnabled);
-            p.levelsSliders["InLow"]->setValue(p.imageOptions.levels.inLow);
-            p.levelsSliders["InHigh"]->setValue(p.imageOptions.levels.inHigh);
-            p.levelsSliders["Gamma"]->setValue(p.imageOptions.levels.gamma);
-            p.levelsSliders["OutLow"]->setValue(p.imageOptions.levels.outLow);
-            p.levelsSliders["OutHigh"]->setValue(p.imageOptions.levels.outHigh);
+            p.levelsEnabledButton->setChecked(p.data.levelsEnabled);
+            p.levelsSliders["InLow"]->setValue(p.data.levels.inLow);
+            p.levelsSliders["InHigh"]->setValue(p.data.levels.inHigh);
+            p.levelsSliders["Gamma"]->setValue(p.data.levels.gamma);
+            p.levelsSliders["OutLow"]->setValue(p.data.levels.outLow);
+            p.levelsSliders["OutHigh"]->setValue(p.data.levels.outHigh);
 
-            p.exposureEnabledButton->setChecked(p.imageOptions.exposureEnabled);
-            p.exposureSliders["Exposure"]->setValue(p.imageOptions.exposure.exposure);
-            p.exposureSliders["Defog"]->setValue(p.imageOptions.exposure.defog);
-            p.exposureSliders["KneeLow"]->setValue(p.imageOptions.exposure.kneeLow);
-            p.exposureSliders["KneeHigh"]->setValue(p.imageOptions.exposure.kneeHigh);
+            p.exposureEnabledButton->setChecked(p.data.exposureEnabled);
+            p.exposureSliders["Exposure"]->setValue(p.data.exposure.exposure);
+            p.exposureSliders["Defog"]->setValue(p.data.exposure.defog);
+            p.exposureSliders["KneeLow"]->setValue(p.data.exposure.kneeLow);
+            p.exposureSliders["KneeHigh"]->setValue(p.data.exposure.kneeHigh);
 
-            p.softClipEnabledButton->setChecked(p.imageOptions.softClipEnabled);
-            p.softClipSlider->setValue(p.imageOptions.softClip);
+            p.softClipEnabledButton->setChecked(p.data.softClipEnabled);
+            p.softClipSlider->setValue(p.data.softClip);
 
             p.frameStoreEnabledButton->setChecked(p.frameStoreEnabled);
             p.frameStoreWidget->setImage(p.frameStore);

@@ -6,8 +6,6 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvImage/Pixel.h>
-
 #include <djvMath/BBox.h>
 
 #include <djvCore/ValueObserver.h>
@@ -18,6 +16,8 @@ namespace djv
 {
     namespace ViewApp
     {
+        struct ColorPickerData;
+
         //! This class provides the color picker settings.
         class ColorPickerSettings : public UI::Settings::ISettings
         {
@@ -33,25 +33,9 @@ namespace djv
 
             static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<System::Context>&);
 
-            size_t getSampleSize() const;
+            std::shared_ptr<Core::IValueSubject<ColorPickerData> > observeData() const;
 
-            void setSampleSize(size_t);
-
-            Image::Type getLockType() const;
-
-            void setLockType(Image::Type);
-
-            bool getApplyColorOperations() const;
-
-            void setApplyColorOperations(bool);
-
-            bool getApplyColorSpace() const;
-
-            void setApplyColorSpace(bool);
-
-            const glm::vec2& getPickerPos() const;
-
-            void setPickerPos(const glm::vec2&);
+            void setData(const ColorPickerData&);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
 

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <djvViewApp/ColorPickerData.h>
 #include <djvViewApp/MDIWidget.h>
 
 #include <djvImage/Pixel.h>
@@ -27,22 +28,6 @@ namespace djv
             static std::shared_ptr<ColorPickerWidget> create(const std::shared_ptr<System::Context>&);
             
             void setCurrentTool(bool);
-
-            size_t getSampleSize() const;
-
-            void setSampleSize(size_t);
-
-            Image::Type getLockType() const;
-
-            void setLockType(Image::Type);
-
-            bool getApplyColorOperations() const;
-
-            void setApplyColorOperations(bool);
-
-            bool getApplyColorSpace() const;
-
-            void setApplyColorSpace(bool);
 
             const glm::vec2& getPickerPos() const;
 

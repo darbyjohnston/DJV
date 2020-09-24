@@ -58,14 +58,14 @@ namespace djv
                 alphaBlend      == other.alphaBlend      &&
                 mirror          == other.mirror          &&
                 colorSpace      == other.colorSpace      &&
-                color           == other.color           &&
                 colorEnabled    == other.colorEnabled    &&
-                levels          == other.levels          &&
+                color           == other.color           &&
                 levelsEnabled   == other.levelsEnabled   &&
-                exposure        == other.exposure        &&
+                levels          == other.levels          &&
                 exposureEnabled == other.exposureEnabled &&
-                softClip        == other.softClip        &&
+                exposure        == other.exposure        &&
                 softClipEnabled == other.softClipEnabled &&
+                softClip        == other.softClip        &&
                 cache           == other.cache;
         }
 

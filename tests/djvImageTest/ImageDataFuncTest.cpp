@@ -4,6 +4,7 @@
 
 #include <djvImageTest/ImageDataFuncTest.h>
 
+#include <djvImage/ImageData.h>
 #include <djvImage/ImageDataFunc.h>
 
 using namespace djv::Core;

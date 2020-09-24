@@ -15,7 +15,6 @@ namespace djv
     {
         struct Render2DSystem::Private
         {
-            std::shared_ptr<ValueSubject<AlphaBlend> > alphaBlend;
             std::shared_ptr<ValueSubject<ImageFilterOptions> > imageFilterOptions;
             std::shared_ptr<ValueSubject<bool> > textLCDRendering;
             std::shared_ptr<Font::FontSystem> fontSystem;
@@ -27,7 +26,6 @@ namespace djv
             ISystem::_init("djv::Render2D::Render2DSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::Premultiplied);
             p.imageFilterOptions = ValueSubject<ImageFilterOptions>::create();
             p.textLCDRendering = ValueSubject<bool>::create(true);
 
@@ -52,11 +50,6 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<AlphaBlend> > Render2DSystem::observeAlphaBlend() const
-        {
-            return _p->alphaBlend;
-        }
-
         std::shared_ptr<IValueSubject<ImageFilterOptions> > Render2DSystem::observeImageFilterOptions() const
         {
             return _p->imageFilterOptions;
@@ -65,11 +58,6 @@ namespace djv
         std::shared_ptr<IValueSubject<bool> > Render2DSystem::observeTextLCDRendering() const
         {
             return _p->textLCDRendering;
-        }
-
-        void Render2DSystem::setAlphaBlend(AlphaBlend value)
-        {
-            _p->alphaBlend->setIfChanged(value);
         }
 
         void Render2DSystem::setImageFilterOptions(const ImageFilterOptions& value)

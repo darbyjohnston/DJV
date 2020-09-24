@@ -10,10 +10,6 @@
 #include <djvMath/BBoxFunc.h>
 #include <djvSystem/Context.h>
 
-#if defined(GetObject)
-#undef GetObject
-#endif // GetObject
-
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
@@ -82,14 +78,19 @@ namespace djv
             return _p->gridOptions;
         }
 
-        void ViewSettings::setGridOptions(const GridOptions& value)
-        {
-            _p->gridOptions->setIfChanged(value);
-        }
-
         std::shared_ptr<Core::IValueSubject<HUDOptions> > ViewSettings::observeHUDOptions() const
         {
             return _p->hudOptions;
+        }
+
+        std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ViewSettings::observeBackgroundOptions() const
+        {
+            return _p->backgroundOptions;
+        }
+
+        void ViewSettings::setGridOptions(const GridOptions& value)
+        {
+            _p->gridOptions->setIfChanged(value);
         }
 
         void ViewSettings::setHUDOptions(const HUDOptions& value)
@@ -97,11 +98,6 @@ namespace djv
             _p->hudOptions->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ViewSettings::observeBackgroundOptions() const
-        {
-            return _p->backgroundOptions;
-        }
-        
         void ViewSettings::setBackgroundOptions(const ViewBackgroundOptions& value)
         {
             _p->backgroundOptions->setIfChanged(value);

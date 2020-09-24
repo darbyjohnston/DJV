@@ -8,7 +8,9 @@
 
 #include <djvOCIO/OCIO.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/ImageData.h>
+
+#include <djvCore/RapidJSONFunc.h>
 
 namespace djv
 {
@@ -90,19 +92,19 @@ namespace djv
         public:
             ImageOptions();
             
-            ImageChannelDisplay channelDisplay    = ImageChannelDisplay::Color;
-            AlphaBlend          alphaBlend        = AlphaBlend::Straight;
+            ImageChannelDisplay channelDisplay  = ImageChannelDisplay::Color;
+            AlphaBlend          alphaBlend      = AlphaBlend::Straight;
             Image::Mirror       mirror;
             OCIO::Convert       colorSpace;
+            bool                colorEnabled    = false;
             ImageColor          color;
-            bool                colorEnabled      = false;
+            bool                levelsEnabled   = false;
             ImageLevels         levels;
-            bool                levelsEnabled     = false;
+            bool                exposureEnabled = false;
             ImageExposure       exposure;
-            bool                exposureEnabled   = false;
-            float               softClip          = 0.F;
-            bool                softClipEnabled   = false;
-            ImageCache          cache             = ImageCache::Atlas;
+            bool                softClipEnabled = false;
+            float               softClip        = 0.F;
+            ImageCache          cache           = ImageCache::Atlas;
 
             bool operator == (const ImageOptions&) const;
             bool operator != (const ImageOptions&) const;
@@ -133,6 +135,7 @@ namespace djv
         };
 
     } // namespace Render2D
+
 } // namespace djv
 
 #include <djvRender2D/DataInline.h>

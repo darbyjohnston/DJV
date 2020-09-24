@@ -18,14 +18,15 @@ namespace djv
     {
         struct MagnifySettings::Private
         {
-            size_t magnify = 2;
-            glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
+            std::shared_ptr<ValueSubject<size_t> > magnify;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
         void MagnifySettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::MagnifySettings", context);
+            DJV_PRIVATE_PTR();
+            p.magnify = ValueSubject<size_t>::create(2);
             _load();
         }
 
@@ -43,24 +44,14 @@ namespace djv
             return out;
         }
 
-        size_t MagnifySettings::getMagnify() const
+        std::shared_ptr<Core::IValueSubject<size_t> > MagnifySettings::observeMagnify() const
         {
             return _p->magnify;
         }
 
         void MagnifySettings::setMagnify(size_t value)
         {
-            _p->magnify = value;
-        }
-
-        const glm::vec2& MagnifySettings::getMagnifyPos() const
-        {
-            return _p->magnifyPos;
-        }
-
-        void MagnifySettings::setMagnifyPos(const glm::vec2& value)
-        {
-            _p->magnifyPos = value;
+            _p->magnify->setIfChanged(value);
         }
 
         const std::map<std::string, Math::BBox2f>& MagnifySettings::getWidgetGeom() const
@@ -79,7 +70,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 UI::Settings::read("Magnify", value, p.magnify);
-                UI::Settings::read("MagnifyPos", value, p.magnifyPos);
                 UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
@@ -88,8 +78,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             rapidjson::Value out(rapidjson::kObjectType);
-            UI::Settings::write("Magnify", p.magnify, out, allocator);
-            UI::Settings::write("MagnifyPos", p.magnifyPos, out, allocator);
+            UI::Settings::write("Magnify", p.magnify->get(), out, allocator);
             UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }

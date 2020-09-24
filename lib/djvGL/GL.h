@@ -8,6 +8,10 @@
 
 #include <glad.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 namespace djv
 {
     //! This namespace provides OpenGL functionality.

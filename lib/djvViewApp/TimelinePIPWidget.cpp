@@ -4,6 +4,8 @@
 
 #include <djvViewApp/TimelinePIPWidget.h>
 
+#include <djvViewApp/ImageData.h>
+#include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
@@ -45,11 +47,13 @@ namespace djv
             glm::vec2 pipPos = glm::vec2(0.F, 0.F);
             Math::BBox2f timelineGeometry;
             Math::Frame::Index currentFrame = 0;
-            float imageAspectRatio = 0.F;
+            ImageData imageData;
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<UI::Label> timeLabel;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<System::Timer> timer;
+
+            std::shared_ptr<ValueObserver<ImageData> > imageDataObserver;
             std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
         };
 
@@ -109,6 +113,19 @@ namespace djv
                             widget->_p->imageWidget->setImage(nullptr);
                             widget->_textUpdate();
                         }
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            p.imageDataObserver = ValueObserver<ImageData>::create(
+                imageSettings->observeData(),
+                [weak](const ImageData& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->imageData = value;
+                        widget->_widgetUpdate();
                     }
                 });
 
@@ -186,26 +203,6 @@ namespace djv
             _resize();
         }
 
-        void TimelinePIPWidget::setImageOptions(const Render2D::ImageOptions& value)
-        {
-            DJV_PRIVATE_PTR();
-            Render2D::ImageOptions options = value;
-            options.alphaBlend = Render2D::AlphaBlend::Straight;
-            p.imageWidget->setImageOptions(options);
-        }
-
-        void TimelinePIPWidget::setImageRotate(UI::ImageRotate value)
-        {
-            DJV_PRIVATE_PTR();
-            p.imageWidget->setImageRotate(value);
-        }
-
-        void TimelinePIPWidget::setImageAspectRatio(UI::ImageAspectRatio value)
-        {
-            DJV_PRIVATE_PTR();
-            p.imageWidget->setImageAspectRatio(value);
-        }
-
         void TimelinePIPWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
@@ -237,6 +234,26 @@ namespace djv
                     }
                 }
             }
+        }
+
+        void TimelinePIPWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            Render2D::ImageOptions options;
+            options.channelDisplay = p.imageData.channelDisplay;
+            options.alphaBlend = Render2D::AlphaBlend::Straight;
+            options.mirror = p.imageData.mirror;
+            options.colorEnabled = p.imageData.colorEnabled;
+            options.color = p.imageData.color;
+            options.levelsEnabled = p.imageData.levelsEnabled;
+            options.levels = p.imageData.levels;
+            options.exposureEnabled = p.imageData.exposureEnabled;
+            options.exposure = p.imageData.exposure;
+            options.softClipEnabled = p.imageData.softClipEnabled;
+            options.softClip = p.imageData.softClip;
+            p.imageWidget->setImageOptions(options);
+            p.imageWidget->setImageRotate(p.imageData.rotate);
+            p.imageWidget->setImageAspectRatio(p.imageData.aspectRatio);
         }
 
         void TimelinePIPWidget::_textUpdate()

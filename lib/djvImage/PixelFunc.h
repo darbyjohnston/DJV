@@ -11,6 +11,10 @@
 
 #include <glad.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 #include <sstream>
 #include <vector>
 

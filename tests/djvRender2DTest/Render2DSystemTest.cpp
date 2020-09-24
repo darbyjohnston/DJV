@@ -31,14 +31,6 @@ namespace djv
             {
                 auto system = context->getSystemT<Render2DSystem>();
                 
-                auto alphaBlendObserver = ValueObserver<Render2D::AlphaBlend>::create(
-                    system->observeAlphaBlend(),
-                    [this](Render2D::AlphaBlend value)
-                    {
-                        std::stringstream ss;
-                        ss << "Alpha blend: " << value;
-                        _print(ss.str());
-                    });
                 auto imageFilterOptionsObserver = ValueObserver<ImageFilterOptions>::create(
                     system->observeImageFilterOptions(),
                     [this](const ImageFilterOptions& value)
@@ -56,7 +48,6 @@ namespace djv
                         _print(ss.str());
                     });
 
-                system->setAlphaBlend(AlphaBlend::Premultiplied);
                 system->setImageFilterOptions(ImageFilterOptions(
                     ImageFilter::Nearest,
                     ImageFilter::Nearest));

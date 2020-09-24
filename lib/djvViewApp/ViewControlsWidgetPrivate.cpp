@@ -41,6 +41,7 @@ namespace djv
             std::shared_ptr<MediaWidget> activeWidget;
             glm::vec2 viewPos = glm::vec2(0.F, 0.F);
             float viewZoom = 1.F;
+
             std::shared_ptr<UI::FloatEdit> viewPosEdit[2];
             std::shared_ptr<UI::ToolButton> viewPosResetButton[2];
             std::shared_ptr<UI::FloatEdit> viewZoomEdit;
@@ -48,6 +49,7 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> viewPosLayout[2];
             std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
             std::shared_ptr<UI::FormLayout> layout;
+
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > viewPosObserver;
             std::shared_ptr<ValueObserver<float> > viewZoomObserver;
@@ -291,14 +293,14 @@ namespace djv
         struct ViewControlsGridWidget::Private
         {
             GridOptions gridOptions;
-            std::shared_ptr<MediaWidget> activeWidget;
+
             std::shared_ptr<UI::ToolButton> gridEnabledButton;
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
         };
 
@@ -306,10 +308,6 @@ namespace djv
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
-
-            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.gridOptions = viewSettings->observeGridOptions()->get();
 
             p.gridEnabledButton = UI::ToolButton::create(context);
             p.gridEnabledButton->setButtonType(UI::ButtonType::Toggle);
@@ -347,15 +345,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->gridOptions.enabled = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
+                            auto options = widget->_p->gridOptions;
+                            options.enabled = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                            viewSettings->setGridOptions(options);
                         }
                     }
                 });
@@ -366,15 +360,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->gridOptions.size = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
+                            auto options = widget->_p->gridOptions;
+                            options.size = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                            viewSettings->setGridOptions(options);
                         }
                     }
                 });
@@ -385,15 +375,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->gridOptions.color = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
+                            auto options = widget->_p->gridOptions;
+                            options.color = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                            viewSettings->setGridOptions(options);
                         }
                     }
                 });
@@ -404,15 +390,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->gridOptions.labels = static_cast<GridLabels>(value);
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
+                            auto options = widget->_p->gridOptions;
+                            options.labels = static_cast<GridLabels>(value);
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                            viewSettings->setGridOptions(options);
                         }
                     }
                 });
@@ -423,48 +405,27 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->gridOptions.labelsColor = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
+                            auto options = widget->_p->gridOptions;
+                            options.labelsColor = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                            viewSettings->setGridOptions(options);
                         }
                     }
                 });
 
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+            p.gridOptionsObserver = ValueObserver<GridOptions>::create(
+                viewSettings->observeGridOptions(),
+                [weak](const GridOptions& value)
+                {
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeGridOptions(),
-                                    [weak](const GridOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->gridOptions = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->gridOptionsObserver.reset();
-                            }
-                        }
-                    });
-            }
+                        widget->_p->gridOptions = value;
+                        widget->_widgetUpdate();
+                    }
+                });
         }
 
         ViewControlsGridWidget::ViewControlsGridWidget() :
@@ -535,12 +496,13 @@ namespace djv
         struct ViewControlsHUDWidget::Private
         {
             HUDOptions hudOptions;
+
             std::shared_ptr<UI::ToolButton> hudEnabledButton;
             std::shared_ptr<MediaWidget> activeWidget;
             std::shared_ptr<UI::ColorPickerSwatch> hudColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+
             std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
         };
 
@@ -548,10 +510,6 @@ namespace djv
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
-
-            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.hudOptions = viewSettings->observeHUDOptions()->get();
 
             p.hudEnabledButton = UI::ToolButton::create(context);
             p.hudEnabledButton->setButtonType(UI::ButtonType::Toggle);
@@ -580,15 +538,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->hudOptions.enabled = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
-                            }
+                            HUDOptions options = widget->_p->hudOptions;
+                            options.enabled = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setHUDOptions(widget->_p->hudOptions);
+                            viewSettings->setHUDOptions(options);
                         }
                     }
                 });
@@ -599,15 +553,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->hudOptions.color = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
-                            }
+                            HUDOptions options = widget->_p->hudOptions;
+                            options.color = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setHUDOptions(widget->_p->hudOptions);
+                            viewSettings->setHUDOptions(options);
                         }
                     }
                 });
@@ -618,48 +568,27 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->hudOptions.background = static_cast<HUDBackground>(value);
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
-                            }
+                            HUDOptions options = widget->_p->hudOptions;
+                            options.background = static_cast<HUDBackground>(value);
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setHUDOptions(widget->_p->hudOptions);
+                            viewSettings->setHUDOptions(options);
                         }
                     }
                 });
 
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+            p.hudOptionsObserver = ValueObserver<HUDOptions>::create(
+                viewSettings->observeHUDOptions(),
+                [weak](const HUDOptions& value)
+                {
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->hudOptionsObserver = ValueObserver<HUDOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeHUDOptions(),
-                                    [weak](const HUDOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->hudOptions = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->hudOptionsObserver.reset();
-                            }
-                        }
-                    });
-            }
+                        widget->_p->hudOptions = value;
+                        widget->_widgetUpdate();
+                    }
+                });
         }
 
         ViewControlsHUDWidget::ViewControlsHUDWidget() :
@@ -726,7 +655,7 @@ namespace djv
         struct ViewControlsBackgroundWidget::Private
         {
             ViewBackgroundOptions backgroundOptions;
-            std::shared_ptr<MediaWidget> activeWidget;
+
             std::shared_ptr<UI::ComboBox> backgroundComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> solidPickerSwatch;
             std::shared_ptr<UI::FloatSlider> checkersSizeSlider;
@@ -736,8 +665,7 @@ namespace djv
             std::shared_ptr<UI::FormLayout> solidLayout;
             std::shared_ptr<UI::FormLayout> checkersLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
+
             std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
@@ -745,10 +673,6 @@ namespace djv
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
-
-            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.backgroundOptions = viewSettings->observeBackgroundOptions()->get();
 
             p.backgroundComboBox = UI::ComboBox::create(context);
             p.solidPickerSwatch = UI::ColorPickerSwatch::create(context);
@@ -797,15 +721,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.background = static_cast<ViewBackground>(value);
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.background = static_cast<ViewBackground>(value);
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
@@ -816,15 +736,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.color = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.color = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
@@ -835,15 +751,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.checkersSize = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.checkersSize = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
@@ -854,15 +766,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.checkersColors[0] = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.checkersColors[0] = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
@@ -873,48 +781,14 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.checkersColors[1] = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.checkersColors[1] = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
-                                    [weak](const ViewBackgroundOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->backgroundOptions = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->backgroundOptionsObserver.reset();
-                            }
-                        }
-                    });
-            }
         }
 
         ViewControlsBackgroundWidget::ViewControlsBackgroundWidget() :
@@ -994,12 +868,12 @@ namespace djv
         struct ViewControlsBorderWidget::Private
         {
             ViewBackgroundOptions backgroundOptions;
-            std::shared_ptr<MediaWidget> activeWidget;
+
             std::shared_ptr<UI::ToolButton> borderEnabledButton;
             std::shared_ptr<UI::FloatSlider> borderWidthSlider;
             std::shared_ptr<UI::ColorPickerSwatch> borderColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+
             std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
@@ -1038,15 +912,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.border = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.border = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
@@ -1057,15 +927,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.borderWidth = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.borderWidth = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
@@ -1076,48 +942,27 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->backgroundOptions.borderColor = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                            }
+                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
+                            options.borderColor = value;
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                            viewSettings->setBackgroundOptions(options);
                         }
                     }
                 });
 
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+            p.backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                viewSettings->observeBackgroundOptions(),
+                [weak](const ViewBackgroundOptions& value)
+                {
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
-                                    [weak](const ViewBackgroundOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->backgroundOptions = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->backgroundOptionsObserver.reset();
-                            }
-                        }
-                    });
-            }
+                        widget->_p->backgroundOptions = value;
+                        widget->_widgetUpdate();
+                    }
+                });
         }
 
         ViewControlsBorderWidget::ViewControlsBorderWidget() :

@@ -25,6 +25,7 @@ namespace djv
     {
         struct ColorPickerSystem::Private
         {
+            glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<ColorPickerSettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::weak_ptr<ColorPickerWidget> widget;
@@ -84,11 +85,7 @@ namespace djv
                     if (auto context = getContext().lock())
                     {
                         auto widget = ColorPickerWidget::create(context);
-                        widget->setSampleSize(p.settings->getSampleSize());
-                        widget->setLockType(p.settings->getLockType());
-                        widget->setApplyColorOperations(p.settings->getApplyColorOperations());
-                        widget->setApplyColorSpace(p.settings->getApplyColorSpace());
-                        widget->setPickerPos(p.settings->getPickerPos());
+                        widget->setPickerPos(p.pickerPos);
                         auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
                         p.widget = widget;
                         _openWidget("ColorPicker", widget);
@@ -120,11 +117,7 @@ namespace djv
             }
             if (auto widget = p.widget.lock())
             {
-                p.settings->setSampleSize(widget->getSampleSize());
-                p.settings->setLockType(widget->getLockType());
-                p.settings->setApplyColorOperations(widget->getApplyColorOperations());
-                p.settings->setApplyColorSpace(widget->getApplyColorSpace());
-                p.settings->setPickerPos(widget->getPickerPos());
+                p.pickerPos = widget->getPickerPos();
                 p.widget.reset();
             }
             IToolSystem::_closeWidget(value);

@@ -91,7 +91,6 @@ namespace djv
             std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
-            std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
@@ -156,16 +155,6 @@ namespace djv
                     {
                         widget->_p->image = value;
                         widget->_imageUpdate();
-                    }
-                });
-
-            p.annotationsObserver = ListObserver<std::shared_ptr<AnnotatePrimitive> >::create(
-                p.media->observeAnnotations(),
-                [weak](const std::vector<std::shared_ptr<AnnotatePrimitive> >& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->viewWidget->setAnnotations(value);
                     }
                 });
 

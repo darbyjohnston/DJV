@@ -44,15 +44,11 @@ namespace djv
             void setLock(ViewLock);
 
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
-
-            void setGridOptions(const GridOptions&);
-
             std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
-
-            void setHUDOptions(const HUDOptions&);
-
             std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
 
+            void setGridOptions(const GridOptions&);
+            void setHUDOptions(const HUDOptions&);
             void setBackgroundOptions(const ViewBackgroundOptions&);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;

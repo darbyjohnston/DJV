@@ -4,6 +4,7 @@
 
 #include <djvImageTest/ImageDataTest.h>
 
+#include <djvImage/ImageData.h>
 #include <djvImage/ImageDataFunc.h>
 
 #include <djvCore/Memory.h>

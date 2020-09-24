@@ -21,12 +21,6 @@ namespace djv
         } // namespace System
     } // namespace File
 
-    namespace Render2D
-    {
-        class ImageOptions;
-
-    } // namespace Render2D
-
     namespace ViewApp
     {
         class Media;
@@ -47,16 +41,13 @@ namespace djv
             void setFileInfo(const System::File::Info&);
             void setPos(const glm::vec2&, Math::Frame::Index, const Math::BBox2f&);
 
-            void setImageOptions(const Render2D::ImageOptions&);
-            void setImageRotate(UI::ImageRotate);
-            void setImageAspectRatio(UI::ImageAspectRatio);
-
         protected:
             void _layoutEvent(System::Event::Layout&) override;
             void _paintEvent(System::Event::Paint&) override;
 
         private:
             void _textUpdate();
+            void _widgetUpdate();
 
             DJV_PRIVATE();
         };

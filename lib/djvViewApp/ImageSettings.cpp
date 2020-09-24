@@ -4,11 +4,8 @@
 
 #include <djvViewApp/ImageSettings.h>
 
-#include <djvUI/EnumFunc.h>
-
-#include <djvOCIO/OCIOSystem.h>
-
-#include <djvSystem/Context.h>
+#include <djvViewApp/ImageData.h>
+#include <djvViewApp/ImageDataFunc.h>
 
 #include <djvMath/BBoxFunc.h>
 
@@ -26,8 +23,7 @@ namespace djv
         {
             std::map<std::string, bool> controlsBellowsState;
             std::map<std::string, bool> colorSpaceBellowsState;
-            std::shared_ptr<ValueSubject<UI::ImageRotate> > rotate;
-            std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > aspectRatio;
+            std::shared_ptr<ValueSubject<ImageData> > data;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
@@ -36,8 +32,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.rotate = ValueSubject<UI::ImageRotate>::create(UI::ImageRotate::_0);
-            p.aspectRatio = ValueSubject<UI::ImageAspectRatio>::create(UI::ImageAspectRatio::FromSource);
+            p.data = ValueSubject<ImageData>::create();
             _load();
         }
 
@@ -72,24 +67,14 @@ namespace djv
             _p->colorSpaceBellowsState = value;
         }
 
-        std::shared_ptr<IValueSubject<UI::ImageRotate> > ImageSettings::observeRotate() const
+        std::shared_ptr<IValueSubject<ImageData> > ImageSettings::observeData() const
         {
-            return _p->rotate;
+            return _p->data;
         }
 
-        std::shared_ptr<IValueSubject<UI::ImageAspectRatio> > ImageSettings::observeAspectRatio() const
+        void ImageSettings::setData(const ImageData& value)
         {
-            return _p->aspectRatio;
-        }
-
-        void ImageSettings::setRotate(UI::ImageRotate value)
-        {
-            _p->rotate->setIfChanged(value);
-        }
-
-        void ImageSettings::setAspectRatio(UI::ImageAspectRatio value)
-        {
-            _p->aspectRatio->setIfChanged(value);
+            _p->data->setIfChanged(value);
         }
 
         const std::map<std::string, Math::BBox2f>& ImageSettings::getWidgetGeom() const
@@ -107,10 +92,9 @@ namespace djv
             if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
+                UI::Settings::read("Data", value, p.data);
                 UI::Settings::read("ControlsBellows", value, p.controlsBellowsState);
                 UI::Settings::read("ColorSpaceBellows", value, p.colorSpaceBellowsState);
-                UI::Settings::read("Rotate", value, p.rotate);
-                UI::Settings::read("AspectRatio", value, p.aspectRatio);
                 UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
@@ -119,10 +103,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("Data", p.data->get(), out, allocator);
             UI::Settings::write("ControlsBellows", p.controlsBellowsState, out, allocator);
             UI::Settings::write("ColorSpaceBellows", p.colorSpaceBellowsState, out, allocator);
-            UI::Settings::write("Rotate", p.rotate->get(), out, allocator);
-            UI::Settings::write("AspectRatio", p.aspectRatio->get(), out, allocator);
             UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }

@@ -4,14 +4,19 @@
 
 #pragma once
 
-#include <djvImage/Image.h>
-
 #include <djvCore/RapidJSONFunc.h>
 
 #include <memory>
 
 namespace djv
 {
+    namespace Image
+    {
+        class Mirror;
+        class Size;
+    
+    } // namespace Image
+
     std::ostream& operator << (std::ostream&, const Image::Size&);
 
     //! Throws:
@@ -19,10 +24,15 @@ namespace djv
     std::istream& operator >> (std::istream&, Image::Size&);
 
     rapidjson::Value toJSON(const Image::Size&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Image::Mirror&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const rapidjson::Value&, Image::Size&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Image::Mirror&);
 
 } // namespace djv
 

@@ -7,6 +7,7 @@
 #include <djvViewApp/ColorSpaceWidget.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageControlsWidget.h>
+#include <djvViewApp/ImageData.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
@@ -42,11 +43,11 @@ namespace djv
 
             std::map<std::string, bool> controlsBellowsState;
             std::map<std::string, bool> colorSpaceBellowsState;
+            ImageData data;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<Image::Image> > > frameStore;
             std::shared_ptr<Image::Image> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
-            Render2D::ImageOptions imageOptions;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
@@ -56,8 +57,7 @@ namespace djv
 
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > currentImageObserver;
-            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<ValueObserver<ImageData> > dataObserver;
             std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
@@ -131,19 +131,6 @@ namespace djv
             _shortcutsUpdate();
 
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
-            p.channelActionGroup->setExclusiveCallback(
-                [weak](int value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->imageOptions.channelDisplay = static_cast<Render2D::ImageChannelDisplay>(value + 1);
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getViewWidget()->setImageOptions(system->_p->imageOptions);
-                        }
-                    }
-                });
-
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["ImageControls"]->setCheckedCallback(
                 [weak, contextWeak](bool value)
@@ -194,24 +181,19 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageOptions.mirror.x = value;
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getViewWidget()->setImageOptions(system->_p->imageOptions);
-                        }
+                        auto data = system->_p->data;
+                        data.mirror.x = value;
+                        system->_p->settings->setData(data);
                     }
                 });
-
             p.actions["MirrorV"]->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageOptions.mirror.y = value;
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getViewWidget()->setImageOptions(system->_p->imageOptions);
-                        }
+                        auto data = system->_p->data;
+                        data.mirror.y = value;
+                        system->_p->settings->setData(data);
                     }
                 });
 
@@ -223,7 +205,6 @@ namespace djv
                         system->setFrameStoreEnabled(value);
                     }
                 });
-
             p.actions["LoadFrameStore"]->setClickedCallback(
                 [weak]
                 {
@@ -232,13 +213,23 @@ namespace djv
                         system->loadFrameStore();
                     }
                 });
-
             p.actions["ClearFrameStore"]->setClickedCallback(
                 [weak]
                 {
                     if (auto system = weak.lock())
                     {
                         system->clearFrameStore();
+                    }
+                });
+
+            p.channelActionGroup->setExclusiveCallback(
+                [weak](int value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        auto data = system->_p->data;
+                        data.channelDisplay = static_cast<Render2D::ImageChannelDisplay>(value + 1);
+                        system->_p->settings->setData(data);
                     }
                 });
 
@@ -273,36 +264,16 @@ namespace djv
                     });
             }
 
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
+            p.dataObserver = ValueObserver<ImageData>::create(
+                p.settings->observeData(),
+                [weak](const ImageData& value)
+                {
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->activeWidget = value;
-                            if (system->_p->activeWidget)
-                            {
-                                system->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
-                                    system->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const Render2D::ImageOptions& value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageOptions = value;
-                                            system->_actionsUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                system->_p->imageOptionsObserver.reset();
-                            }
-                            system->_actionsUpdate();
-                        }
-                    });
-            }
+                        system->_p->data = value;
+                        system->_actionsUpdate();
+                    }
+                });
         }
 
         ImageSystem::ImageSystem() :
@@ -450,18 +421,10 @@ namespace djv
         void ImageSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            const bool activeWidget = p.activeWidget.get();
-#if defined(DJV_GL_ES2)
-            p.actions["ColorSpace"]->setEnabled(false);
-#endif // DJV_GL_ES2
-            p.actions["RedChannel"]->setEnabled(activeWidget);
-            p.actions["GreenChannel"]->setEnabled(activeWidget);
-            p.actions["BlueChannel"]->setEnabled(activeWidget);
-            p.actions["AlphaChannel"]->setEnabled(activeWidget);
-            p.actions["MirrorH"]->setEnabled(activeWidget);
-            p.actions["MirrorV"]->setEnabled(activeWidget);
+            p.actions["MirrorH"]->setChecked(p.data.mirror.x);
+            p.actions["MirrorV"]->setChecked(p.data.mirror.y);
 
-            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channelDisplay) - 1);
+            p.channelActionGroup->setChecked(static_cast<int>(p.data.channelDisplay) - 1);
         }
 
     } // namespace ViewApp

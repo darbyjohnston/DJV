@@ -40,7 +40,6 @@ namespace djv
             std::map<std::string, bool> bellowsState;
             GridOptions gridOptions;
             HUDOptions hudOptions;
-            ViewBackgroundOptions backgroundOptions;
             bool currentTool = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
@@ -57,7 +56,6 @@ namespace djv
             std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
             std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
-            std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
             std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
@@ -76,9 +74,6 @@ namespace djv
             p.bellowsState = p.settings->getBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
-            p.gridOptions = p.settings->observeGridOptions()->get();
-            p.hudOptions = p.settings->observeHUDOptions()->get();
-            p.backgroundOptions = p.settings->observeBackgroundOptions()->get();
             p.lock = ValueSubject<ViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
@@ -349,12 +344,9 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->gridOptions.enabled = value;
-                        system->_p->settings->setGridOptions(system->_p->gridOptions);
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getViewWidget()->setGridOptions(system->_p->gridOptions);
-                        }
+                        GridOptions options = system->_p->gridOptions;
+                        options.enabled = value;
+                        system->_p->settings->setGridOptions(options);
                     }
                 });
 
@@ -363,12 +355,9 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->hudOptions.enabled = value;
-                        system->_p->settings->setHUDOptions(system->_p->hudOptions);
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getViewWidget()->setHUDOptions(system->_p->hudOptions);
-                        }
+                        HUDOptions options = system->_p->hudOptions;
+                        options.enabled = value;
+                        system->_p->settings->setHUDOptions(options);
                     }
                 });
 
@@ -383,36 +372,6 @@ namespace djv
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
-                                system->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
-                                    system->_p->activeWidget->getViewWidget()->observeGridOptions(),
-                                    [weak](const GridOptions& value)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        system->_p->gridOptions = value;
-                                        system->_actionsUpdate();
-                                    }
-                                });
-                                system->_p->hudOptionsObserver = ValueObserver<HUDOptions>::create(
-                                    system->_p->activeWidget->getViewWidget()->observeHUDOptions(),
-                                    [weak](const HUDOptions& value)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        system->_p->hudOptions = value;
-                                        system->_actionsUpdate();
-                                    }
-                                });
-                                system->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    system->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
-                                    [weak](const ViewBackgroundOptions& value)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        system->_p->backgroundOptions = value;
-                                        system->_actionsUpdate();
-                                    }
-                                });
                                 system->_p->hoverObserver = ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeHover(),
                                     [weak](const PointerData& value)
@@ -443,9 +402,6 @@ namespace djv
                             }
                             else
                             {
-                                system->_p->gridOptionsObserver.reset();
-                                system->_p->hudOptionsObserver.reset();
-                                system->_p->backgroundOptionsObserver.reset();
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
                                 system->_p->scrollObserver.reset();
@@ -475,6 +431,27 @@ namespace djv
                             break;
                         default: break;
                         }
+                    }
+                });
+
+            p.gridOptionsObserver = ValueObserver<GridOptions>::create(
+                p.settings->observeGridOptions(),
+                [weak](const GridOptions& value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->gridOptions = value;
+                        system->_actionsUpdate();
+                    }
+                });
+            p.hudOptionsObserver = ValueObserver<HUDOptions>::create(
+                p.settings->observeHUDOptions(),
+                [weak](const HUDOptions& value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->hudOptions = value;
+                        system->_actionsUpdate();
                     }
                 });
         }

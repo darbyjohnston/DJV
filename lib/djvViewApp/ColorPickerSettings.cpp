@@ -4,13 +4,10 @@
 
 #include <djvViewApp/ColorPickerSettings.h>
 
-#include <djvImage/ImageData.h>
+#include <djvViewApp/ColorPickerData.h>
+#include <djvViewApp/ColorPickerDataFunc.h>
 
 #include <djvMath/BBoxFunc.h>
-
-#if defined(GetObject)
-#undef GetObject
-#endif // GetObject
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -24,17 +21,15 @@ namespace djv
     {
         struct ColorPickerSettings::Private
         {
-            size_t sampleSize = 1;
-            Image::Type lockType = Image::Type::None;
-            bool applyColorOperations = true;
-            bool applyColorSpace = true;
-            glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
+            std::shared_ptr<ValueSubject<ColorPickerData> > data;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
         void ColorPickerSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::ColorPickerSettings", context);
+            DJV_PRIVATE_PTR();
+            p.data = ValueSubject<ColorPickerData>::create();
             _load();
         }
 
@@ -52,54 +47,14 @@ namespace djv
             return out;
         }
 
-        size_t ColorPickerSettings::getSampleSize() const
+        std::shared_ptr<IValueSubject<ColorPickerData> > ColorPickerSettings::observeData() const
         {
-            return _p->sampleSize;
+            return _p->data;
         }
 
-        void ColorPickerSettings::setSampleSize(size_t value)
+        void ColorPickerSettings::setData(const ColorPickerData& value)
         {
-            _p->sampleSize = value;
-        }
-
-        Image::Type ColorPickerSettings::getLockType() const
-        {
-            return _p->lockType;
-        }
-
-        void ColorPickerSettings::setLockType(Image::Type value)
-        {
-            _p->lockType = value;
-        }
-
-        bool ColorPickerSettings::getApplyColorOperations() const
-        {
-            return _p->applyColorOperations;
-        }
-
-        void ColorPickerSettings::setApplyColorOperations(bool value)
-        {
-            _p->applyColorOperations = value;
-        }
-
-        bool ColorPickerSettings::getApplyColorSpace() const
-        {
-            return _p->applyColorSpace;
-        }
-
-        void ColorPickerSettings::setApplyColorSpace(bool value)
-        {
-            _p->applyColorSpace = value;
-        }
-
-        const glm::vec2& ColorPickerSettings::getPickerPos() const
-        {
-            return _p->pickerPos;
-        }
-
-        void ColorPickerSettings::setPickerPos(const glm::vec2& value)
-        {
-            _p->pickerPos = value;
+            _p->data->setIfChanged(value);
         }
 
         const std::map<std::string, Math::BBox2f>& ColorPickerSettings::getWidgetGeom() const
@@ -117,11 +72,7 @@ namespace djv
             if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                UI::Settings::read("sampleSize", value, p.sampleSize);
-                UI::Settings::read("lockType", value, p.lockType);
-                UI::Settings::read("applyColorOperations", value, p.applyColorOperations);
-                UI::Settings::read("applyColorSpace", value, p.applyColorSpace);
-                UI::Settings::read("pickerPos", value, p.pickerPos);
+                UI::Settings::read("Data", value, p.data);
                 UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
@@ -130,11 +81,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             rapidjson::Value out(rapidjson::kObjectType);
-            UI::Settings::write("sampleSize", p.sampleSize, out, allocator);
-            UI::Settings::write("lockType", p.lockType, out, allocator);
-            UI::Settings::write("applyColorOperations", p.applyColorOperations, out, allocator);
-            UI::Settings::write("applyColorSpace", p.applyColorSpace, out, allocator);
-            UI::Settings::write("pickerPos", p.pickerPos, out, allocator);
+            UI::Settings::write("Data", p.data->get(), out, allocator);
             UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }

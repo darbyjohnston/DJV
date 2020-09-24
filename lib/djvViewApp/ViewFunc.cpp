@@ -8,10 +8,6 @@
 
 #include <djvImage/ColorFunc.h>
 
-#if defined(GetObject)
-#undef GetObject
-#endif // GetObject
-
 using namespace djv::Core;
 
 namespace djv

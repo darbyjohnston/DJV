@@ -4,9 +4,13 @@
 
 #include <djvViewApp/MagnifyWidget.h>
 
+#include <djvViewApp/ImageData.h>
+#include <djvViewApp/ImageSettings.h>
+#include <djvViewApp/MagnifySettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/View.h>
+#include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -15,6 +19,7 @@
 #include <djvUI/ImageWidget.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 
 #include <djvRender2D/Render.h>
 
@@ -48,14 +53,10 @@ namespace djv
 
                 static std::shared_ptr<ImageWidget> create(const std::shared_ptr<System::Context>&);
 
-                void setImage(const std::shared_ptr<Image::Image>&);
-                void setImageOptions(const Render2D::ImageOptions&);
-                void setImagePos(const glm::vec2&);
-                void setImageZoom(float);
-                void setImageRotate(UI::ImageRotate);
-                void setImageAspectRatio(UI::ImageAspectRatio);
-                void setBackgroundOptions(const ViewBackgroundOptions&);
-                void setMagnify(int);
+                void setCurrentTool(bool);
+
+                const glm::vec2& getMagnifyPos() const;
+
                 void setMagnifyPos(const glm::vec2&);
 
             protected:
@@ -63,17 +64,25 @@ namespace djv
                 void _paintEvent(System::Event::Paint&) override;
 
             private:
+                bool _currentTool = false;
                 std::shared_ptr<Image::Image> _image;
-                Render2D::ImageOptions _imageOptions;
                 glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
                 float _imageZoom = 0.F;
-                UI::ImageRotate _imageRotate = UI::ImageRotate::First;
-                UI::ImageAspectRatio _imageAspectRatio = UI::ImageAspectRatio::First;
+                ImageData _imageData;
                 OCIO::Config _ocioConfig;
                 std::string _outputColorSpace;
                 ViewBackgroundOptions _backgroundOptions;
                 int _magnify = 1;
                 glm::vec2 _magnifyPos = glm::vec2(0.F, 0.F);
+
+                std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
+                std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > _imageObserver;
+                std::shared_ptr<ValueObserver<glm::vec2> > _imagePosObserver;
+                std::shared_ptr<ValueObserver<float> > _imageZoomObserver;
+                std::shared_ptr<ValueObserver<PointerData> > _dragObserver;
+                std::shared_ptr<ValueObserver<size_t> > _magnifyObserver;
+                std::shared_ptr<ValueObserver<ViewBackgroundOptions> > _backgroundOptionsObserver;
+                std::shared_ptr<ValueObserver<ImageData> > _imageDataObserver;
                 std::shared_ptr<ValueObserver<OCIO::Config> > _ocioConfigObserver;
             };
 
@@ -82,6 +91,110 @@ namespace djv
                 Widget::_init(context);
 
                 auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));
+                if (auto windowSystem = context->getSystemT<WindowSystem>())
+                {
+                    _activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                        windowSystem->observeActiveWidget(),
+                        [weak](const std::shared_ptr<MediaWidget>& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (value)
+                                {
+                                    widget->_imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
+                                        value->getMedia()->observeCurrentImage(),
+                                        [weak](const std::shared_ptr<Image::Image>& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_image = value;
+                                                widget->_redraw();
+                                            }
+                                        });
+
+                                    widget->_imagePosObserver = ValueObserver<glm::vec2>::create(
+                                        value->getViewWidget()->observeImagePos(),
+                                        [weak](const glm::vec2& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_imagePos = value;
+                                                widget->_redraw();
+                                            }
+                                        });
+
+                                    widget->_imageZoomObserver = ValueObserver<float>::create(
+                                        value->getViewWidget()->observeImageZoom(),
+                                        [weak](float value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_imageZoom = value;
+                                                widget->_redraw();
+                                            }
+                                        });
+
+                                    widget->_dragObserver = ValueObserver<PointerData>::create(
+                                        value->observeDrag(),
+                                        [weak](const PointerData& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                if (widget->_currentTool)
+                                                {
+                                                    widget->_magnifyPos = value.pos;
+                                                }
+                                            }
+                                        });
+                                }
+                                else
+                                {
+                                    widget->_imageObserver.reset();
+                                    widget->_imagePosObserver.reset();
+                                    widget->_imageZoomObserver.reset();
+                                    widget->_dragObserver.reset();
+                                }
+                            }
+                        });
+                }
+            
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                auto settings = settingsSystem->getSettingsT<MagnifySettings>();
+                _magnifyObserver = ValueObserver<size_t>::create(
+                    settings->observeMagnify(),
+                    [weak](const size_t& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_magnify = value;
+                            widget->_redraw();
+                        }
+                    });
+
+                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                _backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                    viewSettings->observeBackgroundOptions(),
+                    [weak](const ViewBackgroundOptions& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_backgroundOptions = value;
+                            widget->_redraw();
+                        }
+                    });
+
+                auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                _imageDataObserver = ValueObserver<ImageData>::create(
+                    imageSettings->observeData(),
+                    [weak](const ImageData& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_imageData = value;
+                            widget->_redraw();
+                        }
+                    });
+
                 auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                 auto contextWeak = std::weak_ptr<System::Context>(context);
                 _ocioConfigObserver = ValueObserver<OCIO::Config>::create(
@@ -114,68 +227,14 @@ namespace djv
                 return out;
             }
 
-            void ImageWidget::setImage(const std::shared_ptr<Image::Image>& value)
+            void ImageWidget::setCurrentTool(bool value)
             {
-                if (value == _image)
-                    return;
-                _image = value;
-                _redraw();
+                _currentTool = value;
             }
 
-            void ImageWidget::setImageOptions(const Render2D::ImageOptions& value)
+            const glm::vec2& ImageWidget::getMagnifyPos() const
             {
-                if (value == _imageOptions)
-                    return;
-                _imageOptions = value;
-                _redraw();
-            }
-
-            void ImageWidget::setImagePos(const glm::vec2& value)
-            {
-                if (value == _imagePos)
-                    return;
-                _imagePos = value;
-                _redraw();
-            }
-
-            void ImageWidget::setImageZoom(float value)
-            {
-                if (value == _imageZoom)
-                    return;
-                _imageZoom = value;
-                _redraw();
-            }
-
-            void ImageWidget::setImageRotate(UI::ImageRotate value)
-            {
-                if (value == _imageRotate)
-                    return;
-                _imageRotate = value;
-                _redraw();
-            }
-
-            void ImageWidget::setImageAspectRatio(UI::ImageAspectRatio value)
-            {
-                if (value == _imageAspectRatio)
-                    return;
-                _imageAspectRatio = value;
-                _redraw();
-            }
-
-            void ImageWidget::setBackgroundOptions(const ViewBackgroundOptions& value)
-            {
-                if (value == _backgroundOptions)
-                    return;
-                _backgroundOptions = value;
-                _redraw();
-            }
-
-            void ImageWidget::setMagnify(int value)
-            {
-                if (value == _magnify)
-                    return;
-                _magnify = value;
-                _redraw();
+                return _magnifyPos;
             }
 
             void ImageWidget::setMagnifyPos(const glm::vec2& value)
@@ -224,9 +283,12 @@ namespace djv
                     glm::mat3x3 m(1.F);
                     m = glm::translate(m, glm::vec2(g.w() / 2.F, g.h() / 2.F) - glm::vec2(_magnifyPos.x * magnify, _magnifyPos.y * magnify));
                     m = glm::translate(m, g.min + glm::vec2(_imagePos.x * magnify, _imagePos.y * magnify));
-                    m *= UI::ImageWidget::getXForm(_image, _imageRotate, glm::vec2(_imageZoom * magnify, _imageZoom * magnify), _imageAspectRatio);
+                    m *= UI::ImageWidget::getXForm(_image, _imageData.rotate, glm::vec2(_imageZoom * magnify, _imageZoom * magnify), _imageData.aspectRatio);
                     render->pushTransform(m);
-                    Render2D::ImageOptions options(_imageOptions);
+                    Render2D::ImageOptions options;
+                    options.channelDisplay = _imageData.channelDisplay;
+                    options.alphaBlend = _imageData.alphaBlend;
+                    options.mirror = _imageData.mirror;
                     auto i = _ocioConfig.imageColorSpaces.find(_image->getPluginName());
                     if (i != _ocioConfig.imageColorSpaces.end())
                     {
@@ -241,6 +303,14 @@ namespace djv
                         }
                     }
                     options.colorSpace.output = _outputColorSpace;
+                    options.colorEnabled = _imageData.colorEnabled;
+                    options.color = _imageData.color;
+                    options.levelsEnabled = _imageData.levelsEnabled;
+                    options.levels = _imageData.levels;
+                    options.exposureEnabled = _imageData.exposureEnabled;
+                    options.exposure = _imageData.exposure;
+                    options.softClipEnabled = _imageData.softClipEnabled;
+                    options.softClip = _imageData.softClip;
                     options.cache = Render2D::ImageCache::Dynamic;
                     render->drawImage(_image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
@@ -251,24 +321,13 @@ namespace djv
 
         struct MagnifyWidget::Private
         {
-            bool currentTool = false;
             size_t magnify = 1;
-            glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
-            std::shared_ptr<MediaWidget> activeWidget;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<ImageWidget> imageWidget;
             std::shared_ptr<UI::IntSlider> magnifySlider;
 
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
-            std::shared_ptr<ValueObserver<float> > imageZoomObserver;
-            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
-            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
-            std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
-            std::shared_ptr<ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<ValueObserver<size_t> > magnifyObserver;
         };
 
         void MagnifyWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -294,127 +353,31 @@ namespace djv
 
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<MagnifyWidget>(std::dynamic_pointer_cast<MagnifyWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.magnifySlider->setValueCallback(
-                [weak](int value)
+                [contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                        auto settings = settingsSystem->getSettingsT<MagnifySettings>();
+                        settings->setMagnify(value);
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto settings = settingsSystem->getSettingsT<MagnifySettings>();
+            auto weak = std::weak_ptr<MagnifyWidget>(std::dynamic_pointer_cast<MagnifyWidget>(shared_from_this()));
+            p.magnifyObserver = ValueObserver<size_t>::create(
+                settings->observeMagnify(),
+                [weak](size_t value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_p->magnify = value;
-                        widget->_p->imageWidget->setMagnify(value);
-                        widget->_redraw();
+                        widget->_widgetUpdate();
                     }
                 });
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
-                                    widget->_p->activeWidget->getMedia()->observeCurrentImage(),
-                                    [weak](const std::shared_ptr<Image::Image>& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageWidget->setImage(value);
-                                        }
-                                    });
-
-                                widget->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const Render2D::ImageOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageWidget->setImageOptions(value);
-                                        }
-                                    });
-
-                                widget->_p->imagePosObserver = ValueObserver<glm::vec2>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImagePos(),
-                                    [weak](const glm::vec2& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageWidget->setImagePos(value);
-                                        }
-                                    });
-
-                                widget->_p->imageZoomObserver = ValueObserver<float>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
-                                    [weak](float value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageWidget->setImageZoom(value);
-                                        }
-                                    });
-
-                                widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageRotate(),
-                                    [weak](UI::ImageRotate value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageWidget->setImageRotate(value);
-                                        }
-                                    });
-
-                                widget->_p->imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageAspectRatio(),
-                                    [weak](UI::ImageAspectRatio value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageWidget->setImageAspectRatio(value);
-                                        }
-                                    });
-
-                                widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
-                                    [weak](const ViewBackgroundOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageWidget->setBackgroundOptions(value);
-                                        }
-                                    });
-
-                                widget->_p->dragObserver = ValueObserver<PointerData>::create(
-                                    widget->_p->activeWidget->observeDrag(),
-                                    [weak](const PointerData& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            if (widget->_p->currentTool)
-                                            {
-                                                widget->_p->magnifyPos = value.pos;
-                                                widget->_p->imageWidget->setMagnifyPos(value.pos);
-                                            }
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->imageObserver.reset();
-                                widget->_p->imageOptionsObserver.reset();
-                                widget->_p->imagePosObserver.reset();
-                                widget->_p->imageZoomObserver.reset();
-                                widget->_p->imageRotateObserver.reset();
-                                widget->_p->imageAspectRatioObserver.reset();
-                                widget->_p->backgroundOptionsObserver.reset();
-                                widget->_p->dragObserver.reset();
-                            }
-                        }
-                    });
-            }
         }
 
         MagnifyWidget::MagnifyWidget() :
@@ -433,41 +396,17 @@ namespace djv
 
         void MagnifyWidget::setCurrentTool(bool value)
         {
-            DJV_PRIVATE_PTR();
-            if (value == p.currentTool)
-                return;
-            p.currentTool = value;
-            _widgetUpdate();
-            _redraw();
-        }
-        size_t MagnifyWidget::getMagnify() const
-        {
-            return _p->magnify;
-        }
-
-        void MagnifyWidget::setMagnify(size_t value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.magnify)
-                return;
-            p.magnify = value;
-            _widgetUpdate();
-            _redraw();
+            _p->imageWidget->setCurrentTool(value);
         }
 
         const glm::vec2& MagnifyWidget::getMagnifyPos() const
         {
-            return _p->magnifyPos;
+            return _p->imageWidget->getMagnifyPos();
         }
 
         void MagnifyWidget::setMagnifyPos(const glm::vec2& value)
         {
-            DJV_PRIVATE_PTR();
-            if (value == p.magnifyPos)
-                return;
-            p.magnifyPos = value;
-            _widgetUpdate();
-            _redraw();
+            _p->imageWidget->setMagnifyPos(value);
         }
 
         void MagnifyWidget::_initEvent(System::Event::Init & event)
@@ -485,8 +424,6 @@ namespace djv
         void MagnifyWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.imageWidget->setMagnify(p.magnify);
-            p.imageWidget->setMagnifyPos(p.magnifyPos);
             p.magnifySlider->setValue(p.magnify);
         }
 

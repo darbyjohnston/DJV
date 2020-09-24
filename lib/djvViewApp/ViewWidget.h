@@ -16,12 +16,6 @@ namespace djv
 
     } // namespace Image
 
-    namespace Render2D
-    {
-        class ImageOptions;
-
-    } // namespace Render
-
     namespace ViewApp
     {
         struct GridOptions;
@@ -52,14 +46,8 @@ namespace djv
 
             void setImage(const std::shared_ptr<Image::Image>&);
 
-            std::shared_ptr<Core::IValueSubject<Render2D::ImageOptions> > observeImageOptions() const;
-            
-            void setImageOptions(const Render2D::ImageOptions&);
-
             std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
             std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
-            std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeImageRotate() const;
-            std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeImageAspectRatio() const;
             
             Math::BBox2f getImageBBox() const;
             
@@ -68,24 +56,9 @@ namespace djv
             void setImageZoomFocus(float, const glm::vec2&, bool animate = false);
             void setImageZoomFocus(float, bool animate = false);
             void setImagePosAndZoom(const glm::vec2&, float, bool animate = false);
-            void setImageRotate(UI::ImageRotate);
-            void setImageAspectRatio(UI::ImageAspectRatio);
 
             void imageFrame(bool animate = false);
             void imageCenter(bool animate = false);
-
-            std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
-            
-            void setGridOptions(const GridOptions&);
-
-            std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
-            void setHUDOptions(const HUDOptions&);
-
-            std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
-            
-            void setBackgroundOptions(const ViewBackgroundOptions&);
-
-            void setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -100,6 +73,7 @@ namespace djv
             void _animatePosAndZoom(const glm::vec2&, float);
             void _setPosAndZoom(const glm::vec2&, float);
 
+            void _gridUpdate();
             void _hudUpdate();
 
             DJV_PRIVATE();

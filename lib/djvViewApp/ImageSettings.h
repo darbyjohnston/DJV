@@ -6,17 +6,20 @@
 
 #include <djvViewApp/Enum.h>
 
-#include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
 
 #include <djvMath/BBox.h>
-#include <djvCore/MapObserver.h>
+
 #include <djvCore/ValueObserver.h>
+
+#include <map>
 
 namespace djv
 {
     namespace ViewApp
     {
+        struct ImageData;
+
         //! This class provides the image settings.
         class ImageSettings : public UI::Settings::ISettings
         {
@@ -36,11 +39,9 @@ namespace djv
             void setControlsBellowsState(const std::map<std::string, bool>&);
             void setColorSpaceBellowsState(const std::map<std::string, bool>&);
 
-            std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeRotate() const;
-            std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeAspectRatio() const;
+            std::shared_ptr<Core::IValueSubject<ImageData> > observeData() const;
 
-            void setRotate(UI::ImageRotate);
-            void setAspectRatio(UI::ImageAspectRatio);
+            void setData(const ImageData&);
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
 

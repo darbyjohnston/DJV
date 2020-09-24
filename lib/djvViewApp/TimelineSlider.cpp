@@ -265,21 +265,6 @@ namespace djv
             _redraw();
         }
 
-        void TimelineSlider::setImageOptions(const Render2D::ImageOptions& value)
-        {
-            _p->pipWidget->setImageOptions(value);
-        }
-
-        void TimelineSlider::setImageRotate(UI::ImageRotate value)
-        {
-            _p->pipWidget->setImageRotate(value);
-        }
-
-        void TimelineSlider::setImageAspectRatio(UI::ImageAspectRatio value)
-        {
-            _p->pipWidget->setImageAspectRatio(value);
-        }
-
         void TimelineSlider::setCurrentFrameCallback(const std::function<void(Math::Frame::Index)>& value)
         {
             _p->currentFrameCallback = value;

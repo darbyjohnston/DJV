@@ -12,10 +12,6 @@
 
 #include <djvSystem/Context.h>
 
-#if defined(GetObject)
-#undef GetObject
-#endif // GetObject
-
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
@@ -62,14 +58,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value.IsObject())
                 {
-                    djv::Render2D::AlphaBlend alphaBlend = djv::Render2D::AlphaBlend::Straight;
                     djv::Render2D::ImageFilterOptions imageFilterOptions;
                     bool textLCDRendering = true;
-                    read("AlphaBlend", value, alphaBlend);
                     read("ImageFilterOptions", value, imageFilterOptions);
                     read("TextLCDRendering", value, textLCDRendering);
 
-                    p.render2DSystem->setAlphaBlend(alphaBlend);
                     p.render2DSystem->setImageFilterOptions(imageFilterOptions);
                     p.render2DSystem->setTextLCDRendering(textLCDRendering);
                 }
@@ -79,7 +72,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
-                write("AlphaBlend", p.render2DSystem->observeAlphaBlend()->get(), out, allocator);
                 write("ImageFilterOptions", p.render2DSystem->observeImageFilterOptions()->get(), out, allocator);
                 write("TextLCDRendering", p.render2DSystem->observeTextLCDRendering()->get(), out, allocator);
                 return out;

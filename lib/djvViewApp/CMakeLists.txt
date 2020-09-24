@@ -8,6 +8,8 @@ set(header
     Application.h
 	ApplicationSettings.h
 	AudioSystem.h
+    ColorPickerData.h
+    ColorPickerDataFunc.h
     ColorPickerSettings.h
     ColorPickerSystem.h
     ColorPickerWidget.h
@@ -25,6 +27,8 @@ set(header
     IToolSystem.h
     IViewSystem.h
     ImageControlsWidget.h
+    ImageData.h
+    ImageDataFunc.h
 	ImageSettings.h
     ImageSystem.h
     InfoWidget.h
@@ -83,6 +87,8 @@ set(source
     Application.cpp
 	ApplicationSettings.cpp
 	AudioSystem.cpp
+    ColorPickerData.cpp
+    ColorPickerDataFunc.cpp
     ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
@@ -102,6 +108,8 @@ set(source
     IToolSystem.cpp
     IViewSystem.cpp
     ImageControlsWidget.cpp
+    ImageData.cpp
+    ImageDataFunc.cpp
 	ImageSettings.cpp
     ImageSystem.cpp
     InfoWidget.cpp

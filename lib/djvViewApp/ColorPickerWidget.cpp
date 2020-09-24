@@ -4,6 +4,9 @@
 
 #include <djvViewApp/ColorPickerWidget.h>
 
+#include <djvViewApp/ColorPickerSettings.h>
+#include <djvViewApp/ImageData.h>
+#include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/ViewWidget.h>
@@ -22,6 +25,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvRender2D/Render.h>
@@ -68,22 +72,16 @@ namespace djv
         struct ColorPickerWidget::Private
         {
             bool currentTool = false;
-            size_t sampleSize = 1;
-            Image::Type lockType = Image::Type::None;
-            bool applyColorOperations = true;
-            bool applyColorSpace = true;
             Image::Color color = Image::Color(0.F, 0.F, 0.F);
-            glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<Image::Image> image;
-            Render2D::ImageOptions imageOptions;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
-            UI::ImageRotate imageRotate = UI::ImageRotate::First;
-            UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
+            glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             glm::vec2 pixelPos = glm::vec2(0.F, 0.F);
+            ColorPickerData data;
+            ImageData imageData;
             OCIO::Config ocioConfig;
             std::string outputColorSpace;
-            std::shared_ptr<MediaWidget> activeWidget;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ColorSwatch> colorSwatch;
@@ -105,13 +103,12 @@ namespace djv
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
-            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
-            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
-            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<ValueObserver<ColorPickerData> > dataObserver;
+            std::shared_ptr<ValueObserver<ImageData> > imageDataObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
         };
 
         void ColorPickerWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -191,6 +188,44 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorPickerWidget>(std::dynamic_pointer_cast<ColorPickerWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<System::Context>(context);
+            p.sampleSizeSlider->setValueCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto data = widget->_p->data;
+                            data.sampleSize = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+                            settings->setData(data);
+                        }
+                    }
+                });
+
+            p.typeWidget->setTypeCallback(
+                [weak, contextWeak](Image::Type value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->color = widget->_p->color.convert(value);
+                            if (widget->_p->data.lockType != Image::Type::None)
+                            {
+                                auto data = widget->_p->data;
+                                data.lockType = value;
+                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                                auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+                                settings->setData(data);
+                            }
+                            widget->_widgetUpdate();
+                        }
+                    }
+                });
+
             p.copyButton->setClickedCallback(
                 [weak]
                 {
@@ -207,71 +242,63 @@ namespace djv
                     }
                 });
 
-            p.sampleSizeSlider->setValueCallback(
-                [weak](int value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->sampleSize = value;
-                        widget->_sampleUpdate();
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.typeWidget->setTypeCallback(
-                [weak](Image::Type value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->color = widget->_p->color.convert(value);
-                        if (widget->_p->lockType != Image::Type::None)
-                        {
-                            widget->_p->lockType = value;
-                        }
-                        widget->_widgetUpdate();
-                    }
-                });
-
             p.actionObservers["LockType"] = ValueObserver<bool>::create(
                 p.actions["LockType"]->observeChecked(),
-                [weak](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    if (value)
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->lockType = widget->_p->typeWidget->getType();
+                        if (auto widget = weak.lock())
+                        {
+                            auto data = widget->_p->data;
+                            if (value)
+                            {
+                                data.lockType = widget->_p->typeWidget->getType();
+                            }
+                            else
+                            {
+                                data.lockType = Image::Type::None;
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+                            settings->setData(data);
+                        }
                     }
-                    else
-                    {
-                        widget->_p->lockType = Image::Type::None;
-                    }
-                }
-            });
+                });
 
             p.actionObservers["ApplyColorOperations"] = ValueObserver<bool>::create(
                 p.actions["ApplyColorOperations"]->observeChecked(),
-                [weak](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    widget->_p->applyColorOperations = value;
-                    widget->_sampleUpdate();
-                    widget->_widgetUpdate();
-                }
-            });
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto data = widget->_p->data;
+                            data.applyColorOperations = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+                            settings->setData(data);
+                        }
+                    }
+                });
 
             p.actionObservers["ApplyColorSpace"] = ValueObserver<bool>::create(
                 p.actions["ApplyColorSpace"]->observeChecked(),
-                [weak](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    widget->_p->applyColorSpace = value;
-                    widget->_sampleUpdate();
-                    widget->_widgetUpdate();
-                }
-            });
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto data = widget->_p->data;
+                            data.applyColorSpace = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+                            settings->setData(data);
+                        }
+                    }
+                });
         
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -281,11 +308,10 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
+                            if (value)
                             {
                                 widget->_p->imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImage(),
+                                    value->getViewWidget()->observeImage(),
                                     [weak](const std::shared_ptr<Image::Image>& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -296,20 +322,8 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const Render2D::ImageOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageOptions = value;
-                                            widget->_sampleUpdate();
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-
                                 widget->_p->imagePosObserver = ValueObserver<glm::vec2>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImagePos(),
+                                    value->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -319,9 +333,8 @@ namespace djv
                                             widget->_widgetUpdate();
                                         }
                                     });
-
                                 widget->_p->imageZoomObserver = ValueObserver<float>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
+                                    value->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
                                         if (auto widget = weak.lock())
@@ -332,32 +345,8 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageRotate(),
-                                    [weak](UI::ImageRotate value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageRotate = value;
-                                            widget->_sampleUpdate();
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-
-                                widget->_p->imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageAspectRatio(),
-                                    [weak](UI::ImageAspectRatio value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->imageAspectRatio = value;
-                                            widget->_sampleUpdate();
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-
                                 widget->_p->dragObserver = ValueObserver<PointerData>::create(
-                                    widget->_p->activeWidget->observeDrag(),
+                                    value->observeDrag(),
                                     [weak](const PointerData& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -374,19 +363,42 @@ namespace djv
                             else
                             {
                                 widget->_p->imageObserver.reset();
-                                widget->_p->imageOptionsObserver.reset();
                                 widget->_p->imagePosObserver.reset();
                                 widget->_p->imageZoomObserver.reset();
-                                widget->_p->imageRotateObserver.reset();
-                                widget->_p->imageAspectRatioObserver.reset();
                                 widget->_p->dragObserver.reset();
                             }
                         }
                     });
             }
 
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+            p.dataObserver = ValueObserver<ColorPickerData>::create(
+                settings->observeData(),
+                [weak](const ColorPickerData& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->data = value;
+                        widget->_sampleUpdate();
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            p.imageDataObserver = ValueObserver<ImageData>::create(
+                imageSettings->observeData(),
+                [weak](const ImageData& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->imageData = value;
+                        widget->_sampleUpdate();
+                        widget->_widgetUpdate();
+                    }
+                });
+
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
                 [weak, contextWeak](const OCIO::Config& value)
@@ -429,68 +441,6 @@ namespace djv
             _widgetUpdate();
         }
 
-        size_t ColorPickerWidget::getSampleSize() const
-        {
-            return _p->sampleSize;
-        }
-
-        void ColorPickerWidget::setSampleSize(size_t value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.sampleSize)
-                return;
-            p.sampleSize = value;
-            _widgetUpdate();
-        }
-
-        Image::Type ColorPickerWidget::getLockType() const
-        {
-            return _p->lockType;
-        }
-
-        void ColorPickerWidget::setLockType(Image::Type value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.lockType)
-                return;
-            p.lockType = value;
-            if (p.lockType != Image::Type::None)
-            {
-                p.color = p.color.convert(p.lockType);
-            }
-            _widgetUpdate();
-        }
-
-        bool ColorPickerWidget::getApplyColorOperations() const
-        {
-            return _p->applyColorOperations;
-        }
-
-        void ColorPickerWidget::setApplyColorOperations(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.applyColorOperations)
-                return;
-            p.applyColorOperations = value;
-            _sampleUpdate();
-            _widgetUpdate();
-        }
-
-        bool ColorPickerWidget::getApplyColorSpace() const
-        {
-            return _p->applyColorSpace;
-        }
-
-        void ColorPickerWidget::setApplyColorSpace(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.applyColorSpace)
-                return;
-            p.applyColorSpace = value;
-            _sampleUpdate();
-            _widgetUpdate();
-        }
-
         const glm::vec2& ColorPickerWidget::getPickerPos() const
         {
             return _p->pickerPos;
@@ -522,9 +472,7 @@ namespace djv
                 p.actions["ApplyColorSpace"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_space_tooltip")));
 
                 p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("widget_color_picker_sample_size_tooltip")));
-
                 p.copyButton->setTooltip(_getText(DJV_TEXT("widget_color_picker_copy_tooltip")));
-
                 p.settingsPopupMenu->setTooltip(_getText(DJV_TEXT("widget_color_picker_settings_tooltip")));
 
                 p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("widget_color_picker_color")) + ":");
@@ -543,19 +491,19 @@ namespace djv
                 {
                     glm::mat3x3 m(1.F);
                     m = glm::translate(m, -(p.pickerPos / p.imageZoom));
-                    const float z = p.sampleSize / 2.F;
+                    const float z = p.data.sampleSize / 2.F;
                     m = glm::translate(m, glm::vec2(z, z));
                     m = glm::translate(m, p.imagePos / p.imageZoom);
                     m *= UI::ImageWidget::getXForm(
                         p.image,
-                        p.imageRotate,
+                        p.imageData.rotate,
                         glm::vec2(1.F, 1.F),
-                        p.imageAspectRatio);
+                        p.imageData.aspectRatio);
                     pixelPos = glm::inverse(glm::translate(m, glm::vec2(-.5F, -.5F))) * pixelPos;
 
-                    const size_t sampleSize = std::max(p.sampleSize, bufferSizeMin);
+                    const size_t sampleSize = std::max(p.data.sampleSize, bufferSizeMin);
                     const Image::Size size(sampleSize, sampleSize);
-                    const Image::Type type = p.lockType != Image::Type::None ? p.lockType : p.image->getType();
+                    const Image::Type type = p.data.lockType != Image::Type::None ? p.data.lockType : p.image->getType();
                     
                     bool create = !p.offscreenBuffer;
                     create |= p.offscreenBuffer && size != p.offscreenBuffer->getSize();
@@ -577,15 +525,11 @@ namespace djv
                     render->drawRect(Math::BBox2f(0.F, 0.F, sampleSize, sampleSize));
                     render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);
-                    auto options = p.imageOptions;
-                    if (!p.applyColorOperations)
-                    {
-                        options.colorEnabled    = false;
-                        options.levelsEnabled   = false;
-                        options.exposureEnabled = false;
-                        options.softClipEnabled = false;
-                    }
-                    if (p.applyColorSpace)
+                    Render2D::ImageOptions options;
+                    options.channelDisplay = p.imageData.channelDisplay;
+                    options.alphaBlend = p.imageData.alphaBlend;
+                    options.mirror = p.imageData.mirror;
+                    if (p.data.applyColorSpace)
                     {
                         auto i = p.ocioConfig.imageColorSpaces.find(p.image->getPluginName());
                         if (i != p.ocioConfig.imageColorSpaces.end())
@@ -602,12 +546,27 @@ namespace djv
                         }
                         options.colorSpace.output = p.outputColorSpace;
                     }
+                    options.colorEnabled = p.imageData.colorEnabled;
+                    options.color = p.imageData.color;
+                    options.levelsEnabled = p.imageData.levelsEnabled;
+                    options.levels = p.imageData.levels;
+                    options.exposureEnabled = p.imageData.exposureEnabled;
+                    options.exposure = p.imageData.exposure;
+                    options.softClipEnabled = p.imageData.softClipEnabled;
+                    options.softClip = p.imageData.softClip;
+                    if (!p.data.applyColorOperations)
+                    {
+                        options.colorEnabled    = false;
+                        options.levelsEnabled   = false;
+                        options.exposureEnabled = false;
+                        options.softClipEnabled = false;
+                    }
                     options.cache = Render2D::ImageCache::Dynamic;
                     render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
                     render->endFrame();
                     render->setImageFilterOptions(imageFilterOptions);
-                    auto data = Image::Data::create(Image::Info(p.sampleSize, p.sampleSize, type));
+                    auto data = Image::Data::create(Image::Info(p.data.sampleSize, p.data.sampleSize, type));
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 #if !defined(DJV_GL_ES2)  // \todo GL_READ_FRAMEBUFFER, glClampColor not in OpenGL ES 2
                     glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
@@ -622,6 +581,8 @@ namespace djv
                         Image::getGLFormat(type),
                         Image::getGLType(type),
                         data->getData());
+                    std::cout << int(p.image->getData()[0]) << " " << int(p.image->getData()[1]) << " " << int(p.image->getData()[2]) << " " << int(p.image->getData()[3]) << std::endl;
+                    std::cout << int(data->getData()[0]) << " " << int(data->getData()[1]) << " " << int(data->getData()[2]) << " " << int(data->getData()[3]) << std::endl;
                     p.color = Image::getAverageColor(data);
                 }
                 catch (const std::exception& e)
@@ -636,7 +597,7 @@ namespace djv
             {
                 p.offscreenBuffer.reset();
             }
-            switch (p.imageRotate)
+            switch (p.imageData.rotate)
             {
             /*case UI::ImageRotate::_90:
             {
@@ -659,10 +620,10 @@ namespace djv
             const Image::Type type = p.color.getType();
             p.typeWidget->setType(type);
 
-            const bool lockType = p.lockType != Image::Type::None;
+            const bool lockType = p.data.lockType != Image::Type::None;
             p.actions["LockType"]->setChecked(lockType);
-            p.actions["ApplyColorOperations"]->setChecked(p.applyColorOperations);
-            p.actions["ApplyColorSpace"]->setChecked(p.applyColorSpace);
+            p.actions["ApplyColorOperations"]->setChecked(p.data.applyColorOperations);
+            p.actions["ApplyColorSpace"]->setChecked(p.data.applyColorSpace);
 
             p.colorSwatch->setColor(p.color);
             p.colorLabel->setText(Image::getLabel(p.color, 2, false));
@@ -673,7 +634,7 @@ namespace djv
                 p.pixelLabel->setText(ss.str());
             }
             p.pixelLabel->setTooltip(_getText(DJV_TEXT("pixel_label_tooltip")));
-            p.sampleSizeSlider->setValue(p.sampleSize);
+            p.sampleSizeSlider->setValue(p.data.sampleSize);
         }
 
     } // namespace ViewApp

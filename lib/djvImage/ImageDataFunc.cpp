@@ -4,6 +4,8 @@
 
 #include <djvImage/ImageDataFunc.h>
 
+#include <djvImage/ImageData.h>
+
 namespace djv
 {
     std::ostream& operator << (std::ostream& s, const Image::Size& value)
@@ -37,12 +39,45 @@ namespace djv
         return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
+    rapidjson::Value toJSON(const Image::Mirror& value, rapidjson::Document::AllocatorType& allocator)
+    {
+        rapidjson::Value out(rapidjson::kObjectType);
+        {
+            out.AddMember("X", toJSON(value.x, allocator), allocator);
+            out.AddMember("Y", toJSON(value.y, allocator), allocator);
+        }
+        return out;
+    }
+
     void fromJSON(const rapidjson::Value& value, Image::Size& out)
     {
         if (value.IsString())
         {
             std::stringstream ss(value.GetString());
             ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const rapidjson::Value& value, Image::Mirror& out)
+    {
+        if (value.IsObject())
+        {
+            for (const auto& i : value.GetObject())
+            {
+                if (0 == strcmp("X", i.name.GetString()))
+                {
+                    fromJSON(i.value, out.x);
+                }
+                else if (0 == strcmp("Y", i.name.GetString()))
+                {
+                    fromJSON(i.value, out.y);
+                }
+            }
         }
         else
         {
