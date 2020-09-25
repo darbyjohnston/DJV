@@ -150,15 +150,15 @@ namespace djv
         glm::mat3x3 ImageWidget::getXForm(
             const std::shared_ptr<Image::Image>& image,
             UI::ImageRotate rotate,
-            const glm::vec2& scale,
+            const glm::vec2& zoom,
             UI::ImageAspectRatio imageAspectRatio)
         {
             glm::mat3x3 m(1.F);
             m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(rotate)));
             const auto& info = image->getInfo();
             m = glm::scale(m, glm::vec2(
-                scale.x * UI::getPixelAspectRatio(imageAspectRatio, info.pixelAspectRatio),
-                scale.y * UI::getAspectRatioScale(imageAspectRatio, image->getAspectRatio())));
+                zoom.x * UI::getPixelAspectRatio(imageAspectRatio, info.pixelAspectRatio),
+                zoom.y * UI::getAspectRatioScale(imageAspectRatio, image->getAspectRatio())));
             switch (rotate)
             {
             case ImageRotate::_90:

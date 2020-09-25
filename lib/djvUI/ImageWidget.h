@@ -56,7 +56,7 @@ namespace djv
             static glm::mat3x3 getXForm(
                 const std::shared_ptr<Image::Image>&,
                 UI::ImageRotate,
-                const glm::vec2& scale,
+                const glm::vec2& zoom,
                 UI::ImageAspectRatio);
 
         protected:
