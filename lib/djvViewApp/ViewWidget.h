@@ -18,10 +18,6 @@ namespace djv
 
     namespace ViewApp
     {
-        struct GridOptions;
-        struct HUDOptions;
-        struct ViewBackgroundOptions;
-        class AnnotatePrimitive;
         class Media;
 
         //! This class provides an image view widget.
