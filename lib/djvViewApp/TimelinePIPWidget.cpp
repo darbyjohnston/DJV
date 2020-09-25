@@ -25,6 +25,8 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/TimeFunc.h>
 
+#include <djvOCIO/OCIOSystem.h>
+
 #include <djvSystem/Context.h>
 #include <djvSystem/TimerFunc.h>
 
@@ -47,13 +49,17 @@ namespace djv
             glm::vec2 pipPos = glm::vec2(0.F, 0.F);
             Math::BBox2f timelineGeometry;
             Math::Frame::Index currentFrame = 0;
+            std::shared_ptr<Image::Image> image;
             ImageData imageData;
+            OCIO::Config ocioConfig;
+            std::string outputColorSpace;
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<UI::Label> timeLabel;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<System::Timer> timer;
 
             std::shared_ptr<ValueObserver<ImageData> > imageDataObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
         };
 
@@ -103,6 +109,7 @@ namespace djv
                             if (frame.image)
                             {
                                 widget->_p->currentFrame = frame.frame;
+                                widget->_p->image = frame.image;
                                 widget->_p->imageWidget->setImage(frame.image);
                                 widget->_textUpdate();
                             }
@@ -110,6 +117,7 @@ namespace djv
                         else if (widget->_p->imageWidget->getImage())
                         {
                             widget->_p->currentFrame = 0;
+                            widget->_p->image.reset();
                             widget->_p->imageWidget->setImage(nullptr);
                             widget->_textUpdate();
                         }
@@ -126,6 +134,24 @@ namespace djv
                     {
                         widget->_p->imageData = value;
                         widget->_widgetUpdate();
+                    }
+                });
+
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+            auto contextWeak = std::weak_ptr<System::Context>(context);
+            p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
+                ocioSystem->observeCurrentConfig(),
+                [weak, contextWeak](const OCIO::Config& value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+                            widget->_p->ocioConfig = value;
+                            widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
+                            widget->_widgetUpdate();
+                        }
                     }
                 });
 
@@ -243,6 +269,23 @@ namespace djv
             options.channelDisplay = p.imageData.channelDisplay;
             options.alphaBlend = Render2D::AlphaBlend::Straight;
             options.mirror = p.imageData.mirror;
+            if (p.image)
+            {
+                auto i = p.ocioConfig.imageColorSpaces.find(p.image->getPluginName());
+                if (i != p.ocioConfig.imageColorSpaces.end())
+                {
+                    options.colorSpace.input = i->second;
+                }
+                else
+                {
+                    i = p.ocioConfig.imageColorSpaces.find(std::string());
+                    if (i != p.ocioConfig.imageColorSpaces.end())
+                    {
+                        options.colorSpace.input = i->second;
+                    }
+                }
+            }
+            options.colorSpace.output = p.outputColorSpace;
             options.colorEnabled = p.imageData.colorEnabled;
             options.color = p.imageData.color;
             options.levelsEnabled = p.imageData.levelsEnabled;
