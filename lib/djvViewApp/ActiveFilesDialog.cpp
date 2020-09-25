@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/RecentFilesDialog.h>
+#include <djvViewApp/ActiveFilesDialog.h>
 
-#include <djvViewApp/FileSettings.h>
-#include <djvViewApp/RecentFilesDialogPrivate.h>
+#include <djvViewApp/ActiveFilesDialogPrivate.h>
+#include <djvViewApp/FileSystem.h>
+#include <djvViewApp/Media.h>
 
 #include <djvUIComponents/FileBrowserItemView.h>
 #include <djvUIComponents/FileBrowserPrivate.h>
@@ -43,9 +44,10 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct RecentFilesDialog::Private
+        struct ActiveFilesDialog::Private
         {
-            std::vector<System::File::Info> fileInfo;
+            std::vector<std::shared_ptr<Media> > media;
+            std::vector<std::shared_ptr<Media> > mediaFiltered;
             std::string filter;
             size_t itemCount = 0;
 
@@ -56,19 +58,19 @@ namespace djv
             std::shared_ptr<UI::Label> itemCountLabel;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::function<void(const System::File::Info&)> callback;
+            std::function<void(const std::shared_ptr<Media>&)> callback;
 
-            std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver;
+            std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
             std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
-        void RecentFilesDialog::_init(const std::shared_ptr<System::Context>& context)
+        void ActiveFilesDialog::_init(const std::shared_ptr<System::Context>& context)
         {
             IDialog::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::RecentFilesDialog");
+            setClassName("djv::ViewApp::ActiveFilesDialog");
 
             p.actions["IncreaseThumbnailSize"] = UI::Action::create();
             p.actions["IncreaseThumbnailSize"]->setIcon("djvIconAdd");
@@ -148,7 +150,7 @@ namespace djv
                     }
                 });
 
-            auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
+            auto weak = std::weak_ptr<ActiveFilesDialog>(std::dynamic_pointer_cast<ActiveFilesDialog>(shared_from_this()));
             p.menuPopupButton->setOpenCallback(
                 [weak, contextWeak]() -> std::shared_ptr<Widget>
                 {
@@ -157,23 +159,23 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            out = RecentFilesMenu::create(widget->_p->actions, context);
+                            out = ActiveFilesMenu::create(widget->_p->actions, context);
                         }
                     }
                     return out;
                 });
 
             p.itemView->setCallback(
-                [weak](const System::File::Info& value)
-            {
-                if (auto widget = weak.lock())
+                [weak](size_t value)
                 {
-                    if (widget->_p->callback)
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->callback(value);
+                        if (widget->_p->callback && value < widget->_p->mediaFiltered.size())
+                        {
+                            widget->_p->callback(widget->_p->mediaFiltered[value]);
+                        }
                     }
-                }
-            });
+                });
 
             p.searchBox->setFilterCallback(
                 [weak](const std::string& value)
@@ -185,29 +187,29 @@ namespace djv
                 }
             });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-            p.recentFilesObserver = ListObserver<System::File::Info>::create(
-                fileSettings->observeRecentFiles(),
-                [weak](const std::vector<System::File::Info>& value)
-            {
-                if (auto widget = weak.lock())
+            auto fileSystem = context->getSystemT<FileSystem>();
+            p.mediaObserver = ListObserver<std::shared_ptr<Media> >::create(
+                fileSystem->observeMedia(),
+                [weak](const std::vector<std::shared_ptr<Media> >& value)
                 {
-                    widget->_p->fileInfo = value;
-                    widget->_itemsUpdate();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->media = value;
+                        widget->_itemsUpdate();
+                    }
+                });
 
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
                 [weak](const Image::Size& value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->_p->itemView->setThumbnailSize(value);
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->itemView->setThumbnailSize(value);
+                    }
+                });
 
             auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
@@ -230,63 +232,66 @@ namespace djv
                 });
         }
 
-        RecentFilesDialog::RecentFilesDialog() :
+        ActiveFilesDialog::ActiveFilesDialog() :
             _p(new Private)
         {}
 
-        RecentFilesDialog::~RecentFilesDialog()
+        ActiveFilesDialog::~ActiveFilesDialog()
         {}
 
-        std::shared_ptr<RecentFilesDialog> RecentFilesDialog::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<ActiveFilesDialog> ActiveFilesDialog::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<RecentFilesDialog>(new RecentFilesDialog);
+            auto out = std::shared_ptr<ActiveFilesDialog>(new ActiveFilesDialog);
             out->_init(context);
             return out;
         }
 
-        void RecentFilesDialog::setCallback(const std::function<void(const System::File::Info&)>& value)
+        void ActiveFilesDialog::setCallback(const std::function<void(const std::shared_ptr<Media>&)>& value)
         {
             _p->callback = value;
         }
 
-        void RecentFilesDialog::_initEvent(System::Event::Init& event)
+        void ActiveFilesDialog::_initEvent(System::Event::Init& event)
         {
             IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("recent_files_title")));
+                setTitle(_getText(DJV_TEXT("active_files_title")));
 
-                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("recent_files_increase_thumbnail_size")));
-                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("recent_files_increase_thumbnail_size_tooltip")));
-                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("recent_files_decrease_thumbnail_size")));
-                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("recent_files_decrease_thumbnail_size_tooltip")));
+                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("active_files_increase_thumbnail_size")));
+                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("active_files_increase_thumbnail_size_tooltip")));
+                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("active_files_decrease_thumbnail_size")));
+                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("active_files_decrease_thumbnail_size_tooltip")));
 
                 p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
-                p.searchBox->setTooltip(_getText(DJV_TEXT("recent_files_search_tooltip")));
+                p.searchBox->setTooltip(_getText(DJV_TEXT("active_files_search_tooltip")));
 
-                p.menuPopupButton->setTooltip(_getText(DJV_TEXT("recent_files_menu_tooltip")));
+                p.menuPopupButton->setTooltip(_getText(DJV_TEXT("active_files_menu_tooltip")));
             }
         }
 
-        std::string RecentFilesDialog::_getItemCountLabel(size_t size) const
+        std::string ActiveFilesDialog::_getItemCountLabel(size_t size) const
         {
             std::stringstream ss;
-            ss << size << " " << _getText(DJV_TEXT("recent_files_label_items"));
+            ss << size << " " << _getText(DJV_TEXT("active_files_label_items"));
             return ss.str();
         }
 
-        void RecentFilesDialog::_itemsUpdate()
+        void ActiveFilesDialog::_itemsUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.mediaFiltered.clear();
             std::vector<System::File::Info> items;
             std::regex r(p.filter);
-            for (const auto& i : p.fileInfo)
+            for (const auto& i : p.media)
             {
-                if (String::match(i.getFileName(), p.filter))
+                const auto& fileInfo = i->getFileInfo();
+                if (String::match(fileInfo.getFileName(), p.filter))
                 {
-                    items.push_back(i);
+                    items.push_back(fileInfo);
+                    p.mediaFiltered.push_back(i);
                 }
             }
             p.itemView->setItems(items);

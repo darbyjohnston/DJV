@@ -59,6 +59,7 @@ namespace djv
                 void setSplit(const std::vector<float>&);
                 void setItems(const std::vector<System::File::Info>&);
                 void setCallback(const std::function<void(const System::File::Info&)>&);
+                void setCallback(const std::function<void(size_t)>&);
 
                 float getHeightForWidth(float) const override;
 

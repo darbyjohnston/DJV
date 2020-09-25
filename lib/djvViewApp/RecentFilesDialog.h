@@ -6,8 +6,6 @@
 
 #include <djvUI/IDialog.h>
 
-#include <djvUI/Enum.h>
-
 namespace djv
 {
     namespace System
@@ -43,7 +41,7 @@ namespace djv
         private:
             std::string _getItemCountLabel(size_t) const;
 
-            void _recentFilesUpdate();
+            void _itemsUpdate();
 
             DJV_PRIVATE();
         };

@@ -4,27 +4,27 @@
 
 #pragma once
 
-#include <djvViewApp/RecentFilesDialog.h>
+#include <djvViewApp/ActiveFilesDialog.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the recent files dialog popup menu.
-        class RecentFilesMenu : public UI::Widget
+        //! This class provides the active files dialog popup menu.
+        class ActiveFilesMenu : public UI::Widget
         {
-            DJV_NON_COPYABLE(RecentFilesMenu);
+            DJV_NON_COPYABLE(ActiveFilesMenu);
 
         protected:
             void _init(
                 const std::map<std::string, std::shared_ptr<UI::Action> >&,
                 const std::shared_ptr<System::Context>&);
-            RecentFilesMenu();
+            ActiveFilesMenu();
 
         public:
-            ~RecentFilesMenu() override;
+            ~ActiveFilesMenu() override;
 
-            static std::shared_ptr<RecentFilesMenu> create(
+            static std::shared_ptr<ActiveFilesMenu> create(
                 const std::map<std::string, std::shared_ptr<UI::Action> >&,
                 const std::shared_ptr<System::Context>&);
 

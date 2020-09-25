@@ -48,6 +48,8 @@ namespace djv
                 std::vector<System::File::Info> items;
                 Render2D::Font::Metrics nameFontMetrics;
                 std::future<Render2D::Font::Metrics> nameFontMetricsFuture;
+                //! \todo Replace std::map<size_t, ...> with std::vector since
+                //! the indices always start at zero and are contiguous?
                 std::map<size_t, Math::BBox2f> itemGeometry;
                 std::map<size_t, std::string> names;
                 std::map<size_t, std::vector<Render2D::Font::TextLine> > nameLines;
@@ -77,6 +79,7 @@ namespace djv
                 System::Event::PointerID pressedId = System::Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 std::function<void(const System::File::Info&)> callback;
+                std::function<void(size_t)> callback2;
             };
 
             void ItemView::_init(const std::shared_ptr<System::Context>& context)
@@ -160,6 +163,11 @@ namespace djv
             void ItemView::setCallback(const std::function<void(const System::File::Info&)>& value)
             {
                 _p->callback = value;
+            }
+
+            void ItemView::setCallback(const std::function<void(size_t)>& value)
+            {
+                _p->callback2 = value;
             }
 
             float ItemView::getHeightForWidth(float value) const
@@ -663,7 +671,7 @@ namespace djv
                     p.pressedId = System::Event::invalidID;
                     const auto& hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);
-                    if (p.callback && i != hover.end())
+                    if (i != hover.end())
                     {
                         for (const auto& j : p.itemGeometry)
                         {
@@ -671,7 +679,14 @@ namespace djv
                             {
                                 if (j.first < p.items.size())
                                 {
-                                    p.callback(p.items[j.first]);
+                                    if (p.callback)
+                                    {
+                                        p.callback(p.items[j.first]);
+                                    }
+                                    if (p.callback2)
+                                    {
+                                        p.callback2(j.first);
+                                    }
                                 }
                             }
                         }

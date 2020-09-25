@@ -5,6 +5,7 @@
 #include <djvViewApp/FileSystem.h>
 
 #include <djvViewApp/Application.h>
+#include <djvViewApp/ActiveFilesDialog.h>
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/LayersWidget.h>
 #include <djvViewApp/Media.h>
@@ -62,6 +63,7 @@ namespace djv
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             System::File::Path fileBrowserPath = System::File::Path(".");
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
+            std::shared_ptr<ActiveFilesDialog> activeFilesDialog;
             size_t threadCount = 4;
             std::shared_ptr<System::File::RecentFilesModel> recentFilesModel;
             std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver;
@@ -98,6 +100,7 @@ namespace djv
             p.actions["Open"]->setIcon("djvIconFileOpen");
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setIcon("djvIconFileRecent");
+            p.actions["Active"] = UI::Action::create();
             p.actions["Reload"] = UI::Action::create();
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
@@ -116,6 +119,7 @@ namespace djv
 
             _addShortcut("shortcut_file_open", GLFW_KEY_O, UI::ShortcutData::getSystemModifier());
             _addShortcut("shortcut_file_recent", GLFW_KEY_T, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_active", GLFW_KEY_F, UI::ShortcutData::getSystemModifier());
             _addShortcut("shortcut_file_reload", GLFW_KEY_R, UI::ShortcutData::getSystemModifier());
             _addShortcut("shortcut_file_close", GLFW_KEY_E, UI::ShortcutData::getSystemModifier());
             _addShortcut("shortcut_file_close_all", GLFW_KEY_E, GLFW_MOD_SHIFT | UI::ShortcutData::getSystemModifier());
@@ -129,6 +133,7 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);
             p.menu->addAction(p.actions["Recent"]);
+            p.menu->addAction(p.actions["Active"]);
             p.menu->addAction(p.actions["Reload"]);
             p.menu->addAction(p.actions["Close"]);
             p.menu->addAction(p.actions["CloseAll"]);
@@ -165,6 +170,15 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_showRecentFilesDialog();
+                    }
+                });
+
+            p.actions["Active"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_showActiveFilesDialog();
                     }
                 });
 
@@ -406,6 +420,10 @@ namespace djv
             if (p.recentFilesDialog)
             {
                 p.recentFilesDialog->close();
+            }
+            if (p.activeFilesDialog)
+            {
+                p.activeFilesDialog->close();
             }
         }
 
@@ -739,6 +757,46 @@ namespace djv
             }
         }
 
+        void FileSystem::_showActiveFilesDialog()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (p.activeFilesDialog)
+                {
+                    p.activeFilesDialog->close();
+                }
+                p.activeFilesDialog = ActiveFilesDialog::create(context);
+                auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                p.activeFilesDialog->setCallback(
+                    [weak](const std::shared_ptr<Media>& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (system->_p->activeFilesDialog)
+                            {
+                                system->_p->activeFilesDialog->close();
+                                system->_p->activeFilesDialog.reset();
+                                system->setCurrentMedia(value);
+                            }
+                        }
+                    });
+                p.activeFilesDialog->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (system->_p->activeFilesDialog)
+                            {
+                                system->_p->activeFilesDialog->close();
+                                system->_p->activeFilesDialog.reset();
+                            }
+                        }
+                    });
+                p.activeFilesDialog->show();
+            }
+        }
+
         void FileSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
@@ -759,6 +817,8 @@ namespace djv
                 p.actions["Open"]->setTooltip(_getText(DJV_TEXT("menu_file_open_tooltip")));
                 p.actions["Recent"]->setText(_getText(DJV_TEXT("menu_file_recent")));
                 p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("menu_file_recent_tooltip")));
+                p.actions["Active"]->setText(_getText(DJV_TEXT("menu_file_active")));
+                p.actions["Active"]->setTooltip(_getText(DJV_TEXT("menu_file_active_tooltip")));
                 p.actions["Reload"]->setText(_getText(DJV_TEXT("menu_file_reload")));
                 p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("menu_file_reload_tooltip")));
                 p.actions["Close"]->setText(_getText(DJV_TEXT("menu_file_close")));
@@ -791,6 +851,7 @@ namespace djv
             {
                 p.actions["Open"]->setShortcuts(_getShortcuts("shortcut_file_open"));
                 p.actions["Recent"]->setShortcuts(_getShortcuts("shortcut_file_recent"));
+                p.actions["Active"]->setShortcuts(_getShortcuts("shortcut_file_active"));
                 p.actions["Reload"]->setShortcuts(_getShortcuts("shortcut_file_reload"));
                 p.actions["Close"]->setShortcuts(_getShortcuts("shortcut_file_close"));
                 p.actions["CloseAll"]->setShortcuts(_getShortcuts("shortcut_file_close_all"));

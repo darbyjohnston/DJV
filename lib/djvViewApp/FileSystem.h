@@ -74,6 +74,7 @@ namespace djv
             void _cacheUpdate();
             void _showFileBrowserDialog();
             void _showRecentFilesDialog();
+            void _showActiveFilesDialog();
 
             void _closeWidget(const std::string&) override;
             void _textUpdate() override;

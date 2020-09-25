@@ -1,5 +1,7 @@
 set(header
     AboutDialog.h
+    ActiveFilesDialog.h
+    ActiveFilesDialogPrivate.h
 	Annotate.h
 	AnnotateFunc.h
 	AnnotateSettings.h
@@ -79,6 +81,8 @@ set(header
     WindowSystem.h)
 set(source
     AboutDialog.cpp
+    ActiveFilesDialog.cpp
+    ActiveFilesDialogMenu.cpp
 	Annotate.cpp
 	AnnotateFunc.cpp
 	AnnotateSettings.cpp
