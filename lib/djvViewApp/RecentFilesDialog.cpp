@@ -284,7 +284,7 @@ namespace djv
             std::regex r(p.filter);
             for (const auto& i : p.fileInfo)
             {
-                if (String::match(i.getFileName(), p.filter))
+                if (String::match(i.getFileName(Math::Frame::invalid, false), p.filter))
                 {
                     items.push_back(i);
                 }

@@ -30,6 +30,8 @@ namespace djv
             void _initEvent(System::Event::Init &) override;
 
         private:
+            void _textUpdate();
+
             DJV_PRIVATE();
         };
 

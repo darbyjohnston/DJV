@@ -288,7 +288,7 @@ namespace djv
             for (const auto& i : p.media)
             {
                 const auto& fileInfo = i->getFileInfo();
-                if (String::match(fileInfo.getFileName(), p.filter))
+                if (String::match(fileInfo.getFileName(Math::Frame::invalid, false), p.filter))
                 {
                     items.push_back(fileInfo);
                     p.mediaFiltered.push_back(i);

@@ -305,7 +305,6 @@
     "menu_image_red_channel": "Красный канал",
     "menu_image_red_channel_tooltip": "Показать красный канал",
     "menu_magnify_tooltip": "Активировать инструмент увеличения",
-    "menu_media_popup_tooltip": "Показать открытые файлы",
     "menu_memory_cache_thermometer_tooltip": "Использование кеша памяти",
     "menu_memory_cache_tooltip": "Показать настройки кеша памяти",
     "menu_playback": "воспроизведение",

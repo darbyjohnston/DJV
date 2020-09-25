@@ -305,7 +305,6 @@
     "menu_image_red_channel": "적색 통로",
     "menu_image_red_channel_tooltip": "빨간색 채널 표시",
     "menu_magnify_tooltip": "확대 도구 활성화",
-    "menu_media_popup_tooltip": "열린 파일 표시",
     "menu_memory_cache_thermometer_tooltip": "메모리 캐시 사용량",
     "menu_memory_cache_tooltip": "메모리 캐시 설정 표시",
     "menu_playback": "재생",

@@ -305,7 +305,6 @@
     "menu_image_red_channel": "红色通道",
     "menu_image_red_channel_tooltip": "显示红色频道",
     "menu_magnify_tooltip": "激活放大工具",
-    "menu_media_popup_tooltip": "显示打开的文件",
     "menu_memory_cache_thermometer_tooltip": "内存缓存使用率",
     "menu_memory_cache_tooltip": "显示内存缓存设置",
     "menu_playback": "回放",

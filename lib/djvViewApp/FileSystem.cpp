@@ -632,6 +632,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.media->getSize();
+            p.actions["Active"]->setEnabled(size > 0);
             p.actions["Reload"]->setEnabled(size > 0);
             p.actions["Close"]->setEnabled(size > 0);
             p.actions["CloseAll"]->setEnabled(size > 0);

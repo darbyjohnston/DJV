@@ -305,7 +305,6 @@
     "menu_image_red_channel": "Rotkanal",
     "menu_image_red_channel_tooltip": "Zeigt den roten Kanal",
     "menu_magnify_tooltip": "Aktiviert das Vergrößerungswerkzeug",
-    "menu_media_popup_tooltip": "Zeigt die geöffneten Dateien an",
     "menu_memory_cache_thermometer_tooltip": "Cache-Nutzung",
     "menu_memory_cache_tooltip": "Zeigt die Cache-Einstellungen an",
     "menu_playback": "Wiedergabe",

@@ -305,7 +305,6 @@
     "menu_image_red_channel": "レッドチャンネル",
     "menu_image_red_channel_tooltip": "赤チャンネルを表示",
     "menu_magnify_tooltip": "拡大ツール",
-    "menu_media_popup_tooltip": "開いているファイルを表示",
     "menu_memory_cache_thermometer_tooltip": "メモリキャッシュ使用率",
     "menu_memory_cache_tooltip": "メモリキャッシュ設定を表示する",
     "menu_playback": "再生",

@@ -305,7 +305,6 @@
     "menu_image_red_channel": "Canal rojo",
     "menu_image_red_channel_tooltip": "Mostrar el canal rojo",
     "menu_magnify_tooltip": "Activa la herramienta de ampliación",
-    "menu_media_popup_tooltip": "Mostrar los archivos abiertos",
     "menu_memory_cache_thermometer_tooltip": "Uso de memoria caché",
     "menu_memory_cache_tooltip": "Mostrar la configuración de memoria caché",
     "menu_playback": "Reproducción",

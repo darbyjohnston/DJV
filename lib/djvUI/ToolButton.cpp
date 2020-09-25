@@ -46,6 +46,7 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                size_t elide = 0;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Action> action;
                 bool textFocusEnabled = false;
@@ -129,12 +130,16 @@ namespace djv
                         {
                             p.label = Label::create(context);
                             p.label->setTextHAlign(p.textHAlign);
+                            p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
                             p.label->setFontFamily(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
-                            p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                            p.label->setElide(p.elide);
                             addChild(p.label);
                         }
+                    }
+                    if (p.label)
+                    {
                         p.label->setText(value);
                     }
                 }
@@ -203,6 +208,21 @@ namespace djv
                 if (p.label)
                 {
                     p.label->setFontSizeRole(value);
+                }
+            }
+
+            size_t Tool::getElide() const
+            {
+                return _p->elide;
+            }
+
+            void Tool::setElide(size_t value)
+            {
+                DJV_PRIVATE_PTR();
+                p.elide = value;
+                if (p.label)
+                {
+                    p.label->setElide(value);
                 }
             }
 

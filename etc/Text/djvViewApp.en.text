@@ -308,7 +308,6 @@
     "menu_image_red_channel": "Red Channel",
     "menu_image_red_channel_tooltip": "Show the red channel",
     "menu_magnify_tooltip": "Activate the magnify tool",
-    "menu_media_popup_tooltip": "Show the opened files",
     "menu_playback": "Playback",
     "menu_playback_enable_in_out_points": "Enable In/Out Points",
     "menu_playback_enable_in_out_points_tooltip": "Enable the in/out points",
