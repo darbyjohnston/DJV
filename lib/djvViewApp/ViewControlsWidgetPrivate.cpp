@@ -789,6 +789,19 @@ namespace djv
                         }
                     }
                 });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+            p.backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                viewSettings->observeBackgroundOptions(),
+                [weak](const ViewBackgroundOptions& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions = value;
+                        widget->_widgetUpdate();
+                    }
+                });
         }
 
         ViewControlsBackgroundWidget::ViewControlsBackgroundWidget() :
