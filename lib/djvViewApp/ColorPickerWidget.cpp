@@ -100,15 +100,15 @@ namespace djv
             std::shared_ptr<GL::Shader> shader;
 #endif // DJV_GL_ES2
 
+            std::shared_ptr<ValueObserver<ColorPickerData> > dataObserver;
+            std::shared_ptr<ValueObserver<ImageData> > imageDataObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
-            std::shared_ptr<ValueObserver<ColorPickerData> > dataObserver;
-            std::shared_ptr<ValueObserver<ImageData> > imageDataObserver;
-            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
         };
 
         void ColorPickerWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -213,15 +213,13 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->color = widget->_p->color.convert(value);
-                            if (widget->_p->data.lockType != Image::Type::None)
-                            {
-                                auto data = widget->_p->data;
-                                data.lockType = value;
-                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                                auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
-                                settings->setData(data);
-                            }
                             widget->_widgetUpdate();
+
+                            auto data = widget->_p->data;
+                            data.lockType = value;
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+                            settings->setData(data);
                         }
                     }
                 });
@@ -238,6 +236,55 @@ namespace djv
                             ss << floorf(widget->_p->pixelPos.x) << " ";
                             ss << floorf(widget->_p->pixelPos.y);
                             eventSystem->setClipboard(ss.str());
+                        }
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
+            p.dataObserver = ValueObserver<ColorPickerData>::create(
+                settings->observeData(),
+                [weak](const ColorPickerData& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->data = value;
+                        if (widget->_p->data.lockType != Image::Type::None)
+                        {
+                            widget->_p->color = widget->_p->color.convert(widget->_p->data.lockType);
+                        }
+                        widget->_sampleUpdate();
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            p.imageDataObserver = ValueObserver<ImageData>::create(
+                imageSettings->observeData(),
+                [weak](const ImageData& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->imageData = value;
+                        widget->_sampleUpdate();
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+            p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
+                ocioSystem->observeCurrentConfig(),
+                [weak, contextWeak](const OCIO::Config& value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+                            widget->_p->ocioConfig = value;
+                            widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
+                            widget->_sampleUpdate();
+                            widget->_widgetUpdate();
                         }
                     }
                 });
@@ -299,7 +346,7 @@ namespace djv
                         }
                     }
                 });
-        
+
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
@@ -370,51 +417,6 @@ namespace djv
                         }
                     });
             }
-
-            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
-            p.dataObserver = ValueObserver<ColorPickerData>::create(
-                settings->observeData(),
-                [weak](const ColorPickerData& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->data = value;
-                        widget->_sampleUpdate();
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            p.imageDataObserver = ValueObserver<ImageData>::create(
-                imageSettings->observeData(),
-                [weak](const ImageData& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->imageData = value;
-                        widget->_sampleUpdate();
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-            p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
-                ocioSystem->observeCurrentConfig(),
-                [weak, contextWeak](const OCIO::Config& value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-                            widget->_p->ocioConfig = value;
-                            widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
-                            widget->_sampleUpdate();
-                            widget->_widgetUpdate();
-                        }
-                    }
-                });
         }
 
         ColorPickerWidget::ColorPickerWidget() :
@@ -522,6 +524,8 @@ namespace djv
                     render->setImageFilterOptions(Render2D::ImageFilterOptions(Render2D::ImageFilter::Nearest));
                     render->beginFrame(size);
                     render->setFillColor(Image::Color(0.F, 0.F, 0.F));
+                    render->setColorMult(1.F);
+                    render->setAlphaMult(1.F);
                     render->drawRect(Math::BBox2f(0.F, 0.F, sampleSize, sampleSize));
                     render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);
@@ -581,8 +585,6 @@ namespace djv
                         Image::getGLFormat(type),
                         Image::getGLType(type),
                         data->getData());
-                    std::cout << int(p.image->getData()[0]) << " " << int(p.image->getData()[1]) << " " << int(p.image->getData()[2]) << " " << int(p.image->getData()[3]) << std::endl;
-                    std::cout << int(data->getData()[0]) << " " << int(data->getData()[1]) << " " << int(data->getData()[2]) << " " << int(data->getData()[3]) << std::endl;
                     p.color = Image::getAverageColor(data);
                 }
                 catch (const std::exception& e)
