@@ -165,8 +165,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Undo"]->setShortcuts(_getShortcuts("ViewApp/Edit/Undo"));
-                p.actions["Redo"]->setShortcuts(_getShortcuts("ViewApp/Edit/Redo"));
+                p.actions["Undo"]->setShortcuts(_getShortcuts("shortcut_undo"));
+                p.actions["Redo"]->setShortcuts(_getShortcuts("shortcut_redo"));
             }
         }
 
