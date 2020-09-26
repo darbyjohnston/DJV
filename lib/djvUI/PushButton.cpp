@@ -226,17 +226,20 @@ namespace djv
             void Push::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = _p->layout->getMinimumSize();
+                size.x += m * 2.F;
                 _setMinimumSize(size + btf * 2.F);
             }
 
             void Push::_layoutEvent(System::Event::Layout&)
             {
                 const auto& style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-                const Math::BBox2f& g = getGeometry();
-                _p->layout->setGeometry(g.margin(-btf));
+                const Math::BBox2f& g = getGeometry().margin(-btf);
+                _p->layout->setGeometry(Math::BBox2f(g.min.x + m, g.min.y, g.w() - m * 2.F, g.h()));
             }
 
             void Push::_paintEvent(System::Event::Paint& event)

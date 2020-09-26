@@ -673,7 +673,7 @@ namespace djv
                 {
                     p.fileBrowserDialog->close();
                 }
-                p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                p.fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Multiple, context);
                 auto io = context->getSystemT<AV::IO::IOSystem>();
                 p.fileBrowserDialog->setFileExtensions(io->getFileExtensions());
                 System::File::Path path;
@@ -688,16 +688,20 @@ namespace djv
                 p.fileBrowserDialog->setPath(path);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                 p.fileBrowserDialog->setCallback(
-                    [weak](const System::File::Info& value)
+                    [weak](const std::vector<System::File::Info>& value)
                     {
                         if (auto system = weak.lock())
                         {
+                            const auto temp = value;
                             if (system->_p->fileBrowserDialog)
                             {
                                 system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
                                 system->_p->fileBrowserDialog->close();
                                 system->_p->fileBrowserDialog.reset();
-                                system->open(value);
+                            }
+                            for (const auto& i : temp)
+                            {
+                                system->open(i);
                             }
                         }
                     });
@@ -730,15 +734,19 @@ namespace djv
                 p.recentFilesDialog = RecentFilesDialog::create(context);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                 p.recentFilesDialog->setCallback(
-                    [weak](const System::File::Info& value)
+                    [weak](const std::vector<System::File::Info>& value)
                     {
                         if (auto system = weak.lock())
                         {
+                            const auto temp = value;
                             if (system->_p->recentFilesDialog)
                             {
                                 system->_p->recentFilesDialog->close();
                                 system->_p->recentFilesDialog.reset();
-                                system->open(value);
+                            }
+                            for (const auto& i : temp)
+                            {
+                                system->open(i);
                             }
                         }
                     });

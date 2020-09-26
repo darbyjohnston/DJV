@@ -261,6 +261,10 @@ namespace djv
                                 const auto i = widget->_p->mediaWidgets.find(value);
                                 if (i != widget->_p->mediaWidgets.end())
                                 {
+                                    if (auto windowSystem = context->getSystemT<WindowSystem>())
+                                    {
+                                        windowSystem->setActiveWidget(i->second);
+                                    }
                                     widget->_p->mediaLayout->setCurrentWidget(i->second);
                                 }
                                 widget->_textUpdate();

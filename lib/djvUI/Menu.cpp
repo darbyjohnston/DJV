@@ -325,6 +325,8 @@ namespace djv
                         render->setFillColor(style->getColor(ColorRole::Border));
                         render->drawRect(i.second->geom);
                     }
+
+                    render->setAlphaMult(1.F);
                 }
             }
 

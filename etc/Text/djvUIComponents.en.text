@@ -93,6 +93,8 @@
     "file_browser_settings_keyboard_shortcuts": "Keyboard Shortcuts",
     "file_browser_up": "Up",
     "file_browser_up_tooltip": "Go up a directory",
+    "file_browser_accept": "Accept",
+    "file_browser_cancel": "Cancel",
     "line_graph_current": "Current",
     "line_graph_max": "max",
     "line_graph_min": "min",

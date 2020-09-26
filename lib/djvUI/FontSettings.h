@@ -6,9 +6,7 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
-#include <djvCore/RapidJSONFunc.h>
 
 namespace djv
 {

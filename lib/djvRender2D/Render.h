@@ -28,7 +28,6 @@ namespace djv
 
     } // namespace Image
 
-    //! This namespace provides rendering functionality.
     namespace Render2D
     {
         //! This class provides a 2D render system.

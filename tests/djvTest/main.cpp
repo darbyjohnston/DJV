@@ -120,6 +120,7 @@
 #include <djvUITest/ActionGroupTest.h>
 #include <djvUITest/ButtonGroupTest.h>
 #include <djvUITest/EnumFuncTest.h>
+#include <djvUITest/SelectionModelTest.h>
 #include <djvUITest/WidgetTest.h>
 
 #if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
@@ -281,6 +282,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new UITest::ActionGroupTest(tempPath, context));
         tests.emplace_back(new UITest::ButtonGroupTest(tempPath, context));
         tests.emplace_back(new UITest::EnumFuncTest(tempPath, context));
+        tests.emplace_back(new UITest::SelectionModelTest(tempPath, context));
         tests.emplace_back(new UITest::WidgetTest(tempPath, context));
 
 #if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)

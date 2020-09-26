@@ -141,6 +141,7 @@ namespace djv
         void PointerWidget::_keyReleaseEvent(System::Event::KeyRelease& event)
         {
             DJV_PRIVATE_PTR();
+            event.accept();
             p.key = 0;
             p.keyModifiers = 0;
         }

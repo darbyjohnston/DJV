@@ -618,6 +618,7 @@ namespace djv
                         opacity *= isEnabled(true) ? 1.F : _style->getPalette().getDisabledMult();
                         _render->setAlphaMult(opacity);
                         _paintEvent(static_cast<System::Event::Paint&>(event));
+                        _render->setAlphaMult(1.F);
                     }
                     break;
                 }

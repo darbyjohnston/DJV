@@ -68,6 +68,7 @@ set(header
     RowLayoutFunc.h
     ScrollWidget.h
     ScrollWidgetFunc.h
+    SelectionModel.h
     Separator.h
     SettingsSystem.h
     SettingsSystemInline.h
@@ -164,6 +165,7 @@ set(source
     RowLayoutFunc.cpp
     ScrollWidget.cpp
     ScrollWidgetFunc.cpp
+    SelectionModel.cpp
     Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp

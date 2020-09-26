@@ -15,6 +15,7 @@
 #include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupButton.h>
+#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
@@ -57,6 +58,7 @@ namespace djv
                 std::shared_ptr<ShortcutsModel> shortcutsModel;
                 std::shared_ptr<System::File::RecentFilesModel> recentPathsModel;
                 std::shared_ptr<System::File::DrivesModel> drivesModel;
+                std::vector<System::File::Info> selected;
 
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
@@ -69,9 +71,12 @@ namespace djv
                 std::shared_ptr<ItemView> itemView;
                 std::shared_ptr<ScrollWidget> scrollWidget;
                 std::shared_ptr<Label> itemCountLabel;
+                std::shared_ptr<PushButton> acceptButton;
+                std::shared_ptr<PushButton> cancelButton;
                 std::shared_ptr<VerticalLayout> layout;
 
-                std::function<void(const System::File::Info &)> callback;
+                std::function<void(const std::vector<System::File::Info>&)> callback;
+                std::function<void(void)> cancelCallback;
 
                 std::shared_ptr<ValueObserver<System::File::Path> > pathObserver;
                 std::shared_ptr<ListObserver<System::File::Info> > fileInfoObserver;
@@ -96,7 +101,7 @@ namespace djv
                 std::shared_ptr<MapObserver<std::string, ShortcutDataPair> > keyShortcutsObserver;
             };
 
-            void FileBrowser::_init(const std::shared_ptr<System::Context>& context)
+            void FileBrowser::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -180,7 +185,7 @@ namespace djv
 
                 p.listViewHeader = ListViewHeader::create(context);
                 p.listViewHeader->setText({ std::string(), std::string(), std::string() });
-                p.itemView = ItemView::create(context);
+                p.itemView = ItemView::create(selectionType, context);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.scrollWidget->setBorder(false);
                 p.scrollWidget->addChild(p.itemView);
@@ -190,6 +195,9 @@ namespace djv
                 p.itemCountLabel->setHAlign(HAlign::Right);
                 p.itemCountLabel->setVAlign(VAlign::Bottom);
                 p.itemCountLabel->setMargin(MetricsRole::Margin);
+
+                p.acceptButton = PushButton::create(context);
+                p.cancelButton = PushButton::create(context);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
@@ -210,9 +218,18 @@ namespace djv
                 hLayout->setStretch(p.itemViewLayout, RowStretch::Expand);
                 p.layout->addChild(hLayout);
                 p.layout->setStretch(hLayout, RowStretch::Expand);
+                p.layout->addSeparator();
+                hLayout = HorizontalLayout::create(context);
+                hLayout->setMargin(MetricsRole::MarginSmall);
+                hLayout->setSpacing(MetricsRole::SpacingSmall);
+                hLayout->addExpander();
+                hLayout->addChild(p.acceptButton);
+                hLayout->addChild(p.cancelButton);
+                p.layout->addChild(hLayout);
                 addChild(p.layout);
 
                 _optionsUpdate();
+                _selectedUpdate();
 
                 auto weak = std::weak_ptr<FileBrowser>(std::dynamic_pointer_cast<FileBrowser>(shared_from_this()));
                 p.actions["Paths"]->setCheckedCallback(
@@ -419,24 +436,62 @@ namespace djv
                         return out;
                     });
 
-                p.itemView->setCallback(
-                    [weak](const System::File::Info & value)
-                {
-                    if (auto widget = weak.lock())
+                p.itemView->setSelectedCallback(
+                    [weak](const std::vector<System::File::Info>& value)
                     {
-                        if (System::File::Type::Directory == value.getType())
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->directoryModel->setPath(value.getPath());
+                            widget->_p->selected = value;
+                            widget->_selectedUpdate();
                         }
-                        else if (widget->_p->callback)
+                    });
+
+                p.itemView->setActivatedCallback(
+                    [weak](const std::vector<System::File::Info>& value)
+                    {
+                        if (auto widget = weak.lock())
                         {
-                            std::string s = value.getPath().getDirectoryName();
-                            System::File::removeTrailingSeparator(s);
-                            widget->_p->recentPathsModel->addFile(s);
-                            widget->_p->callback(value);
+                            if (!value.empty())
+                            {
+                                const auto& first = value[0];
+                                const auto& path = first.getPath();
+                                if (System::File::Type::Directory == first.getType())
+                                {
+                                    widget->_p->directoryModel->setPath(path);
+                                }
+                                else
+                                {
+                                    std::string s = path.getDirectoryName();
+                                    System::File::removeTrailingSeparator(s);
+                                    widget->_p->recentPathsModel->addFile(s);
+                                    widget->_p->callback(value);
+                                }
+                            }
                         }
-                    }
-                });
+                    });
+
+                p.acceptButton->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (widget->_p->callback)
+                            {
+                                widget->_p->callback(widget->_p->selected);
+                            }
+                        }
+                    });
+                p.cancelButton->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (widget->_p->cancelCallback)
+                            {
+                                widget->_p->cancelCallback();
+                            }
+                        }
+                    });
 
                 p.pathObserver = ValueObserver<System::File::Path>::create(
                     p.directoryModel->observePath(),
@@ -817,10 +872,10 @@ namespace djv
             FileBrowser::~FileBrowser()
             {}
 
-            std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<FileBrowser> FileBrowser::create(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
-                out->_init(context);
+                out->_init(selectionType, context);
                 return out;
             }
 
@@ -842,9 +897,14 @@ namespace djv
                 _p->directoryModel->setPath(value);
             }
 
-            void FileBrowser::setCallback(const std::function<void(const System::File::Info &)> & value)
+            void FileBrowser::setCallback(const std::function<void(const std::vector<System::File::Info>&)> & value)
             {
                 _p->callback = value;
+            }
+
+            void FileBrowser::setCancelCallback(const std::function<void(void)>& value)
+            {
+                _p->cancelCallback = value;
             }
 
             float FileBrowser::getHeightForWidth(float value) const
@@ -918,6 +978,9 @@ namespace djv
                     p.searchBox->setTooltip(_getText(DJV_TEXT("file_browser_search_tooltip")));
 
                     p.menuPopupButton->setTooltip(_getText(DJV_TEXT("file_browser_menu_tooltip")));
+
+                    p.acceptButton->setText(_getText(DJV_TEXT("file_browser_accept")));
+                    p.cancelButton->setText(_getText(DJV_TEXT("file_browser_cancel")));
                 }
             }
 
@@ -931,6 +994,12 @@ namespace djv
             void FileBrowser::_optionsUpdate()
             {
                 _p->directoryModel->setOptions(_p->options);
+            }
+
+            void FileBrowser::_selectedUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                p.acceptButton->setEnabled(!p.selected.empty());
             }
 
         } // namespace FileBrowser

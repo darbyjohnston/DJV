@@ -449,6 +449,8 @@
     "recent_files_increase_thumbnail_size": "Increase thumbnail size",
     "recent_files_increase_thumbnail_size_tooltip": "Increase the size of the thumbnails",
     "recent_files_menu_tooltip": "Show the recent files dialog menu",
+    "recent_files_accept": "Accept",
+    "recent_files_cancel": "Cancel",
     "active_files_label_items": "Items",
     "active_files_search_tooltip": "Search the active files",
     "active_files_decrease_thumbnail_size": "Decrease thumbnail size",

@@ -31,20 +31,22 @@ namespace djv
                 DJV_NON_COPYABLE(FileBrowser);
 
             protected:
-                void _init(const std::shared_ptr<System::Context>&);
+                void _init(SelectionType, const std::shared_ptr<System::Context>&);
                 FileBrowser();
 
             public:
                 ~FileBrowser() override;
 
-                static std::shared_ptr<FileBrowser> create(const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<FileBrowser> create(SelectionType, const std::shared_ptr<System::Context>&);
 
                 void setFileExtensions(const std::set<std::string>&);
 
                 const System::File::Path& getPath() const;
 
                 void setPath(const System::File::Path &);
-                void setCallback(const std::function<void(const System::File::Info&)>&);
+
+                void setCallback(const std::function<void(const std::vector<System::File::Info>&)>&);
+                void setCancelCallback(const std::function<void(void)>&);
 
                 float getHeightForWidth(float) const override;
 
@@ -58,6 +60,7 @@ namespace djv
                 std::string _getItemCountLabel(size_t) const;
 
                 void _optionsUpdate();
+                void _selectedUpdate();
 
                 DJV_PRIVATE();
             };

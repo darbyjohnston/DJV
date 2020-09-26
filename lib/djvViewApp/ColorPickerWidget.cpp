@@ -524,8 +524,6 @@ namespace djv
                     render->setImageFilterOptions(Render2D::ImageFilterOptions(Render2D::ImageFilter::Nearest));
                     render->beginFrame(size);
                     render->setFillColor(Image::Color(0.F, 0.F, 0.F));
-                    render->setColorMult(1.F);
-                    render->setAlphaMult(1.F);
                     render->drawRect(Math::BBox2f(0.F, 0.F, sampleSize, sampleSize));
                     render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);

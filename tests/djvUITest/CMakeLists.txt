@@ -2,11 +2,13 @@ set(header
     ActionGroupTest.h
     ButtonGroupTest.h
     EnumFuncTest.h
+    SelectionModelTest.h
     WidgetTest.h)
 set(source
     ActionGroupTest.cpp
     ButtonGroupTest.cpp
     EnumFuncTest.cpp
+    SelectionModelTest.cpp
     WidgetTest.cpp)
 
 add_library(djvUITest ${header} ${source})

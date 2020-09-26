@@ -20,31 +20,27 @@ namespace djv
             struct Dialog::Private
             {
                 std::shared_ptr<FileBrowser> fileBrowser;
-                std::function<void(const System::File::Info&)> callback;
             };
 
-            void Dialog::_init(const std::shared_ptr<System::Context>& context)
+            void Dialog::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 IDialog::_init(context);
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UIComponents::FileBrowser::Dialog");
 
-                p.fileBrowser = FileBrowser::create(context);
+                p.fileBrowser = FileBrowser::create(selectionType, context);
                 p.fileBrowser->setPath(System::File::Path("."));
                 addChild(p.fileBrowser);
                 setStretch(p.fileBrowser, UI::RowStretch::Expand);
 
                 auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
                 p.fileBrowser->setCallback(
-                    [weak](const System::File::Info & value)
+                    [weak](const std::vector<System::File::Info>& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(value);
-                        }
+                        widget->_doCloseCallback();
                     }
                 });
             }
@@ -56,10 +52,10 @@ namespace djv
             Dialog::~Dialog()
             {}
 
-            std::shared_ptr<Dialog> Dialog::create(const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<Dialog> Dialog::create(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Dialog>(new Dialog);
-                out->_init(context);
+                out->_init(selectionType, context);
                 return out;
             }
 
@@ -78,9 +74,9 @@ namespace djv
                 _p->fileBrowser->setPath(value);
             }
 
-            void Dialog::setCallback(const std::function<void(const System::File::Info&)>& value)
+            void Dialog::setCallback(const std::function<void(const std::vector<System::File::Info>&)>& value)
             {
-                _p->callback = value;
+                _p->fileBrowser->setCallback(value);
             }
 
             void Dialog::_initEvent(System::Event::Init& event)

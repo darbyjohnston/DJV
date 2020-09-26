@@ -102,21 +102,28 @@ namespace djv
                                 widget->_p->fileBrowserDialog->close();
                                 widget->_p->fileBrowserDialog.reset();
                             }
-                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
                             widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
                             widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
                             widget->_p->fileBrowserDialog->setCallback(
-                                [weak, contextWeak](const System::File::Info& value)
+                                [weak, contextWeak](const std::vector<System::File::Info>& value)
                                 {
                                     if (auto context = contextWeak.lock())
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                            widget->_p->fileBrowserDialog->close();
-                                            widget->_p->fileBrowserDialog.reset();
-                                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-                                            ocioSystem->addUserConfig(value.getPath().get());
+                                            const auto temp = value;
+                                            if (widget->_p->fileBrowserDialog)
+                                            {
+                                                widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                                widget->_p->fileBrowserDialog->close();
+                                                widget->_p->fileBrowserDialog.reset();
+                                            }
+                                            if (!temp.empty())
+                                            {
+                                                auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+                                                ocioSystem->addUserConfig(temp[0].getPath().get());
+                                            }
                                         }
                                     }
                                 });

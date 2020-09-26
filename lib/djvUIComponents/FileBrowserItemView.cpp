@@ -4,8 +4,11 @@
 
 #include <djvUIComponents/FileBrowserItemView.h>
 
+#include <djvUI/GeneralSettings.h>
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/IconSystem.h>
+#include <djvUI/SelectionModel.h>
+#include <djvUI/SettingsSystem.h>
 
 #include <djvRender2D/FontSystem.h>
 #include <djvRender2D/Render.h>
@@ -23,6 +26,9 @@
 #include <djvSystem/FileInfoFunc.h>
 
 #include <djvCore/StringFormat.h>
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -46,6 +52,8 @@ namespace djv
                 std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
                 ViewType viewType = ViewType::First;
                 std::vector<System::File::Info> items;
+                std::shared_ptr<SelectionModel> selectionModel;
+                std::set<size_t> selection;
                 Render2D::Font::Metrics nameFontMetrics;
                 std::future<Render2D::Font::Metrics> nameFontMetricsFuture;
                 //! \todo Replace std::map<size_t, ...> with std::vector since
@@ -71,6 +79,9 @@ namespace djv
                 std::vector<float> split = { .7F, .8F, 1.F };
                 OCIO::Config ocioConfig;
                 std::string outputColorSpace;
+                std::pair<size_t, std::chrono::steady_clock::time_point> clickTimer;
+                float doubleClickTime = .5F;
+                int keyModifiers = 0;
 
                 std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
 
@@ -78,11 +89,15 @@ namespace djv
                 size_t grab = invalid;
                 System::Event::PointerID pressedId = System::Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
-                std::function<void(const System::File::Info&)> callback;
-                std::function<void(size_t)> callback2;
+                std::function<void(const std::vector<System::File::Info>&)> selectedCallback;
+                std::function<void(const std::set<size_t>&)> selectedCallback2;
+                std::function<void(const std::vector<System::File::Info>&)> activatedCallback;
+                std::function<void(const std::set<size_t>&)> activatedCallback2;
+
+                std::shared_ptr<ValueObserver<float> > doubleClickTimeObserver;
             };
 
-            void ItemView::_init(const std::shared_ptr<System::Context>& context)
+            void ItemView::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -90,8 +105,27 @@ namespace djv
 
                 p.fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
 
-                auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+                p.selectionModel = SelectionModel::create(selectionType);
+
                 auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
+                p.selectionModel->setCallback(
+                    [weak](const std::set<size_t>& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->selection = value;
+                            if (widget->_p->selectedCallback)
+                            {
+                                widget->_p->selectedCallback(widget->_getSelectedItems(widget->_p->selection));
+                            }
+                            if (widget->_p->selectedCallback2)
+                            {
+                                widget->_p->selectedCallback2(widget->_p->selection);
+                            }
+                        }
+                    });
+
+                auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                 auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
                     ocioSystem->observeCurrentConfig(),
@@ -108,6 +142,18 @@ namespace djv
                             }
                         }
                     });
+
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                auto generalSettings = settingsSystem->getSettingsT<Settings::General>();
+                p.doubleClickTimeObserver = ValueObserver<float>::create(
+                    generalSettings->observeDoubleClickTime(),
+                    [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->doubleClickTime = value;
+                        }
+                    });
             }
 
             ItemView::ItemView() :
@@ -117,10 +163,10 @@ namespace djv
             ItemView::~ItemView()
             {}
 
-            std::shared_ptr<ItemView> ItemView::create(const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<ItemView> ItemView::create(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ItemView>(new ItemView);
-                out->_init(context);
+                out->_init(selectionType, context);
                 return out;
             }
 
@@ -157,17 +203,39 @@ namespace djv
             void ItemView::setItems(const std::vector<System::File::Info>& value)
             {
                 _p->items = value;
+                _p->selectionModel->setCount(value.size());
                 _itemsUpdate();
             }
 
-            void ItemView::setCallback(const std::function<void(const System::File::Info&)>& value)
+            std::set<size_t> ItemView::getSelected() const
             {
-                _p->callback = value;
+                return _p->selectionModel->getSelected();
             }
 
-            void ItemView::setCallback(const std::function<void(size_t)>& value)
+            void ItemView::setSelected(const std::set<size_t>& value)
             {
-                _p->callback2 = value;
+                _p->selectionModel->setSelected(value);
+                _redraw();
+            }
+
+            void ItemView::setSelectedCallback(const std::function<void(const std::vector<System::File::Info>&)>& value)
+            {
+                _p->selectedCallback = value;
+            }
+
+            void ItemView::setSelectedCallback(const std::function<void(const std::set<size_t>&)>& value)
+            {
+                _p->selectedCallback2 = value;
+            }
+
+            void ItemView::setActivatedCallback(const std::function<void(const std::vector<System::File::Info>&)>& value)
+            {
+                _p->activatedCallback = value;
+            }
+
+            void ItemView::setActivatedCallback(const std::function<void(const std::set<size_t>&)>& value)
+            {
+                _p->activatedCallback2 = value;
             }
 
             float ItemView::getHeightForWidth(float value) const
@@ -384,13 +452,24 @@ namespace djv
                     {
                         Math::BBox2f itemGeometry = i->second;
 
-                        if (ViewType::Tiles == p.viewType)
+                        const bool selected = p.selectionModel->isSelected(index);
+                        switch (p.viewType)
                         {
+                        case ViewType::Tiles:
                             render->setFillColor(style->getColor(ColorRole::Shadow));
                             render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
                             itemGeometry = itemGeometry.margin(-sh);
-                            render->setFillColor(style->getColor(ColorRole::BackgroundBellows));
+                            render->setFillColor(style->getColor(selected ? ColorRole::Checked : ColorRole::BackgroundBellows));
                             render->drawRect(itemGeometry);
+                            break;
+                        case ViewType::List:
+                            if (selected)
+                            {
+                                render->setFillColor(style->getColor(ColorRole::Checked));
+                                render->drawRect(itemGeometry);
+                            }
+                            break;
+                        default: break;
                         }
 
                         if (ViewType::List == p.viewType)
@@ -675,24 +754,77 @@ namespace djv
                     {
                         for (const auto& j : p.itemGeometry)
                         {
-                            if (j.second.contains(i->second))
+                            if (j.first < p.items.size() && j.second.contains(i->second))
                             {
-                                if (j.first < p.items.size())
+                                const auto& item = p.items[j.first];
+                                    
+                                // Update selection model.
+                                if (item.getType() != System::File::Type::Directory)
                                 {
-                                    if (p.callback)
+                                    p.selectionModel->click(j.first, p.keyModifiers);
+                                }
+
+                                // Check for double clicks.
+                                const auto time = _getUpdateTime();
+                                if (j.first == p.clickTimer.first &&
+                                    std::chrono::duration_cast<std::chrono::seconds>(time - p.clickTimer.second).count() < p.doubleClickTime)
+                                {
+                                    if (p.activatedCallback)
                                     {
-                                        p.callback(p.items[j.first]);
+                                        p.activatedCallback({ item });
                                     }
-                                    if (p.callback2)
+                                    if (p.activatedCallback2)
                                     {
-                                        p.callback2(j.first);
+                                        p.activatedCallback2({ j.first });
                                     }
                                 }
+                                p.clickTimer = std::make_pair(j.first, _getUpdateTime());
                             }
                         }
                     }
                     _redraw();
                 }
+            }
+
+            void ItemView::_keyPressEvent(System::Event::KeyPress& event)
+            {
+                DJV_PRIVATE_PTR();
+                if (!event.isAccepted())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_KP_ENTER:
+                        if (!p.selection.empty())
+                        {
+                            event.accept();
+                            if (p.activatedCallback)
+                            {
+                                p.activatedCallback(_getSelectedItems(p.selection));
+                            }
+                            if (p.activatedCallback2)
+                            {
+                                p.activatedCallback2(p.selection);
+                            }
+                        }
+                        break;
+                    case GLFW_KEY_LEFT_SHIFT:
+                    case GLFW_KEY_RIGHT_SHIFT:
+                    case GLFW_KEY_LEFT_CONTROL:
+                    case GLFW_KEY_RIGHT_CONTROL:
+                        event.accept();
+                        p.keyModifiers = event.getKeyModifiers();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void ItemView::_keyReleaseEvent(System::Event::KeyRelease& event)
+            {
+                DJV_PRIVATE_PTR();
+                event.accept();
+                p.keyModifiers = 0;
             }
 
             std::shared_ptr<ITooltipWidget> ItemView::_createTooltip(const glm::vec2& pos)
@@ -944,6 +1076,20 @@ namespace djv
                         }
                     }
                 }
+            }
+
+            std::vector<System::File::Info> ItemView::_getSelectedItems(const std::set<size_t>& value) const
+            {
+                DJV_PRIVATE_PTR();
+                std::vector<System::File::Info> out;
+                for (const auto& i : value)
+                {
+                    if (i < p.items.size())
+                    {
+                        out.push_back(p.items[i]);
+                    }
+                }
+                return out;
             }
 
             std::string ItemView::_getTooltip(const System::File::Info& fileInfo) const

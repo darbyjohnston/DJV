@@ -6,6 +6,8 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace UI
@@ -25,6 +27,10 @@ namespace djv
                 ~General() override;
 
                 static std::shared_ptr<General> create(const std::shared_ptr<System::Context>&);
+
+                const std::shared_ptr<Core::ValueSubject<float> >& observeDoubleClickTime() const;
+
+                void setDoubleClickTime(float);
 
                 void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

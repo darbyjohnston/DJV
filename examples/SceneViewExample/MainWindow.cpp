@@ -403,22 +403,26 @@ void MainWindow::_open()
         {
             _fileBrowserDialog->close();
         }
-        _fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+        _fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
         auto io = context->getSystemT<Scene::IO::IOSystem>();
         _fileBrowserDialog->setFileExtensions(io->getFileExtensions());
         _fileBrowserDialog->setPath(_fileBrowserPath);
         auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
         _fileBrowserDialog->setCallback(
-            [weak](const System::File::Info& value)
+            [weak](const std::vector<System::File::Info>& value)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_fileBrowserPath = widget->_fileBrowserDialog->getPath();
-                    widget->_fileBrowserDialog->close();
-                    widget->_fileBrowserDialog.reset();
-                    if (widget->_openCallback)
+                    const auto temp = value;
+                    if (widget->_fileBrowserDialog)
                     {
-                        widget->_openCallback(value);
+                        widget->_fileBrowserPath = widget->_fileBrowserDialog->getPath();
+                        widget->_fileBrowserDialog->close();
+                        widget->_fileBrowserDialog.reset();
+                    }
+                    if (!temp.empty() && widget->_openCallback)
+                    {
+                        widget->_openCallback(temp[0]);
                     }
                 }
             });

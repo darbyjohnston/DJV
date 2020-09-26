@@ -18,6 +18,7 @@
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupButton.h>
+#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
@@ -48,15 +49,18 @@ namespace djv
             std::vector<System::File::Info> fileInfo;
             std::string filter;
             size_t itemCount = 0;
+            std::vector<System::File::Info> selected;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::PopupButton> menuPopupButton;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
             std::shared_ptr<UI::Label> itemCountLabel;
+            std::shared_ptr<UI::PushButton> acceptButton;
+            std::shared_ptr<UI::PushButton> cancelButton;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::function<void(const System::File::Info&)> callback;
+            std::function<void(const std::vector<System::File::Info>&)> callback;
 
             std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver;
             std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
@@ -85,7 +89,7 @@ namespace djv
             toolBar->addChild(p.searchBox);
             toolBar->addChild(p.menuPopupButton);
 
-            p.itemView = UI::FileBrowser::ItemView::create(context);
+            p.itemView = UI::FileBrowser::ItemView::create(UI::SelectionType::Multiple, context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
@@ -95,6 +99,9 @@ namespace djv
             p.itemCountLabel->setHAlign(UI::HAlign::Right);
             p.itemCountLabel->setVAlign(UI::VAlign::Bottom);
             p.itemCountLabel->setMargin(UI::MetricsRole::Margin);
+
+            p.acceptButton = UI::PushButton::create(context);
+            p.cancelButton = UI::PushButton::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -108,10 +115,19 @@ namespace djv
             stackLayout->addChild(p.itemCountLabel);
             p.layout->addChild(stackLayout);
             p.layout->setStretch(stackLayout, UI::RowStretch::Expand);
+            p.layout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            hLayout->addExpander();
+            hLayout->addChild(p.acceptButton);
+            hLayout->addChild(p.cancelButton);
+            p.layout->addChild(hLayout);
             addChild(p.layout);
             setStretch(p.layout, UI::RowStretch::Expand);
 
             _itemsUpdate();
+            _selectedUpdate();
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["IncreaseThumbnailSize"]->setClickedCallback(
@@ -163,51 +179,80 @@ namespace djv
                     return out;
                 });
 
-            p.itemView->setCallback(
-                [weak](const System::File::Info& value)
-            {
-                if (auto widget = weak.lock())
+            p.itemView->setSelectedCallback(
+                [weak](const std::vector<System::File::Info>& value)
                 {
-                    if (widget->_p->callback)
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->callback(value);
+                        widget->_p->selected = value;
+                        widget->_selectedUpdate();
                     }
-                }
-            });
+                });
+            p.itemView->setActivatedCallback(
+                [weak](const std::vector<System::File::Info>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(value);
+                        }
+                    }
+                });
 
             p.searchBox->setFilterCallback(
                 [weak](const std::string& value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->_p->filter = value;
-                    widget->_itemsUpdate();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->filter = value;
+                        widget->_itemsUpdate();
+                    }
+                });
+
+            p.acceptButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->selected);
+                        }
+                    }
+                });
+            p.cancelButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_doCloseCallback();
+                    }
+                });
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
             p.recentFilesObserver = ListObserver<System::File::Info>::create(
                 fileSettings->observeRecentFiles(),
                 [weak](const std::vector<System::File::Info>& value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->_p->fileInfo = value;
-                    widget->_itemsUpdate();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->fileInfo = value;
+                        widget->_itemsUpdate();
+                    }
+                });
 
             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
                 [weak](const Image::Size& value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->_p->itemView->setThumbnailSize(value);
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->itemView->setThumbnailSize(value);
+                    }
+                });
 
             auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
@@ -244,7 +289,7 @@ namespace djv
             return out;
         }
 
-        void RecentFilesDialog::setCallback(const std::function<void(const System::File::Info&)>& value)
+        void RecentFilesDialog::setCallback(const std::function<void(const std::vector<System::File::Info>&)>& value)
         {
             _p->callback = value;
         }
@@ -267,6 +312,9 @@ namespace djv
                 p.searchBox->setTooltip(_getText(DJV_TEXT("recent_files_search_tooltip")));
 
                 p.menuPopupButton->setTooltip(_getText(DJV_TEXT("recent_files_menu_tooltip")));
+
+                p.acceptButton->setText(_getText(DJV_TEXT("recent_files_accept")));
+                p.cancelButton->setText(_getText(DJV_TEXT("recent_files_cancel")));
             }
         }
 
@@ -292,6 +340,12 @@ namespace djv
             p.itemView->setItems(items);
             p.itemCount = items.size();
             p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
+        }
+
+        void RecentFilesDialog::_selectedUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.acceptButton->setEnabled(!p.selected.empty());
         }
 
     } // namespace ViewApp

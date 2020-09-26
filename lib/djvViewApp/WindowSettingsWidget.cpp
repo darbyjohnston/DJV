@@ -375,24 +375,31 @@ namespace djv
                             {
                                 widget->_p->fileBrowserDialog->close();
                             }
-                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
                             auto io = context->getSystemT<AV::IO::IOSystem>();
                             widget->_p->fileBrowserDialog->setFileExtensions(io->getFileExtensions());
                             widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
                             widget->_p->fileBrowserDialog->setCallback(
-                                [weak, contextWeak](const System::File::Info& value)
+                                [weak, contextWeak](const std::vector<System::File::Info>& value)
                                 {
                                     if (auto context = contextWeak.lock())
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                            widget->_p->fileBrowserDialog->close();
-                                            widget->_p->fileBrowserDialog.reset();
-                                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                                            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                                            const auto temp = value;
+                                            if (widget->_p->fileBrowserDialog)
                                             {
-                                                windowSettings->setBackgroundImage(std::string(value.getPath()));
+                                                widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                                widget->_p->fileBrowserDialog->close();
+                                                widget->_p->fileBrowserDialog.reset();
+                                            }
+                                            if (!temp.empty())
+                                            {
+                                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                                                if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                                                {
+                                                    windowSettings->setBackgroundImage(std::string(temp[0].getPath()));
+                                                }
                                             }
                                         }
                                     }

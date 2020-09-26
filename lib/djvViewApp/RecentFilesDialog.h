@@ -33,7 +33,7 @@ namespace djv
 
             static std::shared_ptr<RecentFilesDialog> create(const std::shared_ptr<System::Context>&);
 
-            void setCallback(const std::function<void(const System::File::Info&)>&);
+            void setCallback(const std::function<void(const std::vector<System::File::Info>&)>&);
 
         protected:
             void _initEvent(System::Event::Init&) override;
@@ -42,6 +42,7 @@ namespace djv
             std::string _getItemCountLabel(size_t) const;
 
             void _itemsUpdate();
+            void _selectedUpdate();
 
             DJV_PRIVATE();
         };

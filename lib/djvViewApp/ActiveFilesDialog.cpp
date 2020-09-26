@@ -48,6 +48,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<Media> > media;
             std::vector<std::shared_ptr<Media> > mediaFiltered;
+            std::shared_ptr<Media> currentMedia;
             std::string filter;
             size_t itemCount = 0;
 
@@ -61,6 +62,7 @@ namespace djv
             std::function<void(const std::shared_ptr<Media>&)> callback;
 
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
             std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
@@ -87,7 +89,7 @@ namespace djv
             toolBar->addChild(p.searchBox);
             toolBar->addChild(p.menuPopupButton);
 
-            p.itemView = UI::FileBrowser::ItemView::create(context);
+            p.itemView = UI::FileBrowser::ItemView::create(UI::SelectionType::Radio, context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
@@ -165,14 +167,14 @@ namespace djv
                     return out;
                 });
 
-            p.itemView->setCallback(
-                [weak](size_t value)
+            p.itemView->setSelectedCallback(
+                [weak](const std::set<size_t>& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->callback && value < widget->_p->mediaFiltered.size())
+                        if (widget->_p->callback && !value.empty() && *value.begin() < widget->_p->mediaFiltered.size())
                         {
-                            widget->_p->callback(widget->_p->mediaFiltered[value]);
+                            widget->_p->callback(widget->_p->mediaFiltered[*value.begin()]);
                         }
                     }
                 });
@@ -195,6 +197,16 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->media = value;
+                        widget->_itemsUpdate();
+                    }
+                });
+            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                fileSystem->observeCurrentMedia(),
+                [weak](const std::shared_ptr<Media>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->currentMedia = value;
                         widget->_itemsUpdate();
                     }
                 });
@@ -285,6 +297,8 @@ namespace djv
             p.mediaFiltered.clear();
             std::vector<System::File::Info> items;
             std::regex r(p.filter);
+            int index = 0;
+            int checked = -1;
             for (const auto& i : p.media)
             {
                 const auto& fileInfo = i->getFileInfo();
@@ -292,9 +306,18 @@ namespace djv
                 {
                     items.push_back(fileInfo);
                     p.mediaFiltered.push_back(i);
+                    if (p.currentMedia == i)
+                    {
+                        checked = index;
+                    }
+                    ++index;
                 }
             }
             p.itemView->setItems(items);
+            if (checked != -1)
+            {
+                p.itemView->setSelected({ static_cast<size_t>(checked) });
+            }
             p.itemCount = items.size();
             p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
         }

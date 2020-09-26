@@ -22,14 +22,19 @@ namespace djv
             struct General::Private
             {
                 std::shared_ptr<System::TextSystem> textSystem;
+                std::shared_ptr<ValueSubject<float> > doubleClickTime;
             };
 
             void General::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::General", context);
                 DJV_PRIVATE_PTR();
+
                 p.textSystem = context->getSystemT<System::TextSystem>();
                 p.textSystem->setCurrentLocale(p.textSystem->getSystemLocale());
+
+                p.doubleClickTime = ValueSubject<float>::create(.5F);
+
                 _load();
             }
 
@@ -47,6 +52,16 @@ namespace djv
                 return out;
             }
 
+            const std::shared_ptr<Core::ValueSubject<float> >& General::observeDoubleClickTime() const
+            {
+                return _p->doubleClickTime;
+            }
+
+            void General::setDoubleClickTime(float value)
+            {
+                _p->doubleClickTime->setIfChanged(value);
+            }
+
             void General::load(const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
@@ -54,6 +69,7 @@ namespace djv
                 {
                     std::string currentLocale;
                     read("CurrentLocale", value, currentLocale);
+                    read("DoubleClickTime", value, p.doubleClickTime);
                     p.textSystem->setCurrentLocale(currentLocale);
                 }
             }
@@ -63,6 +79,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
                 write("CurrentLocale", p.textSystem->observeCurrentLocale()->get(), out, allocator);
+                write("DoubleClickTime", p.doubleClickTime->get(), out, allocator);
                 return out;
             }
 

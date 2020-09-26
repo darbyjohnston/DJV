@@ -30,13 +30,17 @@ int main(int argc, char ** argv)
         UI::UIComponentsSystem::create(app);
 
         // Create a file browser.
-        auto fileBrowser = UI::FileBrowser::FileBrowser::create(app);
+        auto fileBrowser = UI::FileBrowser::FileBrowser::create(UI::SelectionType::Multiple, app);
         fileBrowser->setPath(System::File::Path("."));
         fileBrowser->setCallback(
-            [](const System::File::Info & value)
-        {
-            std::cout << value << std::endl;
-        });
+            [](const std::vector<System::File::Info>& value)
+            {
+                for (const auto& i : value)
+                {
+                    std::cout << i << std::endl;
+                }
+                std::cout << std::endl;
+            });
 
         // Create a window and show it.
         auto window = UI::Window::create(app);
