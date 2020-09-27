@@ -56,8 +56,6 @@ namespace djv
                 std::set<size_t> selection;
                 Render2D::Font::Metrics nameFontMetrics;
                 std::future<Render2D::Font::Metrics> nameFontMetricsFuture;
-                //! \todo Replace std::map<size_t, ...> with std::vector since
-                //! the indices always start at zero and are contiguous?
                 std::map<size_t, Math::BBox2f> itemGeometry;
                 std::map<size_t, std::string> names;
                 std::map<size_t, std::vector<Render2D::Font::TextLine> > nameLines;
