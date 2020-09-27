@@ -69,6 +69,7 @@ set(header
     ScrollWidget.h
     ScrollWidgetFunc.h
     SelectionModel.h
+    SelectionModelInline.h
     Separator.h
     SettingsSystem.h
     SettingsSystemInline.h

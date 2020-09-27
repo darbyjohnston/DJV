@@ -128,6 +128,7 @@ namespace djv
 
             {
                 auto selectionModel = SelectionModel::create(SelectionType::Multiple);
+
                 selectionModel->setCount(3);
                 const std::set<size_t> selected({ 0, 2 });
                 selectionModel->setSelected(selected);
@@ -135,6 +136,28 @@ namespace djv
                 DJV_ASSERT(selectionModel->isSelected(0));
                 DJV_ASSERT(!selectionModel->isSelected(1));
                 DJV_ASSERT(selectionModel->isSelected(2));
+            }
+
+            {
+                auto selectionModel = SelectionModel::create(SelectionType::Multiple);
+
+                std::set<size_t> selected;
+                selectionModel->setCallback(
+                    [&selected](const std::set<size_t>& value)
+                    {
+                        selected = value;
+                    });
+
+                selectionModel->setCount(3);
+                selectionModel->setSelected({ 0, 2 });
+                selectionModel->invertSelection();
+                DJV_ASSERT(1 == selected.size() && std::set<size_t>({ 1 }) == selected);
+
+                selectionModel->selectAll();
+                DJV_ASSERT(3 == selected.size() && std::set<size_t>({ 0, 1, 2 }) == selected);
+
+                selectionModel->selectNone();
+                DJV_ASSERT(selected.empty());
             }
         }
 

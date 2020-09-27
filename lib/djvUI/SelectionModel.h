@@ -27,12 +27,17 @@ namespace djv
 
             static std::shared_ptr<SelectionModel> create(SelectionType);
 
+            size_t getCount() const;
+
             void setCount(size_t);
 
             const std::set<size_t>& getSelected() const;
             bool isSelected(size_t) const;
 
             void setSelected(const std::set<size_t>&);
+            void selectAll();
+            void selectNone();
+            void invertSelection();
 
             void click(size_t, int keyModifiers = 0);
 
@@ -48,3 +53,5 @@ namespace djv
 
     } // namespace UI
 } // namespace djv
+
+#include <djvUI/SelectionModelInline.h>

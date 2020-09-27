@@ -26,14 +26,18 @@ namespace djv
             return out;
         }
 
-        const std::set<size_t>& SelectionModel::getSelected() const
+        void SelectionModel::setCount(size_t value)
         {
-            return _selected;
-        }
-
-        bool SelectionModel::isSelected(size_t value) const
-        {
-            return _selected.find(value) != _selected.end();
+            _count = value;
+            _anchor = -1;
+            if (!_selected.empty())
+            {
+                _selected.clear();
+                if (_callback)
+                {
+                    _callback(_selected);
+                }
+            }
         }
 
         void SelectionModel::setSelected(const std::set<size_t>& value)
@@ -41,14 +45,52 @@ namespace djv
             _selected = value;
         }
 
-        void SelectionModel::setCount(size_t value)
+        void SelectionModel::selectAll()
         {
-            _count = value;
-            _selected.clear();
-            _anchor = -1;
-            if (_callback)
+            std::set<size_t> selected;
+            for (size_t i = 0; i < _count; ++i)
             {
-                _callback(_selected);
+                selected.insert(i);
+            }
+            if (selected != _selected)
+            {
+                _selected = selected;
+                if (_callback)
+                {
+                    _callback(_selected);
+                }
+            }
+        }
+
+        void SelectionModel::selectNone()
+        {
+            if (!_selected.empty())
+            {
+                _selected.clear();
+                if (_callback)
+                {
+                    _callback(_selected);
+                }
+            }
+        }
+
+        void SelectionModel::invertSelection()
+        {
+            std::set<size_t> selected;
+            for (size_t i = 0; i < _count; ++i)
+            {
+                if (_selected.find(i) == _selected.end())
+                {
+                    selected.insert(i);
+                }
+            }
+            if (selected != _selected)
+            {
+                _selected = selected;
+                if (_callback)
+                {
+                    _callback(_selected);
+                }
             }
         }
 
