@@ -521,6 +521,7 @@ namespace djv
                     auto& updateEvent = static_cast<System::Event::Update&>(event);
                     _updateTime = updateEvent.getTime();
 
+                    _tooltipsToDelete.clear();
                     if (!_pointerToTooltips.empty())
                     {
                         if (auto context = getContext().lock())
@@ -594,6 +595,7 @@ namespace djv
                     {
                         for (auto& i : _pointerToTooltips)
                         {
+                            _tooltipsToDelete.insert(i.second.tooltip);
                             i.second.tooltip.reset();
                             i.second.timer = _updateTime;
                         }
@@ -670,6 +672,7 @@ namespace djv
                         const float l = glm::length(delta);
                         if (l > tooltipHideDelta)
                         {
+                            _tooltipsToDelete.insert(i->second.tooltip);
                             i->second.tooltip.reset();
                             i->second.timer = _updateTime;
                         }

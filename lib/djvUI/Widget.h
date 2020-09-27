@@ -246,6 +246,7 @@ namespace djv
                 std::shared_ptr<Tooltip> tooltip;
             };
             std::map<System::Event::PointerID, TooltipData> _pointerToTooltips;
+            std::set<std::shared_ptr<Tooltip> > _tooltipsToDelete;
 
             std::weak_ptr<EventSystem> _eventSystem;
             std::shared_ptr<Render2D::Render> _render;
