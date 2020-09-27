@@ -761,7 +761,7 @@ namespace djv
                                 // Update selection model.
                                 if (item.getType() != System::File::Type::Directory)
                                 {
-                                    p.selectionModel->click(j.first, p.keyModifiers);
+                                    p.selectionModel->select(j.first, p.keyModifiers);
                                 }
 
                                 // Check for double clicks.

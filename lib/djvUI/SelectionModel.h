@@ -39,7 +39,7 @@ namespace djv
             void selectNone();
             void invertSelection();
 
-            void click(size_t, int keyModifiers = 0);
+            void select(size_t, int keyModifiers = 0);
 
             void setCallback(const std::function<void(const std::set<size_t>&)>&);
 

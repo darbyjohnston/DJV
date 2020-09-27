@@ -94,7 +94,7 @@ namespace djv
             }
         }
 
-        void SelectionModel::click(size_t index, int keyModifiers)
+        void SelectionModel::select(size_t index, int keyModifiers)
         {
             if (index < _count)
             {
