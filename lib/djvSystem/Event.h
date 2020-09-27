@@ -245,7 +245,7 @@ namespace djv
             class IPointer : public Event
             {
             protected:
-                IPointer(const PointerInfo&, Type);
+                IPointer(int keyModifiers, const PointerInfo&, Type);
 
             public:
                 ~IPointer() override = 0;
@@ -255,10 +255,13 @@ namespace djv
                 void setRejected(bool);
                 void reject();
 
+                int getKeyModifiers() const;
+
                 const PointerInfo& getPointerInfo() const;
 
             private:
-                bool _rejected = false;
+                bool _rejected;
+                int _keyModifiers;
                 PointerInfo _pointerInfo;
             };
 
@@ -266,42 +269,42 @@ namespace djv
             class PointerEnter : public IPointer
             {
             public:
-                explicit PointerEnter(const PointerInfo&);
+                explicit PointerEnter(int keyModifiers, const PointerInfo&);
             };
 
             //! This class provides a pointer leave event.
             class PointerLeave : public IPointer
             {
             public:
-                explicit PointerLeave(const PointerInfo&);
+                explicit PointerLeave(int keyModifiers, const PointerInfo&);
             };
 
             //! This class provides a pointer move event.
             class PointerMove : public IPointer
             {
             public:
-                explicit PointerMove(const PointerInfo&);
+                explicit PointerMove(int keyModifiers, const PointerInfo&);
             };
 
             //! This class provides a button press event.
             class ButtonPress : public IPointer
             {
             public:
-                explicit ButtonPress(const PointerInfo&);
+                explicit ButtonPress(int keyModifiers, const PointerInfo&);
             };
 
             //! This class provides a button release event.
             class ButtonRelease : public IPointer
             {
             public:
-                explicit ButtonRelease(const PointerInfo&);
+                explicit ButtonRelease(int keyModifiers, const PointerInfo&);
             };
 
             //! This class provides a scroll event.
             class Scroll : public IPointer
             {
             public:
-                Scroll(const glm::vec2& scrollDelta, const PointerInfo&);
+                Scroll(const glm::vec2& scrollDelta, int keyModifiers, const PointerInfo&);
 
                 const glm::vec2& getScrollDelta() const;
 
@@ -313,7 +316,7 @@ namespace djv
             class Drop : public IPointer
             {
             public:
-                Drop(const std::vector<std::string>&, const PointerInfo&);
+                Drop(const std::vector<std::string>&, int keyModifiers, const PointerInfo&);
 
                 const std::vector<std::string>& getDropPaths() const;
 
@@ -331,11 +334,9 @@ namespace djv
                 ~IKey() override = 0;
                 
                 int getKey() const;
-                int getKeyModifiers() const;
 
             private:
                 int _key;
-                int _keyModifiers;
             };
 
             //! This class provides a key press event.

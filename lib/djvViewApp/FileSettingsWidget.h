@@ -35,6 +35,29 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This class provides the recent files settings widget.
+        class RecentFilesSettingsWidget : public UI::ISettingsWidget
+        {
+            DJV_NON_COPYABLE(RecentFilesSettingsWidget);
+
+        protected:
+            void _init(const std::shared_ptr<System::Context>&);
+            RecentFilesSettingsWidget();
+
+        public:
+            static std::shared_ptr<RecentFilesSettingsWidget> create(const std::shared_ptr<System::Context>&);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        protected:
+            void _initEvent(System::Event::Init&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
     } // namespace ViewApp
 } // namespace djv
 

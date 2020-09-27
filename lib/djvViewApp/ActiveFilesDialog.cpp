@@ -4,7 +4,7 @@
 
 #include <djvViewApp/ActiveFilesDialog.h>
 
-#include <djvViewApp/ActiveFilesDialogPrivate.h>
+#include <djvViewApp/ActiveFilesPrivate.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 
@@ -18,7 +18,9 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
+#include <djvUI/Menu.h>
 #include <djvUI/PopupButton.h>
+#include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
@@ -53,8 +55,10 @@ namespace djv
             size_t itemCount = 0;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::PopupButton> thumbnailPopupButton;
             std::shared_ptr<UI::SearchBox> searchBox;
-            std::shared_ptr<UI::PopupButton> menuPopupButton;
+            std::shared_ptr<UI::Menu> menu;
+            std::shared_ptr<UI::PopupMenu> popupMenu;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
             std::shared_ptr<UI::Label> itemCountLabel;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -79,15 +83,25 @@ namespace djv
             p.actions["DecreaseThumbnailSize"] = UI::Action::create();
             p.actions["DecreaseThumbnailSize"]->setIcon("djvIconSubtract");
 
+            p.thumbnailPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
+            p.thumbnailPopupButton->setIcon("djvIconThumbnailSize");
+
             p.searchBox = UI::SearchBox::create(context);
 
-            p.menuPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
-            p.menuPopupButton->setIcon("djvIconMenu");
+            p.menu = UI::Menu::create(context);
+            p.menu->setIcon("djvIconMenu");
+            p.menu->setMinimumSizeRole(UI::MetricsRole::None);
+            p.menu->addAction(p.actions["IncreaseThumbnailSize"]);
+            p.menu->addAction(p.actions["DecreaseThumbnailSize"]);
+
+            p.popupMenu = UI::PopupMenu::create(context);
+            p.popupMenu->setMenu(p.menu);
 
             auto toolBar = UI::ToolBar::create(context);
             toolBar->addExpander();
+            toolBar->addChild(p.thumbnailPopupButton);
             toolBar->addChild(p.searchBox);
-            toolBar->addChild(p.menuPopupButton);
+            toolBar->addChild(p.popupMenu);
 
             p.itemView = UI::FileBrowser::ItemView::create(UI::SelectionType::Radio, context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -134,7 +148,6 @@ namespace djv
                         fileBrowserSettings->setThumbnailSize(size);
                     }
                 });
-
             p.actions["DecreaseThumbnailSize"]->setClickedCallback(
                 [contextWeak]
                 {
@@ -153,7 +166,7 @@ namespace djv
                 });
 
             auto weak = std::weak_ptr<ActiveFilesDialog>(std::dynamic_pointer_cast<ActiveFilesDialog>(shared_from_this()));
-            p.menuPopupButton->setOpenCallback(
+            p.thumbnailPopupButton->setOpenCallback(
                 [weak, contextWeak]() -> std::shared_ptr<Widget>
                 {
                     std::shared_ptr<Widget> out;
@@ -161,10 +174,20 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            out = ActiveFilesMenu::create(widget->_p->actions, context);
+                            out = ActiveFilesThumbnailWidget::create(context);
                         }
                     }
                     return out;
+                });
+
+            p.searchBox->setFilterCallback(
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->filter = value;
+                        widget->_itemsUpdate();
+                    }
                 });
 
             p.itemView->setSelectedCallback(
@@ -178,16 +201,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.searchBox->setFilterCallback(
-                [weak](const std::string& value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->filter = value;
-                    widget->_itemsUpdate();
-                }
-            });
 
             auto fileSystem = context->getSystemT<FileSystem>();
             p.mediaObserver = ListObserver<std::shared_ptr<Media> >::create(
@@ -271,23 +284,25 @@ namespace djv
             {
                 setTitle(_getText(DJV_TEXT("active_files_title")));
 
-                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("active_files_increase_thumbnail_size")));
-                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("active_files_increase_thumbnail_size_tooltip")));
-                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("active_files_decrease_thumbnail_size")));
-                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("active_files_decrease_thumbnail_size_tooltip")));
+                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_increase_thumbnail_size")));
+                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_increase_thumbnail_size_tooltip")));
+                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_decrease_thumbnail_size")));
+                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_decrease_thumbnail_size_tooltip")));
+
+                p.thumbnailPopupButton->setTooltip(_getText(DJV_TEXT("file_browser_thumbnail_size_tooltip")));
+
+                p.searchBox->setTooltip(_getText(DJV_TEXT("file_browser_search_tooltip")));
 
                 p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
-                p.searchBox->setTooltip(_getText(DJV_TEXT("active_files_search_tooltip")));
-
-                p.menuPopupButton->setTooltip(_getText(DJV_TEXT("active_files_menu_tooltip")));
+                p.popupMenu->setTooltip(_getText(DJV_TEXT("file_browser_menu_tooltip")));
             }
         }
 
         std::string ActiveFilesDialog::_getItemCountLabel(size_t size) const
         {
             std::stringstream ss;
-            ss << size << " " << _getText(DJV_TEXT("active_files_label_items"));
+            ss << size << " " << _getText(DJV_TEXT("file_browser_items"));
             return ss.str();
         }
 

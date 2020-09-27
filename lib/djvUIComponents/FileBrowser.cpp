@@ -14,7 +14,9 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
+#include <djvUI/Menu.h>
 #include <djvUI/PopupButton.h>
+#include <djvUI/PopupMenu.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -64,8 +66,10 @@ namespace djv
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
                 std::shared_ptr<ActionGroup> sortActionGroup;
                 std::shared_ptr<Drawer> pathsDrawer;
+                std::shared_ptr<PopupButton> thumbnailPopupButton;
                 std::shared_ptr<SearchBox> searchBox;
-                std::shared_ptr<PopupButton> menuPopupButton;
+                std::shared_ptr<Menu> menu;
+                std::shared_ptr<PopupMenu> popupMenu;
                 std::shared_ptr<ListViewHeader> listViewHeader;
                 std::shared_ptr<VerticalLayout> itemViewLayout;
                 std::shared_ptr<ItemView> itemView;
@@ -127,6 +131,10 @@ namespace djv
                 p.actions["Up"] = Action::create();
                 p.actions["Up"]->setIcon("djvIconArrowUp");
 
+                p.actions["SelectAll"] = Action::create();
+                p.actions["SelectNone"] = Action::create();
+                p.actions["InvertSelection"] = Action::create();
+
                 p.actions["Tiles"] = Action::create();
                 p.actions["Tiles"]->setIcon("djvIconTileView");
                 p.actions["List"] = Action::create();
@@ -168,10 +176,41 @@ namespace djv
 
                 auto pathWidget = PathWidget::create(context);
 
+                p.thumbnailPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
+                p.thumbnailPopupButton->setIcon("djvIconThumbnailSize");
+
                 p.searchBox = SearchBox::create(context);
 
-                p.menuPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
-                p.menuPopupButton->setIcon("djvIconMenu");
+                p.menu = Menu::create(context);
+                p.menu->setIcon("djvIconMenu");
+                p.menu->setMinimumSizeRole(MetricsRole::None);
+                p.menu->addAction(p.actions["Paths"]);
+                p.menu->addSeparator();
+                p.menu->addAction(p.actions["Forward"]);
+                p.menu->addAction(p.actions["Back"]);
+                p.menu->addAction(p.actions["Up"]);
+                p.menu->addSeparator();
+                p.menu->addAction(p.actions["SortByName"]);
+                p.menu->addAction(p.actions["SortBySize"]);
+                p.menu->addAction(p.actions["SortByTime"]);
+                p.menu->addAction(p.actions["ReverseSort"]);
+                p.menu->addAction(p.actions["SortDirectoriesFirst"]);
+                p.menu->addSeparator();
+                p.menu->addAction(p.actions["SelectAll"]);
+                p.menu->addAction(p.actions["SelectNone"]);
+                p.menu->addAction(p.actions["InvertSelection"]);
+                p.menu->addSeparator();
+                p.menu->addAction(p.actions["Tiles"]);
+                p.menu->addAction(p.actions["List"]);
+                p.menu->addSeparator();
+                p.menu->addAction(p.actions["IncreaseThumbnailSize"]);
+                p.menu->addAction(p.actions["DecreaseThumbnailSize"]);
+                p.menu->addSeparator();
+                p.menu->addAction(p.actions["FileSequences"]);
+                p.menu->addAction(p.actions["ShowHidden"]);
+
+                p.popupMenu = PopupMenu::create(context);
+                p.popupMenu->setMenu(p.menu);
 
                 auto toolBar = ToolBar::create(context);
                 toolBar->addAction(p.actions["Paths"]);
@@ -180,8 +219,9 @@ namespace djv
                 toolBar->addAction(p.actions["Up"]);
                 toolBar->addChild(pathWidget);
                 toolBar->setStretch(pathWidget, RowStretch::Expand);
+                toolBar->addChild(p.thumbnailPopupButton);
                 toolBar->addChild(p.searchBox);
-                toolBar->addChild(p.menuPopupButton);
+                toolBar->addChild(p.popupMenu);
 
                 p.listViewHeader = ListViewHeader::create(context);
                 p.listViewHeader->setText({ std::string(), std::string(), std::string() });
@@ -249,7 +289,6 @@ namespace djv
                             widget->_p->directoryModel->cdUp();
                         }
                     });
-
                 p.actions["Back"]->setClickedCallback(
                     [weak]
                     {
@@ -258,13 +297,37 @@ namespace djv
                             widget->_p->directoryModel->goBack();
                         }
                     });
-
                 p.actions["Forward"]->setClickedCallback(
                     [weak]
                     {
                         if (auto widget = weak.lock())
                         {
                             widget->_p->directoryModel->goForward();
+                        }
+                    });
+
+                p.actions["SelectAll"]->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->itemView->selectAll();
+                        }
+                    });
+                p.actions["SelectNone"]->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->itemView->selectNone();
+                        }
+                    });
+                p.actions["InvertSelection"]->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->itemView->invertSelection();
                         }
                     });
 
@@ -282,7 +345,6 @@ namespace djv
                             fileBrowserSettings->setThumbnailSize(size);
                         }
                     });
-
                 p.actions["DecreaseThumbnailSize"]->setClickedCallback(
                     [contextWeak]
                     {
@@ -329,7 +391,6 @@ namespace djv
                             fileBrowserSettings->setReverseSort(value);
                         }
                     });
-
                 p.actions["SortDirectoriesFirst"]->setCheckedCallback(
                     [contextWeak](bool value)
                     {
@@ -412,6 +473,20 @@ namespace djv
                     }
                 });
 
+                p.thumbnailPopupButton->setOpenCallback(
+                    [weak, contextWeak]() -> std::shared_ptr<Widget>
+                    {
+                        std::shared_ptr<Widget> out;
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                out = ThumbnailWidget::create(context);
+                            }
+                        }
+                        return out;
+                    });
+
                 p.searchBox->setFilterCallback(
                     [weak](const std::string& value)
                     {
@@ -420,20 +495,6 @@ namespace djv
                             widget->_p->options.filter = value;
                             widget->_optionsUpdate();
                         }
-                    });
-
-                p.menuPopupButton->setOpenCallback(
-                    [weak, contextWeak]() -> std::shared_ptr<Widget>
-                    {
-                        std::shared_ptr<Widget> out;
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                out = Menu::create(widget->_p->actions, context);
-                            }
-                        }
-                        return out;
                     });
 
                 p.itemView->setSelectedCallback(
@@ -715,6 +776,21 @@ namespace djv
                             {
                                 widget->_p->actions["Up"]->setShortcuts(i->second);
                             }
+                            i = value.find("file_browser_shortcut_select_all");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["SelectAll"]->setShortcuts(i->second);
+                            }
+                            i = value.find("file_browser_shortcut_select_none");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["SelectNone"]->setShortcuts(i->second);
+                            }
+                            i = value.find("file_browser_shortcut_invert_selection");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["InvertSelection"]->setShortcuts(i->second);
+                            }
                             i = value.find("file_browser_shortcut_tiles");
                             if (i != value.end())
                             {
@@ -938,19 +1014,26 @@ namespace djv
                     p.actions["Up"]->setText(_getText(DJV_TEXT("file_browser_up")));
                     p.actions["Up"]->setTooltip(_getText(DJV_TEXT("file_browser_up_tooltip")));
 
-                    p.actions["Tiles"]->setText(_getText(DJV_TEXT("file_browser_settings_tile_view")));
-                    p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_tile_view_tooltip")));
-                    p.actions["List"]->setText(_getText(DJV_TEXT("file_browser_settings_list_view")));
-                    p.actions["List"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_list_view_tooltip")));
-                    p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail")));
-                    p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail_tooltip")));
-                    p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail")));
-                    p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail_tooltip")));
+                    p.actions["SelectAll"]->setText(_getText(DJV_TEXT("file_browser_select_all")));
+                    p.actions["SelectAll"]->setTooltip(_getText(DJV_TEXT("file_browser_select_all_tooltip")));
+                    p.actions["SelectNone"]->setText(_getText(DJV_TEXT("file_browser_select_none")));
+                    p.actions["SelectNone"]->setTooltip(_getText(DJV_TEXT("file_browser_select_none_tooltip")));
+                    p.actions["InvertSelection"]->setText(_getText(DJV_TEXT("file_browser_invert_selection")));
+                    p.actions["InvertSelection"]->setTooltip(_getText(DJV_TEXT("file_browser_invert_selection_tooltip")));
 
-                    p.actions["FileSequences"]->setText(_getText(DJV_TEXT("file_browser_settings_enable_file_sequences")));
-                    p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_file_sequences_tooltip")));
-                    p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("file_browser_settings_show_hidden_files")));
-                    p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_show_hidden_tooltip")));
+                    p.actions["Tiles"]->setText(_getText(DJV_TEXT("file_browser_tile_view")));
+                    p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("file_browser_tile_view_tooltip")));
+                    p.actions["List"]->setText(_getText(DJV_TEXT("file_browser_list_view")));
+                    p.actions["List"]->setTooltip(_getText(DJV_TEXT("file_browser_list_view_tooltip")));
+                    p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_increase_thumbnail_size")));
+                    p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_increase_thumbnail_size_tooltip")));
+                    p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_decrease_thumbnail_size")));
+                    p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_decrease_thumbnail_size_tooltip")));
+
+                    p.actions["FileSequences"]->setText(_getText(DJV_TEXT("file_browser_enable_file_sequences")));
+                    p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("file_browser_file_sequences_tooltip")));
+                    p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("file_browser_show_hidden_files")));
+                    p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("file_browser_show_hidden_tooltip")));
 
                     p.actions["Paths"]->setText(_getText(DJV_TEXT("file_browser_paths")));
                     p.actions["Paths"]->setTooltip(_getText(DJV_TEXT("file_browser_paths_tooltip")));
@@ -973,11 +1056,13 @@ namespace djv
                         }
                     );
 
-                    p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
+                    p.thumbnailPopupButton->setTooltip(_getText(DJV_TEXT("file_browser_thumbnail_size_tooltip")));
 
                     p.searchBox->setTooltip(_getText(DJV_TEXT("file_browser_search_tooltip")));
 
-                    p.menuPopupButton->setTooltip(_getText(DJV_TEXT("file_browser_menu_tooltip")));
+                    p.popupMenu->setTooltip(_getText(DJV_TEXT("file_browser_menu_tooltip")));
+
+                    p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
                     p.acceptButton->setText(_getText(DJV_TEXT("file_browser_accept")));
                     p.cancelButton->setText(_getText(DJV_TEXT("file_browser_cancel")));

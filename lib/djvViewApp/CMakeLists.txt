@@ -1,7 +1,7 @@
 set(header
     AboutDialog.h
     ActiveFilesDialog.h
-    ActiveFilesDialogPrivate.h
+    ActiveFilesPrivate.h
 	Annotate.h
 	AnnotateFunc.h
 	AnnotateSettings.h
@@ -56,7 +56,7 @@ set(header
     PlaybackSettingsWidget.h
     PlaybackSystem.h
     RecentFilesDialog.h
-    RecentFilesDialogPrivate.h
+    RecentFilesPrivate.h
     SettingsSystem.h
     SettingsWidget.h
     SystemLogWidget.h
@@ -82,7 +82,7 @@ set(header
 set(source
     AboutDialog.cpp
     ActiveFilesDialog.cpp
-    ActiveFilesDialogMenu.cpp
+    ActiveFilesThumbnailWidget.cpp
 	Annotate.cpp
 	AnnotateFunc.cpp
 	AnnotateSettings.cpp
@@ -139,7 +139,7 @@ set(source
     PlaybackSettingsWidget.cpp
     PlaybackSystem.cpp
     RecentFilesDialog.cpp
-    RecentFilesDialogMenu.cpp
+    RecentFilesThumbnailWidget.cpp
     SettingsSystem.cpp
     SettingsWidget.cpp
     SystemLogWidget.cpp

@@ -47,11 +47,9 @@ namespace djv
 
             std::shared_ptr<Core::IListSubject<System::File::Info> > observeRecentFiles() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeRecentFilesMax() const;
-            std::map<std::string, bool> getRecentFilesSettingsBellowsState() const;
 
             void setRecentFiles(const std::vector<System::File::Info>&);
             void setRecentFilesMax(size_t);
-            void setRecentFilesSettingsBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeSequencesFirstFrame() const;

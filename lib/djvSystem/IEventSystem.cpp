@@ -29,6 +29,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<PointerInfo> > pointerSubject;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > hover;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > grab;
+                int keyModifiers = 0;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > keyGrab;
                 std::weak_ptr<IObject> textFocus;
                 std::shared_ptr<ValueSubject<bool> > textFocusActive;
@@ -186,7 +187,7 @@ namespace djv
                 _update(updateEvent);
 
                 // Pointer move event.
-                PointerMove moveEvent(p.pointerInfo);
+                PointerMove moveEvent(p.keyModifiers, p.pointerInfo);
                 if (auto grab = p.grab->get())
                 {
                     /*{
@@ -214,7 +215,7 @@ namespace djv
                                 {
                                     auto info = p.pointerInfo;
                                     info.buttons[info.id] = true;
-                                    ButtonPress buttonPressEvent(info);
+                                    ButtonPress buttonPressEvent(p.keyModifiers, info);
                                     hover->event(buttonPressEvent);
                                     if (buttonPressEvent.isAccepted())
                                     {
@@ -291,14 +292,14 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto info = p.pointerInfo;
                 info.buttons[button] = true;
-                ButtonPress event(info);
+                ButtonPress event(p.keyModifiers, info);
                 if (auto grab = p.grab->get())
                 {
                     grab->event(event);
                 }
                 else
                 {
-                    PointerMove moveEvent(p.pointerInfo);
+                    PointerMove moveEvent(p.keyModifiers, p.pointerInfo);
                     std::shared_ptr<IObject> hover;
                     _hover(moveEvent, hover);
                     _setHover(hover);
@@ -324,7 +325,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto info = p.pointerInfo;
                 info.buttons[button] = false;
-                ButtonRelease event(info);
+                ButtonRelease event(p.keyModifiers, info);
                 if (auto grab = p.grab->get())
                 {
                     grab->event(event);
@@ -345,7 +346,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.hover)
                 {
-                    Drop event(list, p.pointerInfo);
+                    Drop event(list, p.keyModifiers, p.pointerInfo);
                     auto object = p.hover->get();
                     while (object)
                     {
@@ -365,6 +366,7 @@ namespace djv
             void IEventSystem::_keyPress(int key, int modifiers)
             {
                 DJV_PRIVATE_PTR();
+                p.keyModifiers = modifiers;
                 auto textFocus = p.textFocus.lock();
                 auto hover = p.hover->get();
                 if (textFocus || hover)
@@ -384,6 +386,7 @@ namespace djv
             void IEventSystem::_keyRelease(int key, int modifiers)
             {
                 DJV_PRIVATE_PTR();
+                p.keyModifiers = 0;
                 KeyRelease event(key, modifiers, p.pointerInfo);
                 if (auto keyGrab = p.keyGrab->get())
                 {
@@ -408,7 +411,7 @@ namespace djv
                 auto textFocus = p.textFocus.lock();
                 if (textFocus || p.hover)
                 {
-                    Scroll event(glm::vec2(x, y), p.pointerInfo);
+                    Scroll event(glm::vec2(x, y), p.keyModifiers, p.pointerInfo);
                     auto object = textFocus ? textFocus : p.hover->get();
                     while (object)
                     {
@@ -433,12 +436,12 @@ namespace djv
                 {
                     if (hoverPrev)
                     {
-                        PointerLeave leaveEvent(p.pointerInfo);
+                        PointerLeave leaveEvent(p.keyModifiers, p.pointerInfo);
                         hoverPrev->event(leaveEvent);
                     }
                     if (value)
                     {
-                        PointerEnter enterEvent(p.pointerInfo);
+                        PointerEnter enterEvent(p.keyModifiers, p.pointerInfo);
                         value->event(enterEvent);
                     }
                 }

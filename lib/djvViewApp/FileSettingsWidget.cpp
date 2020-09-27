@@ -6,11 +6,15 @@
 
 #include <djvViewApp/FileSettings.h>
 
+#include <djvUIComponents/ShortcutsWidget.h>
+
 #include <djvUI/FormLayout.h>
+#include <djvUI/IntSlider.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 
 #include <djvSystem/Context.h>
+#include <djvSystem/TimerFunc.h>
 
 using namespace djv::Core;
 
@@ -23,6 +27,7 @@ namespace djv
             std::shared_ptr<UI::ToggleButton> autoDetectButton;
             std::shared_ptr<UI::ToggleButton> firstFrameButton;
             std::shared_ptr<UI::FormLayout> layout;
+
             std::shared_ptr<ValueObserver<bool> > autoDetectObserver;
             std::shared_ptr<ValueObserver<bool> > firstFrameObserver;
         };
@@ -135,6 +140,91 @@ namespace djv
             {
                 p.layout->setText(p.autoDetectButton, _getText(DJV_TEXT("settings_file_sequences_auto-detect")) + ":");
                 p.layout->setText(p.firstFrameButton, _getText(DJV_TEXT("settings_file_sequences_start_first_frame")) + ":");
+            }
+        }
+
+        struct RecentFilesSettingsWidget::Private
+        {
+            std::shared_ptr<UI::IntSlider> maxSlider;
+            std::shared_ptr<UI::FormLayout> layout;
+
+            std::shared_ptr<ValueObserver<size_t> > maxObserver;
+        };
+
+        void RecentFilesSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
+        {
+            ISettingsWidget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::RecentFilesSettingsWidget");
+
+            p.maxSlider = UI::IntSlider::create(context);
+            p.maxSlider->setRange(Math::IntRange(5, 100));
+            p.maxSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
+
+            p.layout = UI::FormLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.maxSlider);
+            addChild(p.layout);
+
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+            auto weak = std::weak_ptr<RecentFilesSettingsWidget>(std::dynamic_pointer_cast<RecentFilesSettingsWidget>(shared_from_this()));
+            p.maxObserver = ValueObserver<size_t>::create(
+                fileSettings->observeRecentFilesMax(),
+                [weak](size_t value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->maxSlider->setValue(value);
+                    }
+                });
+
+            auto contextWeak = std::weak_ptr<System::Context>(context);
+            p.maxSlider->setValueCallback(
+                [contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                        auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                        fileSettings->setRecentFilesMax(value);
+                    }
+                });
+        }
+
+        RecentFilesSettingsWidget::RecentFilesSettingsWidget() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<RecentFilesSettingsWidget> RecentFilesSettingsWidget::create(const std::shared_ptr<System::Context>& context)
+        {
+            auto out = std::shared_ptr<RecentFilesSettingsWidget>(new RecentFilesSettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string RecentFilesSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("settings_file_recent_files");
+        }
+
+        std::string RecentFilesSettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("settings_title_file");
+        }
+
+        std::string RecentFilesSettingsWidget::getSettingsSortKey() const
+        {
+            return "A";
+        }
+
+        void RecentFilesSettingsWidget::_initEvent(System::Event::Init& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (event.getData().text)
+            {
+                p.layout->setText(p.maxSlider, _getText(DJV_TEXT("settings_file_recent_files_max")) + ":");
             }
         }
 

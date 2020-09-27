@@ -25,6 +25,7 @@ namespace djv
             struct SettingsWidget::Private
             {
                 std::shared_ptr<UI::ShortcutsWidget> widget;
+
                 std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
             };
 

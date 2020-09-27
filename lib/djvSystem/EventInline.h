@@ -117,6 +117,11 @@ namespace djv
             {
                 _rejected = true;
             }
+
+            inline int IPointer::getKeyModifiers() const
+            {
+                return _keyModifiers;
+            }
  
             inline const PointerInfo& IPointer::getPointerInfo() const
             {
@@ -136,11 +141,6 @@ namespace djv
             inline int IKey::getKey() const
             {
                 return _key;
-            }
-
-            inline int IKey::getKeyModifiers() const
-            {
-                return _keyModifiers;
             }
 
             inline const std::basic_string<djv_char_t>& TextInput::getUtf32() const

@@ -29,7 +29,6 @@ namespace djv
         void SelectionModel::setCount(size_t value)
         {
             _count = value;
-            _anchor = -1;
             if (!_selected.empty())
             {
                 _selected.clear();
@@ -38,11 +37,13 @@ namespace djv
                     _callback(_selected);
                 }
             }
+            _anchor = -1;
         }
 
         void SelectionModel::setSelected(const std::set<size_t>& value)
         {
             _selected = value;
+            _anchor = -1;
         }
 
         void SelectionModel::selectAll()
@@ -60,6 +61,7 @@ namespace djv
                     _callback(_selected);
                 }
             }
+            _anchor = -1;
         }
 
         void SelectionModel::selectNone()
@@ -72,6 +74,7 @@ namespace djv
                     _callback(_selected);
                 }
             }
+            _anchor = -1;
         }
 
         void SelectionModel::invertSelection()
@@ -92,6 +95,7 @@ namespace djv
                     _callback(_selected);
                 }
             }
+            _anchor = -1;
         }
 
         void SelectionModel::select(size_t index, int keyModifiers)

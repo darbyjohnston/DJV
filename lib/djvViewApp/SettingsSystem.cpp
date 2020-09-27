@@ -105,16 +105,23 @@ namespace djv
                     UI::TIFFSettingsWidget::create(context),
 #endif
 
+                    SequenceSettingsWidget::create(context),
+                    RecentFilesSettingsWidget::create(context),
+
                     WindowGeometrySettingsWidget::create(context),
                     FullscreenMonitorSettingsWidget::create(context),
                     BackgroundImageSettingsWidget::create(context),
-                    KeyboardShortcutSettingsWidget::create(context),
+
+                    MemorySettingsWidget::create(context),
+
                     MouseScrollWheelSettingsWidget::create(context),
-                    NUXSettingsWidget::create(context),
+
+                    KeyboardShortcutSettingsWidget::create(context),
+
                     PlaybackSettingsWidget::create(context),
-                    SequenceSettingsWidget::create(context),
                     TimelineSettingsWidget::create(context),
-                    MemorySettingsWidget::create(context)
+
+                    NUXSettingsWidget::create(context)
                 };
             }
             return out;

@@ -32,7 +32,7 @@ namespace djv
         {
             namespace
             {
-                const std::string settingsVersion = "41";
+                const std::string settingsVersion = "42";
 
             } // namespace
 

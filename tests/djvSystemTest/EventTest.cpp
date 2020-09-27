@@ -194,8 +194,8 @@ namespace djv
             class TestPointerEvent : public Event::IPointer
             {
             public:
-                TestPointerEvent(const System::Event::PointerInfo& info) :
-                    IPointer(info, System::Event::Type::Count)
+                TestPointerEvent(int keyModifiers, const System::Event::PointerInfo& info) :
+                    IPointer(keyModifiers, info, System::Event::Type::Count)
                 {}
             };
 
@@ -218,7 +218,8 @@ namespace djv
             
             {
                 const Event::PointerInfo info;
-                TestPointerEvent event(info);
+                const int keyModifiers = 1;
+                TestPointerEvent event(keyModifiers, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::Count);
                 DJV_ASSERT(!event.isRejected());
                 event.setRejected(true);
@@ -228,43 +229,44 @@ namespace djv
                 DJV_ASSERT(!event.isRejected());
                 event.reject();
                 DJV_ASSERT(event.isRejected());
+                DJV_ASSERT(event.getKeyModifiers() == keyModifiers);
                 DJV_ASSERT(event.getPointerInfo() == info);
             }
             
             {
                 const Event::PointerInfo info;
-                const Event::PointerEnter event(info);
+                const Event::PointerEnter event(0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::PointerEnter);
             }
             
             {
                 const Event::PointerInfo info;
-                const Event::PointerLeave event(info);
+                const Event::PointerLeave event(0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::PointerLeave);
             }
             
             {
                 const Event::PointerInfo info;
-                const Event::PointerMove event(info);
+                const Event::PointerMove event(0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::PointerMove);
             }
             
             {
                 const Event::PointerInfo info;
-                const Event::ButtonPress event(info);
+                const Event::ButtonPress event(0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::ButtonPress);
             }
             
             {
                 const Event::PointerInfo info;
-                const Event::ButtonRelease event(info);
+                const Event::ButtonRelease event(0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::ButtonRelease);
             }
             
             {
                 const glm::vec2 delta(1.f, 2.f);
                 const Event::PointerInfo info;
-                const Event::Scroll event(delta, info);
+                const Event::Scroll event(delta, 0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::Scroll);
                 DJV_ASSERT(event.getScrollDelta() == delta);
             }
@@ -272,30 +274,28 @@ namespace djv
             {
                 const std::vector<std::string> paths = { "a", "b" };
                 const Event::PointerInfo info;
-                const Event::Drop event(paths, info);
+                const Event::Drop event(paths, 0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::Drop);
                 DJV_ASSERT(event.getDropPaths() == paths);
             }
             
             {
                 const int key = 1;
-                const int keyModifiers = 2;
                 const Event::PointerInfo info;
-                const TestKeyEvent event(key, keyModifiers, info);
+                const TestKeyEvent event(key, 0, info);
                 DJV_ASSERT(event.getEventType() == System::Event::Type::Count);
                 DJV_ASSERT(event.getKey() == key);
-                DJV_ASSERT(event.getKeyModifiers() == keyModifiers);
             }
             
             {
                 const Event::PointerInfo info;
-                const Event::KeyPress event(1, 2, info);
+                const Event::KeyPress event(1, 0, info);
                 DJV_ASSERT(event.getEventType() == Event::Type::KeyPress);
             }
             
             {
                 const Event::PointerInfo info;
-                const Event::KeyRelease event(1, 2, info);
+                const Event::KeyRelease event(1, 0, info);
                 DJV_ASSERT(event.getEventType() == Event::Type::KeyRelease);
             }
             

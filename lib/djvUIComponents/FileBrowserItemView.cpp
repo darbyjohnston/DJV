@@ -81,7 +81,6 @@ namespace djv
                 std::string outputColorSpace;
                 std::pair<size_t, std::chrono::steady_clock::time_point> clickTimer;
                 float doubleClickTime = .5F;
-                int keyModifiers = 0;
 
                 std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
 
@@ -215,6 +214,24 @@ namespace djv
             void ItemView::setSelected(const std::set<size_t>& value)
             {
                 _p->selectionModel->setSelected(value);
+                _redraw();
+            }
+
+            void ItemView::selectAll()
+            {
+                _p->selectionModel->selectAll();
+                _redraw();
+            }
+
+            void ItemView::selectNone()
+            {
+                _p->selectionModel->selectNone();
+                _redraw();
+            }
+
+            void ItemView::invertSelection()
+            {
+                _p->selectionModel->invertSelection();
                 _redraw();
             }
 
@@ -756,13 +773,8 @@ namespace djv
                         {
                             if (j.first < p.items.size() && j.second.contains(i->second))
                             {
-                                const auto& item = p.items[j.first];
-                                    
                                 // Update selection model.
-                                if (item.getType() != System::File::Type::Directory)
-                                {
-                                    p.selectionModel->select(j.first, p.keyModifiers);
-                                }
+                                p.selectionModel->select(j.first, event.getKeyModifiers());
 
                                 // Check for double clicks.
                                 const auto time = _getUpdateTime();
@@ -771,7 +783,7 @@ namespace djv
                                 {
                                     if (p.activatedCallback)
                                     {
-                                        p.activatedCallback({ item });
+                                        p.activatedCallback({ p.items[j.first] });
                                     }
                                     if (p.activatedCallback2)
                                     {
@@ -808,13 +820,6 @@ namespace djv
                             }
                         }
                         break;
-                    case GLFW_KEY_LEFT_SHIFT:
-                    case GLFW_KEY_RIGHT_SHIFT:
-                    case GLFW_KEY_LEFT_CONTROL:
-                    case GLFW_KEY_RIGHT_CONTROL:
-                        event.accept();
-                        p.keyModifiers = event.getKeyModifiers();
-                        break;
                     default: break;
                     }
                 }
@@ -824,7 +829,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
-                p.keyModifiers = 0;
             }
 
             std::shared_ptr<ITooltipWidget> ItemView::_createTooltip(const glm::vec2& pos)

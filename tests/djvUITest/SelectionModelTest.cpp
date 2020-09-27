@@ -139,9 +139,6 @@ namespace djv
                 DJV_ASSERT(selectionModel->isSelected(0));
                 DJV_ASSERT(!selectionModel->isSelected(1));
                 DJV_ASSERT(selectionModel->isSelected(2));
-
-                selectionModel->setCount(0);
-                DJV_ASSERT(selectionModel->getSelected().empty());
             }
 
             {
@@ -159,10 +156,13 @@ namespace djv
                 selectionModel->invertSelection();
                 DJV_ASSERT(1 == selected.size() && std::set<size_t>({ 1 }) == selected);
 
+                selectionModel->selectNone();
+                DJV_ASSERT(selected.empty());
+
                 selectionModel->selectAll();
                 DJV_ASSERT(3 == selected.size() && std::set<size_t>({ 0, 1, 2 }) == selected);
 
-                selectionModel->selectNone();
+                selectionModel->setCount(0);
                 DJV_ASSERT(selected.empty());
             }
 

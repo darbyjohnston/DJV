@@ -31,13 +31,13 @@ set(source
     FileBrowserDrivesWidget.cpp
     FileBrowserFunc.cpp
     FileBrowserItemView.cpp
-    FileBrowserMenu.cpp
     FileBrowserPathWidget.cpp
     FileBrowserRecentPathsWidget.cpp
     FileBrowserSettings.cpp
     FileBrowserSettingsWidget.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
+    FileBrowserThumbnailWidget.cpp
     GLFWSettingsWidget.cpp
 	IOSettings.cpp
 	IOSettingsWidget.cpp

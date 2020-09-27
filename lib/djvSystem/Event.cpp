@@ -87,48 +87,49 @@ namespace djv
             PointerInfo::PointerInfo()
             {}
             
-            IPointer::IPointer(const PointerInfo& pointerInfo, Type type) :
+            IPointer::IPointer(int keyModifiers, const PointerInfo& pointerInfo, Type type) :
                 Event(type),
+                _rejected(false),
+                _keyModifiers(keyModifiers),
                 _pointerInfo(pointerInfo)
             {}
 
             IPointer::~IPointer()
             {}
 
-            PointerEnter::PointerEnter(const PointerInfo& pointerInfo) :
-                IPointer(pointerInfo, Type::PointerEnter)
+            PointerEnter::PointerEnter(int keyModifiers, const PointerInfo& pointerInfo) :
+                IPointer(keyModifiers, pointerInfo, Type::PointerEnter)
             {}
 
-            PointerLeave::PointerLeave(const PointerInfo& pointerInfo) :
-                IPointer(pointerInfo, Type::PointerLeave)
+            PointerLeave::PointerLeave(int keyModifiers, const PointerInfo& pointerInfo) :
+                IPointer(keyModifiers, pointerInfo, Type::PointerLeave)
             {}
 
-            PointerMove::PointerMove(const PointerInfo& pointerInfo) :
-                IPointer(pointerInfo, Type::PointerMove)
+            PointerMove::PointerMove(int keyModifiers, const PointerInfo& pointerInfo) :
+                IPointer(keyModifiers, pointerInfo, Type::PointerMove)
             {}
 
-            ButtonPress::ButtonPress(const PointerInfo& pointerInfo) :
-                IPointer(pointerInfo, Type::ButtonPress)
+            ButtonPress::ButtonPress(int keyModifiers, const PointerInfo& pointerInfo) :
+                IPointer(keyModifiers, pointerInfo, Type::ButtonPress)
             {}
 
-            ButtonRelease::ButtonRelease(const PointerInfo& pointerInfo) :
-                IPointer(pointerInfo, Type::ButtonRelease)
+            ButtonRelease::ButtonRelease(int keyModifiers, const PointerInfo& pointerInfo) :
+                IPointer(keyModifiers, pointerInfo, Type::ButtonRelease)
             {}
 
-            Scroll::Scroll(const glm::vec2& scrollDelta, const PointerInfo& info) :
-                IPointer(info, Type::Scroll),
+            Scroll::Scroll(const glm::vec2& scrollDelta, int keyModifiers, const PointerInfo& info) :
+                IPointer(keyModifiers, info, Type::Scroll),
                 _scrollDelta(scrollDelta)
             {}
 
-            Drop::Drop(const std::vector<std::string>& dropPaths, const PointerInfo& info) :
-                IPointer(info, Type::Drop),
+            Drop::Drop(const std::vector<std::string>& dropPaths, int keyModifiers, const PointerInfo& info) :
+                IPointer(keyModifiers, info, Type::Drop),
                 _dropPaths(dropPaths)
             {}
 
             IKey::IKey(int key, int keyModifiers, const PointerInfo& info, Type type) :
-                IPointer(info, type),
-                _key(key),
-                _keyModifiers(keyModifiers)
+                IPointer(keyModifiers, info, type),
+                _key(key)
             {}
 
             IKey::~IKey()

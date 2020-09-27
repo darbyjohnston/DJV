@@ -6,8 +6,6 @@
 
 #include <djvUIComponents/FileBrowser.h>
 
-#include <djvUI/IButton.h>
-
 #include <djvImage/Image.h>
 
 #include <djvSystem/Path.h>
@@ -227,29 +225,23 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the file browser popup menu.
-            class Menu : public UI::Widget
+            //! This class provides the file browser thumbnail widget.
+            class ThumbnailWidget : public UI::Widget
             {
-                DJV_NON_COPYABLE(Menu);
+                DJV_NON_COPYABLE(ThumbnailWidget);
 
             protected:
-                void _init(
-                    const std::map<std::string, std::shared_ptr<Action> >&,
-                    const std::shared_ptr<System::Context>&);
-                Menu();
+                void _init(const std::shared_ptr<System::Context>&);
+                ThumbnailWidget();
 
             public:
-                ~Menu() override;
+                ~ThumbnailWidget() override;
 
-                static std::shared_ptr<Menu> create(
-                    const std::map<std::string, std::shared_ptr<Action> >&,
-                    const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<ThumbnailWidget> create(const std::shared_ptr<System::Context>&);
 
             protected:
                 void _preLayoutEvent(System::Event::PreLayout&) override;
                 void _layoutEvent(System::Event::Layout&) override;
-
-                void _initEvent(System::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();

@@ -63,6 +63,9 @@ namespace djv
                 std::set<size_t> getSelected() const;
 
                 void setSelected(const std::set<size_t>&);
+                void selectAll();
+                void selectNone();
+                void invertSelection();
 
                 void setSelectedCallback(const std::function<void(const std::vector<System::File::Info>&)>&);
                 void setSelectedCallback(const std::function<void(const std::set<size_t>&)>&);
