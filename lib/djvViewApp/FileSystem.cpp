@@ -102,6 +102,7 @@ namespace djv
             p.actions["Recent"]->setIcon("djvIconFileRecent");
             p.actions["Active"] = UI::Action::create();
             p.actions["Reload"] = UI::Action::create();
+            p.actions["Reload"]->setIcon("djvIconReload");
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
             p.actions["CloseAll"] = UI::Action::create();
