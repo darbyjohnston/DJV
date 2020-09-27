@@ -80,7 +80,7 @@ namespace djv
                 OCIO::Config ocioConfig;
                 std::string outputColorSpace;
                 std::pair<size_t, std::chrono::steady_clock::time_point> clickTimer;
-                float doubleClickTime = .5F;
+                float doubleClickTime = 0.F;
 
                 std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
 
