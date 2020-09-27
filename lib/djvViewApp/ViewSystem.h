@@ -4,8 +4,9 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
 #include <djvViewApp/IToolSystem.h>
+
+#include <djvUI/Enum.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -42,7 +43,7 @@ namespace djv
             void _shortcutsUpdate() override;
 
         private:
-            static float _getScrollWheelSpeed(ScrollWheelSpeed);
+            static float _getScrollWheelSpeed(UI::ScrollWheelSpeed);
 
             void _panImage(const glm::vec2&);
             void _zoomImage(float);

@@ -85,7 +85,7 @@ namespace djv
 
         std::string FFmpegSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZZ";
+            return "d";
         }
 
         void FFmpegSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

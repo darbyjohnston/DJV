@@ -291,6 +291,17 @@ namespace djv
             ComboBox
         };
 
+        //! This enum provides mouse scroll wheel speeds.
+        enum class ScrollWheelSpeed
+        {
+            Slow,
+            Medium,
+            Fast,
+
+            Count,
+            First = Slow
+        };
+
     } // namespace UI
 } // namespace djv
 

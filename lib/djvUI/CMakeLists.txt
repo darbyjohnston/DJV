@@ -49,6 +49,7 @@ set(header
     LineEditBase.h
     MDICanvas.h
     MDIWidget.h
+    MouseSettings.h
     Margin.h
     MarginInline.h
     Menu.h
@@ -148,6 +149,7 @@ set(source
     LineEditBase.cpp
     MDICanvas.cpp
     MDIWidget.cpp
+    MouseSettings.cpp
     Margin.cpp
     Menu.cpp
     MenuBar.cpp

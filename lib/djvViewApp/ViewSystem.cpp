@@ -5,7 +5,6 @@
 #include <djvViewApp/ViewSystem.h>
 
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/MouseSettings.h>
 #include <djvViewApp/View.h>
 #include <djvViewApp/ViewControlsWidget.h>
 #include <djvViewApp/ViewSettings.h>
@@ -15,6 +14,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
+#include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutData.h>
@@ -597,7 +597,7 @@ namespace djv
             }
         }
 
-        float ViewSystem::_getScrollWheelSpeed(ScrollWheelSpeed value)
+        float ViewSystem::_getScrollWheelSpeed(UI::ScrollWheelSpeed value)
         {
             const float values[] =
             {
@@ -727,7 +727,7 @@ namespace djv
                         settings->setLock(ViewLock::None);
                         const float zoom = viewWidget->observeImageZoom()->get();
                         auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                        auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
+                        auto mouseSettings = settingsSystem->getSettingsT<UI::Settings::Mouse>();
                         const float speed = _getScrollWheelSpeed(mouseSettings->observeScrollWheelSpeed()->get());
                         viewWidget->setImageZoomFocus(zoom * (1.F + value.delta.y * speed), hoverPos);
                     }

@@ -17,7 +17,6 @@ namespace djv
         DJV_ENUM_HELPERS_IMPLEMENTATION(GridLabels);
         DJV_ENUM_HELPERS_IMPLEMENTATION(HUDBackground);
         DJV_ENUM_HELPERS_IMPLEMENTATION(ViewBackground);
-        DJV_ENUM_HELPERS_IMPLEMENTATION(ScrollWheelSpeed);
         DJV_ENUM_HELPERS_IMPLEMENTATION(Playback);
         DJV_ENUM_HELPERS_IMPLEMENTATION(PlaybackSpeed);
         DJV_ENUM_HELPERS_IMPLEMENTATION(PlaybackMode);
@@ -50,13 +49,6 @@ namespace djv
         ViewBackground,
         DJV_TEXT("view_background_solid"),
         DJV_TEXT("view_background_checkers"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        ScrollWheelSpeed,
-        DJV_TEXT("settings_scroll_wheel_slow"),
-        DJV_TEXT("settings_scroll_wheel_medium"),
-        DJV_TEXT("settings_scroll_wheel_fast"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
@@ -109,14 +101,6 @@ namespace djv
     }
 
     rapidjson::Value toJSON(ViewApp::ViewBackground value, rapidjson::Document::AllocatorType& allocator)
-    {
-        std::stringstream ss;
-        ss << value;
-        const std::string& s = ss.str();
-        return rapidjson::Value(s.c_str(), s.size(), allocator);
-    }
-
-    rapidjson::Value toJSON(ViewApp::ScrollWheelSpeed value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
@@ -183,20 +167,6 @@ namespace djv
     }
 
     void fromJSON(const rapidjson::Value& value, ViewApp::ViewBackground& out)
-    {
-        if (value.IsString())
-        {
-            std::stringstream ss(value.GetString());
-            ss >> out;
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
-
-    void fromJSON(const rapidjson::Value& value, ViewApp::ScrollWheelSpeed& out)
     {
         if (value.IsString())
         {

@@ -249,11 +249,11 @@ namespace djv
                 p.itemViewLayout = VerticalLayout::create(context);
                 p.itemViewLayout->setSpacing(MetricsRole::None);
                 p.itemViewLayout->addChild(p.listViewHeader);
-                auto stackLayout2 = StackLayout::create(context);
-                stackLayout2->addChild(p.scrollWidget);
-                stackLayout2->addChild(p.itemCountLabel);
-                p.itemViewLayout->addChild(stackLayout2);
-                p.itemViewLayout->setStretch(stackLayout2, RowStretch::Expand);
+                auto stackLayout = StackLayout::create(context);
+                stackLayout->addChild(p.scrollWidget);
+                stackLayout->addChild(p.itemCountLabel);
+                p.itemViewLayout->addChild(stackLayout);
+                p.itemViewLayout->setStretch(stackLayout, RowStretch::Expand);
                 hLayout->addChild(p.itemViewLayout);
                 hLayout->setStretch(p.itemViewLayout, RowStretch::Expand);
                 p.layout->addChild(hLayout);

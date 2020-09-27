@@ -40,6 +40,7 @@ namespace djv
         DJV_ENUM_HELPERS(ImageRotate);
         DJV_ENUM_HELPERS(ImageAspectRatio);
         DJV_ENUM_HELPERS(Popup);
+        DJV_ENUM_HELPERS(ScrollWheelSpeed);
 
     } // namespace UI
 
@@ -60,16 +61,28 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::ImageRotate);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ImageAspectRatio);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Popup);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ScrollWheelSpeed);
 
     rapidjson::Value toJSON(UI::ViewType, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(UI::ImageRotate, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(UI::ImageAspectRatio, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ScrollWheelSpeed, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const rapidjson::Value&, UI::ViewType&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const rapidjson::Value&, UI::ImageRotate&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const rapidjson::Value&, UI::ImageAspectRatio&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ScrollWheelSpeed&);
 
 } // namespace djv
 

@@ -87,7 +87,7 @@ namespace djv
 
         std::string GLFWSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZ";
+            return "c";
         }
 
         void GLFWSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)

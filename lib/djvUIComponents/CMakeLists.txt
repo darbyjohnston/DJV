@@ -13,6 +13,7 @@ set(header
     LanguageSettingsWidget.h
 	LineGraphWidget.h
     ListViewHeader.h
+    MouseSettingsWidget.h
     PPMSettingsWidget.h
     Render2DSettingsWidget.h
     SceneWidget.h
@@ -45,6 +46,7 @@ set(source
     LanguageSettingsWidget.cpp
 	LineGraphWidget.cpp
     ListViewHeader.cpp
+    MouseSettingsWidget.cpp
     PPMSettingsWidget.cpp
     Render2DSettingsWidget.cpp
     SceneWidget.cpp

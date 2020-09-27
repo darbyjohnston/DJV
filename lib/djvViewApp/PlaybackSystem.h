@@ -4,8 +4,9 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
 #include <djvViewApp/IViewSystem.h>
+
+#include <djvUI/Enum.h>
 
 namespace djv
 {
@@ -35,7 +36,7 @@ namespace djv
             void _shortcutsUpdate() override;
 
         private:
-            static float _getScrollWheelSpeed(ScrollWheelSpeed);
+            static float _getScrollWheelSpeed(UI::ScrollWheelSpeed);
 
             DJV_PRIVATE();
         };

@@ -34,30 +34,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a scroll settings widget.
-        class ScrollSettingsWidget : public ISettingsWidget
-        {
-            DJV_NON_COPYABLE(ScrollSettingsWidget);
-
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            ScrollSettingsWidget();
-
-        public:
-            static std::shared_ptr<ScrollSettingsWidget> create(const std::shared_ptr<System::Context>&);
-
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
-
-            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
-
-        protected:
-            void _initEvent(System::Event::Init&) override;
-
-        private:
-            DJV_PRIVATE();
-        };
-
     } // namespace UI
 } // namespace djv
 

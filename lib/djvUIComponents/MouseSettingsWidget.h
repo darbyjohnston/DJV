@@ -8,24 +8,24 @@
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
-        //! This class provides a mouse scroll wheel settings widget.
-        class MouseScrollWheelSettingsWidget : public UI::ISettingsWidget
+        //! This class provides a mouse settings widget.
+        class MouseSettingsWidget : public ISettingsWidget
         {
-            DJV_NON_COPYABLE(MouseScrollWheelSettingsWidget);
+            DJV_NON_COPYABLE(MouseSettingsWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            MouseScrollWheelSettingsWidget();
+            MouseSettingsWidget();
 
         public:
-            static std::shared_ptr<MouseScrollWheelSettingsWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<MouseSettingsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
+            void setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>&) override;
 
         protected:
             void _initEvent(System::Event::Init&) override;
@@ -36,6 +36,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
 

@@ -88,7 +88,7 @@ namespace djv
 
             std::string SettingsWidget::getSettingsSortKey() const
             {
-                return "Z";
+                return "b";
             }
 
         } // namespace FileBrowser

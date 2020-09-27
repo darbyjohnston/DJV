@@ -47,8 +47,6 @@ set(header
 	MediaWidgetPrivate.h
 	MemorySettingsWidget.h
     MessagesWidget.h
-	MouseSettings.h
-	MouseSettingsWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -130,8 +128,6 @@ set(source
 	MediaWidget.cpp
 	MemorySettingsWidget.cpp
     MessagesWidget.cpp
-	MouseSettings.cpp
-	MouseSettingsWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp

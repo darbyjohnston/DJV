@@ -8,13 +8,13 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/MouseSettings.h>
 #include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
+#include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ShortcutData.h>
 #include <djvUI/SettingsSystem.h>
@@ -720,7 +720,7 @@ namespace djv
             }
         }
 
-        float PlaybackSystem::_getScrollWheelSpeed(ScrollWheelSpeed value)
+        float PlaybackSystem::_getScrollWheelSpeed(UI::ScrollWheelSpeed value)
         {
             const float values[] =
             {
@@ -794,7 +794,7 @@ namespace djv
                     {
                         Math::Frame::Index frame = media->observeCurrentFrame()->get();
                         auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                        auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
+                        auto mouseSettings = settingsSystem->getSettingsT<UI::Settings::Mouse>();
                         const float speed = _getScrollWheelSpeed(mouseSettings->observeScrollWheelSpeed()->get());
                         media->setCurrentFrame(frame + value.delta.y * speed);
                     }

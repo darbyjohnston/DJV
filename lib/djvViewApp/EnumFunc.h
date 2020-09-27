@@ -20,7 +20,6 @@ namespace djv
         DJV_ENUM_HELPERS(GridLabels);
         DJV_ENUM_HELPERS(HUDBackground);
         DJV_ENUM_HELPERS(ViewBackground);
-        DJV_ENUM_HELPERS(ScrollWheelSpeed);
         DJV_ENUM_HELPERS(Playback);
         DJV_ENUM_HELPERS(PlaybackSpeed);
         DJV_ENUM_HELPERS(PlaybackMode);
@@ -32,7 +31,6 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::GridLabels);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::HUDBackground);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ViewBackground);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ScrollWheelSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
@@ -42,7 +40,6 @@ namespace djv
     rapidjson::Value toJSON(ViewApp::GridLabels, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(ViewApp::HUDBackground, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(ViewApp::ViewBackground, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(ViewApp::ScrollWheelSpeed, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(ViewApp::PlaybackSpeed, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(ViewApp::PlaybackMode, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(ViewApp::CmdLineMode, rapidjson::Document::AllocatorType&);
@@ -62,10 +59,6 @@ namespace djv
     //! Throws:
     //! - std::exception
     void fromJSON(const rapidjson::Value&, ViewApp::ViewBackground&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, ViewApp::ScrollWheelSpeed&);
 
     //! Throws:
     //! - std::exception

@@ -47,16 +47,6 @@ namespace djv
             First = Solid
         };
 
-        enum class ScrollWheelSpeed
-        {
-            Slow,
-            Medium,
-            Fast,
-
-            Count,
-            First = Slow
-        };
-
         enum class Playback
         {
             Stop,

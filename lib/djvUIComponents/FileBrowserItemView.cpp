@@ -4,9 +4,9 @@
 
 #include <djvUIComponents/FileBrowserItemView.h>
 
-#include <djvUI/GeneralSettings.h>
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/IconSystem.h>
+#include <djvUI/MouseSettings.h>
 #include <djvUI/SelectionModel.h>
 #include <djvUI/SettingsSystem.h>
 
@@ -143,9 +143,9 @@ namespace djv
                     });
 
                 auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                auto generalSettings = settingsSystem->getSettingsT<Settings::General>();
+                auto mouseSettings = settingsSystem->getSettingsT<Settings::Mouse>();
                 p.doubleClickTimeObserver = ValueObserver<float>::create(
-                    generalSettings->observeDoubleClickTime(),
+                    mouseSettings->observeDoubleClickTime(),
                     [weak](float value)
                     {
                         if (auto widget = weak.lock())
@@ -778,8 +778,8 @@ namespace djv
 
                                 // Check for double clicks.
                                 const auto time = _getUpdateTime();
-                                if (j.first == p.clickTimer.first &&
-                                    std::chrono::duration_cast<std::chrono::seconds>(time - p.clickTimer.second).count() < p.doubleClickTime)
+                                const float doubleClickTime = std::chrono::duration<float>(time - p.clickTimer.second).count();
+                                if (j.first == p.clickTimer.first && doubleClickTime < p.doubleClickTime)
                                 {
                                     if (p.activatedCallback)
                                     {
@@ -790,7 +790,7 @@ namespace djv
                                         p.activatedCallback2({ j.first });
                                     }
                                 }
-                                p.clickTimer = std::make_pair(j.first, _getUpdateTime());
+                                p.clickTimer = std::make_pair(j.first, time);
                             }
                         }
                     }

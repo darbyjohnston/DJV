@@ -11,6 +11,7 @@
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/IconSystem.h>
+#include <djvUI/MouseSettings.h>
 #include <djvUI/Render2DSettings.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
@@ -48,6 +49,7 @@ namespace djv
             Settings::GLFW::create(context);
             Settings::General::create(context);
             Settings::Font::create(context);
+            Settings::Mouse::create(context);
             Settings::Render2D::create(context);
             Settings::UI::create(context);
             Settings::Style::create(context);

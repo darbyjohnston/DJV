@@ -7,7 +7,6 @@
 #include <djvViewApp/FileSettingsWidget.h>
 #include <djvViewApp/KeyboardSettingsWidget.h>
 #include <djvViewApp/MemorySettingsWidget.h>
-#include <djvViewApp/MouseSettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
@@ -16,6 +15,7 @@
 #include <djvUIComponents/GLFWSettingsWidget.h>
 #include <djvUIComponents/IOSettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
+#include <djvUIComponents/MouseSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
 #include <djvUIComponents/Render2DSettingsWidget.h>
 #include <djvUIComponents/StyleSettingsWidget.h>
@@ -81,6 +81,7 @@ namespace djv
             {
                 out =
                 {
+                    UI::MouseSettingsWidget::create(context),
                     UI::FileBrowser::SettingsWidget::create(context),
                     UI::GLFWSettingsWidget::create(context),
                     UI::LanguageSettingsWidget::create(context),
@@ -89,7 +90,6 @@ namespace djv
                     UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),
                     UI::TooltipsSettingsWidget::create(context),
-                    UI::ScrollSettingsWidget::create(context),
                     UI::IOThreadsSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
@@ -113,8 +113,6 @@ namespace djv
                     BackgroundImageSettingsWidget::create(context),
 
                     MemorySettingsWidget::create(context),
-
-                    MouseScrollWheelSettingsWidget::create(context),
 
                     KeyboardShortcutSettingsWidget::create(context),
 

@@ -7,9 +7,9 @@
 #include <djvUI/Border.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/GridLayout.h>
+#include <djvUI/MouseSettings.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/UISettings.h>
 #include <djvUI/Window.h>
 
 #include <djvRender2D/Render.h>
@@ -719,9 +719,9 @@ namespace djv
             });
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-            auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
+            auto mouseSettings = settingsSystem->getSettingsT<Settings::Mouse>();
             p.reverseScrollSwipeObserver = ValueObserver<bool>::create(
-                uiSettings->observeReverseScrolling(),
+                mouseSettings->observeReverseScrolling(),
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())

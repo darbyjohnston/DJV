@@ -97,6 +97,7 @@ namespace djv
         DJV_ENUM_HELPERS_IMPLEMENTATION(ImageRotate);
         DJV_ENUM_HELPERS_IMPLEMENTATION(ImageAspectRatio);
         DJV_ENUM_HELPERS_IMPLEMENTATION(Popup);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ScrollWheelSpeed);
 
     } // namespace UI
 
@@ -279,10 +280,17 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Popup,
-        DJV_TEXT("popup_below_right"),
-        DJV_TEXT("popup_below_left"),
-        DJV_TEXT("popup_above_right"),
-        DJV_TEXT("popup_above_left"));
+        DJV_TEXT("ui_popup_below_right"),
+        DJV_TEXT("ui_popup_below_left"),
+        DJV_TEXT("ui_popup_above_right"),
+        DJV_TEXT("ui_popup_above_left"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        ScrollWheelSpeed,
+        DJV_TEXT("ui_scroll_wheel_slow"),
+        DJV_TEXT("ui_scroll_wheel_medium"),
+        DJV_TEXT("ui_scroll_wheel_fast"));
 
     rapidjson::Value toJSON(UI::ViewType value, rapidjson::Document::AllocatorType& allocator)
     {
@@ -301,6 +309,14 @@ namespace djv
     }
 
     rapidjson::Value toJSON(UI::ImageAspectRatio value, rapidjson::Document::AllocatorType& allocator)
+    {
+        std::stringstream ss;
+        ss << value;
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
+    }
+
+    rapidjson::Value toJSON(UI::ScrollWheelSpeed value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
@@ -337,6 +353,20 @@ namespace djv
     }
 
     void fromJSON(const rapidjson::Value& value, UI::ImageAspectRatio& out)
+    {
+        if (value.IsString())
+        {
+            std::stringstream ss(value.GetString());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const rapidjson::Value& value, UI::ScrollWheelSpeed& out)
     {
         if (value.IsString())
         {
