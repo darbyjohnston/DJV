@@ -123,14 +123,14 @@ namespace djv
             ViewSystem::create(shared_from_this());
             ImageSystem::create(shared_from_this());
             PlaybackSystem::create(shared_from_this());
-            AudioSystem::create(shared_from_this());
+            /*AudioSystem::create(shared_from_this());
             ColorPickerSystem::create(shared_from_this());
             MagnifySystem::create(shared_from_this());
             //AnnotateSystem::create(shared_from_this());
             ToolSystem::create(shared_from_this());
             HelpSystem::create(shared_from_this());
             NUXSystem::create(shared_from_this());
-            SettingsSystem::create(shared_from_this());
+            SettingsSystem::create(shared_from_this());*/
 
             // Parse the command-line.
             auto arg = args.begin();
@@ -171,21 +171,23 @@ namespace djv
             p.mainWindow = MainWindow::create(shared_from_this());
 
             // NUX.
-            auto nuxSystem = getSystemT<NUXSystem>();
-            p.nuxWidget = nuxSystem->createNUXWidget();
-            if (p.nuxWidget)
+            if (auto nuxSystem = getSystemT<NUXSystem>())
             {
-                p.nuxWidget->show();
-                auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
-                p.nuxWidget->setFinishCallback(
-                    [weak]
-                    {
-                        if (auto app = weak.lock())
+                p.nuxWidget = nuxSystem->createNUXWidget();
+                if (p.nuxWidget)
+                {
+                    p.nuxWidget->show();
+                    auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
+                    p.nuxWidget->setFinishCallback(
+                        [weak]
                         {
-                            app->_p->nuxWidget->close();
-                            app->_p->nuxWidget.reset();
-                        }
-                    });
+                            if (auto app = weak.lock())
+                            {
+                                app->_p->nuxWidget->close();
+                                app->_p->nuxWidget.reset();
+                            }
+                        });
+                }
             }
 
             // Read the application icons.

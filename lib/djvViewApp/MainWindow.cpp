@@ -258,15 +258,17 @@ namespace djv
                             {
                                 widget->_p->currentMedia = value;
                                 widget->_p->activeButton->setEnabled(value.get());
+                                std::shared_ptr<MediaWidget> mediaWidget;
                                 const auto i = widget->_p->mediaWidgets.find(value);
                                 if (i != widget->_p->mediaWidgets.end())
                                 {
-                                    if (auto windowSystem = context->getSystemT<WindowSystem>())
-                                    {
-                                        windowSystem->setActiveWidget(i->second);
-                                    }
-                                    widget->_p->mediaLayout->setCurrentWidget(i->second);
+                                    mediaWidget = i->second;
                                 }
+                                if (auto windowSystem = context->getSystemT<WindowSystem>())
+                                {
+                                    windowSystem->setActiveWidget(mediaWidget);
+                                }
+                                widget->_p->mediaLayout->setCurrentWidget(mediaWidget);
                                 widget->_textUpdate();
                             }
                         }
