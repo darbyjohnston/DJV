@@ -123,14 +123,14 @@ namespace djv
             ViewSystem::create(shared_from_this());
             ImageSystem::create(shared_from_this());
             PlaybackSystem::create(shared_from_this());
-            /*AudioSystem::create(shared_from_this());
+            AudioSystem::create(shared_from_this());
             ColorPickerSystem::create(shared_from_this());
             MagnifySystem::create(shared_from_this());
             //AnnotateSystem::create(shared_from_this());
             ToolSystem::create(shared_from_this());
             HelpSystem::create(shared_from_this());
             NUXSystem::create(shared_from_this());
-            SettingsSystem::create(shared_from_this());*/
+            SettingsSystem::create(shared_from_this());
 
             // Parse the command-line.
             auto arg = args.begin();
