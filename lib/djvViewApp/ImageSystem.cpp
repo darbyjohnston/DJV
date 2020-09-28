@@ -292,8 +292,12 @@ namespace djv
 
         std::shared_ptr<ImageSystem> ImageSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ImageSystem>(new ImageSystem);
-            out->_init(context);
+            auto out = context->getSystemT<ImageSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<ImageSystem>(new ImageSystem);
+                out->_init(context);
+            }
             return out;
         }
 

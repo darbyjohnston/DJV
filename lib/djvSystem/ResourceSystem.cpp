@@ -194,8 +194,12 @@ namespace djv
 
         std::shared_ptr<ResourceSystem> ResourceSystem::create(const std::string& argv0, const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<ResourceSystem>(new ResourceSystem);
-            out->_init(argv0, context);
+            auto out = context->getSystemT<ResourceSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<ResourceSystem>(new ResourceSystem);
+                out->_init(argv0, context);
+            }
             return out;
         }
 

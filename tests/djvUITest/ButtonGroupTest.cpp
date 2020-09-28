@@ -8,6 +8,8 @@
 #include <djvUI/EventSystem.h>
 #include <djvUI/PushButton.h>
 
+#include <djvSystem/Context.h>
+
 using namespace djv::Core;
 using namespace djv::UI;
 
@@ -30,8 +32,12 @@ namespace djv
         public:
             static std::shared_ptr<TestEventSystem> create(const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
-                out->_init(context);
+                auto out = context->getSystemT<TestEventSystem>();
+                if (!out)
+                {
+                    out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
+                    out->_init(context);
+                }
                 return out;
             }
 

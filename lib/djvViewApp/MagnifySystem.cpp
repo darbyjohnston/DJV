@@ -60,8 +60,12 @@ namespace djv
 
         std::shared_ptr<MagnifySystem> MagnifySystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<MagnifySystem>(new MagnifySystem);
-            out->_init(context);
+            auto out = context->getSystemT<MagnifySystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<MagnifySystem>(new MagnifySystem);
+                out->_init(context);
+            }
             return out;
         }
 

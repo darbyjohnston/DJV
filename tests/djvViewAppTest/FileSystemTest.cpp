@@ -35,12 +35,9 @@ namespace djv
                 System::File::Path(tempPath, "ViewAppFileSystemTest"),
                 context)
         {
-            auto glfwSystem = Desktop::GLFWSystem::create(context);
-            auto uiSystem = UI::UISystem::create(true, context);
-            auto glGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
-            auto glfwWindow = glGLFWSystem->getGLFWWindow();
-            auto eventSystem = Desktop::EventSystem::create(glfwWindow, context);
             UI::UIComponentsSystem::create(context);
+            auto glfwSystem = Desktop::GLFWSystem::create(context);
+            auto eventSystem = Desktop::EventSystem::create(context->getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow(), context);
         }
         
         void FileSystemTest::run()

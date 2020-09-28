@@ -57,8 +57,6 @@ namespace djv
     {
         struct Application::Private
         {
-            std::vector<std::shared_ptr<System::ISystem> > systems;
-
             CmdLineMode cmdLineMode = CmdLineMode::DJV;
             std::shared_ptr<bool> fullScreenCmdLine;
             std::shared_ptr<int> fullScreenMonitorCmdLine;
@@ -119,20 +117,20 @@ namespace djv
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
-            p.systems.push_back(FileSystem::create(shared_from_this()));
-            p.systems.push_back(WindowSystem::create(shared_from_this()));
-            //p.systems.push_back(EditSystem::create(shared_from_this()));
-            p.systems.push_back(ViewSystem::create(shared_from_this()));
-            p.systems.push_back(ImageSystem::create(shared_from_this()));
-            p.systems.push_back(PlaybackSystem::create(shared_from_this()));
-            p.systems.push_back(AudioSystem::create(shared_from_this()));
-            p.systems.push_back(ColorPickerSystem::create(shared_from_this()));
-            p.systems.push_back(MagnifySystem::create(shared_from_this()));
-            //p.systems.push_back(AnnotateSystem::create(shared_from_this()));
-            p.systems.push_back(ToolSystem::create(shared_from_this()));
-            p.systems.push_back(HelpSystem::create(shared_from_this()));
-            p.systems.push_back(NUXSystem::create(shared_from_this()));
-            p.systems.push_back(SettingsSystem::create(shared_from_this()));
+            FileSystem::create(shared_from_this());
+            WindowSystem::create(shared_from_this());
+            //EditSystem::create(shared_from_this());
+            ViewSystem::create(shared_from_this());
+            ImageSystem::create(shared_from_this());
+            PlaybackSystem::create(shared_from_this());
+            AudioSystem::create(shared_from_this());
+            ColorPickerSystem::create(shared_from_this());
+            MagnifySystem::create(shared_from_this());
+            //AnnotateSystem::create(shared_from_this());
+            ToolSystem::create(shared_from_this());
+            HelpSystem::create(shared_from_this());
+            NUXSystem::create(shared_from_this());
+            SettingsSystem::create(shared_from_this());
 
             // Parse the command-line.
             auto arg = args.begin();

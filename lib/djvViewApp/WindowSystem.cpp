@@ -269,8 +269,12 @@ namespace djv
 
         std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<WindowSystem>(new WindowSystem);
-            out->_init(context);
+            auto out = context->getSystemT<WindowSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<WindowSystem>(new WindowSystem);
+                out->_init(context);
+            }
             return out;
         }
 

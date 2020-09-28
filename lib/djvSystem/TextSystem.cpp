@@ -145,10 +145,10 @@ namespace djv
             ISystemBase::_init("djv::System::TextSystem", context);
 
             auto resourceSystem = context->getSystemT<ResourceSystem>();
-            auto logSystem = context->getSystemT<LogSystem>();
+            auto logSystem = LogSystem::create(context);
             addDependency(resourceSystem);
             addDependency(logSystem);
-            addDependency(context->getSystemT<TimerSystem>());
+            addDependency(TimerSystem::create(context));
 
             DJV_PRIVATE_PTR();
             p.resourceSystem = resourceSystem;
@@ -273,8 +273,12 @@ namespace djv
 
         std::shared_ptr<TextSystem> TextSystem::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<TextSystem>(new TextSystem);
-            out->_init(context);
+            auto out = context->getSystemT<TextSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<TextSystem>(new TextSystem);
+                out->_init(context);
+            }
             return out;
         }
 

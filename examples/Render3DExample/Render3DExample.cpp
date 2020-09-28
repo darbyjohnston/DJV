@@ -8,6 +8,7 @@
 #include <djvRender3D/Light.h>
 #include <djvRender3D/Material.h>
 #include <djvRender3D/Render.h>
+#include <djvRender3D/RenderSystem.h>
 
 #include <djvGL/GLFWSystem.h>
 #include <djvGL/GL.h>
@@ -58,6 +59,8 @@ private:
 void Application::_init(std::list<std::string>& args)
 {
     CmdLine::Application::_init(args);
+
+    Render3D::RenderSystem::create(shared_from_this());
 
     size_t meshTriangles = 0;
     size_t meshVertices = 0;

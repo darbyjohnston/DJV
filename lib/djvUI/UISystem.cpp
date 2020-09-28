@@ -18,6 +18,8 @@
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISettings.h>
 
+#include <djvRender2D/RenderSystem.h>
+
 #include <djvAV/AVSystem.h>
 
 #include <djvSystem/Context.h>
@@ -41,9 +43,10 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            addDependency(context->getSystemT<AV::AVSystem>());
+            addDependency(AV::AVSystem::create(context));
+            addDependency(Render2D::RenderSystem::create(context));
 
-            auto settingsSystem = Settings::SettingsSystem::create(resetSettings, context);
+            addDependency(Settings::SettingsSystem::create(resetSettings, context));
             Settings::AV::create(context);
             Settings::ColorSpace::create(context);
             Settings::GLFW::create(context);
@@ -53,16 +56,9 @@ namespace djv
             Settings::Render2D::create(context);
             Settings::UI::create(context);
             Settings::Style::create(context);
-
-            auto iconSystem = IconSystem::create(context);
-
+            addDependency(IconSystem::create(context));
             p.style = Style::Style::create(context);
-            
-            auto dialogSystem = DialogSystem::create(context);
-
-            addDependency(settingsSystem);
-            addDependency(iconSystem);
-            addDependency(dialogSystem);
+            addDependency(DialogSystem::create(context));
         }
 
         UISystem::UISystem() :
@@ -74,8 +70,12 @@ namespace djv
 
         std::shared_ptr<UISystem> UISystem::create(bool resetSettings, const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<UISystem>(new UISystem);
-            out->_init(resetSettings, context);
+            auto out = context->getSystemT<UISystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<UISystem>(new UISystem);
+                out->_init(resetSettings, context);
+            }
             return out;
         }
 

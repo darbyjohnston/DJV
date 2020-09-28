@@ -27,6 +27,7 @@ void Application::_init(std::list<std::string>& args)
         args.pop_front();
     }
 
+    Scene3D::SceneSystem::create(shared_from_this());
     UI::UIComponentsSystem::create(shared_from_this());
 }
 

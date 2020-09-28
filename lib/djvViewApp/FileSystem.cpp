@@ -430,8 +430,12 @@ namespace djv
 
         std::shared_ptr<FileSystem> FileSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<FileSystem>(new FileSystem);
-            out->_init(context);
+            auto out = context->getSystemT<FileSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<FileSystem>(new FileSystem);
+                out->_init(context);
+            }
             return out;
         }
 

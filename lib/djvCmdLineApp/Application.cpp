@@ -4,9 +4,6 @@
 
 #include <djvCmdLineApp/Application.h>
 
-#include <djvScene3D/IO.h>
-#include <djvScene3D/SceneSystem.h>
-
 #include <djvAV/AVSystem.h>
 #include <djvAV/TimeFunc.h>
 
@@ -81,7 +78,7 @@ namespace djv
             }
 
             // Create the systems.
-            auto sceneSystem = Scene3D::SceneSystem::create(shared_from_this());
+            AV::AVSystem::create(shared_from_this());
         }
 
         Application::Application() :

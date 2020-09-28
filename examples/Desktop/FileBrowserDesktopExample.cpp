@@ -26,7 +26,7 @@ int main(int argc, char ** argv)
         auto args = Desktop::Application::args(argc, argv);
         auto app = Desktop::Application::create(args);
 
-        // Create the UI components system.
+        // Create the systems.
         UI::UIComponentsSystem::create(app);
 
         // Create a file browser.

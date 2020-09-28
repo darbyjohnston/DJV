@@ -199,7 +199,7 @@ namespace djv
         {
             ISystem::_init("djv::UI::DialogSystem", context);
 
-            addDependency(context->getSystemT<IconSystem>());
+            addDependency(IconSystem::create(context));
         }
 
         DialogSystem::DialogSystem() :
@@ -221,8 +221,12 @@ namespace djv
 
         std::shared_ptr<DialogSystem> DialogSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
-            out->_init(context);
+            auto out = context->getSystemT<DialogSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<DialogSystem>(new DialogSystem);
+                out->_init(context);
+            }
             return out;
         }
 

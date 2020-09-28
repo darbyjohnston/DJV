@@ -164,8 +164,12 @@ namespace djv
 
         std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<AudioSystem>(new AudioSystem);
-            out->_init(context);
+            auto out = context->getSystemT<AudioSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<AudioSystem>(new AudioSystem);
+                out->_init(context);
+            }
             return out;
         }
 

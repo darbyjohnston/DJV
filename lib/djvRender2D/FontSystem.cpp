@@ -394,8 +394,12 @@ namespace djv
 
             std::shared_ptr<FontSystem> FontSystem::create(const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<FontSystem>(new FontSystem);
-                out->_init(context);
+                auto out = context->getSystemT<FontSystem>();
+                if (!out)
+                {
+                    out = std::shared_ptr<FontSystem>(new FontSystem);
+                    out->_init(context);
+                }
                 return out;
             }
             

@@ -60,7 +60,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
 
-                addDependency(context->getSystemT<GL::GLFW::GLFWSystem>());
+                addDependency(GL::GLFW::GLFWSystem::create(context));
 
                 p.textSystem = context->getSystemT<System::TextSystem>();
 
@@ -119,8 +119,12 @@ namespace djv
 
             std::shared_ptr<IOSystem> IOSystem::create(const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<IOSystem>(new IOSystem);
-                out->_init(context);
+                auto out = context->getSystemT<IOSystem>();
+                if (!out)
+                {
+                    out = std::shared_ptr<IOSystem>(new IOSystem);
+                    out->_init(context);
+                }
                 return out;
             }
 

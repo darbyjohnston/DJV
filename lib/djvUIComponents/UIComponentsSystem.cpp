@@ -24,10 +24,9 @@ namespace djv
         {
             ISystem::_init("djv::UI::UIComponentsSystem", context);
 
+            addDependency(context->getSystemT<UISystem>());
             Settings::IO::create(context);
             Settings::FileBrowser::create(context);
-
-            addDependency(context->getSystemT<UISystem>());
         }
 
         UIComponentsSystem::UIComponentsSystem() :
@@ -39,8 +38,12 @@ namespace djv
 
         std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
-            out->_init(context);
+            auto out = context->getSystemT<UIComponentsSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
+                out->_init(context);
+            }
             return out;
         }
 

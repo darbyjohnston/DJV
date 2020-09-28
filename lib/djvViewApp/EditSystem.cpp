@@ -129,8 +129,12 @@ namespace djv
 
         std::shared_ptr<EditSystem> EditSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<EditSystem>(new EditSystem);
-            out->_init(context);
+            auto out = context->getSystemT<EditSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<EditSystem>(new EditSystem);
+                out->_init(context);
+            }
             return out;
         }
 

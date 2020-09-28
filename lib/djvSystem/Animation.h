@@ -17,7 +17,7 @@ namespace djv
         //! This namespace provides animation functionality.
         namespace Animation
         {
-            class System;
+            class AnimationSystem;
 
             //! This enumeration provides the animation types.
             enum class Type
@@ -96,20 +96,20 @@ namespace djv
                 Core::Time::TimePoint _time;
                 Core::Time::TimePoint _start;
 
-                friend class System;
+                friend class AnimationSystem;
             };
 
-            //! This class provides the system that manages animations.
-            class System : public ISystem
+            //! This class provides the animation system.
+            class AnimationSystem : public ISystem
             {
-                DJV_NON_COPYABLE(System);
+                DJV_NON_COPYABLE(AnimationSystem);
                 void _init(const std::shared_ptr<Context>&);
-                System();
+                AnimationSystem();
 
             public:
-                ~System() override;
+                ~AnimationSystem() override;
 
-                static std::shared_ptr<System> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<AnimationSystem> create(const std::shared_ptr<Context>&);
 
                 void tick() override;
 

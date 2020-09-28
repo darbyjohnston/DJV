@@ -24,7 +24,7 @@ namespace djv
             void Animation::_init(const std::shared_ptr<Context>& context)
             {
                 _function = getFunction(_type);
-                auto system = context->getSystemT<System>();
+                auto system = context->getSystemT<AnimationSystem>();
                 system->_addAnimation(shared_from_this());
             }
             
@@ -101,33 +101,38 @@ namespace djv
                 }
             }
 
-            struct System::Private
+            struct AnimationSystem::Private
             {
                 std::vector<std::weak_ptr<Animation> > animations;
                 std::vector<std::weak_ptr<Animation> > newAnimations;
             };
 
-            void System::_init(const std::shared_ptr<Context>& context)
+            void AnimationSystem::_init(const std::shared_ptr<Context>& context)
             {
-                ISystem::_init("djv::System::Animation::System", context);
-                addDependency(context->getSystemT<TextSystem>());
+                ISystem::_init("djv::System::Animation::AnimationSystem", context);
+
+                addDependency(TextSystem::create(context));
             }
 
-            System::System() :
+            AnimationSystem::AnimationSystem() :
                 _p(new Private)
             {}
 
-            System::~System()
+            AnimationSystem::~AnimationSystem()
             {}
 
-            std::shared_ptr<System> System::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<AnimationSystem> AnimationSystem::create(const std::shared_ptr<Context>& context)
             {
-                auto out = std::shared_ptr<System>(new System);
-                out->_init(context);
+                auto out = context->getSystemT<AnimationSystem>();
+                if (!out)
+                {
+                    out = std::shared_ptr<AnimationSystem>(new AnimationSystem);
+                    out->_init(context);
+                }
                 return out;
             }
 
-            void System::tick()
+            void AnimationSystem::tick()
             {
                 DJV_PRIVATE_PTR();
                 p.animations.insert(p.animations.end(), p.newAnimations.begin(), p.newAnimations.end());
@@ -150,7 +155,7 @@ namespace djv
                 }
             }
 
-            void System::_addAnimation(const std::weak_ptr<Animation>& value)
+            void AnimationSystem::_addAnimation(const std::weak_ptr<Animation>& value)
             {
                 _p->newAnimations.push_back(value);
             }

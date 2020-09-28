@@ -125,8 +125,12 @@ namespace djv
 
         std::shared_ptr<OCIOSystem> OCIOSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<OCIOSystem>(new OCIOSystem);
-            out->_init(context);
+            auto out = context->getSystemT<OCIOSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<OCIOSystem>(new OCIOSystem);
+                out->_init(context);
+            }
             return out;
         }
 

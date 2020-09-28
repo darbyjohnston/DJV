@@ -61,8 +61,12 @@ namespace djv
 
         std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ColorPickerSystem>(new ColorPickerSystem);
-            out->_init(context);
+            auto out = context->getSystemT<ColorPickerSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<ColorPickerSystem>(new ColorPickerSystem);
+                out->_init(context);
+            }
             return out;
         }
 

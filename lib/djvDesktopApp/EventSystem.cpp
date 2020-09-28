@@ -152,8 +152,12 @@ namespace djv
 
         std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow * glfwWindow, const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<EventSystem>(new EventSystem);
-            out->_init(glfwWindow, context);
+            auto out = context->getSystemT<EventSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<EventSystem>(new EventSystem);
+                out->_init(glfwWindow, context);
+            }
             return out;
         }
 

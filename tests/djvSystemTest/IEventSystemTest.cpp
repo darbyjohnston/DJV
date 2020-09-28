@@ -203,8 +203,12 @@ namespace djv
             const std::shared_ptr<IObject>& parent,
             const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
-            out->_init(parent, context);
+            auto out = context->getSystemT<TestEventSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
+                out->_init(parent, context);
+            }
             return out;
         }
             

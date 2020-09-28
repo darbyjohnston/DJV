@@ -325,8 +325,12 @@ namespace djv
 
         std::shared_ptr<ToolSystem> ToolSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ToolSystem>(new ToolSystem);
-            out->_init(context);
+            auto out = context->getSystemT<ToolSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<ToolSystem>(new ToolSystem);
+                out->_init(context);
+            }
             return out;
         }
 

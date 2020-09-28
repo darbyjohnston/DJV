@@ -95,7 +95,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.system = this;
 
-            addDependency(context->getSystemT<GL::GLFW::GLFWSystem>());
+            addDependency(GL::GLFW::GLFWSystem::create(context));
 
             GLint maxTextureUnits = 0;
             GLint maxTextureSize = 0;

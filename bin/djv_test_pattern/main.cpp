@@ -5,6 +5,7 @@
 #include <djvCmdLineApp/Application.h>
 
 #include <djvRender2D/Render.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
@@ -70,6 +71,8 @@ private:
 void Application::_init(std::list<std::string>& args)
 {
     CmdLine::Application::_init(args);
+
+    Render2D::RenderSystem::create(shared_from_this());
 
     _parseCmdLine(args);
 }

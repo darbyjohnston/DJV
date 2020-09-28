@@ -42,8 +42,12 @@ namespace djv
 
         std::shared_ptr<ShaderSystem> ShaderSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ShaderSystem>(new ShaderSystem);
-            out->_init(context);
+            auto out = context->getSystemT<ShaderSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<ShaderSystem>(new ShaderSystem);
+                out->_init(context);
+            }
             return out;
         }
 

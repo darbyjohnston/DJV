@@ -470,8 +470,12 @@ namespace djv
 
         std::shared_ptr<ViewSystem> ViewSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ViewSystem>(new ViewSystem);
-            out->_init(context);
+            auto out = context->getSystemT<ViewSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<ViewSystem>(new ViewSystem);
+                out->_init(context);
+            }
             return out;
         }
 

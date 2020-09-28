@@ -7,6 +7,8 @@
 #include <djvRender2D/FontSystem.h>
 #include <djvRender2D/Render.h>
 
+#include <djvSystem/Context.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -24,14 +26,13 @@ namespace djv
         void RenderSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::Render2D::RenderSystem", context);
-
             DJV_PRIVATE_PTR();
+
             p.imageFilterOptions = ValueSubject<ImageFilterOptions>::create();
             p.textLCDRendering = ValueSubject<bool>::create(true);
 
             p.fontSystem = Font::FontSystem::create(context);
             p.render = Render2D::Render::create(context);
-
             addDependency(p.fontSystem);
             addDependency(p.render);
         }
@@ -45,8 +46,12 @@ namespace djv
 
         std::shared_ptr<RenderSystem> RenderSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<RenderSystem>(new RenderSystem);
-            out->_init(context);
+            auto out = context->getSystemT<RenderSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<RenderSystem>(new RenderSystem);
+                out->_init(context);
+            }
             return out;
         }
 

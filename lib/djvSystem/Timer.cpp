@@ -81,8 +81,12 @@ namespace djv
 
         std::shared_ptr<TimerSystem> TimerSystem::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<TimerSystem>(new TimerSystem);
-            out->_init(context);
+            auto out = context->getSystemT<TimerSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<TimerSystem>(new TimerSystem);
+                out->_init(context);
+            }
             return out;
         }
 

@@ -302,8 +302,12 @@ namespace djv
 
         std::shared_ptr<AnnotateSystem> AnnotateSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<AnnotateSystem>(new AnnotateSystem);
-            out->_init(context);
+            auto out = context->getSystemT<AnnotateSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<AnnotateSystem>(new AnnotateSystem);
+                out->_init(context);
+            }
             return out;
         }
 

@@ -64,8 +64,12 @@ namespace djv
 
         std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
-            out->_init(context);
+            auto out = context->getSystemT<SettingsSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
+                out->_init(context);
+            }
             return out;
         }
         

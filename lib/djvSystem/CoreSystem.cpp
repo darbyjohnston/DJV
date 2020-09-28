@@ -20,8 +20,7 @@ namespace djv
         {
             ISystem::_init("djv::System::CoreSystem", context);
 
-            auto animationSystem = Animation::System::create(context);
-
+            auto animationSystem = Animation::AnimationSystem::create(context);
             addDependency(animationSystem);
         }
 
@@ -34,8 +33,12 @@ namespace djv
 
         std::shared_ptr<CoreSystem> CoreSystem::create(const std::string& argv0, const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<CoreSystem>(new CoreSystem);
-            out->_init(argv0, context);
+            auto out = context->getSystemT<CoreSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<CoreSystem>(new CoreSystem);
+                out->_init(argv0, context);
+            }
             return out;
         }
 

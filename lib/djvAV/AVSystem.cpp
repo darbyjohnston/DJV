@@ -46,7 +46,6 @@ namespace djv
             auto ocioSystem = OCIO::OCIOSystem::create(context);
             auto ioSystem = IO::IOSystem::create(context);
             p.thumbnailSystem = ThumbnailSystem::create(context);
-
             addDependency(audioSystem);
             addDependency(glfwSystem);
             addDependency(shaderSystem);
@@ -64,8 +63,12 @@ namespace djv
 
         std::shared_ptr<AVSystem> AVSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<AVSystem>(new AVSystem);
-            out->_init(context);
+            auto out = context->getSystemT<AVSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<AVSystem>(new AVSystem);
+                out->_init(context);
+            }
             return out;
         }
 

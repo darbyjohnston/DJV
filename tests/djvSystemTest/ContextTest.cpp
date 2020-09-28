@@ -38,8 +38,12 @@ namespace djv
 
                 static std::shared_ptr<TestSystem> create(const std::shared_ptr<Context>& context)
                 {
-                    auto out = std::shared_ptr<TestSystem>(new TestSystem);
-                    out->_init("System", context);
+                    auto out = context->getSystemT<TestSystem>();
+                    if (!out)
+                    {
+                        out = std::shared_ptr<TestSystem>(new TestSystem);
+                        out->_init("System", context);
+                    }
                     return out;
                 }
             };

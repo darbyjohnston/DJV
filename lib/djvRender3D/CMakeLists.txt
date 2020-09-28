@@ -6,12 +6,14 @@ set(header
     Material.h
     MaterialInline.h
     Namespace.h
-    Render.h)
+    Render.h
+    RenderSystem.h)
 set(source
     Camera.cpp
     Light.cpp
     Material.cpp
-    Render.cpp)
+    Render.cpp
+    RenderSystem.cpp)
 
 add_library(djvRender3D ${header} ${source})
 set(LIBRARIES

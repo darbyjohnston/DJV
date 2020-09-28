@@ -27,8 +27,8 @@ namespace djv
         void SceneSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::Scene::SceneSystem", context);
+
             addDependency(AV::AVSystem::create(context));
-            addDependency(Render2D::RenderSystem::create(context));
             addDependency(Render3D::Render::create(context));
             addDependency(IO::IOSystem::create(context));
         }
@@ -42,8 +42,12 @@ namespace djv
 
         std::shared_ptr<SceneSystem> SceneSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<SceneSystem>(new SceneSystem);
-            out->_init(context);
+            auto out = context->getSystemT<SceneSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<SceneSystem>(new SceneSystem);
+                out->_init(context);
+            }
             return out;
         }
 

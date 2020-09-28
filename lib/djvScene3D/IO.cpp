@@ -169,8 +169,12 @@ namespace djv
 
             std::shared_ptr<IOSystem> IOSystem::create(const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<IOSystem>(new IOSystem);
-                out->_init(context);
+                auto out = context->getSystemT<IOSystem>();
+                if (!out)
+                {
+                    out = std::shared_ptr<IOSystem>(new IOSystem);
+                    out->_init(context);
+                }
                 return out;
             }
 

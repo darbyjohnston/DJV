@@ -336,8 +336,12 @@ namespace djv
 
         std::shared_ptr<ThumbnailSystem> ThumbnailSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ThumbnailSystem>(new ThumbnailSystem);
-            out->_init(context);
+            auto out = context->getSystemT<ThumbnailSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<ThumbnailSystem>(new ThumbnailSystem);
+                out->_init(context);
+            }
             return out;
         }
 

@@ -46,7 +46,7 @@ namespace djv
                     _settingsIO = false;
                 }
 
-                addDependency(context->getSystemT<AV::AVSystem>());
+                addDependency(AV::AVSystem::create(context));
 
                 if (auto resourceSystem = context->getSystemT<System::ResourceSystem>())
                 {
@@ -69,8 +69,12 @@ namespace djv
 
             std::shared_ptr<SettingsSystem> SettingsSystem::create(bool reset, const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
-                out->_init(reset, context);
+                auto out = context->getSystemT<SettingsSystem>();
+                if (!out)
+                {
+                    out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
+                    out->_init(reset, context);
+                }
                 return out;
             }
 

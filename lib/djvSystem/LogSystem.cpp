@@ -173,8 +173,12 @@ namespace djv
         
         std::shared_ptr<LogSystem> LogSystem::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<LogSystem>(new LogSystem);
-            out->_init(context);
+            auto out = context->getSystemT<LogSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<LogSystem>(new LogSystem);
+                out->_init(context);
+            }
             return out;
         }
 

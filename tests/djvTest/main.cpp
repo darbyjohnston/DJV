@@ -129,11 +129,9 @@
 
 #include <djvUI/UISystem.h>
 
-#include <djvAV/AVSystem.h>
+#include <djvScene3D/SceneSystem.h>
 
-#include <djvRender3D/Render.h>
-
-#include <djvRender2D/RenderSystem.h>
+#include <djvRender3D/RenderSystem.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfo.h>
@@ -153,11 +151,9 @@ int main(int argc, char ** argv)
     try
     {
         auto context = System::Context::create(argv[0]);
-        auto avSystem = AV::AVSystem::create(context);
-        auto render2DSystem = Render2D::RenderSystem::create(context);
-        auto render3DSystem = Render3D::Render::create(context);
         auto uiSystem = UI::UISystem::create(true, context);
-        
+        auto render3DSystem = Render3D::RenderSystem::create(context);
+
         //! \bug This path should be unique to this process.
         const System::File::Path tempPath(System::File::getTemp(), "djvTest");
         std::cout << "Temp path: " << tempPath.get() << std::endl;

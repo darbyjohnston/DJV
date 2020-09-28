@@ -107,7 +107,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            addDependency(context->getSystemT<AV::AVSystem>());
+            addDependency(AV::AVSystem::create(context));
 
             p.iconPath = context->getSystemT<System::ResourceSystem>()->getPath(System::File::ResourcePath::Icons);
                         
@@ -204,8 +204,12 @@ namespace djv
 
         std::shared_ptr<IconSystem> IconSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<IconSystem>(new IconSystem);
-            out->_init(context);
+            auto out = context->getSystemT<IconSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<IconSystem>(new IconSystem);
+                out->_init(context);
+            }
             return out;
         }
 

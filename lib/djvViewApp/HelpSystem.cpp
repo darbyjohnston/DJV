@@ -117,8 +117,12 @@ namespace djv
 
         std::shared_ptr<HelpSystem> HelpSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<HelpSystem>(new HelpSystem);
-            out->_init(context);
+            auto out = context->getSystemT<HelpSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<HelpSystem>(new HelpSystem);
+                out->_init(context);
+            }
             return out;
         }
 

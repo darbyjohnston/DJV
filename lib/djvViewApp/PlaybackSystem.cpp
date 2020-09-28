@@ -592,8 +592,12 @@ namespace djv
 
         std::shared_ptr<PlaybackSystem> PlaybackSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<PlaybackSystem>(new PlaybackSystem);
-            out->_init(context);
+            auto out = context->getSystemT<PlaybackSystem>();
+            if (!out)
+            {
+                out = std::shared_ptr<PlaybackSystem>(new PlaybackSystem);
+                out->_init(context);
+            }
             return out;
         }
 

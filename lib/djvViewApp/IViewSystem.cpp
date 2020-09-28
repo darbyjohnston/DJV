@@ -40,7 +40,7 @@ namespace djv
             ISystem::_init(name, context);
             DJV_PRIVATE_PTR();
 
-            addDependency(context->getSystemT<UI::UIComponentsSystem>());
+            addDependency(UI::UIComponentsSystem::create(context));
 
             p.settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             p.keyboardSettings = p.settingsSystem->getSettingsT<KeyboardSettings>();
