@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
+#include <djvCore/Core.h>
 
 #include <glm/vec2.hpp>
 

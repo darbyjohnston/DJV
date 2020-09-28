@@ -12,6 +12,7 @@ set(header
     Math.h
     MatrixFunc.h
     MatrixFuncInline.h
+    Namespace.h
     NumericValueModels.h
     RangeFunc.h
     RangeFuncInline.h

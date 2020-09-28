@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvRender2D/Render2D.h>
-
 #include <djvSystem/ISystem.h>
 
 #include <djvMath/BBox.h>

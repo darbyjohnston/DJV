@@ -14,7 +14,6 @@
 
 namespace djv
 {
-    //! This namespace provides geometry functionality.
     namespace Geom
     {
         //! Convert a face into triangles.

@@ -11,7 +11,7 @@
 #include <djvUI/ToggleButton.h>
 
 #include <djvRender2D/DataFunc.h>
-#include <djvRender2D/Render2DSystem.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvSystem/Context.h>
 
@@ -54,7 +54,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->filterOptions.min = static_cast<Render2D::ImageFilter>(value);
-                            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
+                            auto avSystem = context->getSystemT<Render2D::RenderSystem>();
                             avSystem->setImageFilterOptions(widget->_p->filterOptions);
                         }
                     }
@@ -67,13 +67,13 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->filterOptions.mag = static_cast<Render2D::ImageFilter>(value);
-                            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
+                            auto avSystem = context->getSystemT<Render2D::RenderSystem>();
                             avSystem->setImageFilterOptions(widget->_p->filterOptions);
                         }
                     }
                 });
 
-            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
+            auto avSystem = context->getSystemT<Render2D::RenderSystem>();
             p.filterOptionsObserver = ValueObserver<Render2D::ImageFilterOptions>::create(
                 avSystem->observeImageFilterOptions(),
                 [weak](const Render2D::ImageFilterOptions& value)
@@ -172,12 +172,12 @@ namespace djv
             {
                 if (auto context = contextWeak.lock())
                 {
-                    auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
+                    auto avSystem = context->getSystemT<Render2D::RenderSystem>();
                     avSystem->setTextLCDRendering(value);
                 }
             });
 
-            auto avSystem = context->getSystemT<Render2D::Render2DSystem>();
+            auto avSystem = context->getSystemT<Render2D::RenderSystem>();
             auto weak = std::weak_ptr<Render2DTextSettingsWidget>(std::dynamic_pointer_cast<Render2DTextSettingsWidget>(shared_from_this()));
             p.lcdRenderingObserver = ValueObserver<bool>::create(
                 avSystem->observeTextLCDRendering(),

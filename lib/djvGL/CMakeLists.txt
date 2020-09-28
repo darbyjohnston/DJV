@@ -8,6 +8,7 @@ set(header
     Mesh.h
     MeshFunc.h
     MeshInline.h
+    Namespace.h
     OffscreenBuffer.h
     OffscreenBufferFunc.h
     OffscreenBufferInline.h

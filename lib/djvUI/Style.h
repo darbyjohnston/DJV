@@ -6,6 +6,7 @@
 
 #include <djvUI/Enum.h>
 
+#include <djvRender2D/Data.h>
 #include <djvRender2D/FontSystem.h>
 
 #include <djvImage/Color.h>
@@ -19,7 +20,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This namespace provides styling.
+        //! This namespace provides styling functionality.
         namespace Style
         {
             //! This constant provides the default icon size.

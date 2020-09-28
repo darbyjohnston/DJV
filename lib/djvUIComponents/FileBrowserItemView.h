@@ -104,7 +104,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-        } // namespace Layout
+        } // namespace FileBrowser
     } // namespace UI
 } // namespace djv
 

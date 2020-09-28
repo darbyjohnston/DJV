@@ -5,7 +5,7 @@
 #include <djvViewApp/ViewSettings.h>
 
 #include <djvViewApp/EnumFunc.h>
-#include <djvViewApp/ViewFunc.h>
+#include <djvViewApp/ViewDataFunc.h>
 
 #include <djvMath/BBoxFunc.h>
 #include <djvSystem/Context.h>

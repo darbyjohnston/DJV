@@ -14,9 +14,11 @@
 
 namespace djv
 {
-    //! This namespace provides rendering functionality.
     namespace Render2D
     {
+        //! This constant provides the default DPI.
+        const float dpiDefault = 96.F;
+        
         //! This enumeration provides which image channels are displayed.
         enum class ImageChannelDisplay
         {

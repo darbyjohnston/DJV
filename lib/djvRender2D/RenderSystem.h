@@ -16,19 +16,19 @@ namespace djv
     {
         class ImageFilterOptions;
 
-        //! This class provides a render 2D system.
-        class Render2DSystem : public System::ISystem
+        //! This class provides a 2D render system.
+        class RenderSystem : public System::ISystem
         {
-            DJV_NON_COPYABLE(Render2DSystem);
+            DJV_NON_COPYABLE(RenderSystem);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            Render2DSystem();
+            RenderSystem();
 
         public:
-            ~Render2DSystem() override;
+            ~RenderSystem() override;
 
-            static std::shared_ptr<Render2DSystem> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<RenderSystem> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<Render2D::ImageFilterOptions> > observeImageFilterOptions() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeTextLCDRendering() const;

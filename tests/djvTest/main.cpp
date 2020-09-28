@@ -94,7 +94,7 @@
 #include <djvRender2DTest/DataTest.h>
 #include <djvRender2DTest/EnumFuncTest.h>
 #include <djvRender2DTest/FontSystemTest.h>
-#include <djvRender2DTest/Render2DSystemTest.h>
+#include <djvRender2DTest/RenderSystemTest.h>
 #include <djvRender2DTest/RenderTest.h>
 
 #include <djvRender3DTest/CameraTest.h>
@@ -133,7 +133,7 @@
 
 #include <djvRender3D/Render.h>
 
-#include <djvRender2D/Render2DSystem.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfo.h>
@@ -154,7 +154,7 @@ int main(int argc, char ** argv)
     {
         auto context = System::Context::create(argv[0]);
         auto avSystem = AV::AVSystem::create(context);
-        auto render2DSystem = Render2D::Render2DSystem::create(context);
+        auto render2DSystem = Render2D::RenderSystem::create(context);
         auto render3DSystem = Render3D::Render::create(context);
         auto uiSystem = UI::UISystem::create(true, context);
         
@@ -256,7 +256,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new Render2DTest::DataTest(tempPath, context));
         tests.emplace_back(new Render2DTest::EnumFuncTest(tempPath, context));
         tests.emplace_back(new Render2DTest::FontSystemTest(tempPath, context));
-        tests.emplace_back(new Render2DTest::Render2DSystemTest(tempPath, context));
+        tests.emplace_back(new Render2DTest::RenderSystemTest(tempPath, context));
         tests.emplace_back(new Render2DTest::RenderTest(tempPath, context));
 
         tests.emplace_back(new Render3DTest::CameraTest(tempPath, context));

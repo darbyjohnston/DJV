@@ -8,7 +8,7 @@
 
 #include <djvRender3D/Render.h>
 
-#include <djvRender2D/Render2DSystem.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvAV/AVSystem.h>
 
@@ -28,7 +28,7 @@ namespace djv
         {
             ISystem::_init("djv::Scene::SceneSystem", context);
             addDependency(AV::AVSystem::create(context));
-            addDependency(Render2D::Render2DSystem::create(context));
+            addDependency(Render2D::RenderSystem::create(context));
             addDependency(Render3D::Render::create(context));
             addDependency(IO::IOSystem::create(context));
         }

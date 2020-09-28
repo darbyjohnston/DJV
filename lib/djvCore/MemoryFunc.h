@@ -14,7 +14,6 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides memory functionality.
         namespace Memory
         {
             //! \name Units

@@ -5,7 +5,7 @@
 #include <djvViewApp/ViewSystem.h>
 
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/View.h>
+#include <djvViewApp/ViewData.h>
 #include <djvViewApp/ViewControlsWidget.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/ViewWidget.h>

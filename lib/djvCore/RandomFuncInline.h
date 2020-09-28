@@ -15,6 +15,6 @@ namespace djv
             }
 
         } // namespace Random
-    } // namespace Math
+    } // namespace Core
 } // namespace djv
 

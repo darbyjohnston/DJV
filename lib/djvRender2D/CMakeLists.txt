@@ -6,9 +6,9 @@ set(header
     EnumFunc.h
     FontSystem.h
     FontSystemInline.h
+    Namespace.h
     Render.h
-    Render2D.h
-    Render2DSystem.h
+    RenderSystem.h
     RenderInline.h
     RenderPrivate.h)
 set(source
@@ -17,7 +17,7 @@ set(source
     EnumFunc.cpp
     FontSystem.cpp
     Render.cpp
-    Render2DSystem.cpp
+    RenderSystem.cpp
     RenderPrivate.cpp)
 
 add_library(djvRender2D ${header} ${source})

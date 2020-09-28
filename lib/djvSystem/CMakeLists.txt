@@ -27,6 +27,7 @@ set(header
     ISystem.h
     ISystemInline.h
     LogSystem.h
+    Namespace.h
     PathFunc.h
     Path.h
     PathInline.h

@@ -12,7 +12,6 @@
 
 namespace djv
 {
-    //! This namespace provides image functionality.
     namespace Image
     {
         //! This enumeration provides the image types.

@@ -13,12 +13,6 @@ namespace djv
 {
     namespace Core
     {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-
         //! This namespace provides operating system functionality.
         namespace OS
         {

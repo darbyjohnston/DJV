@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/View.h>
+#include <djvViewApp/ViewData.h>
 #include <djvViewApp/ViewWidget.h>
 
 #include <djvRender2D/FontSystem.h>

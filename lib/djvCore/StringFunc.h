@@ -15,7 +15,6 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides string functionality.
         namespace String
         {
             //! \name Splitting and Joining

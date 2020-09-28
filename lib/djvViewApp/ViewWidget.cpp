@@ -8,7 +8,7 @@
 #include <djvViewApp/ImageData.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/Media.h>
-#include <djvViewApp/View.h>
+#include <djvViewApp/ViewData.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/ViewWidgetPrivate.h>
 
@@ -20,7 +20,6 @@
 #include <djvUI/Style.h>
 
 #include <djvRender2D/Render.h>
-#include <djvRender2D/Render2DSystem.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/TimeFunc.h>
@@ -100,7 +99,6 @@ namespace djv
             setClassName("djv::ViewApp::ViewWidget");
 
             p.media = media;
-            auto render2DSystem = context->getSystemT<Render2D::Render2DSystem>();
             p.image = ValueSubject<std::shared_ptr<Image::Image> >::create();
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create(1.F);

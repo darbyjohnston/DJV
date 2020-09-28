@@ -4,19 +4,8 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
-
 #include <glad.h>
 
 #if defined(GetObject)
 #undef GetObject
 #endif // GetObject
-
-namespace djv
-{
-    //! This namespace provides OpenGL functionality.
-    namespace GL
-    {
-    } // namespace GL
-} // namespace djv
-

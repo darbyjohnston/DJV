@@ -12,6 +12,7 @@ set(header
     Memory.h
     MemoryFunc.h
     MemoryFuncInline.h
+    Namespace.h
     OSFunc.h
     OSFuncInline.h
     Observer.h

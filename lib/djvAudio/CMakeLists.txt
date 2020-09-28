@@ -1,11 +1,12 @@
 set(header
+    Audio.h
     AudioData.h
     AudioDataInline.h
     AudioFunc.h
     AudioFuncInline.h
     AudioSystem.h
     AudioSystemFunc.h
-    Audio.h)
+    Namespace.h)
 set(source
     AudioData.cpp
     AudioFunc.cpp

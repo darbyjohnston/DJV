@@ -10,7 +10,7 @@
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
-#include <djvRender2D/Render2DSystem.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TimerFunc.h>
@@ -64,7 +64,7 @@ namespace djv
             p.uiSystem = context->getSystemT<UI::UISystem>();
             addDependency(p.uiSystem);
 
-            auto render2DSystem = context->getSystemT<Render2D::Render2DSystem>();
+            auto render2DSystem = context->getSystemT<Render2D::RenderSystem>();
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.textLCDRenderingObserver = ValueObserver<bool>::create(
                 render2DSystem->observeTextLCDRendering(),

@@ -59,7 +59,7 @@ namespace djv
 
         } // namespace Layout
 
-        using Layout::Bellows;
+        typedef Layout::Bellows Bellows;
 
     } // namespace UI
 } // namespace djv

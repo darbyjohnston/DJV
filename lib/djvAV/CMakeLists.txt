@@ -10,6 +10,7 @@ set(header
     IOPlugin.h
     IOPluginInline.h
     IOSystem.h
+    Namespace.h
     PPM.h
     PPMFunc.h
     RLA.h

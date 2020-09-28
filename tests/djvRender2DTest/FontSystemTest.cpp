@@ -4,6 +4,7 @@
 
 #include <djvRender2DTest/FontSystemTest.h>
 
+#include <djvRender2D/Data.h>
 #include <djvRender2D/FontSystem.h>
 
 #include <djvSystem/Context.h>

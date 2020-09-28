@@ -3,14 +3,14 @@ set(header
     DataTest.h
     EnumFuncTest.h
     FontSystemTest.h
-    Render2DSystemTest.h
+    RenderSystemTest.h
     RenderTest.h)
 set(source
     DataFuncTest.cpp
     DataTest.cpp
     EnumFuncTest.cpp
     FontSystemTest.cpp
-    Render2DSystemTest.cpp
+    RenderSystemTest.cpp
     RenderTest.cpp)
 
 add_library(djvRender2DTest ${header} ${source})

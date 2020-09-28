@@ -6,6 +6,8 @@
 
 #include <djvUI/Enum.h>
 
+#include <djvCore/Core.h>
+
 #include <functional>
 #include <memory>
 #include <vector>

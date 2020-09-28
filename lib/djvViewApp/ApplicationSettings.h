@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvViewApp/ViewApp.h>
-
 #include <djvUI/ISettings.h>
 
 #include <djvCore/MapObserver.h>

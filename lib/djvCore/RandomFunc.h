@@ -12,6 +12,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides random number functionality.
         namespace Random
         {
             //! Get a random number between zero and one.
@@ -39,7 +40,7 @@ namespace djv
             //! Seed the random value generator with the current time.
             void setRandomSeed();
 
-        } // namespace Math
+        } // namespace Random
     } // namespace Core
 } // namespace djv
 

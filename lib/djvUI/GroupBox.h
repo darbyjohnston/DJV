@@ -46,7 +46,7 @@ namespace djv
 
         } // namespace Layout
 
-        using Layout::GroupBox;
+        typedef Layout::GroupBox GroupBox;
 
     } // namespace UI
 } // namespace djv

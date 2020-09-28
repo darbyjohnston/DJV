@@ -6,11 +6,9 @@
 
 namespace djv
 {
-    namespace Math
+    //! This namespace provides OpenGL functionality.
+    namespace GL
     {
-        static const float pi = 3.14159265359F;
-        static const float pi2 = pi * 2.F;
-
-    } // namespace Math
+    } // namespace GL
 } // namespace djv
 

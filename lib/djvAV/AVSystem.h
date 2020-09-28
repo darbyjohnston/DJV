@@ -15,12 +15,6 @@ namespace djv
 {
     namespace AV
     {
-        namespace Render2D
-        {
-            class ImageFilterOptions;
-
-        } // namespace Render2D
-
         //! This class provides an AV system.
         class AVSystem : public System::ISystem
         {

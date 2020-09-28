@@ -2,11 +2,11 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvRender2DTest/Render2DSystemTest.h>
+#include <djvRender2DTest/RenderSystemTest.h>
 
 #include <djvRender2D/DataFunc.h>
 #include <djvRender2D/EnumFunc.h>
-#include <djvRender2D/Render2DSystem.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvSystem/Context.h>
 
@@ -19,17 +19,17 @@ namespace djv
 {
     namespace Render2DTest
     {
-        Render2DSystemTest::Render2DSystemTest(
+        RenderSystemTest::RenderSystemTest(
             const System::File::Path& tempPath,
             const std::shared_ptr<System::Context>& context) :
-            ITest("djv::Render2DTest::Render2DSystemTest", tempPath, context)
+            ITest("djv::Render2DTest::RenderSystemTest", tempPath, context)
         {}
         
-        void Render2DSystemTest::run()
+        void RenderSystemTest::run()
         {
             if (auto context = getContext().lock())
             {
-                auto system = context->getSystemT<Render2DSystem>();
+                auto system = context->getSystemT<RenderSystem>();
                 
                 auto imageFilterOptionsObserver = ValueObserver<ImageFilterOptions>::create(
                     system->observeImageFilterOptions(),

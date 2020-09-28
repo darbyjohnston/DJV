@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvViewApp/ViewApp.h>
-
 #include <djvUI/Widget.h>
 
 namespace djv

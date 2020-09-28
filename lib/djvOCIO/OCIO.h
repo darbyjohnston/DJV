@@ -11,7 +11,6 @@
 
 namespace djv
 {
-    //! This namespace provides OpenColorIO functionality.
     namespace OCIO
     {
         //! This struct provides a color space conversion.

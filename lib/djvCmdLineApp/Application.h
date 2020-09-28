@@ -18,7 +18,6 @@ struct GLFWwindow;
 
 namespace djv
 {
-    //! This namespaces provides command line application functionality.
     namespace CmdLine
     {
         struct Arguments

@@ -56,6 +56,7 @@ set(header
     MenuBar.h
     MenuButton.h
     MultiStateButton.h
+    Namespace.h
     NumericEdit.h
     NumericSlider.h
     Overlay.h
@@ -96,7 +97,6 @@ set(header
     ToolBar.h
     ToolButton.h
     Tooltip.h
-    UI.h
     UISettings.h
     UISystem.h
     Widget.h

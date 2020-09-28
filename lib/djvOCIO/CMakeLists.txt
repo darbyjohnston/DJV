@@ -1,4 +1,5 @@
 set(header
+    Namespace.h
 	OCIO.h
 	OCIOInline.h
 	OCIOSystem.h

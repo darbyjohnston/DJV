@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
-
 namespace djv
 {
     //! This namespace provides user interface functionality.

@@ -6,7 +6,7 @@
 
 #include <djvRender2D/DataFunc.h>
 #include <djvRender2D/EnumFunc.h>
-#include <djvRender2D/Render2DSystem.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvImage/ImageDataFunc.h>
 
@@ -28,14 +28,14 @@ namespace djv
         {
             struct Render2D::Private
             {
-                std::shared_ptr<djv::Render2D::Render2DSystem> render2DSystem;
+                std::shared_ptr<djv::Render2D::RenderSystem> renderSystem;
             };
 
             void Render2D::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::Render2D", context);
                 DJV_PRIVATE_PTR();
-                p.render2DSystem = context->getSystemT<djv::Render2D::Render2DSystem>();
+                p.renderSystem = context->getSystemT<djv::Render2D::RenderSystem>();
                 _load();
             }
 
@@ -63,8 +63,8 @@ namespace djv
                     read("ImageFilterOptions", value, imageFilterOptions);
                     read("TextLCDRendering", value, textLCDRendering);
 
-                    p.render2DSystem->setImageFilterOptions(imageFilterOptions);
-                    p.render2DSystem->setTextLCDRendering(textLCDRendering);
+                    p.renderSystem->setImageFilterOptions(imageFilterOptions);
+                    p.renderSystem->setTextLCDRendering(textLCDRendering);
                 }
             }
 
@@ -72,8 +72,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
-                write("ImageFilterOptions", p.render2DSystem->observeImageFilterOptions()->get(), out, allocator);
-                write("TextLCDRendering", p.render2DSystem->observeTextLCDRendering()->get(), out, allocator);
+                write("ImageFilterOptions", p.renderSystem->observeImageFilterOptions()->get(), out, allocator);
+                write("TextLCDRendering", p.renderSystem->observeTextLCDRendering()->get(), out, allocator);
                 return out;
             }
 

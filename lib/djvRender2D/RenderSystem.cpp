@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvRender2D/Render2DSystem.h>
+#include <djvRender2D/RenderSystem.h>
 
 #include <djvRender2D/FontSystem.h>
 #include <djvRender2D/Render.h>
@@ -13,7 +13,7 @@ namespace djv
 {
     namespace Render2D
     {
-        struct Render2DSystem::Private
+        struct RenderSystem::Private
         {
             std::shared_ptr<ValueSubject<ImageFilterOptions> > imageFilterOptions;
             std::shared_ptr<ValueSubject<bool> > textLCDRendering;
@@ -21,9 +21,9 @@ namespace djv
             std::shared_ptr<Render> render;
         };
 
-        void Render2DSystem::_init(const std::shared_ptr<System::Context>& context)
+        void RenderSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISystem::_init("djv::Render2D::Render2DSystem", context);
+            ISystem::_init("djv::Render2D::RenderSystem", context);
 
             DJV_PRIVATE_PTR();
             p.imageFilterOptions = ValueSubject<ImageFilterOptions>::create();
@@ -36,31 +36,31 @@ namespace djv
             addDependency(p.render);
         }
 
-        Render2DSystem::Render2DSystem() :
+        RenderSystem::RenderSystem() :
             _p(new Private)
         {}
 
-        Render2DSystem::~Render2DSystem()
+        RenderSystem::~RenderSystem()
         {}
 
-        std::shared_ptr<Render2DSystem> Render2DSystem::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<RenderSystem> RenderSystem::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<Render2DSystem>(new Render2DSystem);
+            auto out = std::shared_ptr<RenderSystem>(new RenderSystem);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<ImageFilterOptions> > Render2DSystem::observeImageFilterOptions() const
+        std::shared_ptr<IValueSubject<ImageFilterOptions> > RenderSystem::observeImageFilterOptions() const
         {
             return _p->imageFilterOptions;
         }
 
-        std::shared_ptr<IValueSubject<bool> > Render2DSystem::observeTextLCDRendering() const
+        std::shared_ptr<IValueSubject<bool> > RenderSystem::observeTextLCDRendering() const
         {
             return _p->textLCDRendering;
         }
 
-        void Render2DSystem::setImageFilterOptions(const ImageFilterOptions& value)
+        void RenderSystem::setImageFilterOptions(const ImageFilterOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageFilterOptions->setIfChanged(value))
@@ -69,7 +69,7 @@ namespace djv
             }
         }
 
-        void Render2DSystem::setTextLCDRendering(bool value)
+        void RenderSystem::setTextLCDRendering(bool value)
         {
             DJV_PRIVATE_PTR();
             if (p.textLCDRendering->setIfChanged(value))

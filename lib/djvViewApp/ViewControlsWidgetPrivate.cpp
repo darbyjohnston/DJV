@@ -6,7 +6,7 @@
 
 #include <djvViewApp/EnumFunc.h>
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/View.h>
+#include <djvViewApp/ViewData.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>

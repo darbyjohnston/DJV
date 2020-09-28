@@ -28,7 +28,6 @@
 
 #include <djvRender2D/EnumFunc.h>
 #include <djvRender2D/DataFunc.h>
-#include <djvRender2D/Render2DSystem.h>
 
 #include <djvSystem/Context.h>
 

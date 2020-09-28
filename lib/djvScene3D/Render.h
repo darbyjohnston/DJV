@@ -25,7 +25,6 @@ namespace djv
 
     } // namespace System
 
-    //! This namespace provides scene functionality.
     namespace Scene3D
     {
         class ICamera;

@@ -18,6 +18,7 @@ namespace djv
 {
     namespace GL
     {
+        //! This namespace provides GLFW functionality.
         namespace GLFW
         {
             //! This enumeration provides GLFW error strings.

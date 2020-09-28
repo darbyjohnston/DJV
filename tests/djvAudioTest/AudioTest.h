@@ -6,7 +6,6 @@
 
 namespace djv
 {
-    //! This namespace provides confidence tests for the Audio library.
     namespace AudioTest
     {
         class AudioTest : public Test::ITest

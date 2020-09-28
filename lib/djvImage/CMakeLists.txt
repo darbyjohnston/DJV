@@ -8,6 +8,7 @@ set(header
     Image.h
     ImageFunc.h
     ImageInline.h
+    Namespace.h
     Pixel.h
     PixelFunc.h
     PixelFuncInline.h

@@ -14,7 +14,6 @@
 
 namespace djv
 {
-    //! This namespace provides geometry functionality.
     namespace Geom
     {
         //! This struct provides a triangle mesh.

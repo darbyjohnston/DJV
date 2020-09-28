@@ -56,7 +56,7 @@ namespace djv
 
         } // namespace Button
 
-        using Button::ActionButton;
+        typedef Button::ActionButton ActionButton;
 
     } // namespace UI
 } // namespace djv

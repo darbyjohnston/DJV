@@ -19,6 +19,7 @@ namespace djv
     {
         class Scene;
 
+        //! This namespace provides I/O functionality.
         namespace IO
         {
             //! This class provides I/O information.

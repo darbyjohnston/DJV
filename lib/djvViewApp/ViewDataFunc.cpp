@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/ViewFunc.h>
+#include <djvViewApp/ViewDataFunc.h>
 
 #include <djvViewApp/EnumFunc.h>
 

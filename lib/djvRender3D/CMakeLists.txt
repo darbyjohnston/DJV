@@ -5,6 +5,7 @@ set(header
     LightInline.h
     Material.h
     MaterialInline.h
+    Namespace.h
     Render.h)
 set(source
     Camera.cpp

@@ -50,6 +50,7 @@ set(header
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
+    Namespace.h
 	PlaybackSettings.h
     PlaybackSettingsWidget.h
     PlaybackSystem.h
@@ -64,11 +65,10 @@ set(header
     TimelineWidgetPrivate.h
     ToolSettings.h
     ToolSystem.h
-	View.h
-    ViewApp.h
     ViewControlsWidget.h
     ViewControlsWidgetPrivate.h
-	ViewFunc.h
+	ViewData.h
+	ViewDataFunc.h
 	ViewSettings.h
     ViewSystem.h
     ViewWidget.h
@@ -147,10 +147,10 @@ set(source
     TimelineWidget.cpp
     ToolSettings.cpp
     ToolSystem.cpp
-	View.cpp
     ViewControlsWidget.cpp
     ViewControlsWidgetPrivate.cpp
-	ViewFunc.cpp
+	ViewData.cpp
+	ViewDataFunc.cpp
     ViewGridOverlay.cpp
 	ViewHUDOverlay.cpp
 	ViewSettings.cpp

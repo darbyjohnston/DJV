@@ -8,10 +8,10 @@ namespace djv
 {
     namespace Render2DTest
     {
-        class Render2DSystemTest : public Test::ITest
+        class RenderSystemTest : public Test::ITest
         {
         public:
-            Render2DSystemTest(
+            RenderSystemTest(
                 const System::File::Path& tempPath,
                 const std::shared_ptr<System::Context>&);
             

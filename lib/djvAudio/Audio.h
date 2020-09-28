@@ -12,7 +12,6 @@
 
 namespace djv
 {
-    //! This namespace provides audio functionality.
     namespace Audio
     {
         //! This enumeration provides the audio data types.

@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
-
 #include <djvSystem/ISystem.h>
 
 #include <functional>

@@ -6,7 +6,6 @@
 
 namespace djv
 {
-    //! This namespace provides core functionality.
     namespace Core
     {
         //! This function provides an assert (for convenience use the DJV_ASSERT macro).
@@ -20,7 +19,7 @@ namespace djv
     struct Private; \
     std::unique_ptr<Private> _p
 
-//! This macro provides a raw pointer to the private implementation.
+//! This macro provides a reference to the private implementation.
 #define DJV_PRIVATE_PTR() \
     auto& p = *_p
 

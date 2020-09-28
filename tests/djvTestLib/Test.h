@@ -23,7 +23,6 @@ namespace djv
         } // namespace File
     } // namespace System
 
-    //! This namespace provides confidence test functionality.
     namespace Test
     {
         //! This class provides an interface for confidence tests.

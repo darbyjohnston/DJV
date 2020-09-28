@@ -17,7 +17,6 @@
 
 namespace djv
 {
-    //! This namespace provides 3D scene functionality.
     namespace Scene3D
     {
         class IPrimitive;
