@@ -236,13 +236,13 @@ std::shared_ptr<CameraWidget> CameraWidget::create(const std::shared_ptr<System:
     return out;
 }
 
-void CameraWidget::setCameraData(const Scene::PolarCameraData& value)
+void CameraWidget::setCameraData(const Scene3D::PolarCameraData& value)
 {
     _cameraData = value;
     _widgetUpdate();
 }
 
-void CameraWidget::setCameraDataCallback(const std::function<void(const Scene::PolarCameraData&)>& value)
+void CameraWidget::setCameraDataCallback(const std::function<void(const Scene3D::PolarCameraData&)>& value)
 {
     _cameraDataCallback = value;
 }

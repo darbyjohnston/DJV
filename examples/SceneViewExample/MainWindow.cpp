@@ -15,8 +15,8 @@
 #include <djvUI/ShortcutData.h>
 #include <djvUI/ToolBar.h>
 
-#include <djvScene/IO.h>
-#include <djvScene/Scene.h>
+#include <djvScene3D/IO.h>
+#include <djvScene3D/Scene.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TimerFunc.h>
@@ -238,7 +238,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                     settingsWidget->addChild(infoWidget);
 
                     cameraWidget->setCameraDataCallback(
-                        [weak](const Scene::PolarCameraData& value)
+                        [weak](const Scene3D::PolarCameraData& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -255,9 +255,9 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                             }
                         });
 
-                    widget->_cameraDataObserver = Core::ValueObserver<Scene::PolarCameraData>::create(
+                    widget->_cameraDataObserver = Core::ValueObserver<Scene3D::PolarCameraData>::create(
                         widget->_sceneWidget->observeCameraData(),
-                        [cameraWidget, weak](const Scene::PolarCameraData& value)
+                        [cameraWidget, weak](const Scene3D::PolarCameraData& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -335,7 +335,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setScene(
     const djv::System::File::Info& fileInfo,
-    const std::shared_ptr<Scene::Scene>& value)
+    const std::shared_ptr<Scene3D::Scene>& value)
 {
     _fileInfoLabel->setText(fileInfo.getFileName());
     _sceneWidget->setScene(value);
@@ -404,7 +404,7 @@ void MainWindow::_open()
             _fileBrowserDialog->close();
         }
         _fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
-        auto io = context->getSystemT<Scene::IO::IOSystem>();
+        auto io = context->getSystemT<Scene3D::IO::IOSystem>();
         _fileBrowserDialog->setFileExtensions(io->getFileExtensions());
         _fileBrowserDialog->setPath(_fileBrowserPath);
         auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));

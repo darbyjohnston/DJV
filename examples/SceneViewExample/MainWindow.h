@@ -37,7 +37,7 @@ public:
 
     void setScene(
         const djv::System::File::Info&,
-        const std::shared_ptr<djv::Scene::Scene>&);
+        const std::shared_ptr<djv::Scene3D::Scene>&);
 
     void setOpenCallback(const std::function<void(const djv::System::File::Info)>&);
     void setReloadCallback(const std::function<void(void)>&);
@@ -63,7 +63,7 @@ private:
     std::function<void(void)> _reloadCallback;
     std::function<void(void)> _exitCallback;
     
-    std::shared_ptr<djv::Core::ValueObserver<djv::Scene::PolarCameraData> > _cameraDataObserver;
+    std::shared_ptr<djv::Core::ValueObserver<djv::Scene3D::PolarCameraData> > _cameraDataObserver;
     std::shared_ptr<djv::Core::ValueObserver<djv::UI::SceneRenderOptions> > _renderOptionsObserver;
     std::shared_ptr<djv::Core::ValueObserver<djv::Math::BBox3f> > _bboxObserver;
     std::shared_ptr<djv::Core::ValueObserver<size_t> > _primitivesCountObserver;

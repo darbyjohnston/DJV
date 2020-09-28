@@ -6,8 +6,8 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvScene/Camera.h>
-#include <djvScene/Render.h>
+#include <djvScene3D/Camera.h>
+#include <djvScene3D/Render.h>
 
 #include <djvRender3D/Render.h>
 
@@ -17,11 +17,11 @@
 
 namespace djv
 {
-    namespace Scene
+    namespace Scene3D
     {
         class Scene;
 
-    } // namespace Scene
+    } // namespace Scene3D
 
     namespace UI
     {
@@ -71,17 +71,17 @@ namespace djv
 
             static std::shared_ptr<SceneWidget> create(const std::shared_ptr<System::Context>&);
 
-            const std::shared_ptr<Scene::Scene>& getScene() const;
+            const std::shared_ptr<Scene3D::Scene>& getScene() const;
 
-            void setScene(const std::shared_ptr<Scene::Scene>&);
+            void setScene(const std::shared_ptr<Scene3D::Scene>&);
 
             std::shared_ptr<Core::IValueSubject<SceneRotate> > observeSceneRotate() const;
             
             void setSceneRotate(SceneRotate);
 
-            std::shared_ptr<Core::IValueSubject<Scene::PolarCameraData> > observeCameraData() const;
+            std::shared_ptr<Core::IValueSubject<Scene3D::PolarCameraData> > observeCameraData() const;
             
-            void setCameraData(const Scene::PolarCameraData&);
+            void setCameraData(const Scene3D::PolarCameraData&);
 
             std::shared_ptr<Core::IValueSubject<SceneRenderOptions> > observeRenderOptions() const;
             

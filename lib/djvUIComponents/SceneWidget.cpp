@@ -4,9 +4,9 @@
 
 #include <djvUIComponents/SceneWidget.h>
 
-#include <djvScene/Camera.h>
-#include <djvScene/Render.h>
-#include <djvScene/Scene.h>
+#include <djvScene3D/Camera.h>
+#include <djvScene3D/Render.h>
+#include <djvScene3D/Scene.h>
 
 #include <djvRender2D/Render.h>
 
@@ -56,12 +56,12 @@ namespace djv
         {
             std::shared_ptr<Render3D::Render> render3D;
             Image::Size size;
-            std::shared_ptr<Scene::Scene> scene;
+            std::shared_ptr<Scene3D::Scene> scene;
             std::shared_ptr<ValueSubject<SceneRotate> > sceneRotate;
-            std::shared_ptr<Scene::PolarCamera> camera;
-            std::shared_ptr<ValueSubject<Scene::PolarCameraData> > cameraData;
+            std::shared_ptr<Scene3D::PolarCamera> camera;
+            std::shared_ptr<ValueSubject<Scene3D::PolarCameraData> > cameraData;
             std::shared_ptr<ValueSubject<SceneRenderOptions> > renderOptions;
-            std::shared_ptr<Scene::Render> render;
+            std::shared_ptr<Scene3D::Render> render;
             std::shared_ptr<GL::OffscreenBuffer> offscreenBuffer;
             std::shared_ptr<GL::OffscreenBuffer> offscreenBuffer2;
 #if defined(DJV_GL_ES2)
@@ -86,10 +86,10 @@ namespace djv
 
             p.sceneRotate = ValueSubject<SceneRotate>::create(SceneRotate::None);
             p.render3D = context->getSystemT<Render3D::Render>();
-            p.camera = Scene::PolarCamera::create();
-            p.cameraData = ValueSubject<Scene::PolarCameraData>::create(p.camera->getData());
+            p.camera = Scene3D::PolarCamera::create();
+            p.cameraData = ValueSubject<Scene3D::PolarCameraData>::create(p.camera->getData());
             p.renderOptions = ValueSubject<SceneRenderOptions>::create(SceneRenderOptions());
-            p.render = Scene::Render::create(context);
+            p.render = Scene3D::Render::create(context);
 #if defined(DJV_GL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
             const System::File::Path shaderPath = resourceSystem->getPath(System::File::ResourcePath::Shaders);
@@ -136,7 +136,7 @@ namespace djv
             return out;
         }
 
-        void SceneWidget::setScene(const std::shared_ptr<Scene::Scene>& value)
+        void SceneWidget::setScene(const std::shared_ptr<Scene3D::Scene>& value)
         {
             DJV_PRIVATE_PTR();
             p.scene = value;
@@ -157,12 +157,12 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<Scene::PolarCameraData> > SceneWidget::observeCameraData() const
+        std::shared_ptr<IValueSubject<Scene3D::PolarCameraData> > SceneWidget::observeCameraData() const
         {
             return _p->cameraData;
         }
 
-        void SceneWidget::setCameraData(const Scene::PolarCameraData& value)
+        void SceneWidget::setCameraData(const Scene3D::PolarCameraData& value)
         {
             if (_p->cameraData->setIfChanged(value))
             {
@@ -362,7 +362,7 @@ namespace djv
                 default: break;
                 }
 #endif // DJV_GL_ES2
-                Scene::RenderOptions options;
+                Scene3D::RenderOptions options;
                 options.size = p.size;
                 options.camera = p.camera;
                 options.clip = p.camera->getClip();

@@ -9,7 +9,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 
-#include <djvScene/Render.h>
+#include <djvScene3D/Render.h>
 
 #include <djvGL/OffscreenBufferFunc.h>
 

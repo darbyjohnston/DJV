@@ -8,8 +8,8 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
-#include <djvScene/Light.h>
-#include <djvScene/SceneSystem.h>
+#include <djvScene3D/Light.h>
+#include <djvScene3D/SceneSystem.h>
 
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
@@ -98,7 +98,7 @@ void Application::_open(const System::File::Info& fileInfo)
     {
         try
         {
-            auto io = getSystemT<Scene::IO::IOSystem>();
+            auto io = getSystemT<Scene3D::IO::IOSystem>();
             _sceneRead = io->read(_fileInfo);
             _sceneReadFuture = _sceneRead->getScene();
             auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));

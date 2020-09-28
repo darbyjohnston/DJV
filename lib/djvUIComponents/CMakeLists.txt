@@ -92,7 +92,7 @@ if(TIFF_FOUND)
 endif()
 
 add_library(djvUIComponents ${header} ${source})
-target_link_libraries(djvUIComponents djvUI djvScene)
+target_link_libraries(djvUIComponents djvUI djvScene3D)
 set_target_properties(
     djvUIComponents
     PROPERTIES

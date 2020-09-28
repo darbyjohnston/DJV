@@ -4,7 +4,7 @@ set(source
     Application.cpp)
 
 add_library(djvCmdLineApp ${header} ${source})
-target_link_libraries(djvCmdLineApp djvScene)
+target_link_libraries(djvCmdLineApp djvScene3D)
 set_target_properties(
     djvCmdLineApp
     PROPERTIES

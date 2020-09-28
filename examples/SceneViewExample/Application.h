@@ -6,8 +6,8 @@
 
 #include <djvDesktopApp/Application.h>
 
-#include <djvScene/IO.h>
-#include <djvScene/Scene.h>
+#include <djvScene3D/IO.h>
+#include <djvScene3D/Scene.h>
 
 #include <djvSystem/Timer.h>
 
@@ -34,9 +34,9 @@ private:
 
     std::vector<djv::System::File::Info> _inputs;
     djv::System::File::Info _fileInfo;
-    std::shared_ptr<djv::Scene::Scene> _scene;
-    std::shared_ptr<djv::Scene::IO::IRead> _sceneRead;
-    std::future<std::shared_ptr<djv::Scene::Scene> > _sceneReadFuture;
+    std::shared_ptr<djv::Scene3D::Scene> _scene;
+    std::shared_ptr<djv::Scene3D::IO::IRead> _sceneRead;
+    std::future<std::shared_ptr<djv::Scene3D::Scene> > _sceneReadFuture;
 
     std::shared_ptr<djv::System::Timer> _futureTimer;
 
