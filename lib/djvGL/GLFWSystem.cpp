@@ -159,7 +159,7 @@ namespace djv
                     const int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
                     const int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                     std::stringstream ss;
-                    ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
+                    ss << "GLFW OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
                     _log(ss.str());
                 }
                 glfwSetWindowUserPointer(p.glfwWindow, context.get());
@@ -190,6 +190,27 @@ namespace djv
                         GLFW_TRUE);
                 }
 #endif // DJV_GL_ES2
+
+                {
+                    std::stringstream ss;
+                    ss << "OpenGL vendor: " << glGetString(GL_VENDOR);
+                    _log(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "OpenGL renderer: " << glGetString(GL_RENDERER);
+                    _log(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "OpenGL version: " << glGetString(GL_VERSION);
+                    _log(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "OpenGL shading language version: " << glGetString(GL_SHADING_LANGUAGE_VERSION);
+                    _log(ss.str());
+                }
 
                 p.swapInterval = ValueSubject<SwapInterval>::create(SwapInterval::Default);
             }
