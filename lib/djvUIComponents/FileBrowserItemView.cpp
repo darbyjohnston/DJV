@@ -45,34 +45,52 @@ namespace djv
 
                 const size_t invalid = static_cast<size_t>(-1);
 
+                struct Item
+                {
+                    System::File::Info info;
+                    std::string name;
+
+                    Math::BBox2f geometry;
+
+                    bool nameLinesInit = true;
+                    std::vector<Render2D::Font::TextLine> nameLines;
+
+                    bool ioInfoInit = true;
+                    bool ioInfoValid = false;
+                    AV::IO::Info ioInfo;
+
+                    bool thumbnailInit = true;
+                    Image::Size thumbnailSize = Image::Size(100, 50);
+                    std::shared_ptr<Image::Image> thumbnail;
+
+                    bool nameGlyphsInit = true;
+                    std::vector<std::shared_ptr<Render2D::Font::Glyph> > nameGlyphs;
+                    bool sizeGlyphsInit = true;
+                    std::vector<std::shared_ptr<Render2D::Font::Glyph> > sizeGlyphs;
+                    bool timeGlyphsInit = true;
+                    std::vector<std::shared_ptr<Render2D::Font::Glyph> > timeGlyphs;
+                };
+
             } // namespace
 
             struct ItemView::Private
             {
                 std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
                 ViewType viewType = ViewType::First;
-                std::vector<System::File::Info> items;
                 std::shared_ptr<SelectionModel> selectionModel;
                 std::set<size_t> selection;
                 Render2D::Font::Metrics nameFontMetrics;
                 std::future<Render2D::Font::Metrics> nameFontMetricsFuture;
-                std::map<size_t, Math::BBox2f> itemGeometry;
-                std::map<size_t, std::string> names;
-                std::map<size_t, std::vector<Render2D::Font::TextLine> > nameLines;
+                std::vector<Item> items;
                 std::map<size_t, std::future<std::vector<Render2D::Font::TextLine> > > nameLinesFutures;
-                std::map<size_t, AV::IO::Info> ioInfo;
                 std::map<size_t, AV::ThumbnailSystem::InfoFuture> ioInfoFutures;
                 Image::Size thumbnailSize = Image::Size(100, 50);
-                std::map<size_t, std::shared_ptr<Image::Image> > thumbnails;
                 std::map<size_t, AV::ThumbnailSystem::ImageFuture> thumbnailFutures;
                 std::map<size_t, std::chrono::steady_clock::time_point> thumbnailTimers;
                 std::map<System::File::Type, std::shared_ptr<Image::Image> > icons;
                 std::map<System::File::Type, std::future<std::shared_ptr<Image::Image> > > iconsFutures;
-                std::map<size_t, std::vector<std::shared_ptr<Render2D::Font::Glyph> > > nameGlyphs;
                 std::map<size_t, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > nameGlyphsFutures;
-                std::map<size_t, std::vector<std::shared_ptr<Render2D::Font::Glyph> > > sizeGlyphs;
                 std::map<size_t, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > sizeGlyphsFutures;
-                std::map<size_t, std::vector<std::shared_ptr<Render2D::Font::Glyph> > > timeGlyphs;
                 std::map<size_t, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > timeGlyphsFutures;
                 std::vector<float> split = { .7F, .8F, 1.F };
                 OCIO::Config ocioConfig;
@@ -199,7 +217,13 @@ namespace djv
 
             void ItemView::setItems(const std::vector<System::File::Info>& value)
             {
-                _p->items = value;
+                _p->items.clear();
+                const size_t size = value.size();
+                _p->items.resize(size);
+                for (size_t i = 0; i < size; ++i)
+                {
+                    _p->items[i].info = value[i];
+                }
                 _p->selectionModel->setCount(value.size());
                 _itemsUpdate();
             }
@@ -257,7 +281,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.F;
-                if (const size_t itemCount = p.items.size())
+                const size_t itemsSize = p.items.size();
+                if (itemsSize > 0)
                 {
                     const auto& style = _getStyle();
                     const float m = style->getMetric(MetricsRole::MarginSmall);
@@ -275,13 +300,13 @@ namespace djv
                             ++columns;
                             x += itemWidth + s;
                         }
-                        const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
+                        const size_t rows = itemsSize / columns + (itemsSize % columns ? 1 : 0);
                         out = (p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + sh * 2.F) * rows;
                         out += s * (rows + 1);
                         break;
                     }
                     case ViewType::List:
-                        out = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.F) * itemCount;
+                        out = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.F) * itemsSize;
                         break;
                     default: break;
                     }
@@ -297,19 +322,17 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
-                p.itemGeometry.clear();
                 glm::vec2 pos = g.min;
-                auto item = p.items.begin();
-                size_t i = 0;
+                const size_t itemsSize = p.items.size();
                 switch (p.viewType)
                 {
                 case ViewType::Tiles:
                     pos += s;
-                    for (; item != p.items.end(); ++item, ++i)
+                    for (size_t i = 0; i < itemsSize; ++i)
                     {
                         const float itemHeight = p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + sh * 2.F;
                         const float itemWidth = p.thumbnailSize.w + sh * 2.F;
-                        p.itemGeometry[i] = Math::BBox2f(pos.x, pos.y, itemWidth, itemHeight);
+                        p.items[i].geometry = Math::BBox2f(pos.x, pos.y, itemWidth, itemHeight);
                         pos.x += itemWidth;
                         if (pos.x > g.max.x - itemWidth)
                         {
@@ -323,10 +346,10 @@ namespace djv
                     }
                     break;
                 case ViewType::List:
-                    for (; item != p.items.end(); ++item, ++i)
+                    for (size_t i = 0; i < itemsSize; ++i)
                     {
                         const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.F);
-                        p.itemGeometry[i] = Math::BBox2f(pos.x, pos.y, g.w(), itemHeight);
+                        p.items[i].geometry = Math::BBox2f(pos.x, pos.y, g.w(), itemHeight);
                         pos.y += itemHeight;
                     }
                     break;
@@ -343,105 +366,109 @@ namespace djv
                 {
                     const auto& style = _getStyle();
                     const auto& clipRect = event.getClipRect();
-                    for (const auto& i : p.itemGeometry)
+                    const size_t itemsSize = p.items.size();
+                    for (size_t i = 0; i < itemsSize; ++i)
                     {
-                        if (i.first < p.items.size() && i.second.intersects(clipRect))
+                        auto& item = p.items[i];
+                        if (item.geometry.intersects(clipRect))
                         {
-                            const auto& fileInfo = p.items[i.first];
+                            if (item.nameLinesInit)
                             {
-                                const auto j = p.nameLines.find(i.first);
-                                if (j == p.nameLines.end())
+                                item.nameLinesInit = false;
+                                const auto k = p.nameLinesFutures.find(i);
+                                if (k == p.nameLinesFutures.end())
                                 {
-                                    const auto k = p.nameLinesFutures.find(i.first);
-                                    if (k == p.nameLinesFutures.end())
-                                    {
-                                        const float m = style->getMetric(MetricsRole::MarginSmall);
-                                        const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
-                                        p.names[i.first] = fileInfo.getFileName(Math::Frame::invalid, false);
-                                        p.nameLinesFutures[i.first] = p.fontSystem->textLines(
-                                            p.names[i.first],
-                                            p.thumbnailSize.w - static_cast<uint16_t>(m * 2.F),
-                                            fontInfo);
-                                    }
+                                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
+                                    item.name = item.info.getFileName(Math::Frame::invalid, false);
+                                    p.nameLinesFutures[i] = p.fontSystem->textLines(
+                                        item.name,
+                                        p.thumbnailSize.w - static_cast<uint16_t>(m * 2.F),
+                                        fontInfo);
                                 }
                             }
-                            if (p.ioInfo.find(i.first) == p.ioInfo.end())
+                            if (item.ioInfoInit)
                             {
-                                if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
+                                item.ioInfoInit = false;
+                                if (p.ioInfoFutures.find(i) == p.ioInfoFutures.end())
                                 {
                                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                                     auto ioSystem = context->getSystemT<AV::IO::IOSystem>();
                                     if (thumbnailSystem && ioSystem)
                                     {
-                                        if (ioSystem->canRead(fileInfo))
+                                        if (ioSystem->canRead(item.info))
                                         {
-                                            p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(fileInfo);
+                                            p.ioInfoFutures[i] = thumbnailSystem->getInfo(item.info);
                                         }
                                     }
                                 }
                             }
-                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                            if (item.thumbnailInit)
                             {
-                                if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
+                                item.thumbnailInit = false;
+                                if (p.thumbnailFutures.find(i) == p.thumbnailFutures.end())
                                 {
                                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                                     auto ioSystem = context->getSystemT<AV::IO::IOSystem>();
-                                    if (thumbnailSystem && ioSystem && ioSystem->canRead(fileInfo))
+                                    if (thumbnailSystem && ioSystem && ioSystem->canRead(item.info))
                                     {
-                                        p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
+                                        p.thumbnailFutures[i] = thumbnailSystem->getImage(item.info, p.thumbnailSize);
                                     }
                                 }
                             }
-                            if (p.nameGlyphs.find(i.first) == p.nameGlyphs.end())
+                            if (item.nameGlyphsInit)
                             {
-                                if (p.nameGlyphsFutures.find(i.first) == p.nameGlyphsFutures.end())
+                                item.nameGlyphsInit = false;
+                                if (p.nameGlyphsFutures.find(i) == p.nameGlyphsFutures.end())
                                 {
-                                    const std::string& label = fileInfo.getFileName(Math::Frame::invalid, false);
+                                    const std::string& label = item.info.getFileName(Math::Frame::invalid, false);
                                     const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
-                                    p.nameGlyphsFutures[i.first] = p.fontSystem->getGlyphs(label, fontInfo);
+                                    p.nameGlyphsFutures[i] = p.fontSystem->getGlyphs(label, fontInfo);
                                 }
                             }
-                            if (p.sizeGlyphs.find(i.first) == p.sizeGlyphs.end())
+                            if (item.sizeGlyphsInit)
                             {
-                                if (p.sizeGlyphsFutures.find(i.first) == p.sizeGlyphsFutures.end())
+                                item.sizeGlyphsInit = false;
+                                if (p.sizeGlyphsFutures.find(i) == p.sizeGlyphsFutures.end())
                                 {
                                     std::stringstream ss;
-                                    const uint64_t size = fileInfo.getSize();
+                                    const uint64_t size = item.info.getSize();
                                     ss << Memory::getSizeLabel(size);
                                     std::stringstream ss2;
                                     ss2 << Memory::getUnitLabel(size);
                                     ss << _getText(ss2.str());
                                     const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
-                                    p.sizeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(ss.str(), fontInfo);
+                                    p.sizeGlyphsFutures[i] = p.fontSystem->getGlyphs(ss.str(), fontInfo);
                                 }
                             }
-                            if (p.timeGlyphs.find(i.first) == p.timeGlyphs.end())
+                            if (item.timeGlyphsInit)
                             {
-                                if (p.timeGlyphsFutures.find(i.first) == p.timeGlyphsFutures.end())
+                                item.timeGlyphsInit = false;
+                                if (p.timeGlyphsFutures.find(i) == p.timeGlyphsFutures.end())
                                 {
-                                    const std::string& label = AV::Time::getLabel(fileInfo.getTime());
+                                    const std::string& label = AV::Time::getLabel(item.info.getTime());
                                     const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
-                                    p.timeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(label, fontInfo);
+                                    p.timeGlyphsFutures[i] = p.fontSystem->getGlyphs(label, fontInfo);
                                 }
                             }
                         }
                         else if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>())
                         {
+                            const auto j = p.ioInfoFutures.find(i);
+                            if (j != p.ioInfoFutures.end())
                             {
-                                const auto j = p.ioInfoFutures.find(i.first);
-                                if (j != p.ioInfoFutures.end())
-                                {
-                                    thumbnailSystem->cancelInfo(j->second.uid);
-                                    p.ioInfoFutures.erase(j);
-                                }
+                                item.ioInfoInit = true;
+                                item.ioInfoValid = false;
+                                thumbnailSystem->cancelInfo(j->second.uid);
+                                p.ioInfoFutures.erase(j);
                             }
+                            const auto k = p.thumbnailFutures.find(i);
+                            if (k != p.thumbnailFutures.end())
                             {
-                                const auto j = p.thumbnailFutures.find(i.first);
-                                if (j != p.thumbnailFutures.end())
-                                {
-                                    thumbnailSystem->cancelImage(j->second.uid);
-                                    p.thumbnailFutures.erase(j);
-                                }
+                                item.thumbnailInit = true;
+                                item.thumbnail.reset();
+                                thumbnailSystem->cancelImage(k->second.uid);
+                                p.thumbnailFutures.erase(k);
                             }
                         }
                     }
@@ -458,219 +485,204 @@ namespace djv
 
                 const auto& render = _getRender();
                 const auto& ut = _getUpdateTime();
-                auto item = p.items.begin();
-                size_t index = 0;
-                for (; item != p.items.end(); ++item, ++index)
+                const size_t itemsSize = p.items.size();
+                for (size_t i = 0; i < itemsSize; ++i)
                 {
-                    const auto i = p.itemGeometry.find(index);
-                    if (i != p.itemGeometry.end())
-                    {
-                        Math::BBox2f itemGeometry = i->second;
+                    const auto& item = p.items[i];
+                    Math::BBox2f itemGeometry = item.geometry;
 
-                        const bool selected = p.selectionModel->isSelected(index);
+                    const bool selected = p.selectionModel->isSelected(i);
+                    switch (p.viewType)
+                    {
+                    case ViewType::Tiles:
+                        render->setFillColor(style->getColor(ColorRole::Shadow));
+                        render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
+                        itemGeometry = itemGeometry.margin(-sh);
+                        render->setFillColor(style->getColor(selected ? ColorRole::Checked : ColorRole::BackgroundBellows));
+                        render->drawRect(itemGeometry);
+                        break;
+                    case ViewType::List:
+                        if (selected)
+                        {
+                            render->setFillColor(style->getColor(ColorRole::Checked));
+                            render->drawRect(itemGeometry);
+                        }
+                        break;
+                    default: break;
+                    }
+
+                    if (ViewType::List == p.viewType)
+                    {
+                        render->pushClipRect(Math::BBox2f(
+                            itemGeometry.min.x,
+                            itemGeometry.min.y,
+                            itemGeometry.w() * p.split[0],
+                            itemGeometry.h()));
+                    }
+                    float opacity = 0.F;
+                    if (item.thumbnail)
+                    {
+                        opacity = 1.F;
+                        const auto j = p.thumbnailTimers.find(i);
+                        if (j != p.thumbnailTimers.end())
+                        {
+                            const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(ut - j->second);
+                            opacity = std::min(t.count() / static_cast<float>(thumbnailFadeTime), 1.F);
+                        }
+                        const uint16_t w = item.thumbnail->getWidth();
+                        const uint16_t h = item.thumbnail->getHeight();
+                        glm::vec2 pos(0.F, 0.F);
                         switch (p.viewType)
                         {
                         case ViewType::Tiles:
-                            render->setFillColor(style->getColor(ColorRole::Shadow));
-                            render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
-                            itemGeometry = itemGeometry.margin(-sh);
-                            render->setFillColor(style->getColor(selected ? ColorRole::Checked : ColorRole::BackgroundBellows));
-                            render->drawRect(itemGeometry);
+                            pos.x = floor(itemGeometry.min.x + p.thumbnailSize.w / 2.F - w / 2.F);
+                            pos.y = floor(itemGeometry.min.y + p.thumbnailSize.h - h);
                             break;
                         case ViewType::List:
-                            if (selected)
-                            {
-                                render->setFillColor(style->getColor(ColorRole::Checked));
-                                render->drawRect(itemGeometry);
-                            }
+                            pos.x = floor(itemGeometry.min.x);
+                            pos.y = floor(itemGeometry.min.y + itemGeometry.h() / 2.F - h / 2.F);
                             break;
                         default: break;
                         }
-
-                        if (ViewType::List == p.viewType)
+                        render->setFillColor(Image::Color(0.F, 0.F, 0.F, opacity));
+                        render->drawRect(Math::BBox2f(pos.x, pos.y, w, h));
+                        render->setFillColor(Image::Color(1.F, 1.F, 1.F, opacity));
+                        Render2D::ImageOptions options;
+                        auto k = p.ocioConfig.imageColorSpaces.find(item.thumbnail->getPluginName());
+                        if (k != p.ocioConfig.imageColorSpaces.end())
                         {
-                            render->pushClipRect(Math::BBox2f(
-                                itemGeometry.min.x,
-                                itemGeometry.min.y,
-                                itemGeometry.w() * p.split[0],
-                                itemGeometry.h()));
+                            options.colorSpace.input = k->second;
                         }
-                        float opacity = 0.F;
+                        else
                         {
-                            const auto j = p.thumbnails.find(index);
-                            if (j != p.thumbnails.end())
+                            k = p.ocioConfig.imageColorSpaces.find(std::string());
+                            if (k != p.ocioConfig.imageColorSpaces.end())
                             {
-                                if (j->second)
-                                {
-                                    opacity = 1.F;
-                                    const auto k = p.thumbnailTimers.find(index);
-                                    if (k != p.thumbnailTimers.end())
-                                    {
-                                        const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(ut - k->second);
-                                        opacity = std::min(t.count() / static_cast<float>(thumbnailFadeTime), 1.F);
-                                    }
-                                    const uint16_t w = j->second->getWidth();
-                                    const uint16_t h = j->second->getHeight();
-                                    glm::vec2 pos(0.F, 0.F);
-                                    switch (p.viewType)
-                                    {
-                                    case ViewType::Tiles:
-                                        pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.F - w / 2.F);
-                                        pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
-                                        break;
-                                    case ViewType::List:
-                                        pos.x = floor(i->second.min.x);
-                                        pos.y = floor(i->second.min.y + i->second.h() / 2.F - h / 2.F);
-                                        break;
-                                    default: break;
-                                    }
-                                    render->setFillColor(Image::Color(0.F, 0.F, 0.F, opacity));
-                                    render->drawRect(Math::BBox2f(pos.x, pos.y, w, h));
-                                    render->setFillColor(Image::Color(1.F, 1.F, 1.F, opacity));
-                                    Render2D::ImageOptions options;
-                                    auto l = p.ocioConfig.imageColorSpaces.find(j->second->getPluginName());
-                                    if (l != p.ocioConfig.imageColorSpaces.end())
-                                    {
-                                        options.colorSpace.input = l->second;
-                                    }
-                                    else
-                                    {
-                                        l = p.ocioConfig.imageColorSpaces.find(std::string());
-                                        if (l != p.ocioConfig.imageColorSpaces.end())
-                                        {
-                                            options.colorSpace.input = l->second;
-                                        }
-                                    }
-                                    options.colorSpace.output = p.outputColorSpace;
-                                    render->drawImage(j->second, pos, options);
-                                }
+                                options.colorSpace.input = k->second;
                             }
                         }
-                        if (opacity < 1.F)
+                        options.colorSpace.output = p.outputColorSpace;
+                        render->drawImage(item.thumbnail, pos, options);
+                    }
+                    if (opacity < 1.F)
+                    {
+                        const auto j = p.icons.find(item.info.getType());
+                        if (j != p.icons.end())
                         {
-                            const auto j = p.icons.find(item->getType());
-                            if (j != p.icons.end())
-                            {
-                                const uint16_t w = j->second->getWidth();
-                                const uint16_t h = j->second->getHeight();
-                                glm::vec2 pos(0.F, 0.F);
-                                switch (p.viewType)
-                                {
-                                case ViewType::Tiles:
-                                    pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.F - w / 2.F);
-                                    pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
-                                    break;
-                                case ViewType::List:
-                                    pos.x = floor(i->second.min.x);
-                                    pos.y = floor(i->second.min.y + i->second.h() / 2.F - h / 2.F);
-                                    break;
-                                default: break;
-                                }
-                                auto c = style->getColor(ColorRole::Button).convert(Image::Type::RGBA_F32);
-                                c.setF32(1.F - opacity, 3);
-                                render->setFillColor(c);
-                                render->drawFilledImage(j->second, pos);
-                            }
-                        }
-                        {
-                            render->setFillColor(style->getColor(ColorRole::Foreground));
+                            const uint16_t w = j->second->getWidth();
+                            const uint16_t h = j->second->getHeight();
+                            glm::vec2 pos(0.F, 0.F);
                             switch (p.viewType)
                             {
                             case ViewType::Tiles:
-                            {
-                                const auto j = p.names.find(index);
-                                const auto k = p.nameLines.find(index);
-                                if (j != p.names.end() && k != p.nameLines.end())
-                                {
-                                    float x = i->second.min.x + m + sh;
-                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * std::min(k->second.size(), static_cast<size_t>(2)) - m - sh;
-                                    size_t line = 0;
-                                    for (auto l = k->second.begin(); l != k->second.end() && line < 2; ++l, ++line)
-                                    {
-                                        //! \bug Why the extra subtract by one here?
-                                        render->drawText(
-                                            l->glyphs,
-                                            glm::vec2(
-                                                //floorf(x + p.thumbnailSize.x / 2.F - l->size.x / 2.F),
-                                                floor(x),
-                                                floorf(y + p.nameFontMetrics.ascender - 1.F)));
-                                        y += p.nameFontMetrics.lineHeight;
-                                    }
-                                }
+                                pos.x = floor(itemGeometry.min.x + p.thumbnailSize.w / 2.F - w / 2.F);
+                                pos.y = floor(itemGeometry.min.y + p.thumbnailSize.h - h);
                                 break;
-                            }
                             case ViewType::List:
-                            {
-                                float x = i->second.min.x + p.thumbnailSize.w + s;
-                                float y = i->second.min.y + i->second.h() / 2.F - p.nameFontMetrics.lineHeight / 2.F;
-                                auto j = p.nameGlyphs.find(index);
-                                if (j != p.nameGlyphs.end())
-                                {
-                                    //! \bug Why the extra subtract by one here?
-                                    render->drawText(
-                                        j->second,
-                                        glm::vec2(
-                                            floorf(x),
-                                            floorf(y + p.nameFontMetrics.ascender - 1.F)));
-                                }
-
-                                render->popClipRect();
-
-                                x = i->second.min.x + i->second.w() * p.split[0] + m;
-                                j = p.sizeGlyphs.find(index);
-                                if (j != p.sizeGlyphs.end())
-                                {
-                                    render->pushClipRect(Math::BBox2f(
-                                        itemGeometry.min.x + itemGeometry.w() * p.split[0],
-                                        itemGeometry.min.y,
-                                        itemGeometry.w() * (p.split[1] - p.split[0]),
-                                        itemGeometry.h()));
-
-                                    //! \bug Why the extra subtract by one here?
-                                    render->drawText(
-                                        j->second,
-                                        glm::vec2(
-                                            floorf(x),
-                                            floorf(y + p.nameFontMetrics.ascender - 1.F)));
-
-                                    render->popClipRect();
-                                }
-
-                                x = i->second.min.x + i->second.w() * p.split[1] + m;
-                                j = p.timeGlyphs.find(index);
-                                if (j != p.timeGlyphs.end())
-                                {
-                                    render->pushClipRect(Math::BBox2f(
-                                        itemGeometry.min.x + itemGeometry.w() * p.split[1],
-                                        itemGeometry.min.y,
-                                        itemGeometry.w() * (p.split[2] - p.split[1]),
-                                        itemGeometry.h()));
-
-                                    //! \bug Why the extra subtract by one here?
-                                    render->drawText(
-                                        j->second,
-                                        glm::vec2(
-                                            floorf(x),
-                                            floorf(y + p.nameFontMetrics.ascender - 1.F)));
-
-                                    render->popClipRect();
-                                }
+                                pos.x = floor(itemGeometry.min.x);
+                                pos.y = floor(itemGeometry.min.y + itemGeometry.h() / 2.F - h / 2.F);
                                 break;
-                            }
                             default: break;
                             }
+                            auto c = style->getColor(ColorRole::Button).convert(Image::Type::RGBA_F32);
+                            c.setF32(1.F - opacity, 3);
+                            render->setFillColor(c);
+                            render->drawFilledImage(j->second, pos);
                         }
+                    }
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Foreground));
+                        switch (p.viewType)
+                        {
+                        case ViewType::Tiles:
+                        {
+                            if (!item.nameLines.empty())
+                            {
+                                float x = itemGeometry.min.x + m;
+                                float y = itemGeometry.max.y - p.nameFontMetrics.lineHeight * std::min(item.nameLines.size(), static_cast<size_t>(2)) - m;
+                                size_t line = 0;
+                                for (auto k = item.nameLines.begin(); k != item.nameLines.end() && line < 2; ++k, ++line)
+                                {
+                                    //! \bug Why the extra subtract by one here?
+                                    render->drawText(
+                                        k->glyphs,
+                                        glm::vec2(
+                                            //floorf(x + p.thumbnailSize.x / 2.F - l->size.x / 2.F),
+                                            floor(x),
+                                            floorf(y + p.nameFontMetrics.ascender - 1.F)));
+                                    y += p.nameFontMetrics.lineHeight;
+                                }
+                            }
+                            break;
+                        }
+                        case ViewType::List:
+                        {
+                            float x = itemGeometry.min.x + p.thumbnailSize.w + s;
+                            float y = itemGeometry.min.y + itemGeometry.h() / 2.F - p.nameFontMetrics.lineHeight / 2.F;
+                            if (!item.nameGlyphs.empty())
+                            {
+                                //! \bug Why the extra subtract by one here?
+                                render->drawText(
+                                    item.nameGlyphs,
+                                    glm::vec2(
+                                        floorf(x),
+                                        floorf(y + p.nameFontMetrics.ascender - 1.F)));
+                            }
 
-                        if (p.grab == index)
-                        {
-                            render->setFillColor(style->getColor(ColorRole::Pressed));
-                            render->drawRect(itemGeometry);
+                            render->popClipRect();
+
+                            x = itemGeometry.min.x + itemGeometry.w() * p.split[0] + m;
+                            if (!item.sizeGlyphs.empty())
+                            {
+                                render->pushClipRect(Math::BBox2f(
+                                    itemGeometry.min.x + itemGeometry.w() * p.split[0],
+                                    itemGeometry.min.y,
+                                    itemGeometry.w() * (p.split[1] - p.split[0]),
+                                    itemGeometry.h()));
+
+                                //! \bug Why the extra subtract by one here?
+                                render->drawText(
+                                    item.sizeGlyphs,
+                                    glm::vec2(
+                                        floorf(x),
+                                        floorf(y + p.nameFontMetrics.ascender - 1.F)));
+
+                                render->popClipRect();
+                            }
+
+                            x = itemGeometry.min.x + itemGeometry.w() * p.split[1] + m;
+                            if (!item.timeGlyphs.empty())
+                            {
+                                render->pushClipRect(Math::BBox2f(
+                                    itemGeometry.min.x + itemGeometry.w() * p.split[1],
+                                    itemGeometry.min.y,
+                                    itemGeometry.w() * (p.split[2] - p.split[1]),
+                                    itemGeometry.h()));
+
+                                //! \bug Why the extra subtract by one here?
+                                render->drawText(
+                                    item.timeGlyphs,
+                                    glm::vec2(
+                                        floorf(x),
+                                        floorf(y + p.nameFontMetrics.ascender - 1.F)));
+
+                                render->popClipRect();
+                            }
+                            break;
                         }
-                        else if (p.hover == index)
-                        {
-                            render->setFillColor(style->getColor(ColorRole::Hovered));
-                            render->drawRect(itemGeometry);
+                        default: break;
                         }
+                    }
+
+                    if (p.grab == i)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
+                        render->drawRect(itemGeometry);
+                    }
+                    else if (p.hover == i)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
+                        render->drawRect(itemGeometry);
                     }
                 }
             }
@@ -680,11 +692,12 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 event.accept();
                 const auto& pointerInfo = event.getPointerInfo();
-                for (const auto& i : p.itemGeometry)
+                const size_t itemsSize = p.items.size();
+                for (size_t i = 0; i < itemsSize; ++i)
                 {
-                    if (i.second.contains(pointerInfo.pos))
+                    if (p.items[i].geometry.contains(pointerInfo.pos))
                     {
-                        p.hover = i.first;
+                        p.hover = i;
                         _redraw();
                         break;
                     }
@@ -722,11 +735,12 @@ namespace djv
                 }
                 else
                 {
-                    for (const auto& i : p.itemGeometry)
+                    const size_t itemsSize = p.items.size();
+                    for (size_t i = 0; i < itemsSize; ++i)
                     {
-                        if (i.second.contains(pointerInfo.pos))
+                        if (p.items[i].geometry.contains(pointerInfo.pos))
                         {
-                            p.hover = i.first;
+                            p.hover = i;
                             _redraw();
                             break;
                         }
@@ -740,12 +754,13 @@ namespace djv
                 if (p.pressedId)
                     return;
                 const auto& pointerInfo = event.getPointerInfo();
-                for (const auto& i : p.itemGeometry)
+                const size_t itemsSize = p.items.size();
+                for (size_t i = 0; i < itemsSize; ++i)
                 {
-                    if (i.second.contains(pointerInfo.pos))
+                    if (p.items[i].geometry.contains(pointerInfo.pos))
                     {
                         event.accept();
-                        p.grab = i.first;
+                        p.grab = i;
                         p.pressedId = pointerInfo.id;
                         p.pressedPos = pointerInfo.pos;
                         _redraw();
@@ -767,28 +782,30 @@ namespace djv
                     const auto i = hover.find(pointerInfo.id);
                     if (i != hover.end())
                     {
-                        for (const auto& j : p.itemGeometry)
+                        const size_t itemsSize = p.items.size();
+                        for (size_t j = 0; j < itemsSize; ++j)
                         {
-                            if (j.first < p.items.size() && j.second.contains(i->second))
+                            const auto& item = p.items[j];
+                            if (item.geometry.contains(i->second))
                             {
                                 // Update selection model.
-                                p.selectionModel->select(j.first, event.getKeyModifiers());
+                                p.selectionModel->select(j, event.getKeyModifiers());
 
                                 // Check for double clicks.
                                 const auto time = _getUpdateTime();
                                 const float doubleClickTime = std::chrono::duration<float>(time - p.clickTimer.second).count();
-                                if (j.first == p.clickTimer.first && doubleClickTime < p.doubleClickTime)
+                                if (j == p.clickTimer.first && doubleClickTime < p.doubleClickTime)
                                 {
                                     if (p.activatedCallback)
                                     {
-                                        p.activatedCallback({ p.items[j.first] });
+                                        p.activatedCallback({ item.info });
                                     }
                                     if (p.activatedCallback2)
                                     {
-                                        p.activatedCallback2({ j.first });
+                                        p.activatedCallback2({ j });
                                     }
                                 }
-                                p.clickTimer = std::make_pair(j.first, time);
+                                p.clickTimer = std::make_pair(j, time);
                             }
                         }
                     }
@@ -834,22 +851,19 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 std::shared_ptr<ITooltipWidget> out;
                 std::string text;
-                for (const auto& i : p.itemGeometry)
+                const size_t itemsSize = p.items.size();
+                for (size_t i = 0; i < itemsSize; ++i)
                 {
-                    if (i.second.contains(pos))
+                    const auto& item = p.items[i];
+                    if (item.geometry.contains(pos))
                     {
-                        if (i.first < p.items.size())
+                        if (item.ioInfoValid)
                         {
-                            const auto& fileInfo = p.items[i.first];
-                            const auto j = p.ioInfo.find(i.first);
-                            if (j != p.ioInfo.end())
-                            {
-                                text = _getTooltip(fileInfo, j->second);
-                            }
-                            else
-                            {
-                                text = _getTooltip(fileInfo);
-                            }
+                            text = _getTooltip(item.info, item.ioInfo);
+                        }
+                        else
+                        {
+                            text = _getTooltip(item.info);
                         }
                         break;
                     }
@@ -896,7 +910,7 @@ namespace djv
                         {
                             try
                             {
-                                p.nameLines[i->first] = i->second.get();
+                                p.items[i->first].nameLines = i->second.get();
                                 _resize();
                             }
                             catch (const std::exception& e)
@@ -920,11 +934,12 @@ namespace djv
                         {
                             try
                             {
-                                p.ioInfo[i->first] = i->second.future.get();
+                                auto& item = p.items[i->first];
+                                item.ioInfo = i->second.future.get();
+                                item.ioInfoValid = true;
                             }
                             catch (const std::exception& e)
                             {
-                                p.ioInfo[i->first] = AV::IO::Info();
                                 _log(e.what(), System::LogLevel::Error);
                             }
                             i = p.ioInfoFutures.erase(i);
@@ -942,12 +957,13 @@ namespace djv
                         if (i->second.future.valid() &&
                             i->second.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
-                            p.thumbnails[i->first] = nullptr;
+                            auto& item = p.items[i->first];
+                            item.thumbnail = nullptr;
                             try
                             {
                                 if (const auto image = i->second.future.get())
                                 {
-                                    p.thumbnails[i->first] = image;
+                                    item.thumbnail = image;
                                     p.thumbnailTimers[i->first] = _getUpdateTime();
                                     _resize();
                                 }
@@ -1015,7 +1031,7 @@ namespace djv
                         {
                             try
                             {
-                                p.nameGlyphs[i->first] = i->second.get();
+                                p.items[i->first].nameGlyphs = i->second.get();
                                 _resize();
                             }
                             catch (const std::exception& e)
@@ -1039,7 +1055,7 @@ namespace djv
                         {
                             try
                             {
-                                p.sizeGlyphs[i->first] = i->second.get();
+                                p.items[i->first].sizeGlyphs = i->second.get();
                                 _resize();
                             }
                             catch (const std::exception& e)
@@ -1063,7 +1079,7 @@ namespace djv
                         {
                             try
                             {
-                                p.timeGlyphs[i->first] = i->second.get();
+                                p.items[i->first].timeGlyphs = i->second.get();
                                 _resize();
                             }
                             catch (const std::exception& e)
@@ -1084,11 +1100,12 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::vector<System::File::Info> out;
+                const size_t itemsSize = p.items.size();
                 for (const auto& i : value)
                 {
-                    if (i < p.items.size())
+                    if (i < itemsSize)
                     {
-                        out.push_back(p.items[i]);
+                        out.push_back(p.items[i].info);
                     }
                 }
                 return out;
@@ -1192,56 +1209,45 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto context = getContext().lock())
                 {
-                    p.thumbnails.clear();
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                    const auto& style = _getStyle();
-                    p.names.clear();
-                    p.nameLines.clear();
-                    p.nameLinesFutures.clear();
-                    for (const auto& i : p.itemGeometry)
+                    const size_t itemsSize = p.items.size();
+                    for (size_t i = 0; i < itemsSize; ++i)
                     {
-                        const auto j = p.thumbnailFutures.find(i.first);
+                        auto& item = p.items[i];
+                        item.name.clear();
+                        item.nameLinesInit = true;
+                        item.nameLines.clear();
+                        item.thumbnailInit = true;
+                        item.thumbnail.reset();
+                        const auto j = p.thumbnailFutures.find(i);
                         if (j != p.thumbnailFutures.end())
                         {
                             thumbnailSystem->cancelImage(j->second.uid);
-                            p.thumbnailFutures.erase(j);
                         }
                     }
+
+                    p.nameLinesFutures.clear();
                     p.thumbnailFutures.clear();
 
+                    const auto& style = _getStyle();
                     const auto& clipRect = getClipRect();
-                    for (const auto& i : p.itemGeometry)
+                    for (size_t i = 0; i < itemsSize; ++i)
                     {
-                        if (i.first < p.items.size() && i.second.intersects(clipRect))
+                        auto& item = p.items[i];
+                        if (item.geometry.intersects(clipRect))
                         {
-                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                            const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
+                            item.name = item.info.getFileName(Math::Frame::invalid, false);
+                            const float m = style->getMetric(MetricsRole::MarginSmall);
+                            p.nameLinesFutures[i] = p.fontSystem->textLines(
+                                item.name,
+                                p.thumbnailSize.w - static_cast<uint16_t>(m * 2.F),
+                                fontInfo);
+
+                            auto ioSystem = context->getSystemT<AV::IO::IOSystem>();
+                            if (ioSystem && ioSystem->canRead(item.info))
                             {
-                                const auto& fileInfo = p.items[i.first];
-                                {
-                                    const auto j = p.nameLines.find(i.first);
-                                    if (j == p.nameLines.end())
-                                    {
-                                        const auto k = p.nameLinesFutures.find(i.first);
-                                        if (k == p.nameLinesFutures.end())
-                                        {
-                                            const float m = style->getMetric(MetricsRole::MarginSmall);
-                                            const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
-                                            p.names[i.first] = fileInfo.getFileName(Math::Frame::invalid, false);
-                                            p.nameLinesFutures[i.first] = p.fontSystem->textLines(
-                                                p.names[i.first],
-                                                p.thumbnailSize.w - static_cast<uint16_t>(m * 2.F),
-                                                fontInfo);
-                                        }
-                                    }
-                                }
-                                if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
-                                {
-                                    auto ioSystem = context->getSystemT<AV::IO::IOSystem>();
-                                    if (ioSystem && ioSystem->canRead(fileInfo))
-                                    {
-                                        p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
-                                    }
-                                }
+                                p.thumbnailFutures[i] = thumbnailSystem->getImage(item.info, p.thumbnailSize);
                             }
                         }
                     }
@@ -1256,29 +1262,38 @@ namespace djv
                     const auto& style = _getStyle();
                     p.nameFontMetricsFuture = p.fontSystem->getMetrics(
                         style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium));
-                    p.names.clear();
-                    p.nameLines.clear();
-                    p.nameLinesFutures.clear();
-                    p.ioInfo.clear();
-                    p.ioInfoFutures.clear();
-                    p.thumbnails.clear();
+
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                    for (const auto& i : p.itemGeometry)
+                    const size_t itemsSize = p.items.size();
+                    for (size_t i = 0; i < itemsSize; ++i)
                     {
-                        const auto j = p.thumbnailFutures.find(i.first);
+                        auto& item = p.items[i];
+                        item.name.clear();
+                        item.nameLinesInit = true;
+                        item.nameLines.clear();
+                        item.ioInfoInit = true;
+                        item.ioInfoValid = false;
+                        item.thumbnailInit = true;
+                        item.thumbnail.reset();
+                        item.nameGlyphsInit = true;
+                        item.nameGlyphs.clear();
+                        item.sizeGlyphsInit = true;
+                        item.sizeGlyphs.clear();
+                        item.timeGlyphsInit = true;
+                        item.timeGlyphs.clear();
+                        const auto j = p.thumbnailFutures.find(i);
                         if (j != p.thumbnailFutures.end())
                         {
                             thumbnailSystem->cancelImage(j->second.uid);
-                            p.thumbnailFutures.erase(j);
                         }
                     }
+
+                    p.nameLinesFutures.clear();
+                    p.ioInfoFutures.clear();
                     p.thumbnailFutures.clear();
                     p.thumbnailTimers.clear();
-                    p.nameGlyphs.clear();
                     p.nameGlyphsFutures.clear();
-                    p.sizeGlyphs.clear();
                     p.sizeGlyphsFutures.clear();
-                    p.timeGlyphs.clear();
                     p.timeGlyphsFutures.clear();
                 }
             }
