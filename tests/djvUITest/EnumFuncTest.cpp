@@ -42,6 +42,13 @@ namespace djv
                 _print("Side: " + _getText(ss.str()));
             }
             
+            for (auto i : getCornerEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Corner: " + _getText(ss.str()));
+            }
+            
             for (auto i : getExpandEnums())
             {
                 std::stringstream ss;
@@ -97,7 +104,7 @@ namespace djv
                 ss << i;
                 _print("Button type: " + _getText(ss.str()));
             }
-            
+                        
             for (auto i : getColorRoleEnums())
             {
                 std::stringstream ss;
@@ -110,6 +117,13 @@ namespace djv
                 std::stringstream ss;
                 ss << i;
                 _print("Metrics role: " + _getText(ss.str()));
+            }
+            
+            for (auto i : getImageRotateEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Image rotate: " + _getText(ss.str()));
             }
             
             for (auto i : getImageAspectRatioEnums())
@@ -145,6 +159,13 @@ namespace djv
                 std::stringstream ss;
                 ss << i;
                 _print("Popup: " + _getText(ss.str()));
+            }
+            
+            for (auto i : getScrollWheelSpeedEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Scroll wheel speed: " + _getText(ss.str()));
             }
         }
 

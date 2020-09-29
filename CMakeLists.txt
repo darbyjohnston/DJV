@@ -24,11 +24,11 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 #-------------------------------------------------------------------------------
 
 # General options.
-set(DJV_BUILD_TINY FALSE CACHE BOOL "Enable a 'tiny' build (core libraries + tests)")
+set(DJV_BUILD_TINY FALSE CACHE BOOL "Enable a 'tiny' build (libraries + tests)")
 if(DJV_BUILD_TINY)
     add_definitions(-DDJV_BUILD_TINY)
 endif()
-set(DJV_BUILD_MINIMAL FALSE CACHE BOOL "Enable a minimal build (core libraries + tests + examples)")
+set(DJV_BUILD_MINIMAL FALSE CACHE BOOL "Enable a minimal build (libraries + tests + examples)")
 if(DJV_BUILD_MINIMAL)
     add_definitions(-DDJV_BUILD_MINIMAL)
 endif()

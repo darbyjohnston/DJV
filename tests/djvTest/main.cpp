@@ -123,9 +123,8 @@
 #include <djvUITest/SelectionModelTest.h>
 #include <djvUITest/WidgetTest.h>
 
-#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
+#include <djvViewAppTest/EnumFuncTest.h>
 #include <djvViewAppTest/FileSystemTest.h>
-#endif
 
 #include <djvUI/UISystem.h>
 
@@ -281,9 +280,8 @@ int main(int argc, char ** argv)
         tests.emplace_back(new UITest::SelectionModelTest(tempPath, context));
         tests.emplace_back(new UITest::WidgetTest(tempPath, context));
 
-#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
+        tests.emplace_back(new ViewAppTest::EnumFuncTest(tempPath, context));
         tests.emplace_back(new ViewAppTest::FileSystemTest(tempPath, context));
-#endif
 
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;
         if (1 == argc)

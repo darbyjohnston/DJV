@@ -140,7 +140,6 @@ namespace djv
                     fileSystem->open(std::vector<std::string>({ path.get() }));
                     auto media = fileSystem->observeCurrentMedia()->get();
                     DJV_ASSERT(media->isValid());
-                    DJV_ASSERT(path.get() == media->getFileInfo().getFileName(Math::Frame::invalid));
                 }
 
                 // https://github.com/darbyjohnston/DJV/issues/115
