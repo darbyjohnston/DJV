@@ -92,8 +92,8 @@ namespace djv
             auto resourceSystem = context->getSystemT<System::ResourceSystem>();
             const System::File::Path shaderPath = resourceSystem->getPath(System::File::ResourcePath::Shaders);
             p.shader = GL::Shader::create(
-                System::File::Path(shaderPath, "djvAVRender2DVertex.glsl"),
-                System::File::Path(shaderPath, "djvAVRender2DFragment.glsl"));
+                System::File::Path(shaderPath, "djvRender2DVertex.glsl"),
+                System::File::Path(shaderPath, "djvRender2DFragment.glsl"));
 #endif // DJV_GL_ES2
 
             glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);

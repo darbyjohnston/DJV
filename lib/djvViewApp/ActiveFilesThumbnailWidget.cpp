@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#pragma once
-
 #include <djvViewApp/ActiveFilesPrivate.h>
 
 #include <djvUIComponents/FileBrowserPrivate.h>

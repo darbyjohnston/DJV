@@ -15,12 +15,8 @@ set(libraries
     djvRender2DTest
     djvRender3DTest
     djvSystemTest
-    djvUITest)
-if(NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
-    set(libraries
-        ${libraries}
-        djvViewAppTest)
-endif()
+    djvUITest
+    djvViewAppTest)
 target_link_libraries(djvTest ${libraries})
 set_target_properties(
     djvTest

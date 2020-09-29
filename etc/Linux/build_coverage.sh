@@ -12,7 +12,6 @@ cmake \
     ../DJV/third-party \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-coverage \
-    -DCMAKE_FIND_FRAMEWORK="LAST" \
     -DDJV_BUILD_TINY=TRUE \
     -DDJV_THIRD_PARTY_OPTIONAL=FALSE \
     -DDJV_GCOV=TRUE \
@@ -27,9 +26,9 @@ cmake \
     ../DJV -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-coverage \
     -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-coverage \
-    -DCMAKE_FIND_FRAMEWORK="LAST" \
     -DDJV_BUILD_TINY=TRUE \
     -DDJV_THIRD_PARTY_OPTIONAL=FALSE \
     -DDJV_GCOV=TRUE \
     -DDJV_GL_ES2=TRUE
 cmake --build . -j 8
+
