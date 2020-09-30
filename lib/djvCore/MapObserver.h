@@ -22,22 +22,22 @@ namespace djv
 
             //! This class provides a map observer.
             template<typename T, typename U>
-            class MapObserver : public std::enable_shared_from_this<MapObserver<T, U> >
+            class Map : public std::enable_shared_from_this<Map<T, U> >
             {
-                DJV_NON_COPYABLE(MapObserver);
+                DJV_NON_COPYABLE(Map);
 
                 void _init(
                     const std::weak_ptr<IMapSubject<T, U> >&,
                     const std::function<void(const std::map<T, U>&)>&,
                     CallbackAction);
 
-                MapObserver();
+                Map();
 
             public:
-                ~MapObserver();
+                ~Map();
 
                 //! Create a new map observer.
-                static std::shared_ptr<Observer::MapObserver<T, U> > create(
+                static std::shared_ptr<Map<T, U> > create(
                     const std::weak_ptr<IMapSubject<T, U> >&,
                     const std::function<void(const std::map<T, U>&)>&,
                     CallbackAction = CallbackAction::Trigger);
@@ -76,12 +76,12 @@ namespace djv
                 size_t getObserversCount() const;
 
             protected:
-                void _add(const std::weak_ptr<MapObserver<T, U> >&);
+                void _add(const std::weak_ptr<Map<T, U> >&);
                 void _removeExpired();
 
-                std::vector<std::weak_ptr<MapObserver<T, U> > > _observers;
+                std::vector<std::weak_ptr<Map<T, U> > > _observers;
 
-                friend MapObserver<T, U>;
+                friend Map<T, U>;
             };
 
             //! This class provides a map subject.
@@ -95,10 +95,10 @@ namespace djv
 
             public:
                 //! Create a new map subject.
-                static std::shared_ptr<Observer::MapSubject<T, U> > create();
+                static std::shared_ptr<MapSubject<T, U> > create();
 
                 //! Create a new map subject with the given value.
-                static std::shared_ptr<Observer::MapSubject<T, U> > create(const std::map<T, U>&);
+                static std::shared_ptr<MapSubject<T, U> > create(const std::map<T, U>&);
 
                 //! Set the map.
                 void setAlways(const std::map<T, U>&);

@@ -34,8 +34,8 @@ namespace djv
                 std::weak_ptr<IObject> textFocus;
                 std::shared_ptr<Observer::ValueSubject<bool> > textFocusActive;
                 bool textInit = false;
-                std::shared_ptr<Observer::ValueObserver<std::string> > localeObserver;
-                std::shared_ptr<Observer::ValueObserver<bool> > textChangedObserver;
+                std::shared_ptr<Observer::Value<std::string> > localeObserver;
+                std::shared_ptr<Observer::Value<bool> > textChangedObserver;
                 std::shared_ptr<Timer> statsTimer;
             };
 
@@ -55,7 +55,7 @@ namespace djv
                 p.textSystem = context->getSystemT<TextSystem>();
                 if (auto textSystem = p.textSystem.lock())
                 {
-                    p.localeObserver = Observer::ValueObserver<std::string>::create(
+                    p.localeObserver = Observer::Value<std::string>::create(
                         textSystem->observeCurrentLocale(),
                         [weak](const std::string&)
                         {
@@ -64,7 +64,7 @@ namespace djv
                                 system->_p->textInit = true;
                             }
                         });
-                    p.textChangedObserver = Observer::ValueObserver<bool>::create(
+                    p.textChangedObserver = Observer::Value<bool>::create(
                         textSystem->observeTextChanged(),
                         [weak](bool)
                         {

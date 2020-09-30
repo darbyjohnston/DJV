@@ -65,12 +65,12 @@ namespace djv
             std::shared_ptr<UI::Layout::Overlay> pipOverlay;
             std::function<void(Math::Frame::Index)> currentFrameCallback;
             std::function<void(bool)> currentFrameDragCallback;
-            std::shared_ptr<Observer::ValueObserver<AV::IO::Info> > infoObserver;
-            std::shared_ptr<Observer::ValueObserver<Math::Rational> > speedObserver;
-            std::shared_ptr<Observer::ValueObserver<Math::Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<Observer::ValueObserver<Math::Frame::Index> > currentFrameObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > pipEnabledObserver;
-            std::shared_ptr<Observer::ValueObserver<AV::Time::Units> > timeUnitsObserver;
+            std::shared_ptr<Observer::Value<AV::IO::Info> > infoObserver;
+            std::shared_ptr<Observer::Value<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::Value<Math::Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<Observer::Value<Math::Frame::Index> > currentFrameObserver;
+            std::shared_ptr<Observer::Value<bool> > pipEnabledObserver;
+            std::shared_ptr<Observer::Value<AV::Time::Units> > timeUnitsObserver;
             glm::vec2 sizePrev = glm::vec2(0.F, 0.F);
             struct TimeTick
             {
@@ -105,7 +105,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
-                p.pipEnabledObserver = Observer::ValueObserver<bool>::create(
+                p.pipEnabledObserver = Observer::Value<bool>::create(
                     playbackSettings->observePIPEnabled(),
                     [weak](bool value)
                 {
@@ -117,7 +117,7 @@ namespace djv
             }
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = Observer::ValueObserver<AV::Time::Units>::create(
+            p.timeUnitsObserver = Observer::Value<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
                 [weak](AV::Time::Units value)
                 {
@@ -153,7 +153,7 @@ namespace djv
             if (p.media)
             {
                 auto weak = std::weak_ptr<TimelineSlider>(std::dynamic_pointer_cast<TimelineSlider>(shared_from_this()));
-                p.infoObserver = Observer::ValueObserver<AV::IO::Info>::create(
+                p.infoObserver = Observer::Value<AV::IO::Info>::create(
                     p.media->observeInfo(),
                     [weak](const AV::IO::Info & value)
                 {
@@ -165,7 +165,7 @@ namespace djv
                     }
                 });
 
-                p.speedObserver = Observer::ValueObserver<Math::Rational>::create(
+                p.speedObserver = Observer::Value<Math::Rational>::create(
                     p.media->observeDefaultSpeed(),
                     [weak](const Math::Rational& value)
                     {
@@ -177,7 +177,7 @@ namespace djv
                         }
                     });
 
-                p.sequenceObserver = Observer::ValueObserver<Math::Frame::Sequence>::create(
+                p.sequenceObserver = Observer::Value<Math::Frame::Sequence>::create(
                     p.media->observeSequence(),
                     [weak](const Math::Frame::Sequence& value)
                     {
@@ -189,7 +189,7 @@ namespace djv
                         }
                     });
 
-                p.currentFrameObserver = Observer::ValueObserver<Math::Frame::Index>::create(
+                p.currentFrameObserver = Observer::Value<Math::Frame::Index>::create(
                     p.media->observeCurrentFrame(),
                     [weak](Math::Frame::Index value)
                     {

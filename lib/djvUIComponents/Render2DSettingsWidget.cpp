@@ -26,7 +26,7 @@ namespace djv
             Render2D::ImageFilterOptions filterOptions;
             std::shared_ptr<UI::ComboBox> filterComboBox[2];
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<Observer::ValueObserver<Render2D::ImageFilterOptions> > filterOptionsObserver;
+            std::shared_ptr<Observer::Value<Render2D::ImageFilterOptions> > filterOptionsObserver;
         };
 
         void Render2DImageSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -74,7 +74,7 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<Render2D::RenderSystem>();
-            p.filterOptionsObserver = Observer::ValueObserver<Render2D::ImageFilterOptions>::create(
+            p.filterOptionsObserver = Observer::Value<Render2D::ImageFilterOptions>::create(
                 avSystem->observeImageFilterOptions(),
                 [weak](const Render2D::ImageFilterOptions& value)
                 {
@@ -149,7 +149,7 @@ namespace djv
         {
             std::shared_ptr<UI::ToggleButton> lcdRenderingButton;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<Observer::ValueObserver<bool> > lcdRenderingObserver;
+            std::shared_ptr<Observer::Value<bool> > lcdRenderingObserver;
         };
 
         void Render2DTextSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -179,7 +179,7 @@ namespace djv
 
             auto avSystem = context->getSystemT<Render2D::RenderSystem>();
             auto weak = std::weak_ptr<Render2DTextSettingsWidget>(std::dynamic_pointer_cast<Render2DTextSettingsWidget>(shared_from_this()));
-            p.lcdRenderingObserver = Observer::ValueObserver<bool>::create(
+            p.lcdRenderingObserver = Observer::Value<bool>::create(
                 avSystem->observeTextLCDRendering(),
                 [weak](bool value)
             {

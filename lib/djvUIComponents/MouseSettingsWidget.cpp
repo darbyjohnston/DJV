@@ -26,9 +26,9 @@ namespace djv
             std::shared_ptr<ToggleButton> reverseScrollingButton;
             std::shared_ptr<FormLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<float> > doubleClickTimeObserver;
-            std::shared_ptr<Observer::ValueObserver<ScrollWheelSpeed> > scrollWheelSpeedObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > reverseScrollingObserver;
+            std::shared_ptr<Observer::Value<float> > doubleClickTimeObserver;
+            std::shared_ptr<Observer::Value<ScrollWheelSpeed> > scrollWheelSpeedObserver;
+            std::shared_ptr<Observer::Value<bool> > reverseScrollingObserver;
         };
 
         void MouseSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -79,7 +79,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto mouseSettings = settingsSystem->getSettingsT<Settings::Mouse>();
-            p.scrollWheelSpeedObserver = Observer::ValueObserver<ScrollWheelSpeed>::create(
+            p.scrollWheelSpeedObserver = Observer::Value<ScrollWheelSpeed>::create(
                 mouseSettings->observeScrollWheelSpeed(),
                 [weak](ScrollWheelSpeed value)
                 {
@@ -88,7 +88,7 @@ namespace djv
                         widget->_p->scrollWheelSpeedComboBox->setCurrentItem(static_cast<int>(value));
                     }
                 });
-            p.reverseScrollingObserver = Observer::ValueObserver<bool>::create(
+            p.reverseScrollingObserver = Observer::Value<bool>::create(
                 mouseSettings->observeReverseScrolling(),
                 [weak](bool value)
                 {

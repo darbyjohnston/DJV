@@ -11,7 +11,7 @@ namespace djv
         namespace Observer
         {
             template<typename T>
-            inline void ValueObserver<T>::_init(
+            inline void Value<T>::_init(
                 const std::weak_ptr<IValueSubject<T> >& value,
                 const std::function<void(const T&)>& callback,
                 CallbackAction action)
@@ -20,7 +20,7 @@ namespace djv
                 _callback = callback;
                 if (auto subject = value.lock())
                 {
-                    subject->_add(ValueObserver<T>::shared_from_this());
+                    subject->_add(Value<T>::shared_from_this());
                     if (CallbackAction::Trigger == action)
                     {
                         _callback(subject->get());
@@ -29,11 +29,11 @@ namespace djv
             }
 
             template<typename T>
-            inline ValueObserver<T>::ValueObserver()
+            inline Value<T>::Value()
             {}
 
             template<typename T>
-            inline ValueObserver<T>::~ValueObserver()
+            inline Value<T>::~Value()
             {
                 if (auto subject = _subject.lock())
                 {
@@ -42,7 +42,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void ValueObserver<T>::doCallback(const T& value)
+            inline void Value<T>::doCallback(const T& value)
             {
                 _callback(value);
             }
@@ -58,7 +58,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void IValueSubject<T>::_add(const std::weak_ptr<ValueObserver<T> >& observer)
+            inline void IValueSubject<T>::_add(const std::weak_ptr<Value<T> >& observer)
             {
                 _observers.push_back(observer);
             }
@@ -81,12 +81,12 @@ namespace djv
             }
 
             template<typename T>
-            inline std::shared_ptr<Observer::ValueObserver<T> > ValueObserver<T>::create(
+            inline std::shared_ptr<Value<T> > Value<T>::create(
                 const std::weak_ptr<IValueSubject<T> >& value,
                 const std::function<void(const T&)>& callback,
                 CallbackAction action)
             {
-                std::shared_ptr<Observer::ValueObserver<T> > out(new ValueObserver<T>);
+                std::shared_ptr<Value<T> > out(new Value<T>);
                 out->_init(value, callback, action);
                 return out;
             }
@@ -101,15 +101,15 @@ namespace djv
             {}
 
             template<typename T>
-            inline std::shared_ptr<Observer::ValueSubject<T> > ValueSubject<T>::create()
+            inline std::shared_ptr<ValueSubject<T> > ValueSubject<T>::create()
             {
-                return std::shared_ptr<Observer::ValueSubject<T> >(new ValueSubject<T>);
+                return std::shared_ptr<ValueSubject<T> >(new ValueSubject<T>);
             }
 
             template<typename T>
-            inline std::shared_ptr<Observer::ValueSubject<T> > ValueSubject<T>::create(const T& value)
+            inline std::shared_ptr<ValueSubject<T> > ValueSubject<T>::create(const T& value)
             {
-                return std::shared_ptr<Observer::ValueSubject<T> >(new ValueSubject<T>(value));
+                return std::shared_ptr<ValueSubject<T> >(new ValueSubject<T>(value));
             }
 
             template<typename T>

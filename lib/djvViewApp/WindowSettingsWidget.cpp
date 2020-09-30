@@ -38,8 +38,8 @@ namespace djv
         {
             std::shared_ptr<UI::ToggleButton> restorePosButton;
             std::shared_ptr<UI::ToggleButton> restoreSizeButton;
-            std::shared_ptr<Observer::ValueObserver<bool> > restorePosObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > restoreSizeObserver;
+            std::shared_ptr<Observer::Value<bool> > restorePosObserver;
+            std::shared_ptr<Observer::Value<bool> > restoreSizeObserver;
             std::shared_ptr<UI::FormLayout> layout;
         };
 
@@ -96,7 +96,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
-                p.restorePosObserver = Observer::ValueObserver<bool>::create(
+                p.restorePosObserver = Observer::Value<bool>::create(
                     windowSettings->observeRestorePos(),
                     [weak](bool value)
                 {
@@ -106,7 +106,7 @@ namespace djv
                     }
                 });
 
-                p.restoreSizeObserver = Observer::ValueObserver<bool>::create(
+                p.restoreSizeObserver = Observer::Value<bool>::create(
                     windowSettings->observeRestoreSize(),
                     [weak](bool value)
                 {
@@ -164,8 +164,8 @@ namespace djv
             int monitor = 0;
             std::shared_ptr<UI::ComboBox> monitorComboBox;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<Observer::ListObserver<Desktop::MonitorInfo> > monitorInfoObserver;
-            std::shared_ptr<Observer::ValueObserver<int> > monitorObserver;
+            std::shared_ptr<Observer::List<Desktop::MonitorInfo> > monitorInfoObserver;
+            std::shared_ptr<Observer::Value<int> > monitorObserver;
         };
 
         void FullscreenMonitorSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -200,7 +200,7 @@ namespace djv
             });
 
             auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
-            p.monitorInfoObserver = Observer::ListObserver<Desktop::MonitorInfo>::create(
+            p.monitorInfoObserver = Observer::List<Desktop::MonitorInfo>::create(
                 glfwSystem->observeMonitorInfo(),
                 [weak](const std::vector<Desktop::MonitorInfo>& value)
             {
@@ -218,7 +218,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
-                p.monitorObserver = Observer::ValueObserver<int>::create(
+                p.monitorObserver = Observer::Value<int>::create(
                     windowSettings->observeFullScreenMonitor(),
                     [weak](int value)
                 {
@@ -296,9 +296,9 @@ namespace djv
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<std::string> > backgroundImageObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > backgroundImageScaleObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > backgroundImageColorizeObserver;
+            std::shared_ptr<Observer::Value<std::string> > backgroundImageObserver;
+            std::shared_ptr<Observer::Value<bool> > backgroundImageScaleObserver;
+            std::shared_ptr<Observer::Value<bool> > backgroundImageColorizeObserver;
         };
 
         void BackgroundImageSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -464,7 +464,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
-                p.backgroundImageObserver = Observer::ValueObserver<std::string>::create(
+                p.backgroundImageObserver = Observer::Value<std::string>::create(
                     windowSettings->observeBackgroundImage(),
                     [weak](const std::string& value)
                     {
@@ -476,7 +476,7 @@ namespace djv
                         }
                     });
 
-                p.backgroundImageScaleObserver = Observer::ValueObserver<bool>::create(
+                p.backgroundImageScaleObserver = Observer::Value<bool>::create(
                     windowSettings->observeBackgroundImageScale(),
                     [weak](bool value)
                     {
@@ -487,7 +487,7 @@ namespace djv
                         }
                     });
 
-                p.backgroundImageColorizeObserver = Observer::ValueObserver<bool>::create(
+                p.backgroundImageColorizeObserver = Observer::Value<bool>::create(
                     windowSettings->observeBackgroundImageColorize(),
                     [weak](bool value)
                     {

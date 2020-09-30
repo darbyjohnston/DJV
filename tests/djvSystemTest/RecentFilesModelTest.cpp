@@ -26,7 +26,7 @@ namespace djv
                 auto model = File::RecentFilesModel::create();
                 
                 std::vector<File::Info> files;
-                auto filesObserver = Observer::ListObserver<File::Info>::create(
+                auto filesObserver = Observer::List<File::Info>::create(
                     model->observeFiles(),
                     [&files](const std::vector<File::Info>& value)
                     {
@@ -34,7 +34,7 @@ namespace djv
                     });
                 
                 size_t max = 0;
-                auto maxObserver = Observer::ValueObserver<size_t>::create(
+                auto maxObserver = Observer::Value<size_t>::create(
                     model->observeFilesMax(),
                     [&max](size_t value)
                     {

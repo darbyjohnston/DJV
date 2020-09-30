@@ -11,7 +11,7 @@ namespace djv
         namespace Observer
         {
             template<typename T, typename U>
-            inline void MapObserver<T, U>::_init(
+            inline void Map<T, U>::_init(
                 const std::weak_ptr<IMapSubject<T, U> >& value,
                 const std::function<void(const std::map<T, U>&)>& callback,
                 CallbackAction action)
@@ -20,7 +20,7 @@ namespace djv
                 _callback = callback;
                 if (auto subject = value.lock())
                 {
-                    subject->_add(MapObserver<T, U>::shared_from_this());
+                    subject->_add(Map<T, U>::shared_from_this());
                     if (CallbackAction::Trigger == action)
                     {
                         _callback(subject->get());
@@ -29,11 +29,11 @@ namespace djv
             }
 
             template<typename T, typename U>
-            inline MapObserver<T, U>::MapObserver()
+            inline Map<T, U>::Map()
             {}
 
             template<typename T, typename U>
-            inline MapObserver<T, U>::~MapObserver()
+            inline Map<T, U>::~Map()
             {
                 if (auto subject = _subject.lock())
                 {
@@ -42,18 +42,18 @@ namespace djv
             }
 
             template<typename T, typename U>
-            inline std::shared_ptr<Observer::MapObserver<T, U> > MapObserver<T, U>::create(
+            inline std::shared_ptr<Map<T, U> > Map<T, U>::create(
                 const std::weak_ptr<IMapSubject<T, U> >& value,
                 const std::function<void(const std::map<T, U>&)>& callback,
                 CallbackAction action)
             {
-                std::shared_ptr<Observer::MapObserver<T, U> > out(new MapObserver<T, U>);
+                std::shared_ptr<Map<T, U> > out(new Map<T, U>);
                 out->_init(value, callback, action);
                 return out;
             }
 
             template<typename T, typename U>
-            inline void MapObserver<T, U>::doCallback(const std::map<T, U>& value)
+            inline void Map<T, U>::doCallback(const std::map<T, U>& value)
             {
                 _callback(value);
             }
@@ -69,7 +69,7 @@ namespace djv
             }
 
             template<typename T, typename U>
-            inline void IMapSubject<T, U>::_add(const std::weak_ptr<MapObserver<T, U> >& observer)
+            inline void IMapSubject<T, U>::_add(const std::weak_ptr<Map<T, U> >& observer)
             {
                 _observers.push_back(observer);
             }
@@ -101,15 +101,15 @@ namespace djv
             {}
 
             template<typename T, typename U>
-            inline std::shared_ptr<Observer::MapSubject<T, U> > MapSubject<T, U>::create()
+            inline std::shared_ptr<MapSubject<T, U> > MapSubject<T, U>::create()
             {
-                return std::shared_ptr<Observer::MapSubject<T, U> >(new MapSubject<T, U>);
+                return std::shared_ptr<MapSubject<T, U> >(new MapSubject<T, U>);
             }
 
             template<typename T, typename U>
-            inline std::shared_ptr<Observer::MapSubject<T, U> > MapSubject<T, U>::create(const std::map<T, U>& value)
+            inline std::shared_ptr<MapSubject<T, U> > MapSubject<T, U>::create(const std::map<T, U>& value)
             {
-                return std::shared_ptr<Observer::MapSubject<T, U> >(new MapSubject<T, U>(value));
+                return std::shared_ptr<MapSubject<T, U> >(new MapSubject<T, U>(value));
             }
 
             template<typename T, typename U>

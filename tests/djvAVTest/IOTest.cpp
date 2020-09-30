@@ -461,7 +461,7 @@ namespace djv
                     _print(ss.str());
                 }
 
-                auto observer = Observer::ValueObserver<bool>::create(
+                auto observer = Observer::Value<bool>::create(
                     io->observeOptionsChanged(),
                     [this](bool value)
                     {

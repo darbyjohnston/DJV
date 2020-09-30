@@ -19,12 +19,12 @@ namespace djv
             std::map<std::shared_ptr<Action>, std::shared_ptr<ToolButton> > actionsToButtons;
             struct Observers
             {
-                std::shared_ptr<Observer::ValueObserver<ButtonType> > buttonType;
-                std::shared_ptr<Observer::ValueObserver<bool> > checked;
-                std::shared_ptr<Observer::ValueObserver<std::string> > icon;
-                std::shared_ptr<Observer::ValueObserver<std::string> > text;
-                std::shared_ptr<Observer::ValueObserver<bool> > enabled;
-                std::shared_ptr<Observer::ValueObserver<bool> > autoRepeat;
+                std::shared_ptr<Observer::Value<ButtonType> > buttonType;
+                std::shared_ptr<Observer::Value<bool> > checked;
+                std::shared_ptr<Observer::Value<std::string> > icon;
+                std::shared_ptr<Observer::Value<std::string> > text;
+                std::shared_ptr<Observer::Value<bool> > enabled;
+                std::shared_ptr<Observer::Value<bool> > autoRepeat;
             };
             std::map<std::shared_ptr<Action>, Observers> observers;
             std::shared_ptr<HorizontalLayout> layout;
@@ -99,37 +99,37 @@ namespace djv
                         action->doClick();
                     });
                 p.actionsToButtons[action] = button;
-                p.observers[action].buttonType = Observer::ValueObserver<ButtonType>::create(
+                p.observers[action].buttonType = Observer::Value<ButtonType>::create(
                     action->observeButtonType(),
                     [button](ButtonType value)
                     {
                         button->setButtonType(value);
                     });
-                p.observers[action].checked = Observer::ValueObserver<bool>::create(
+                p.observers[action].checked = Observer::Value<bool>::create(
                     action->observeChecked(),
                     [button](bool value)
                     {
                         button->setChecked(value);
                     });
-                p.observers[action].icon = Observer::ValueObserver<std::string>::create(
+                p.observers[action].icon = Observer::Value<std::string>::create(
                     action->observeIcon(),
                     [button](const std::string& value)
                     {
                         button->setIcon(value);
                     });
-                /*p.observers[action].text = Observer::ValueObserver<std::string>::create(
+                /*p.observers[action].text = Observer::Value<std::string>::create(
                     action->observeText(),
                     [button](const std::string& value)
                 {
                     button->setText(value);
                 });*/
-                p.observers[action].enabled = Observer::ValueObserver<bool>::create(
+                p.observers[action].enabled = Observer::Value<bool>::create(
                     action->observeEnabled(),
                     [button](bool value)
                 {
                     button->setEnabled(value);
                 });
-                p.observers[action].autoRepeat = Observer::ValueObserver<bool>::create(
+                p.observers[action].autoRepeat = Observer::Value<bool>::create(
                     action->observeAutoRepeat(),
                     [button](bool value)
                     {

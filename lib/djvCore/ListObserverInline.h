@@ -11,7 +11,7 @@ namespace djv
         namespace Observer
         {
             template<typename T>
-            inline void ListObserver<T>::_init(
+            inline void List<T>::_init(
                 const std::weak_ptr<IListSubject<T> >& value,
                 const std::function<void(const std::vector<T>&)>& callback,
                 CallbackAction action)
@@ -20,7 +20,7 @@ namespace djv
                 _callback = callback;
                 if (auto subject = value.lock())
                 {
-                    subject->_add(ListObserver<T>::shared_from_this());
+                    subject->_add(List<T>::shared_from_this());
                     if (CallbackAction::Trigger == action)
                     {
                         _callback(subject->get());
@@ -29,11 +29,11 @@ namespace djv
             }
 
             template<typename T>
-            inline ListObserver<T>::ListObserver()
+            inline List<T>::List()
             {}
 
             template<typename T>
-            inline ListObserver<T>::~ListObserver()
+            inline List<T>::~List()
             {
                 if (auto subject = _subject.lock())
                 {
@@ -42,18 +42,18 @@ namespace djv
             }
 
             template<typename T>
-            inline std::shared_ptr<Observer::ListObserver<T> > ListObserver<T>::create(
+            inline std::shared_ptr<List<T> > List<T>::create(
                 const std::weak_ptr<IListSubject<T> >& value,
                 const std::function<void(const std::vector<T>&)>& callback,
                 CallbackAction action)
             {
-                std::shared_ptr<Observer::ListObserver<T> > out(new ListObserver<T>);
+                std::shared_ptr<List<T> > out(new List<T>);
                 out->_init(value, callback, action);
                 return out;
             }
 
             template<typename T>
-            inline void ListObserver<T>::doCallback(const std::vector<T>& value)
+            inline void List<T>::doCallback(const std::vector<T>& value)
             {
                 _callback(value);
             }
@@ -69,7 +69,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void IListSubject<T>::_add(const std::weak_ptr<ListObserver<T> >& observer)
+            inline void IListSubject<T>::_add(const std::weak_ptr<List<T> >& observer)
             {
                 _observers.push_back(observer);
             }
@@ -101,15 +101,15 @@ namespace djv
             {}
 
             template<typename T>
-            inline std::shared_ptr<Observer::ListSubject<T> > ListSubject<T>::create()
+            inline std::shared_ptr<ListSubject<T> > ListSubject<T>::create()
             {
-                return std::shared_ptr<Observer::ListSubject<T> >(new ListSubject<T>);
+                return std::shared_ptr<ListSubject<T> >(new ListSubject<T>);
             }
 
             template<typename T>
-            inline std::shared_ptr<Observer::ListSubject<T> > ListSubject<T>::create(const std::vector<T>& value)
+            inline std::shared_ptr<ListSubject<T> > ListSubject<T>::create(const std::vector<T>& value)
             {
-                return std::shared_ptr<Observer::ListSubject<T> >(new ListSubject<T>(value));
+                return std::shared_ptr<ListSubject<T> >(new ListSubject<T>(value));
             }
 
             template<typename T>

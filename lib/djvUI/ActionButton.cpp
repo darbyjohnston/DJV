@@ -110,9 +110,9 @@ namespace djv
                 std::shared_ptr<Label> textLabel;
                 std::shared_ptr<Label> shortcutsLabel;
                 std::shared_ptr<HorizontalLayout> layout;
-                std::shared_ptr<Observer::ValueObserver<std::string> > iconObserver;
-                std::shared_ptr<Observer::ValueObserver<std::string> > textObserver;
-                std::shared_ptr<Observer::ListObserver<std::shared_ptr<Shortcut> > > shortcutsObserver;
+                std::shared_ptr<Observer::Value<std::string> > iconObserver;
+                std::shared_ptr<Observer::Value<std::string> > textObserver;
+                std::shared_ptr<Observer::List<std::shared_ptr<Shortcut> > > shortcutsObserver;
             };
 
             void ActionButton::_init(const std::shared_ptr<System::Context>& context)
@@ -325,7 +325,7 @@ namespace djv
                 {
                     p.action = actions.front();
                     auto weak = std::weak_ptr<ActionButton>(std::dynamic_pointer_cast<ActionButton>(shared_from_this()));
-                    p.iconObserver = Observer::ValueObserver<std::string>::create(
+                    p.iconObserver = Observer::Value<std::string>::create(
                         p.action->observeIcon(),
                         [weak](const std::string& value)
                     {
@@ -334,7 +334,7 @@ namespace djv
                             widget->_p->icon->setIcon(value);
                         }
                     });
-                    p.textObserver = Observer::ValueObserver<std::string>::create(
+                    p.textObserver = Observer::Value<std::string>::create(
                         p.action->observeText(),
                         [weak](const std::string& value)
                     {
@@ -343,7 +343,7 @@ namespace djv
                             widget->_p->textLabel->setText(value);
                         }
                     });
-                    p.shortcutsObserver = Observer::ListObserver<std::shared_ptr<Shortcut> >::create(
+                    p.shortcutsObserver = Observer::List<std::shared_ptr<Shortcut> >::create(
                         p.action->observeShortcuts(),
                         [weak](const std::vector<std::shared_ptr<Shortcut> >& value)
                     {

@@ -69,9 +69,9 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
 
-            std::shared_ptr<Observer::ValueObserver<ImageData> > dataObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
+            std::shared_ptr<Observer::Value<ImageData> > dataObserver;
+            std::shared_ptr<Observer::Value<bool> > frameStoreEnabledObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > frameStoreObserver;
         };
 
         void ImageControlsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -669,7 +669,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            p.dataObserver = Observer::ValueObserver<ImageData>::create(
+            p.dataObserver = Observer::Value<ImageData>::create(
                 imageSettings->observeData(),
                 [weak](const ImageData& value)
                 {
@@ -681,7 +681,7 @@ namespace djv
                 });
 
             auto imageSystem = context->getSystemT<ImageSystem>();
-            p.frameStoreEnabledObserver = Observer::ValueObserver<bool>::create(
+            p.frameStoreEnabledObserver = Observer::Value<bool>::create(
                 imageSystem->observeFrameStoreEnabled(),
                 [weak](bool value)
                 {
@@ -691,7 +691,7 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
-            p.frameStoreObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
+            p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
                 imageSystem->observeFrameStore(),
                 [weak](const std::shared_ptr<Image::Image>& value)
                 {

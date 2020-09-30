@@ -37,8 +37,8 @@ namespace djv
             std::vector<std::shared_ptr<UI::GroupBox> > groupBoxes;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> infoLayout;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<Observer::ValueObserver<AV::IO::Info> > infoObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::Value<AV::IO::Info> > infoObserver;
 
             std::shared_ptr<UI::TextBlock> createTextBlock(const std::shared_ptr<System::Context>& context)
             {
@@ -103,7 +103,7 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                p.currentMediaObserver = Observer::Value<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
@@ -111,7 +111,7 @@ namespace djv
                         {
                             if (value)
                             {
-                                widget->_p->infoObserver = Observer::ValueObserver<AV::IO::Info>::create(
+                                widget->_p->infoObserver = Observer::Value<AV::IO::Info>::create(
                                     value->observeInfo(),
                                     [weak](const AV::IO::Info& value)
                                     {

@@ -21,9 +21,9 @@ namespace djv
 
             //! This class provides a value observer.
             template<typename T>
-            class ValueObserver : public std::enable_shared_from_this<ValueObserver<T> >
+            class Value : public std::enable_shared_from_this<Value<T> >
             {
-                DJV_NON_COPYABLE(ValueObserver);
+                DJV_NON_COPYABLE(Value);
 
             protected:
                 void _init(
@@ -31,13 +31,13 @@ namespace djv
                     const std::function<void(const T&)>&,
                     CallbackAction);
 
-                ValueObserver();
+                Value();
 
             public:
-                ~ValueObserver();
+                ~Value();
 
                 //! Create a new value observer.
-                static std::shared_ptr<Observer::ValueObserver<T> > create(
+                static std::shared_ptr<Value<T> > create(
                     const std::weak_ptr<IValueSubject<T> >&,
                     const std::function<void(const T&)>&,
                     CallbackAction = CallbackAction::Trigger);
@@ -64,12 +64,12 @@ namespace djv
                 size_t getObserversCount() const;
 
             protected:
-                void _add(const std::weak_ptr<ValueObserver<T> >&);
+                void _add(const std::weak_ptr<Value<T> >&);
                 void _removeExpired();
 
-                std::vector<std::weak_ptr<ValueObserver<T> > > _observers;
+                std::vector<std::weak_ptr<Value<T> > > _observers;
 
-                friend class ValueObserver<T>;
+                friend class Value<T>;
             };
 
             //! This class provides a value subject.
@@ -84,10 +84,10 @@ namespace djv
 
             public:
                 //! Create a new value subject.
-                static std::shared_ptr<Observer::ValueSubject<T> > create();
+                static std::shared_ptr<ValueSubject<T> > create();
 
                 //! Create a new value subject with the given value.
-                static std::shared_ptr<Observer::ValueSubject<T> > create(const T&);
+                static std::shared_ptr<ValueSubject<T> > create(const T&);
 
                 //! Set the value.
                 void setAlways(const T&);

@@ -25,7 +25,7 @@ namespace djv
         {
             std::shared_ptr<UI::ShortcutsWidget> widget;
 
-            std::shared_ptr<Observer::MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
+            std::shared_ptr<Observer::Map<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void KeyboardShortcutSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -53,7 +53,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto keyboardSettings = settingsSystem->getSettingsT<KeyboardSettings>();
             auto weak = std::weak_ptr<KeyboardShortcutSettingsWidget>(std::dynamic_pointer_cast<KeyboardShortcutSettingsWidget>(shared_from_this()));
-            p.shortcutsObserver = Observer::MapObserver<std::string, UI::ShortcutDataPair>::create(
+            p.shortcutsObserver = Observer::Map<std::string, UI::ShortcutDataPair>::create(
                 keyboardSettings->observeShortcuts(),
                 [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                 {

@@ -24,9 +24,9 @@ namespace djv
 
             //! This class provides a list observer.
             template<typename T>
-            class ListObserver : public std::enable_shared_from_this<ListObserver<T> >
+            class List : public std::enable_shared_from_this<List<T> >
             {
-                DJV_NON_COPYABLE(ListObserver);
+                DJV_NON_COPYABLE(List);
 
             protected:
                 void _init(
@@ -34,13 +34,13 @@ namespace djv
                     const std::function<void(const std::vector<T>&)>&,
                     CallbackAction);
 
-                ListObserver();
+                List();
 
             public:
-                ~ListObserver();
+                ~List();
 
                 //! Create a new list observer.
-                static std::shared_ptr<Observer::ListObserver<T> > create(
+                static std::shared_ptr<List<T> > create(
                     const std::weak_ptr<IListSubject<T> >&,
                     const std::function<void(const std::vector<T>&)>&,
                     CallbackAction = CallbackAction::Trigger);
@@ -82,12 +82,12 @@ namespace djv
                 size_t getObserversCount() const;
 
             protected:
-                void _add(const std::weak_ptr<ListObserver<T> >&);
+                void _add(const std::weak_ptr<List<T> >&);
                 void _removeExpired();
 
-                std::vector<std::weak_ptr<ListObserver<T> > > _observers;
+                std::vector<std::weak_ptr<List<T> > > _observers;
 
-                friend ListObserver<T>;
+                friend List<T>;
             };
 
             //! This class provides a list subject.
@@ -102,10 +102,10 @@ namespace djv
 
             public:
                 //! Create a new list subject.
-                static std::shared_ptr<Observer::ListSubject<T> > create();
+                static std::shared_ptr<ListSubject<T> > create();
 
                 //! Create a new list subject with the given value.
-                static std::shared_ptr<Observer::ListSubject<T> > create(const std::vector<T>&);
+                static std::shared_ptr<ListSubject<T> > create(const std::vector<T>&);
 
                 //! Set the list.
                 void setAlways(const std::vector<T>&);

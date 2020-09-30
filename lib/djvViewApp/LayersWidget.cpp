@@ -29,8 +29,8 @@ namespace djv
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<Observer::ValueObserver<std::pair<std::vector<Image::Info>, int> > > layersObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::Value<std::pair<std::vector<Image::Info>, int> > > layersObserver;
         };
 
         void LayersWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -88,7 +88,7 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                p.currentMediaObserver = Observer::Value<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
@@ -97,7 +97,7 @@ namespace djv
                             widget->_p->currentMedia = value;
                             if (value)
                             {
-                                widget->_p->layersObserver = Observer::ValueObserver<std::pair<std::vector<Image::Info>, int> >::create(
+                                widget->_p->layersObserver = Observer::Value<std::pair<std::vector<Image::Info>, int> >::create(
                                     value->observeLayers(),
                                     [weak](const std::pair<std::vector<Image::Info>, int>& value)
                                     {

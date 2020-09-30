@@ -34,7 +34,7 @@ namespace djv
             MetricsRole sizeRole = MetricsRole::None;
             OCIO::Config ocioConfig;
             std::string outputColorSpace;
-            std::shared_ptr<Observer::ValueObserver<OCIO::Config> > ocioConfigObserver;
+            std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
         };
 
         void ImageWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -47,7 +47,7 @@ namespace djv
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
             auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.ocioConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+            p.ocioConfigObserver = Observer::Value<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
                 [weak, contextWeak](const OCIO::Config& value)
                 {

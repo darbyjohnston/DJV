@@ -41,8 +41,8 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
 
-            std::shared_ptr<Observer::ValueObserver<OCIO::ConfigMode> > configModeObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::UserConfigs> > userConfigsObserver;
+            std::shared_ptr<Observer::Value<OCIO::ConfigMode> > configModeObserver;
+            std::shared_ptr<Observer::Value<OCIO::UserConfigs> > userConfigsObserver;
         };
 
         void ColorSpaceConfigWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -166,7 +166,7 @@ namespace djv
                 });
 
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-            p.configModeObserver = Observer::ValueObserver<OCIO::ConfigMode>::create(
+            p.configModeObserver = Observer::Value<OCIO::ConfigMode>::create(
                 ocioSystem->observeConfigMode(),
                 [weak](const OCIO::ConfigMode& value)
                 {
@@ -177,7 +177,7 @@ namespace djv
                     }
                 });
 
-            p.userConfigsObserver = Observer::ValueObserver<OCIO::UserConfigs>::create(
+            p.userConfigsObserver = Observer::Value<OCIO::UserConfigs>::create(
                 ocioSystem->observeUserConfigs(),
                 [weak](const OCIO::UserConfigs& value)
                 {

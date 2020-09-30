@@ -107,13 +107,13 @@ namespace djv
                 std::pair<System::Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.F, 0.F);
                 std::function<void(void)> _closeCallback;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::ValueObserver<ButtonType> > > _buttonTypeObservers;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::ValueObserver<bool> > > _checkedObservers;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::ValueObserver<std::string> > > _iconObservers;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::ValueObserver<std::string> > > _textObservers;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::ValueObserver<std::string> > > _fontObservers;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::ValueObserver<bool> > > _enabledObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::Value<ButtonType> > > _buttonTypeObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::Value<bool> > > _checkedObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::Value<std::string> > > _iconObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::Value<std::string> > > _textObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::Value<std::string> > > _fontObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::List<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Observer::Value<bool> > > _enabledObservers;
                 bool _textUpdateRequest = false;
             };
 
@@ -610,7 +610,7 @@ namespace djv
                     auto item = std::shared_ptr<Item>(new Item);
                     if (i.second)
                     {
-                        _buttonTypeObservers[item] = Observer::ValueObserver<ButtonType>::create(
+                        _buttonTypeObservers[item] = Observer::Value<ButtonType>::create(
                             i.second->observeButtonType(),
                             [item, weak](ButtonType value)
                             {
@@ -620,7 +620,7 @@ namespace djv
                                     widget->_redraw();
                                 }
                             });
-                        _checkedObservers[item] = Observer::ValueObserver<bool>::create(
+                        _checkedObservers[item] = Observer::Value<bool>::create(
                             i.second->observeChecked(),
                             [item, weak](bool value)
                             {
@@ -630,7 +630,7 @@ namespace djv
                                     widget->_redraw();
                                 }
                             });
-                        _iconObservers[item] = Observer::ValueObserver<std::string>::create(
+                        _iconObservers[item] = Observer::Value<std::string>::create(
                             i.second->observeIcon(),
                             [item, weak](const std::string& value)
                             {
@@ -654,7 +654,7 @@ namespace djv
                                     }
                                 }
                             });
-                        _textObservers[item] = Observer::ValueObserver<std::string>::create(
+                        _textObservers[item] = Observer::Value<std::string>::create(
                             i.second->observeText(),
                             [item, weak](const std::string& value)
                             {
@@ -664,7 +664,7 @@ namespace djv
                                     widget->_textUpdateRequest = true;
                                 }
                             });
-                        _fontObservers[item] = Observer::ValueObserver<std::string>::create(
+                        _fontObservers[item] = Observer::Value<std::string>::create(
                             i.second->observeFont(),
                             [item, weak](const std::string& value)
                         {
@@ -674,7 +674,7 @@ namespace djv
                                 widget->_textUpdateRequest = true;
                             }
                         });
-                        _shortcutsObservers[item] = Observer::ListObserver<std::shared_ptr<Shortcut> >::create(
+                        _shortcutsObservers[item] = Observer::List<std::shared_ptr<Shortcut> >::create(
                             i.second->observeShortcuts(),
                             [item, weak, contextWeak](const std::vector<std::shared_ptr<Shortcut> >& value)
                         {
@@ -697,7 +697,7 @@ namespace djv
                                 }
                             }
                         });
-                        _enabledObservers[item] = Observer::ValueObserver<bool>::create(
+                        _enabledObservers[item] = Observer::Value<bool>::create(
                             i.second->observeEnabled(),
                             [item, weak](bool value)
                         {

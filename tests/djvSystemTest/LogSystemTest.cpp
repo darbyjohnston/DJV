@@ -28,7 +28,7 @@ namespace djv
             {
                 auto system = context->getSystemT<LogSystem>();
                 
-                auto warningsObserver = Observer::ListObserver<std::string>::create(
+                auto warningsObserver = Observer::List<std::string>::create(
                     system->observeWarnings(),
                     [](const std::vector<std::string>& value)
                     {
@@ -37,7 +37,7 @@ namespace djv
                             std::cout << i << std::endl;
                         }
                     });
-                auto errorsObserver = Observer::ListObserver<std::string>::create(
+                auto errorsObserver = Observer::List<std::string>::create(
                     system->observeErrors(),
                     [](const std::vector<std::string>& value)
                     {

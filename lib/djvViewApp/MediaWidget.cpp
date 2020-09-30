@@ -87,10 +87,10 @@ namespace djv
             std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
-            std::shared_ptr<Observer::ValueObserver<ViewLock> > viewLockObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<Observer::Value<ViewLock> > viewLockObserver;
+            std::shared_ptr<Observer::Value<bool> > frameStoreEnabledObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > frameStoreObserver;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
@@ -147,7 +147,7 @@ namespace djv
                     }
                 });
 
-            p.imageObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
+            p.imageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
                 p.media->observeCurrentImage(),
                 [weak](const std::shared_ptr<Image::Image>& value)
                 {
@@ -161,7 +161,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
             {
-                p.viewLockObserver = Observer::ValueObserver<ViewLock>::create(
+                p.viewLockObserver = Observer::Value<ViewLock>::create(
                     viewSettings->observeLock(),
                     [weak](ViewLock value)
                     {
@@ -174,7 +174,7 @@ namespace djv
 
             if (auto imageSystem = context->getSystemT<ImageSystem>())
             {
-                p.frameStoreEnabledObserver = Observer::ValueObserver<bool>::create(
+                p.frameStoreEnabledObserver = Observer::Value<bool>::create(
                     imageSystem->observeFrameStoreEnabled(),
                     [weak](bool value)
                     {
@@ -184,7 +184,7 @@ namespace djv
                             widget->_imageUpdate();
                         }
                     });
-                p.frameStoreObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
+                p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
                     imageSystem->observeFrameStore(),
                     [weak](const std::shared_ptr<Image::Image>& value)
                     {

@@ -32,43 +32,43 @@ namespace djv
                 int largeIncrement = 0;
                 NumericValueOverflow overflow = NumericValueOverflow::Clamp;
                 
-                auto rangeObserver = Observer::ValueObserver<IntRange>::create(
+                auto rangeObserver = Observer::Value<IntRange>::create(
                     model->observeRange(),
                     [&range](const IntRange& value)
                     {
                         range = value;
                     });
-                auto valueObserver = Observer::ValueObserver<int>::create(
+                auto valueObserver = Observer::Value<int>::create(
                     model->observeValue(),
                     [&value](int v)
                     {
                         value = v;
                     });
-                auto isMinObserver = Observer::ValueObserver<bool>::create(
+                auto isMinObserver = Observer::Value<bool>::create(
                     model->observeIsMin(),
                     [&isMin](bool value)
                     {
                         isMin = value;
                     });
-                auto isMaxObserver = Observer::ValueObserver<bool>::create(
+                auto isMaxObserver = Observer::Value<bool>::create(
                     model->observeIsMax(),
                     [&isMax](bool value)
                     {
                         isMax = value;
                     });
-                auto smallIncrementObserver = Observer::ValueObserver<int>::create(
+                auto smallIncrementObserver = Observer::Value<int>::create(
                     model->observeSmallIncrement(),
                     [&smallIncrement](int value)
                     {
                         smallIncrement = value;
                     });
-                auto largeIncrementObserver = Observer::ValueObserver<int>::create(
+                auto largeIncrementObserver = Observer::Value<int>::create(
                     model->observeLargeIncrement(),
                     [&largeIncrement](int value)
                     {
                         largeIncrement = value;
                     });
-                auto overflowObserver = Observer::ValueObserver<NumericValueOverflow>::create(
+                auto overflowObserver = Observer::Value<NumericValueOverflow>::create(
                     model->observeOverflow(),
                     [&overflow](NumericValueOverflow value)
                     {
@@ -118,43 +118,43 @@ namespace djv
                 float largeIncrement = 0.F;
                 NumericValueOverflow overflow = NumericValueOverflow::Clamp;
                 
-                auto rangeObserver = Observer::ValueObserver<FloatRange>::create(
+                auto rangeObserver = Observer::Value<FloatRange>::create(
                     model->observeRange(),
                     [&range](const FloatRange& value)
                     {
                         range = value;
                     });
-                auto valueObserver = Observer::ValueObserver<float>::create(
+                auto valueObserver = Observer::Value<float>::create(
                     model->observeValue(),
                     [&value](float v)
                     {
                         value = v;
                     });
-                auto isMinObserver = Observer::ValueObserver<bool>::create(
+                auto isMinObserver = Observer::Value<bool>::create(
                     model->observeIsMin(),
                     [&isMin](bool value)
                     {
                         isMin = value;
                     });
-                auto isMaxObserver = Observer::ValueObserver<bool>::create(
+                auto isMaxObserver = Observer::Value<bool>::create(
                     model->observeIsMax(),
                     [&isMax](bool value)
                     {
                         isMax = value;
                     });
-                auto smallIncrementObserver = Observer::ValueObserver<float>::create(
+                auto smallIncrementObserver = Observer::Value<float>::create(
                     model->observeSmallIncrement(),
                     [&smallIncrement](float value)
                     {
                         smallIncrement = value;
                     });
-                auto largeIncrementObserver = Observer::ValueObserver<float>::create(
+                auto largeIncrementObserver = Observer::Value<float>::create(
                     model->observeLargeIncrement(),
                     [&largeIncrement](float value)
                     {
                         largeIncrement = value;
                     });
-                auto overflowObserver = Observer::ValueObserver<NumericValueOverflow>::create(
+                auto overflowObserver = Observer::Value<NumericValueOverflow>::create(
                     model->observeOverflow(),
                     [&overflow](NumericValueOverflow value)
                     {

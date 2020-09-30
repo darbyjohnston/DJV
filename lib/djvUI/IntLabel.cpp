@@ -22,8 +22,8 @@ namespace djv
         {
             std::shared_ptr<Math::IntValueModel> model;
             std::shared_ptr<Label> label;
-            std::shared_ptr<Observer::ValueObserver<Math::IntRange> > rangeObserver;
-            std::shared_ptr<Observer::ValueObserver<int> > valueObserver;
+            std::shared_ptr<Observer::Value<Math::IntRange> > rangeObserver;
+            std::shared_ptr<Observer::Value<int> > valueObserver;
         };
 
         void IntLabel::_init(const std::shared_ptr<System::Context>& context)
@@ -70,7 +70,7 @@ namespace djv
             if (p.model)
             {
                 auto weak = std::weak_ptr<IntLabel>(std::dynamic_pointer_cast<IntLabel>(shared_from_this()));
-                p.rangeObserver = Observer::ValueObserver<Math::IntRange>::create(
+                p.rangeObserver = Observer::Value<Math::IntRange>::create(
                     p.model->observeRange(),
                     [weak](const Math::IntRange& value)
                 {
@@ -79,7 +79,7 @@ namespace djv
                         widget->_textUpdate();
                     }
                 });
-                p.valueObserver = Observer::ValueObserver<int>::create(
+                p.valueObserver = Observer::Value<int>::create(
                     p.model->observeValue(),
                     [weak](int value)
                 {

@@ -26,7 +26,7 @@ namespace djv
 
                 std::function<void(const System::File::Path&)> callback;
 
-                std::shared_ptr<Observer::ListObserver<System::File::Info> > recentPathsObserver;
+                std::shared_ptr<Observer::List<System::File::Info> > recentPathsObserver;
             };
 
             void RecentPathsWidget::_init(
@@ -47,7 +47,7 @@ namespace djv
 
                 auto weak = std::weak_ptr<RecentPathsWidget>(std::dynamic_pointer_cast<RecentPathsWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                p.recentPathsObserver = Observer::ListObserver<System::File::Info>::create(
+                p.recentPathsObserver = Observer::List<System::File::Info>::create(
                     model->observeFiles(),
                     [weak, contextWeak](const std::vector<System::File::Info> & value)
                     {

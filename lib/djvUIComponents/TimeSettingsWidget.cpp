@@ -24,7 +24,7 @@ namespace djv
         {
             AV::Time::Units timeUnits = AV::Time::Units::First; 
             std::shared_ptr<ComboBox> comboBox;
-            std::shared_ptr<Observer::ValueObserver<AV::Time::Units> > timeUnitsObserver;
+            std::shared_ptr<Observer::Value<AV::Time::Units> > timeUnitsObserver;
         };
 
         void TimeUnitsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -54,7 +54,7 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = Observer::ValueObserver<AV::Time::Units>::create(
+            p.timeUnitsObserver = Observer::Value<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
                 [weak](AV::Time::Units value)
             {

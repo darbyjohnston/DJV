@@ -21,7 +21,7 @@ namespace djv
     {
         struct BasicIntSlider::Private
         {
-            std::shared_ptr<Observer::ValueObserver<int> > valueObserver;
+            std::shared_ptr<Observer::Value<int> > valueObserver;
         };
 
         void BasicIntSlider::_init(Orientation orientation, const std::shared_ptr<System::Context>& context)
@@ -52,7 +52,7 @@ namespace djv
             if (model)
             {
                 auto weak = std::weak_ptr<BasicIntSlider>(std::dynamic_pointer_cast<BasicIntSlider>(shared_from_this()));
-                p.valueObserver = Observer::ValueObserver<int>::create(
+                p.valueObserver = Observer::Value<int>::create(
                     model->observeValue(),
                     [weak](int value)
                 {
@@ -179,7 +179,7 @@ namespace djv
             std::shared_ptr<ToolButton> resetButton;
             std::shared_ptr<HorizontalLayout> layout;
             std::function<void(int)> callback;
-            std::shared_ptr<Observer::ValueObserver<int> > valueObserver;
+            std::shared_ptr<Observer::Value<int> > valueObserver;
         };
 
         void IntSlider::_init(const std::shared_ptr<System::Context>& context)
@@ -352,7 +352,7 @@ namespace djv
             p.slider->setModel(p.model);
             p.edit->setModel(p.model);
             auto weak = std::weak_ptr<IntSlider>(std::dynamic_pointer_cast<IntSlider>(shared_from_this()));
-            p.valueObserver = Observer::ValueObserver<int>::create(
+            p.valueObserver = Observer::Value<int>::create(
                 p.model->observeValue(),
                 [weak](int value)
                 {

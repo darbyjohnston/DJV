@@ -67,8 +67,8 @@ namespace djv
 
                 std::shared_ptr<UI::VerticalLayout> _layout;
 
-                std::shared_ptr<Observer::ListObserver<std::string> > _colorSpacesObserver;
-                std::shared_ptr<Observer::MapObserver<std::string, std::string> > _imageColorSpacesObserver;
+                std::shared_ptr<Observer::List<std::string> > _colorSpacesObserver;
+                std::shared_ptr<Observer::Map<std::string, std::string> > _imageColorSpacesObserver;
             };
 
             void ColorSpacesWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -130,7 +130,7 @@ namespace djv
                     });
 
                 auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-                _colorSpacesObserver = Observer::ListObserver<std::string>::create(
+                _colorSpacesObserver = Observer::List<std::string>::create(
                     ocioSystem->observeColorSpaces(),
                     [weak](const std::vector<std::string>& value)
                     {
@@ -141,7 +141,7 @@ namespace djv
                         }
                     });
 
-                _imageColorSpacesObserver = Observer::MapObserver<std::string, std::string>::create(
+                _imageColorSpacesObserver = Observer::Map<std::string, std::string>::create(
                     ocioSystem->observeImageColorSpaces(),
                     [weak](const OCIO::ImageColorSpaces& value)
                     {
@@ -239,7 +239,7 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> addButtonLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<Observer::MapObserver<std::string, std::string> > imageColorSpacesObserver;
+            std::shared_ptr<Observer::Map<std::string, std::string> > imageColorSpacesObserver;
         };
 
         void ColorSpaceImageWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -315,7 +315,7 @@ namespace djv
                 });
 
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-            p.imageColorSpacesObserver = Observer::MapObserver<std::string, std::string>::create(
+            p.imageColorSpacesObserver = Observer::Map<std::string, std::string>::create(
                 ocioSystem->observeImageColorSpaces(),
                 [weak](const OCIO::ImageColorSpaces& value)
                 {

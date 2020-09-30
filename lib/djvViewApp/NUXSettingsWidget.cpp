@@ -22,7 +22,7 @@ namespace djv
         {
             std::shared_ptr<UI::ToggleButton> button;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<Observer::ValueObserver<bool> > nuxObserver;
+            std::shared_ptr<Observer::Value<bool> > nuxObserver;
         };
 
         void NUXSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -62,7 +62,7 @@ namespace djv
             {
                 if (auto nuxSettings = settingsSystem->getSettingsT<NUXSettings>())
                 {
-                    p.nuxObserver = Observer::ValueObserver<bool>::create(
+                    p.nuxObserver = Observer::Value<bool>::create(
                         nuxSettings->observeNUX(),
                         [weak](bool value)
                     {

@@ -100,15 +100,15 @@ namespace djv
             std::shared_ptr<GL::Shader> shader;
 #endif // DJV_GL_ES2
 
-            std::shared_ptr<Observer::ValueObserver<ColorPickerData> > dataObserver;
-            std::shared_ptr<Observer::ValueObserver<ImageData> > imageDataObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::Config> > ocioConfigObserver;
-            std::map<std::string, std::shared_ptr<Observer::ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
-            std::shared_ptr<Observer::ValueObserver<glm::vec2> > imagePosObserver;
-            std::shared_ptr<Observer::ValueObserver<float> > imageZoomObserver;
-            std::shared_ptr<Observer::ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<Observer::Value<ColorPickerData> > dataObserver;
+            std::shared_ptr<Observer::Value<ImageData> > imageDataObserver;
+            std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
+            std::map<std::string, std::shared_ptr<Observer::Value<bool> > > actionObservers;
+            std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<Observer::Value<glm::vec2> > imagePosObserver;
+            std::shared_ptr<Observer::Value<float> > imageZoomObserver;
+            std::shared_ptr<Observer::Value<PointerData> > dragObserver;
         };
 
         void ColorPickerWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -242,7 +242,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto settings = settingsSystem->getSettingsT<ColorPickerSettings>();
-            p.dataObserver = Observer::ValueObserver<ColorPickerData>::create(
+            p.dataObserver = Observer::Value<ColorPickerData>::create(
                 settings->observeData(),
                 [weak](const ColorPickerData& value)
                 {
@@ -259,7 +259,7 @@ namespace djv
                 });
 
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            p.imageDataObserver = Observer::ValueObserver<ImageData>::create(
+            p.imageDataObserver = Observer::Value<ImageData>::create(
                 imageSettings->observeData(),
                 [weak](const ImageData& value)
                 {
@@ -272,7 +272,7 @@ namespace djv
                 });
 
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-            p.ocioConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+            p.ocioConfigObserver = Observer::Value<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
                 [weak, contextWeak](const OCIO::Config& value)
                 {
@@ -289,7 +289,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["LockType"] = Observer::ValueObserver<bool>::create(
+            p.actionObservers["LockType"] = Observer::Value<bool>::create(
                 p.actions["LockType"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
@@ -313,7 +313,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["ApplyColorOperations"] = Observer::ValueObserver<bool>::create(
+            p.actionObservers["ApplyColorOperations"] = Observer::Value<bool>::create(
                 p.actions["ApplyColorOperations"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
@@ -330,7 +330,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["ApplyColorSpace"] = Observer::ValueObserver<bool>::create(
+            p.actionObservers["ApplyColorSpace"] = Observer::Value<bool>::create(
                 p.actions["ApplyColorSpace"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
@@ -349,7 +349,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = Observer::ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                p.activeWidgetObserver = Observer::Value<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
                     [weak](const std::shared_ptr<MediaWidget>& value)
                     {
@@ -357,7 +357,7 @@ namespace djv
                         {
                             if (value)
                             {
-                                widget->_p->imageObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
+                                widget->_p->imageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
                                     value->getViewWidget()->observeImage(),
                                     [weak](const std::shared_ptr<Image::Image>& value)
                                     {
@@ -369,7 +369,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imagePosObserver = Observer::ValueObserver<glm::vec2>::create(
+                                widget->_p->imagePosObserver = Observer::Value<glm::vec2>::create(
                                     value->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
@@ -380,7 +380,7 @@ namespace djv
                                             widget->_widgetUpdate();
                                         }
                                     });
-                                widget->_p->imageZoomObserver = Observer::ValueObserver<float>::create(
+                                widget->_p->imageZoomObserver = Observer::Value<float>::create(
                                     value->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
@@ -392,7 +392,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->dragObserver = Observer::ValueObserver<PointerData>::create(
+                                widget->_p->dragObserver = Observer::Value<PointerData>::create(
                                     value->observeDrag(),
                                     [weak](const PointerData& value)
                                     {

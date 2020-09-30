@@ -32,8 +32,8 @@ namespace djv
             bool redrawRequest = false;
             bool textLCDRenderingDirty = false;
             bool tooltips = false;
-            std::shared_ptr<Observer::ValueObserver<bool> > textLCDRenderingObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > tooltipsObserver;
+            std::shared_ptr<Observer::Value<bool> > textLCDRenderingObserver;
+            std::shared_ptr<Observer::Value<bool> > tooltipsObserver;
             std::shared_ptr<System::Timer> statsTimer;
         };
 
@@ -66,7 +66,7 @@ namespace djv
 
             auto render2DSystem = context->getSystemT<Render2D::RenderSystem>();
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
-            p.textLCDRenderingObserver = Observer::ValueObserver<bool>::create(
+            p.textLCDRenderingObserver = Observer::Value<bool>::create(
                 render2DSystem->observeTextLCDRendering(),
                 [weak](bool value)
                 {
@@ -78,7 +78,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
-            p.tooltipsObserver = Observer::ValueObserver<bool>::create(
+            p.tooltipsObserver = Observer::Value<bool>::create(
                 uiSettings->observeTooltips(),
                 [weak](bool value)
                 {

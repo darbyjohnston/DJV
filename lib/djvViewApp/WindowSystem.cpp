@@ -67,10 +67,10 @@ namespace djv
             int monitorRefresh = 0;
             Math::BBox2i windowGeom = Math::BBox2i(0, 0, 0, 0);
 
-            std::shared_ptr<Observer::ValueObserver<bool> > fullScreenObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > floatOnTopObserver;
-            std::shared_ptr<Observer::ValueObserver<System::Event::PointerInfo> > pointerObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > textFocusActiveObserver;
+            std::shared_ptr<Observer::Value<bool> > fullScreenObserver;
+            std::shared_ptr<Observer::Value<bool> > floatOnTopObserver;
+            std::shared_ptr<Observer::Value<System::Event::PointerInfo> > pointerObserver;
+            std::shared_ptr<Observer::Value<bool> > textFocusActiveObserver;
 
             std::shared_ptr<System::Animation::Animation> fadeAnimation;
 
@@ -168,7 +168,7 @@ namespace djv
                     }
                 });
 
-            p.fullScreenObserver = Observer::ValueObserver<bool>::create(
+            p.fullScreenObserver = Observer::Value<bool>::create(
                 p.settings->observeFullScreen(),
                 [weak](bool value)
                 {
@@ -178,7 +178,7 @@ namespace djv
                     }
                 });
 
-            p.floatOnTopObserver = Observer::ValueObserver<bool>::create(
+            p.floatOnTopObserver = Observer::Value<bool>::create(
                 p.settings->observeFloatOnTop(),
                 [weak](bool value)
                 {
@@ -190,7 +190,7 @@ namespace djv
 
             auto eventSystem = context->getSystemT<System::Event::IEventSystem>();
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.pointerObserver = Observer::ValueObserver<System::Event::PointerInfo>::create(
+            p.pointerObserver = Observer::Value<System::Event::PointerInfo>::create(
                 eventSystem->observePointer(),
                 [weak, contextWeak](const System::Event::PointerInfo& value)
                 {
@@ -220,7 +220,7 @@ namespace djv
                     }
                 });
 
-            p.textFocusActiveObserver = Observer::ValueObserver<bool>::create(
+            p.textFocusActiveObserver = Observer::Value<bool>::create(
                 eventSystem->observeTextFocusActive(),
                 [weak](bool value)
                 {

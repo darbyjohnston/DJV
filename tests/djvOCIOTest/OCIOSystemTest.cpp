@@ -72,63 +72,63 @@ namespace djv
                 OCIO::ImageColorSpaces imageColorSpaces;
                 std::vector<std::string> colorSpaces;
                 
-                auto configModeObserver = Observer::ValueObserver<OCIO::ConfigMode>::create(
+                auto configModeObserver = Observer::Value<OCIO::ConfigMode>::create(
                     system->observeConfigMode(),
                     [&configMode](OCIO::ConfigMode value)
                     {
                         configMode = value;
                     });
                 
-                auto cmdLineConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+                auto cmdLineConfigObserver = Observer::Value<OCIO::Config>::create(
                     system->observeCmdLineConfig(),
                     [&cmdLineConfig](const OCIO::Config& value)
                     {
                         cmdLineConfig = value;
                     });
                 
-                auto envConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+                auto envConfigObserver = Observer::Value<OCIO::Config>::create(
                     system->observeEnvConfig(),
                     [&envConfig](const OCIO::Config& value)
                     {
                         envConfig = value;
                     });
                 
-                auto userConfigsObserver = Observer::ValueObserver<OCIO::UserConfigs>::create(
+                auto userConfigsObserver = Observer::Value<OCIO::UserConfigs>::create(
                     system->observeUserConfigs(),
                     [&userConfigs](const OCIO::UserConfigs& value)
                     {
                         userConfigs = value;
                     });
                 
-                auto currentConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+                auto currentConfigObserver = Observer::Value<OCIO::Config>::create(
                     system->observeCurrentConfig(),
                     [&currentConfig](const OCIO::Config& value)
                     {
                         currentConfig = value;
                     });
 
-                auto displaysObserver = Observer::ValueObserver<OCIO::Displays>::create(
+                auto displaysObserver = Observer::Value<OCIO::Displays>::create(
                     system->observeDisplays(),
                     [&displays](const OCIO::Displays& value)
                     {
                         displays = value;
                     });
 
-                auto viewsObserver = Observer::ValueObserver<OCIO::Views>::create(
+                auto viewsObserver = Observer::Value<OCIO::Views>::create(
                     system->observeViews(),
                     [&views](const OCIO::Views& value)
                     {
                         views = value;
                     });
 
-                auto imageColorSpacesObserver = Observer::MapObserver<std::string, std::string>::create(
+                auto imageColorSpacesObserver = Observer::Map<std::string, std::string>::create(
                     system->observeImageColorSpaces(),
                     [&imageColorSpaces](const std::map<std::string, std::string>& value)
                     {
                         imageColorSpaces = value;
                     });
 
-                auto colorSpacesObserver = Observer::ListObserver<std::string>::create(
+                auto colorSpacesObserver = Observer::List<std::string>::create(
                     system->observeColorSpaces(),
                     [&colorSpaces](const std::vector<std::string>& value)
                     {

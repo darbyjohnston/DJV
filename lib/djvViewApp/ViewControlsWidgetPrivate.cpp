@@ -50,9 +50,9 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
             std::shared_ptr<UI::FormLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<Observer::ValueObserver<glm::vec2> > viewPosObserver;
-            std::shared_ptr<Observer::ValueObserver<float> > viewZoomObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<Observer::Value<glm::vec2> > viewPosObserver;
+            std::shared_ptr<Observer::Value<float> > viewZoomObserver;
         };
 
         void ViewControlsViewWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -160,7 +160,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = Observer::ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                p.activeWidgetObserver = Observer::Value<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
                     [weak](const std::shared_ptr<MediaWidget>& value)
                     {
@@ -169,7 +169,7 @@ namespace djv
                             widget->_p->activeWidget = value;
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->viewPosObserver = Observer::ValueObserver<glm::vec2>::create(
+                                widget->_p->viewPosObserver = Observer::Value<glm::vec2>::create(
                                     widget->_p->activeWidget->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
@@ -179,7 +179,7 @@ namespace djv
                                             widget->_widgetUpdate();
                                         }
                                     });
-                                widget->_p->viewZoomObserver = Observer::ValueObserver<float>::create(
+                                widget->_p->viewZoomObserver = Observer::Value<float>::create(
                                     widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
@@ -301,7 +301,7 @@ namespace djv
             std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<GridOptions> > gridOptionsObserver;
+            std::shared_ptr<Observer::Value<GridOptions> > gridOptionsObserver;
         };
 
         void ViewControlsGridWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -416,7 +416,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.gridOptionsObserver = Observer::ValueObserver<GridOptions>::create(
+            p.gridOptionsObserver = Observer::Value<GridOptions>::create(
                 viewSettings->observeGridOptions(),
                 [weak](const GridOptions& value)
                 {
@@ -503,7 +503,7 @@ namespace djv
             std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
             std::shared_ptr<UI::FormLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<HUDOptions> > hudOptionsObserver;
+            std::shared_ptr<Observer::Value<HUDOptions> > hudOptionsObserver;
         };
 
         void ViewControlsHUDWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -579,7 +579,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.hudOptionsObserver = Observer::ValueObserver<HUDOptions>::create(
+            p.hudOptionsObserver = Observer::Value<HUDOptions>::create(
                 viewSettings->observeHUDOptions(),
                 [weak](const HUDOptions& value)
                 {
@@ -666,7 +666,7 @@ namespace djv
             std::shared_ptr<UI::FormLayout> checkersLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
+            std::shared_ptr<Observer::Value<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
         void ViewControlsBackgroundWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -792,7 +792,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.backgroundOptionsObserver = Observer::ValueObserver<ViewBackgroundOptions>::create(
+            p.backgroundOptionsObserver = Observer::Value<ViewBackgroundOptions>::create(
                 viewSettings->observeBackgroundOptions(),
                 [weak](const ViewBackgroundOptions& value)
                 {
@@ -887,7 +887,7 @@ namespace djv
             std::shared_ptr<UI::ColorPickerSwatch> borderColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
+            std::shared_ptr<Observer::Value<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
         void ViewControlsBorderWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -966,7 +966,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.backgroundOptionsObserver = Observer::ValueObserver<ViewBackgroundOptions>::create(
+            p.backgroundOptionsObserver = Observer::Value<ViewBackgroundOptions>::create(
                 viewSettings->observeBackgroundOptions(),
                 [weak](const ViewBackgroundOptions& value)
                 {

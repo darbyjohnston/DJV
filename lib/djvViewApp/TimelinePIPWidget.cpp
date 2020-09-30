@@ -58,9 +58,9 @@ namespace djv
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<System::Timer> timer;
 
-            std::shared_ptr<Observer::ValueObserver<ImageData> > imageDataObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::Config> > ocioConfigObserver;
-            std::shared_ptr<Observer::ValueObserver<AV::Time::Units> > timeUnitsObserver;
+            std::shared_ptr<Observer::Value<ImageData> > imageDataObserver;
+            std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
+            std::shared_ptr<Observer::Value<AV::Time::Units> > timeUnitsObserver;
         };
 
         void TimelinePIPWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -126,7 +126,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            p.imageDataObserver = Observer::ValueObserver<ImageData>::create(
+            p.imageDataObserver = Observer::Value<ImageData>::create(
                 imageSettings->observeData(),
                 [weak](const ImageData& value)
                 {
@@ -139,7 +139,7 @@ namespace djv
 
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.ocioConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+            p.ocioConfigObserver = Observer::Value<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
                 [weak, contextWeak](const OCIO::Config& value)
                 {
@@ -156,7 +156,7 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = Observer::ValueObserver<AV::Time::Units>::create(
+            p.timeUnitsObserver = Observer::Value<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
                 [weak](AV::Time::Units value)
                 {

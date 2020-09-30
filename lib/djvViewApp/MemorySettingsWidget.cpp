@@ -28,7 +28,7 @@ namespace djv
         {
             std::shared_ptr<UI::ToggleButton> button;
 
-            std::shared_ptr<Observer::ValueObserver<bool> > enabledObserver;
+            std::shared_ptr<Observer::Value<bool> > enabledObserver;
         };
 
         void MemoryCacheEnabledWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -60,7 +60,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
-                p.enabledObserver = Observer::ValueObserver<bool>::create(
+                p.enabledObserver = Observer::Value<bool>::create(
                     fileSettings->observeCacheEnabled(),
                     [weak](bool value)
                     {
@@ -111,7 +111,7 @@ namespace djv
             std::shared_ptr<UI::Label> label;
             std::shared_ptr<UI::HorizontalLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<int> > sizeObserver;
+            std::shared_ptr<Observer::Value<int> > sizeObserver;
         };
 
         void MemoryCacheSizeWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -151,7 +151,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
-                p.sizeObserver = Observer::ValueObserver<int>::create(
+                p.sizeObserver = Observer::Value<int>::create(
                     fileSettings->observeCacheSize(),
                     [weak](int value)
                     {

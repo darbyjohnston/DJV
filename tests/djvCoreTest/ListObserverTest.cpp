@@ -29,7 +29,7 @@ namespace djv
             
             {
                 std::vector<int> valueA;
-                auto observerA = Observer::ListObserver<int>::create(
+                auto observerA = Observer::List<int>::create(
                     subject,
                     [&valueA](const std::vector<int> value)
                     {
@@ -39,7 +39,7 @@ namespace djv
                 
                 {
                     std::vector<int> valueB;
-                    auto observerB = Observer::ListObserver<int>::create(
+                    auto observerB = Observer::List<int>::create(
                         subject,
                         [&valueB](const std::vector<int> value)
                         {

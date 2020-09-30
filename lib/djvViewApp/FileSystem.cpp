@@ -66,11 +66,11 @@ namespace djv
             std::shared_ptr<ActiveFilesDialog> activeFilesDialog;
             size_t threadCount = 4;
             std::shared_ptr<System::File::RecentFilesModel> recentFilesModel;
-            std::shared_ptr<Observer::ListObserver<System::File::Info> > recentFilesObserver;
-            std::shared_ptr<Observer::ListObserver<System::File::Info> > recentFilesObserver2;
-            std::shared_ptr<Observer::ValueObserver<size_t> > threadCountObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<Observer::ValueObserver<int> > cacheSizeObserver;
+            std::shared_ptr<Observer::List<System::File::Info> > recentFilesObserver;
+            std::shared_ptr<Observer::List<System::File::Info> > recentFilesObserver2;
+            std::shared_ptr<Observer::Value<size_t> > threadCountObserver;
+            std::shared_ptr<Observer::Value<bool> > cacheEnabledObserver;
+            std::shared_ptr<Observer::Value<int> > cacheSizeObserver;
             std::shared_ptr<System::Timer> cacheTimer;
 
             typedef std::pair<System::File::Info, std::string> FileInfoAndNumber;
@@ -322,7 +322,7 @@ namespace djv
                     }
                 });
 
-            p.recentFilesObserver = Observer::ListObserver<System::File::Info>::create(
+            p.recentFilesObserver = Observer::List<System::File::Info>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<System::File::Info>& value)
                 {
@@ -332,7 +332,7 @@ namespace djv
                     }
                 });
 
-            p.recentFilesObserver2 = Observer::ListObserver<System::File::Info>::create(
+            p.recentFilesObserver2 = Observer::List<System::File::Info>::create(
                 p.recentFilesModel->observeFiles(),
                 [weak](const std::vector<System::File::Info>& value)
                 {
@@ -342,7 +342,7 @@ namespace djv
                     }
                 });
 
-            p.cacheEnabledObserver = Observer::ValueObserver<bool>::create(
+            p.cacheEnabledObserver = Observer::Value<bool>::create(
                 p.settings->observeCacheEnabled(),
                 [weak](bool value)
                 {
@@ -352,7 +352,7 @@ namespace djv
                     }
                 });
 
-            p.cacheSizeObserver = Observer::ValueObserver<int>::create(
+            p.cacheSizeObserver = Observer::Value<int>::create(
                 p.settings->observeCacheSize(),
                 [weak](int value)
                 {
@@ -364,7 +364,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto ioSettings = settingsSystem->getSettingsT<UI::Settings::IO>();
-            p.threadCountObserver = Observer::ValueObserver<size_t>::create(
+            p.threadCountObserver = Observer::Value<size_t>::create(
                 ioSettings->observeThreadCount(),
                 [weak](size_t value)
                 {

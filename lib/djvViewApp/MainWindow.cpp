@@ -73,11 +73,11 @@ namespace djv
             std::shared_ptr<UI::SoloLayout> mediaLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<bool> > settingsActionObserver;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > openedObserver;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > closedObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > presentationObserver;
+            std::shared_ptr<Observer::Value<bool> > settingsActionObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > openedObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > closedObserver;
+            std::shared_ptr<Observer::Value<bool> > presentationObserver;
         };
         
         void MainWindow::_init(const std::shared_ptr<System::Context>& context)
@@ -237,7 +237,7 @@ namespace djv
 
             if (toolSystem)
             {
-                p.settingsActionObserver = Observer::ValueObserver<bool>::create(
+                p.settingsActionObserver = Observer::Value<bool>::create(
                     toolSystem->getActions()["Settings"]->observeChecked(),
                     [settingsDrawer](bool value)
                     {
@@ -248,7 +248,7 @@ namespace djv
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media>>::create(
+                p.currentMediaObserver = Observer::Value<std::shared_ptr<Media>>::create(
                     fileSystem->observeCurrentMedia(),
                     [weak, contextWeak](const std::shared_ptr<Media>& value)
                     {
@@ -274,7 +274,7 @@ namespace djv
                         }
                     });
 
-                p.openedObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                p.openedObserver = Observer::Value<std::shared_ptr<Media> >::create(
                     fileSystem->observeOpened(),
                     [weak, contextWeak](const std::shared_ptr<Media>& value)
                     {
@@ -292,7 +292,7 @@ namespace djv
                         }
                     });
 
-                p.closedObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                p.closedObserver = Observer::Value<std::shared_ptr<Media> >::create(
                     fileSystem->observeClosed(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
@@ -313,7 +313,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.presentationObserver = Observer::ValueObserver<bool>::create(
+                p.presentationObserver = Observer::Value<bool>::create(
                     windowSystem->observePresentation(),
                     [weak](bool value)
                     {

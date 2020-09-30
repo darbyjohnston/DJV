@@ -28,7 +28,7 @@ namespace djv
             
             {
                 int valueA = 0;
-                auto observer = Observer::ValueObserver<int>::create(
+                auto observer = Observer::Value<int>::create(
                     subject,
                     [&valueA](int value)
                     {
@@ -38,7 +38,7 @@ namespace djv
 
                 {
                     int valueB = 0;
-                    auto observer = Observer::ValueObserver<int>::create(
+                    auto observer = Observer::Value<int>::create(
                         subject,
                         [&valueB](int value)
                         {

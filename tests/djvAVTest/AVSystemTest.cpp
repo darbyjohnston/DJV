@@ -31,7 +31,7 @@ namespace djv
             {
                 auto system = context->getSystemT<AVSystem>();
                 
-                auto timeUnitsObserver = Observer::ValueObserver<AV::Time::Units>::create(
+                auto timeUnitsObserver = Observer::Value<AV::Time::Units>::create(
                     system->observeTimeUnits(),
                     [this](AV::Time::Units value)
                     {
@@ -39,7 +39,7 @@ namespace djv
                         ss << "Time units: " << value;
                         _print(ss.str());
                     });
-                auto defaultSpeedObserver = Observer::ValueObserver<FPS>::create(
+                auto defaultSpeedObserver = Observer::Value<FPS>::create(
                     system->observeDefaultSpeed(),
                     [this](FPS value)
                     {

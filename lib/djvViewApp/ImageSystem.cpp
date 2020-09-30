@@ -55,10 +55,10 @@ namespace djv
             std::weak_ptr<ImageControlsWidget> imageControlsWidget;
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
 
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > currentImageObserver;
-            std::shared_ptr<Observer::ValueObserver<ImageData> > dataObserver;
-            std::shared_ptr<Observer::MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > currentImageObserver;
+            std::shared_ptr<Observer::Value<ImageData> > dataObserver;
+            std::shared_ptr<Observer::Map<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
         void ImageSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -235,7 +235,7 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                p.currentMediaObserver = Observer::Value<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
@@ -243,7 +243,7 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_p->currentImageObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
+                                system->_p->currentImageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
                                     value->observeCurrentImage(),
                                     [weak](const std::shared_ptr<Image::Image>& value)
                                     {
@@ -264,7 +264,7 @@ namespace djv
                     });
             }
 
-            p.dataObserver = Observer::ValueObserver<ImageData>::create(
+            p.dataObserver = Observer::Value<ImageData>::create(
                 p.settings->observeData(),
                 [weak](const ImageData& value)
                 {

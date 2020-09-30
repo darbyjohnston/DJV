@@ -27,7 +27,7 @@ namespace djv
             std::shared_ptr<Menu> menu;
             std::shared_ptr<Button::Menu> button;
             std::function<void(int)> callback;
-            std::shared_ptr<Observer::ValueObserver<bool> > closeObserver;
+            std::shared_ptr<Observer::Value<bool> > closeObserver;
         };
 
         void ComboBox::_init(const std::shared_ptr<System::Context>& context)

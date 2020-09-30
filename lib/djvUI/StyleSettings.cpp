@@ -36,8 +36,8 @@ namespace djv
                 std::shared_ptr<Observer::ValueSubject<UI::Style::Metrics> > currentMetrics;
                 std::shared_ptr<Observer::ValueSubject<std::string> > currentMetricsName;
                 std::shared_ptr<Observer::ValueSubject<std::string> > currentFont;
-                std::shared_ptr<Observer::ValueObserver<std::string> > currentLocaleObserver;
-                std::shared_ptr<Observer::MapObserver<std::string, std::string> > localeFontsObserver;
+                std::shared_ptr<Observer::Value<std::string> > currentLocaleObserver;
+                std::shared_ptr<Observer::Map<std::string, std::string> > localeFontsObserver;
             };
 
             void Style::_init(const std::shared_ptr<System::Context>& context)
@@ -106,7 +106,7 @@ namespace djv
                 auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
                 if (auto textSystem = context->getSystemT<System::TextSystem>())
                 {
-                    p.currentLocaleObserver = Observer::ValueObserver<std::string>::create(
+                    p.currentLocaleObserver = Observer::Value<std::string>::create(
                         textSystem->observeCurrentLocale(),
                         [weak](const std::string& value)
                     {
@@ -120,7 +120,7 @@ namespace djv
 
                 auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
-                p.localeFontsObserver = Observer::MapObserver<std::string, std::string>::create(
+                p.localeFontsObserver = Observer::Map<std::string, std::string>::create(
                     fontSettings->observeLocaleFonts(),
                     [weak](const std::map<std::string, std::string>& value)
                 {

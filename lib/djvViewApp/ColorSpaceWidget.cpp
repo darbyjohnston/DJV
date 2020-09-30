@@ -43,11 +43,11 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
 
-            std::shared_ptr<Observer::ValueObserver<OCIO::ConfigMode> > configModeObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::Config> > envConfigObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::Config> > cmdLineConfigObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::UserConfigs> > userConfigsObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::Config> > currentConfigObserver;
+            std::shared_ptr<Observer::Value<OCIO::ConfigMode> > configModeObserver;
+            std::shared_ptr<Observer::Value<OCIO::Config> > envConfigObserver;
+            std::shared_ptr<Observer::Value<OCIO::Config> > cmdLineConfigObserver;
+            std::shared_ptr<Observer::Value<OCIO::UserConfigs> > userConfigsObserver;
+            std::shared_ptr<Observer::Value<OCIO::Config> > currentConfigObserver;
         };
 
         void ColorSpaceWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -143,7 +143,7 @@ namespace djv
 
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
             auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
-            p.configModeObserver = Observer::ValueObserver<OCIO::ConfigMode>::create(
+            p.configModeObserver = Observer::Value<OCIO::ConfigMode>::create(
                 ocioSystem->observeConfigMode(),
                 [weak](const OCIO::ConfigMode& value)
                 {
@@ -154,7 +154,7 @@ namespace djv
                     }
                 });
 
-            p.envConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+            p.envConfigObserver = Observer::Value<OCIO::Config>::create(
                 ocioSystem->observeEnvConfig(),
                 [weak](const OCIO::Config& value)
                 {
@@ -165,7 +165,7 @@ namespace djv
                     }
                 });
 
-            p.cmdLineConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+            p.cmdLineConfigObserver = Observer::Value<OCIO::Config>::create(
                 ocioSystem->observeCmdLineConfig(),
                 [weak](const OCIO::Config& value)
                 {
@@ -176,7 +176,7 @@ namespace djv
                     }
                 });
 
-            p.userConfigsObserver = Observer::ValueObserver<OCIO::UserConfigs>::create(
+            p.userConfigsObserver = Observer::Value<OCIO::UserConfigs>::create(
                 ocioSystem->observeUserConfigs(),
                 [weak](const OCIO::UserConfigs& value)
                 {
@@ -187,7 +187,7 @@ namespace djv
                     }
                 });
 
-            p.currentConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+            p.currentConfigObserver = Observer::Value<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
                 [weak](const OCIO::Config& value)
                 {

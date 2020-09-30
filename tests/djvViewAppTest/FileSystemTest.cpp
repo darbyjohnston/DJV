@@ -58,7 +58,7 @@ namespace djv
 
                     auto fileSystem = ViewApp::FileSystem::create(context);
                     bool openObserved = false;
-                    auto openObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                    auto openObserver = Observer::Value<std::shared_ptr<Media> >::create(
                         fileSystem->observeOpened(),
                         [&openObserved](const std::shared_ptr<Media>& value)
                     {
@@ -66,7 +66,7 @@ namespace djv
                     });
                     bool mediaObserved = false;
                     std::vector<std::shared_ptr<Media> > media;
-                    auto mediaObserver = Observer::ListObserver<std::shared_ptr<Media> >::create(
+                    auto mediaObserver = Observer::List<std::shared_ptr<Media> >::create(
                         fileSystem->observeMedia(),
                         [&mediaObserved, &media](const std::vector<std::shared_ptr<Media> >& value)
                     {
@@ -75,7 +75,7 @@ namespace djv
                     });
                     bool currentMediaObserved = false;
                     std::shared_ptr<Media> currentMedia;
-                    auto currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                    auto currentMediaObserver = Observer::Value<std::shared_ptr<Media> >::create(
                         fileSystem->observeCurrentMedia(),
                         [&currentMediaObserved, &currentMedia](const std::shared_ptr<Media>& value)
                     {
@@ -90,7 +90,7 @@ namespace djv
                     DJV_ASSERT(media[0] == currentMedia);
 
                     bool closeObserved = false;
-                    auto closeObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
+                    auto closeObserver = Observer::Value<std::shared_ptr<Media> >::create(
                         fileSystem->observeClosed(),
                         [&closeObserved](const std::shared_ptr<Media>& value)
                     {

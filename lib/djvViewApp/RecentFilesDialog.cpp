@@ -66,9 +66,9 @@ namespace djv
 
             std::function<void(const std::vector<System::File::Info>&)> callback;
 
-            std::shared_ptr<Observer::ListObserver<System::File::Info> > recentFilesObserver;
-            std::shared_ptr<Observer::ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
-            std::shared_ptr<Observer::MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
+            std::shared_ptr<Observer::List<System::File::Info> > recentFilesObserver;
+            std::shared_ptr<Observer::Value<Image::Size> > thumbnailSizeSettingsObserver;
+            std::shared_ptr<Observer::Map<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void RecentFilesDialog::_init(const std::shared_ptr<System::Context>& context)
@@ -278,7 +278,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-            p.recentFilesObserver = Observer::ListObserver<System::File::Info>::create(
+            p.recentFilesObserver = Observer::List<System::File::Info>::create(
                 fileSettings->observeRecentFiles(),
                 [weak](const std::vector<System::File::Info>& value)
                 {
@@ -290,7 +290,7 @@ namespace djv
                 });
 
             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-            p.thumbnailSizeSettingsObserver = Observer::ValueObserver<Image::Size>::create(
+            p.thumbnailSizeSettingsObserver = Observer::Value<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
                 [weak](const Image::Size& value)
                 {
@@ -301,7 +301,7 @@ namespace djv
                 });
 
             auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-            p.shortcutsObserver = Observer::MapObserver<std::string, UI::ShortcutDataPair>::create(
+            p.shortcutsObserver = Observer::Map<std::string, UI::ShortcutDataPair>::create(
                 shortcutsSettings->observeKeyShortcuts(),
                 [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                 {

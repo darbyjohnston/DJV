@@ -36,9 +36,9 @@ namespace djv
             bool colorize = false;
             std::shared_ptr<AV::IO::IRead> read;
             std::shared_ptr<System::Timer> timer;
-            std::shared_ptr<Observer::ValueObserver<std::string> > imageObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > scaleObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > colorizeObserver;
+            std::shared_ptr<Observer::Value<std::string> > imageObserver;
+            std::shared_ptr<Observer::Value<bool> > scaleObserver;
+            std::shared_ptr<Observer::Value<bool> > colorizeObserver;
         };
 
         void WindowBackgroundWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -56,7 +56,7 @@ namespace djv
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                p.imageObserver = Observer::ValueObserver<std::string>::create(
+                p.imageObserver = Observer::Value<std::string>::create(
                     windowSettings->observeBackgroundImage(),
                     [weak, contextWeak](const std::string& value)
                     {
@@ -107,7 +107,7 @@ namespace djv
                         }
                     });
 
-                p.scaleObserver = Observer::ValueObserver<bool>::create(
+                p.scaleObserver = Observer::Value<bool>::create(
                     windowSettings->observeBackgroundImageScale(),
                     [weak, contextWeak](bool value)
                     {
@@ -121,7 +121,7 @@ namespace djv
                         }
                     });
 
-                p.colorizeObserver = Observer::ValueObserver<bool>::create(
+                p.colorizeObserver = Observer::Value<bool>::create(
                     windowSettings->observeBackgroundImageColorize(),
                     [weak, contextWeak](bool value)
                     {

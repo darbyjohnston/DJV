@@ -29,7 +29,7 @@ namespace djv
             
             {
                 std::map<int, std::string> valueA;
-                auto observer = Observer::MapObserver<int, std::string>::create(
+                auto observer = Observer::Map<int, std::string>::create(
                     subject,
                     [&valueA](const std::map<int, std::string>& value)
                     {
@@ -39,7 +39,7 @@ namespace djv
                 
                 {
                     std::map<int, std::string> valueB;
-                    auto observer = Observer::MapObserver<int, std::string>::create(
+                    auto observer = Observer::Map<int, std::string>::create(
                         subject,
                         [&valueB](const std::map<int, std::string>& value)
                         {

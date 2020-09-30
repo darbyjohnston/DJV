@@ -75,15 +75,15 @@ namespace djv
                 int _magnify = 1;
                 glm::vec2 _magnifyPos = glm::vec2(0.F, 0.F);
 
-                std::shared_ptr<Observer::ValueObserver<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
-                std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > _imageObserver;
-                std::shared_ptr<Observer::ValueObserver<glm::vec2> > _imagePosObserver;
-                std::shared_ptr<Observer::ValueObserver<float> > _imageZoomObserver;
-                std::shared_ptr<Observer::ValueObserver<PointerData> > _dragObserver;
-                std::shared_ptr<Observer::ValueObserver<size_t> > _magnifyObserver;
-                std::shared_ptr<Observer::ValueObserver<ViewBackgroundOptions> > _backgroundOptionsObserver;
-                std::shared_ptr<Observer::ValueObserver<ImageData> > _imageDataObserver;
-                std::shared_ptr<Observer::ValueObserver<OCIO::Config> > _ocioConfigObserver;
+                std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
+                std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > _imageObserver;
+                std::shared_ptr<Observer::Value<glm::vec2> > _imagePosObserver;
+                std::shared_ptr<Observer::Value<float> > _imageZoomObserver;
+                std::shared_ptr<Observer::Value<PointerData> > _dragObserver;
+                std::shared_ptr<Observer::Value<size_t> > _magnifyObserver;
+                std::shared_ptr<Observer::Value<ViewBackgroundOptions> > _backgroundOptionsObserver;
+                std::shared_ptr<Observer::Value<ImageData> > _imageDataObserver;
+                std::shared_ptr<Observer::Value<OCIO::Config> > _ocioConfigObserver;
             };
 
             void ImageWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -93,7 +93,7 @@ namespace djv
                 auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));
                 if (auto windowSystem = context->getSystemT<WindowSystem>())
                 {
-                    _activeWidgetObserver = Observer::ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                    _activeWidgetObserver = Observer::Value<std::shared_ptr<MediaWidget> >::create(
                         windowSystem->observeActiveWidget(),
                         [weak](const std::shared_ptr<MediaWidget>& value)
                         {
@@ -101,7 +101,7 @@ namespace djv
                             {
                                 if (value)
                                 {
-                                    widget->_imageObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
+                                    widget->_imageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
                                         value->getMedia()->observeCurrentImage(),
                                         [weak](const std::shared_ptr<Image::Image>& value)
                                         {
@@ -112,7 +112,7 @@ namespace djv
                                             }
                                         });
 
-                                    widget->_imagePosObserver = Observer::ValueObserver<glm::vec2>::create(
+                                    widget->_imagePosObserver = Observer::Value<glm::vec2>::create(
                                         value->getViewWidget()->observeImagePos(),
                                         [weak](const glm::vec2& value)
                                         {
@@ -123,7 +123,7 @@ namespace djv
                                             }
                                         });
 
-                                    widget->_imageZoomObserver = Observer::ValueObserver<float>::create(
+                                    widget->_imageZoomObserver = Observer::Value<float>::create(
                                         value->getViewWidget()->observeImageZoom(),
                                         [weak](float value)
                                         {
@@ -134,7 +134,7 @@ namespace djv
                                             }
                                         });
 
-                                    widget->_dragObserver = Observer::ValueObserver<PointerData>::create(
+                                    widget->_dragObserver = Observer::Value<PointerData>::create(
                                         value->observeDrag(),
                                         [weak](const PointerData& value)
                                         {
@@ -160,7 +160,7 @@ namespace djv
             
                 auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto settings = settingsSystem->getSettingsT<MagnifySettings>();
-                _magnifyObserver = Observer::ValueObserver<size_t>::create(
+                _magnifyObserver = Observer::Value<size_t>::create(
                     settings->observeMagnify(),
                     [weak](const size_t& value)
                     {
@@ -172,7 +172,7 @@ namespace djv
                     });
 
                 auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                _backgroundOptionsObserver = Observer::ValueObserver<ViewBackgroundOptions>::create(
+                _backgroundOptionsObserver = Observer::Value<ViewBackgroundOptions>::create(
                     viewSettings->observeBackgroundOptions(),
                     [weak](const ViewBackgroundOptions& value)
                     {
@@ -184,7 +184,7 @@ namespace djv
                     });
 
                 auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-                _imageDataObserver = Observer::ValueObserver<ImageData>::create(
+                _imageDataObserver = Observer::Value<ImageData>::create(
                     imageSettings->observeData(),
                     [weak](const ImageData& value)
                     {
@@ -197,7 +197,7 @@ namespace djv
 
                 auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                _ocioConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+                _ocioConfigObserver = Observer::Value<OCIO::Config>::create(
                     ocioSystem->observeCurrentConfig(),
                     [weak, contextWeak](const OCIO::Config& value)
                     {
@@ -327,7 +327,7 @@ namespace djv
             std::shared_ptr<ImageWidget> imageWidget;
             std::shared_ptr<UI::IntSlider> magnifySlider;
 
-            std::shared_ptr<Observer::ValueObserver<size_t> > magnifyObserver;
+            std::shared_ptr<Observer::Value<size_t> > magnifyObserver;
         };
 
         void MagnifyWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -368,7 +368,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto settings = settingsSystem->getSettingsT<MagnifySettings>();
             auto weak = std::weak_ptr<MagnifyWidget>(std::dynamic_pointer_cast<MagnifyWidget>(shared_from_this()));
-            p.magnifyObserver = Observer::ValueObserver<size_t>::create(
+            p.magnifyObserver = Observer::Value<size_t>::create(
                 settings->observeMagnify(),
                 [weak](size_t value)
                 {

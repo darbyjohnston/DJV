@@ -72,19 +72,19 @@ namespace djv
             std::shared_ptr<HUDOverlay> hudOverlay;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<Observer::ValueObserver<AV::Time::Units> > timeUnitsObserver;
-            std::shared_ptr<Observer::ValueObserver<ViewLock> > lockObserver;
-            std::shared_ptr<Observer::ValueObserver<GridOptions> > gridOptionsObserver;
-            std::shared_ptr<Observer::ValueObserver<HUDOptions> > hudOptionsObserver;
-            std::shared_ptr<Observer::ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
-            std::shared_ptr<Observer::ValueObserver<ImageData> > imageDataObserver;
-            std::shared_ptr<Observer::ValueObserver<OCIO::Config> > ocioConfigObserver;
-            std::shared_ptr<Observer::ValueObserver<std::pair<std::vector<Image::Info>, int> > > layersObserver;
-            std::shared_ptr<Observer::ValueObserver<Math::Rational> > speedObserver;
-            std::shared_ptr<Observer::ValueObserver<float> > realSpeedObserver;
-            std::shared_ptr<Observer::ValueObserver<Math::Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<Observer::ValueObserver<Math::Frame::Index> > currentFrameObserver;
-            std::shared_ptr<Observer::ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
+            std::shared_ptr<Observer::Value<AV::Time::Units> > timeUnitsObserver;
+            std::shared_ptr<Observer::Value<ViewLock> > lockObserver;
+            std::shared_ptr<Observer::Value<GridOptions> > gridOptionsObserver;
+            std::shared_ptr<Observer::Value<HUDOptions> > hudOptionsObserver;
+            std::shared_ptr<Observer::Value<ViewBackgroundOptions> > backgroundOptionsObserver;
+            std::shared_ptr<Observer::Value<ImageData> > imageDataObserver;
+            std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
+            std::shared_ptr<Observer::Value<std::pair<std::vector<Image::Info>, int> > > layersObserver;
+            std::shared_ptr<Observer::Value<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::Value<float> > realSpeedObserver;
+            std::shared_ptr<Observer::Value<Math::Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<Observer::Value<Math::Frame::Index> > currentFrameObserver;
+            std::shared_ptr<Observer::List<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
 
             std::shared_ptr<System::Animation::Animation> zoomAnimation;
         };
@@ -117,7 +117,7 @@ namespace djv
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto weak = std::weak_ptr<ViewWidget>(std::dynamic_pointer_cast<ViewWidget>(shared_from_this()));
-            p.timeUnitsObserver = Observer::ValueObserver<AV::Time::Units>::create(
+            p.timeUnitsObserver = Observer::Value<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
                 [weak](AV::Time::Units value)
                 {
@@ -130,7 +130,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.lockObserver = Observer::ValueObserver<ViewLock>::create(
+            p.lockObserver = Observer::Value<ViewLock>::create(
                 viewSettings->observeLock(),
                 [weak](ViewLock value)
                 {
@@ -143,7 +143,7 @@ namespace djv
                         }
                     }
                 });
-            p.gridOptionsObserver = Observer::ValueObserver<GridOptions>::create(
+            p.gridOptionsObserver = Observer::Value<GridOptions>::create(
                 viewSettings->observeGridOptions(),
                 [weak](const GridOptions& value)
                 {
@@ -154,7 +154,7 @@ namespace djv
                     }
                 });
 
-            p.hudOptionsObserver = Observer::ValueObserver<HUDOptions>::create(
+            p.hudOptionsObserver = Observer::Value<HUDOptions>::create(
                 viewSettings->observeHUDOptions(),
                 [weak](const HUDOptions& value)
                 {
@@ -164,7 +164,7 @@ namespace djv
                         widget->_gridUpdate();
                     }
                 });
-            p.backgroundOptionsObserver = Observer::ValueObserver<ViewBackgroundOptions>::create(
+            p.backgroundOptionsObserver = Observer::Value<ViewBackgroundOptions>::create(
                 viewSettings->observeBackgroundOptions(),
                 [weak](const ViewBackgroundOptions& value)
                 {
@@ -176,7 +176,7 @@ namespace djv
                 });
 
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            p.imageDataObserver = Observer::ValueObserver<ImageData>::create(
+            p.imageDataObserver = Observer::Value<ImageData>::create(
                 imageSettings->observeData(),
                 [weak](const ImageData& value)
                 {
@@ -189,7 +189,7 @@ namespace djv
 
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.ocioConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+            p.ocioConfigObserver = Observer::Value<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
                 [weak, contextWeak](const OCIO::Config& value)
                 {
@@ -205,7 +205,7 @@ namespace djv
                     }
                 });
 
-            p.layersObserver = Observer::ValueObserver<std::pair<std::vector<Image::Info>, int> >::create(
+            p.layersObserver = Observer::Value<std::pair<std::vector<Image::Info>, int> >::create(
                 p.media->observeLayers(),
                 [weak](const std::pair<std::vector<Image::Info>, int>& value)
                 {
@@ -214,7 +214,7 @@ namespace djv
                         widget->_hudUpdate();
                     }
                 });
-            p.speedObserver = Observer::ValueObserver<Math::Rational>::create(
+            p.speedObserver = Observer::Value<Math::Rational>::create(
                 p.media->observeSpeed(),
                 [weak](const Math::Rational& value)
                 {
@@ -224,7 +224,7 @@ namespace djv
                         widget->_hudUpdate();
                     }
                 });
-            p.realSpeedObserver = Observer::ValueObserver<float>::create(
+            p.realSpeedObserver = Observer::Value<float>::create(
                 p.media->observeRealSpeed(),
                 [weak](float value)
                 {
@@ -234,7 +234,7 @@ namespace djv
                         widget->_hudUpdate();
                     }
                 });
-            p.sequenceObserver = Observer::ValueObserver<Math::Frame::Sequence>::create(
+            p.sequenceObserver = Observer::Value<Math::Frame::Sequence>::create(
                 p.media->observeSequence(),
                 [weak](const Math::Frame::Sequence& value)
                 {
@@ -244,7 +244,7 @@ namespace djv
                         widget->_hudUpdate();
                     }
                 });
-            p.currentFrameObserver = Observer::ValueObserver<Math::Frame::Index>::create(
+            p.currentFrameObserver = Observer::Value<Math::Frame::Index>::create(
                 p.media->observeCurrentFrame(),
                 [weak](Math::Frame::Index value)
                 {
@@ -254,7 +254,7 @@ namespace djv
                         widget->_hudUpdate();
                     }
                 });
-            p.annotationsObserver = Observer::ListObserver<std::shared_ptr<AnnotatePrimitive> >::create(
+            p.annotationsObserver = Observer::List<std::shared_ptr<AnnotatePrimitive> >::create(
                 p.media->observeAnnotations(),
                 [weak](const std::vector<std::shared_ptr<AnnotatePrimitive> >& value)
                 {

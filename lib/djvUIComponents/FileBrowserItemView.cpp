@@ -94,7 +94,7 @@ namespace djv
                 OCIO::Config ocioConfig;
                 std::string outputColorSpace;
 
-                std::shared_ptr<Observer::ValueObserver<OCIO::Config> > ocioConfigObserver;
+                std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
 
                 size_t hover = invalid;
                 size_t grab = invalid;
@@ -136,7 +136,7 @@ namespace djv
 
                 auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                p.ocioConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
+                p.ocioConfigObserver = Observer::Value<OCIO::Config>::create(
                     ocioSystem->observeCurrentConfig(),
                     [weak, contextWeak](const OCIO::Config& value)
                     {

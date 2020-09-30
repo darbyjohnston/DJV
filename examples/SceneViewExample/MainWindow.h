@@ -63,11 +63,11 @@ private:
     std::function<void(void)> _reloadCallback;
     std::function<void(void)> _exitCallback;
     
-    std::shared_ptr<djv::Core::Observer::ValueObserver<djv::Scene3D::PolarCameraData> > _cameraDataObserver;
-    std::shared_ptr<djv::Core::Observer::ValueObserver<djv::UI::SceneRenderOptions> > _renderOptionsObserver;
-    std::shared_ptr<djv::Core::Observer::ValueObserver<djv::Math::BBox3f> > _bboxObserver;
-    std::shared_ptr<djv::Core::Observer::ValueObserver<size_t> > _primitivesCountObserver;
-    std::shared_ptr<djv::Core::Observer::ValueObserver<size_t> > _pointCountObserver;
+    std::shared_ptr<djv::Core::Observer::Value<djv::Scene3D::PolarCameraData> > _cameraDataObserver;
+    std::shared_ptr<djv::Core::Observer::Value<djv::UI::SceneRenderOptions> > _renderOptionsObserver;
+    std::shared_ptr<djv::Core::Observer::Value<djv::Math::BBox3f> > _bboxObserver;
+    std::shared_ptr<djv::Core::Observer::Value<size_t> > _primitivesCountObserver;
+    std::shared_ptr<djv::Core::Observer::Value<size_t> > _pointCountObserver;
 
     std::shared_ptr<djv::System::Timer> _statsTimer;
 };

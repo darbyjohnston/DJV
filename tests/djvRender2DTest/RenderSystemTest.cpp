@@ -31,7 +31,7 @@ namespace djv
             {
                 auto system = context->getSystemT<RenderSystem>();
                 
-                auto imageFilterOptionsObserver = Observer::ValueObserver<ImageFilterOptions>::create(
+                auto imageFilterOptionsObserver = Observer::Value<ImageFilterOptions>::create(
                     system->observeImageFilterOptions(),
                     [this](const ImageFilterOptions& value)
                     {
@@ -39,7 +39,7 @@ namespace djv
                         ss << "Image filter: " << value.min << " " << value.mag;
                         _print(ss.str());
                     });
-                auto textLCDRenderingObserver = Observer::ValueObserver<bool>::create(
+                auto textLCDRenderingObserver = Observer::Value<bool>::create(
                     system->observeTextLCDRendering(),
                     [this](bool value)
                     {

@@ -31,7 +31,7 @@ namespace djv
                 std::shared_ptr<GridLayout> itemLayout;
                 std::shared_ptr<VerticalLayout> layout;
                 std::function<void(const System::File::Path&)> callback;
-                std::shared_ptr<Observer::ListObserver<System::File::Path> > shortcutsObserver;
+                std::shared_ptr<Observer::List<System::File::Path> > shortcutsObserver;
             };
 
             void ShortcutsWidget::_init(
@@ -100,7 +100,7 @@ namespace djv
                     });
 
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                p.shortcutsObserver = Observer::ListObserver<System::File::Path>::create(
+                p.shortcutsObserver = Observer::List<System::File::Path>::create(
                     model->observeShortcuts(),
                     [weak, contextWeak](const std::vector<System::File::Path> & value)
                     {

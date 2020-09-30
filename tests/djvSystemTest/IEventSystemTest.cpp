@@ -335,7 +335,7 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                _pointerObserver = Observer::ValueObserver<Event::PointerInfo>::create(
+                _pointerObserver = Observer::Value<Event::PointerInfo>::create(
                     _system->observePointer(),
                     [this](const Event::PointerInfo& value)
                     {
@@ -343,7 +343,7 @@ namespace djv
                         ss << "Pointer: " << value.projectedPos;
                         _print(ss.str());
                     });
-                _hoverObserver = Observer::ValueObserver<std::shared_ptr<IObject> >::create(
+                _hoverObserver = Observer::Value<std::shared_ptr<IObject> >::create(
                     _system->observeHover(),
                     [this](const std::shared_ptr<IObject>& value)
                     {
@@ -354,7 +354,7 @@ namespace djv
                             _print(ss.str());
                         }
                     });
-                _grabObserver = Observer::ValueObserver<std::shared_ptr<IObject> >::create(
+                _grabObserver = Observer::Value<std::shared_ptr<IObject> >::create(
                     _system->observeGrab(),
                     [this](const std::shared_ptr<IObject>& value)
                     {
@@ -365,7 +365,7 @@ namespace djv
                             _print(ss.str());
                         }
                     });
-                _keyGrabObserver = Observer::ValueObserver<std::shared_ptr<IObject> >::create(
+                _keyGrabObserver = Observer::Value<std::shared_ptr<IObject> >::create(
                     _system->observeKeyGrab(),
                     [this](const std::shared_ptr<IObject>& value)
                     {
@@ -376,7 +376,7 @@ namespace djv
                             _print(ss.str());
                         }
                     });
-                _textFocusActiveObserver = Observer::ValueObserver<bool>::create(
+                _textFocusActiveObserver = Observer::Value<bool>::create(
                     _system->observeTextFocusActive(),
                     [this](bool value)
                     {

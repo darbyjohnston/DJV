@@ -28,7 +28,7 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> layout;
             std::function<void(void)> closeCallback;
 
-            std::shared_ptr<Observer::ValueObserver<float> > fadeObserver;
+            std::shared_ptr<Observer::Value<float> > fadeObserver;
         };
 
         void MDIWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -80,7 +80,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.fadeObserver = Observer::ValueObserver<float>::create(
+                p.fadeObserver = Observer::Value<float>::create(
                     windowSystem->observeFade(),
                     [weak](float value)
                     {

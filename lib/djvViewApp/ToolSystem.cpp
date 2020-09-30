@@ -55,10 +55,10 @@ namespace djv
             std::weak_ptr<InfoWidget> infoWidget;
             std::weak_ptr<MessagesWidget> messagesWidget;
             std::weak_ptr<DebugWidget> debugWidget;
-            std::map<std::string, std::shared_ptr<Observer::ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<Observer::ListObserver<std::string> > warningsObserver;
-            std::shared_ptr<Observer::ListObserver<std::string> > errorsObserver;
-            std::shared_ptr<Observer::ValueObserver<bool> > messagesPopupObserver;
+            std::map<std::string, std::shared_ptr<Observer::Value<bool> > > actionObservers;
+            std::shared_ptr<Observer::List<std::string> > warningsObserver;
+            std::shared_ptr<Observer::List<std::string> > errorsObserver;
+            std::shared_ptr<Observer::Value<bool> > messagesPopupObserver;
         };
 
         void ToolSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -149,7 +149,7 @@ namespace djv
                 });
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.actionObservers["Info"] = Observer::ValueObserver<bool>::create(
+            p.actionObservers["Info"] = Observer::Value<bool>::create(
                 p.actions["Info"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
@@ -171,7 +171,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Messages"] = Observer::ValueObserver<bool>::create(
+            p.actionObservers["Messages"] = Observer::Value<bool>::create(
                 p.actions["Messages"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
@@ -191,7 +191,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["SystemLog"] = Observer::ValueObserver<bool>::create(
+            p.actionObservers["SystemLog"] = Observer::Value<bool>::create(
                 p.actions["SystemLog"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
@@ -213,7 +213,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Debug"] = Observer::ValueObserver<bool>::create(
+            p.actionObservers["Debug"] = Observer::Value<bool>::create(
                 p.actions["Debug"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
@@ -237,7 +237,7 @@ namespace djv
                 });
 
             auto logSystem = context->getSystemT<System::LogSystem>();
-            p.warningsObserver = Observer::ListObserver<std::string>::create(
+            p.warningsObserver = Observer::List<std::string>::create(
                 logSystem->observeWarnings(),
                 [weak](const std::vector<std::string>& value)
                 {
@@ -265,7 +265,7 @@ namespace djv
                     }
                 });
 
-            p.errorsObserver = Observer::ListObserver<std::string>::create(
+            p.errorsObserver = Observer::List<std::string>::create(
                 logSystem->observeErrors(),
                 [weak](const std::vector<std::string>& value)
                 {
@@ -293,7 +293,7 @@ namespace djv
                     }
                 });
 
-            p.messagesPopupObserver = Observer::ValueObserver<bool>::create(
+            p.messagesPopupObserver = Observer::Value<bool>::create(
                 p.settings->observeMessagesPopup(),
                 [weak](bool value)
                 {

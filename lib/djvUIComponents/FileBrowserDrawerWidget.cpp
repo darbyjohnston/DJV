@@ -36,8 +36,8 @@ namespace djv
                 std::map<std::string, std::shared_ptr<Bellows> > bellows;
                 std::shared_ptr<VerticalLayout> layout;
 
-                std::shared_ptr<Observer::ValueObserver<System::File::Path> > pathObserver;
-                std::shared_ptr<Observer::MapObserver<std::string, bool> > pathsBellowsStateObserver;
+                std::shared_ptr<Observer::Value<System::File::Path> > pathObserver;
+                std::shared_ptr<Observer::Map<std::string, bool> > pathsBellowsStateObserver;
             };
 
             void DrawerWidget::_init(
@@ -90,7 +90,7 @@ namespace djv
                         directoryModel->setPath(value);
                     });
 
-                p.pathObserver = Observer::ValueObserver<System::File::Path>::create(
+                p.pathObserver = Observer::Value<System::File::Path>::create(
                     directoryModel->observePath(),
                     [weak](const System::File::Path& value)
                     {
@@ -102,7 +102,7 @@ namespace djv
 
                 auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                p.pathsBellowsStateObserver = Observer::MapObserver<std::string, bool>::create(
+                p.pathsBellowsStateObserver = Observer::Map<std::string, bool>::create(
                     fileBrowserSettings->observePathsBellowsState(),
                     [weak](const std::map<std::string, bool>& value)
                     {
