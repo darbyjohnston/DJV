@@ -201,6 +201,17 @@ namespace djv
                         }
                     }
                 });
+            p.itemView->setActivatedCallback(
+                [weak](const std::set<size_t>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (widget->_p->callback && !value.empty() && *value.begin() < widget->_p->mediaFiltered.size())
+                        {
+                            widget->_p->callback(widget->_p->mediaFiltered[*value.begin()]);
+                        }
+                    }
+                });
 
             auto fileSystem = context->getSystemT<FileSystem>();
             p.mediaObserver = ListObserver<std::shared_ptr<Media> >::create(
