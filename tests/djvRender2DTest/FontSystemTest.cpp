@@ -117,7 +117,7 @@ namespace djv
             {
                 auto system = context->getSystemT<Render2D::Font::FontSystem>();
                                 
-                auto fontNamesObserver = MapObserver<Font::FamilyID, std::string>::create(
+                auto fontNamesObserver = Observer::MapObserver<Font::FamilyID, std::string>::create(
                     system->observeFontNames(),
                     [this](const std::map<Font::FamilyID, std::string>& value)
                     {

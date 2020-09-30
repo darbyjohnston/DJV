@@ -84,9 +84,9 @@ namespace djv
 
             const std::shared_ptr<ViewWidget>& getViewWidget() const;
 
-            std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
-            std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
-            std::shared_ptr<Core::IValueSubject<ScrollData> > observeScroll() const;
+            std::shared_ptr<Core::Observer::IValueSubject<PointerData> > observeHover() const;
+            std::shared_ptr<Core::Observer::IValueSubject<PointerData> > observeDrag() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ScrollData> > observeScroll() const;
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

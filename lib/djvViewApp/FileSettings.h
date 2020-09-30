@@ -41,24 +41,24 @@ namespace djv
 
             static std::shared_ptr<FileSettings> create(const std::shared_ptr<System::Context>&);
             
-            std::shared_ptr<Core::IValueSubject<size_t> > observeOpenMax() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeOpenMax() const;
 
             void setOpenMax(size_t);
 
-            std::shared_ptr<Core::IListSubject<System::File::Info> > observeRecentFiles() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeRecentFilesMax() const;
+            std::shared_ptr<Core::Observer::IListSubject<System::File::Info> > observeRecentFiles() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeRecentFilesMax() const;
 
             void setRecentFiles(const std::vector<System::File::Info>&);
             void setRecentFilesMax(size_t);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeSequencesFirstFrame() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeAutoDetectSequences() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeSequencesFirstFrame() const;
 
             void setAutoDetectSequences(bool);
             void setSequencesFirstFrame(bool);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
-            std::shared_ptr<Core::IValueSubject<int> > observeCacheSize() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeCacheEnabled() const;
+            std::shared_ptr<Core::Observer::IValueSubject<int> > observeCacheSize() const;
 
             void setCacheEnabled(bool);
             void setCacheSize(int);

@@ -29,7 +29,7 @@ namespace djv
         public:
             static std::shared_ptr<KeyboardSettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::MapSubject<std::string, UI::ShortcutDataPair> > observeShortcuts() const;
+            std::shared_ptr<Core::Observer::MapSubject<std::string, UI::ShortcutDataPair> > observeShortcuts() const;
 
             void setShortcuts(const UI::ShortcutDataMap&);
             void addShortcut(const std::string&, const UI::ShortcutDataPair&, bool overwrite = false);

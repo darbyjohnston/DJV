@@ -29,17 +29,17 @@ namespace djv
 
         struct WindowSettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > restorePos;
-            std::shared_ptr<ValueSubject<bool> > restoreSize;
+            std::shared_ptr<Observer::ValueSubject<bool> > restorePos;
+            std::shared_ptr<Observer::ValueSubject<bool> > restoreSize;
             glm::ivec2 windowPos = glm::ivec2(0, 0);
             glm::ivec2 windowSize = windowSizeDefault;
-            std::shared_ptr<ValueSubject<bool> > fullScreen;
-            std::shared_ptr<ValueSubject<int> > fullScreenMonitor;
-            std::shared_ptr<ValueSubject<bool> > floatOnTop;
-            std::shared_ptr<ValueSubject<bool> > maximize;
-            std::shared_ptr<ValueSubject<std::string> > backgroundImage;
-            std::shared_ptr<ValueSubject<bool> > backgroundImageScale;
-            std::shared_ptr<ValueSubject<bool> > backgroundImageColorize;
+            std::shared_ptr<Observer::ValueSubject<bool> > fullScreen;
+            std::shared_ptr<Observer::ValueSubject<int> > fullScreenMonitor;
+            std::shared_ptr<Observer::ValueSubject<bool> > floatOnTop;
+            std::shared_ptr<Observer::ValueSubject<bool> > maximize;
+            std::shared_ptr<Observer::ValueSubject<std::string> > backgroundImage;
+            std::shared_ptr<Observer::ValueSubject<bool> > backgroundImageScale;
+            std::shared_ptr<Observer::ValueSubject<bool> > backgroundImageColorize;
         };
 
         void WindowSettings::_init(const std::shared_ptr<System::Context>& context)
@@ -47,18 +47,18 @@ namespace djv
             ISettings::_init("djv::ViewApp::WindowSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.restorePos = ValueSubject<bool>::create(false);
-            p.restoreSize = ValueSubject<bool>::create(true);
-            p.fullScreen = ValueSubject<bool>::create(false);
-            p.fullScreenMonitor = ValueSubject<int>::create(0);
-            p.floatOnTop = ValueSubject<bool>::create(false);
-            p.maximize = ValueSubject<bool>::create(true);
+            p.restorePos = Observer::ValueSubject<bool>::create(false);
+            p.restoreSize = Observer::ValueSubject<bool>::create(true);
+            p.fullScreen = Observer::ValueSubject<bool>::create(false);
+            p.fullScreenMonitor = Observer::ValueSubject<int>::create(0);
+            p.floatOnTop = Observer::ValueSubject<bool>::create(false);
+            p.maximize = Observer::ValueSubject<bool>::create(true);
             auto resourceSystem = context->getSystemT<System::ResourceSystem>();
             const auto& iconsPath = resourceSystem->getPath(System::File::ResourcePath::Icons);
-            p.backgroundImage = ValueSubject<std::string>::create(std::string(
+            p.backgroundImage = Observer::ValueSubject<std::string>::create(std::string(
                 System::File::Path(iconsPath, "djv-tshirt-v02.png")));
-            p.backgroundImageScale = ValueSubject<bool>::create(false);
-            p.backgroundImageColorize = ValueSubject<bool>::create(true);
+            p.backgroundImageScale = Observer::ValueSubject<bool>::create(false);
+            p.backgroundImageColorize = Observer::ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -76,12 +76,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSettings::observeRestorePos() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > WindowSettings::observeRestorePos() const
         {
             return _p->restorePos;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSettings::observeRestoreSize() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > WindowSettings::observeRestoreSize() const
         {
             return _p->restoreSize;
         }
@@ -121,12 +121,12 @@ namespace djv
             _p->windowSize = value;
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeFullScreen() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeFullScreen() const
         {
             return _p->fullScreen;
         }
 
-        std::shared_ptr<IValueSubject<int> > WindowSettings::observeFullScreenMonitor() const
+        std::shared_ptr<Observer::IValueSubject<int> > WindowSettings::observeFullScreenMonitor() const
         {
             return _p->fullScreenMonitor;
         }
@@ -141,7 +141,7 @@ namespace djv
             _p->fullScreenMonitor->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeFloatOnTop() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeFloatOnTop() const
         {
             return _p->floatOnTop;
         }
@@ -151,7 +151,7 @@ namespace djv
             _p->floatOnTop->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeMaximize() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeMaximize() const
         {
             return _p->maximize;
         }
@@ -161,17 +161,17 @@ namespace djv
             _p->maximize->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<std::string> > WindowSettings::observeBackgroundImage() const
+        std::shared_ptr<Observer::IValueSubject<std::string> > WindowSettings::observeBackgroundImage() const
         {
             return _p->backgroundImage;
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeBackgroundImageScale() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeBackgroundImageScale() const
         {
             return _p->backgroundImageScale;
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeBackgroundImageColorize() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeBackgroundImageColorize() const
         {
             return _p->backgroundImageColorize;
         }

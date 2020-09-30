@@ -27,8 +27,8 @@ namespace djv
             std::shared_ptr<ComboBox> comboBox;
             std::map<size_t, std::string> indexToMetrics;
             std::map<std::string, size_t> metricsToIndex;
-            std::shared_ptr<MapObserver<std::string, Style::Metrics> > metricsObserver;
-            std::shared_ptr<ValueObserver<std::string> > currentMetricsObserver;
+            std::shared_ptr<Observer::MapObserver<std::string, Style::Metrics> > metricsObserver;
+            std::shared_ptr<Observer::ValueObserver<std::string> > currentMetricsObserver;
         };
 
         void SizeWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -63,7 +63,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-            p.metricsObserver = MapObserver<std::string, Style::Metrics>::create(
+            p.metricsObserver = Observer::MapObserver<std::string, Style::Metrics>::create(
                 styleSettings->observeMetrics(),
                 [weak](const std::map<std::string, Style::Metrics>& value)
             {
@@ -77,7 +77,7 @@ namespace djv
                     widget->_widgetUpdate();
                 }
             });
-            p.currentMetricsObserver = ValueObserver<std::string>::create(
+            p.currentMetricsObserver = Observer::ValueObserver<std::string>::create(
                 styleSettings->observeCurrentMetricsName(),
                 [weak](const std::string& value)
             {
@@ -156,8 +156,8 @@ namespace djv
             std::shared_ptr<ComboBox> comboBox;
             std::map<size_t, std::string> indexToPalette;
             std::map<std::string, size_t> paletteToIndex;
-            std::shared_ptr<MapObserver<std::string, Style::Palette> > palettesObserver;
-            std::shared_ptr<ValueObserver<std::string> > currentPaletteObserver;
+            std::shared_ptr<Observer::MapObserver<std::string, Style::Palette> > palettesObserver;
+            std::shared_ptr<Observer::ValueObserver<std::string> > currentPaletteObserver;
         };
 
         void PaletteWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -192,7 +192,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-            p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
+            p.palettesObserver = Observer::MapObserver<std::string, Style::Palette>::create(
                 styleSettings->observePalettes(),
                 [weak](const std::map<std::string, Style::Palette > & value)
             {
@@ -206,7 +206,7 @@ namespace djv
                     widget->_widgetUpdate();
                 }
             });
-            p.currentPaletteObserver = ValueObserver<std::string>::create(
+            p.currentPaletteObserver = Observer::ValueObserver<std::string>::create(
                 styleSettings->observeCurrentPaletteName(),
                 [weak](const std::string & value)
             {
@@ -285,8 +285,8 @@ namespace djv
             std::shared_ptr<FloatSlider> brightnessSlider;
             std::shared_ptr<FloatSlider> contrastSlider;
             std::shared_ptr<FormLayout> layout;
-            std::shared_ptr<ValueObserver<float> > brightnessObserver;
-            std::shared_ptr<ValueObserver<float> > contrastObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > brightnessObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > contrastObserver;
         };
 
         void StyleSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -343,7 +343,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
             auto weak = std::weak_ptr<StyleSettingsWidget>(std::dynamic_pointer_cast<StyleSettingsWidget>(shared_from_this()));
-            p.brightnessObserver = ValueObserver<float>::create(
+            p.brightnessObserver = Observer::ValueObserver<float>::create(
                 styleSettings->observeBrightness(),
                 [weak](const float value)
             {
@@ -353,7 +353,7 @@ namespace djv
                 }
             });
 
-            p.contrastObserver = ValueObserver<float>::create(
+            p.contrastObserver = Observer::ValueObserver<float>::create(
                 styleSettings->observeContrast(),
                 [weak](const float value)
             {

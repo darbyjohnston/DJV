@@ -29,8 +29,8 @@ namespace djv
 
             static std::shared_ptr<AVSystem> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<Time::Units> > observeTimeUnits() const;
-            std::shared_ptr<Core::IValueSubject<FPS> > observeDefaultSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Time::Units> > observeTimeUnits() const;
+            std::shared_ptr<Core::Observer::IValueSubject<FPS> > observeDefaultSpeed() const;
 
             void setTimeUnits(Time::Units);
             void setDefaultSpeed(FPS);

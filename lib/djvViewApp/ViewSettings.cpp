@@ -23,10 +23,10 @@ namespace djv
         struct ViewSettings::Private
         {
             std::map<std::string, bool> bellowsState;
-            std::shared_ptr<ValueSubject<ViewLock> > lock;
-            std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
-            std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
-            std::shared_ptr<ValueSubject<ViewBackgroundOptions> > backgroundOptions;
+            std::shared_ptr<Observer::ValueSubject<ViewLock> > lock;
+            std::shared_ptr<Observer::ValueSubject<GridOptions> > gridOptions;
+            std::shared_ptr<Observer::ValueSubject<HUDOptions> > hudOptions;
+            std::shared_ptr<Observer::ValueSubject<ViewBackgroundOptions> > backgroundOptions;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
@@ -35,10 +35,10 @@ namespace djv
             ISettings::_init("djv::ViewApp::ViewSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.lock = ValueSubject<ViewLock>::create(ViewLock::Frame);
-            p.gridOptions = ValueSubject<GridOptions>::create();
-            p.hudOptions = ValueSubject<HUDOptions>::create();
-            p.backgroundOptions = ValueSubject<ViewBackgroundOptions>::create();
+            p.lock = Observer::ValueSubject<ViewLock>::create(ViewLock::Frame);
+            p.gridOptions = Observer::ValueSubject<GridOptions>::create();
+            p.hudOptions = Observer::ValueSubject<HUDOptions>::create();
+            p.backgroundOptions = Observer::ValueSubject<ViewBackgroundOptions>::create();
             _load();
         }
 
@@ -63,7 +63,7 @@ namespace djv
             _p->bellowsState = value;
         }
 
-        std::shared_ptr<IValueSubject<ViewLock> > ViewSettings::observeLock() const
+        std::shared_ptr<Observer::IValueSubject<ViewLock> > ViewSettings::observeLock() const
         {
             return _p->lock;
         }
@@ -73,17 +73,17 @@ namespace djv
             _p->lock->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IValueSubject<GridOptions> > ViewSettings::observeGridOptions() const
+        std::shared_ptr<Core::Observer::IValueSubject<GridOptions> > ViewSettings::observeGridOptions() const
         {
             return _p->gridOptions;
         }
 
-        std::shared_ptr<Core::IValueSubject<HUDOptions> > ViewSettings::observeHUDOptions() const
+        std::shared_ptr<Core::Observer::IValueSubject<HUDOptions> > ViewSettings::observeHUDOptions() const
         {
             return _p->hudOptions;
         }
 
-        std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ViewSettings::observeBackgroundOptions() const
+        std::shared_ptr<Observer::IValueSubject<ViewBackgroundOptions> > ViewSettings::observeBackgroundOptions() const
         {
             return _p->backgroundOptions;
         }

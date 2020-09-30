@@ -53,7 +53,7 @@ namespace djv
                 bool autoRepeat = false;
                 std::shared_ptr<System::Timer> autoRepeatStartTimer;
                 std::shared_ptr<System::Timer> autoRepeatTimer;
-                std::shared_ptr<ValueObserver<std::string> > iconObserver;
+                std::shared_ptr<Observer::ValueObserver<std::string> > iconObserver;
             };
 
             void Tool::_init(const std::shared_ptr<System::Context>& context)
@@ -510,7 +510,7 @@ namespace djv
                 {
                     p.action = actions.front();
                     auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
-                    p.iconObserver = ValueObserver<std::string>::create(
+                    p.iconObserver = Observer::ValueObserver<std::string>::create(
                         p.action->observeIcon(),
                         [weak](const std::string& value)
                         {

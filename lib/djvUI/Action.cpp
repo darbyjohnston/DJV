@@ -17,17 +17,17 @@ namespace djv
     {
         struct Action::Private
         {
-            std::shared_ptr<ValueSubject<ButtonType> > buttonTypeSubject;
-            std::shared_ptr<ValueSubject<bool> > checkedSubject;
+            std::shared_ptr<Observer::ValueSubject<ButtonType> > buttonTypeSubject;
+            std::shared_ptr<Observer::ValueSubject<bool> > checkedSubject;
             std::string icon;
             std::string checkedIcon;
-            std::shared_ptr<ValueSubject<std::string> > iconSubject;
-            std::shared_ptr<ValueSubject<std::string> > textSubject;
-            std::shared_ptr<ValueSubject<std::string> > fontSubject;
-            std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcutsSubject;
-            std::shared_ptr<ValueSubject<bool> > enabledSubject;
-            std::shared_ptr<ValueSubject<std::string> > tooltipSubject;
-            std::shared_ptr<ValueSubject<bool> > autoRepeatSubject;
+            std::shared_ptr<Observer::ValueSubject<std::string> > iconSubject;
+            std::shared_ptr<Observer::ValueSubject<std::string> > textSubject;
+            std::shared_ptr<Observer::ValueSubject<std::string> > fontSubject;
+            std::shared_ptr<Observer::ListSubject<std::shared_ptr<Shortcut> > > shortcutsSubject;
+            std::shared_ptr<Observer::ValueSubject<bool> > enabledSubject;
+            std::shared_ptr<Observer::ValueSubject<std::string> > tooltipSubject;
+            std::shared_ptr<Observer::ValueSubject<bool> > autoRepeatSubject;
             std::function<void(void)> clickedCallback;
             std::function<void(bool)> checkedCallback;
         };
@@ -35,15 +35,15 @@ namespace djv
         void Action::_init()
         {
             DJV_PRIVATE_PTR();
-            p.buttonTypeSubject = ValueSubject<ButtonType>::create(ButtonType::Push);
-            p.checkedSubject = ValueSubject<bool>::create(false);
-            p.iconSubject = ValueSubject<std::string>::create();
-            p.textSubject = ValueSubject<std::string>::create();
-            p.fontSubject = ValueSubject<std::string>::create();
-            p.shortcutsSubject = ListSubject<std::shared_ptr<Shortcut> >::create();
-            p.enabledSubject = ValueSubject<bool>::create(true);
-            p.tooltipSubject = ValueSubject<std::string>::create();
-            p.autoRepeatSubject = ValueSubject<bool>::create();
+            p.buttonTypeSubject = Observer::ValueSubject<ButtonType>::create(ButtonType::Push);
+            p.checkedSubject = Observer::ValueSubject<bool>::create(false);
+            p.iconSubject = Observer::ValueSubject<std::string>::create();
+            p.textSubject = Observer::ValueSubject<std::string>::create();
+            p.fontSubject = Observer::ValueSubject<std::string>::create();
+            p.shortcutsSubject = Observer::ListSubject<std::shared_ptr<Shortcut> >::create();
+            p.enabledSubject = Observer::ValueSubject<bool>::create(true);
+            p.tooltipSubject = Observer::ValueSubject<std::string>::create();
+            p.autoRepeatSubject = Observer::ValueSubject<bool>::create();
         }
 
         Action::Action() :
@@ -67,7 +67,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<ButtonType> > Action::observeButtonType() const
+        std::shared_ptr<Observer::IValueSubject<ButtonType> > Action::observeButtonType() const
         {
             return _p->buttonTypeSubject;
         }
@@ -77,7 +77,7 @@ namespace djv
             _p->buttonTypeSubject->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > Action::observeChecked() const
+        std::shared_ptr<Observer::IValueSubject<bool> > Action::observeChecked() const
         {
             return _p->checkedSubject;
         }
@@ -90,7 +90,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::observeIcon() const
+        std::shared_ptr<Observer::IValueSubject<std::string> > Action::observeIcon() const
         {
             return _p->iconSubject;
         }
@@ -111,7 +111,7 @@ namespace djv
             _iconUpdate();
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::observeText() const
+        std::shared_ptr<Observer::IValueSubject<std::string> > Action::observeText() const
         {
             return _p->textSubject;
         }
@@ -121,7 +121,7 @@ namespace djv
             _p->textSubject->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::observeFont() const
+        std::shared_ptr<Observer::IValueSubject<std::string> > Action::observeFont() const
         {
             return _p->fontSubject;
         }
@@ -131,7 +131,7 @@ namespace djv
             _p->fontSubject->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::observeShortcuts() const
+        std::shared_ptr<Core::Observer::IListSubject<std::shared_ptr<Shortcut> > > Action::observeShortcuts() const
         {
             return _p->shortcutsSubject;
         }
@@ -199,7 +199,7 @@ namespace djv
             p.shortcutsSubject->clear();
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > Action::observeEnabled() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > Action::observeEnabled() const
         {
             return _p->enabledSubject;
         }
@@ -209,7 +209,7 @@ namespace djv
             _p->enabledSubject->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::observeTooltip() const
+        std::shared_ptr<Observer::IValueSubject<std::string> > Action::observeTooltip() const
         {
             return _p->tooltipSubject;
         }
@@ -219,7 +219,7 @@ namespace djv
             _p->tooltipSubject->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > Action::observeAutoRepeat() const
+        std::shared_ptr<Observer::IValueSubject<bool> > Action::observeAutoRepeat() const
         {
             return _p->autoRepeatSubject;
         }

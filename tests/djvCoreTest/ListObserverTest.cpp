@@ -7,6 +7,7 @@
 #include <djvCore/ListObserver.h>
 
 using namespace djv::Core;
+using namespace djv::Core::Observer;
 
 namespace djv
 {
@@ -21,14 +22,14 @@ namespace djv
         void ListObserverTest::run()
         {
             std::vector<int> value;
-            auto subject = ListSubject<int>::create(value);
+            auto subject = Observer::ListSubject<int>::create(value);
             DJV_ASSERT(0 == subject->getObserversCount());
             DJV_ASSERT(subject->isEmpty());
             DJV_ASSERT(!subject->setIfChanged(value));
             
             {
                 std::vector<int> valueA;
-                auto observerA = ListObserver<int>::create(
+                auto observerA = Observer::ListObserver<int>::create(
                     subject,
                     [&valueA](const std::vector<int> value)
                     {
@@ -38,7 +39,7 @@ namespace djv
                 
                 {
                     std::vector<int> valueB;
-                    auto observerB = ListObserver<int>::create(
+                    auto observerB = Observer::ListObserver<int>::create(
                         subject,
                         [&valueB](const std::vector<int> value)
                         {

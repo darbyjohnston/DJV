@@ -39,13 +39,13 @@ namespace djv
 
             void setBellowsState(const std::map<std::string, bool>&);
 
-            std::shared_ptr<Core::IValueSubject<ViewLock> > observeLock() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ViewLock> > observeLock() const;
 
             void setLock(ViewLock);
 
-            std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
-            std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
-            std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
+            std::shared_ptr<Core::Observer::IValueSubject<GridOptions> > observeGridOptions() const;
+            std::shared_ptr<Core::Observer::IValueSubject<HUDOptions> > observeHUDOptions() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
 
             void setGridOptions(const GridOptions&);
             void setHUDOptions(const HUDOptions&);

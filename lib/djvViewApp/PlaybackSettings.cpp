@@ -22,12 +22,12 @@ namespace djv
     {
         struct PlaybackSettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > startPlayback;
-            std::shared_ptr<ValueSubject<PlaybackSpeed> > playbackSpeed;
-            std::shared_ptr<ValueSubject<Math::Rational> > customSpeed;
-            std::shared_ptr<ValueSubject<bool> > playEveryFrame;
-            std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
-            std::shared_ptr<ValueSubject<bool> > pipEnabled;
+            std::shared_ptr<Observer::ValueSubject<bool> > startPlayback;
+            std::shared_ptr<Observer::ValueSubject<PlaybackSpeed> > playbackSpeed;
+            std::shared_ptr<Observer::ValueSubject<Math::Rational> > customSpeed;
+            std::shared_ptr<Observer::ValueSubject<bool> > playEveryFrame;
+            std::shared_ptr<Observer::ValueSubject<PlaybackMode> > playbackMode;
+            std::shared_ptr<Observer::ValueSubject<bool> > pipEnabled;
         };
 
         void PlaybackSettings::_init(const std::shared_ptr<System::Context>& context)
@@ -35,12 +35,12 @@ namespace djv
             ISettings::_init("djv::ViewApp::PlaybackSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.startPlayback = ValueSubject<bool>::create(false);
-            p.playbackSpeed = ValueSubject<PlaybackSpeed>::create(PlaybackSpeed::Default);
-            p.customSpeed = ValueSubject<Math::Rational>::create(Math::Rational(1));
-            p.playEveryFrame = ValueSubject<bool>::create(false);
-            p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
-            p.pipEnabled = ValueSubject<bool>::create(true);
+            p.startPlayback = Observer::ValueSubject<bool>::create(false);
+            p.playbackSpeed = Observer::ValueSubject<PlaybackSpeed>::create(PlaybackSpeed::Default);
+            p.customSpeed = Observer::ValueSubject<Math::Rational>::create(Math::Rational(1));
+            p.playEveryFrame = Observer::ValueSubject<bool>::create(false);
+            p.playbackMode = Observer::ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
+            p.pipEnabled = Observer::ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -55,7 +55,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observeStartPlayback() const
+        std::shared_ptr<Observer::IValueSubject<bool> > PlaybackSettings::observeStartPlayback() const
         {
             return _p->startPlayback;
         }
@@ -65,7 +65,7 @@ namespace djv
             _p->startPlayback->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<PlaybackSpeed> > PlaybackSettings::observePlaybackSpeed() const
+        std::shared_ptr<Observer::IValueSubject<PlaybackSpeed> > PlaybackSettings::observePlaybackSpeed() const
         {
             return _p->playbackSpeed;
         }
@@ -75,7 +75,7 @@ namespace djv
             _p->playbackSpeed->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<Math::Rational> > PlaybackSettings::observeCustomSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::Rational> > PlaybackSettings::observeCustomSpeed() const
         {
             return _p->customSpeed;
         }
@@ -85,7 +85,7 @@ namespace djv
             _p->customSpeed->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observePlayEveryFrame() const
+        std::shared_ptr<Observer::IValueSubject<bool> > PlaybackSettings::observePlayEveryFrame() const
         {
             return _p->playEveryFrame;
         }
@@ -95,7 +95,7 @@ namespace djv
             _p->playEveryFrame->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<PlaybackMode> > PlaybackSettings::observePlaybackMode() const
+        std::shared_ptr<Observer::IValueSubject<PlaybackMode> > PlaybackSettings::observePlaybackMode() const
         {
             return _p->playbackMode;
         }
@@ -105,7 +105,7 @@ namespace djv
             _p->playbackMode->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observePIPEnabled() const
+        std::shared_ptr<Observer::IValueSubject<bool> > PlaybackSettings::observePIPEnabled() const
         {
             return _p->pipEnabled;
         }

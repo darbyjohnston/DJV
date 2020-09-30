@@ -28,9 +28,9 @@ namespace djv
             std::shared_ptr<MediaWidget> activeWidget;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<bool> > hasUndoObserver;
-            std::shared_ptr<ValueObserver<bool> > hasRedoObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > hasUndoObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > hasRedoObserver;
         };
 
         void EditSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -79,7 +79,7 @@ namespace djv
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                p.activeWidgetObserver = Observer::ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
                     [weak, contextWeak](const std::shared_ptr<MediaWidget>& value)
                     {
@@ -88,7 +88,7 @@ namespace djv
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
-                                system->_p->hasUndoObserver = ValueObserver<bool>::create(
+                                system->_p->hasUndoObserver = Observer::ValueObserver<bool>::create(
                                     system->_p->activeWidget->getMedia()->observeHasUndo(),
                                     [weak](bool value)
                                     {
@@ -98,7 +98,7 @@ namespace djv
                                         }
                                     });
 
-                                system->_p->hasRedoObserver = ValueObserver<bool>::create(
+                                system->_p->hasRedoObserver = Observer::ValueObserver<bool>::create(
                                     system->_p->activeWidget->getMedia()->observeHasRedo(),
                                     [weak](bool value)
                                     {

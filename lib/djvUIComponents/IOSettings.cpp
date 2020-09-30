@@ -22,7 +22,7 @@ namespace djv
         {
             struct IO::Private
             {
-                std::shared_ptr<ValueSubject<size_t> > threadCount;
+                std::shared_ptr<Observer::ValueSubject<size_t> > threadCount;
             };
 
             void IO::_init(const std::shared_ptr<System::Context>& context)
@@ -30,7 +30,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::IO", context);
                 
                 DJV_PRIVATE_PTR();
-                p.threadCount = ValueSubject<size_t>::create(4);
+                p.threadCount = Observer::ValueSubject<size_t>::create(4);
 
                 _load();
             }
@@ -49,7 +49,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<size_t> > IO::observeThreadCount() const
+            std::shared_ptr<Observer::IValueSubject<size_t> > IO::observeThreadCount() const
             {
                 return _p->threadCount;
             }

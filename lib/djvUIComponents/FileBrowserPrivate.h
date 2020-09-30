@@ -86,7 +86,7 @@ namespace djv
 
                 static std::shared_ptr<ShortcutsModel> create(const std::shared_ptr<System::Context>&);
 
-                std::shared_ptr<Core::IListSubject<System::File::Path> > observeShortcuts() const;
+                std::shared_ptr<Core::Observer::IListSubject<System::File::Path> > observeShortcuts() const;
 
                 void setShortcuts(const std::vector<System::File::Path>&);
                 void addShortcut(const System::File::Path&);

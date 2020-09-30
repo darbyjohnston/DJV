@@ -54,11 +54,11 @@ namespace djv
             std::shared_ptr<UI::CheckBox> playEveryFrameCheckBox;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
 
-            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
-            std::shared_ptr<ValueObserver<PlaybackSpeed> > playbackSpeedObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > defaultSpeedObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > customSpeedObserver;
-            std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::ValueObserver<PlaybackSpeed> > playbackSpeedObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Rational> > defaultSpeedObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Rational> > customSpeedObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > playEveryFrameObserver;
 
             void setPlaybackSpeed(PlaybackSpeed);
             void setCustomSpeed(const Math::Rational&);
@@ -215,7 +215,7 @@ namespace djv
                     }
                 });
 
-            p.speedObserver = ValueObserver<Math::Rational>::create(
+            p.speedObserver = Observer::ValueObserver<Math::Rational>::create(
                 media->observeSpeed(),
                 [weak](const Math::Rational& value)
                 {
@@ -226,7 +226,7 @@ namespace djv
                     }
                 });
 
-            p.playbackSpeedObserver = ValueObserver<PlaybackSpeed>::create(
+            p.playbackSpeedObserver = Observer::ValueObserver<PlaybackSpeed>::create(
                 media->observePlaybackSpeed(),
                 [weak](PlaybackSpeed value)
                 {
@@ -237,7 +237,7 @@ namespace djv
                     }
                 });
 
-            p.customSpeedObserver = ValueObserver<Math::Rational>::create(
+            p.customSpeedObserver = Observer::ValueObserver<Math::Rational>::create(
                 media->observeCustomSpeed(),
                 [weak](const Math::Rational& value)
                 {
@@ -248,7 +248,7 @@ namespace djv
                     }
                 });
 
-            p.defaultSpeedObserver = ValueObserver<Math::Rational>::create(
+            p.defaultSpeedObserver = Observer::ValueObserver<Math::Rational>::create(
                 media->observeDefaultSpeed(),
                 [weak](const Math::Rational& value)
                 {

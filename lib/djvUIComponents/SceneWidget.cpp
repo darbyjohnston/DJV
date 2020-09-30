@@ -57,10 +57,10 @@ namespace djv
             std::shared_ptr<Render3D::Render> render3D;
             Image::Size size;
             std::shared_ptr<Scene3D::Scene> scene;
-            std::shared_ptr<ValueSubject<SceneRotate> > sceneRotate;
+            std::shared_ptr<Observer::ValueSubject<SceneRotate> > sceneRotate;
             std::shared_ptr<Scene3D::PolarCamera> camera;
-            std::shared_ptr<ValueSubject<Scene3D::PolarCameraData> > cameraData;
-            std::shared_ptr<ValueSubject<SceneRenderOptions> > renderOptions;
+            std::shared_ptr<Observer::ValueSubject<Scene3D::PolarCameraData> > cameraData;
+            std::shared_ptr<Observer::ValueSubject<SceneRenderOptions> > renderOptions;
             std::shared_ptr<Scene3D::Render> render;
             std::shared_ptr<GL::OffscreenBuffer> offscreenBuffer;
             std::shared_ptr<GL::OffscreenBuffer> offscreenBuffer2;
@@ -70,9 +70,9 @@ namespace djv
             System::Event::PointerID pressedID = System::Event::invalidID;
             std::map<int, bool> buttons;
             glm::vec2 pointerPos = glm::vec2(0.F, 0.F);
-            std::shared_ptr<ValueSubject<Math::BBox3f> > bbox;
-            std::shared_ptr<ValueSubject<size_t> > primitivesCount;
-            std::shared_ptr<ValueSubject<size_t> > pointCount;
+            std::shared_ptr<Observer::ValueSubject<Math::BBox3f> > bbox;
+            std::shared_ptr<Observer::ValueSubject<size_t> > primitivesCount;
+            std::shared_ptr<Observer::ValueSubject<size_t> > pointCount;
             std::shared_ptr<System::Timer> statsTimer;
         };
 
@@ -84,11 +84,11 @@ namespace djv
             setClassName("djv::UI::SceneWidget");
             setPointerEnabled(true);
 
-            p.sceneRotate = ValueSubject<SceneRotate>::create(SceneRotate::None);
+            p.sceneRotate = Observer::ValueSubject<SceneRotate>::create(SceneRotate::None);
             p.render3D = context->getSystemT<Render3D::Render>();
             p.camera = Scene3D::PolarCamera::create();
-            p.cameraData = ValueSubject<Scene3D::PolarCameraData>::create(p.camera->getData());
-            p.renderOptions = ValueSubject<SceneRenderOptions>::create(SceneRenderOptions());
+            p.cameraData = Observer::ValueSubject<Scene3D::PolarCameraData>::create(p.camera->getData());
+            p.renderOptions = Observer::ValueSubject<SceneRenderOptions>::create(SceneRenderOptions());
             p.render = Scene3D::Render::create(context);
 #if defined(DJV_GL_ES2)
             auto resourceSystem = context->getSystemT<System::ResourceSystem>();
@@ -97,9 +97,9 @@ namespace djv
                 System::File::Path(shaderPath, "djvRender2DVertex.glsl"),
                 System::File::Path(shaderPath, "djvRender2DFragment.glsl"));
 #endif // DJV_GL_ES2
-            p.bbox = ValueSubject<Math::BBox3f>::create(Math::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F));
-            p.primitivesCount = ValueSubject<size_t>::create(0);
-            p.pointCount = ValueSubject<size_t>::create(0);
+            p.bbox = Observer::ValueSubject<Math::BBox3f>::create(Math::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F));
+            p.primitivesCount = Observer::ValueSubject<size_t>::create(0);
+            p.pointCount = Observer::ValueSubject<size_t>::create(0);
 
             p.statsTimer = System::Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -144,7 +144,7 @@ namespace djv
             _sceneUpdate();
         }
 
-        std::shared_ptr<IValueSubject<SceneRotate> > SceneWidget::observeSceneRotate() const
+        std::shared_ptr<Observer::IValueSubject<SceneRotate> > SceneWidget::observeSceneRotate() const
         {
             return _p->sceneRotate;
         }
@@ -157,7 +157,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<Scene3D::PolarCameraData> > SceneWidget::observeCameraData() const
+        std::shared_ptr<Observer::IValueSubject<Scene3D::PolarCameraData> > SceneWidget::observeCameraData() const
         {
             return _p->cameraData;
         }
@@ -171,7 +171,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<SceneRenderOptions> > SceneWidget::observeRenderOptions() const
+        std::shared_ptr<Observer::IValueSubject<SceneRenderOptions> > SceneWidget::observeRenderOptions() const
         {
             return _p->renderOptions;
         }
@@ -214,17 +214,17 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<Math::BBox3f> > SceneWidget::observeBBox() const
+        std::shared_ptr<Observer::IValueSubject<Math::BBox3f> > SceneWidget::observeBBox() const
         {
             return _p->bbox;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > SceneWidget::observePrimitivesCount() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > SceneWidget::observePrimitivesCount() const
         {
             return _p->primitivesCount;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > SceneWidget::observePointCount() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > SceneWidget::observePointCount() const
         {
             return _p->pointCount;
         }

@@ -217,7 +217,7 @@ namespace djv
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<System::Animation::Animation> fadeOutAnimation;
             std::function<void(void)> finishCallback;
-            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > fullScreenObserver;
         };
 
         void NUXWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -382,7 +382,7 @@ namespace djv
                 });
 
             auto windowSystem = context->getSystemT<WindowSystem>();
-            p.fullScreenObserver = ValueObserver<bool>::create(
+            p.fullScreenObserver = Observer::ValueObserver<bool>::create(
                 windowSystem->observeFullScreen(),
                 [weak](bool value)
                 {

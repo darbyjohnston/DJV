@@ -78,15 +78,15 @@ namespace djv
 
             bool hasEnvConfig() const;
 
-            std::shared_ptr<Core::IValueSubject<ConfigMode> > observeConfigMode() const;
-            std::shared_ptr<Core::IValueSubject<Config> > observeCmdLineConfig() const;
-            std::shared_ptr<Core::IValueSubject<Config> > observeEnvConfig() const;
-            std::shared_ptr<Core::IValueSubject<UserConfigs> > observeUserConfigs() const;
-            std::shared_ptr<Core::IValueSubject<Config> > observeCurrentConfig() const;
-            std::shared_ptr<Core::IValueSubject<Displays> > observeDisplays() const;
-            std::shared_ptr<Core::IValueSubject<Views> > observeViews() const;
-            std::shared_ptr<Core::IMapSubject<std::string, std::string> > observeImageColorSpaces() const;
-            std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ConfigMode> > observeConfigMode() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Config> > observeCmdLineConfig() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Config> > observeEnvConfig() const;
+            std::shared_ptr<Core::Observer::IValueSubject<UserConfigs> > observeUserConfigs() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Config> > observeCurrentConfig() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Displays> > observeDisplays() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Views> > observeViews() const;
+            std::shared_ptr<Core::Observer::IMapSubject<std::string, std::string> > observeImageColorSpaces() const;
+            std::shared_ptr<Core::Observer::IListSubject<std::string> > observeColorSpaces() const;
 
             void setConfigMode(ConfigMode);
             void setCmdLineConfig(const Config&);

@@ -49,15 +49,15 @@ namespace djv
             std::vector<Display> displays;
             std::vector<std::string> colorSpaces;
 
-            std::shared_ptr<ValueSubject<ConfigMode> > configModeSubject;
-            std::shared_ptr<ValueSubject<Config> > cmdLineConfigSubject;
-            std::shared_ptr<ValueSubject<Config> > envConfigSubject;
-            std::shared_ptr<ValueSubject<UserConfigs> > userConfigsSubject;
-            std::shared_ptr<ValueSubject<Config> > currentConfigSubject;
-            std::shared_ptr<ValueSubject<Displays> > displaysSubject;
-            std::shared_ptr<ValueSubject<Views> > viewsSubject;
-            std::shared_ptr<MapSubject<std::string, std::string> > imageColorSpacesSubject;
-            std::shared_ptr<ListSubject<std::string> > colorSpacesSubject;
+            std::shared_ptr<Observer::ValueSubject<ConfigMode> > configModeSubject;
+            std::shared_ptr<Observer::ValueSubject<Config> > cmdLineConfigSubject;
+            std::shared_ptr<Observer::ValueSubject<Config> > envConfigSubject;
+            std::shared_ptr<Observer::ValueSubject<UserConfigs> > userConfigsSubject;
+            std::shared_ptr<Observer::ValueSubject<Config> > currentConfigSubject;
+            std::shared_ptr<Observer::ValueSubject<Displays> > displaysSubject;
+            std::shared_ptr<Observer::ValueSubject<Views> > viewsSubject;
+            std::shared_ptr<Observer::MapSubject<std::string, std::string> > imageColorSpacesSubject;
+            std::shared_ptr<Observer::ListSubject<std::string> > colorSpacesSubject;
 
             std::vector<Config> getUserConfigs() const;
 
@@ -79,15 +79,15 @@ namespace djv
 
             addDependency(context->getSystemT<System::CoreSystem>());
 
-            p.configModeSubject = ValueSubject<ConfigMode>::create();
-            p.cmdLineConfigSubject = ValueSubject<Config>::create();
-            p.envConfigSubject = ValueSubject<Config>::create();
-            p.userConfigsSubject = ValueSubject<UserConfigs>::create();
-            p.currentConfigSubject = ValueSubject<Config>::create();
-            p.displaysSubject = ValueSubject<Displays>::create();
-            p.viewsSubject = ValueSubject<Displays>::create();
-            p.imageColorSpacesSubject = MapSubject<std::string, std::string>::create();
-            p.colorSpacesSubject = ListSubject<std::string>::create();
+            p.configModeSubject = Observer::ValueSubject<ConfigMode>::create();
+            p.cmdLineConfigSubject = Observer::ValueSubject<Config>::create();
+            p.envConfigSubject = Observer::ValueSubject<Config>::create();
+            p.userConfigsSubject = Observer::ValueSubject<UserConfigs>::create();
+            p.currentConfigSubject = Observer::ValueSubject<Config>::create();
+            p.displaysSubject = Observer::ValueSubject<Displays>::create();
+            p.viewsSubject = Observer::ValueSubject<Displays>::create();
+            p.imageColorSpacesSubject = Observer::MapSubject<std::string, std::string>::create();
+            p.colorSpacesSubject = Observer::ListSubject<std::string>::create();
 
             _OCIO::SetLoggingLevel(_OCIO::LOGGING_LEVEL_NONE);
 
@@ -139,37 +139,37 @@ namespace djv
             return _p->hasEnvConfig;
         }
 
-        std::shared_ptr<IValueSubject<ConfigMode> > OCIOSystem::observeConfigMode() const
+        std::shared_ptr<Observer::IValueSubject<ConfigMode> > OCIOSystem::observeConfigMode() const
         {
             return _p->configModeSubject;
         }
 
-        std::shared_ptr<IValueSubject<Config> > OCIOSystem::observeCmdLineConfig() const
+        std::shared_ptr<Observer::IValueSubject<Config> > OCIOSystem::observeCmdLineConfig() const
         {
             return _p->cmdLineConfigSubject;
         }
 
-        std::shared_ptr<IValueSubject<Config> > OCIOSystem::observeEnvConfig() const
+        std::shared_ptr<Observer::IValueSubject<Config> > OCIOSystem::observeEnvConfig() const
         {
             return _p->envConfigSubject;
         }
 
-        std::shared_ptr<IValueSubject<UserConfigs> > OCIOSystem::observeUserConfigs() const
+        std::shared_ptr<Observer::IValueSubject<UserConfigs> > OCIOSystem::observeUserConfigs() const
         {
             return _p->userConfigsSubject;
         }
 
-        std::shared_ptr<IValueSubject<Config> > OCIOSystem::observeCurrentConfig() const
+        std::shared_ptr<Observer::IValueSubject<Config> > OCIOSystem::observeCurrentConfig() const
         {
             return _p->currentConfigSubject;
         }
 
-        std::shared_ptr<IValueSubject<Displays> > OCIOSystem::observeDisplays() const
+        std::shared_ptr<Observer::IValueSubject<Displays> > OCIOSystem::observeDisplays() const
         {
             return _p->displaysSubject;
         }
 
-        std::shared_ptr<IValueSubject<Views> > OCIOSystem::observeViews() const
+        std::shared_ptr<Observer::IValueSubject<Views> > OCIOSystem::observeViews() const
         {
             return _p->viewsSubject;
         }
@@ -264,12 +264,12 @@ namespace djv
             p.configUpdate();
         }
 
-        std::shared_ptr<IMapSubject<std::string, std::string> > OCIOSystem::observeImageColorSpaces() const
+        std::shared_ptr<Observer::IMapSubject<std::string, std::string> > OCIOSystem::observeImageColorSpaces() const
         {
             return _p->imageColorSpacesSubject;
         }
 
-        std::shared_ptr<IListSubject<std::string> > OCIOSystem::observeColorSpaces() const
+        std::shared_ptr<Observer::IListSubject<std::string> > OCIOSystem::observeColorSpaces() const
         {
             return _p->colorSpacesSubject;
         }

@@ -53,11 +53,11 @@ namespace djv
             FileSystem& p;
 
             std::shared_ptr<FileSettings> settings;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
-            std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
-            std::shared_ptr<ValueSubject<float> > cachePercentage;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Media> > > opened;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Media> > > closed;
+            std::shared_ptr<Observer::ListSubject<std::shared_ptr<Media> > > media;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Media> > > currentMedia;
+            std::shared_ptr<Observer::ValueSubject<float> > cachePercentage;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
@@ -66,11 +66,11 @@ namespace djv
             std::shared_ptr<ActiveFilesDialog> activeFilesDialog;
             size_t threadCount = 4;
             std::shared_ptr<System::File::RecentFilesModel> recentFilesModel;
-            std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver;
-            std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver2;
-            std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
-            std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<ValueObserver<int> > cacheSizeObserver;
+            std::shared_ptr<Observer::ListObserver<System::File::Info> > recentFilesObserver;
+            std::shared_ptr<Observer::ListObserver<System::File::Info> > recentFilesObserver2;
+            std::shared_ptr<Observer::ValueObserver<size_t> > threadCountObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > cacheEnabledObserver;
+            std::shared_ptr<Observer::ValueObserver<int> > cacheSizeObserver;
             std::shared_ptr<System::Timer> cacheTimer;
 
             typedef std::pair<System::File::Info, std::string> FileInfoAndNumber;
@@ -90,11 +90,11 @@ namespace djv
             p.settings = FileSettings::create(context);
             _setWidgetGeom(p.settings->getWidgetGeom());
 
-            p.opened = ValueSubject<std::shared_ptr<Media> >::create();
-            p.closed = ValueSubject<std::shared_ptr<Media> >::create();
-            p.media = ListSubject<std::shared_ptr<Media> >::create();
-            p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
-            p.cachePercentage = ValueSubject<float>::create();
+            p.opened = Observer::ValueSubject<std::shared_ptr<Media> >::create();
+            p.closed = Observer::ValueSubject<std::shared_ptr<Media> >::create();
+            p.media = Observer::ListSubject<std::shared_ptr<Media> >::create();
+            p.currentMedia = Observer::ValueSubject<std::shared_ptr<Media> >::create();
+            p.cachePercentage = Observer::ValueSubject<float>::create();
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setIcon("djvIconFileOpen");
@@ -322,7 +322,7 @@ namespace djv
                     }
                 });
 
-            p.recentFilesObserver = ListObserver<System::File::Info>::create(
+            p.recentFilesObserver = Observer::ListObserver<System::File::Info>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<System::File::Info>& value)
                 {
@@ -332,7 +332,7 @@ namespace djv
                     }
                 });
 
-            p.recentFilesObserver2 = ListObserver<System::File::Info>::create(
+            p.recentFilesObserver2 = Observer::ListObserver<System::File::Info>::create(
                 p.recentFilesModel->observeFiles(),
                 [weak](const std::vector<System::File::Info>& value)
                 {
@@ -342,7 +342,7 @@ namespace djv
                     }
                 });
 
-            p.cacheEnabledObserver = ValueObserver<bool>::create(
+            p.cacheEnabledObserver = Observer::ValueObserver<bool>::create(
                 p.settings->observeCacheEnabled(),
                 [weak](bool value)
                 {
@@ -352,7 +352,7 @@ namespace djv
                     }
                 });
 
-            p.cacheSizeObserver = ValueObserver<int>::create(
+            p.cacheSizeObserver = Observer::ValueObserver<int>::create(
                 p.settings->observeCacheSize(),
                 [weak](int value)
                 {
@@ -364,7 +364,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto ioSettings = settingsSystem->getSettingsT<UI::Settings::IO>();
-            p.threadCountObserver = ValueObserver<size_t>::create(
+            p.threadCountObserver = Observer::ValueObserver<size_t>::create(
                 ioSettings->observeThreadCount(),
                 [weak](size_t value)
                 {
@@ -439,27 +439,27 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<Media> > > FileSystem::observeOpened() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Media> > > FileSystem::observeOpened() const
         {
             return _p->opened;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<Media>> > FileSystem::observeClosed() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Media>> > FileSystem::observeClosed() const
         {
             return _p->closed;
         }
 
-        std::shared_ptr<IListSubject<std::shared_ptr<Media> > > FileSystem::observeMedia() const
+        std::shared_ptr<Observer::IListSubject<std::shared_ptr<Media> > > FileSystem::observeMedia() const
         {
             return _p->media;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<Media> > > FileSystem::observeCurrentMedia() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Media> > > FileSystem::observeCurrentMedia() const
         {
             return _p->currentMedia;
         }
 
-        std::shared_ptr<IValueSubject<float> > FileSystem::observeCachePercentage() const
+        std::shared_ptr<Observer::IValueSubject<float> > FileSystem::observeCachePercentage() const
         {
             return _p->cachePercentage;
         }
@@ -569,7 +569,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             size_t index = p.media->indexOf(media);
-            if (index != invalidListIndex)
+            if (index != Observer::invalidListIndex)
             {
                 {
                     std::stringstream ss;

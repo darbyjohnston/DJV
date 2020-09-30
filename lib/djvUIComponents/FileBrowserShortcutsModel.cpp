@@ -17,7 +17,7 @@ namespace djv
         {
             struct ShortcutsModel::Private
             {
-                std::shared_ptr<ListSubject<System::File::Path> > shortcuts;
+                std::shared_ptr<Observer::ListSubject<System::File::Path> > shortcuts;
             };
 
             void ShortcutsModel::_init(const std::shared_ptr<System::Context>& context)
@@ -31,7 +31,7 @@ namespace djv
                     shortcuts.push_back(shortcut);
                 }
 
-                p.shortcuts = ListSubject<System::File::Path>::create(shortcuts);
+                p.shortcuts = Observer::ListSubject<System::File::Path>::create(shortcuts);
             }
 
             ShortcutsModel::ShortcutsModel() :
@@ -48,7 +48,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IListSubject<System::File::Path> > ShortcutsModel::observeShortcuts() const
+            std::shared_ptr<Observer::IListSubject<System::File::Path> > ShortcutsModel::observeShortcuts() const
             {
                 return _p->shortcuts;
             }

@@ -39,55 +39,55 @@ namespace djv
                 bool hasForward = false;
                 File::DirectoryListOptions options;
                 
-                auto pathObserver = ValueObserver<File::Path>::create(
+                auto pathObserver = Observer::ValueObserver<File::Path>::create(
                     model->observePath(),
                     [&path](const File::Path& value)
                     {
                         path = value;
                     });
-                auto infoObserver = ListObserver<File::Info>::create(
+                auto infoObserver = Observer::ListObserver<File::Info>::create(
                     model->observeInfo(),
                     [&info](const std::vector<File::Info>& value)
                     {
                         info = value;
                     });
-                auto fileNamesObserver = ListObserver<std::string>::create(
+                auto fileNamesObserver = Observer::ListObserver<std::string>::create(
                     model->observeFileNames(),
                     [&fileNames](const std::vector<std::string>& value)
                     {
                         fileNames = value;
                     });
-                auto hasUpObserver = ValueObserver<bool>::create(
+                auto hasUpObserver = Observer::ValueObserver<bool>::create(
                     model->observeHasUp(),
                     [&hasUp](bool value)
                     {
                         hasUp = value;
                     });
-                auto historyObserver = ListObserver<File::Path>::create(
+                auto historyObserver = Observer::ListObserver<File::Path>::create(
                     model->observeHistory(),
                     [&history](const std::vector<File::Path>& value)
                     {
                         history = value;
                     });
-                auto historyIndexObserver = ValueObserver<size_t>::create(
+                auto historyIndexObserver = Observer::ValueObserver<size_t>::create(
                     model->observeHistoryIndex(),
                     [&historyIndex](size_t value)
                     {
                         historyIndex = value;
                     });
-                auto hasBackObserver = ValueObserver<bool>::create(
+                auto hasBackObserver = Observer::ValueObserver<bool>::create(
                     model->observeHasBack(),
                     [&hasBack](bool value)
                     {
                         hasBack = value;
                     });
-                auto hasForwardObserver = ValueObserver<bool>::create(
+                auto hasForwardObserver = Observer::ValueObserver<bool>::create(
                     model->observeHasForward(),
                     [&hasForward](bool value)
                     {
                         hasForward = value;
                     });
-                auto optionsObserver = ValueObserver<File::DirectoryListOptions>::create(
+                auto optionsObserver = Observer::ValueObserver<File::DirectoryListOptions>::create(
                     model->observeOptions(),
                     [&options](const File::DirectoryListOptions& value)
                     {

@@ -25,7 +25,7 @@ namespace djv
         public:
             static std::shared_ptr<NUXSettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeNUX() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeNUX() const;
 
             void setNUX(bool);
 

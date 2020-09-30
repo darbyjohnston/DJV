@@ -31,8 +31,8 @@ namespace djv
             std::map<std::string, std::shared_ptr<MDIWidget> > widgets;
             std::map<std::string, Math::BBox2f> widgetGeom;
 
-            std::shared_ptr<ValueObserver<bool> > textChangedObserver;
-            std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > textChangedObserver;
+            std::shared_ptr<Observer::MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void IViewSystem::_init(const std::string& name, const std::shared_ptr<System::Context>& context)
@@ -46,7 +46,7 @@ namespace djv
             p.keyboardSettings = p.settingsSystem->getSettingsT<KeyboardSettings>();
 
             auto weak = std::weak_ptr<IViewSystem>(std::dynamic_pointer_cast<IViewSystem>(shared_from_this()));
-            p.textChangedObserver = ValueObserver<bool>::create(
+            p.textChangedObserver = Observer::ValueObserver<bool>::create(
                 context->getSystemT<System::TextSystem>()->observeTextChanged(),
                 [weak](bool value)
                 {
@@ -61,7 +61,7 @@ namespace djv
 
             if (p.keyboardSettings)
             {
-                p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
+                p.shortcutsObserver = Observer::MapObserver<std::string, UI::ShortcutDataPair>::create(
                     p.keyboardSettings->observeShortcuts(),
                     [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                     {

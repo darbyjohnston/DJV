@@ -42,7 +42,7 @@ namespace djv
             //! Create a new GLFW system.
             static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IListSubject<MonitorInfo> > observeMonitorInfo() const;
+            std::shared_ptr<Core::Observer::IListSubject<MonitorInfo> > observeMonitorInfo() const;
 
             bool isCursorVisible() const;
 

@@ -204,7 +204,7 @@ namespace djv
         {
             std::shared_ptr<AnnotatePrimitive> primitive;
             std::weak_ptr<Media> media;
-            std::shared_ptr<ValueSubject<bool> > undo;
+            std::shared_ptr<Observer::ValueSubject<bool> > undo;
         };
 
         void AnnotateCommand::_init(
@@ -214,7 +214,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.primitive = primitive;
             p.media = media;
-            p.undo = ValueSubject<bool>::create();
+            p.undo = Observer::ValueSubject<bool>::create();
         }
 
         AnnotateCommand::AnnotateCommand() :
@@ -230,7 +230,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > AnnotateCommand::observeUndo() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > AnnotateCommand::observeUndo() const
         {
             return _p->undo;
         }

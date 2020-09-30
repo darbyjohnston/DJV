@@ -22,8 +22,8 @@ namespace djv
         struct FloatEdit::Private
         {
             int precision = 2;
-            std::shared_ptr<ValueObserver<Math::FloatRange> > rangeObserver;
-            std::shared_ptr<ValueObserver<float> > valueObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::FloatRange> > rangeObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > valueObserver;
         };
 
         void FloatEdit::_init(const std::shared_ptr<System::Context>& context)
@@ -68,7 +68,7 @@ namespace djv
             if (model)
             {
                 auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
-                p.rangeObserver = ValueObserver<Math::FloatRange>::create(
+                p.rangeObserver = Observer::ValueObserver<Math::FloatRange>::create(
                     model->observeRange(),
                     [weak](const Math::FloatRange& value)
                 {
@@ -77,7 +77,7 @@ namespace djv
                         widget->_textUpdate();
                     }
                 });
-                p.valueObserver = ValueObserver<float>::create(
+                p.valueObserver = Observer::ValueObserver<float>::create(
                     model->observeValue(),
                     [weak](float value)
                 {

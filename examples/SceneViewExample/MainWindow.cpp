@@ -255,7 +255,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                             }
                         });
 
-                    widget->_cameraDataObserver = Core::ValueObserver<Scene3D::PolarCameraData>::create(
+                    widget->_cameraDataObserver = Core::Observer::ValueObserver<Scene3D::PolarCameraData>::create(
                         widget->_sceneWidget->observeCameraData(),
                         [cameraWidget, weak](const Scene3D::PolarCameraData& value)
                         {
@@ -265,7 +265,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                             }
                         });
 
-                    widget->_renderOptionsObserver = Core::ValueObserver<UI::SceneRenderOptions>::create(
+                    widget->_renderOptionsObserver = Core::Observer::ValueObserver<UI::SceneRenderOptions>::create(
                         widget->_sceneWidget->observeRenderOptions(),
                         [renderWidget, weak](const UI::SceneRenderOptions& value)
                         {
@@ -275,7 +275,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                             }
                         });
 
-                    widget->_bboxObserver = Core::ValueObserver<Math::BBox3f>::create(
+                    widget->_bboxObserver = Core::Observer::ValueObserver<Math::BBox3f>::create(
                         widget->_sceneWidget->observeBBox(),
                         [infoWidget, weak](const Math::BBox3f& value)
                         {
@@ -285,7 +285,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                             }
                         });
 
-                    widget->_primitivesCountObserver = Core::ValueObserver<size_t>::create(
+                    widget->_primitivesCountObserver = Core::Observer::ValueObserver<size_t>::create(
                         widget->_sceneWidget->observePrimitivesCount(),
                         [infoWidget, weak](size_t value)
                         {
@@ -295,7 +295,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                             }
                         });
 
-                    widget->_pointCountObserver = Core::ValueObserver<size_t>::create(
+                    widget->_pointCountObserver = Core::Observer::ValueObserver<size_t>::create(
                         widget->_sceneWidget->observePointCount(),
                         [infoWidget, weak](size_t value)
                         {

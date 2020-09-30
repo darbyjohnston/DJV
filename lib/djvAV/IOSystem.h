@@ -39,7 +39,7 @@ namespace djv
                 //! - std::exception
                 void setOptions(const std::string& pluginName, const rapidjson::Value&);
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeOptionsChanged() const;
 
                 const std::set<std::string>& getSequenceExtensions() const;
                 const std::set<std::string>& getNonSequenceExtensions() const;

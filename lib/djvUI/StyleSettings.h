@@ -31,23 +31,23 @@ namespace djv
 
                 static std::shared_ptr<Style> create(const std::shared_ptr<System::Context>&);
 
-                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Palette> > observePalettes() const;
-                std::shared_ptr<Core::IValueSubject<UI::Style::Palette> > observeCurrentPalette() const;
-                std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentPaletteName() const;
-                std::shared_ptr<Core::IValueSubject<float> > observeBrightness() const;
-                std::shared_ptr<Core::IValueSubject<float> > observeContrast() const;
+                std::shared_ptr<Core::Observer::IMapSubject<std::string, UI::Style::Palette> > observePalettes() const;
+                std::shared_ptr<Core::Observer::IValueSubject<UI::Style::Palette> > observeCurrentPalette() const;
+                std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeCurrentPaletteName() const;
+                std::shared_ptr<Core::Observer::IValueSubject<float> > observeBrightness() const;
+                std::shared_ptr<Core::Observer::IValueSubject<float> > observeContrast() const;
 
                 void setCurrentPalette(const std::string&);
                 void setBrightness(float);
                 void setContrast(float);
 
-                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Metrics> > observeMetrics() const;
-                std::shared_ptr<Core::IValueSubject<UI::Style::Metrics> > observeCurrentMetrics() const;
-                std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentMetricsName() const;
+                std::shared_ptr<Core::Observer::IMapSubject<std::string, UI::Style::Metrics> > observeMetrics() const;
+                std::shared_ptr<Core::Observer::IValueSubject<UI::Style::Metrics> > observeCurrentMetrics() const;
+                std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeCurrentMetricsName() const;
                 
                 void setCurrentMetrics(const std::string&);
 
-                std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentFont() const;
+                std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeCurrentFont() const;
 
                 void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

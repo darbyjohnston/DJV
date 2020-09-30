@@ -50,17 +50,17 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
-            std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
-            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
-            std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsEnabledObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
-            std::shared_ptr<ValueObserver<PointerData> > dragObserver;
-            std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > playEveryFrameObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<Observer::ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<Observer::ValueObserver<PlaybackMode> > playbackModeObserver;
+            std::shared_ptr<Observer::ValueObserver<AV::IO::InOutPoints> > inOutPointsEnabledObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<Observer::ValueObserver<PointerData> > hoverObserver;
+            std::shared_ptr<Observer::ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<Observer::ValueObserver<ScrollData> > scrollObserver;
 
             void drag(const PointerData&, const std::weak_ptr<System::Context>&);
             void scroll(const ScrollData&, const std::weak_ptr<System::Context>&);
@@ -424,7 +424,7 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media> & value)
                 {
@@ -434,7 +434,7 @@ namespace djv
                         system->_actionsUpdate();
                         if (value)
                         {
-                            system->_p->speedObserver = ValueObserver<Math::Rational>::create(
+                            system->_p->speedObserver = Observer::ValueObserver<Math::Rational>::create(
                                 value->observeSpeed(),
                                 [weak](const Math::Rational& value)
                                 {
@@ -445,7 +445,7 @@ namespace djv
                                     }
                                 });
 
-                            system->_p->playEveryFrameObserver = ValueObserver<bool>::create(
+                            system->_p->playEveryFrameObserver = Observer::ValueObserver<bool>::create(
                                 value->observePlayEveryFrame(),
                                 [weak](bool value)
                                 {
@@ -456,7 +456,7 @@ namespace djv
                                     }
                                 });
 
-                            system->_p->sequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
+                            system->_p->sequenceObserver = Observer::ValueObserver<Math::Frame::Sequence>::create(
                                 value->observeSequence(),
                                 [weak](const Math::Frame::Sequence& value)
                                 {
@@ -467,7 +467,7 @@ namespace djv
                                     }
                                 });
 
-                            system->_p->playbackObserver = ValueObserver<Playback>::create(
+                            system->_p->playbackObserver = Observer::ValueObserver<Playback>::create(
                                 value->observePlayback(),
                                 [weak](Playback value)
                             {
@@ -490,7 +490,7 @@ namespace djv
                                 }
                             });
 
-                            system->_p->playbackModeObserver = ValueObserver<PlaybackMode>::create(
+                            system->_p->playbackModeObserver = Observer::ValueObserver<PlaybackMode>::create(
                                 value->observePlaybackMode(),
                                 [weak](PlaybackMode value)
                             {
@@ -500,7 +500,7 @@ namespace djv
                                 }
                             });
 
-                            system->_p->inOutPointsEnabledObserver = ValueObserver<AV::IO::InOutPoints>::create(
+                            system->_p->inOutPointsEnabledObserver = Observer::ValueObserver<AV::IO::InOutPoints>::create(
                                 value->observeInOutPoints(),
                                 [weak](const AV::IO::InOutPoints& value)
                                 {
@@ -537,7 +537,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                p.activeWidgetObserver = Observer::ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
                     [weak](const std::shared_ptr<MediaWidget>& value)
                     {
@@ -545,7 +545,7 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_p->hoverObserver = ValueObserver<PointerData>::create(
+                                system->_p->hoverObserver = Observer::ValueObserver<PointerData>::create(
                                     value->observeHover(),
                                     [weak](const PointerData& value)
                                     {
@@ -554,7 +554,7 @@ namespace djv
                                             system->_p->hoverPos = value.pos;
                                         }
                                     });
-                                system->_p->dragObserver = ValueObserver<PointerData>::create(
+                                system->_p->dragObserver = Observer::ValueObserver<PointerData>::create(
                                     value->observeDrag(),
                                     [weak](const PointerData& value)
                                 {
@@ -563,7 +563,7 @@ namespace djv
                                         system->_p->drag(value, system->getContext());
                                     }
                                 });
-                                system->_p->scrollObserver = ValueObserver<ScrollData>::create(
+                                system->_p->scrollObserver = Observer::ValueObserver<ScrollData>::create(
                                     value->observeScroll(),
                                     [weak](const ScrollData& value)
                                 {

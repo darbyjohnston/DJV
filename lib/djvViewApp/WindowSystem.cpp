@@ -52,11 +52,11 @@ namespace djv
             std::shared_ptr<Desktop::GLFWSystem> desktopGLFWSystem;
 
             std::shared_ptr<WindowSettings> settings;
-            std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
-            std::shared_ptr<ValueSubject<bool> > fullScreen;
-            std::shared_ptr<ValueSubject<bool> > presentation;
-            std::shared_ptr<ValueSubject<bool> > floatOnTop;
-            std::shared_ptr<ValueSubject<float> > fade;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
+            std::shared_ptr<Observer::ValueSubject<bool> > fullScreen;
+            std::shared_ptr<Observer::ValueSubject<bool> > presentation;
+            std::shared_ptr<Observer::ValueSubject<bool> > floatOnTop;
+            std::shared_ptr<Observer::ValueSubject<float> > fade;
             std::shared_ptr<System::Timer> fadeTimer;
             std::map<System::Event::PointerID, glm::vec2> pointerMotion;
             bool textFocusActive = false;
@@ -67,10 +67,10 @@ namespace djv
             int monitorRefresh = 0;
             Math::BBox2i windowGeom = Math::BBox2i(0, 0, 0, 0);
 
-            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
-            std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
-            std::shared_ptr<ValueObserver<System::Event::PointerInfo> > pointerObserver;
-            std::shared_ptr<ValueObserver<bool> > textFocusActiveObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > fullScreenObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > floatOnTopObserver;
+            std::shared_ptr<Observer::ValueObserver<System::Event::PointerInfo> > pointerObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > textFocusActiveObserver;
 
             std::shared_ptr<System::Animation::Animation> fadeAnimation;
 
@@ -112,11 +112,11 @@ namespace djv
                 glfwSetWindowPos(glfwWindow, windowPos.x, windowPos.y);
             }
 
-            p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
-            p.fullScreen = ValueSubject<bool>::create(false);
-            p.presentation = ValueSubject<bool>::create(false);
-            p.floatOnTop = ValueSubject<bool>::create(false);
-            p.fade = ValueSubject<float>::create(1.F);
+            p.activeWidget = Observer::ValueSubject<std::shared_ptr<MediaWidget> >::create();
+            p.fullScreen = Observer::ValueSubject<bool>::create(false);
+            p.presentation = Observer::ValueSubject<bool>::create(false);
+            p.floatOnTop = Observer::ValueSubject<bool>::create(false);
+            p.fade = Observer::ValueSubject<float>::create(1.F);
             p.fadeTimer = System::Timer::create(context);
             p.fadeAnimation = System::Animation::Animation::create(context);
 
@@ -168,7 +168,7 @@ namespace djv
                     }
                 });
 
-            p.fullScreenObserver = ValueObserver<bool>::create(
+            p.fullScreenObserver = Observer::ValueObserver<bool>::create(
                 p.settings->observeFullScreen(),
                 [weak](bool value)
                 {
@@ -178,7 +178,7 @@ namespace djv
                     }
                 });
 
-            p.floatOnTopObserver = ValueObserver<bool>::create(
+            p.floatOnTopObserver = Observer::ValueObserver<bool>::create(
                 p.settings->observeFloatOnTop(),
                 [weak](bool value)
                 {
@@ -190,7 +190,7 @@ namespace djv
 
             auto eventSystem = context->getSystemT<System::Event::IEventSystem>();
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.pointerObserver = ValueObserver<System::Event::PointerInfo>::create(
+            p.pointerObserver = Observer::ValueObserver<System::Event::PointerInfo>::create(
                 eventSystem->observePointer(),
                 [weak, contextWeak](const System::Event::PointerInfo& value)
                 {
@@ -220,7 +220,7 @@ namespace djv
                     }
                 });
 
-            p.textFocusActiveObserver = ValueObserver<bool>::create(
+            p.textFocusActiveObserver = Observer::ValueObserver<bool>::create(
                 eventSystem->observeTextFocusActive(),
                 [weak](bool value)
                 {
@@ -278,7 +278,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<MediaWidget> > > WindowSystem::observeActiveWidget() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<MediaWidget> > > WindowSystem::observeActiveWidget() const
         {
             return _p->activeWidget;
         }
@@ -288,7 +288,7 @@ namespace djv
             _p->activeWidget->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSystem::observeFullScreen() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSystem::observeFullScreen() const
         {
             return _p->fullScreen;
         }
@@ -304,7 +304,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSystem::observePresentation() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSystem::observePresentation() const
         {
             return _p->presentation;
         }
@@ -318,7 +318,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSystem::observeFloatOnTop() const
+        std::shared_ptr<Observer::IValueSubject<bool> > WindowSystem::observeFloatOnTop() const
         {
             return _p->floatOnTop;
         }
@@ -334,7 +334,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<float> > WindowSystem::observeFade() const
+        std::shared_ptr<Observer::IValueSubject<float> > WindowSystem::observeFade() const
         {
             return _p->fade;
         }

@@ -36,19 +36,19 @@ namespace djv
         {
             struct FileBrowser::Private
             {
-                std::shared_ptr<ValueSubject<bool> > pathsOpen;
-                std::shared_ptr<MapSubject<std::string, bool> > pathsBellowsState;
-                std::shared_ptr<ListSubject<System::File::Path> > shortcuts;
-                std::shared_ptr<ListSubject<System::File::Path> > recentPaths;
-                std::shared_ptr<ValueSubject<ViewType> > viewType;
-                std::shared_ptr<ValueSubject<Image::Size> > thumbnailSize;
-                std::shared_ptr<ListSubject<float> > listViewHeaderSplit;
-                std::shared_ptr<ValueSubject<bool> > fileSequences;
-                std::shared_ptr<ValueSubject<bool> > showHidden;
-                std::shared_ptr<ValueSubject<System::File::DirectoryListSort> > sort;
-                std::shared_ptr<ValueSubject<bool> > reverseSort;
-                std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
-                std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > keyShortcuts;
+                std::shared_ptr<Observer::ValueSubject<bool> > pathsOpen;
+                std::shared_ptr<Observer::MapSubject<std::string, bool> > pathsBellowsState;
+                std::shared_ptr<Observer::ListSubject<System::File::Path> > shortcuts;
+                std::shared_ptr<Observer::ListSubject<System::File::Path> > recentPaths;
+                std::shared_ptr<Observer::ValueSubject<ViewType> > viewType;
+                std::shared_ptr<Observer::ValueSubject<Image::Size> > thumbnailSize;
+                std::shared_ptr<Observer::ListSubject<float> > listViewHeaderSplit;
+                std::shared_ptr<Observer::ValueSubject<bool> > fileSequences;
+                std::shared_ptr<Observer::ValueSubject<bool> > showHidden;
+                std::shared_ptr<Observer::ValueSubject<System::File::DirectoryListSort> > sort;
+                std::shared_ptr<Observer::ValueSubject<bool> > reverseSort;
+                std::shared_ptr<Observer::ValueSubject<bool> > sortDirectoriesFirst;
+                std::shared_ptr<Observer::MapSubject<std::string, ShortcutDataPair> > keyShortcuts;
             };
 
             void FileBrowser::_init(const std::shared_ptr<System::Context>& context)
@@ -56,24 +56,24 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
-                p.pathsOpen = ValueSubject<bool>::create();
-                p.pathsBellowsState = MapSubject<std::string, bool>::create();
-                p.shortcuts = ListSubject<System::File::Path>::create();
+                p.pathsOpen = Observer::ValueSubject<bool>::create();
+                p.pathsBellowsState = Observer::MapSubject<std::string, bool>::create();
+                p.shortcuts = Observer::ListSubject<System::File::Path>::create();
                 for (size_t i = 0; i < static_cast<size_t>(System::File::DirectoryShortcut::Count); ++i)
                 {
                     const auto shortcut = System::File::getPath(static_cast<System::File::DirectoryShortcut>(i));
                     p.shortcuts->pushBack(shortcut);
                 }
-                p.recentPaths = ListSubject<System::File::Path>::create();
-                p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
-                p.thumbnailSize = ValueSubject<Image::Size>::create(Image::Size(200, 100));
-                p.listViewHeaderSplit = ListSubject<float>::create({ .7F, .8F, 1.F });
-                p.fileSequences = ValueSubject<bool>::create(true);
-                p.showHidden = ValueSubject<bool>::create(false);
-                p.sort = ValueSubject<System::File::DirectoryListSort>::create(System::File::DirectoryListSort::Name);
-                p.reverseSort = ValueSubject<bool>::create(false);
-                p.sortDirectoriesFirst = ValueSubject<bool>::create(true);
-                p.keyShortcuts = MapSubject<std::string, ShortcutDataPair>::create({
+                p.recentPaths = Observer::ListSubject<System::File::Path>::create();
+                p.viewType = Observer::ValueSubject<ViewType>::create(ViewType::Tiles);
+                p.thumbnailSize = Observer::ValueSubject<Image::Size>::create(Image::Size(200, 100));
+                p.listViewHeaderSplit = Observer::ListSubject<float>::create({ .7F, .8F, 1.F });
+                p.fileSequences = Observer::ValueSubject<bool>::create(true);
+                p.showHidden = Observer::ValueSubject<bool>::create(false);
+                p.sort = Observer::ValueSubject<System::File::DirectoryListSort>::create(System::File::DirectoryListSort::Name);
+                p.reverseSort = Observer::ValueSubject<bool>::create(false);
+                p.sortDirectoriesFirst = Observer::ValueSubject<bool>::create(true);
+                p.keyShortcuts = Observer::MapSubject<std::string, ShortcutDataPair>::create({
                     { "file_browser_shortcut_paths", { ShortcutData(GLFW_KEY_P) } },
                     { "file_browser_shortcut_back", { ShortcutData(GLFW_KEY_LEFT, ShortcutData::getSystemModifier()) } },
                     { "file_browser_shortcut_forward", { ShortcutData(GLFW_KEY_RIGHT, ShortcutData::getSystemModifier()) } },
@@ -110,7 +110,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Core::IValueSubject<bool> > FileBrowser::observePathsOpen() const
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > FileBrowser::observePathsOpen() const
             {
                 return _p->pathsOpen;
             }
@@ -120,7 +120,7 @@ namespace djv
                 _p->pathsOpen->setIfChanged(value);
             }
 
-            std::shared_ptr<Core::IMapSubject<std::string, bool> > FileBrowser::observePathsBellowsState() const
+            std::shared_ptr<Core::Observer::IMapSubject<std::string, bool> > FileBrowser::observePathsBellowsState() const
             {
                 return _p->pathsBellowsState;
             }
@@ -130,7 +130,7 @@ namespace djv
                 _p->pathsBellowsState->setIfChanged(value);
             }
 
-            std::shared_ptr<IListSubject<System::File::Path> > FileBrowser::observeShortcuts() const
+            std::shared_ptr<Observer::IListSubject<System::File::Path> > FileBrowser::observeShortcuts() const
             {
                 return _p->shortcuts;
             }
@@ -140,7 +140,7 @@ namespace djv
                 _p->shortcuts->setIfChanged(value);
             }
 
-            std::shared_ptr<IListSubject<System::File::Path> > FileBrowser::observeRecentPaths() const
+            std::shared_ptr<Observer::IListSubject<System::File::Path> > FileBrowser::observeRecentPaths() const
             {
                 return _p->recentPaths;
             }
@@ -150,7 +150,7 @@ namespace djv
                 _p->recentPaths->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<ViewType> > FileBrowser::observeViewType() const
+            std::shared_ptr<Observer::IValueSubject<ViewType> > FileBrowser::observeViewType() const
             {
                 return _p->viewType;
             }
@@ -160,7 +160,7 @@ namespace djv
                 _p->viewType->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<Image::Size> > FileBrowser::observeThumbnailSize() const
+            std::shared_ptr<Observer::IValueSubject<Image::Size> > FileBrowser::observeThumbnailSize() const
             {
                 return _p->thumbnailSize;
             }
@@ -170,7 +170,7 @@ namespace djv
                 _p->thumbnailSize->setIfChanged(value);
             }
 
-            std::shared_ptr<IListSubject<float> > FileBrowser::observeListViewHeaderSplit() const
+            std::shared_ptr<Observer::IListSubject<float> > FileBrowser::observeListViewHeaderSplit() const
             {
                 return _p->listViewHeaderSplit;
             }
@@ -180,7 +180,7 @@ namespace djv
                 _p->listViewHeaderSplit->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<bool> > FileBrowser::observeFileSequences() const
+            std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeFileSequences() const
             {
                 return _p->fileSequences;
             }
@@ -190,7 +190,7 @@ namespace djv
                 _p->fileSequences->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<bool> > FileBrowser::observeShowHidden() const
+            std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeShowHidden() const
             {
                 return _p->showHidden;
             }
@@ -200,7 +200,7 @@ namespace djv
                 _p->showHidden->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<System::File::DirectoryListSort> > FileBrowser::observeSort() const
+            std::shared_ptr<Observer::IValueSubject<System::File::DirectoryListSort> > FileBrowser::observeSort() const
             {
                 return _p->sort;
             }
@@ -210,7 +210,7 @@ namespace djv
                 _p->sort->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<bool> > FileBrowser::observeReverseSort() const
+            std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeReverseSort() const
             {
                 return _p->reverseSort;
             }
@@ -220,7 +220,7 @@ namespace djv
                 _p->reverseSort->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<bool> > FileBrowser::observeSortDirectoriesFirst() const
+            std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeSortDirectoriesFirst() const
             {
                 return _p->sortDirectoriesFirst;
             }
@@ -230,7 +230,7 @@ namespace djv
                 _p->sortDirectoriesFirst->setIfChanged(value);
             }
 
-            std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > FileBrowser::observeKeyShortcuts() const
+            std::shared_ptr<Observer::MapSubject<std::string, ShortcutDataPair> > FileBrowser::observeKeyShortcuts() const
             {
                 return _p->keyShortcuts;
             }

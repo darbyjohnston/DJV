@@ -21,7 +21,7 @@ protected:
 public:
     ~ISettingsWidget() override;
 
-    std::shared_ptr<djv::Core::IValueSubject<std::string> > observeTitle() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<std::string> > observeTitle() const;
     void setTitle(const std::string&);
 
     virtual void setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) {}
@@ -38,7 +38,7 @@ protected:
 
 private:
     std::weak_ptr<djv::UI::LabelSizeGroup> _sizeGroup;
-    std::shared_ptr<djv::Core::ValueSubject<std::string> > _title;
+    std::shared_ptr<djv::Core::Observer::ValueSubject<std::string> > _title;
     std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
     std::shared_ptr<djv::UI::Layout::Bellows> _bellows;
 };

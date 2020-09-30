@@ -27,17 +27,17 @@ namespace djv
             {
                 std::string currentLocale;
                 std::map<std::string, std::string> localeFonts;
-                std::shared_ptr<MapSubject<std::string, UI::Style::Palette> > palettes;
-                std::shared_ptr<ValueSubject<UI::Style::Palette> > currentPalette;
-                std::shared_ptr<ValueSubject<std::string> > currentPaletteName;
-                std::shared_ptr<ValueSubject<float> > brightness;
-                std::shared_ptr<ValueSubject<float> > contrast;
-                std::shared_ptr<MapSubject<std::string, UI::Style::Metrics> > metrics;
-                std::shared_ptr<ValueSubject<UI::Style::Metrics> > currentMetrics;
-                std::shared_ptr<ValueSubject<std::string> > currentMetricsName;
-                std::shared_ptr<ValueSubject<std::string> > currentFont;
-                std::shared_ptr<ValueObserver<std::string> > currentLocaleObserver;
-                std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
+                std::shared_ptr<Observer::MapSubject<std::string, UI::Style::Palette> > palettes;
+                std::shared_ptr<Observer::ValueSubject<UI::Style::Palette> > currentPalette;
+                std::shared_ptr<Observer::ValueSubject<std::string> > currentPaletteName;
+                std::shared_ptr<Observer::ValueSubject<float> > brightness;
+                std::shared_ptr<Observer::ValueSubject<float> > contrast;
+                std::shared_ptr<Observer::MapSubject<std::string, UI::Style::Metrics> > metrics;
+                std::shared_ptr<Observer::ValueSubject<UI::Style::Metrics> > currentMetrics;
+                std::shared_ptr<Observer::ValueSubject<std::string> > currentMetricsName;
+                std::shared_ptr<Observer::ValueSubject<std::string> > currentFont;
+                std::shared_ptr<Observer::ValueObserver<std::string> > currentLocaleObserver;
+                std::shared_ptr<Observer::MapObserver<std::string, std::string> > localeFontsObserver;
             };
 
             void Style::_init(const std::shared_ptr<System::Context>& context)
@@ -91,22 +91,22 @@ namespace djv
                 metricsList[DJV_TEXT("style_metrics_extra_large")] = extraLargeMetrics;
 
                 DJV_PRIVATE_PTR();
-                p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
-                p.currentPalette = ValueSubject<UI::Style::Palette>::create(palettes["style_palette_dark"]);
-                p.currentPaletteName = ValueSubject<std::string>::create("style_palette_dark");
-                p.brightness = ValueSubject<float>::create(1.F);
-                p.contrast = ValueSubject<float>::create(1.F);
-                p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
-                p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["style_metrics_medium"]);
-                p.currentMetricsName = ValueSubject<std::string>::create(("style_metrics_medium"));
-                p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("style_font_default"));
+                p.palettes = Observer::MapSubject<std::string, UI::Style::Palette>::create(palettes);
+                p.currentPalette = Observer::ValueSubject<UI::Style::Palette>::create(palettes["style_palette_dark"]);
+                p.currentPaletteName = Observer::ValueSubject<std::string>::create("style_palette_dark");
+                p.brightness = Observer::ValueSubject<float>::create(1.F);
+                p.contrast = Observer::ValueSubject<float>::create(1.F);
+                p.metrics = Observer::MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
+                p.currentMetrics = Observer::ValueSubject<UI::Style::Metrics>::create(metricsList["style_metrics_medium"]);
+                p.currentMetricsName = Observer::ValueSubject<std::string>::create(("style_metrics_medium"));
+                p.currentFont = Observer::ValueSubject<std::string>::create(DJV_TEXT("style_font_default"));
 
                 _load();
 
                 auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
                 if (auto textSystem = context->getSystemT<System::TextSystem>())
                 {
-                    p.currentLocaleObserver = ValueObserver<std::string>::create(
+                    p.currentLocaleObserver = Observer::ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
                         [weak](const std::string& value)
                     {
@@ -120,7 +120,7 @@ namespace djv
 
                 auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
-                p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+                p.localeFontsObserver = Observer::MapObserver<std::string, std::string>::create(
                     fontSettings->observeLocaleFonts(),
                     [weak](const std::map<std::string, std::string>& value)
                 {
@@ -146,27 +146,27 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IMapSubject<std::string, UI::Style::Palette> > Style::observePalettes() const
+            std::shared_ptr<Observer::IMapSubject<std::string, UI::Style::Palette> > Style::observePalettes() const
             {
                 return _p->palettes;
             }
 
-            std::shared_ptr<IValueSubject<UI::Style::Palette> > Style::observeCurrentPalette() const
+            std::shared_ptr<Observer::IValueSubject<UI::Style::Palette> > Style::observeCurrentPalette() const
             {
                 return _p->currentPalette;
             }
 
-            std::shared_ptr<IValueSubject<std::string> > Style::observeCurrentPaletteName() const
+            std::shared_ptr<Observer::IValueSubject<std::string> > Style::observeCurrentPaletteName() const
             {
                 return _p->currentPaletteName;
             }
 
-            std::shared_ptr<IValueSubject<float> > Style::observeBrightness() const
+            std::shared_ptr<Observer::IValueSubject<float> > Style::observeBrightness() const
             {
                 return _p->brightness;
             }
 
-            std::shared_ptr<IValueSubject<float> > Style::observeContrast() const
+            std::shared_ptr<Observer::IValueSubject<float> > Style::observeContrast() const
             {
                 return _p->contrast;
             }
@@ -194,22 +194,22 @@ namespace djv
                 p.contrast->setIfChanged(value);
             }
 
-            std::shared_ptr<IMapSubject<std::string, UI::Style::Metrics> > Style::observeMetrics() const
+            std::shared_ptr<Observer::IMapSubject<std::string, UI::Style::Metrics> > Style::observeMetrics() const
             {
                 return _p->metrics;
             }
 
-            std::shared_ptr<IValueSubject<UI::Style::Metrics> > Style::observeCurrentMetrics() const
+            std::shared_ptr<Observer::IValueSubject<UI::Style::Metrics> > Style::observeCurrentMetrics() const
             {
                 return _p->currentMetrics;
             }
 
-            std::shared_ptr<IValueSubject<std::string> > Style::observeCurrentMetricsName() const
+            std::shared_ptr<Observer::IValueSubject<std::string> > Style::observeCurrentMetricsName() const
             {
                 return _p->currentMetricsName;
             }
 
-            std::shared_ptr<IValueSubject<std::string> > Style::observeCurrentFont() const
+            std::shared_ptr<Observer::IValueSubject<std::string> > Style::observeCurrentFont() const
             {
                 return _p->currentFont;
             }

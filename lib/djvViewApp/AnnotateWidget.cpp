@@ -132,8 +132,8 @@ namespace djv
             std::function<void(const Image::Color&)> colorCallback;
             std::function<void(float)> lineWidthCallback;
 
-            std::shared_ptr<ListObserver<Image::Color> > colorsObserver;
-            std::shared_ptr<ValueObserver<int> > currentColorObserver;
+            std::shared_ptr<Observer::ListObserver<Image::Color> > colorsObserver;
+            std::shared_ptr<Observer::ValueObserver<int> > currentColorObserver;
         };
 
         void AnnotateWidget::_init(
@@ -223,7 +223,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
             auto weak = std::weak_ptr<AnnotateWidget>(std::dynamic_pointer_cast<AnnotateWidget>(shared_from_this()));
-            p.colorsObserver = ListObserver<Image::Color>::create(
+            p.colorsObserver = Observer::ListObserver<Image::Color>::create(
                 annotateSettings->observeColors(),
                 [weak](const std::vector<Image::Color>& value)
             {
@@ -234,7 +234,7 @@ namespace djv
                 }
             });
 
-            p.currentColorObserver = ValueObserver<int>::create(
+            p.currentColorObserver = Observer::ValueObserver<int>::create(
                 annotateSettings->observeCurrentColor(),
                 [weak](int value)
             {

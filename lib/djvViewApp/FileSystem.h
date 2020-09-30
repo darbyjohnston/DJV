@@ -53,11 +53,11 @@ namespace djv
 
             static std::shared_ptr<FileSystem> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeCachePercentage() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
+            std::shared_ptr<Core::Observer::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
+            std::shared_ptr<Core::Observer::IValueSubject<float> > observeCachePercentage() const;
 
             void open();
             void open(const System::File::Info&, const OpenOptions& = OpenOptions());

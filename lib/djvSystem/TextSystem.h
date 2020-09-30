@@ -49,7 +49,7 @@ namespace djv
             //! - std::locale("")
             const std::string& getSystemLocale() const;
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentLocale() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeCurrentLocale() const;
             
             void setCurrentLocale(const std::string&);
 
@@ -65,7 +65,7 @@ namespace djv
             const std::string& getID(const std::string&);
 
             //! Observe whether the text has changed.
-            std::shared_ptr<Core::IValueSubject<bool> > observeTextChanged() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeTextChanged() const;
 
             ///@}
 

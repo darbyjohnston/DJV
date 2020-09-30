@@ -38,12 +38,12 @@ namespace djv
                 const std::shared_ptr<Media>&,
                 const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Image::Image> > > observeImage() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Image> > > observeImage() const;
 
             void setImage(const std::shared_ptr<Image::Image>&);
 
-            std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
+            std::shared_ptr<Core::Observer::IValueSubject<glm::vec2> > observeImagePos() const;
+            std::shared_ptr<Core::Observer::IValueSubject<float> > observeImageZoom() const;
             
             Math::BBox2f getImageBBox() const;
             

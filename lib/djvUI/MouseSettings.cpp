@@ -22,9 +22,9 @@ namespace djv
         {
             struct Mouse::Private
             {
-                std::shared_ptr<ValueSubject<float> > doubleClickTime;
-                std::shared_ptr<ValueSubject<ScrollWheelSpeed> > scrollWheelSpeed;
-                std::shared_ptr<ValueSubject<bool> > reverseScrolling;
+                std::shared_ptr<Observer::ValueSubject<float> > doubleClickTime;
+                std::shared_ptr<Observer::ValueSubject<ScrollWheelSpeed> > scrollWheelSpeed;
+                std::shared_ptr<Observer::ValueSubject<bool> > reverseScrolling;
             };
 
             void Mouse::_init(const std::shared_ptr<System::Context>& context)
@@ -32,9 +32,9 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::Mouse", context);
 
                 DJV_PRIVATE_PTR();
-                p.doubleClickTime = ValueSubject<float>::create(.3F);
-                p.scrollWheelSpeed = ValueSubject<ScrollWheelSpeed>::create(ScrollWheelSpeed::Slow);
-                p.reverseScrolling = ValueSubject<bool>::create(false);
+                p.doubleClickTime = Observer::ValueSubject<float>::create(.3F);
+                p.scrollWheelSpeed = Observer::ValueSubject<ScrollWheelSpeed>::create(ScrollWheelSpeed::Slow);
+                p.reverseScrolling = Observer::ValueSubject<bool>::create(false);
                 _load();
             }
 
@@ -49,7 +49,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<float> > Mouse::observeDoubleClickTime() const
+            std::shared_ptr<Observer::IValueSubject<float> > Mouse::observeDoubleClickTime() const
             {
                 return _p->doubleClickTime;
             }
@@ -59,12 +59,12 @@ namespace djv
                 _p->doubleClickTime->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<ScrollWheelSpeed> > Mouse::observeScrollWheelSpeed() const
+            std::shared_ptr<Observer::IValueSubject<ScrollWheelSpeed> > Mouse::observeScrollWheelSpeed() const
             {
                 return _p->scrollWheelSpeed;
             }
 
-            std::shared_ptr<IValueSubject<bool> > Mouse::observeReverseScrolling() const
+            std::shared_ptr<Observer::IValueSubject<bool> > Mouse::observeReverseScrolling() const
             {
                 return _p->reverseScrolling;
             }

@@ -32,7 +32,7 @@ namespace djv
                 //! \name Path
                 ///@{
 
-                std::shared_ptr<Core::IValueSubject<Path> > observePath() const;
+                std::shared_ptr<Core::Observer::IValueSubject<Path> > observePath() const;
 
                 //! Throws:
                 //! - Error
@@ -43,8 +43,8 @@ namespace djv
                 //! \name Directory Contents
                 ///@{
 
-                std::shared_ptr<Core::IListSubject<File::Info> > observeInfo() const;
-                std::shared_ptr<Core::IListSubject<std::string> > observeFileNames() const;
+                std::shared_ptr<Core::Observer::IListSubject<File::Info> > observeInfo() const;
+                std::shared_ptr<Core::Observer::IListSubject<std::string> > observeFileNames() const;
 
                 void reload();
 
@@ -53,7 +53,7 @@ namespace djv
                 //! \name Navigation
                 ///@{
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeHasUp() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeHasUp() const;
 
                 void cdUp();
 
@@ -62,10 +62,10 @@ namespace djv
                 //! \name History
                 ///@{
 
-                std::shared_ptr<Core::IListSubject<Path> > observeHistory() const;
-                std::shared_ptr<Core::IValueSubject<size_t> > observeHistoryIndex() const;
-                std::shared_ptr<Core::IValueSubject<bool> > observeHasBack() const;
-                std::shared_ptr<Core::IValueSubject<bool> > observeHasForward() const;
+                std::shared_ptr<Core::Observer::IListSubject<Path> > observeHistory() const;
+                std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeHistoryIndex() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeHasBack() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeHasForward() const;
 
                 void setHistoryMax(size_t);
                 void setHistoryIndex(size_t);
@@ -77,7 +77,7 @@ namespace djv
                 //! \name Options
                 ///@{
 
-                std::shared_ptr<Core::IValueSubject<DirectoryListOptions> > observeOptions() const;
+                std::shared_ptr<Core::Observer::IValueSubject<DirectoryListOptions> > observeOptions() const;
 
                 void setOptions(const DirectoryListOptions&);
 

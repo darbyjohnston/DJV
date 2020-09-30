@@ -611,7 +611,7 @@ namespace djv
             float swipeMult = 1.F;
             std::shared_ptr<System::Timer> swipeTimer;
             const Time::Duration swipeTimerDuration = System::getTimerDuration(System::TimerValue::Fast);
-            std::shared_ptr<ValueObserver<bool> > reverseScrollSwipeObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > reverseScrollSwipeObserver;
 
             void scrollBarsUpdate(const glm::vec2&);
 
@@ -720,7 +720,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto mouseSettings = settingsSystem->getSettingsT<Settings::Mouse>();
-            p.reverseScrollSwipeObserver = ValueObserver<bool>::create(
+            p.reverseScrollSwipeObserver = Observer::ValueObserver<bool>::create(
                 mouseSettings->observeReverseScrolling(),
                 [weak](bool value)
                 {

@@ -8,8 +8,11 @@ namespace djv
 {
     namespace Core
     {
-        ICommand::~ICommand()
-        {}
+        namespace Command
+        {
+            ICommand::~ICommand()
+            {}
 
+        } // namespace Command
     } // namespace Core
 } // namespace djv

@@ -30,9 +30,9 @@ namespace djv
                 OCIO::UserConfigs userConfigs;
                 OCIO::Config envConfig;
 
-                std::shared_ptr<ValueObserver<OCIO::ConfigMode> > configModeObserver;
-                std::shared_ptr<ValueObserver<OCIO::UserConfigs> > userConfigsObserver;
-                std::shared_ptr<ValueObserver<OCIO::Config> > envConfigObserver;
+                std::shared_ptr<Observer::ValueObserver<OCIO::ConfigMode> > configModeObserver;
+                std::shared_ptr<Observer::ValueObserver<OCIO::UserConfigs> > userConfigsObserver;
+                std::shared_ptr<Observer::ValueObserver<OCIO::Config> > envConfigObserver;
             };
 
             void ColorSpace::_init(const std::shared_ptr<System::Context>& context)
@@ -106,7 +106,7 @@ namespace djv
                 }
 
                 auto weak = std::weak_ptr<ColorSpace>(std::dynamic_pointer_cast<ColorSpace>(shared_from_this()));
-                p.configModeObserver = ValueObserver<OCIO::ConfigMode>::create(
+                p.configModeObserver = Observer::ValueObserver<OCIO::ConfigMode>::create(
                     p.ocioSystem->observeConfigMode(),
                     [weak](const OCIO::ConfigMode& value)
                     {
@@ -115,7 +115,7 @@ namespace djv
                             settings->_p->configMode = value;
                         }
                     });
-                p.userConfigsObserver = ValueObserver<OCIO::UserConfigs>::create(
+                p.userConfigsObserver = Observer::ValueObserver<OCIO::UserConfigs>::create(
                     p.ocioSystem->observeUserConfigs(),
                     [weak](const OCIO::UserConfigs& value)
                     {
@@ -124,7 +124,7 @@ namespace djv
                             settings->_p->userConfigs = value;
                         }
                     });
-                p.envConfigObserver = ValueObserver<OCIO::Config>::create(
+                p.envConfigObserver = Observer::ValueObserver<OCIO::Config>::create(
                     p.ocioSystem->observeEnvConfig(),
                     [weak](const OCIO::Config& value)
                     {

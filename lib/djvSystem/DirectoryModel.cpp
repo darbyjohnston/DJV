@@ -23,16 +23,16 @@ namespace djv
         {
             struct DirectoryModel::Private
             {
-                std::shared_ptr<ValueSubject<Path> > path;
-                std::shared_ptr<ListSubject<Info> > info;
-                std::shared_ptr<ListSubject<std::string> > fileNames;
-                std::shared_ptr<ListSubject<Path> > history;
-                std::shared_ptr<ValueSubject<size_t> > historyIndex;
+                std::shared_ptr<Observer::ValueSubject<Path> > path;
+                std::shared_ptr<Observer::ListSubject<Info> > info;
+                std::shared_ptr<Observer::ListSubject<std::string> > fileNames;
+                std::shared_ptr<Observer::ListSubject<Path> > history;
+                std::shared_ptr<Observer::ValueSubject<size_t> > historyIndex;
                 size_t historyMax = 10;
-                std::shared_ptr<ValueSubject<bool> > hasUp;
-                std::shared_ptr<ValueSubject<bool> > hasBack;
-                std::shared_ptr<ValueSubject<bool> > hasForward;
-                std::shared_ptr<ValueSubject<DirectoryListOptions> > options;
+                std::shared_ptr<Observer::ValueSubject<bool> > hasUp;
+                std::shared_ptr<Observer::ValueSubject<bool> > hasBack;
+                std::shared_ptr<Observer::ValueSubject<bool> > hasForward;
+                std::shared_ptr<Observer::ValueSubject<DirectoryListOptions> > options;
                 std::future<std::pair<std::vector<Info>, std::vector<std::string> > > future;
                 std::shared_ptr<Timer> futureTimer;
                 std::shared_ptr<DirectoryWatcher> directoryWatcher;
@@ -41,15 +41,15 @@ namespace djv
             void DirectoryModel::_init(const std::shared_ptr<Context>& context)
             {
                 DJV_PRIVATE_PTR();
-                p.path = ValueSubject<Path>::create();
-                p.info = ListSubject<Info>::create();
-                p.fileNames = ListSubject<std::string>::create();
-                p.history = ListSubject<Path>::create();
-                p.historyIndex = ValueSubject<size_t>::create(0);
-                p.hasUp = ValueSubject<bool>::create(false);
-                p.hasBack = ValueSubject<bool>::create(false);
-                p.hasForward = ValueSubject<bool>::create(false);
-                p.options = ValueSubject<DirectoryListOptions>::create();
+                p.path = Observer::ValueSubject<Path>::create();
+                p.info = Observer::ListSubject<Info>::create();
+                p.fileNames = Observer::ListSubject<std::string>::create();
+                p.history = Observer::ListSubject<Path>::create();
+                p.historyIndex = Observer::ValueSubject<size_t>::create(0);
+                p.hasUp = Observer::ValueSubject<bool>::create(false);
+                p.hasBack = Observer::ValueSubject<bool>::create(false);
+                p.hasForward = Observer::ValueSubject<bool>::create(false);
+                p.options = Observer::ValueSubject<DirectoryListOptions>::create();
 
                 p.futureTimer = Timer::create(context);
                 p.futureTimer->setRepeating(true);
@@ -81,7 +81,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<Path> > DirectoryModel::observePath() const
+            std::shared_ptr<Observer::IValueSubject<Path> > DirectoryModel::observePath() const
             {
                 return _p->path;
             }
@@ -108,12 +108,12 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IListSubject<Info> > DirectoryModel::observeInfo() const
+            std::shared_ptr<Observer::IListSubject<Info> > DirectoryModel::observeInfo() const
             {
                 return _p->info;
             }
 
-            std::shared_ptr<IListSubject<std::string> > DirectoryModel::observeFileNames() const
+            std::shared_ptr<Observer::IListSubject<std::string> > DirectoryModel::observeFileNames() const
             {
                 return _p->fileNames;
             }
@@ -123,7 +123,7 @@ namespace djv
                 _pathUpdate();
             }
 
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasUp() const
+            std::shared_ptr<Observer::IValueSubject<bool> > DirectoryModel::observeHasUp() const
             {
                 return _p->hasUp;
             }
@@ -138,22 +138,22 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IListSubject<Path> > DirectoryModel::observeHistory() const
+            std::shared_ptr<Observer::IListSubject<Path> > DirectoryModel::observeHistory() const
             {
                 return _p->history;
             }
 
-            std::shared_ptr<IValueSubject<size_t> > DirectoryModel::observeHistoryIndex() const
+            std::shared_ptr<Observer::IValueSubject<size_t> > DirectoryModel::observeHistoryIndex() const
             {
                 return _p->historyIndex;
             }
 
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasBack() const
+            std::shared_ptr<Observer::IValueSubject<bool> > DirectoryModel::observeHasBack() const
             {
                 return _p->hasBack;
             }
 
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasForward() const
+            std::shared_ptr<Observer::IValueSubject<bool> > DirectoryModel::observeHasForward() const
             {
                 return _p->hasForward;
             }
@@ -220,7 +220,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IValueSubject<DirectoryListOptions> > DirectoryModel::observeOptions() const
+            std::shared_ptr<Observer::IValueSubject<DirectoryListOptions> > DirectoryModel::observeOptions() const
             {
                 return _p->options;
             }

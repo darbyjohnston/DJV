@@ -12,7 +12,7 @@ namespace djv
     {
         uint64_t createUID()
         {
-            //! \bug Is this static OK?
+            //! \bug Is it OK to use static for this?
             static std::atomic<uint64_t> uid(0);
             ++uid;
             return uid;

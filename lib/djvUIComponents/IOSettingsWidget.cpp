@@ -24,7 +24,7 @@ namespace djv
         {
             std::shared_ptr<IntSlider> threadCountSlider;
             std::shared_ptr<FormLayout> layout;
-            std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
+            std::shared_ptr<Observer::ValueObserver<size_t> > threadCountObserver;
         };
 
         void IOThreadsSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -62,7 +62,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto ioSettings = settingsSystem->getSettingsT<Settings::IO>())
             {
-                p.threadCountObserver = ValueObserver<size_t>::create(
+                p.threadCountObserver = Observer::ValueObserver<size_t>::create(
                     ioSettings->observeThreadCount(),
                     [weak](size_t value)
                     {

@@ -12,7 +12,7 @@ void ISettingsWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     Widget::_init(context);
 
-    _title = Core::ValueSubject<std::string>::create();
+    _title = Core::Observer::ValueSubject<std::string>::create();
     
     _childLayout = UI::VerticalLayout::create(context);
     //_childLayout->setMargin(UI::MetricsRole::Margin);
@@ -28,7 +28,7 @@ ISettingsWidget::ISettingsWidget()
 ISettingsWidget::~ISettingsWidget()
 {}
 
-std::shared_ptr<djv::Core::IValueSubject<std::string> > ISettingsWidget::observeTitle() const
+std::shared_ptr<djv::Core::Observer::IValueSubject<std::string> > ISettingsWidget::observeTitle() const
 {
     return _title;
 }

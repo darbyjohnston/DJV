@@ -18,7 +18,7 @@ namespace djv
     {
         struct ToolSettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > messagesPopup;
+            std::shared_ptr<Observer::ValueSubject<bool> > messagesPopup;
             std::map<std::string, bool> debugBellowsState;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
@@ -27,7 +27,7 @@ namespace djv
         {
             ISettings::_init("djv::ViewApp::ToolSettings", context);
             DJV_PRIVATE_PTR();
-            p.messagesPopup = ValueSubject<bool>::create(true);
+            p.messagesPopup = Observer::ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -45,7 +45,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<bool> > ToolSettings::observeMessagesPopup() const
+        std::shared_ptr<Observer::IValueSubject<bool> > ToolSettings::observeMessagesPopup() const
         {
             return _p->messagesPopup;
         }

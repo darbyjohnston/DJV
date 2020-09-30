@@ -25,7 +25,7 @@ namespace djv
         {
             std::shared_ptr<UI::ToggleButton> startPlaybackButton;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<ValueObserver<bool> > startPlaybackObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > startPlaybackObserver;
         };
 
         void PlaybackSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -62,7 +62,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
-                p.startPlaybackObserver = ValueObserver<bool>::create(
+                p.startPlaybackObserver = Observer::ValueObserver<bool>::create(
                     playbackSettings->observeStartPlayback(),
                     [weak](bool value)
                     {
@@ -114,7 +114,7 @@ namespace djv
         {
             std::shared_ptr<UI::ToggleButton> pipEnabledButton;
             std::shared_ptr<UI::FormLayout> layout;
-            std::shared_ptr<ValueObserver<bool> > pipEnabledObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > pipEnabledObserver;
         };
 
         void TimelineSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -151,7 +151,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
-                p.pipEnabledObserver = ValueObserver<bool>::create(
+                p.pipEnabledObserver = Observer::ValueObserver<bool>::create(
                     playbackSettings->observePIPEnabled(),
                     [weak](bool value)
                     {

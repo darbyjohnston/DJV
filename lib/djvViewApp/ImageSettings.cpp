@@ -23,7 +23,7 @@ namespace djv
         {
             std::map<std::string, bool> controlsBellowsState;
             std::map<std::string, bool> colorSpaceBellowsState;
-            std::shared_ptr<ValueSubject<ImageData> > data;
+            std::shared_ptr<Observer::ValueSubject<ImageData> > data;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
@@ -32,7 +32,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.data = ValueSubject<ImageData>::create();
+            p.data = Observer::ValueSubject<ImageData>::create();
             _load();
         }
 
@@ -67,7 +67,7 @@ namespace djv
             _p->colorSpaceBellowsState = value;
         }
 
-        std::shared_ptr<IValueSubject<ImageData> > ImageSettings::observeData() const
+        std::shared_ptr<Observer::IValueSubject<ImageData> > ImageSettings::observeData() const
         {
             return _p->data;
         }

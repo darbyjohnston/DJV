@@ -130,7 +130,7 @@ namespace djv
                 auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
                 auto weak = std::weak_ptr<Style>(shared_from_this());
-                _paletteObserver = ValueObserver<UI::Style::Palette>::create(
+                _paletteObserver = Observer::ValueObserver<UI::Style::Palette>::create(
                     styleSettings->observeCurrentPalette(),
                     [weak](const UI::Style::Palette& value)
                 {
@@ -140,7 +140,7 @@ namespace djv
                     }
                 });
 
-                _brightnessObserver = ValueObserver<float>::create(
+                _brightnessObserver = Observer::ValueObserver<float>::create(
                     styleSettings->observeBrightness(),
                     [weak](float value)
                 {
@@ -150,7 +150,7 @@ namespace djv
                     }
                 });
 
-                _contrastObserver = ValueObserver<float>::create(
+                _contrastObserver = Observer::ValueObserver<float>::create(
                     styleSettings->observeContrast(),
                     [weak](float value)
                 {
@@ -160,7 +160,7 @@ namespace djv
                     }
                 });
 
-                _metricsObserver = ValueObserver<UI::Style::Metrics>::create(
+                _metricsObserver = Observer::ValueObserver<UI::Style::Metrics>::create(
                     styleSettings->observeCurrentMetrics(),
                     [weak](const UI::Style::Metrics& value)
                 {
@@ -170,7 +170,7 @@ namespace djv
                     }
                 });
 
-                _fontObserver = ValueObserver<std::string>::create(
+                _fontObserver = Observer::ValueObserver<std::string>::create(
                     styleSettings->observeCurrentFont(),
                     [weak](const std::string& value)
                 {
@@ -181,7 +181,7 @@ namespace djv
                 });
 
                 auto fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
-                _fontNamesObserver = MapObserver<Render2D::Font::FamilyID, std::string>::create(
+                _fontNamesObserver = Observer::MapObserver<Render2D::Font::FamilyID, std::string>::create(
                     fontSystem->observeFontNames(),
                     [weak](const std::map<Render2D::Font::FamilyID, std::string>& value)
                     {
@@ -196,7 +196,7 @@ namespace djv
                         }
                     });
 
-                _fontFacesObserver = MapObserver<Render2D::Font::FamilyID, std::map<Render2D::Font::FaceID, std::string> >::create(
+                _fontFacesObserver = Observer::MapObserver<Render2D::Font::FamilyID, std::map<Render2D::Font::FaceID, std::string> >::create(
                     fontSystem->observeFontFaces(),
                     [weak](const std::map<Render2D::Font::FamilyID, std::map<Render2D::Font::FaceID, std::string> >& value)
                     {

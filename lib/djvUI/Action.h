@@ -34,28 +34,28 @@ namespace djv
             static std::shared_ptr<Action> create();
             static std::shared_ptr<Action> create(const std::string& text);
 
-            std::shared_ptr<Core::IValueSubject<ButtonType> > observeButtonType() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ButtonType> > observeButtonType() const;
 
             void setButtonType(ButtonType);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeChecked() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeChecked() const;
             
             void setChecked(bool);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeIcon() const;
             
             void setIcon(const std::string&);
             void setCheckedIcon(const std::string&);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeText() const;
             
             void setText(const std::string&);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeFont() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeFont() const;
             
             void setFont(const std::string&);
 
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
+            std::shared_ptr<Core::Observer::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
             
             void setShortcuts(const ShortcutDataPair&);
             void setShortcut(const std::shared_ptr<Shortcut>&);
@@ -67,15 +67,15 @@ namespace djv
             void addShortcut(int key, int keyModifiers);
             void clearShortcuts();
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeEnabled() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeEnabled() const;
             
             void setEnabled(bool);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeTooltip() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeTooltip() const;
             
             void setTooltip(const std::string&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeAutoRepeat() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeAutoRepeat() const;
             
             void setAutoRepeat(bool);
 

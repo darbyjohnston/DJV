@@ -29,8 +29,8 @@ namespace djv
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
-            std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
+            std::shared_ptr<Observer::ValueObserver<std::string> > localeObserver;
+            std::shared_ptr<Observer::MapObserver<std::string, std::string> > localeFontsObserver;
         };
 
         void LanguageWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -64,7 +64,7 @@ namespace djv
                 });
 
             auto textSystem = context->getSystemT<System::TextSystem>();
-            p.localeObserver = ValueObserver<std::string>::create(
+            p.localeObserver = Observer::ValueObserver<std::string>::create(
                 textSystem->observeCurrentLocale(),
                 [weak](const std::string & value)
             {
@@ -77,7 +77,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
-            p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+            p.localeFontsObserver = Observer::MapObserver<std::string, std::string>::create(
                 fontSettings->observeLocaleFonts(),
                 [weak](const std::map<std::string, std::string> & value)
             {

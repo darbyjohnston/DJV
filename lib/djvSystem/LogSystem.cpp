@@ -56,9 +56,9 @@ namespace djv
             File::Path path;
             std::atomic<bool> consoleOutput;
             std::vector<std::string> warnings;
-            std::shared_ptr<ListSubject<std::string> > warningsSubject;
+            std::shared_ptr<Observer::ListSubject<std::string> > warningsSubject;
             std::vector<std::string> errors;
-            std::shared_ptr<ListSubject<std::string> > errorsSubject;
+            std::shared_ptr<Observer::ListSubject<std::string> > errorsSubject;
             std::list<Message> queue;
             std::condition_variable queueCV;
             std::list<Message> messages;
@@ -78,8 +78,8 @@ namespace djv
             
             p.path = resourceSystem->getPath(File::ResourcePath::LogFile);
             p.consoleOutput = false;
-            p.warningsSubject = ListSubject<std::string>::create();
-            p.errorsSubject = ListSubject<std::string>::create();
+            p.warningsSubject = Observer::ListSubject<std::string>::create();
+            p.errorsSubject = Observer::ListSubject<std::string>::create();
 
             p.running = true;
             p.thread = std::thread(
@@ -202,12 +202,12 @@ namespace djv
             _p->consoleOutput = value;
         }
 
-        std::shared_ptr<Core::IListSubject<std::string> > LogSystem::observeWarnings() const
+        std::shared_ptr<Core::Observer::IListSubject<std::string> > LogSystem::observeWarnings() const
         {
             return _p->warningsSubject;
         }
 
-        std::shared_ptr<Core::IListSubject<std::string> > LogSystem::observeErrors() const
+        std::shared_ptr<Core::Observer::IListSubject<std::string> > LogSystem::observeErrors() const
         {
             return _p->errorsSubject;
         }

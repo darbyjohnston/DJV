@@ -32,8 +32,8 @@ namespace djv
 
             static std::shared_ptr<WindowSettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeRestorePos() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeRestoreSize() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeRestorePos() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeRestoreSize() const;
 
             const glm::ivec2& getWindowPos() const;
             const glm::ivec2& getWindowSize() const;
@@ -44,23 +44,23 @@ namespace djv
             void setWindowPos(const glm::ivec2&);
             void setWindowSize(const glm::ivec2&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
-            std::shared_ptr<Core::IValueSubject<int> > observeFullScreenMonitor() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFullScreen() const;
+            std::shared_ptr<Core::Observer::IValueSubject<int> > observeFullScreenMonitor() const;
 
             void setFullScreen(bool);
             void setFullScreenMonitor(int);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeFloatOnTop() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFloatOnTop() const;
 
             void setFloatOnTop(bool);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeMaximize() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeMaximize() const;
 
             void setMaximize(bool);
             
-            std::shared_ptr<Core::IValueSubject<std::string> > observeBackgroundImage() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageScale() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageColorize() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeBackgroundImage() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeBackgroundImageScale() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeBackgroundImageColorize() const;
 
             void setBackgroundImage(const std::string&);
             void setBackgroundImageScale(bool);

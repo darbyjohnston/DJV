@@ -32,10 +32,10 @@ namespace djv
             float volume = 1.F;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
-            std::shared_ptr<ValueObserver<float> > volumeObserver;
-            std::shared_ptr<ValueObserver<bool> > muteObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::ValueObserver<AV::IO::Info> > infoObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > volumeObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > muteObserver;
         };
 
         void AudioSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -101,7 +101,7 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media> & value)
                 {
@@ -113,7 +113,7 @@ namespace djv
                         system->_p->actions["Mute"]->setEnabled(value ? true : false);
                         if (value)
                         {
-                            system->_p->infoObserver = ValueObserver<AV::IO::Info>::create(
+                            system->_p->infoObserver = Observer::ValueObserver<AV::IO::Info>::create(
                                 value->observeInfo(),
                                 [weak](const AV::IO::Info& value)
                                 {
@@ -123,7 +123,7 @@ namespace djv
                                         system->_actionsUpdate();
                                     }
                                 });
-                            system->_p->volumeObserver = ValueObserver<float>::create(
+                            system->_p->volumeObserver = Observer::ValueObserver<float>::create(
                                 value->observeVolume(),
                                 [weak](float value)
                             {
@@ -133,7 +133,7 @@ namespace djv
                                     system->_actionsUpdate();
                                 }
                             });
-                            system->_p->muteObserver = ValueObserver<bool>::create(
+                            system->_p->muteObserver = Observer::ValueObserver<bool>::create(
                                 value->observeMute(),
                                 [weak](bool value)
                             {

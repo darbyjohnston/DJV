@@ -14,33 +14,36 @@ namespace djv
 {
     namespace Core
     {
-        class ICommand;
-
-        //! This class provides an undo stack.
-        class UndoStack : public std::enable_shared_from_this<UndoStack>
+        namespace Command
         {
-            DJV_NON_COPYABLE(UndoStack);
+            class ICommand;
 
-        protected:
-            UndoStack();
+            //! This class provides an undo stack.
+            class UndoStack : public std::enable_shared_from_this<UndoStack>
+            {
+                DJV_NON_COPYABLE(UndoStack);
 
-        public:
-            ~UndoStack();
+            protected:
+                UndoStack();
 
-            static std::shared_ptr<UndoStack> create();
+            public:
+                ~UndoStack();
 
-            void push(const std::shared_ptr<ICommand>&);
-            void clear();
+                static std::shared_ptr<UndoStack> create();
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeHasUndo() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeHasRedo() const;
-            
-            void undo();
-            void redo();
+                void push(const std::shared_ptr<ICommand>&);
+                void clear();
 
-        protected:
-            DJV_PRIVATE();
-        };
+                std::shared_ptr<Observer::IValueSubject<bool> > observeHasUndo() const;
+                std::shared_ptr<Observer::IValueSubject<bool> > observeHasRedo() const;
 
+                void undo();
+                void redo();
+
+            protected:
+                DJV_PRIVATE();
+            };
+
+        } // namespace Command
     } // namespace Core
 } // namespace djv

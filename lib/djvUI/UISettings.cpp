@@ -20,14 +20,14 @@ namespace djv
         {
             struct UI::Private
             {
-                std::shared_ptr<ValueSubject<bool> > tooltips;
+                std::shared_ptr<Observer::ValueSubject<bool> > tooltips;
             };
 
             void UI::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::UI", context);
                 DJV_PRIVATE_PTR();
-                p.tooltips = ValueSubject<bool>::create(true);
+                p.tooltips = Observer::ValueSubject<bool>::create(true);
                 _load();
             }
 
@@ -45,7 +45,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<bool> > UI::observeTooltips() const
+            std::shared_ptr<Observer::IValueSubject<bool> > UI::observeTooltips() const
             {
                 return _p->tooltips;
             }

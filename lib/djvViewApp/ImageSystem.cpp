@@ -44,8 +44,8 @@ namespace djv
             std::map<std::string, bool> controlsBellowsState;
             std::map<std::string, bool> colorSpaceBellowsState;
             ImageData data;
-            std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Image::Image> > > frameStore;
+            std::shared_ptr<Observer::ValueSubject<bool> > frameStoreEnabled;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Image> > > frameStore;
             std::shared_ptr<Image::Image> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
 
@@ -55,10 +55,10 @@ namespace djv
             std::weak_ptr<ImageControlsWidget> imageControlsWidget;
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
 
-            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > currentImageObserver;
-            std::shared_ptr<ValueObserver<ImageData> > dataObserver;
-            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > currentImageObserver;
+            std::shared_ptr<Observer::ValueObserver<ImageData> > dataObserver;
+            std::shared_ptr<Observer::MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
         void ImageSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -72,8 +72,8 @@ namespace djv
             p.colorSpaceBellowsState = p.settings->getColorSpaceBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
-            p.frameStoreEnabled = ValueSubject<bool>::create();
-            p.frameStore = ValueSubject<std::shared_ptr<Image::Image> >::create();
+            p.frameStoreEnabled = Observer::ValueSubject<bool>::create();
+            p.frameStore = Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
 
             p.actions["ImageControls"] = UI::Action::create();
             p.actions["ImageControls"]->setButtonType(UI::ButtonType::Toggle);
@@ -235,7 +235,7 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
@@ -243,7 +243,7 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_p->currentImageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
+                                system->_p->currentImageObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
                                     value->observeCurrentImage(),
                                     [weak](const std::shared_ptr<Image::Image>& value)
                                     {
@@ -264,7 +264,7 @@ namespace djv
                     });
             }
 
-            p.dataObserver = ValueObserver<ImageData>::create(
+            p.dataObserver = Observer::ValueObserver<ImageData>::create(
                 p.settings->observeData(),
                 [weak](const ImageData& value)
                 {
@@ -301,12 +301,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > ImageSystem::observeFrameStoreEnabled() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > ImageSystem::observeFrameStoreEnabled() const
         {
             return _p->frameStoreEnabled;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<Image::Image> > > ImageSystem::observeFrameStore() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Image> > > ImageSystem::observeFrameStore() const
         {
             return _p->frameStore;
         }

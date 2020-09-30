@@ -69,23 +69,23 @@ namespace djv
             std::shared_ptr<UI::PopupButton> audioPopupButton;
             std::shared_ptr<UI::GridLayout> layout;
 
-            std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > defaultSpeedObserver;
-            std::shared_ptr<ValueObserver<float> > realSpeedObserver;
-            std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
-            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Math::Frame::Index> > currentFrameObserver;
-            std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsObserver;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
-            std::shared_ptr<ValueObserver<float> > volumeObserver;
-            std::shared_ptr<ValueObserver<bool> > muteObserver;
-            std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > cacheSequenceObserver;
-            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > cachedFramesObserver;
+            std::shared_ptr<Observer::ValueObserver<AV::Time::Units> > timeUnitsObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::ValueObserver<AV::IO::Info> > ioInfoObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Rational> > defaultSpeedObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > realSpeedObserver;
+            std::shared_ptr<Observer::ValueObserver<PlaybackMode> > playbackModeObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Frame::Index> > currentFrameObserver;
+            std::shared_ptr<Observer::ValueObserver<AV::IO::InOutPoints> > inOutPointsObserver;
+            std::shared_ptr<Observer::ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > audioEnabledObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > volumeObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > muteObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > cacheEnabledObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Frame::Sequence> > cacheSequenceObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::Frame::Sequence> > cachedFramesObserver;
         };
 
         void TimelineWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -472,7 +472,7 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<AV::Time::Units>::create(
+            p.timeUnitsObserver = Observer::ValueObserver<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
                 [weak](AV::Time::Units value)
                 {
@@ -486,7 +486,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
-                p.cacheEnabledObserver = ValueObserver<bool>::create(
+                p.cacheEnabledObserver = Observer::ValueObserver<bool>::create(
                     fileSettings->observeCacheEnabled(),
                     [weak](bool value)
                     {
@@ -499,7 +499,7 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media>>::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
@@ -509,7 +509,7 @@ namespace djv
                             widget->_p->timelineSlider->setMedia(value);
                             if (widget->_p->media)
                             {
-                                widget->_p->ioInfoObserver = ValueObserver<AV::IO::Info>::create(
+                                widget->_p->ioInfoObserver = Observer::ValueObserver<AV::IO::Info>::create(
                                     widget->_p->media->observeInfo(),
                                     [weak](const AV::IO::Info& value)
                                     {
@@ -521,7 +521,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->speedObserver = ValueObserver<Math::Rational>::create(
+                                widget->_p->speedObserver = Observer::ValueObserver<Math::Rational>::create(
                                     widget->_p->media->observeSpeed(),
                                     [weak](const Math::Rational& value)
                                     {
@@ -533,7 +533,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->defaultSpeedObserver = ValueObserver<Math::Rational>::create(
+                                widget->_p->defaultSpeedObserver = Observer::ValueObserver<Math::Rational>::create(
                                     widget->_p->media->observeDefaultSpeed(),
                                     [weak](const Math::Rational& value)
                                     {
@@ -545,7 +545,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->realSpeedObserver = ValueObserver<float>::create(
+                                widget->_p->realSpeedObserver = Observer::ValueObserver<float>::create(
                                     widget->_p->media->observeRealSpeed(),
                                     [weak](float value)
                                     {
@@ -556,7 +556,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->playbackModeObserver = ValueObserver<PlaybackMode>::create(
+                                widget->_p->playbackModeObserver = Observer::ValueObserver<PlaybackMode>::create(
                                     widget->_p->media->observePlaybackMode(),
                                     [weak](PlaybackMode value)
                                     {
@@ -568,7 +568,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->sequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
+                                widget->_p->sequenceObserver = Observer::ValueObserver<Math::Frame::Sequence>::create(
                                     widget->_p->media->observeSequence(),
                                     [weak](const Math::Frame::Sequence& value)
                                     {
@@ -579,7 +579,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->currentFrameObserver = ValueObserver<Math::Frame::Index>::create(
+                                widget->_p->currentFrameObserver = Observer::ValueObserver<Math::Frame::Index>::create(
                                     widget->_p->media->observeCurrentFrame(),
                                     [weak](Math::Frame::Index value)
                                     {
@@ -590,7 +590,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->inOutPointsObserver = ValueObserver<AV::IO::InOutPoints>::create(
+                                widget->_p->inOutPointsObserver = Observer::ValueObserver<AV::IO::InOutPoints>::create(
                                     widget->_p->media->observeInOutPoints(),
                                     [weak](const AV::IO::InOutPoints& value)
                                     {
@@ -601,7 +601,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->playbackObserver = ValueObserver<Playback>::create(
+                                widget->_p->playbackObserver = Observer::ValueObserver<Playback>::create(
                                     widget->_p->media->observePlayback(),
                                     [weak](Playback value)
                                     {
@@ -618,7 +618,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->audioEnabledObserver = ValueObserver<bool>::create(
+                                widget->_p->audioEnabledObserver = Observer::ValueObserver<bool>::create(
                                     widget->_p->media->observeAudioEnabled(),
                                     [weak](bool value)
                                     {
@@ -629,7 +629,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->volumeObserver = ValueObserver<float>::create(
+                                widget->_p->volumeObserver = Observer::ValueObserver<float>::create(
                                     widget->_p->media->observeVolume(),
                                     [weak](float value)
                                     {
@@ -640,7 +640,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->muteObserver = ValueObserver<bool>::create(
+                                widget->_p->muteObserver = Observer::ValueObserver<bool>::create(
                                     widget->_p->media->observeMute(),
                                     [weak](bool value)
                                     {
@@ -651,7 +651,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->cacheSequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
+                                widget->_p->cacheSequenceObserver = Observer::ValueObserver<Math::Frame::Sequence>::create(
                                     widget->_p->media->observeCacheSequence(),
                                     [weak](const Math::Frame::Sequence& value)
                                     {
@@ -661,7 +661,7 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->cachedFramesObserver = ValueObserver<Math::Frame::Sequence>::create(
+                                widget->_p->cachedFramesObserver = Observer::ValueObserver<Math::Frame::Sequence>::create(
                                     widget->_p->media->observeCachedFrames(),
                                     [weak](const Math::Frame::Sequence& value)
                                     {

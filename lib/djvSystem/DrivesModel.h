@@ -28,7 +28,7 @@ namespace djv
 
                 static std::shared_ptr<DrivesModel> create(const std::shared_ptr<Context>&);
 
-                std::shared_ptr<Core::IListSubject<Path> > observeDrives() const;
+                std::shared_ptr<Core::Observer::IListSubject<Path> > observeDrives() const;
 
             private:
                 static std::vector<Path> _getDrives();

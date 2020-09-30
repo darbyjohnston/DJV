@@ -25,7 +25,7 @@ namespace djv
             GL::SwapInterval swapInterval = GL::SwapInterval::Default;
             std::shared_ptr<ComboBox> swapIntervalComboBox;
             std::shared_ptr<FormLayout> layout;
-            std::shared_ptr<ValueObserver<GL::SwapInterval> > swapIntervalObserver;
+            std::shared_ptr<Observer::ValueObserver<GL::SwapInterval> > swapIntervalObserver;
         };
 
         void GLFWSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -57,7 +57,7 @@ namespace djv
                 });
 
             auto glfwSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
-            p.swapIntervalObserver = ValueObserver<GL::SwapInterval>::create(
+            p.swapIntervalObserver = Observer::ValueObserver<GL::SwapInterval>::create(
                 glfwSystem->observeSwapInterval(),
                 [weak](GL::SwapInterval value)
             {

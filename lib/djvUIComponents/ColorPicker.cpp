@@ -149,8 +149,8 @@ namespace djv
             std::vector<std::shared_ptr<BasicFloatSlider> > floatSliders;
             std::shared_ptr<GridLayout> layout;
             std::function<void(const Image::Color &)> colorCallback;
-            std::vector<std::shared_ptr<ValueObserver<int> > > intObservers;
-            std::vector < std::shared_ptr<ValueObserver<float> > > floatObservers;
+            std::vector<std::shared_ptr<Observer::ValueObserver<int> > > intObservers;
+            std::vector < std::shared_ptr<Observer::ValueObserver<float> > > floatObservers;
         };
 
         void ColorSliders::_init(const std::shared_ptr<System::Context>& context)
@@ -311,7 +311,7 @@ namespace djv
                 {
                     if (Image::isIntType(type))
                     {
-                        p.intObservers.push_back(ValueObserver<int>::create(
+                        p.intObservers.push_back(Observer::ValueObserver<int>::create(
                             p.intSliders[i]->getModel()->observeValue(),
                             [weak, i](int value)
                             {
@@ -336,7 +336,7 @@ namespace djv
                     }
                     else
                     {
-                        p.floatObservers.push_back(ValueObserver<float>::create(
+                        p.floatObservers.push_back(Observer::ValueObserver<float>::create(
                             p.floatSliders[i]->getModel()->observeValue(),
                             [weak, i](float value)
                             {

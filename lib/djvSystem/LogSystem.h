@@ -35,8 +35,8 @@ namespace djv
             //! \name Warning and Errors
             ///@{
 
-            std::shared_ptr<Core::IListSubject<std::string> > observeWarnings() const;
-            std::shared_ptr<Core::IListSubject<std::string> > observeErrors() const;
+            std::shared_ptr<Core::Observer::IListSubject<std::string> > observeWarnings() const;
+            std::shared_ptr<Core::Observer::IListSubject<std::string> > observeErrors() const;
 
             ///@}
 

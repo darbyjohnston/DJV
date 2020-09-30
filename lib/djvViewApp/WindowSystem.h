@@ -30,22 +30,22 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<MediaWidget> > > observeActiveWidget() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<MediaWidget> > > observeActiveWidget() const;
 
             void setActiveWidget(const std::shared_ptr<MediaWidget>&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFullScreen() const;
 
             void setFullScreen(bool);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observePresentation() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observePresentation() const;
             void setPresentation(bool);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeFloatOnTop() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFloatOnTop() const;
             
             void setFloatOnTop(bool);
 
-            std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
+            std::shared_ptr<Core::Observer::IValueSubject<float> > observeFade() const;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

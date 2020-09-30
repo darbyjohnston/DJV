@@ -11,13 +11,13 @@ namespace djv
         template<typename T>
         inline void INumericValueModel<T>::_init()
         {
-            _range          = Core::ValueSubject<Math::Range<T> >::create();
-            _value          = Core::ValueSubject<T>::create();
-            _isMin          = Core::ValueSubject<bool>::create();
-            _isMax          = Core::ValueSubject<bool>::create();
-            _smallIncrement = Core::ValueSubject<T>::create();
-            _largeIncrement = Core::ValueSubject<T>::create();
-            _overflow       = Core::ValueSubject<NumericValueOverflow>::create(NumericValueOverflow::Clamp);
+            _range          = Core::Observer::ValueSubject<Math::Range<T> >::create();
+            _value          = Core::Observer::ValueSubject<T>::create();
+            _isMin          = Core::Observer::ValueSubject<bool>::create();
+            _isMax          = Core::Observer::ValueSubject<bool>::create();
+            _smallIncrement = Core::Observer::ValueSubject<T>::create();
+            _largeIncrement = Core::Observer::ValueSubject<T>::create();
+            _overflow       = Core::Observer::ValueSubject<NumericValueOverflow>::create(NumericValueOverflow::Clamp);
         }
 
         template<typename T>
@@ -29,7 +29,7 @@ namespace djv
         {}
 
         template<typename T>
-        inline std::shared_ptr<Core::IValueSubject<Math::Range<T> > > INumericValueModel<T>::observeRange() const
+        inline std::shared_ptr<Core::Observer::IValueSubject<Math::Range<T> > > INumericValueModel<T>::observeRange() const
         {
             return _range;
         }
@@ -44,19 +44,19 @@ namespace djv
         }
 
         template<typename T>
-        inline std::shared_ptr<Core::IValueSubject<T> > INumericValueModel<T>::observeValue() const
+        inline std::shared_ptr<Core::Observer::IValueSubject<T> > INumericValueModel<T>::observeValue() const
         {
             return _value;
         }
 
         template<typename T>
-        inline std::shared_ptr<Core::IValueSubject<bool> > INumericValueModel<T>::observeIsMin() const
+        inline std::shared_ptr<Core::Observer::IValueSubject<bool> > INumericValueModel<T>::observeIsMin() const
         {
             return _isMin;
         }
 
         template<typename T>
-        inline std::shared_ptr<Core::IValueSubject<bool> > INumericValueModel<T>::observeIsMax() const
+        inline std::shared_ptr<Core::Observer::IValueSubject<bool> > INumericValueModel<T>::observeIsMax() const
         {
             return _isMax;
         }
@@ -103,13 +103,13 @@ namespace djv
         }
 
         template<typename T>
-        inline std::shared_ptr<Core::IValueSubject<T> > INumericValueModel<T>::observeSmallIncrement() const
+        inline std::shared_ptr<Core::Observer::IValueSubject<T> > INumericValueModel<T>::observeSmallIncrement() const
         {
             return _smallIncrement;
         }
 
         template<typename T>
-        inline std::shared_ptr<Core::IValueSubject<T> > INumericValueModel<T>::observeLargeIncrement() const
+        inline std::shared_ptr<Core::Observer::IValueSubject<T> > INumericValueModel<T>::observeLargeIncrement() const
         {
             return _largeIncrement;
         }
@@ -151,7 +151,7 @@ namespace djv
         }
 
         template<typename T>
-        inline std::shared_ptr<Core::IValueSubject<NumericValueOverflow> > INumericValueModel<T>::observeOverflow() const
+        inline std::shared_ptr<Core::Observer::IValueSubject<NumericValueOverflow> > INumericValueModel<T>::observeOverflow() const
         {
             return _overflow;
         }

@@ -46,38 +46,38 @@ namespace djv
 
             bool valid = false;
             System::File::Info fileInfo;
-            std::shared_ptr<ValueSubject<AV::IO::Info> > info;
+            std::shared_ptr<Observer::ValueSubject<AV::IO::Info> > info;
             Audio::Info audioInfo;
-            std::shared_ptr<ValueSubject<bool> > reload;
-            std::shared_ptr<ValueSubject<std::pair<std::vector<Image::Info>, int> > > layers;
-            std::shared_ptr<ValueSubject<Math::Rational> > speed;
-            std::shared_ptr<ValueSubject<PlaybackSpeed> > playbackSpeed;
-            std::shared_ptr<ValueSubject<Math::Rational> > defaultSpeed;
-            std::shared_ptr<ValueSubject<Math::Rational> > customSpeed;
+            std::shared_ptr<Observer::ValueSubject<bool> > reload;
+            std::shared_ptr<Observer::ValueSubject<std::pair<std::vector<Image::Info>, int> > > layers;
+            std::shared_ptr<Observer::ValueSubject<Math::Rational> > speed;
+            std::shared_ptr<Observer::ValueSubject<PlaybackSpeed> > playbackSpeed;
+            std::shared_ptr<Observer::ValueSubject<Math::Rational> > defaultSpeed;
+            std::shared_ptr<Observer::ValueSubject<Math::Rational> > customSpeed;
             float realSpeed = 0.F;
-            std::shared_ptr<ValueSubject<float> > realSpeedSubject;
-            std::shared_ptr<ValueSubject<bool> > playEveryFrame;
-            std::shared_ptr<ValueSubject<Math::Frame::Sequence> > sequence;
-            std::shared_ptr<ValueSubject<Math::Frame::Index> > currentFrame;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Image::Image> > > currentImage;
-            std::shared_ptr<ValueSubject<Playback> > playback;
-            std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
-            std::shared_ptr<ValueSubject<AV::IO::InOutPoints> > inOutPoints;
-            std::shared_ptr<ValueSubject<bool> > audioEnabled;
-            std::shared_ptr<ValueSubject<float> > volume;
-            std::shared_ptr<ValueSubject<bool> > mute;
-            std::shared_ptr<ValueSubject<size_t> > threadCount;
-            std::shared_ptr<ValueSubject<Math::Frame::Sequence> > cacheSequence;
-            std::shared_ptr<ValueSubject<Math::Frame::Sequence> > cachedFrames;
+            std::shared_ptr<Observer::ValueSubject<float> > realSpeedSubject;
+            std::shared_ptr<Observer::ValueSubject<bool> > playEveryFrame;
+            std::shared_ptr<Observer::ValueSubject<Math::Frame::Sequence> > sequence;
+            std::shared_ptr<Observer::ValueSubject<Math::Frame::Index> > currentFrame;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Image> > > currentImage;
+            std::shared_ptr<Observer::ValueSubject<Playback> > playback;
+            std::shared_ptr<Observer::ValueSubject<PlaybackMode> > playbackMode;
+            std::shared_ptr<Observer::ValueSubject<AV::IO::InOutPoints> > inOutPoints;
+            std::shared_ptr<Observer::ValueSubject<bool> > audioEnabled;
+            std::shared_ptr<Observer::ValueSubject<float> > volume;
+            std::shared_ptr<Observer::ValueSubject<bool> > mute;
+            std::shared_ptr<Observer::ValueSubject<size_t> > threadCount;
+            std::shared_ptr<Observer::ValueSubject<Math::Frame::Sequence> > cacheSequence;
+            std::shared_ptr<Observer::ValueSubject<Math::Frame::Sequence> > cachedFrames;
             bool cacheEnabled = false;
             size_t cacheMaxByteCount = 0;
-            std::shared_ptr<ListSubject<std::shared_ptr<AnnotatePrimitive> > > annotations;
-            std::shared_ptr<UndoStack> undoStack;
+            std::shared_ptr<Observer::ListSubject<std::shared_ptr<AnnotatePrimitive> > > annotations;
+            std::shared_ptr<Command::UndoStack> undoStack;
 
-            std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
-            std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
-            std::shared_ptr<ValueSubject<size_t> > audioQueueMax;
-            std::shared_ptr<ValueSubject<size_t> > audioQueueCount;
+            std::shared_ptr<Observer::ValueSubject<size_t> > videoQueueMax;
+            std::shared_ptr<Observer::ValueSubject<size_t> > videoQueueCount;
+            std::shared_ptr<Observer::ValueSubject<size_t> > audioQueueMax;
+            std::shared_ptr<Observer::ValueSubject<size_t> > audioQueueCount;
             std::shared_ptr<AV::IO::IRead> read;
 
             AV::IO::Direction ioDirection = AV::IO::Direction::Forward;
@@ -106,35 +106,35 @@ namespace djv
             p.context = context;
 
             p.fileInfo = fileInfo;
-            p.info = ValueSubject<AV::IO::Info>::create();
-            p.reload = ValueSubject<bool>::create(false);
-            p.layers = ValueSubject<std::pair<std::vector<Image::Info>, int> >::create(
+            p.info = Observer::ValueSubject<AV::IO::Info>::create();
+            p.reload = Observer::ValueSubject<bool>::create(false);
+            p.layers = Observer::ValueSubject<std::pair<std::vector<Image::Info>, int> >::create(
                 std::make_pair(std::vector<Image::Info>(), 0));
-            p.speed = ValueSubject<Math::Rational>::create();
-            p.playbackSpeed = ValueSubject<PlaybackSpeed>::create();
-            p.defaultSpeed = ValueSubject<Math::Rational>::create();
-            p.customSpeed = ValueSubject<Math::Rational>::create();
-            p.realSpeedSubject = ValueSubject<float>::create(p.realSpeed);
-            p.playEveryFrame = ValueSubject<bool>::create(false);
-            p.sequence = ValueSubject<Math::Frame::Sequence>::create();
-            p.currentFrame = ValueSubject<Math::Frame::Index>::create(Math::Frame::invalid);
-            p.currentImage = ValueSubject<std::shared_ptr<Image::Image> >::create();
-            p.playback = ValueSubject<Playback>::create(Playback::First);
-            p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::First);
-            p.inOutPoints = ValueSubject<AV::IO::InOutPoints>::create();
-            p.volume = ValueSubject<float>::create(1.F);
-            p.audioEnabled = ValueSubject<bool>::create(false);
-            p.mute = ValueSubject<bool>::create(false);
-            p.threadCount = ValueSubject<size_t>::create(4);
-            p.cacheSequence = ValueSubject<Math::Frame::Sequence>::create();
-            p.cachedFrames = ValueSubject<Math::Frame::Sequence>::create();
-            p.annotations = ListSubject<std::shared_ptr<AnnotatePrimitive> >::create();
-            p.undoStack = UndoStack::create();
+            p.speed = Observer::ValueSubject<Math::Rational>::create();
+            p.playbackSpeed = Observer::ValueSubject<PlaybackSpeed>::create();
+            p.defaultSpeed = Observer::ValueSubject<Math::Rational>::create();
+            p.customSpeed = Observer::ValueSubject<Math::Rational>::create();
+            p.realSpeedSubject = Observer::ValueSubject<float>::create(p.realSpeed);
+            p.playEveryFrame = Observer::ValueSubject<bool>::create(false);
+            p.sequence = Observer::ValueSubject<Math::Frame::Sequence>::create();
+            p.currentFrame = Observer::ValueSubject<Math::Frame::Index>::create(Math::Frame::invalid);
+            p.currentImage = Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
+            p.playback = Observer::ValueSubject<Playback>::create(Playback::First);
+            p.playbackMode = Observer::ValueSubject<PlaybackMode>::create(PlaybackMode::First);
+            p.inOutPoints = Observer::ValueSubject<AV::IO::InOutPoints>::create();
+            p.volume = Observer::ValueSubject<float>::create(1.F);
+            p.audioEnabled = Observer::ValueSubject<bool>::create(false);
+            p.mute = Observer::ValueSubject<bool>::create(false);
+            p.threadCount = Observer::ValueSubject<size_t>::create(4);
+            p.cacheSequence = Observer::ValueSubject<Math::Frame::Sequence>::create();
+            p.cachedFrames = Observer::ValueSubject<Math::Frame::Sequence>::create();
+            p.annotations = Observer::ListSubject<std::shared_ptr<AnnotatePrimitive> >::create();
+            p.undoStack = Command::UndoStack::create();
             
-            p.videoQueueMax = ValueSubject<size_t>::create();
-            p.audioQueueMax = ValueSubject<size_t>::create();
-            p.videoQueueCount = ValueSubject<size_t>::create();
-            p.audioQueueCount = ValueSubject<size_t>::create();
+            p.videoQueueMax = Observer::ValueSubject<size_t>::create();
+            p.audioQueueMax = Observer::ValueSubject<size_t>::create();
+            p.videoQueueCount = Observer::ValueSubject<size_t>::create();
+            p.audioQueueCount = Observer::ValueSubject<size_t>::create();
 
             p.playbackTimer = System::Timer::create(context);
             p.playbackTimer->setRepeating(true);
@@ -215,12 +215,12 @@ namespace djv
             return _p->fileInfo;
         }
 
-        std::shared_ptr<IValueSubject<AV::IO::Info> > Media::observeInfo() const
+        std::shared_ptr<Observer::IValueSubject<AV::IO::Info> > Media::observeInfo() const
         {
             return _p->info;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > Media::observeReload() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > Media::observeReload() const
         {
             return _p->reload;
         }
@@ -230,7 +230,7 @@ namespace djv
             _open();
         }
 
-        std::shared_ptr<IValueSubject<std::pair<std::vector<Image::Info>, int> > > Media::observeLayers() const
+        std::shared_ptr<Observer::IValueSubject<std::pair<std::vector<Image::Info>, int> > > Media::observeLayers() const
         {
             return _p->layers;
         }
@@ -274,62 +274,62 @@ namespace djv
             setLayer(layer);
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<Image::Image> > > Media::observeCurrentImage() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Image> > > Media::observeCurrentImage() const
         {
             return _p->currentImage;
         }
 
-        std::shared_ptr<IValueSubject<Math::Rational> > Media::observeSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::Rational> > Media::observeSpeed() const
         {
             return _p->speed;
         }
 
-        std::shared_ptr<IValueSubject<PlaybackSpeed> > Media::observePlaybackSpeed() const
+        std::shared_ptr<Observer::IValueSubject<PlaybackSpeed> > Media::observePlaybackSpeed() const
         {
             return _p->playbackSpeed;
         }
 
-        std::shared_ptr<IValueSubject<Math::Rational> > Media::observeCustomSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::Rational> > Media::observeCustomSpeed() const
         {
             return _p->customSpeed;
         }
 
-        std::shared_ptr<IValueSubject<Math::Rational> > Media::observeDefaultSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::Rational> > Media::observeDefaultSpeed() const
         {
             return _p->defaultSpeed;
         }
 
-        std::shared_ptr<IValueSubject<float> > Media::observeRealSpeed() const
+        std::shared_ptr<Observer::IValueSubject<float> > Media::observeRealSpeed() const
         {
             return _p->realSpeedSubject;
         }
 
-        std::shared_ptr<IValueSubject<bool> > Media::observePlayEveryFrame() const
+        std::shared_ptr<Observer::IValueSubject<bool> > Media::observePlayEveryFrame() const
         {
             return _p->playEveryFrame;
         }
 
-        std::shared_ptr<IValueSubject<Math::Frame::Sequence> > Media::observeSequence() const
+        std::shared_ptr<Observer::IValueSubject<Math::Frame::Sequence> > Media::observeSequence() const
         {
             return _p->sequence;
         }
 
-        std::shared_ptr<IValueSubject<Math::Frame::Index> > Media::observeCurrentFrame() const
+        std::shared_ptr<Observer::IValueSubject<Math::Frame::Index> > Media::observeCurrentFrame() const
         {
             return _p->currentFrame;
         }
 
-        std::shared_ptr<IValueSubject<Playback> > Media::observePlayback() const
+        std::shared_ptr<Observer::IValueSubject<Playback> > Media::observePlayback() const
         {
             return _p->playback;
         }
 
-        std::shared_ptr<IValueSubject<PlaybackMode> > Media::observePlaybackMode() const
+        std::shared_ptr<Observer::IValueSubject<PlaybackMode> > Media::observePlaybackMode() const
         {
             return _p->playbackMode;
         }
 
-        std::shared_ptr<IValueSubject<AV::IO::InOutPoints> > Media::observeInOutPoints() const
+        std::shared_ptr<Observer::IValueSubject<AV::IO::InOutPoints> > Media::observeInOutPoints() const
         {
             return _p->inOutPoints;
         }
@@ -588,17 +588,17 @@ namespace djv
             setInOutPoints(AV::IO::InOutPoints(enabled, value.getIn(), size > 0 ? (static_cast<Math::Frame::Index>(size) - 1) : 0));
         }
 
-        std::shared_ptr<IValueSubject<bool> > Media::observeAudioEnabled() const
+        std::shared_ptr<Observer::IValueSubject<bool> > Media::observeAudioEnabled() const
         {
             return _p->audioEnabled;
         }
 
-        std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
+        std::shared_ptr<Observer::IValueSubject<float> > Media::observeVolume() const
         {
             return _p->volume;
         }
 
-        std::shared_ptr<IValueSubject<bool> > Media::observeMute() const
+        std::shared_ptr<Observer::IValueSubject<bool> > Media::observeMute() const
         {
             return _p->mute;
         }
@@ -613,7 +613,7 @@ namespace djv
             _p->mute->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeThreadCount() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > Media::observeThreadCount() const
         {
             return _p->threadCount;
         }
@@ -647,12 +647,12 @@ namespace djv
             return p.read ? p.read->getCacheByteCount() : 0;
         }
 
-        std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > Media::observeCacheSequence() const
+        std::shared_ptr<Core::Observer::IValueSubject<Math::Frame::Sequence> > Media::observeCacheSequence() const
         {
             return _p->cacheSequence;
         }
 
-        std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > Media::observeCachedFrames() const
+        std::shared_ptr<Core::Observer::IValueSubject<Math::Frame::Sequence> > Media::observeCachedFrames() const
         {
             return _p->cachedFrames;
         }
@@ -677,7 +677,7 @@ namespace djv
             }
         }
             
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<AnnotatePrimitive> > > Media::observeAnnotations() const
+        std::shared_ptr<Core::Observer::IListSubject<std::shared_ptr<AnnotatePrimitive> > > Media::observeAnnotations() const
         {
             return _p->annotations;
         }
@@ -690,7 +690,7 @@ namespace djv
         void Media::removeAnnotation(const std::shared_ptr<AnnotatePrimitive>& value)
         {
             const size_t i = _p->annotations->indexOf(value);
-            if (i != invalidListIndex)
+            if (i != Observer::invalidListIndex)
             {
                 _p->annotations->removeItem(i);
             }
@@ -701,17 +701,17 @@ namespace djv
             _p->annotations->clear();
         }
 
-        void Media::pushCommand(const std::shared_ptr<Core::ICommand>& value)
+        void Media::pushCommand(const std::shared_ptr<Core::Command::ICommand>& value)
         {
             _p->undoStack->push(value);
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasUndo() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > Media::observeHasUndo() const
         {
             return _p->undoStack->observeHasUndo();
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasRedo() const
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > Media::observeHasRedo() const
         {
             return _p->undoStack->observeHasRedo();
         }
@@ -726,22 +726,22 @@ namespace djv
             _p->undoStack->redo();
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueMax() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > Media::observeVideoQueueMax() const
         {
             return _p->videoQueueMax;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueMax() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > Media::observeAudioQueueMax() const
         {
             return _p->audioQueueMax;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueCount() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > Media::observeVideoQueueCount() const
         {
             return _p->videoQueueCount;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueCount() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > Media::observeAudioQueueCount() const
         {
             return _p->audioQueueCount;
         }

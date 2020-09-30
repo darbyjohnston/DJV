@@ -20,8 +20,8 @@ namespace djv
     {
         struct IntEdit::Private
         {
-            std::shared_ptr<ValueObserver<Math::IntRange> > rangeObserver;
-            std::shared_ptr<ValueObserver<int> > valueObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::IntRange> > rangeObserver;
+            std::shared_ptr<Observer::ValueObserver<int> > valueObserver;
         };
 
         void IntEdit::_init(const std::shared_ptr<System::Context>& context)
@@ -52,7 +52,7 @@ namespace djv
             if (model)
             {
                 auto weak = std::weak_ptr<IntEdit>(std::dynamic_pointer_cast<IntEdit>(shared_from_this()));
-                p.rangeObserver = ValueObserver<Math::IntRange>::create(
+                p.rangeObserver = Observer::ValueObserver<Math::IntRange>::create(
                     model->observeRange(),
                     [weak](const Math::IntRange&)
                 {
@@ -61,7 +61,7 @@ namespace djv
                         widget->_textUpdate();
                     }
                 });
-                p.valueObserver = ValueObserver<int>::create(
+                p.valueObserver = Observer::ValueObserver<int>::create(
                     model->observeValue(),
                     [weak](int)
                 {

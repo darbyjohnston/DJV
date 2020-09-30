@@ -27,7 +27,7 @@ namespace djv
                 ~Font() override;
                 static std::shared_ptr<Font> create(const std::shared_ptr<System::Context>&);
 
-                const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
+                const std::shared_ptr<Core::Observer::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
 
                 void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

@@ -38,7 +38,7 @@ namespace djv
             std::shared_ptr<UI::NumericEditButtons> buttons;
             std::shared_ptr<UI::HorizontalLayout> layout;
             std::function<void(Math::Frame::Index)> callback;
-            std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
+            std::shared_ptr<Observer::ValueObserver<AV::Time::Units> > timeUnitsObserver;
         };
 
         void FrameWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -158,7 +158,7 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<AV::Time::Units>::create(
+            p.timeUnitsObserver = Observer::ValueObserver<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
                 [weak](AV::Time::Units value)
                 {

@@ -39,19 +39,19 @@ namespace djv
 
             static std::shared_ptr<AnnotateSettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<AnnotateTool> > observeTool() const;
+            std::shared_ptr<Core::Observer::IValueSubject<AnnotateTool> > observeTool() const;
 
             void setTool(AnnotateTool);
 
-            std::shared_ptr<Core::IValueSubject<AnnotateLineSize> > observeLineSize() const;
+            std::shared_ptr<Core::Observer::IValueSubject<AnnotateLineSize> > observeLineSize() const;
 
             void setLineSize(AnnotateLineSize);
 
-            std::shared_ptr<Core::IListSubject<Image::Color> > observeColors() const;
+            std::shared_ptr<Core::Observer::IListSubject<Image::Color> > observeColors() const;
 
             void setColors(const std::vector<Image::Color>&);
 
-            std::shared_ptr<Core::IValueSubject<int> > observeCurrentColor() const;
+            std::shared_ptr<Core::Observer::IValueSubject<int> > observeCurrentColor() const;
 
             void setCurrentColor(int);
 

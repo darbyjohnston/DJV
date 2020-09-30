@@ -79,18 +79,18 @@ namespace djv
             ViewLock viewLock = ViewLock::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<Image::Image> frameStore;
-            std::shared_ptr<ValueSubject<PointerData> > hover;
-            std::shared_ptr<ValueSubject<PointerData> > drag;
-            std::shared_ptr<ValueSubject<ScrollData> > scroll;
+            std::shared_ptr<Observer::ValueSubject<PointerData> > hover;
+            std::shared_ptr<Observer::ValueSubject<PointerData> > drag;
+            std::shared_ptr<Observer::ValueSubject<ScrollData> > scroll;
 
             std::shared_ptr<PointerWidget> pointerWidget;
             std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
-            std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<Observer::ValueObserver<ViewLock> > viewLockObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > frameStoreEnabledObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
@@ -101,9 +101,9 @@ namespace djv
             setClassName("djv::ViewApp::MediaWidget");
 
             p.media = media;
-            p.hover = ValueSubject<PointerData>::create();
-            p.drag = ValueSubject<PointerData>::create();
-            p.scroll = ValueSubject<ScrollData>::create();
+            p.hover = Observer::ValueSubject<PointerData>::create();
+            p.drag = Observer::ValueSubject<PointerData>::create();
+            p.scroll = Observer::ValueSubject<ScrollData>::create();
 
             p.pointerWidget = PointerWidget::create(context);
 
@@ -147,7 +147,7 @@ namespace djv
                     }
                 });
 
-            p.imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
+            p.imageObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
                 p.media->observeCurrentImage(),
                 [weak](const std::shared_ptr<Image::Image>& value)
                 {
@@ -161,7 +161,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
             {
-                p.viewLockObserver = ValueObserver<ViewLock>::create(
+                p.viewLockObserver = Observer::ValueObserver<ViewLock>::create(
                     viewSettings->observeLock(),
                     [weak](ViewLock value)
                     {
@@ -174,7 +174,7 @@ namespace djv
 
             if (auto imageSystem = context->getSystemT<ImageSystem>())
             {
-                p.frameStoreEnabledObserver = ValueObserver<bool>::create(
+                p.frameStoreEnabledObserver = Observer::ValueObserver<bool>::create(
                     imageSystem->observeFrameStoreEnabled(),
                     [weak](bool value)
                     {
@@ -184,7 +184,7 @@ namespace djv
                             widget->_imageUpdate();
                         }
                     });
-                p.frameStoreObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
+                p.frameStoreObserver = Observer::ValueObserver<std::shared_ptr<Image::Image> >::create(
                     imageSystem->observeFrameStore(),
                     [weak](const std::shared_ptr<Image::Image>& value)
                     {
@@ -221,17 +221,17 @@ namespace djv
             return _p->viewWidget;
         }
 
-        std::shared_ptr<IValueSubject<PointerData> > MediaWidget::observeHover() const
+        std::shared_ptr<Observer::IValueSubject<PointerData> > MediaWidget::observeHover() const
         {
             return _p->hover;
         }
 
-        std::shared_ptr<IValueSubject<PointerData> > MediaWidget::observeDrag() const
+        std::shared_ptr<Observer::IValueSubject<PointerData> > MediaWidget::observeDrag() const
         {
             return _p->drag;
         }
 
-        std::shared_ptr<IValueSubject<ScrollData> > MediaWidget::observeScroll() const
+        std::shared_ptr<Observer::IValueSubject<ScrollData> > MediaWidget::observeScroll() const
         {
             return _p->scroll;
         }

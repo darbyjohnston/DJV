@@ -583,13 +583,13 @@ namespace djv
                 std::map<std::string, std::shared_ptr<UI::Label> > _labels;
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::shared_ptr<UI::VerticalLayout> _layout;
-                std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > _currentMediaObserver;
-                std::shared_ptr<ValueObserver<Math::Frame::Sequence> > _sequenceObserver;
-                std::shared_ptr<ValueObserver<Math::Frame::Index> > _currentFrameObserver;
-                std::shared_ptr<ValueObserver<size_t> > _videoQueueMaxObserver;
-                std::shared_ptr<ValueObserver<size_t> > _videoQueueCountObserver;
-                std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
-                std::shared_ptr<ValueObserver<size_t> > _audioQueueCountObserver;
+                std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > _currentMediaObserver;
+                std::shared_ptr<Observer::ValueObserver<Math::Frame::Sequence> > _sequenceObserver;
+                std::shared_ptr<Observer::ValueObserver<Math::Frame::Index> > _currentFrameObserver;
+                std::shared_ptr<Observer::ValueObserver<size_t> > _videoQueueMaxObserver;
+                std::shared_ptr<Observer::ValueObserver<size_t> > _videoQueueCountObserver;
+                std::shared_ptr<Observer::ValueObserver<size_t> > _audioQueueMaxObserver;
+                std::shared_ptr<Observer::ValueObserver<size_t> > _audioQueueCountObserver;
             };
 
             void MediaDebugWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -630,7 +630,7 @@ namespace djv
                 auto weak = std::weak_ptr<MediaDebugWidget>(std::dynamic_pointer_cast<MediaDebugWidget>(shared_from_this()));
                 if (auto fileSystem = context->getSystemT<FileSystem>())
                 {
-                    _currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    _currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media>>::create(
                         fileSystem->observeCurrentMedia(),
                         [weak](const std::shared_ptr<Media> & value)
                     {
@@ -643,7 +643,7 @@ namespace djv
 
                             if (value)
                             {
-                                widget->_sequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
+                                widget->_sequenceObserver = Observer::ValueObserver<Math::Frame::Sequence>::create(
                                     value->observeSequence(),
                                     [weak](const Math::Frame::Sequence& value)
                                 {
@@ -653,7 +653,7 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_currentFrameObserver = ValueObserver<Math::Frame::Index>::create(
+                                widget->_currentFrameObserver = Observer::ValueObserver<Math::Frame::Index>::create(
                                     value->observeCurrentFrame(),
                                     [weak](Math::Frame::Index value)
                                 {
@@ -663,7 +663,7 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_videoQueueMaxObserver = ValueObserver<size_t>::create(
+                                widget->_videoQueueMaxObserver = Observer::ValueObserver<size_t>::create(
                                     value->observeVideoQueueMax(),
                                     [weak](size_t value)
                                 {
@@ -673,7 +673,7 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_videoQueueCountObserver = ValueObserver<size_t>::create(
+                                widget->_videoQueueCountObserver = Observer::ValueObserver<size_t>::create(
                                     value->observeVideoQueueCount(),
                                     [weak](size_t value)
                                     {
@@ -684,7 +684,7 @@ namespace djv
                                             widget->_widgetUpdate();
                                         }
                                     });
-                                widget->_audioQueueMaxObserver = ValueObserver<size_t>::create(
+                                widget->_audioQueueMaxObserver = Observer::ValueObserver<size_t>::create(
                                     value->observeAudioQueueMax(),
                                     [weak](size_t value)
                                 {
@@ -694,7 +694,7 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_audioQueueCountObserver = ValueObserver<size_t>::create(
+                                widget->_audioQueueCountObserver = Observer::ValueObserver<size_t>::create(
                                     value->observeAudioQueueCount(),
                                     [weak](size_t value)
                                 {

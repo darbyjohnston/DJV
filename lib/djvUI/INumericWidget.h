@@ -68,8 +68,8 @@ namespace djv
             std::shared_ptr<Math::INumericValueModel<T> > _model;
 
         private:
-            std::shared_ptr<Core::ValueObserver<bool> > _isMinObserver;
-            std::shared_ptr<Core::ValueObserver<bool> > _isMaxObserver;
+            std::shared_ptr<Core::Observer::ValueObserver<bool> > _isMinObserver;
+            std::shared_ptr<Core::Observer::ValueObserver<bool> > _isMaxObserver;
             std::function<void(T, TextEditReason)> _callback;
         };
 

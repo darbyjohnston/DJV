@@ -7,6 +7,7 @@
 #include <djvCore/MapObserver.h>
 
 using namespace djv::Core;
+using namespace djv::Core::Observer;
 
 namespace djv
 {
@@ -21,14 +22,14 @@ namespace djv
         void MapObserverTest::run()
         {
             std::map<int, std::string> value;
-            auto subject = MapSubject<int, std::string>::create(value);
+            auto subject = Observer::MapSubject<int, std::string>::create(value);
             DJV_ASSERT(0 == subject->getObserversCount());
             DJV_ASSERT(subject->isEmpty());
             DJV_ASSERT(!subject->setIfChanged(value));
             
             {
                 std::map<int, std::string> valueA;
-                auto observer = MapObserver<int, std::string>::create(
+                auto observer = Observer::MapObserver<int, std::string>::create(
                     subject,
                     [&valueA](const std::map<int, std::string>& value)
                     {
@@ -38,7 +39,7 @@ namespace djv
                 
                 {
                     std::map<int, std::string> valueB;
-                    auto observer = MapObserver<int, std::string>::create(
+                    auto observer = Observer::MapObserver<int, std::string>::create(
                         subject,
                         [&valueB](const std::map<int, std::string>& value)
                         {

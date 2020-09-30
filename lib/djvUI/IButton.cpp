@@ -33,10 +33,10 @@ namespace djv
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 bool canRejectPressed = true;
 
-                std::shared_ptr<ValueObserver<ButtonType> > buttonTypeObserver;
-                std::shared_ptr<ValueObserver<bool> > checkedObserver;
-                std::shared_ptr<ValueObserver<bool> > enabledObserver;
-                std::shared_ptr<ValueObserver<std::string> > tooltipObserver;
+                std::shared_ptr<Observer::ValueObserver<ButtonType> > buttonTypeObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > checkedObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > enabledObserver;
+                std::shared_ptr<Observer::ValueObserver<std::string> > tooltipObserver;
             };
 
             IButton::IButton() :
@@ -302,7 +302,7 @@ namespace djv
                 {
                     p.action = actions.front();
                     auto weak = std::weak_ptr<IButton>(std::dynamic_pointer_cast<IButton>(shared_from_this()));
-                    p.buttonTypeObserver = ValueObserver<ButtonType>::create(
+                    p.buttonTypeObserver = Observer::ValueObserver<ButtonType>::create(
                         p.action->observeButtonType(),
                         [weak](ButtonType value)
                         {
@@ -311,7 +311,7 @@ namespace djv
                                 widget->setButtonType(value);
                             }
                         });
-                    p.checkedObserver = ValueObserver<bool>::create(
+                    p.checkedObserver = Observer::ValueObserver<bool>::create(
                         p.action->observeChecked(),
                         [weak](bool value)
                         {
@@ -320,7 +320,7 @@ namespace djv
                                 widget->setChecked(value);
                             }
                         });
-                    p.enabledObserver = ValueObserver<bool>::create(
+                    p.enabledObserver = Observer::ValueObserver<bool>::create(
                         p.action->observeEnabled(),
                         [weak](bool value)
                         {
@@ -329,7 +329,7 @@ namespace djv
                                 widget->setEnabled(value);
                             }
                         });
-                    p.tooltipObserver = ValueObserver<std::string>::create(
+                    p.tooltipObserver = Observer::ValueObserver<std::string>::create(
                         p.action->observeTooltip(),
                         [weak](const std::string& value)
                         {

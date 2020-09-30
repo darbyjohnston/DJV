@@ -37,8 +37,8 @@ namespace djv
 
             static std::shared_ptr<Menu> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeIcon() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeText() const;
 
             void setIcon(const std::string&);
             void setText(const std::string&);

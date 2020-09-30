@@ -26,13 +26,13 @@ namespace djv
     {
         struct FileSettings::Private
         {
-            std::shared_ptr<ValueSubject<size_t> > openMax;
-            std::shared_ptr<ListSubject<System::File::Info> > recentFiles;
-            std::shared_ptr<ValueSubject<size_t> > recentFilesMax;
-            std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
-            std::shared_ptr<ValueSubject<bool> > sequencesFirstFrame;
-            std::shared_ptr<ValueSubject<bool> > cacheEnabled;
-            std::shared_ptr<ValueSubject<int> > cacheSize;
+            std::shared_ptr<Observer::ValueSubject<size_t> > openMax;
+            std::shared_ptr<Observer::ListSubject<System::File::Info> > recentFiles;
+            std::shared_ptr<Observer::ValueSubject<size_t> > recentFilesMax;
+            std::shared_ptr<Observer::ValueSubject<bool> > autoDetectSequences;
+            std::shared_ptr<Observer::ValueSubject<bool> > sequencesFirstFrame;
+            std::shared_ptr<Observer::ValueSubject<bool> > cacheEnabled;
+            std::shared_ptr<Observer::ValueSubject<int> > cacheSize;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
@@ -40,13 +40,13 @@ namespace djv
         {
             ISettings::_init("djv::ViewApp::FileSettings", context);
             DJV_PRIVATE_PTR();
-            p.openMax = ValueSubject<size_t>::create(16);
-            p.recentFiles = ListSubject<System::File::Info>::create();
-            p.recentFilesMax = ValueSubject<size_t>::create(10);
-            p.autoDetectSequences = ValueSubject<bool>::create(true);
-            p.sequencesFirstFrame = ValueSubject<bool>::create(true);
-            p.cacheEnabled = ValueSubject<bool>::create(true);
-            p.cacheSize = ValueSubject<int>::create(4);
+            p.openMax = Observer::ValueSubject<size_t>::create(16);
+            p.recentFiles = Observer::ListSubject<System::File::Info>::create();
+            p.recentFilesMax = Observer::ValueSubject<size_t>::create(10);
+            p.autoDetectSequences = Observer::ValueSubject<bool>::create(true);
+            p.sequencesFirstFrame = Observer::ValueSubject<bool>::create(true);
+            p.cacheEnabled = Observer::ValueSubject<bool>::create(true);
+            p.cacheSize = Observer::ValueSubject<int>::create(4);
             _load();
         }
 
@@ -64,7 +64,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > FileSettings::observeOpenMax() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > FileSettings::observeOpenMax() const
         {
             return _p->openMax;
         }
@@ -74,12 +74,12 @@ namespace djv
             _p->openMax->setIfChanged(value);
         }
         
-        std::shared_ptr<IListSubject<System::File::Info> > FileSettings::observeRecentFiles() const
+        std::shared_ptr<Observer::IListSubject<System::File::Info> > FileSettings::observeRecentFiles() const
         {
             return _p->recentFiles;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > FileSettings::observeRecentFilesMax() const
+        std::shared_ptr<Observer::IValueSubject<size_t> > FileSettings::observeRecentFilesMax() const
         {
             return _p->recentFilesMax;
         }
@@ -108,12 +108,12 @@ namespace djv
             setRecentFiles(filesMax);
         }
 
-        std::shared_ptr<IValueSubject<bool> > FileSettings::observeAutoDetectSequences() const
+        std::shared_ptr<Observer::IValueSubject<bool> > FileSettings::observeAutoDetectSequences() const
         {
             return _p->autoDetectSequences;
         }
 
-        std::shared_ptr<IValueSubject<bool> > FileSettings::observeSequencesFirstFrame() const
+        std::shared_ptr<Observer::IValueSubject<bool> > FileSettings::observeSequencesFirstFrame() const
         {
             return _p->sequencesFirstFrame;
         }
@@ -128,12 +128,12 @@ namespace djv
             _p->sequencesFirstFrame->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > FileSettings::observeCacheEnabled() const
+        std::shared_ptr<Observer::IValueSubject<bool> > FileSettings::observeCacheEnabled() const
         {
             return _p->cacheEnabled;
         }
 
-        std::shared_ptr<IValueSubject<int> > FileSettings::observeCacheSize() const
+        std::shared_ptr<Observer::IValueSubject<int> > FileSettings::observeCacheSize() const
         {
             return _p->cacheSize;
         }

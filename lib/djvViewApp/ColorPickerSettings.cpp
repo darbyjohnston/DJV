@@ -21,7 +21,7 @@ namespace djv
     {
         struct ColorPickerSettings::Private
         {
-            std::shared_ptr<ValueSubject<ColorPickerData> > data;
+            std::shared_ptr<Observer::ValueSubject<ColorPickerData> > data;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
@@ -29,7 +29,7 @@ namespace djv
         {
             ISettings::_init("djv::ViewApp::ColorPickerSettings", context);
             DJV_PRIVATE_PTR();
-            p.data = ValueSubject<ColorPickerData>::create();
+            p.data = Observer::ValueSubject<ColorPickerData>::create();
             _load();
         }
 
@@ -47,7 +47,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<ColorPickerData> > ColorPickerSettings::observeData() const
+        std::shared_ptr<Observer::IValueSubject<ColorPickerData> > ColorPickerSettings::observeData() const
         {
             return _p->data;
         }

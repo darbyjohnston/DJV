@@ -30,7 +30,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::ValueSubject<T> >& out)
+            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::Observer::ValueSubject<T> >& out)
             {
                 const auto i = object.FindMember(name.c_str());
                 if (i != object.MemberEnd())
@@ -51,7 +51,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::ListSubject<T> >& out)
+            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::Observer::ListSubject<T> >& out)
             {
                 const auto i = object.FindMember(name.c_str());
                 if (i != object.MemberEnd())
@@ -72,7 +72,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::MapSubject<std::string, T> >& out)
+            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::Observer::MapSubject<std::string, T> >& out)
             {
                 const auto i = object.FindMember(name.c_str());
                 if (i != object.MemberEnd())

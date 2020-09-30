@@ -31,7 +31,7 @@ namespace djv
             static std::shared_ptr<Shortcut> create(int key);
             static std::shared_ptr<Shortcut> create(int key, int modifiers);
 
-            std::shared_ptr<Core::IValueSubject<ShortcutData> > observeShortcut() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ShortcutData> > observeShortcut() const;
 
             void setShortcut(const ShortcutData&);
 

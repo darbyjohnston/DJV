@@ -30,8 +30,8 @@ namespace djv
             std::shared_ptr<Button::Menu> menuOpen;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
             std::map<std::shared_ptr<Button::Menu>, std::shared_ptr<Menu> > buttonsToMenus;
-            std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > iconObservers;
-            std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > textObservers;
+            std::map<std::shared_ptr<Menu>, std::shared_ptr<Observer::ValueObserver<std::string> > > iconObservers;
+            std::map<std::shared_ptr<Menu>, std::shared_ptr<Observer::ValueObserver<std::string> > > textObservers;
 
             void closeMenus();
         };
@@ -165,14 +165,14 @@ namespace djv
                             }
                         });
 
-                    p.iconObservers[menu] = ValueObserver<std::string>::create(
+                    p.iconObservers[menu] = Observer::ValueObserver<std::string>::create(
                         menu->observeIcon(),
                         [button](const std::string& value)
                         {
                             button->setIcon(value);
                         });
 
-                    p.textObservers[menu] = ValueObserver<std::string>::create(
+                    p.textObservers[menu] = Observer::ValueObserver<std::string>::create(
                         menu->observeText(),
                         [button](const std::string& value)
                         {

@@ -24,7 +24,7 @@ namespace djv
             std::shared_ptr<UI::IntSlider> thumbnailSizeSlider;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
+            std::shared_ptr<Observer::ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
         };
 
         void RecentFilesThumbnailWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -45,7 +45,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             auto weak = std::weak_ptr<RecentFilesThumbnailWidget>(std::dynamic_pointer_cast<RecentFilesThumbnailWidget>(shared_from_this()));
-            p.thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
+            p.thumbnailSizeSettingsObserver = Observer::ValueObserver<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
                 [weak](const Image::Size& value)
                 {

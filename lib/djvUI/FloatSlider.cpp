@@ -21,7 +21,7 @@ namespace djv
     {
         struct BasicFloatSlider::Private
         {
-            std::shared_ptr<ValueObserver<float> > valueObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > valueObserver;
         };
 
         void BasicFloatSlider::_init(Orientation orientation, const std::shared_ptr<System::Context>& context)
@@ -52,7 +52,7 @@ namespace djv
             if (model)
             {
                 auto weak = std::weak_ptr<BasicFloatSlider>(std::dynamic_pointer_cast<BasicFloatSlider>(shared_from_this()));
-                p.valueObserver = ValueObserver<float>::create(
+                p.valueObserver = Observer::ValueObserver<float>::create(
                     model->observeValue(),
                     [weak](float value)
                 {
@@ -178,7 +178,7 @@ namespace djv
             std::shared_ptr<ToolButton> resetButton;
             std::shared_ptr<HorizontalLayout> layout;
             std::function<void(float)> callback;
-            std::shared_ptr<ValueObserver<float> > valueObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > valueObserver;
         };
 
         void FloatSlider::_init(const std::shared_ptr<System::Context>& context)
@@ -351,7 +351,7 @@ namespace djv
             p.slider->setModel(p.model);
             p.edit->setModel(p.model);
             auto weak = std::weak_ptr<FloatSlider>(std::dynamic_pointer_cast<FloatSlider>(shared_from_this()));
-            p.valueObserver = ValueObserver<float>::create(
+            p.valueObserver = Observer::ValueObserver<float>::create(
                 p.model->observeValue(),
                 [weak](float value)
                 {

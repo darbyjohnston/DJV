@@ -29,12 +29,12 @@ namespace djv
             public:
                 static std::shared_ptr<Mouse> create(const std::shared_ptr<System::Context>&);
 
-                std::shared_ptr<Core::IValueSubject<float> > observeDoubleClickTime() const;
+                std::shared_ptr<Core::Observer::IValueSubject<float> > observeDoubleClickTime() const;
 
                 void setDoubleClickTime(float);
 
-                std::shared_ptr<Core::IValueSubject<ScrollWheelSpeed> > observeScrollWheelSpeed() const;
-                std::shared_ptr<Core::IValueSubject<bool> > observeReverseScrolling() const;
+                std::shared_ptr<Core::Observer::IValueSubject<ScrollWheelSpeed> > observeScrollWheelSpeed() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeReverseScrolling() const;
 
                 void setScrollWheelSpeed(ScrollWheelSpeed);
                 void setReverseScrolling(bool);

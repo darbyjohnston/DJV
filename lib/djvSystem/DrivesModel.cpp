@@ -24,7 +24,7 @@ namespace djv
             struct DrivesModel::Private
             {
                 std::vector<Path> drives;
-                std::shared_ptr<ListSubject<Path> > drivesSubject;
+                std::shared_ptr<Observer::ListSubject<Path> > drivesSubject;
                 std::mutex mutex;
                 std::thread thread;
                 std::atomic<bool> running;
@@ -35,7 +35,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
-                p.drivesSubject = ListSubject<Path>::create();
+                p.drivesSubject = Observer::ListSubject<Path>::create();
 
                 p.running = true;
                 p.thread = std::thread(
@@ -91,7 +91,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IListSubject<Path> > DrivesModel::observeDrives() const
+            std::shared_ptr<Observer::IListSubject<Path> > DrivesModel::observeDrives() const
             {
                 return _p->drivesSubject;
             }

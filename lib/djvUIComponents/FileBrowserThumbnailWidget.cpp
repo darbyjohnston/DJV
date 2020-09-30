@@ -27,7 +27,7 @@ namespace djv
 
                 std::shared_ptr<VerticalLayout> layout;
 
-                std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeObserver;
+                std::shared_ptr<Observer::ValueObserver<Image::Size> > thumbnailSizeObserver;
             };
 
             void ThumbnailWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -60,7 +60,7 @@ namespace djv
                 auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                 auto weak = std::weak_ptr<ThumbnailWidget>(std::dynamic_pointer_cast<ThumbnailWidget>(shared_from_this()));
-                p.thumbnailSizeObserver = ValueObserver<Image::Size>::create(
+                p.thumbnailSizeObserver = Observer::ValueObserver<Image::Size>::create(
                     fileBrowserSettings->observeThumbnailSize(),
                     [weak](const Image::Size& value)
                     {

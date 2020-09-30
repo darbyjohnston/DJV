@@ -18,7 +18,7 @@ namespace djv
     {
         struct MagnifySettings::Private
         {
-            std::shared_ptr<ValueSubject<size_t> > magnify;
+            std::shared_ptr<Observer::ValueSubject<size_t> > magnify;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
@@ -26,7 +26,7 @@ namespace djv
         {
             ISettings::_init("djv::ViewApp::MagnifySettings", context);
             DJV_PRIVATE_PTR();
-            p.magnify = ValueSubject<size_t>::create(2);
+            p.magnify = Observer::ValueSubject<size_t>::create(2);
             _load();
         }
 
@@ -44,7 +44,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<size_t> > MagnifySettings::observeMagnify() const
+        std::shared_ptr<Core::Observer::IValueSubject<size_t> > MagnifySettings::observeMagnify() const
         {
             return _p->magnify;
         }

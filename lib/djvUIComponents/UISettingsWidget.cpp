@@ -21,7 +21,7 @@ namespace djv
         {
             std::shared_ptr<ToggleButton> tooltipsButton;
             std::shared_ptr<FormLayout> layout;
-            std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > tooltipsObserver;
         };
 
         void TooltipsSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -55,7 +55,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
-            p.tooltipsObserver = ValueObserver<bool>::create(
+            p.tooltipsObserver = Observer::ValueObserver<bool>::create(
                 uiSettings->observeTooltips(),
                 [weak](bool value)
             {

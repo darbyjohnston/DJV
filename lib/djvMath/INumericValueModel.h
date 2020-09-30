@@ -36,7 +36,7 @@ namespace djv
             //! \name Range
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<Math::Range<T> > > observeRange() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Range<T> > > observeRange() const;
             
             void setRange(const Math::Range<T>&);
 
@@ -45,9 +45,9 @@ namespace djv
             //! \name Value
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<T> > observeValue() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeIsMin() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeIsMax() const;
+            std::shared_ptr<Core::Observer::IValueSubject<T> > observeValue() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeIsMin() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeIsMax() const;
             
             void setValue(T);
             void setMin();
@@ -58,8 +58,8 @@ namespace djv
             //! \name Increments
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<T> > observeSmallIncrement() const;
-            std::shared_ptr<Core::IValueSubject<T> > observeLargeIncrement() const;
+            std::shared_ptr<Core::Observer::IValueSubject<T> > observeSmallIncrement() const;
+            std::shared_ptr<Core::Observer::IValueSubject<T> > observeLargeIncrement() const;
             
             void incrementSmall();
             void incrementLarge();
@@ -73,20 +73,20 @@ namespace djv
             //! \name Overflow
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<NumericValueOverflow> > observeOverflow() const;
+            std::shared_ptr<Core::Observer::IValueSubject<NumericValueOverflow> > observeOverflow() const;
             
             void setOverflow(NumericValueOverflow);
 
             ///@}
 
         private:
-            std::shared_ptr<Core::ValueSubject<Math::Range<T> > >      _range;
-            std::shared_ptr<Core::ValueSubject<T> >                    _value;
-            std::shared_ptr<Core::ValueSubject<bool> >                 _isMin;
-            std::shared_ptr<Core::ValueSubject<bool> >                 _isMax;
-            std::shared_ptr<Core::ValueSubject<T> >                    _smallIncrement;
-            std::shared_ptr<Core::ValueSubject<T> >                    _largeIncrement;
-            std::shared_ptr<Core::ValueSubject<NumericValueOverflow> > _overflow;
+            std::shared_ptr<Core::Observer::ValueSubject<Math::Range<T> > >      _range;
+            std::shared_ptr<Core::Observer::ValueSubject<T> >                    _value;
+            std::shared_ptr<Core::Observer::ValueSubject<bool> >                 _isMin;
+            std::shared_ptr<Core::Observer::ValueSubject<bool> >                 _isMax;
+            std::shared_ptr<Core::Observer::ValueSubject<T> >                    _smallIncrement;
+            std::shared_ptr<Core::Observer::ValueSubject<T> >                    _largeIncrement;
+            std::shared_ptr<Core::Observer::ValueSubject<NumericValueOverflow> > _overflow;
         };
 
     } // namespace Math

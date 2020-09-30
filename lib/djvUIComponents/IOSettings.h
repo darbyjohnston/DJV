@@ -29,7 +29,7 @@ namespace djv
 
                 static std::shared_ptr<IO> create(const std::shared_ptr<System::Context>&);
 
-                std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
+                std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeThreadCount() const;
 
                 void setThreadCount(size_t);
 

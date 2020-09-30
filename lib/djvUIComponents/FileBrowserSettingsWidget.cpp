@@ -26,7 +26,7 @@ namespace djv
             {
                 std::shared_ptr<UI::ShortcutsWidget> widget;
 
-                std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
+                std::shared_ptr<Observer::MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
             };
 
             void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -54,7 +54,7 @@ namespace djv
                 auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                 auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
-                p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
+                p.shortcutsObserver = Observer::MapObserver<std::string, UI::ShortcutDataPair>::create(
                     fileBrowserSettings->observeKeyShortcuts(),
                     [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                     {

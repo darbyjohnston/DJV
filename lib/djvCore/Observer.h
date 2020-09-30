@@ -10,12 +10,16 @@ namespace djv
 {
     namespace Core
     {
-        //! This enumeration provides observer callback options.
-        enum class ObserverCallbackAction
+        //! This namespace provides functionality for the observer pattern.
+        namespace Observer
         {
-            Trigger,
-            Suppress
-        };
+            //! This enumeration provides observer callback options.
+            enum class CallbackAction
+            {
+                Trigger,
+                Suppress
+            };
 
+        } // namespace Observer
     } // namespace Core
 } // namespace djv

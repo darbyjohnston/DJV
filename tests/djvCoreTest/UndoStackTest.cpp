@@ -11,6 +11,7 @@
 #include <sstream>
 
 using namespace djv::Core;
+using namespace djv::Core::Command;
 
 namespace djv
 {

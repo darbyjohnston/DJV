@@ -47,7 +47,7 @@ namespace djv
         struct SettingsSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+            std::map<std::string, std::shared_ptr<Observer::ValueObserver<bool> > > actionObservers;
         };
 
         void SettingsSystem::_init(const std::shared_ptr<System::Context>& context)

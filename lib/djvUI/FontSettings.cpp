@@ -22,7 +22,7 @@ namespace djv
         {
             struct Font::Private
             {
-                std::shared_ptr<MapSubject<std::string, std::string> > localeFonts;
+                std::shared_ptr<Observer::MapSubject<std::string, std::string> > localeFonts;
             };
 
             void Font::_init(const std::shared_ptr<System::Context>& context)
@@ -30,7 +30,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::Font", context);
 
                 DJV_PRIVATE_PTR();
-                p.localeFonts = MapSubject<std::string, std::string>::create();
+                p.localeFonts = Observer::MapSubject<std::string, std::string>::create();
                 p.localeFonts->setItem("Default", Render2D::Font::familyDefault);
                 p.localeFonts->setItem("ja", "Noto Sans CJK JP");
                 p.localeFonts->setItem("ko", "Noto Sans CJK KR");
@@ -53,7 +53,7 @@ namespace djv
                 return out;
             }
 
-            const std::shared_ptr<MapSubject<std::string, std::string> >& Font::observeLocaleFonts() const
+            const std::shared_ptr<Observer::MapSubject<std::string, std::string> >& Font::observeLocaleFonts() const
             {
                 return _p->localeFonts;
             }

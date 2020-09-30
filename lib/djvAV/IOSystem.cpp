@@ -48,7 +48,7 @@ namespace djv
             struct IOSystem::Private
             {
                 std::shared_ptr<System::TextSystem> textSystem;
-                std::shared_ptr<ValueSubject<bool> > optionsChanged;
+                std::shared_ptr<Observer::ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
                 std::set<std::string> sequenceExtensions;
                 std::set<std::string> nonSequenceExtensions;
@@ -64,7 +64,7 @@ namespace djv
 
                 p.textSystem = context->getSystemT<System::TextSystem>();
 
-                p.optionsChanged = ValueSubject<bool>::create();
+                p.optionsChanged = Observer::ValueSubject<bool>::create();
 
                 p.plugins[Cineon::pluginName] = Cineon::Plugin::create(context);
                 p.plugins[DPX::pluginName] = DPX::Plugin::create(context);
@@ -173,7 +173,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IValueSubject<bool> > IOSystem::observeOptionsChanged() const
+            std::shared_ptr<Observer::IValueSubject<bool> > IOSystem::observeOptionsChanged() const
             {
                 return _p->optionsChanged;
             }

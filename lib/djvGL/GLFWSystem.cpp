@@ -96,7 +96,7 @@ namespace djv
             {
                 std::shared_ptr<System::TextSystem> textSystem;
                 GLFWwindow* glfwWindow = nullptr;
-                std::shared_ptr<ValueSubject<SwapInterval> > swapInterval;
+                std::shared_ptr<Observer::ValueSubject<SwapInterval> > swapInterval;
             };
 
             void GLFWSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -212,7 +212,7 @@ namespace djv
                     _log(ss.str());
                 }
 
-                p.swapInterval = ValueSubject<SwapInterval>::create(SwapInterval::Default);
+                p.swapInterval = Observer::ValueSubject<SwapInterval>::create(SwapInterval::Default);
             }
 
             GLFWSystem::GLFWSystem() :
@@ -246,7 +246,7 @@ namespace djv
                 return _p->glfwWindow;
             }
 
-            std::shared_ptr<IValueSubject<SwapInterval> > GLFWSystem::observeSwapInterval() const
+            std::shared_ptr<Observer::IValueSubject<SwapInterval> > GLFWSystem::observeSwapInterval() const
             {
                 return _p->swapInterval;
             }

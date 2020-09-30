@@ -153,7 +153,7 @@ namespace djv
                 //! - std::invalid_argument
                 void setOptions(const std::string& pluginName, const rapidjson::Value&);
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeOptionsChanged() const;
 
                 const std::set<std::string>& getSequenceExtensions() const;
                 bool canRead(const System::File::Info&) const;

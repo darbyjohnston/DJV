@@ -17,8 +17,11 @@ namespace djv
 {
     namespace Core
     {
-        class ICommand;
+        namespace Command
+        {
+            class ICommand;
 
+        } // namespace Command
     } // namespace Core
 
     namespace Image
@@ -68,8 +71,8 @@ namespace djv
             bool isValid() const;
             const System::File::Info& getFileInfo() const;
 
-            std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeReload() const;
+            std::shared_ptr<Core::Observer::IValueSubject<AV::IO::Info> > observeInfo() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeReload() const;
 
             void reload();
 
@@ -78,7 +81,7 @@ namespace djv
             //! \name Layers
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<std::pair<std::vector<Image::Info>, int> > > observeLayers() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::pair<std::vector<Image::Info>, int> > > observeLayers() const;
 
             void setLayer(int);
             void nextLayer();
@@ -89,24 +92,24 @@ namespace djv
             //! \name Image
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Image::Image> > > observeCurrentImage() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Image> > > observeCurrentImage() const;
 
             ///@}
 
             //! \name Playback
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<Math::Rational> > observeSpeed() const;
-            std::shared_ptr<Core::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
-            std::shared_ptr<Core::IValueSubject<Math::Rational> > observeDefaultSpeed() const;
-            std::shared_ptr<Core::IValueSubject<Math::Rational> > observeCustomSpeed() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
-            std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeSequence() const;
-            std::shared_ptr<Core::IValueSubject<Math::Frame::Index> > observeCurrentFrame() const;
-            std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
-            std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
-            std::shared_ptr<Core::IValueSubject<AV::IO::InOutPoints> > observeInOutPoints() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Rational> > observeSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Rational> > observeDefaultSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Rational> > observeCustomSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<float> > observeRealSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observePlayEveryFrame() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Frame::Sequence> > observeSequence() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Frame::Index> > observeCurrentFrame() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Playback> > observePlayback() const;
+            std::shared_ptr<Core::Observer::IValueSubject<PlaybackMode> > observePlaybackMode() const;
+            std::shared_ptr<Core::Observer::IValueSubject<AV::IO::InOutPoints> > observeInOutPoints() const;
 
             void setPlaybackSpeed(PlaybackSpeed);
             void setCustomSpeed(const Math::Rational&);
@@ -131,9 +134,9 @@ namespace djv
             //! \name Audio
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeAudioEnabled() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeVolume() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeMute() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeAudioEnabled() const;
+            std::shared_ptr<Core::Observer::IValueSubject<float> > observeVolume() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeMute() const;
 
             void setVolume(float);
             void setMute(bool);
@@ -143,7 +146,7 @@ namespace djv
             //! \name I/O
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeThreadCount() const;
 
             void setThreadCount(size_t);
 
@@ -156,8 +159,8 @@ namespace djv
             size_t getCacheMaxByteCount() const;
             size_t getCacheByteCount() const;
 
-            std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeCacheSequence() const;
-            std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeCachedFrames() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Frame::Sequence> > observeCacheSequence() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Frame::Sequence> > observeCachedFrames() const;
 
             void setCacheEnabled(bool);
             void setCacheMaxByteCount(size_t);
@@ -167,7 +170,7 @@ namespace djv
             //! \name Annotations
             ///@{
             
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<AnnotatePrimitive> > > observeAnnotations() const;
+            std::shared_ptr<Core::Observer::IListSubject<std::shared_ptr<AnnotatePrimitive> > > observeAnnotations() const;
 
             void addAnnotation(const std::shared_ptr<AnnotatePrimitive>&);
             void removeAnnotation(const std::shared_ptr<AnnotatePrimitive>&);
@@ -178,10 +181,10 @@ namespace djv
             //! \name Undo
             ///@{
 
-            void pushCommand(const std::shared_ptr<Core::ICommand>&);
+            void pushCommand(const std::shared_ptr<Core::Command::ICommand>&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeHasUndo() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeHasRedo() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeHasUndo() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeHasRedo() const;
             void undo();
             void redo();
 
@@ -190,10 +193,10 @@ namespace djv
             //! \name Debugging
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueMax() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeVideoQueueMax() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeAudioQueueMax() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeVideoQueueCount() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeAudioQueueCount() const;
 
             ///@}
 

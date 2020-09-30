@@ -7,6 +7,7 @@
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
+using namespace djv::Core::Observer;
 
 namespace djv
 {
@@ -21,13 +22,13 @@ namespace djv
         void ValueObserverTest::run()
         {
             int value = 0;
-            auto subject = ValueSubject<int>::create(value);
+            auto subject = Observer::ValueSubject<int>::create(value);
             DJV_ASSERT(0 == subject->getObserversCount());
             DJV_ASSERT(!subject->setIfChanged(value));
             
             {
                 int valueA = 0;
-                auto observer = ValueObserver<int>::create(
+                auto observer = Observer::ValueObserver<int>::create(
                     subject,
                     [&valueA](int value)
                     {
@@ -37,7 +38,7 @@ namespace djv
 
                 {
                     int valueB = 0;
-                    auto observer = ValueObserver<int>::create(
+                    auto observer = Observer::ValueObserver<int>::create(
                         subject,
                         [&valueB](int value)
                         {

@@ -17,8 +17,8 @@ namespace djv
     {
         struct RenderSystem::Private
         {
-            std::shared_ptr<ValueSubject<ImageFilterOptions> > imageFilterOptions;
-            std::shared_ptr<ValueSubject<bool> > textLCDRendering;
+            std::shared_ptr<Observer::ValueSubject<ImageFilterOptions> > imageFilterOptions;
+            std::shared_ptr<Observer::ValueSubject<bool> > textLCDRendering;
             std::shared_ptr<Font::FontSystem> fontSystem;
             std::shared_ptr<Render> render;
         };
@@ -28,8 +28,8 @@ namespace djv
             ISystem::_init("djv::Render2D::RenderSystem", context);
             DJV_PRIVATE_PTR();
 
-            p.imageFilterOptions = ValueSubject<ImageFilterOptions>::create();
-            p.textLCDRendering = ValueSubject<bool>::create(true);
+            p.imageFilterOptions = Observer::ValueSubject<ImageFilterOptions>::create();
+            p.textLCDRendering = Observer::ValueSubject<bool>::create(true);
 
             p.fontSystem = Font::FontSystem::create(context);
             p.render = Render2D::Render::create(context);
@@ -55,12 +55,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<ImageFilterOptions> > RenderSystem::observeImageFilterOptions() const
+        std::shared_ptr<Observer::IValueSubject<ImageFilterOptions> > RenderSystem::observeImageFilterOptions() const
         {
             return _p->imageFilterOptions;
         }
 
-        std::shared_ptr<IValueSubject<bool> > RenderSystem::observeTextLCDRendering() const
+        std::shared_ptr<Observer::IValueSubject<bool> > RenderSystem::observeTextLCDRendering() const
         {
             return _p->textLCDRendering;
         }

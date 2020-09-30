@@ -27,8 +27,8 @@ namespace djv
     {
         struct AVSystem::Private
         {
-            std::shared_ptr<ValueSubject<Time::Units> > timeUnits;
-            std::shared_ptr<ValueSubject<FPS> > defaultSpeed;
+            std::shared_ptr<Observer::ValueSubject<Time::Units> > timeUnits;
+            std::shared_ptr<Observer::ValueSubject<FPS> > defaultSpeed;
             std::shared_ptr<ThumbnailSystem> thumbnailSystem;
         };
 
@@ -37,8 +37,8 @@ namespace djv
             ISystem::_init("djv::AV::AVSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.timeUnits = ValueSubject<Time::Units>::create(Time::Units::First);
-            p.defaultSpeed = ValueSubject<FPS>::create(getDefaultSpeed());
+            p.timeUnits = Observer::ValueSubject<Time::Units>::create(Time::Units::First);
+            p.defaultSpeed = Observer::ValueSubject<FPS>::create(getDefaultSpeed());
 
             auto audioSystem = Audio::AudioSystem::create(context);
             auto glfwSystem = GL::GLFW::GLFWSystem::create(context);
@@ -72,12 +72,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<Time::Units> > AVSystem::observeTimeUnits() const
+        std::shared_ptr<Observer::IValueSubject<Time::Units> > AVSystem::observeTimeUnits() const
         {
             return _p->timeUnits;
         }
 
-        std::shared_ptr<IValueSubject<FPS> > AVSystem::observeDefaultSpeed() const
+        std::shared_ptr<Observer::IValueSubject<FPS> > AVSystem::observeDefaultSpeed() const
         {
             return _p->defaultSpeed;
         }

@@ -74,13 +74,13 @@ namespace djv
         inline void INumericWidget<T>::setModel(const std::shared_ptr<Math::INumericValueModel<T> >& value)
         {
             _model = value;
-            _isMinObserver = Core::ValueObserver<bool>::create(
+            _isMinObserver = Core::Observer::ValueObserver<bool>::create(
                 _model->observeIsMin(),
                 [this](bool value)
                 {
                     _setIsMin(value);
                 });
-            _isMaxObserver = Core::ValueObserver<bool>::create(
+            _isMaxObserver = Core::Observer::ValueObserver<bool>::create(
                 _model->observeIsMax(),
                 [this](bool value)
                 {

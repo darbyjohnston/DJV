@@ -49,11 +49,11 @@ namespace djv
 
             std::vector<std::string> locales;
             std::string systemLocale;
-            std::shared_ptr<ValueSubject<std::string> > currentLocale;
+            std::shared_ptr<Observer::ValueSubject<std::string> > currentLocale;
 
             typedef std::map<std::string, std::map<std::string, std::string> > TextMap;
             TextMap text;
-            std::shared_ptr<ValueSubject<bool> > textChanged;
+            std::shared_ptr<Observer::ValueSubject<bool> > textChanged;
 
             mutable std::mutex mutex;
             std::vector<std::future<TextMap> > readFutures;
@@ -153,8 +153,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.resourceSystem = resourceSystem;
             p.logSystem = logSystem;
-            p.currentLocale = ValueSubject<std::string>::create("en");
-            p.textChanged = ValueSubject<bool>::create();
+            p.currentLocale = Observer::ValueSubject<std::string>::create("en");
+            p.textChanged = Observer::ValueSubject<bool>::create();
 
             // Find the .text files.
             p.textFiles = p.getTextFiles();
@@ -292,7 +292,7 @@ namespace djv
             return _p->systemLocale;
         }
 
-        std::shared_ptr<IValueSubject<std::string> > TextSystem::observeCurrentLocale() const
+        std::shared_ptr<Observer::IValueSubject<std::string> > TextSystem::observeCurrentLocale() const
         {
             return _p->currentLocale;
         }
@@ -346,7 +346,7 @@ namespace djv
             return text;
         }
 
-        std::shared_ptr<IValueSubject<bool> > TextSystem::observeTextChanged() const
+        std::shared_ptr<Observer::IValueSubject<bool> > TextSystem::observeTextChanged() const
         {
             return _p->textChanged;
         }

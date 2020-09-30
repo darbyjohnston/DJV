@@ -31,7 +31,7 @@ namespace djv
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<ValueObserver<OCIO::Views> > viewsObserver;
+            std::shared_ptr<Observer::ValueObserver<OCIO::Views> > viewsObserver;
         };
 
         void ColorSpaceViewWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -85,7 +85,7 @@ namespace djv
                 });
 
             auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
-            p.viewsObserver = ValueObserver<OCIO::Views>::create(
+            p.viewsObserver = Observer::ValueObserver<OCIO::Views>::create(
                 ocioSystem->observeViews(),
                 [weak](const OCIO::Views& value)
                 {

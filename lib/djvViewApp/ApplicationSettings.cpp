@@ -18,7 +18,7 @@ namespace djv
     {
         struct ApplicationSettings::Private
         {
-            std::shared_ptr<MapSubject<std::string, bool> > settingsBellows;
+            std::shared_ptr<Observer::MapSubject<std::string, bool> > settingsBellows;
         };
 
         void ApplicationSettings::_init(const std::shared_ptr<System::Context>& context)
@@ -26,7 +26,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::ApplicationSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.settingsBellows = MapSubject<std::string, bool>::create();
+            p.settingsBellows = Observer::MapSubject<std::string, bool>::create();
             _load();
         }
 
@@ -41,7 +41,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IMapSubject<std::string, bool> > ApplicationSettings::observeSettingsBellows() const
+        std::shared_ptr<Observer::IMapSubject<std::string, bool> > ApplicationSettings::observeSettingsBellows() const
         {
             return _p->settingsBellows;
         }

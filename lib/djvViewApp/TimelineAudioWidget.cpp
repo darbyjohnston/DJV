@@ -29,8 +29,8 @@ namespace djv
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::HorizontalLayout> layout;
 
-            std::shared_ptr<ValueObserver<float> > volumeObserver;
-            std::shared_ptr<ValueObserver<bool> > muteObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > volumeObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > muteObserver;
         };
 
         void AudioWidget::_init(
@@ -85,7 +85,7 @@ namespace djv
                     }
                 });
 
-            p.volumeObserver = ValueObserver<float>::create(
+            p.volumeObserver = Observer::ValueObserver<float>::create(
                 p.media->observeVolume(),
                 [weak](float value)
                 {
@@ -96,7 +96,7 @@ namespace djv
                     }
                 });
 
-            p.muteObserver = ValueObserver<bool>::create(
+            p.muteObserver = Observer::ValueObserver<bool>::create(
                 p.media->observeMute(),
                 [weak](bool value)
                 {

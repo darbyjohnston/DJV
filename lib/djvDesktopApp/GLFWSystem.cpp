@@ -46,7 +46,7 @@ namespace djv
 
         struct GLFWSystem::Private
         {
-            std::shared_ptr<ListSubject<MonitorInfo> > monitorInfo;
+            std::shared_ptr<Observer::ListSubject<MonitorInfo> > monitorInfo;
             std::shared_ptr<System::Timer> monitorTimer;
             bool cursorVisible = true;
             GLFWcursor* arrowCursor  = nullptr;
@@ -58,7 +58,7 @@ namespace djv
             ISystem::_init("djv::Desktop::GLFWSystem", context);
             DJV_PRIVATE_PTR();
 
-            p.monitorInfo = ListSubject<MonitorInfo>::create();
+            p.monitorInfo = Observer::ListSubject<MonitorInfo>::create();
 
             auto avGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
             addDependency(avGLFWSystem);
@@ -143,7 +143,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IListSubject<MonitorInfo> > GLFWSystem::observeMonitorInfo() const
+        std::shared_ptr<Core::Observer::IListSubject<MonitorInfo> > GLFWSystem::observeMonitorInfo() const
         {
             return _p->monitorInfo;
         }

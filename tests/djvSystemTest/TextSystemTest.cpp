@@ -35,7 +35,7 @@ namespace djv
                     _print(ss.str());
                 }
 
-                auto localeObserver = ValueObserver<std::string>::create(
+                auto localeObserver = Observer::ValueObserver<std::string>::create(
                     system->observeCurrentLocale(),
                     [this](const std::string& value)
                     {

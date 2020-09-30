@@ -220,11 +220,11 @@ namespace djv
                 System::File::Path fontPath;
                 std::map<FamilyID, std::string> fontFileNames;
                 std::map<FamilyID, std::string> fontNames;
-                std::shared_ptr<MapSubject<FamilyID, std::string> > fontNamesSubject;
+                std::shared_ptr<Observer::MapSubject<FamilyID, std::string> > fontNamesSubject;
                 std::mutex fontNamesMutex;
                 std::shared_ptr<System::Timer> fontNamesTimer;
                 std::map<FamilyID, std::map<FaceID, std::string> > fontFaceNames;
-                std::shared_ptr<MapSubject<FamilyID, std::map<FaceID, std::string> > > fontFaceNamesSubject;
+                std::shared_ptr<Observer::MapSubject<FamilyID, std::map<FaceID, std::string> > > fontFaceNamesSubject;
                 std::map<FamilyID, std::map<FaceID, FT_Face> > fontFaces;
                 std::map<std::string, FamilyID> fontNameToID;
                 std::map<std::pair<FamilyID, std::string>, FamilyID> fontFaceNameToID;
@@ -275,8 +275,8 @@ namespace djv
                 addDependency(context->getSystemT<System::CoreSystem>());
 
                 p.fontPath = _getResourceSystem()->getPath(System::File::ResourcePath::Fonts);
-                p.fontNamesSubject = MapSubject<FamilyID, std::string>::create();
-                p.fontFaceNamesSubject = MapSubject<FamilyID, std::map<FaceID, std::string> >::create();
+                p.fontNamesSubject = Observer::MapSubject<FamilyID, std::string>::create();
+                p.fontFaceNamesSubject = Observer::MapSubject<FamilyID, std::map<FaceID, std::string> >::create();
                 p.glyphCache.setMax(glyphCacheMax);
                 p.glyphCacheSize = 0;
                 p.glyphCachePercentageUsed = 0.F;
@@ -403,12 +403,12 @@ namespace djv
                 return out;
             }
             
-            std::shared_ptr<IMapSubject<FamilyID, std::string> > FontSystem::observeFontNames() const
+            std::shared_ptr<Observer::IMapSubject<FamilyID, std::string> > FontSystem::observeFontNames() const
             {
                 return _p->fontNamesSubject;
             }
 
-            std::shared_ptr<IMapSubject<FamilyID, std::map<FaceID, std::string> > > FontSystem::observeFontFaces() const
+            std::shared_ptr<Observer::IMapSubject<FamilyID, std::map<FaceID, std::string> > > FontSystem::observeFontFaces() const
             {
                 return _p->fontFaceNamesSubject;
             }

@@ -32,10 +32,10 @@ namespace djv
                 //! \name Pointer and Key Interaction
                 ///@{
 
-                std::shared_ptr<Core::IValueSubject<PointerInfo> > observePointer() const;
-                std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > observeHover() const;
-                std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > observeGrab() const;
-                std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > observeKeyGrab() const;
+                std::shared_ptr<Core::Observer::IValueSubject<PointerInfo> > observePointer() const;
+                std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<IObject> > > observeHover() const;
+                std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<IObject> > > observeGrab() const;
+                std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<IObject> > > observeKeyGrab() const;
 
                 ///@}
 
@@ -44,7 +44,7 @@ namespace djv
 
                 const std::weak_ptr<IObject>& getTextFocus() const;
                 
-                std::shared_ptr<Core::IValueSubject<bool> > observeTextFocusActive() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeTextFocusActive() const;
                 
                 void setTextFocus(const std::shared_ptr<IObject>&);
 

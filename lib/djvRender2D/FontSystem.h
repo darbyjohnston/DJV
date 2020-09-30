@@ -144,10 +144,10 @@ namespace djv
                 static std::shared_ptr<FontSystem> create(const std::shared_ptr<System::Context>&);
 
                 //! Observe the font names.
-                std::shared_ptr<Core::IMapSubject<FamilyID, std::string> > observeFontNames() const;
+                std::shared_ptr<Core::Observer::IMapSubject<FamilyID, std::string> > observeFontNames() const;
 
                 //! Observe the font faces.
-                std::shared_ptr<Core::IMapSubject<FamilyID, std::map<FaceID, std::string> > > observeFontFaces() const;
+                std::shared_ptr<Core::Observer::IMapSubject<FamilyID, std::map<FaceID, std::string> > > observeFontFaces() const;
 
                 //! Set whether LCD hinting is enabled.
                 void setLCDRendering(bool);

@@ -65,10 +65,10 @@ namespace djv
 
             std::function<void(const std::shared_ptr<Media>&)> callback;
 
-            std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
-            std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
+            std::shared_ptr<Observer::ListObserver<std::shared_ptr<Media> > > mediaObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<Observer::ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
+            std::shared_ptr<Observer::MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void ActiveFilesDialog::_init(const std::shared_ptr<System::Context>& context)
@@ -214,7 +214,7 @@ namespace djv
                 });
 
             auto fileSystem = context->getSystemT<FileSystem>();
-            p.mediaObserver = ListObserver<std::shared_ptr<Media> >::create(
+            p.mediaObserver = Observer::ListObserver<std::shared_ptr<Media> >::create(
                 fileSystem->observeMedia(),
                 [weak](const std::vector<std::shared_ptr<Media> >& value)
                 {
@@ -224,7 +224,7 @@ namespace djv
                         widget->_itemsUpdate();
                     }
                 });
-            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+            p.currentMediaObserver = Observer::ValueObserver<std::shared_ptr<Media> >::create(
                 fileSystem->observeCurrentMedia(),
                 [weak](const std::shared_ptr<Media>& value)
                 {
@@ -237,7 +237,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-            p.thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
+            p.thumbnailSizeSettingsObserver = Observer::ValueObserver<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
                 [weak](const Image::Size& value)
                 {
@@ -248,7 +248,7 @@ namespace djv
                 });
 
             auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-            p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
+            p.shortcutsObserver = Observer::MapObserver<std::string, UI::ShortcutDataPair>::create(
                 shortcutsSettings->observeKeyShortcuts(),
                 [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                 {

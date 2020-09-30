@@ -24,10 +24,10 @@ namespace djv
     {
         struct AnnotateSettings::Private
         {
-            std::shared_ptr<ValueSubject<AnnotateTool> > tool;
-            std::shared_ptr<ValueSubject<AnnotateLineSize> > lineSize;
-            std::shared_ptr<ListSubject<Image::Color> > colors;
-            std::shared_ptr<ValueSubject<int> > currentColor;
+            std::shared_ptr<Observer::ValueSubject<AnnotateTool> > tool;
+            std::shared_ptr<Observer::ValueSubject<AnnotateLineSize> > lineSize;
+            std::shared_ptr<Observer::ListSubject<Image::Color> > colors;
+            std::shared_ptr<Observer::ValueSubject<int> > currentColor;
             std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
@@ -35,9 +35,9 @@ namespace djv
         {
             ISettings::_init("djv::ViewApp::AnnotateSettings", context);
             DJV_PRIVATE_PTR();
-            p.tool = ValueSubject<AnnotateTool>::create(AnnotateTool::Polyline);
-            p.lineSize = ValueSubject<AnnotateLineSize>::create(AnnotateLineSize::Medium);
-            p.colors = ListSubject<Image::Color>::create(
+            p.tool = Observer::ValueSubject<AnnotateTool>::create(AnnotateTool::Polyline);
+            p.lineSize = Observer::ValueSubject<AnnotateLineSize>::create(AnnotateLineSize::Medium);
+            p.colors = Observer::ListSubject<Image::Color>::create(
                 {
                     Image::Color(1.F, 0.F, 0.F),
                     Image::Color(0.F, 1.F, 0.F),
@@ -45,7 +45,7 @@ namespace djv
                     Image::Color(1.F, 1.F, 1.F),
                     Image::Color(0.F, 0.F, 0.F)
                 });
-            p.currentColor = ValueSubject<int>::create(0);
+            p.currentColor = Observer::ValueSubject<int>::create(0);
             _load();
         }
 
@@ -63,7 +63,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<AnnotateTool> > AnnotateSettings::observeTool() const
+        std::shared_ptr<Core::Observer::IValueSubject<AnnotateTool> > AnnotateSettings::observeTool() const
         {
             return _p->tool;
         }
@@ -74,7 +74,7 @@ namespace djv
         }
 
 
-        std::shared_ptr<Core::IValueSubject<AnnotateLineSize> > AnnotateSettings::observeLineSize() const
+        std::shared_ptr<Core::Observer::IValueSubject<AnnotateLineSize> > AnnotateSettings::observeLineSize() const
         {
             return _p->lineSize;
         }
@@ -84,7 +84,7 @@ namespace djv
             _p->lineSize->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IListSubject<Image::Color> > AnnotateSettings::observeColors() const
+        std::shared_ptr<Core::Observer::IListSubject<Image::Color> > AnnotateSettings::observeColors() const
         {
             return _p->colors;
         }
@@ -94,7 +94,7 @@ namespace djv
             _p->colors->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IValueSubject<int> > AnnotateSettings::observeCurrentColor() const
+        std::shared_ptr<Core::Observer::IValueSubject<int> > AnnotateSettings::observeCurrentColor() const
         {
             return _p->currentColor;
         }

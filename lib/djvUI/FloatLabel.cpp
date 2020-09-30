@@ -23,8 +23,8 @@ namespace djv
             std::shared_ptr<Math::FloatValueModel> model;
             size_t precision = 2;
             std::shared_ptr<Label> label;
-            std::shared_ptr<ValueObserver<Math::FloatRange> > rangeObserver;
-            std::shared_ptr<ValueObserver<float> > valueObserver;
+            std::shared_ptr<Observer::ValueObserver<Math::FloatRange> > rangeObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > valueObserver;
         };
 
         void FloatLabel::_init(const std::shared_ptr<System::Context>& context)
@@ -71,7 +71,7 @@ namespace djv
             if (p.model)
             {
                 auto weak = std::weak_ptr<FloatLabel>(std::dynamic_pointer_cast<FloatLabel>(shared_from_this()));
-                p.rangeObserver = ValueObserver<Math::FloatRange>::create(
+                p.rangeObserver = Observer::ValueObserver<Math::FloatRange>::create(
                     p.model->observeRange(),
                     [weak](const Math::FloatRange& value)
                 {
@@ -80,7 +80,7 @@ namespace djv
                         widget->_textUpdate();
                     }
                 });
-                p.valueObserver = ValueObserver<float>::create(
+                p.valueObserver = Observer::ValueObserver<float>::create(
                     p.model->observeValue(),
                     [weak](float value)
                 {

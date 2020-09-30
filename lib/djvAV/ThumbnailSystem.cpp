@@ -174,7 +174,7 @@ namespace djv
             Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
             std::atomic<float> imageCachePercentage;
             std::atomic<bool> clearCache;
-            std::shared_ptr<ValueObserver<bool> > ioOptionsObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > ioOptionsObserver;
 
             GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<System::Timer> statsTimer;
@@ -302,7 +302,7 @@ namespace djv
             });
 
             auto weak = std::weak_ptr<ThumbnailSystem>(std::dynamic_pointer_cast<ThumbnailSystem>(shared_from_this()));
-            p.ioOptionsObserver = ValueObserver<bool>::create(
+            p.ioOptionsObserver = Observer::ValueObserver<bool>::create(
                 p.io->observeOptionsChanged(),
                 [weak](bool value)
                 {

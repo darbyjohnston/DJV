@@ -33,7 +33,7 @@ namespace djv
 
             static std::shared_ptr<ToolSettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeMessagesPopup() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeMessagesPopup() const;
 
             void setMessagesPopup(bool);
 

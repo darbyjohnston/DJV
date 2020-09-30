@@ -35,11 +35,11 @@ namespace djv
             std::shared_ptr<TestEventSystem> _system;
             std::shared_ptr<TestObject> _object;
             std::shared_ptr<TestObject2> _object2;
-            std::shared_ptr<Core::ValueObserver<System::Event::PointerInfo> > _pointerObserver;
-            std::shared_ptr<Core::ValueObserver<std::shared_ptr<System::IObject> > > _hoverObserver;
-            std::shared_ptr<Core::ValueObserver<std::shared_ptr<System::IObject> > > _grabObserver;
-            std::shared_ptr<Core::ValueObserver<std::shared_ptr<System::IObject> > > _keyGrabObserver;
-            std::shared_ptr<Core::ValueObserver<bool> > _textFocusActiveObserver;
+            std::shared_ptr<Core::Observer::ValueObserver<System::Event::PointerInfo> > _pointerObserver;
+            std::shared_ptr<Core::Observer::ValueObserver<std::shared_ptr<System::IObject> > > _hoverObserver;
+            std::shared_ptr<Core::Observer::ValueObserver<std::shared_ptr<System::IObject> > > _grabObserver;
+            std::shared_ptr<Core::Observer::ValueObserver<std::shared_ptr<System::IObject> > > _keyGrabObserver;
+            std::shared_ptr<Core::Observer::ValueObserver<bool> > _textFocusActiveObserver;
         };
         
     } // namespace SystemTest

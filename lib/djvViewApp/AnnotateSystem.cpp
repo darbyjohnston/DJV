@@ -56,18 +56,18 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<AnnotateWidget> widget;
             
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<AnnotateTool> > toolObserver;
-            std::shared_ptr<ValueObserver<AnnotateLineSize> > lineSizeObserver;
-            std::shared_ptr<ListObserver<Image::Color> > colorsObserver;
-            std::shared_ptr<ValueObserver<int> > currentColorObserver;
-            std::shared_ptr<ValueObserver<bool> > undoObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
-            std::shared_ptr<ValueObserver<float> > imageZoomObserver;
-            std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
-            std::shared_ptr<ValueObserver<PointerData> > dragObserver;
-            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
+            std::map<std::string, std::shared_ptr<Observer::ValueObserver<bool> > > actionObservers;
+            std::shared_ptr<Observer::ValueObserver<AnnotateTool> > toolObserver;
+            std::shared_ptr<Observer::ValueObserver<AnnotateLineSize> > lineSizeObserver;
+            std::shared_ptr<Observer::ListObserver<Image::Color> > colorsObserver;
+            std::shared_ptr<Observer::ValueObserver<int> > currentColorObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > undoObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<Observer::ValueObserver<glm::vec2> > imagePosObserver;
+            std::shared_ptr<Observer::ValueObserver<float> > imageZoomObserver;
+            std::shared_ptr<Observer::ValueObserver<PointerData> > hoverObserver;
+            std::shared_ptr<Observer::ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<Observer::MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
         void AnnotateSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -167,7 +167,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
             auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
-            p.toolObserver = ValueObserver<AnnotateTool>::create(
+            p.toolObserver = Observer::ValueObserver<AnnotateTool>::create(
                 annotateSettings->observeTool(),
                 [weak](AnnotateTool value)
             {
@@ -178,7 +178,7 @@ namespace djv
                 }
             });
 
-            p.lineSizeObserver = ValueObserver<AnnotateLineSize>::create(
+            p.lineSizeObserver = Observer::ValueObserver<AnnotateLineSize>::create(
                 annotateSettings->observeLineSize(),
                 [weak](AnnotateLineSize value)
             {
@@ -189,7 +189,7 @@ namespace djv
                 }
             });
 
-            p.colorsObserver = ListObserver<Image::Color>::create(
+            p.colorsObserver = Observer::ListObserver<Image::Color>::create(
                 annotateSettings->observeColors(),
                 [weak](const std::vector<Image::Color>& value)
             {
@@ -199,7 +199,7 @@ namespace djv
                 }
             });
 
-            p.currentColorObserver = ValueObserver<int>::create(
+            p.currentColorObserver = Observer::ValueObserver<int>::create(
                 annotateSettings->observeCurrentColor(),
                 [weak](int value)
             {
@@ -211,7 +211,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                p.activeWidgetObserver = Observer::ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
                     [weak, contextWeak](const std::shared_ptr<MediaWidget>& value)
                     {
@@ -220,7 +220,7 @@ namespace djv
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
-                                system->_p->imagePosObserver = ValueObserver<glm::vec2>::create(
+                                system->_p->imagePosObserver = Observer::ValueObserver<glm::vec2>::create(
                                     system->_p->activeWidget->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
@@ -230,7 +230,7 @@ namespace djv
                                         }
                                     });
 
-                                system->_p->imageZoomObserver = ValueObserver<float>::create(
+                                system->_p->imageZoomObserver = Observer::ValueObserver<float>::create(
                                     system->_p->activeWidget->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
@@ -240,7 +240,7 @@ namespace djv
                                         }
                                     });
 
-                                system->_p->hoverObserver = ValueObserver<PointerData>::create(
+                                system->_p->hoverObserver = Observer::ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeHover(),
                                     [weak](const PointerData& value)
                                     {
@@ -249,7 +249,7 @@ namespace djv
                                             system->_p->hoverPos = value.pos;
                                         }
                                     });
-                                system->_p->dragObserver = ValueObserver<PointerData>::create(
+                                system->_p->dragObserver = Observer::ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeDrag(),
                                     [weak, contextWeak](const PointerData& value)
                                     {
@@ -452,7 +452,7 @@ namespace djv
                         p.currentCommand = AnnotateCommand::create(primitive, media);
 
                         auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
-                        p.undoObserver = ValueObserver<bool>::create(
+                        p.undoObserver = Observer::ValueObserver<bool>::create(
                             p.currentCommand->observeUndo(),
                             [weak](bool value)
                             {

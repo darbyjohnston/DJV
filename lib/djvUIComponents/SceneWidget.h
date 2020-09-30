@@ -75,23 +75,23 @@ namespace djv
 
             void setScene(const std::shared_ptr<Scene3D::Scene>&);
 
-            std::shared_ptr<Core::IValueSubject<SceneRotate> > observeSceneRotate() const;
+            std::shared_ptr<Core::Observer::IValueSubject<SceneRotate> > observeSceneRotate() const;
             
             void setSceneRotate(SceneRotate);
 
-            std::shared_ptr<Core::IValueSubject<Scene3D::PolarCameraData> > observeCameraData() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Scene3D::PolarCameraData> > observeCameraData() const;
             
             void setCameraData(const Scene3D::PolarCameraData&);
 
-            std::shared_ptr<Core::IValueSubject<SceneRenderOptions> > observeRenderOptions() const;
+            std::shared_ptr<Core::Observer::IValueSubject<SceneRenderOptions> > observeRenderOptions() const;
             
             void setRenderOptions(const SceneRenderOptions&);
 
             void frameView();
 
-            std::shared_ptr<Core::IValueSubject<Math::BBox3f> > observeBBox() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observePrimitivesCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observePointCount() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::BBox3f> > observeBBox() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observePrimitivesCount() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observePointCount() const;
 
         protected:
             void _layoutEvent(System::Event::Layout&) override;

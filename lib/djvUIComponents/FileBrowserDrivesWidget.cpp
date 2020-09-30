@@ -28,7 +28,7 @@ namespace djv
 
                 std::function<void(const System::File::Path &)> callback;
 
-                std::shared_ptr<ListObserver<System::File::Path> > drivesObserver;
+                std::shared_ptr<Observer::ListObserver<System::File::Path> > drivesObserver;
             };
 
             void DrivesWidget::_init(
@@ -49,7 +49,7 @@ namespace djv
 
                 auto weak = std::weak_ptr<DrivesWidget>(std::dynamic_pointer_cast<DrivesWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                p.drivesObserver = ListObserver<System::File::Path>::create(
+                p.drivesObserver = Observer::ListObserver<System::File::Path>::create(
                     model->observeDrives(),
                     [weak, contextWeak](const std::vector<System::File::Path> & value)
                     {

@@ -26,16 +26,16 @@ namespace djv
                 std::weak_ptr<TextSystem> textSystem;
                 std::chrono::steady_clock::time_point t;
                 PointerInfo pointerInfo;
-                std::shared_ptr<ValueSubject<PointerInfo> > pointerSubject;
-                std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > hover;
-                std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > grab;
+                std::shared_ptr<Observer::ValueSubject<PointerInfo> > pointerSubject;
+                std::shared_ptr<Observer::ValueSubject<std::shared_ptr<IObject> > > hover;
+                std::shared_ptr<Observer::ValueSubject<std::shared_ptr<IObject> > > grab;
                 int keyModifiers = 0;
-                std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > keyGrab;
+                std::shared_ptr<Observer::ValueSubject<std::shared_ptr<IObject> > > keyGrab;
                 std::weak_ptr<IObject> textFocus;
-                std::shared_ptr<ValueSubject<bool> > textFocusActive;
+                std::shared_ptr<Observer::ValueSubject<bool> > textFocusActive;
                 bool textInit = false;
-                std::shared_ptr<ValueObserver<std::string> > localeObserver;
-                std::shared_ptr<ValueObserver<bool> > textChangedObserver;
+                std::shared_ptr<Observer::ValueObserver<std::string> > localeObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > textChangedObserver;
                 std::shared_ptr<Timer> statsTimer;
             };
 
@@ -45,17 +45,17 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
 
-                p.pointerSubject = ValueSubject<PointerInfo>::create();
-                p.hover = ValueSubject<std::shared_ptr<IObject> >::create();
-                p.grab = ValueSubject<std::shared_ptr<IObject> >::create();
-                p.keyGrab = ValueSubject<std::shared_ptr<IObject> >::create();
-                p.textFocusActive = ValueSubject<bool>::create();
+                p.pointerSubject = Observer::ValueSubject<PointerInfo>::create();
+                p.hover = Observer::ValueSubject<std::shared_ptr<IObject> >::create();
+                p.grab = Observer::ValueSubject<std::shared_ptr<IObject> >::create();
+                p.keyGrab = Observer::ValueSubject<std::shared_ptr<IObject> >::create();
+                p.textFocusActive = Observer::ValueSubject<bool>::create();
 
                 auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
                 p.textSystem = context->getSystemT<TextSystem>();
                 if (auto textSystem = p.textSystem.lock())
                 {
-                    p.localeObserver = ValueObserver<std::string>::create(
+                    p.localeObserver = Observer::ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
                         [weak](const std::string&)
                         {
@@ -64,7 +64,7 @@ namespace djv
                                 system->_p->textInit = true;
                             }
                         });
-                    p.textChangedObserver = ValueObserver<bool>::create(
+                    p.textChangedObserver = Observer::ValueObserver<bool>::create(
                         textSystem->observeTextChanged(),
                         [weak](bool)
                         {
@@ -97,22 +97,22 @@ namespace djv
             IEventSystem::~IEventSystem()
             {}
 
-            std::shared_ptr<Core::IValueSubject<PointerInfo> > IEventSystem::observePointer() const
+            std::shared_ptr<Core::Observer::IValueSubject<PointerInfo> > IEventSystem::observePointer() const
             {
                 return _p->pointerSubject;
             }
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeHover() const
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeHover() const
             {
                 return _p->hover;
             }
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeGrab() const
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeGrab() const
             {
                 return _p->grab;
             }
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeKeyGrab() const
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeKeyGrab() const
             {
                 return _p->keyGrab;
             }
@@ -122,7 +122,7 @@ namespace djv
                 return _p->textFocus;
             }
 
-            std::shared_ptr<Core::IValueSubject<bool> > IEventSystem::observeTextFocusActive() const
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > IEventSystem::observeTextFocusActive() const
             {
                 return _p->textFocusActive;
             }

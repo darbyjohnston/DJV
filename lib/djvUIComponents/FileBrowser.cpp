@@ -82,27 +82,27 @@ namespace djv
                 std::function<void(const std::vector<System::File::Info>&)> callback;
                 std::function<void(void)> cancelCallback;
 
-                std::shared_ptr<ValueObserver<System::File::Path> > pathObserver;
-                std::shared_ptr<ListObserver<System::File::Info> > fileInfoObserver;
-                std::shared_ptr<ValueObserver<bool> > hasUpObserver;
-                std::shared_ptr<ListObserver<System::File::Path> > historyObserver;
-                std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
-                std::shared_ptr<ValueObserver<bool> > hasBackObserver;
-                std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
-                std::shared_ptr<ValueObserver<bool> > pathsOpenSettingsObserver;
-                std::shared_ptr<ListObserver<System::File::Path> > shortcutsObserver;
-                std::shared_ptr<ListObserver<System::File::Path> > shortcutsSettingsObserver;
-                std::shared_ptr<ListObserver<System::File::Info> > recentPathsObserver;
-                std::shared_ptr<ListObserver<System::File::Path> > recentPathsSettingsObserver;
-                std::shared_ptr<ValueObserver<ViewType> > viewTypeSettingsObserver;
-                std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
-                std::shared_ptr<ListObserver<float> > listViewHeaderSplitSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > fileSequencesSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > showHiddenSettingsObserver;
-                std::shared_ptr<ValueObserver<System::File::DirectoryListSort> > sortSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > reverseSortSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
-                std::shared_ptr<MapObserver<std::string, ShortcutDataPair> > keyShortcutsObserver;
+                std::shared_ptr<Observer::ValueObserver<System::File::Path> > pathObserver;
+                std::shared_ptr<Observer::ListObserver<System::File::Info> > fileInfoObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > hasUpObserver;
+                std::shared_ptr<Observer::ListObserver<System::File::Path> > historyObserver;
+                std::shared_ptr<Observer::ValueObserver<size_t> > historyIndexObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > hasBackObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > hasForwardObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > pathsOpenSettingsObserver;
+                std::shared_ptr<Observer::ListObserver<System::File::Path> > shortcutsObserver;
+                std::shared_ptr<Observer::ListObserver<System::File::Path> > shortcutsSettingsObserver;
+                std::shared_ptr<Observer::ListObserver<System::File::Info> > recentPathsObserver;
+                std::shared_ptr<Observer::ListObserver<System::File::Path> > recentPathsSettingsObserver;
+                std::shared_ptr<Observer::ValueObserver<ViewType> > viewTypeSettingsObserver;
+                std::shared_ptr<Observer::ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
+                std::shared_ptr<Observer::ListObserver<float> > listViewHeaderSplitSettingsObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > fileSequencesSettingsObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > showHiddenSettingsObserver;
+                std::shared_ptr<Observer::ValueObserver<System::File::DirectoryListSort> > sortSettingsObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > reverseSortSettingsObserver;
+                std::shared_ptr<Observer::ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
+                std::shared_ptr<Observer::MapObserver<std::string, ShortcutDataPair> > keyShortcutsObserver;
             };
 
             void FileBrowser::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
@@ -554,7 +554,7 @@ namespace djv
                         }
                     });
 
-                p.pathObserver = ValueObserver<System::File::Path>::create(
+                p.pathObserver = Observer::ValueObserver<System::File::Path>::create(
                     p.directoryModel->observePath(),
                     [weak, pathWidget](const System::File::Path& value)
                 {
@@ -566,7 +566,7 @@ namespace djv
                     }
                 });
 
-                p.fileInfoObserver = ListObserver<System::File::Info>::create(
+                p.fileInfoObserver = Observer::ListObserver<System::File::Info>::create(
                     p.directoryModel->observeInfo(),
                     [weak](const std::vector<System::File::Info>& value)
                 {
@@ -578,7 +578,7 @@ namespace djv
                     }
                 });
 
-                p.hasUpObserver = ValueObserver<bool>::create(
+                p.hasUpObserver = Observer::ValueObserver<bool>::create(
                     p.directoryModel->observeHasUp(),
                     [weak](bool value)
                 {
@@ -588,21 +588,21 @@ namespace djv
                     }
                 });
 
-                p.historyObserver = ListObserver<System::File::Path>::create(
+                p.historyObserver = Observer::ListObserver<System::File::Path>::create(
                     p.directoryModel->observeHistory(),
                     [pathWidget](const std::vector<System::File::Path> & value)
                 {
                     pathWidget->setHistory(value);
                 });
 
-                p.historyIndexObserver = ValueObserver<size_t>::create(
+                p.historyIndexObserver = Observer::ValueObserver<size_t>::create(
                     p.directoryModel->observeHistoryIndex(),
                     [pathWidget](size_t value)
                 {
                     pathWidget->setHistoryIndex(value);
                 });
 
-                p.hasBackObserver = ValueObserver<bool>::create(
+                p.hasBackObserver = Observer::ValueObserver<bool>::create(
                     p.directoryModel->observeHasBack(),
                     [weak](bool value)
                 {
@@ -612,7 +612,7 @@ namespace djv
                     }
                 });
 
-                p.hasForwardObserver = ValueObserver<bool>::create(
+                p.hasForwardObserver = Observer::ValueObserver<bool>::create(
                     p.directoryModel->observeHasForward(),
                     [weak](bool value)
                 {
@@ -624,7 +624,7 @@ namespace djv
 
                 auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                p.pathsOpenSettingsObserver = ValueObserver<bool>::create(
+                p.pathsOpenSettingsObserver = Observer::ValueObserver<bool>::create(
                     fileBrowserSettings->observePathsOpen(),
                     [weak](bool value)
                     {
@@ -635,7 +635,7 @@ namespace djv
                         }
                     });
 
-                p.shortcutsSettingsObserver = ListObserver<System::File::Path>::create(
+                p.shortcutsSettingsObserver = Observer::ListObserver<System::File::Path>::create(
                     fileBrowserSettings->observeShortcuts(),
                     [weak](const std::vector<System::File::Path>& value)
                     {
@@ -645,7 +645,7 @@ namespace djv
                         }
                     });
 
-                p.recentPathsSettingsObserver = ListObserver<System::File::Path>::create(
+                p.recentPathsSettingsObserver = Observer::ListObserver<System::File::Path>::create(
                     fileBrowserSettings->observeRecentPaths(),
                     [weak](const std::vector<System::File::Path>& value)
                     {
@@ -660,7 +660,7 @@ namespace djv
                         }
                     });
 
-                p.viewTypeSettingsObserver = ValueObserver<ViewType>::create(
+                p.viewTypeSettingsObserver = Observer::ValueObserver<ViewType>::create(
                     fileBrowserSettings->observeViewType(),
                     [weak](ViewType value)
                 {
@@ -672,7 +672,7 @@ namespace djv
                     }
                 });
 
-                p.thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
+                p.thumbnailSizeSettingsObserver = Observer::ValueObserver<Image::Size>::create(
                     fileBrowserSettings->observeThumbnailSize(),
                     [weak](const Image::Size & value)
                 {
@@ -682,7 +682,7 @@ namespace djv
                     }
                 });
 
-                p.listViewHeaderSplitSettingsObserver = ListObserver<float>::create(
+                p.listViewHeaderSplitSettingsObserver = Observer::ListObserver<float>::create(
                     fileBrowserSettings->observeListViewHeaderSplit(),
                     [weak](const std::vector<float> & value)
                 {
@@ -693,7 +693,7 @@ namespace djv
                     }
                 });
 
-                p.fileSequencesSettingsObserver = ValueObserver<bool>::create(
+                p.fileSequencesSettingsObserver = Observer::ValueObserver<bool>::create(
                     fileBrowserSettings->observeFileSequences(),
                     [weak](bool value)
                 {
@@ -705,7 +705,7 @@ namespace djv
                     }
                 });
 
-                p.showHiddenSettingsObserver = ValueObserver<bool>::create(
+                p.showHiddenSettingsObserver = Observer::ValueObserver<bool>::create(
                     fileBrowserSettings->observeShowHidden(),
                     [weak](bool value)
                 {
@@ -717,7 +717,7 @@ namespace djv
                     }
                 });
 
-                p.sortSettingsObserver = ValueObserver<System::File::DirectoryListSort>::create(
+                p.sortSettingsObserver = Observer::ValueObserver<System::File::DirectoryListSort>::create(
                     fileBrowserSettings->observeSort(),
                     [weak](System::File::DirectoryListSort value)
                 {
@@ -730,7 +730,7 @@ namespace djv
                     }
                 });
 
-                p.reverseSortSettingsObserver = ValueObserver<bool>::create(
+                p.reverseSortSettingsObserver = Observer::ValueObserver<bool>::create(
                     fileBrowserSettings->observeReverseSort(),
                     [weak](bool value)
                 {
@@ -743,7 +743,7 @@ namespace djv
                     }
                 });
 
-                p.sortDirectoriesFirstSettingsObserver = ValueObserver<bool>::create(
+                p.sortDirectoriesFirstSettingsObserver = Observer::ValueObserver<bool>::create(
                     fileBrowserSettings->observeSortDirectoriesFirst(),
                     [weak](bool value)
                 {
@@ -755,7 +755,7 @@ namespace djv
                     }
                 });
 
-                p.keyShortcutsObserver = MapObserver<std::string, ShortcutDataPair>::create(
+                p.keyShortcutsObserver = Observer::MapObserver<std::string, ShortcutDataPair>::create(
                     fileBrowserSettings->observeKeyShortcuts(),
                     [weak](const std::map<std::string, ShortcutDataPair>& value)
                     {
@@ -880,7 +880,7 @@ namespace djv
                         }
                     });
 
-                p.shortcutsObserver = ListObserver<System::File::Path>::create(
+                p.shortcutsObserver = Observer::ListObserver<System::File::Path>::create(
                     p.shortcutsModel->observeShortcuts(),
                     [contextWeak](const std::vector<System::File::Path>& value)
                     {
@@ -894,7 +894,7 @@ namespace djv
                         }
                     });
 
-                p.recentPathsObserver = ListObserver<System::File::Info>::create(
+                p.recentPathsObserver = Observer::ListObserver<System::File::Info>::create(
                     p.recentPathsModel->observeFiles(),
                     [weak, contextWeak](const std::vector<System::File::Info>& value)
                     {

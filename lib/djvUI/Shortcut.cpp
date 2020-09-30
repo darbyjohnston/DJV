@@ -14,14 +14,14 @@ namespace djv
     {
         struct Shortcut::Private
         {
-            std::shared_ptr<ValueSubject<ShortcutData> > shortcut;
+            std::shared_ptr<Observer::ValueSubject<ShortcutData> > shortcut;
             std::function<void(void)> callback;
         };
 
         void Shortcut::_init()
         {
             DJV_PRIVATE_PTR();
-            p.shortcut = ValueSubject<ShortcutData>::create();
+            p.shortcut = Observer::ValueSubject<ShortcutData>::create();
         }
 
         Shortcut::Shortcut() :
@@ -62,7 +62,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<ShortcutData> > Shortcut::observeShortcut() const
+        std::shared_ptr<Observer::IValueSubject<ShortcutData> > Shortcut::observeShortcut() const
         {
             return _p->shortcut;
         }

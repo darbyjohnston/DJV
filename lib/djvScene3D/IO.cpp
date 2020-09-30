@@ -132,7 +132,7 @@ namespace djv
 
             struct IOSystem::Private
             {
-                std::shared_ptr<ValueSubject<bool> > optionsChanged;
+                std::shared_ptr<Observer::ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
                 std::set<std::string> sequenceExtensions;
             };
@@ -143,7 +143,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
 
-                p.optionsChanged = ValueSubject<bool>::create();
+                p.optionsChanged = Observer::ValueSubject<bool>::create();
 
                 p.plugins[OBJ::pluginName] = OBJ::Plugin::create(context);
 #if defined(OpenNURBS_FOUND)
@@ -223,7 +223,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IValueSubject<bool> > IOSystem::observeOptionsChanged() const
+            std::shared_ptr<Observer::IValueSubject<bool> > IOSystem::observeOptionsChanged() const
             {
                 return _p->optionsChanged;
             }

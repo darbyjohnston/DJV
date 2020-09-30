@@ -18,7 +18,7 @@ namespace djv
     {
         struct NUXSettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > nux;
+            std::shared_ptr<Observer::ValueSubject<bool> > nux;
         };
 
         void NUXSettings::_init(const std::shared_ptr<System::Context>& context)
@@ -26,7 +26,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::NUXSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.nux = ValueSubject<bool>::create(true);
+            p.nux = Observer::ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -41,7 +41,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<bool> > NUXSettings::observeNUX() const
+        std::shared_ptr<Observer::IValueSubject<bool> > NUXSettings::observeNUX() const
         {
             return _p->nux;
         }

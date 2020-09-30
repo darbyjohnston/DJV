@@ -45,20 +45,20 @@ namespace djv
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             glm::vec2 dragImagePos = glm::vec2(0.F, 0.F);
             std::shared_ptr<MediaWidget> activeWidget;
-            std::shared_ptr<ValueSubject<ViewLock> > lock;
+            std::shared_ptr<Observer::ValueSubject<ViewLock> > lock;
             
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<ViewControlsWidget> viewControlsWidget;
             
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
-            std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
-            std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
-            std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
-            std::shared_ptr<ValueObserver<PointerData> > dragObserver;
-            std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
+            std::shared_ptr<Observer::ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<Observer::ValueObserver<ViewLock> > lockObserver;
+            std::shared_ptr<Observer::ValueObserver<GridOptions> > gridOptionsObserver;
+            std::shared_ptr<Observer::ValueObserver<HUDOptions> > hudOptionsObserver;
+            std::shared_ptr<Observer::ValueObserver<PointerData> > hoverObserver;
+            std::shared_ptr<Observer::ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<Observer::ValueObserver<ScrollData> > scrollObserver;
 
             void drag(const PointerData&);
             void scroll(const ScrollData&, const std::weak_ptr<System::Context>&);
@@ -74,7 +74,7 @@ namespace djv
             p.bellowsState = p.settings->getBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
-            p.lock = ValueSubject<ViewLock>::create();
+            p.lock = Observer::ValueSubject<ViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
             p.actions["ViewControls"]->setButtonType(UI::ButtonType::Toggle);
@@ -363,7 +363,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                p.activeWidgetObserver = Observer::ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
                     [weak](const std::shared_ptr<MediaWidget>& value)
                     {
@@ -372,7 +372,7 @@ namespace djv
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
-                                system->_p->hoverObserver = ValueObserver<PointerData>::create(
+                                system->_p->hoverObserver = Observer::ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeHover(),
                                     [weak](const PointerData& value)
                                     {
@@ -381,7 +381,7 @@ namespace djv
                                             system->_p->hoverPos = value.pos;
                                         }
                                     });
-                                system->_p->dragObserver = ValueObserver<PointerData>::create(
+                                system->_p->dragObserver = Observer::ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeDrag(),
                                     [weak](const PointerData& value)
                                     {
@@ -390,7 +390,7 @@ namespace djv
                                             system->_p->drag(value);
                                         }
                                     });
-                                system->_p->scrollObserver = ValueObserver<ScrollData>::create(
+                                system->_p->scrollObserver = Observer::ValueObserver<ScrollData>::create(
                                     system->_p->activeWidget->observeScroll(),
                                     [weak](const ScrollData& value)
                                     {
@@ -411,7 +411,7 @@ namespace djv
                     });
             }
 
-            p.lockObserver = ValueObserver<ViewLock>::create(
+            p.lockObserver = Observer::ValueObserver<ViewLock>::create(
                 p.settings->observeLock(),
                 [weak](ViewLock value)
                 {
@@ -434,7 +434,7 @@ namespace djv
                     }
                 });
 
-            p.gridOptionsObserver = ValueObserver<GridOptions>::create(
+            p.gridOptionsObserver = Observer::ValueObserver<GridOptions>::create(
                 p.settings->observeGridOptions(),
                 [weak](const GridOptions& value)
                 {
@@ -444,7 +444,7 @@ namespace djv
                         system->_actionsUpdate();
                     }
                 });
-            p.hudOptionsObserver = ValueObserver<HUDOptions>::create(
+            p.hudOptionsObserver = Observer::ValueObserver<HUDOptions>::create(
                 p.settings->observeHUDOptions(),
                 [weak](const HUDOptions& value)
                 {

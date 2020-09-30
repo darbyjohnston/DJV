@@ -161,7 +161,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        class AnnotateCommand : public Core::ICommand
+        class AnnotateCommand : public Core::Command::ICommand
         {
             DJV_NON_COPYABLE(AnnotateCommand);
 
@@ -176,7 +176,7 @@ namespace djv
                 const std::shared_ptr<AnnotatePrimitive>&,
                 const std::shared_ptr<Media>&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeUndo() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeUndo() const;
             const std::shared_ptr<AnnotatePrimitive>& getPrimitive() const;
             const std::weak_ptr<Media>& getMedia() const;
 

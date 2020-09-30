@@ -22,15 +22,15 @@ namespace djv
 
             struct RecentFilesModel::Private
             {
-                std::shared_ptr<ListSubject<Info> > files;
-                std::shared_ptr<ValueSubject<size_t> > filesMax;
+                std::shared_ptr<Observer::ListSubject<Info> > files;
+                std::shared_ptr<Observer::ValueSubject<size_t> > filesMax;
             };
 
             void RecentFilesModel::_init()
             {
                 DJV_PRIVATE_PTR();
-                p.files = ListSubject<Info>::create();
-                p.filesMax = ValueSubject<size_t>::create(filesMaxDefault);
+                p.files = Observer::ListSubject<Info>::create();
+                p.filesMax = Observer::ValueSubject<size_t>::create(filesMaxDefault);
             }
 
             RecentFilesModel::RecentFilesModel() :
@@ -44,7 +44,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IListSubject<Info> > RecentFilesModel::observeFiles() const
+            std::shared_ptr<Observer::IListSubject<Info> > RecentFilesModel::observeFiles() const
             {
                 return _p->files;
             }
@@ -76,7 +76,7 @@ namespace djv
                 p.files->setIfChanged(list);
             }
 
-            std::shared_ptr<IValueSubject<size_t> > RecentFilesModel::observeFilesMax() const
+            std::shared_ptr<Observer::IValueSubject<size_t> > RecentFilesModel::observeFilesMax() const
             {
                 return _p->filesMax;
             }

@@ -30,7 +30,7 @@ namespace djv
 
             static std::shared_ptr<MagnifySettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<size_t> > observeMagnify() const;
+            std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeMagnify() const;
 
             void setMagnify(size_t);
 

@@ -28,7 +28,7 @@ namespace djv
 
                 static std::shared_ptr<UI> create(const std::shared_ptr<System::Context>&);
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeTooltips() const;
+                std::shared_ptr<Core::Observer::IValueSubject<bool> > observeTooltips() const;
 
                 void setTooltips(bool);
 

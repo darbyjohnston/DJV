@@ -33,7 +33,7 @@ namespace djv
 
             static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<ColorPickerData> > observeData() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ColorPickerData> > observeData() const;
 
             void setData(const ColorPickerData&);
 

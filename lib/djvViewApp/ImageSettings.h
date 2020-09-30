@@ -39,7 +39,7 @@ namespace djv
             void setControlsBellowsState(const std::map<std::string, bool>&);
             void setColorSpaceBellowsState(const std::map<std::string, bool>&);
 
-            std::shared_ptr<Core::IValueSubject<ImageData> > observeData() const;
+            std::shared_ptr<Core::Observer::IValueSubject<ImageData> > observeData() const;
 
             void setData(const ImageData&);
 

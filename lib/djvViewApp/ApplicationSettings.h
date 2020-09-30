@@ -25,7 +25,7 @@ namespace djv
         public:
             static std::shared_ptr<ApplicationSettings> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IMapSubject<std::string, bool> > observeSettingsBellows() const;
+            std::shared_ptr<Core::Observer::IMapSubject<std::string, bool> > observeSettingsBellows() const;
 
             void setSettingsBellows(const std::map<std::string, bool>&);
 

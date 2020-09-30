@@ -20,7 +20,7 @@ namespace djv
     {
         struct KeyboardSettings::Private
         {
-            std::shared_ptr<MapSubject<std::string, UI::ShortcutDataPair> > shortcuts;
+            std::shared_ptr<Observer::MapSubject<std::string, UI::ShortcutDataPair> > shortcuts;
         };
 
         void KeyboardSettings::_init(const std::shared_ptr<System::Context>& context)
@@ -28,7 +28,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::KeyboardSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.shortcuts = MapSubject<std::string, UI::ShortcutDataPair>::create();
+            p.shortcuts = Observer::MapSubject<std::string, UI::ShortcutDataPair>::create();
             _load();
         }
 
@@ -43,7 +43,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<MapSubject<std::string, UI::ShortcutDataPair > > KeyboardSettings::observeShortcuts() const
+        std::shared_ptr<Observer::MapSubject<std::string, UI::ShortcutDataPair > > KeyboardSettings::observeShortcuts() const
         {
             return _p->shortcuts;
         }

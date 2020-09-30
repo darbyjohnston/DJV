@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Observer.h>
 
 #include <functional>
 #include <map>
@@ -15,112 +15,117 @@ namespace djv
 {
     namespace Core
     {
-        template<typename T, typename U>
-        class IMapSubject;
-
-        //! This class provides a map observer.
-        template<typename T, typename U>
-        class MapObserver : public std::enable_shared_from_this<MapObserver<T, U> >
+        namespace Observer
         {
-            DJV_NON_COPYABLE(MapObserver);
+            template<typename T, typename U>
+            class IMapSubject;
 
-            void _init(
-                const std::weak_ptr<IMapSubject<T, U> >&,
-                const std::function<void(const std::map<T, U>&)>&);
+            //! This class provides a map observer.
+            template<typename T, typename U>
+            class MapObserver : public std::enable_shared_from_this<MapObserver<T, U> >
+            {
+                DJV_NON_COPYABLE(MapObserver);
 
-            MapObserver();
+                void _init(
+                    const std::weak_ptr<IMapSubject<T, U> >&,
+                    const std::function<void(const std::map<T, U>&)>&,
+                    CallbackAction);
 
-        public:
-            ~MapObserver();
+                MapObserver();
 
-            //! Create a new map observer.
-            static std::shared_ptr<MapObserver<T, U> > create(
-                const std::weak_ptr<IMapSubject<T, U> >&,
-                const std::function<void(const std::map<T, U>&)>&);
+            public:
+                ~MapObserver();
 
-            //! Execute the callback.
-            void doCallback(const std::map<T, U>&);
+                //! Create a new map observer.
+                static std::shared_ptr<Observer::MapObserver<T, U> > create(
+                    const std::weak_ptr<IMapSubject<T, U> >&,
+                    const std::function<void(const std::map<T, U>&)>&,
+                    CallbackAction = CallbackAction::Trigger);
 
-        private:
-            std::function<void(const std::map<T, U>&)> _callback;
-            std::weak_ptr<IMapSubject<T, U> > _subject;
-        };
+                //! Execute the callback.
+                void doCallback(const std::map<T, U>&);
 
-        //! This class provides an interface for a map subject.
-        template<typename T, typename U>
-        class IMapSubject
-        {
-        public:
-            virtual ~IMapSubject() = 0;
+            private:
+                std::function<void(const std::map<T, U>&)> _callback;
+                std::weak_ptr<IMapSubject<T, U> > _subject;
+            };
 
-            //! Get the map.
-            virtual const std::map<T, U>& get() const = 0;
+            //! This class provides an interface for a map subject.
+            template<typename T, typename U>
+            class IMapSubject
+            {
+            public:
+                virtual ~IMapSubject() = 0;
 
-            //! Get the map size.
-            virtual size_t getSize() const = 0;
+                //! Get the map.
+                virtual const std::map<T, U>& get() const = 0;
 
-            //! Get whether the map is empty.
-            virtual bool isEmpty() const = 0;
+                //! Get the map size.
+                virtual size_t getSize() const = 0;
 
-            //! Get whether the given key exists.
-            virtual bool hasKey(const T&) = 0;
+                //! Get whether the map is empty.
+                virtual bool isEmpty() const = 0;
 
-            //! Get a map item.
-            virtual const U& getItem(const T&) const = 0;
-            
-            //! Get the number of observers.
-            size_t getObserversCount() const;
+                //! Get whether the given key exists.
+                virtual bool hasKey(const T&) = 0;
 
-        protected:
-            void _add(const std::weak_ptr<MapObserver<T, U> >&);
-            void _removeExpired();
+                //! Get a map item.
+                virtual const U& getItem(const T&) const = 0;
 
-            std::vector<std::weak_ptr<MapObserver<T, U> > > _observers;
+                //! Get the number of observers.
+                size_t getObserversCount() const;
 
-            friend MapObserver<T, U>;
-        };
+            protected:
+                void _add(const std::weak_ptr<MapObserver<T, U> >&);
+                void _removeExpired();
 
-        //! This class provides a map subject.
-        template<typename T, typename U>
-        class MapSubject : public IMapSubject<T, U>
-        {
-            DJV_NON_COPYABLE(MapSubject);
+                std::vector<std::weak_ptr<MapObserver<T, U> > > _observers;
 
-            MapSubject();
-            explicit MapSubject(const std::map<T, U>&);
+                friend MapObserver<T, U>;
+            };
 
-        public:
-            //! Create a new map subject.
-            static std::shared_ptr<MapSubject<T, U> > create();
+            //! This class provides a map subject.
+            template<typename T, typename U>
+            class MapSubject : public IMapSubject<T, U>
+            {
+                DJV_NON_COPYABLE(MapSubject);
 
-            //! Create a new map subject with the given value.
-            static std::shared_ptr<MapSubject<T, U> > create(const std::map<T, U>&);
+                MapSubject();
+                explicit MapSubject(const std::map<T, U>&);
 
-            //! Set the map.
-            void setAlways(const std::map<T, U>&);
+            public:
+                //! Create a new map subject.
+                static std::shared_ptr<Observer::MapSubject<T, U> > create();
 
-            //! Set the map only if it has changed.
-            bool setIfChanged(const std::map<T, U>&);
+                //! Create a new map subject with the given value.
+                static std::shared_ptr<Observer::MapSubject<T, U> > create(const std::map<T, U>&);
 
-            //! Clear the map.
-            void clear();
+                //! Set the map.
+                void setAlways(const std::map<T, U>&);
 
-            //! Set a map item.
-            void setItem(const T&, const U&);
+                //! Set the map only if it has changed.
+                bool setIfChanged(const std::map<T, U>&);
 
-            //! Set a map item only if it has changed.
-            void setItemOnlyIfChanged(const T&, const U&);
+                //! Clear the map.
+                void clear();
 
-            const std::map<T, U>& get() const override;
-            size_t getSize() const override;
-            bool isEmpty() const override;
-            bool hasKey(const T&) override;
-            const U& getItem(const T&) const override;
+                //! Set a map item.
+                void setItem(const T&, const U&);
 
-        private:
-            std::map<T, U> _value;
-        };
+                //! Set a map item only if it has changed.
+                void setItemOnlyIfChanged(const T&, const U&);
 
+                const std::map<T, U>& get() const override;
+                size_t getSize() const override;
+                bool isEmpty() const override;
+                bool hasKey(const T&) override;
+                const U& getItem(const T&) const override;
+
+            private:
+                std::map<T, U> _value;
+            };
+
+        } // namespace Observer
     } // namespace Core
 } // namespace djv
 

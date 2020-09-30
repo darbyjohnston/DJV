@@ -28,8 +28,8 @@ namespace djv
             std::shared_ptr<UI::ToggleButton> firstFrameButton;
             std::shared_ptr<UI::FormLayout> layout;
 
-            std::shared_ptr<ValueObserver<bool> > autoDetectObserver;
-            std::shared_ptr<ValueObserver<bool> > firstFrameObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > autoDetectObserver;
+            std::shared_ptr<Observer::ValueObserver<bool> > firstFrameObserver;
         };
 
         void SequenceSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -79,7 +79,7 @@ namespace djv
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
                 auto weak = std::weak_ptr<SequenceSettingsWidget>(std::dynamic_pointer_cast<SequenceSettingsWidget>(shared_from_this()));
-                p.autoDetectObserver = ValueObserver<bool>::create(
+                p.autoDetectObserver = Observer::ValueObserver<bool>::create(
                     fileSettings->observeAutoDetectSequences(),
                     [weak](bool value)
                     {
@@ -89,7 +89,7 @@ namespace djv
                         }
                     });
 
-                p.firstFrameObserver = ValueObserver<bool>::create(
+                p.firstFrameObserver = Observer::ValueObserver<bool>::create(
                     fileSettings->observeSequencesFirstFrame(),
                     [weak](bool value)
                     {
@@ -148,7 +148,7 @@ namespace djv
             std::shared_ptr<UI::IntSlider> maxSlider;
             std::shared_ptr<UI::FormLayout> layout;
 
-            std::shared_ptr<ValueObserver<size_t> > maxObserver;
+            std::shared_ptr<Observer::ValueObserver<size_t> > maxObserver;
         };
 
         void RecentFilesSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -170,7 +170,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
             auto weak = std::weak_ptr<RecentFilesSettingsWidget>(std::dynamic_pointer_cast<RecentFilesSettingsWidget>(shared_from_this()));
-            p.maxObserver = ValueObserver<size_t>::create(
+            p.maxObserver = Observer::ValueObserver<size_t>::create(
                 fileSettings->observeRecentFilesMax(),
                 [weak](size_t value)
                 {
