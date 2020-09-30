@@ -6,9 +6,7 @@
 
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/IconSystem.h>
-#include <djvUI/MouseSettings.h>
 #include <djvUI/SelectionModel.h>
-#include <djvUI/SettingsSystem.h>
 
 #include <djvRender2D/FontSystem.h>
 #include <djvRender2D/Render.h>
@@ -95,8 +93,6 @@ namespace djv
                 std::vector<float> split = { .7F, .8F, 1.F };
                 OCIO::Config ocioConfig;
                 std::string outputColorSpace;
-                std::pair<size_t, std::chrono::steady_clock::time_point> clickTimer;
-                float doubleClickTime = 0.F;
 
                 std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
 
@@ -108,8 +104,6 @@ namespace djv
                 std::function<void(const std::set<size_t>&)> selectedCallback2;
                 std::function<void(const std::vector<System::File::Info>&)> activatedCallback;
                 std::function<void(const std::set<size_t>&)> activatedCallback2;
-
-                std::shared_ptr<ValueObserver<float> > doubleClickTimeObserver;
             };
 
             void ItemView::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
@@ -155,18 +149,6 @@ namespace djv
                                 widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
                                 widget->_itemsUpdate();
                             }
-                        }
-                    });
-
-                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                auto mouseSettings = settingsSystem->getSettingsT<Settings::Mouse>();
-                p.doubleClickTimeObserver = ValueObserver<float>::create(
-                    mouseSettings->observeDoubleClickTime(),
-                    [weak](float value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->doubleClickTime = value;
                         }
                     });
             }
@@ -788,13 +770,8 @@ namespace djv
                             const auto& item = p.items[j];
                             if (item.geometry.contains(i->second))
                             {
-                                // Update selection model.
-                                p.selectionModel->select(j, event.getKeyModifiers());
-
-                                // Check for double clicks.
-                                const auto time = _getUpdateTime();
-                                const float doubleClickTime = std::chrono::duration<float>(time - p.clickTimer.second).count();
-                                if (j == p.clickTimer.first && doubleClickTime < p.doubleClickTime)
+                                const int modifiers = event.getKeyModifiers();
+                                if (0 == modifiers)
                                 {
                                     if (p.activatedCallback)
                                     {
@@ -805,7 +782,10 @@ namespace djv
                                         p.activatedCallback2({ j });
                                     }
                                 }
-                                p.clickTimer = std::make_pair(j, time);
+                                else
+                                {
+                                    p.selectionModel->select(j, modifiers);
+                                }
                             }
                         }
                     }

@@ -6,7 +6,6 @@
 
 #include <djvUI/ComboBox.h>
 #include <djvUI/EnumFunc.h>
-#include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
@@ -23,7 +22,6 @@ namespace djv
     {
         struct MouseSettingsWidget::Private
         {
-            std::shared_ptr<FloatSlider> doubleClickTimeSlider;
             std::shared_ptr<ComboBox> scrollWheelSpeedComboBox;
             std::shared_ptr<ToggleButton> reverseScrollingButton;
             std::shared_ptr<FormLayout> layout;
@@ -40,36 +38,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::MouseSettingsWidget");
 
-            p.doubleClickTimeSlider = FloatSlider::create(context);
-            p.doubleClickTimeSlider->setRange(Math::FloatRange(.1F, .5F));
-
             p.scrollWheelSpeedComboBox = ComboBox::create(context);
             p.reverseScrollingButton = ToggleButton::create(context);
 
             p.layout = FormLayout::create(context);
-            p.layout->addChild(p.doubleClickTimeSlider);
             p.layout->addChild(p.scrollWheelSpeedComboBox);
             p.layout->addChild(p.reverseScrollingButton);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MouseSettingsWidget>(std::dynamic_pointer_cast<MouseSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.doubleClickTimeSlider->setValueCallback(
-                [weak, contextWeak](float value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-                            if (auto mouseSettings = settingsSystem->getSettingsT<Settings::Mouse>())
-                            {
-                                mouseSettings->setDoubleClickTime(value);
-                            }
-                        }
-                    }
-                });
-
             p.scrollWheelSpeedComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -101,16 +79,6 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto mouseSettings = settingsSystem->getSettingsT<Settings::Mouse>();
-            p.doubleClickTimeObserver = ValueObserver<float>::create(
-                mouseSettings->observeDoubleClickTime(),
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->doubleClickTimeSlider->setValue(value);
-                    }
-                });
-
             p.scrollWheelSpeedObserver = ValueObserver<ScrollWheelSpeed>::create(
                 mouseSettings->observeScrollWheelSpeed(),
                 [weak](ScrollWheelSpeed value)
@@ -163,7 +131,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.layout->setText(p.doubleClickTimeSlider, _getText(DJV_TEXT("settings_mouse_double_click_time")) + ":");
                 p.layout->setText(p.scrollWheelSpeedComboBox, _getText(DJV_TEXT("settings_mouse_scroll_wheel_speed")) + ":");
                 p.layout->setText(p.reverseScrollingButton, _getText(DJV_TEXT("settings_mouse_reverse_scrolling")) + ":");
                 _widgetUpdate();
