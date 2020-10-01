@@ -28,4 +28,3 @@ namespace djv
         } // namespace Layout
     } // namespace UI
 } // namespace djv
-

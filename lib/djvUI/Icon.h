@@ -24,17 +24,25 @@ namespace djv
 
             static std::shared_ptr<Icon> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Icons
+            ///@{
+
             const std::string& getIcon() const;
 
             void setIcon(const std::string&);
 
+            ///@}
+
+            //! \name Options
+            ///@{
+
             ColorRole getIconColorRole() const;
-
-            void setIconColorRole(ColorRole);
-
             MetricsRole getIconSizeRole() const;
 
+            void setIconColorRole(ColorRole);
             void setIconSizeRole(MetricsRole);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

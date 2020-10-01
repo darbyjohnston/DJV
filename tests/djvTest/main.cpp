@@ -65,6 +65,7 @@
 #include <djvImageTest/PixelTest.h>
 #include <djvImageTest/TagsTest.h>
 
+#include <djvAudioTest/AudioDataFuncTest.h>
 #include <djvAudioTest/AudioDataTest.h>
 #include <djvAudioTest/AudioFuncTest.h>
 #include <djvAudioTest/AudioTest.h>
@@ -83,6 +84,7 @@
 #include <djvGLTest/OffscreenBufferFuncTest.h>
 #include <djvGLTest/OffscreenBufferTest.h>
 #include <djvGLTest/ShaderTest.h>
+#include <djvGLTest/TextureFuncTest.h>
 #include <djvGLTest/TextureTest.h>
 #include <djvGLTest/TextureAtlasTest.h>
 
@@ -224,6 +226,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new ImageTest::PixelTest(tempPath, context));
         tests.emplace_back(new ImageTest::TagsTest(tempPath, context));
 
+        tests.emplace_back(new AudioTest::AudioDataFuncTest(tempPath, context));
         tests.emplace_back(new AudioTest::AudioDataTest(tempPath, context));
         tests.emplace_back(new AudioTest::AudioFuncTest(tempPath, context));
         tests.emplace_back(new AudioTest::AudioTest(tempPath, context));
@@ -243,6 +246,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new GLTest::OffscreenBufferTest(tempPath, context));
         tests.emplace_back(new GLTest::ShaderTest(tempPath, context));
         tests.emplace_back(new GLTest::TextureAtlasTest(tempPath, context));
+        tests.emplace_back(new GLTest::TextureFuncTest(tempPath, context));
         tests.emplace_back(new GLTest::TextureTest(tempPath, context));
 
         tests.emplace_back(new OCIOTest::OCIOSystemFuncTest(tempPath, context));

@@ -54,17 +54,6 @@ namespace djv
                     texture->bind();
                 }
             }
-
-            for (const auto type : Image::getTypeEnums())
-            {
-                {
-                    std::stringstream ss;
-                    ss << type;
-                    std::stringstream ss2;
-                    ss2 << Texture::getInternalFormat(type);
-                    _print(_getText(ss.str()) + " internal format: " + ss2.str());
-                }
-            }
         }
 
     } // namespace GLTest

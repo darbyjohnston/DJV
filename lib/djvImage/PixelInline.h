@@ -36,4 +36,3 @@ namespace djv
 
     } // namespace Image
 } // namespace djv
-

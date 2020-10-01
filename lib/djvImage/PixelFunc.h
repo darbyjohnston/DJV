@@ -22,6 +22,9 @@ namespace djv
 {
     namespace Image
     {
+        //! \name Information
+        ///@{
+
         Channels getChannels(Type) noexcept;
         uint8_t getChannelCount(Type) noexcept;
         DataType getDataType(Type) noexcept;
@@ -39,6 +42,11 @@ namespace djv
 
         GLenum getGLFormat(Type) noexcept;
         GLenum getGLType(Type) noexcept;
+
+        ///@}
+
+        //! \name Conversion
+        ///@{
 
         void convert_U8_U8(U8_T, U8_T&);
         void convert_U8_U10(U8_T, U10_T&);
@@ -83,6 +91,8 @@ namespace djv
         void convert_F32_F32(F32_T, F32_T&);
 
         void convert(const void *, Type, void *, Type, size_t);
+
+        ///@}
 
         DJV_ENUM_HELPERS(Type);
         DJV_ENUM_HELPERS(Channels);

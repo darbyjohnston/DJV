@@ -45,15 +45,30 @@ namespace djv
             public:
                 virtual ~IIO() = 0;
 
+                //! \name Information
+                ///@{
+
                 virtual bool isRunning() const = 0;
+
+                ///@}
+                
+                //! \name Thread Count
+                ///@{
 
                 size_t getThreadCount() const;
 
                 void setThreadCount(size_t);
 
+                ///@}
+
+                //! \name Queues
+                ///@{
+
                 std::mutex& getMutex();
                 VideoQueue& getVideoQueue();
                 AudioQueue& getAudioQueue();
+
+                ///@}
 
             protected:
                 std::shared_ptr<System::LogSystem> _logSystem;
@@ -75,7 +90,7 @@ namespace djv
                 std::string colorSpace;
             };
 
-            //! This class provides an interface for reading.
+            //! This class provides the interface for reading.
             class IRead : public IIO
             {
             protected:
@@ -89,7 +104,15 @@ namespace djv
             public:
                 virtual ~IRead() = 0;
 
+                //! \name Information
+                ///@{
+
                 virtual std::future<Info> getInfo() = 0;
+
+                ///@}
+
+                //! \name Playback
+                ///@{
 
                 void setPlayback(bool);
                 void setLoop(bool);
@@ -98,6 +121,11 @@ namespace djv
                 //! \param value For video files this value represents the
                 //! frame number, for audio files it represents the audio sample.
                 virtual void seek(int64_t value, Direction) = 0;
+
+                ///@}
+
+                //! \name Cache
+                ///@{
 
                 virtual bool hasCache() const;
                 bool isCacheEnabled() const;
@@ -108,6 +136,8 @@ namespace djv
 
                 void setCacheEnabled(bool);
                 void setCacheMaxByteCount(size_t);
+
+                ///@}
 
             protected:
                 ReadOptions _options;
@@ -129,7 +159,7 @@ namespace djv
                 std::string colorSpace;
             };
 
-            //! This class provides an interface for writing.
+            //! This class provides the interface for writing.
             class IWrite : public IIO
             {
             protected:
@@ -149,7 +179,7 @@ namespace djv
                 WriteOptions _options;
             };
 
-            //! This class provides an interface for I/O plugins.
+            //! This class provides the interface for I/O plugins.
             class IPlugin : public std::enable_shared_from_this<IPlugin>
             {
             protected:
@@ -162,6 +192,9 @@ namespace djv
             public:
                 virtual ~IPlugin() = 0;
 
+                //! \name Information
+                ///@{
+
                 const std::string& getPluginName() const;
                 const std::string& getPluginInfo() const;
                 const std::set<std::string>& getFileExtensions() const;
@@ -170,19 +203,36 @@ namespace djv
                 virtual bool canRead(const System::File::Info&) const;
                 virtual bool canWrite(const System::File::Info&, const Info&) const;
 
+                ///@}
+
+                //! \name Options
+                ///@{
+
                 virtual rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const;
 
                 //! Throws:
                 //! - std::exception
                 virtual void setOptions(const rapidjson::Value&);
 
+                ///@}
+                
+                //! \name Read
+                ///@{
+
                 //! Throws:
                 //! - std::exception
                 virtual std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const;
 
+                ///@}
+
+                //! \name Write
+                ///@{
+
                 //! Throws:
                 //! - std::exception
                 virtual std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions&) const;
+
+                ///@}
 
             protected:
                 std::weak_ptr<System::Context> _context;

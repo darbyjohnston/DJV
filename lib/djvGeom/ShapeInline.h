@@ -83,4 +83,3 @@ namespace djv
 
     } // namespace Geom
 } // namespace djv
-

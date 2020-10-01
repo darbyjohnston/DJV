@@ -61,6 +61,17 @@ namespace djv
             return _p->vboType;
         }
 
+        float MeshCache::getPercentageUsed() const
+        {
+            DJV_PRIVATE_PTR();
+            size_t used = 0;
+            for (const auto& i : p.ranges)
+            {
+                used += i.first.getMax() - i.first.getMin() + 1;
+            }
+            return static_cast<float>(used) / static_cast<float>(p.vboSize) * 100.F;
+        }
+
         const std::shared_ptr<VBO>& MeshCache::getVBO() const
         {
             return _p->vbo;
@@ -71,7 +82,7 @@ namespace djv
             return _p->vao;
         }
 
-        bool MeshCache::getItem(UID uid, Math::SizeTRange& range)
+        bool MeshCache::get(UID uid, Math::SizeTRange& range)
         {
             DJV_PRIVATE_PTR();
             const auto i = p.uids.find(uid);
@@ -88,7 +99,7 @@ namespace djv
             return false;
         }
 
-        UID MeshCache::addItem(const std::vector<uint8_t>& data, Math::SizeTRange& range)
+        UID MeshCache::add(const std::vector<uint8_t>& data, Math::SizeTRange& range)
         {
             DJV_PRIVATE_PTR();
             
@@ -152,17 +163,6 @@ namespace djv
             }
             
             return out;
-        }
-
-        float MeshCache::getPercentageUsed() const
-        {
-            DJV_PRIVATE_PTR();
-            size_t used = 0;
-            for (const auto& i : p.ranges)
-            {
-                used += i.first.getMax() - i.first.getMin() + 1;
-            }
-            return static_cast<float>(used) / static_cast<float>(p.vboSize) * 100.F;
         }
 
         bool MeshCache::_find(size_t size, Math::SizeTRange& range)

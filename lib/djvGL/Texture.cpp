@@ -4,7 +4,7 @@
 
 #include <djvGL/Texture.h>
 
-#include <array>
+#include <djvGL/TextureFunc.h>
 
 //#pragma optimize("", off)
 
@@ -40,7 +40,7 @@ namespace djv
                 glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
-                    getInternalFormat(_info.type),
+                    getInternalFormat2D(_info.type),
                     _info.size.w,
                     _info.size.h,
                     0,
@@ -110,7 +110,7 @@ namespace djv
                 glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
-                    getInternalFormat(_info.type),
+                    getInternalFormat2D(_info.type),
                     _info.size.w,
                     _info.size.h,
                     0,
@@ -226,66 +226,6 @@ namespace djv
         void Texture::bind()
         {
             glBindTexture(GL_TEXTURE_2D, _id);
-        }
-
-        GLenum Texture::getInternalFormat(Image::Type type)
-        {
-            const std::array<GLenum, static_cast<size_t>(Image::Type::Count)> data =
-            {
-                GL_NONE,
-#if defined(DJV_GL_ES2)
-                GL_LUMINANCE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-
-                GL_LUMINANCE_ALPHA,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-
-                GL_RGB,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-
-                GL_RGBA,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE,
-                GL_NONE
-#else // DJV_GL_ES2
-                GL_R8,
-                GL_R16,
-                GL_R32I,
-                GL_R16F,
-                GL_R32F,
-
-                GL_RG8,
-                GL_RG16,
-                GL_RG32I,
-                GL_RG16F,
-                GL_RG32F,
-
-                GL_RGB8,
-                GL_RGB10,
-                GL_RGB16,
-                GL_RGB32I,
-                GL_RGB16F,
-                GL_RGB32F,
-
-                GL_RGBA8,
-                GL_RGBA16,
-                GL_RGBA32I,
-                GL_RGBA16F,
-                GL_RGBA32F
-#endif // DJV_GL_ES2
-            };
-            return data[static_cast<size_t>(type)];
         }
 
         /*void Texture1D::_init(const Image::Info& info, GLenum filter)
@@ -445,12 +385,6 @@ namespace djv
         void Texture1D::bind()
         {
             glBindTexture(GL_TEXTURE_1D, _id);
-        }
-
-        GLenum Texture1D::getInternalFormat(Image::Type type)
-        {
-            //return Image::getGLFormat(type);
-            return GL_RGBA;
         }*/
 
     } // namespace GL

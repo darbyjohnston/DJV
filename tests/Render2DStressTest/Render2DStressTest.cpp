@@ -131,7 +131,7 @@ void Application::_init(std::list<std::string>& args)
 
     Render2D::RenderSystem::create(shared_from_this());
 
-    _glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
+    _glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getWindow();
     //glfwSetWindowSize(_glfwWindow, 1280, 720);
     glfwShowWindow(_glfwWindow);
     _render2D = getSystemT<Render2D::Render>();

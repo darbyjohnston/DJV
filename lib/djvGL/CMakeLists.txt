@@ -15,8 +15,9 @@ set(header
     Shader.h
     ShaderInline.h
     ShaderSystem.h
-    TextureAtlas.h
     Texture.h
+    TextureAtlas.h
+    TextureFunc.h
     TextureInline.h)
 set(source
     EnumFunc.cpp
@@ -29,8 +30,9 @@ set(source
     OffscreenBufferFunc.cpp
     Shader.cpp
     ShaderSystem.cpp
+    Texture.cpp
     TextureAtlas.cpp
-    Texture.cpp)
+    TextureFunc.cpp)
 
 add_library(djvGL ${header} ${source})
 set(LIBRARIES

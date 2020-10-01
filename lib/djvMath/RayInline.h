@@ -30,4 +30,3 @@ namespace djv
 
     } // namespace Math
 } // namespace djv
-

@@ -153,7 +153,7 @@ namespace djv
                 auto io = File::IO::create();
                 io->open(
                     File::Path(path, "file.txt").get(),
-                    File::IO::Mode::Write);
+                    File::Mode::Write);
                 io->close();
 
                 _tickFor(std::chrono::milliseconds(1000));

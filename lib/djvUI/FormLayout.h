@@ -29,11 +29,15 @@ namespace djv
 
                 static std::shared_ptr<Form> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Text
+                ///@{
+
                 void setText(const std::shared_ptr<Widget>&, const std::string&);
 
-                const Spacing& getSpacing() const;
+                ///@}
 
-                void setSpacing(const Spacing&);
+                //! \name Text Font
+                ///@{
 
                 const std::string& getFontFamily() const;
                 const std::string& getFontFace() const;
@@ -41,10 +45,26 @@ namespace djv
                 void setFontFamily(const std::string&);
                 void setFontFace(const std::string&);
 
+                ///@}
+
+                //! \name Spacing
+                ///@{
+
+                const Spacing& getSpacing() const;
+
+                void setSpacing(const Spacing&);
+
+                ///@}
+
+                //! \name Options
+                ///@{
+
                 void setAlternateRowsRoles(ColorRole, ColorRole);
 
                 void setLabelVAlign(VAlign);
                 void setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
+
+                ///@}
 
                 float getHeightForWidth(float) const override;
 

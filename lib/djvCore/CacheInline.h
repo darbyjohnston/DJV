@@ -17,13 +17,6 @@ namespace djv
             }
 
             template<typename T, typename U>
-            inline void Cache<T, U>::setMax(size_t value)
-            {
-                _max = value;
-                _maxUpdate();
-            }
-
-            template<typename T, typename U>
             inline size_t Cache<T, U>::getSize() const
             {
                 return _map.size();
@@ -33,6 +26,13 @@ namespace djv
             inline float Cache<T, U>::getPercentageUsed() const
             {
                 return _map.size() / static_cast<float>(_max) * 100.F;
+            }
+
+            template<typename T, typename U>
+            inline void Cache<T, U>::setMax(size_t value)
+            {
+                _max = value;
+                _maxUpdate();
             }
 
             template<typename T, typename U>
@@ -143,4 +143,3 @@ namespace djv
         } // namespace Memory
     } // namespace Core
 } // namespace djv
-

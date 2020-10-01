@@ -6,14 +6,14 @@ namespace djv
 {
     namespace System
     {
-        inline const std::string& ISystemBase::getSystemName() const
-        {
-            return _name;
-        }
-
         inline const std::weak_ptr<Context>& ISystemBase::getContext() const
         {
             return _context;
+        }
+
+        inline const std::string& ISystemBase::getSystemName() const
+        {
+            return _name;
         }
 
         inline const std::vector<std::shared_ptr<ISystemBase> >& ISystemBase::getDependencies() const
@@ -33,4 +33,3 @@ namespace djv
 
     } // namespace System
 } // namespace djv
-

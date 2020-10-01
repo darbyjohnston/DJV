@@ -24,16 +24,26 @@ namespace djv
             MeshCache(size_t vboSize, VBOType);
             ~MeshCache();
 
+            //! \name Information
+            ///@{
+
             size_t getVBOSize() const;
             VBOType getVBOType() const;
+            float getPercentageUsed() const;
+
+            ///@}
+
+            //! \name Data
+            ///@{
+
             const std::shared_ptr<VBO>& getVBO() const;
             const std::shared_ptr<VAO>& getVAO() const;
 
-            bool getItem(Core::UID, Math::SizeTRange&);
+            bool get(Core::UID, Math::SizeTRange&);
 
-            Core::UID addItem(const std::vector<uint8_t>&, Math::SizeTRange&);
+            Core::UID add(const std::vector<uint8_t>&, Math::SizeTRange&);
 
-            float getPercentageUsed() const;
+            ///@}
 
         private:
             class BoxPackingNode;

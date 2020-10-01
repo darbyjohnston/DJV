@@ -20,12 +20,6 @@ namespace djv
 {
     namespace CmdLine
     {
-        struct Arguments
-        {
-            std::unique_ptr<AV::Time::Units> timeUnits;
-            std::unique_ptr<bool> logConsole;
-        };
-
         //! This class provides a command-line application.
         class Application : public System::Context
         {

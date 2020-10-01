@@ -26,17 +26,37 @@ namespace djv
 
             static std::shared_ptr<ColorSwatch> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Color
+            ///@{
+
             const Image::Color& getColor() const;
 
             void setColor(const Image::Color&);
+
+            ///@}
+
+            //! \name Size
+            ///@{
 
             MetricsRole getSwatchSizeRole() const;
 
             void setSwatchSizeRole(MetricsRole);
 
+            ///@}
+
+            //! \name Border
+            ///@{
+
             void setBorder(bool);
 
+            ///@}
+
+            //! \name Callbacks
+            ///@{
+
             void setClickedCallback(const std::function<void(void)>&);
+
+            ///@}
 
             bool acceptFocus(TextFocusDirection) override;
 

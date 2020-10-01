@@ -94,7 +94,7 @@ namespace djv
                 Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io)
                 {
                     DJV_PRIVATE_PTR();
-                    io->open(fileName, System::File::IO::Mode::Read);
+                    io->open(fileName, System::File::Mode::Read);
                     Info info;
                     info.videoSpeed = _speed;
                     info.videoSequence = _sequence;

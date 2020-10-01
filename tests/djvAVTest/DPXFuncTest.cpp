@@ -63,8 +63,8 @@ namespace djv
                 try
                 {
                     auto io = System::File::IO::create();
-                    io->open(System::File::Path(getTempPath(), "empty.dpx").get(), System::File::IO::Mode::Write);
-                    io->open(System::File::Path(getTempPath(), "empty.dpx").get(), System::File::IO::Mode::Read);
+                    io->open(System::File::Path(getTempPath(), "empty.dpx").get(), System::File::Mode::Write);
+                    io->open(System::File::Path(getTempPath(), "empty.dpx").get(), System::File::Mode::Read);
                     Info info;
                     DPX::Transfer transfer = DPX::Transfer::First;
                     DPX::read(io, info, transfer, textSystem);
@@ -78,7 +78,7 @@ namespace djv
                 try
                 {
                     auto io = System::File::IO::create();
-                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::Mode::Write);
                     DPX::Header header;
                     DPX::zero(header);
                     io->write(&header.file, sizeof(DPX::Header::File));
@@ -86,7 +86,7 @@ namespace djv
                     io->write(&header.source, sizeof(DPX::Header::Source));
                     io->write(&header.film, sizeof(DPX::Header::Film));
                     io->write(&header.tv, sizeof(DPX::Header::TV));
-                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Read);
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::Mode::Read);
                     Info info;
                     DPX::Transfer transfer = DPX::Transfer::First;
                     DPX::read(io, info, transfer, textSystem);
@@ -293,7 +293,7 @@ namespace djv
                 
                 {
                     auto io = System::File::IO::create();
-                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::Mode::Write);
                     Info info;
                     info.video.push_back(Image::Info(0, 0, Image::Type::RGB_U10));
                     info.tags.set("Time", " ");
@@ -333,7 +333,7 @@ namespace djv
                     info.tags.set("TV White Level", "1");
                     info.tags.set("TV Integration Times", "1");
                     DPX::write(io, info, DPX::Version::_2_0, DPX::Endian::Auto, DPX::Transfer::First);
-                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Read);
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::Mode::Read);
                     Info info2;
                     info2.video.push_back(Image::Info());
                     DPX::Transfer transfer = DPX::Transfer::First;
@@ -350,7 +350,7 @@ namespace djv
                             for (const auto& l : DPX::getTransferEnums())                
                             {
                                 auto io = System::File::IO::create();
-                                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
+                                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::Mode::Write);
                                 Info info;
                                 info.video.push_back(Image::Info(0, 0, i));
                                 DPX::write(io, info, j, k, l);
@@ -372,7 +372,7 @@ namespace djv
             {
                 auto textSystem = context->getSystemT<System::TextSystem>();
                 auto io = System::File::IO::create();
-                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
+                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::Mode::Write);
                 Memory::Endian fileEndian = Memory::getEndian();
                 switch (endian)
                 {
@@ -395,7 +395,7 @@ namespace djv
                 io->write(&header.film, sizeof(DPX::Header::Film));
                 io->write(&header.tv, sizeof(DPX::Header::TV));
                 
-                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Read);
+                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::Mode::Read);
                 DPX::read(io, info, transfer, textSystem);
             }
         }

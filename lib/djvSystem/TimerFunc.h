@@ -13,9 +13,14 @@ namespace djv
 {
     namespace System
     {
+        //! \name Information
+        ///@{
+
         size_t getTimerValue(TimerValue);
         
         Core::Time::Duration getTimerDuration(TimerValue);
+
+        ///@}
 
         DJV_ENUM_HELPERS(TimerValue);
 

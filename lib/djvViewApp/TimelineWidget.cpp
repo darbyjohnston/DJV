@@ -159,7 +159,7 @@ namespace djv
 
             p.timelineSlider = TimelineSlider::create(context);
             p.timelineSlider->setMedia(p.media);
-            p.timelineSlider->setMargin(UI::MetricsRole::MarginInside);
+            p.timelineSlider->setMargin(UI::MetricsRole::Border);
 
             p.audioPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.audioPopupButton->setPopupDefault(UI::Popup::AboveLeft);

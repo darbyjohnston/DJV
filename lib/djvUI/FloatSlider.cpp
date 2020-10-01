@@ -233,6 +233,11 @@ namespace djv
             return out;
         }
 
+        const std::shared_ptr<Math::INumericValueModel<float>>& FloatSlider::getModel() const
+        {
+            return _p->slider->getModel();
+        }
+
         void FloatSlider::setModel(const std::shared_ptr<Math::INumericValueModel<float> >& model)
         {
             DJV_PRIVATE_PTR();
@@ -317,11 +322,6 @@ namespace djv
         void FloatSlider::setDelay(const Time::Duration& value)
         {
             _p->slider->setDelay(value);
-        }
-
-        const std::shared_ptr<Math::INumericValueModel<float>>& FloatSlider::getModel() const
-        {
-            return _p->slider->getModel();
         }
 
         void FloatSlider::_preLayoutEvent(System::Event::PreLayout& event)

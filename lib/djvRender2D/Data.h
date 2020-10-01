@@ -122,6 +122,7 @@ namespace djv
             First = Nearest
         };
 
+        //! This class provides image filter options.
         class ImageFilterOptions
         {
         public:
@@ -137,7 +138,6 @@ namespace djv
         };
 
     } // namespace Render2D
-
 } // namespace djv
 
 #include <djvRender2D/DataInline.h>

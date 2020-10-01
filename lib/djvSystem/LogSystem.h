@@ -29,8 +29,13 @@ namespace djv
             //! Create a new logging system.
             static std::shared_ptr<LogSystem> create(const std::shared_ptr<Context>&);
             
+            //! \name Messages
+            ///@{
+
             //! Log a message.
             void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);
+
+            ///@}
 
             //! \name Warning and Errors
             ///@{
@@ -40,7 +45,7 @@ namespace djv
 
             ///@}
 
-            //! \name Logging Options
+            //! \name Options
             ///@{
             
             bool hasConsoleOutput() const;

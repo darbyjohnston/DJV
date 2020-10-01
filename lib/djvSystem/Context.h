@@ -39,8 +39,13 @@ namespace djv
             //! - std::exception
             static std::shared_ptr<Context> create(const std::string& argv0);
 
+            //! \name Information
+            ///@{
+
             //! Get the context name.
             const std::string& getName() const;
+
+            ///@}
 
             //! \name Systems
             ///@{
@@ -62,6 +67,9 @@ namespace djv
 
             ///@}
 
+            //! \name Tick
+            ///@{
+
             //! This function is called by the application event loop.
             virtual void tick();
 
@@ -70,6 +78,8 @@ namespace djv
 
             //! Get the system tick times.
             const std::vector<std::pair<std::string, Core::Time::Duration> >& getSystemTickTimes() const;
+
+            ///@}
 
         protected:
             void _addSystem(const std::shared_ptr<ISystemBase> &);

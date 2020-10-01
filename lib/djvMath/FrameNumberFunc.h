@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Frame
         {
-            //! \name Utilities
+            //! \name Utility
             ///@{
 
             bool isValid(const Range&);

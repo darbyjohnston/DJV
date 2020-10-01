@@ -31,14 +31,14 @@ namespace djv
         public:
             ~ImageConvert();
 
-            //! Note that this function requires an OpenGL context.
+            //! Note that this function requires an active OpenGL context.
             //! Throws:
             //! - ShaderError
             static std::shared_ptr<ImageConvert> create(
                 const std::shared_ptr<System::TextSystem>&,
                 const std::shared_ptr<System::ResourceSystem>&);
 
-            //! Note that this function requires an OpenGL context.
+            //! Note that this function requires an active OpenGL context.
             //! Throws:
             //! - OffscreenBufferError
             void process(const Image::Data&, const Image::Info&, Image::Data&);

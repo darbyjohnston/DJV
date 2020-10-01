@@ -12,7 +12,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This class provides an interface for reading sequences.
+            //! This class provides the interface for reading sequences.
             class ISequenceRead : public IRead
             {
                 DJV_NON_COPYABLE(ISequenceRead);
@@ -53,7 +53,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides an interface for writing sequences.
+            //! This class provides the interface for writing sequences.
             class ISequenceWrite : public IWrite
             {
                 DJV_NON_COPYABLE(ISequenceWrite);
@@ -86,7 +86,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides an interface for sequence I/O plugins.
+            //! This class provides the interface for sequence I/O plugins.
             class ISequencePlugin : public IPlugin
             {
             public:

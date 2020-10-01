@@ -33,6 +33,9 @@ namespace djv
         typedef float   F32_T;
         typedef double  F64_T;
 
+        //! \name Ranges
+        ///@{
+
         const Math::Range<S8_T> S8Range(
             std::numeric_limits<S8_T>::min(),
             std::numeric_limits<S8_T>::max());
@@ -47,6 +50,8 @@ namespace djv
 
         const Math::Range<F32_T> F32Range(-1.F, 1.F);
         const Math::Range<F64_T> F64Range(-1.F, 1.F);
+
+        ///@}
 
     } // namespace Audio
 } // namespace djv

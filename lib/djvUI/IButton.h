@@ -13,7 +13,7 @@ namespace djv
         //! This namespace provides button widgets.
         namespace Button
         {
-            //! This class provides an interface for button widgets.
+            //! This class provides the interface for button widgets.
             class IButton : public Widget
             {
             protected:
@@ -22,21 +22,41 @@ namespace djv
             public:
                 virtual ~IButton() = 0;
 
+                //! \name Button Type
+                ///@{
+
                 ButtonType getButtonType() const;
 
                 virtual void setButtonType(ButtonType);
+
+                ///@}
+
+                //! \name Checked State
+                ///@{
 
                 bool isChecked() const;
 
                 virtual void setChecked(bool);
 
+                ///@}
+
+                //! \name Options
+                ///@{
+
                 ColorRole getForegroundColorRole() const;
 
                 virtual void setForegroundColorRole(ColorRole);
 
+                ///@}
+
+                //! \name Callbacks
+                ///@{
+
                 void setClickedCallback(const std::function<void(void)>&);
                 void setCheckedCallback(const std::function<void(bool)>&);
                 void doClick();
+
+                ///@}
 
                 void addAction(const std::shared_ptr<Action>&) override;
                 void removeAction(const std::shared_ptr<Action>&) override;

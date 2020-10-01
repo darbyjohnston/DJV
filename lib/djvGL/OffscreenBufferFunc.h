@@ -12,9 +12,14 @@ namespace djv
 {
     namespace GL
     {
+        //! \name Information
+        ///@{
+
         GLenum getInternalFormat(OffscreenDepthType);
         GLenum getGLFormat(OffscreenDepthType);
         GLenum getGLType(OffscreenDepthType);
+
+        ///@}
 
         DJV_ENUM_HELPERS(OffscreenDepthType);
         DJV_ENUM_HELPERS(OffscreenSampling);

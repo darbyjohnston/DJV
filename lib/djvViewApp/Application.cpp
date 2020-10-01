@@ -234,7 +234,7 @@ namespace djv
                     {
                         p.timer->stop();
                         auto glfwSystem = getSystemT<GL::GLFW::GLFWSystem>();
-                        auto glfwWindow = glfwSystem->getGLFWWindow();
+                        auto glfwWindow = glfwSystem->getWindow();
                         std::vector<GLFWimage> glfwImages;
                         for (const auto& i : p.icons)
                         {

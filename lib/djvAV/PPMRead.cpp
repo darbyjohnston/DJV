@@ -93,7 +93,7 @@ namespace djv
 
                 Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io, Data& data)
                 {
-                    io->open(fileName, System::File::IO::Mode::Read);
+                    io->open(fileName, System::File::Mode::Read);
 
                     char magic[] = { 0, 0, 0 };
                     io->read(magic, 2);

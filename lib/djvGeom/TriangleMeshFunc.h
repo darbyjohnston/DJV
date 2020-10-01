@@ -16,15 +16,21 @@ namespace djv
 {
     namespace Geom
     {
-        //! Convert a face into triangles.
-        void faceToTriangles(
-            const TriangleMesh::Face&,
-            std::vector<TriangleMesh::Triangle>&);
+        //! \name Utility
+        ///@{
 
         //! Calculate the mesh normals.
         //! \todo Implement smoothing.
         //! \todo Add an option for CW and CCW.
         void calcNormals(TriangleMesh&);
+
+        //! Create a mesh from a bounding-box.
+        void triangulateBBox(const Math::BBox3f&, TriangleMesh&);
+
+        ///@}
+
+        //! \name Intersection
+        ///@{
 
         //! Intersect a line with a triangle.
         bool intersectTriangle(
@@ -51,8 +57,17 @@ namespace djv
             glm::vec2&          hitTexture,
             glm::vec3&          hitNormal);
 
-        //! Create a mesh from a bounding-box.
-        void triangulateBBox(const Math::BBox3f&, TriangleMesh&);
+        ///@}
+
+        //! \name Conversion
+        ///@{
+
+        //! Convert a face into triangles.
+        void faceToTriangles(
+            const TriangleMesh::Face&,
+            std::vector<TriangleMesh::Triangle>&);
+
+        ///@}
 
     } // namespace Geom
 } // namespace djv

@@ -153,7 +153,7 @@ namespace djv
                         _log(ss.str());
 
                         auto fileIO = System::File::IO::create();
-                        fileIO->open(_settingsPath.get(), System::File::IO::Mode::Read);
+                        fileIO->open(_settingsPath.get(), System::File::Mode::Read);
                         size_t bufSize = 0;
 #if defined(DJV_MMAP)
                         const char * bufP = reinterpret_cast<const char *>(fileIO->mmapP());
@@ -219,7 +219,7 @@ namespace djv
                     document.Accept(writer);
 
                     auto fileIO = System::File::IO::create();
-                    fileIO->open(_settingsPath.get(), System::File::IO::Mode::Write);
+                    fileIO->open(_settingsPath.get(), System::File::Mode::Write);
                     fileIO->write(buffer.GetString());
                 }
                 catch (const std::exception& e)

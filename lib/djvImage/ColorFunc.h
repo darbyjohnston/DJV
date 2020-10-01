@@ -12,10 +12,15 @@ namespace djv
 {
     namespace Image
     {
+        //! \name Conversion
+        ///@{
+        /// 
         void rgbToHSV(const float[3], float[3]);
         void hsvToRGB(const float[3], float[3]);
 
         std::string getLabel(const Color&, int precision = 2, bool pad = true);
+
+        ///@}
     
     } // Image
 

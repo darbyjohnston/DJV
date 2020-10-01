@@ -30,6 +30,9 @@ namespace djv
 
         } // namespace Style
 
+        //! \name Drawing
+        ///@{
+
         void drawBorder(
             const std::shared_ptr<Render2D::Render>&,
             const Math::BBox2f& box,
@@ -43,11 +46,14 @@ namespace djv
             const Image::Color& color1);
 
         glm::vec2 getCheckBoxSize(const std::shared_ptr<Style::Style>&);
+
         void drawCheckBox(
             const std::shared_ptr<Render2D::Render>&,
             const std::shared_ptr<Style::Style>&,
             const Math::BBox2f&,
             bool checked);
+
+        ///@}
 
     } // namespace UI
 } // namespace djv

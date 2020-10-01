@@ -45,17 +45,32 @@ namespace djv
 
             static std::shared_ptr<VBO> create(size_t size, VBOType);
 
+            //! \name Information
+            ///@{
+
             size_t getSize() const;
             VBOType getType() const;
             GLuint getID() const;
+
+            ///@}
+
+            //! \name Copy
+            ///@{
 
             void copy(const std::vector<uint8_t>&);
             void copy(const std::vector<uint8_t>&, size_t offset);
             void copy(const std::vector<uint8_t>&, size_t offset, size_t size);
 
+            ///@}
+
+            //! \name Convert
+            ///@{
+
             static std::vector<uint8_t> convert(const Geom::PointList&, VBOType);
             static std::vector<uint8_t> convert(const Geom::TriangleMesh&, VBOType);
             static std::vector<uint8_t> convert(const Geom::TriangleMesh&, VBOType, const Math::SizeTRange&);
+
+            ///@}
 
         private:
             size_t _size = 0;

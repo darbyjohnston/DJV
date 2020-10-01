@@ -59,7 +59,7 @@ namespace djv
                 void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Image>& image)
                 {
                     auto io = System::File::IO::create();
-                    io->open(fileName, System::File::IO::Mode::Write);
+                    io->open(fileName, System::File::Mode::Write);
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();

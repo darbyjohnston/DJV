@@ -61,10 +61,18 @@ namespace djv
             public:
                 VideoQueue();
 
+                //! \name Size
+                ///@{
+                
                 size_t getMax() const;
 
                 void setMax(size_t);
 
+                ///@}
+
+                //! \name Frames
+                ///@{
+                
                 bool isEmpty() const;
                 size_t getCount() const;
                 VideoFrame getFrame() const;
@@ -73,9 +81,16 @@ namespace djv
                 VideoFrame popFrame();
                 void clearFrames();
 
+                ///@}
+
+                //! \name Finished
+                ///@{
+
                 bool isFinished() const;
 
                 void setFinished(bool);
+
+                ///@}
 
             private:
                 size_t _max = 0;
@@ -103,9 +118,17 @@ namespace djv
             public:
                 AudioQueue();
 
+                //! \name Size
+                ///@{
+
                 size_t getMax() const;
 
                 void setMax(size_t);
+
+                ///@}
+
+                //! \name Frames
+                ///@{
 
                 bool isEmpty() const;
                 size_t getCount() const;
@@ -115,9 +138,16 @@ namespace djv
                 AudioFrame popFrame();
                 void clearFrames();
 
+                ///@}
+
+                //! \name Finished
+                ///@{
+
                 bool isFinished() const;
                 
                 void setFinished(bool);
+
+                ///@}
 
             private:
                 std::mutex _mutex;
@@ -133,10 +163,21 @@ namespace djv
                 InOutPoints();
                 InOutPoints(bool, Math::Frame::Index, Math::Frame::Index);
 
+                //! \name Information
+                ///@{
+
                 bool isEnabled() const;
+
+                ///@}
+
+                //! \name Range
+                ///@{
+
                 Math::Frame::Index getIn() const;
                 Math::Frame::Index getOut() const;
                 Math::Range<Math::Frame::Index> getRange(size_t) const;
+
+                ///@}
 
                 bool operator == (const InOutPoints&) const;
 
@@ -159,14 +200,24 @@ namespace djv
             public:
                 Cache();
                 
+                //! \name Size
+                ///@{
+
                 size_t getMax() const;
                 size_t getCount() const;
                 size_t getTotalByteCount() const;
+
+                void setMax(size_t);
+
+                ///@}
+
+                //! \name Frames
+                ///@{
+
                 Math::Frame::Sequence getFrames() const;
                 size_t getReadBehind() const;
                 const Math::Frame::Sequence& getSequence() const;
 
-                void setMax(size_t);
                 void setSequenceSize(size_t);
                 void setInOutPoints(const InOutPoints&);
                 void setDirection(Direction);
@@ -177,6 +228,8 @@ namespace djv
 
                 void add(Math::Frame::Index, const std::shared_ptr<Image::Image>&);
                 void clear();
+
+                ///@}
 
             private:
                 void _cacheUpdate();

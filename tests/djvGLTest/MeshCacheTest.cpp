@@ -47,13 +47,13 @@ namespace djv
                 Math::SizeTRange range;
                 for (size_t j = 0; j < 100; ++j)
                 {
-                    UID uid = cache.addItem(data, range);
+                    UID uid = cache.add(data, range);
                     Math::SizeTRange range2;
-                    DJV_ASSERT(cache.getItem(uid, range2));
+                    DJV_ASSERT(cache.get(uid, range2));
                     DJV_ASSERT(range == range2);
                 }
                 
-                DJV_ASSERT(!cache.getItem(invalid, range));
+                DJV_ASSERT(!cache.get(invalid, range));
                 
                 {
                     std::stringstream ss;

@@ -25,7 +25,6 @@ namespace djv
                 Count,
                 First = None
             };
-            DJV_ENUM_HELPERS(GridStretch);
 
             //! This class provides layout that arranges it's children in a grid.
             //!
@@ -43,23 +42,48 @@ namespace djv
 
                 static std::shared_ptr<Grid> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Grid Size
+                ///@{
+
                 glm::ivec2 getGridSize() const;
+
+                ///@}
+
+                //! \name Grid Position
+                ///@{
 
                 glm::ivec2 getGridPos(const std::shared_ptr<Widget>&);
 
                 void setGridPos(const std::shared_ptr<Widget>&, const glm::ivec2&, GridStretch = GridStretch::None);
                 void setGridPos(const std::shared_ptr<Widget>&, int x, int y, GridStretch = GridStretch::None);
 
+                ///@}
+
+                //! \name Spacing
+                ///@{
+
                 const Spacing& getSpacing() const;
 
                 void setSpacing(const Spacing&);
+
+                ///@}
+
+                //! \name Stretch
+                ///@{
 
                 GridStretch getStretch(const std::shared_ptr<Widget>&) const;
 
                 void setStretch(const std::shared_ptr<Widget>&, GridStretch);
 
+                ///@}
+
+                //! \name Options
+                ///@{
+
                 void setRowBackgroundRole(int, ColorRole);
                 void setColumnBackgroundRole(int, ColorRole);
+
+                ///@}
 
                 float getHeightForWidth(float) const override;
 
@@ -81,9 +105,5 @@ namespace djv
         using Layout::GridStretch;
 
     } // namespace UI
-
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::GridStretch);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::GridStretch);
-
 } // namespace Gp
 

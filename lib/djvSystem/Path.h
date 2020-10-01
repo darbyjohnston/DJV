@@ -131,7 +131,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Path Components
+                //! \name Components
                 ///@{
 
                 const std::string& getDirectoryName() const noexcept;

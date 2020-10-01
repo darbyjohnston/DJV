@@ -11,7 +11,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides an interface for dialogs.
+        //! This class provides the interface for dialogs.
         class IDialog : public Window
         {
             DJV_NON_COPYABLE(IDialog);

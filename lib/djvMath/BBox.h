@@ -23,11 +23,11 @@ namespace djv
             tBBox2(const glm::tvec2<T, P>& min, const glm::tvec2<T, P>& max) noexcept;
             tBBox2(T x, T y, T w, T h) noexcept;
 
-            //! \name Box Components
-            ///@{
-
             glm::tvec2<T, P> min;
             glm::tvec2<T, P> max;
+
+            //! \name Components
+            ///@{
 
             T x() const noexcept;
             T y() const noexcept;
@@ -35,17 +35,18 @@ namespace djv
             T h() const noexcept;
 
             constexpr bool isValid() const noexcept;
+            
+            ///@}
+
+            //! \name Utility
+            ///@{
+
+            void zero() noexcept;
+
             glm::tvec2<T, P> getSize() const noexcept;
             glm::tvec2<T, P> getCenter() const noexcept;
             T getArea() const noexcept;
             float getAspect() const noexcept;
-            
-            void zero() noexcept;
-
-            ///@}
-
-            //! \name Utilities
-            ///@{
 
             bool contains(const tBBox2<T, P>&) const noexcept;
             bool contains(const glm::tvec2<T, P>&) const noexcept;
@@ -76,11 +77,11 @@ namespace djv
             tBBox3(const glm::tvec3<T, P>& min, const glm::tvec3<T, P>& max) noexcept;
             tBBox3(T x, T y, T z, T w, T h, T d) noexcept;
 
-            //! \name Components
-            ///@{
-
             glm::tvec3<T, P> min;
             glm::tvec3<T, P> max;
+
+            //! \name Components
+            ///@{
 
             T x() const noexcept;
             T y() const noexcept;
@@ -90,15 +91,16 @@ namespace djv
             T d() const noexcept;
 
             constexpr bool isValid() const noexcept;
-            glm::tvec3<T, P> getSize() const noexcept;
-            glm::tvec3<T, P> getCenter() const noexcept;
             
-            void zero() noexcept;
-
             ///@}
 
-            //! \name Box Utilities
+            //! \name Utility
             ///@{
+
+            void zero() noexcept;
+
+            glm::tvec3<T, P> getSize() const noexcept;
+            glm::tvec3<T, P> getCenter() const noexcept;
 
             bool contains(const tBBox3<T, P>&) const noexcept;
             bool contains(const glm::tvec3<T, P>&) const noexcept;

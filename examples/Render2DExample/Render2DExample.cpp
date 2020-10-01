@@ -101,7 +101,7 @@ void Application::_init(std::list<std::string>& args)
         }
     });
 
-    auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
+    auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getWindow();
     glfwSetWindowSize(glfwWindow, _windowSize.w, _windowSize.h);
     glfwShowWindow(glfwWindow);
 }
@@ -118,7 +118,7 @@ std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 
 void Application::run()
 {
-    auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
+    auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getWindow();
     while (!glfwWindowShouldClose(glfwWindow))
     {
         glfwPollEvents();
@@ -132,7 +132,7 @@ void Application::_render()
 {
     if (auto render = getSystemT<Render2D::Render>())
     {
-        auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
+        auto glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getWindow();
         glm::ivec2 windowSize = glm::ivec2(0, 0);
         glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
         _windowSize.w = windowSize.x;

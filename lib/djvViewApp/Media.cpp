@@ -11,6 +11,7 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/TimeFunc.h>
 
+#include <djvAudio/AudioDataFunc.h>
 #include <djvAudio/AudioSystem.h>
 
 #include <djvSystem/Context.h>
@@ -1298,7 +1299,7 @@ namespace djv
                 //    p,
                 //    media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
                 //    size * sampleByteCount);
-                Audio::Data::volume(
+                Audio::volume(
                     media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
                     p,
                     volume,
@@ -1325,7 +1326,7 @@ namespace djv
                 //    p,
                 //    i.audio->getData(),
                 //    size * sampleByteCount);
-                Audio::Data::volume(
+                Audio::volume(
                     i.audio->getData(),
                     p,
                     volume,

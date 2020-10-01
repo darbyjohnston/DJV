@@ -25,13 +25,23 @@ namespace djv
 
             static std::shared_ptr<Image> create(const Info&);
 
+            //! \name Information
+            ///@{
+
             const std::string& getPluginName() const;
 
             void setPluginName(const std::string&);
 
+            ///@}
+
+            //! \name Tags
+            ///@{
+
             const Tags& getTags() const;
 
             void setTags(const Tags&);
+
+            ///@}
 
         private:
             std::string _pluginName;

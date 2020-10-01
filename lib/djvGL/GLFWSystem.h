@@ -53,11 +53,21 @@ namespace djv
                 //! - Error
                 static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<System::Context>&);
 
-                GLFWwindow* getGLFWWindow() const;
+                //! \name Window
+                ///@{
+
+                GLFWwindow* getWindow() const;
+
+                ///@}
+
+                //! \name Swap Interval
+                ///@{
 
                 std::shared_ptr<Core::Observer::IValueSubject<SwapInterval> > observeSwapInterval() const;
 
                 void setSwapInterval(SwapInterval);
+
+                ///@}
 
             private:
                 DJV_PRIVATE();

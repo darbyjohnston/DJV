@@ -95,7 +95,7 @@ namespace djv
                 try
                 {
                     auto io = File::IO::create();
-                    io->open(std::string(p.path), File::IO::Mode::Write);
+                    io->open(std::string(p.path), File::Mode::Write);
                 }
                 catch (const std::exception& e)
                 {
@@ -221,7 +221,7 @@ namespace djv
                 std::vector<std::string> errors;
 
                 auto io = File::IO::create();
-                io->open(std::string(p.path), File::IO::Mode::Append);
+                io->open(std::string(p.path), File::Mode::Append);
                 io->seek(io->getSize());
 
                 std::map<LogLevel, std::string> labels =

@@ -23,6 +23,9 @@ namespace djv
 {
     namespace OCIO
     {
+        Config::Config()
+        {}
+
         std::string Config::getNameFromFileName(const std::string& value)
         {
             System::File::Path path(value);

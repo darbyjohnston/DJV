@@ -26,17 +26,25 @@ namespace djv
 
                 static std::shared_ptr<Border> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Options
+                ///@{
+
                 MetricsRole getBorderSize() const;
-
-                void setBorderSize(MetricsRole);
-
                 ColorRole getBorderColorRole() const;
 
+                void setBorderSize(MetricsRole);
                 void setBorderColorRole(ColorRole);
+
+                ///@}
+
+                //! \name Margin
+                ///@{
 
                 const Margin& getInsideMargin() const;
 
                 void setInsideMargin(const Margin&);
+
+                ///@}
 
                 float getHeightForWidth(float) const override;
 

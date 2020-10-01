@@ -1,10 +1,12 @@
 set(header
+    AudioDataFuncTest.h
     AudioDataTest.h
     AudioFuncTest.h
     AudioSystemFuncTest.h
     AudioSystemTest.h
     AudioTest.h)
 set(source
+    AudioDataFuncTest.cpp
     AudioDataTest.cpp
     AudioFuncTest.cpp
     AudioSystemFuncTest.cpp

@@ -89,6 +89,11 @@ namespace djv
             return _p->iconColorRole;
         }
 
+        MetricsRole Icon::getIconSizeRole() const
+        {
+            return _p->iconSizeRole;
+        }
+
         void Icon::setIconColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
@@ -96,11 +101,6 @@ namespace djv
                 return;
             p.iconColorRole = value;
             _redraw();
-        }
-
-        MetricsRole Icon::getIconSizeRole() const
-        {
-            return _p->iconSizeRole;
         }
 
         void Icon::setIconSizeRole(MetricsRole value)

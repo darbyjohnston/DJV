@@ -50,7 +50,7 @@ namespace djv
                 std::weak_ptr<IValueSubject<T> > _subject;
             };
 
-            //! This class provides an interface for a value subject.
+            //! This class provides the interface for a value subject.
             template<typename T>
             class IValueSubject
             {

@@ -35,14 +35,14 @@ namespace djv
                 
                 size_t max = 0;
                 auto maxObserver = Observer::Value<size_t>::create(
-                    model->observeFilesMax(),
+                    model->observeMax(),
                     [&max](size_t value)
                     {
                         max = value;
                     });
 
-                model->setFilesMax(3);
-                model->setFilesMax(3);
+                model->setMax(3);
+                model->setMax(3);
                 DJV_ASSERT(3 == max);
                 
                 model->setFiles({
@@ -69,7 +69,7 @@ namespace djv
                 DJV_ASSERT(File::Info("file4") == files[1]);
                 DJV_ASSERT(File::Info("file2") == files[2]);
                 
-                model->setFilesMax(2);
+                model->setMax(2);
                 DJV_ASSERT(2 == files.size());
                 _print(std::string(files[0]));
                 _print(std::string(files[1]));

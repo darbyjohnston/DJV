@@ -17,17 +17,32 @@ namespace djv
     {
         namespace File
         {
-            //! Get file permissions labels.
-            std::string getPermissionsLabel(int);
-
-            //! Test whether the string contains all '#' characters.
-            bool isSequenceWildcard(const std::string&) noexcept;
+            //! \name Utility
+            ///@{
 
             //! Get the contents of the given directory.
             std::vector<Info> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
 
+            ///@}
+
+            //! \name Sequences
+            ///@{
+
+            //! Test whether the string contains all '#' characters.
+            bool isSequenceWildcard(const std::string&) noexcept;
+
             //! Get the file sequence for the given file.
             Info getSequence(const Path&, const std::set<std::string>& extensions);
+
+            ///@}
+
+            //! \name Conversion
+            ///@{
+
+            //! Get file permissions labels.
+            std::string getPermissionsLabel(int);
+
+            ///@}
 
             DJV_ENUM_HELPERS(Type);
             DJV_ENUM_HELPERS(DirectoryListSort);

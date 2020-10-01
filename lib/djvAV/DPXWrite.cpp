@@ -64,7 +64,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     auto io = System::File::IO::create();
-                    io->open(fileName, System::File::IO::Mode::Write);
+                    io->open(fileName, System::File::Mode::Write);
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();

@@ -108,7 +108,7 @@ namespace djv
             {
                 std::vector<std::string> out;
                 auto io = IO::create();
-                io->open(fileName, IO::Mode::Read);
+                io->open(fileName, Mode::Read);
                 while (!io->isEOF())
                 {
                     char buf[String::cStringLength] = "";
@@ -121,7 +121,7 @@ namespace djv
             void writeLines(const std::string& fileName, const std::vector<std::string>& lines)
             {
                 auto io = IO::create();
-                io->open(fileName, IO::Mode::Write);
+                io->open(fileName, Mode::Write);
                 for (const auto & line : lines)
                 {
                     io->write(line);

@@ -27,7 +27,7 @@ namespace djv
 
         ///@}
 
-        //! \name Utilities
+        //! \name Utility
         ///@{
 
         Math::Rational fromSpeed(FPS);

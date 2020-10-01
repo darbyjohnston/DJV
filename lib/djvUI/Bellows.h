@@ -25,10 +25,18 @@ namespace djv
                 ~Bellows() override;
 
                 static std::shared_ptr<Bellows> create(const std::shared_ptr<System::Context>&);
+
+                //! \name Button Type
+                ///@{
                 
                 const std::string& getText() const;
 
                 void setText(const std::string&);
+
+                ///@}
+
+                //! \name Open and Close
+                ///@{
 
                 bool isOpen() const;
 
@@ -37,9 +45,16 @@ namespace djv
                 void close(bool animate = true);
                 void setOpenCallback(const std::function<void(bool)>&);
 
+                ///@}
+
+                //! \name Title Widgets
+                ///@{
+
                 void addWidget(const std::shared_ptr<IObject>&);
                 void removeWidget(const std::shared_ptr<IObject>&);
                 void clearWidgets();
+
+                ///@}
 
                 float getHeightForWidth(float) const override;
 

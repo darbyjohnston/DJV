@@ -37,16 +37,16 @@ namespace djv
                 const std::string fileName = File::Path(getTempPath(), _fileName).get();
                 io->open(
                     fileName,
-                    File::IO::Mode::Write);
+                    File::Mode::Write);
                 io->write(_text + " ");
                 io->open(
                     fileName,
-                    File::IO::Mode::Append);
+                    File::Mode::Append);
                 io->write(_text2);
 
                 io->open(
                     fileName,
-                    File::IO::Mode::Read);
+                    File::Mode::Read);
                 std::string buf = File::readContents(io);
                 _print(buf);
                 DJV_ASSERT((_text + " " + _text2) == buf);
@@ -66,7 +66,7 @@ namespace djv
                 auto io = File::IO::create();
                 io->open(
                     fileName,
-                    File::IO::Mode::ReadWrite);
+                    File::Mode::ReadWrite);
                 char buf[String::cStringLength];
                 File::readWord(io, buf);
                 _print(buf);
@@ -81,12 +81,12 @@ namespace djv
                 auto io = File::IO::create();
                 io->open(
                     fileName,
-                    File::IO::Mode::Write);
+                    File::Mode::Write);
                 io->write(_text + "\n" + _text2);
 
                 io->open(
                     fileName,
-                    File::IO::Mode::Read);
+                    File::Mode::Read);
                 char buf[String::cStringLength];
                 File::readLine(io, buf);
                 _print(buf);

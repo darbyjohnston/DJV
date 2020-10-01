@@ -34,11 +34,24 @@ namespace djv
         public:
             virtual ~ISystemBase() = 0;
 
-            //! Get the system name.
-            const std::string& getSystemName() const;
+            //! \name Context
+            ///@{
 
             //! Get the context.
             const std::weak_ptr<Context>& getContext() const;
+
+            ///@}
+
+            //! \name Information
+            ///@{
+
+            //! Get the system name.
+            const std::string& getSystemName() const;
+
+            ///@}
+
+            //! \name Dependencies
+            ///@{
 
             //! Get the list of system dependencies.
             const std::vector<std::shared_ptr<ISystemBase> >& getDependencies() const;
@@ -46,8 +59,15 @@ namespace djv
             //! Add a system dependency.
             void addDependency(const std::shared_ptr<ISystemBase>&);
 
+            ///@}
+
+            //! \name Tick
+            ///@{
+
             //! Override this function to do work each frame.
             virtual void tick();
+
+            ///@}
 
         private:
             std::string _name;

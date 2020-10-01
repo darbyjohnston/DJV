@@ -32,15 +32,30 @@ namespace djv
 
             static std::shared_ptr<FloatLabel> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Model
+            ///@{
+
             const std::shared_ptr<Math::FloatValueModel>& getModel() const;
 
             void setModel(const std::shared_ptr<Math::FloatValueModel>&);
 
+            ///@}
+
+            //! \name Precision
+            ///@{
+
             size_t getPrecision();
 
             void setPrecision(size_t);
+
+            ///@}
+
+            //! \name Utility
+            ///@{
             
             static std::string getSizeString(const Math::FloatRange&, size_t precision);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

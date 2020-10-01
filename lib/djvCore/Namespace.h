@@ -4,6 +4,7 @@
 
 #pragma once
 
+//! This namespace provides DJV functionality.
 namespace djv
 {
     //! This namespace provides core functionality.

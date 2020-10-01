@@ -31,5 +31,3 @@ namespace djv
     void fromJSON(const rapidjson::Value&, OCIO::Config&);
 
 } // namespace djv
-
-#include <djvOCIO/OCIOSystemInline.h>

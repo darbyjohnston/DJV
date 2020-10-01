@@ -53,7 +53,7 @@ namespace djv
                 std::weak_ptr<IListSubject<T> > _subject;
             };
 
-            //! This class provides an interface for a list subject.
+            //! This class provides the interface for a list subject.
             template<typename T>
             class IListSubject
             {

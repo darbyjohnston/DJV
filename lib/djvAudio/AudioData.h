@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Audio
     {
-        //! This constant provides the default name.
+        //! This constant provides the default audio information name.
         const std::string defaultName = "Audio";
 
         //! This class provides audio data information.
@@ -34,9 +34,14 @@ namespace djv
             size_t      sampleRate      = 0;
             size_t      sampleCount     = 0;
             std::string codec;
+
+            //! \name Information
+            ///@{
             
             bool isValid() const;
             size_t getByteCount() const;
+
+            ///@}
 
             bool operator == (const Info&) const;
             bool operator != (const Info&) const;
@@ -54,6 +59,9 @@ namespace djv
         public:
             static std::shared_ptr<Data> create(const Info&);
 
+            //! \name Information
+            ///@{
+            
             const Info& getInfo() const;
             uint8_t getChannelCount() const;
             Type getType() const;
@@ -62,37 +70,26 @@ namespace djv
             bool isValid() const;
             size_t getByteCount() const;
 
+            ///@}
+            
+            //! \name Data
+            ///@{
+            
             uint8_t * getData();
             const uint8_t * getData() const;
 
+            ///@}
+            
+            //! \name Utility
+            ///@{
+            
             void zero();
 
-            static std::shared_ptr<Data> convert(const std::shared_ptr<Data>&, Type);
-
-            template<typename T>
-            static void extract(
-                const T*,
-                T*,
-                size_t sampleCount,
-                uint8_t inChannelCount,
-                uint8_t outChannelCount);
-
-            static std::shared_ptr<Data> planarInterleave(const std::shared_ptr<Data>&);
-            template<typename T>
-            static void planarInterleave(const T**, T*, uint8_t channelCount, size_t sampleCount);
-            static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data>&);
-
-            static void volume(
-                const uint8_t*,
-                uint8_t*,
-                float volume,
-                size_t sampleCount,
-                uint8_t channelCount,
-                Type);
-
+            ///@}
+                        
             bool operator == (const Data&) const;
             bool operator != (const Data&) const;
-
+            
         private:
             Info _info;
             std::vector<uint8_t> _data;

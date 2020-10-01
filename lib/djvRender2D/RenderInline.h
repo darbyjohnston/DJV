@@ -71,4 +71,3 @@ namespace djv
 
     } // namespace Render2D
 } // namespace djv
-

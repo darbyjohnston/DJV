@@ -2,8 +2,6 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <algorithm>
-
 namespace djv
 {
     namespace Core

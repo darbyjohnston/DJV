@@ -210,19 +210,6 @@ namespace djv
                 return false;
             }
 
-            bool IOSystem::canWrite(const System::File::Info& fileInfo, const Info& info) const
-            {
-                DJV_PRIVATE_PTR();
-                for (const auto& i : p.plugins)
-                {
-                    if (i.second->canWrite(fileInfo, info))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
             std::shared_ptr<IRead> IOSystem::read(const System::File::Info& fileInfo, const ReadOptions& options)
             {
                 DJV_PRIVATE_PTR();
@@ -242,6 +229,19 @@ namespace djv
                         arg(p.textSystem->getText(DJV_TEXT("error_file_read"))));
                 }
                 return out;
+            }
+
+            bool IOSystem::canWrite(const System::File::Info& fileInfo, const Info& info) const
+            {
+                DJV_PRIVATE_PTR();
+                for (const auto& i : p.plugins)
+                {
+                    if (i.second->canWrite(fileInfo, info))
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
 
             std::shared_ptr<IWrite> IOSystem::write(const System::File::Info& fileInfo, const Info& info, const WriteOptions& options)

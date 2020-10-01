@@ -19,7 +19,10 @@ namespace djv
             //! \name Units
             ///@{
 
+            //! Get a memory size label (e.g., "2.1GB").
             std::string getSizeLabel(uint64_t);
+
+            //! Get a memory unit label for the given size (e.g., "GB").
             std::string getUnitLabel(uint64_t);
 
             ///@}

@@ -50,7 +50,7 @@ namespace djv
                 std::weak_ptr<IMapSubject<T, U> > _subject;
             };
 
-            //! This class provides an interface for a map subject.
+            //! This class provides the interface for a map subject.
             template<typename T, typename U>
             class IMapSubject
             {
@@ -66,7 +66,7 @@ namespace djv
                 //! Get whether the map is empty.
                 virtual bool isEmpty() const = 0;
 
-                //! Get whether the given key exists.
+                //! Does the given key exist?
                 virtual bool hasKey(const T&) = 0;
 
                 //! Get a map item.

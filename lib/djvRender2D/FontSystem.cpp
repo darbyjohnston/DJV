@@ -413,6 +413,16 @@ namespace djv
                 return _p->fontFaceNamesSubject;
             }
 
+            size_t FontSystem::getGlyphCacheSize() const
+            {
+                return _p->glyphCacheSize;
+            }
+
+            float FontSystem::getGlyphCachePercentage() const
+            {
+                return _p->glyphCachePercentageUsed;
+            }
+
             void FontSystem::setLCDRendering(bool value)
             {
                 DJV_PRIVATE_PTR();
@@ -524,16 +534,6 @@ namespace djv
                     p.glyphsQueue.push_back(std::move(request));
                 }
                 p.requestCV.notify_one();
-            }
-
-            size_t FontSystem::getGlyphCacheSize() const
-            {
-                return _p->glyphCacheSize;
-            }
-
-            float FontSystem::getGlyphCachePercentage() const
-            {
-                return _p->glyphCachePercentageUsed;
             }
 
             void FontSystem::_initFreeType()

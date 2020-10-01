@@ -20,17 +20,19 @@ namespace djv
             const uint64_t gigabyte = megabyte * 1024; //!< The number of bytes in a gigabyte
             const uint64_t terabyte = gigabyte * 1024; //!< The number of bytes in a terabyte
 
+            //! This enumeration provides memory units.
             enum class Unit
             {
-                KB,
-                MB,
-                GB,
-                TB,
+                KB, //!< Kilobytes
+                MB, //!< Megabytes
+                GB, //!< Gigabytes
+                TB, //!< Terabytes
 
                 Count,
                 First = KB
             };
 
+            //! This enumeration provides endianness.
             enum class Endian
             {
                 MSB, //!< Most siginificant byte first

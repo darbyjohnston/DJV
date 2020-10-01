@@ -227,4 +227,3 @@ namespace std
     }
 
 } // namespace std
-

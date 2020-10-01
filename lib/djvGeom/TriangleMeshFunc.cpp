@@ -12,27 +12,6 @@ namespace djv
 {
     namespace Geom
     {
-        void faceToTriangles(
-            const TriangleMesh::Face& face,
-            std::vector<TriangleMesh::Triangle>& triangles)
-        {
-            const size_t size = face.v.size();
-            for (size_t i = 1; i < size - 1; ++i)
-            {
-                TriangleMesh::Triangle t;
-                t.v0.v = face.v[0].v;
-                t.v0.t = face.v[0].t;
-                t.v0.n = face.v[0].n;
-                t.v1.v = face.v[i].v;
-                t.v1.t = face.v[i].t;
-                t.v1.n = face.v[i].n;
-                t.v2.v = face.v[i + 1].v;
-                t.v2.t = face.v[i + 1].t;
-                t.v2.n = face.v[i + 1].n;
-                triangles.push_back(t);
-            }
-        }
-
         void calcNormals(TriangleMesh& mesh)
         {
             const size_t trianglesSize = mesh.triangles.size();
@@ -54,6 +33,96 @@ namespace djv
                     tri.v2.n = i + 1;
                 }
             }
+        }
+
+        void triangulateBBox(const Math::BBox3f& value, TriangleMesh& mesh)
+        {
+            mesh.clear();
+
+            mesh.v.push_back(glm::vec3(value.min.x, value.min.y, value.max.z));
+            mesh.v.push_back(glm::vec3(value.max.x, value.min.y, value.max.z));
+            mesh.v.push_back(glm::vec3(value.max.x, value.min.y, value.min.z));
+            mesh.v.push_back(glm::vec3(value.min.x, value.min.y, value.min.z));
+            mesh.v.push_back(glm::vec3(value.min.x, value.max.y, value.max.z));
+            mesh.v.push_back(glm::vec3(value.max.x, value.max.y, value.max.z));
+            mesh.v.push_back(glm::vec3(value.max.x, value.max.y, value.min.z));
+            mesh.v.push_back(glm::vec3(value.min.x, value.max.y, value.min.z));
+
+            mesh.t.push_back(glm::vec3(0.F, 1.F, 0.F));
+            mesh.t.push_back(glm::vec3(1.F, 1.F, 0.F));
+            mesh.t.push_back(glm::vec3(1.F, 0.F, 0.F));
+            mesh.t.push_back(glm::vec3(0.F, 0.F, 0.F));
+
+            // Back
+            const size_t offset = 1;
+            TriangleMesh::Triangle a;
+            TriangleMesh::Triangle b;
+            a.v0.v = 0 + offset;
+            a.v1.v = 3 + offset;
+            a.v2.v = 2 + offset;
+            a.v0.t = 0 + offset;
+            a.v1.t = 3 + offset;
+            a.v2.t = 2 + offset;
+            mesh.triangles.push_back(a);
+            b.v0.v = 2 + offset;
+            b.v1.v = 1 + offset;
+            b.v2.v = 0 + offset;
+            b.v0.t = 2 + offset;
+            b.v1.t = 1 + offset;
+            b.v2.t = 0 + offset;
+            mesh.triangles.push_back(b);
+
+            // Front
+            a.v0.v = 4 + offset;
+            a.v1.v = 5 + offset;
+            a.v2.v = 6 + offset;
+            mesh.triangles.push_back(a);
+            b.v0.v = 6 + offset;
+            b.v1.v = 7 + offset;
+            b.v2.v = 4 + offset;
+            mesh.triangles.push_back(b);
+
+            // Top
+            a.v0.v = 0 + offset;
+            a.v1.v = 1 + offset;
+            a.v2.v = 5 + offset;
+            mesh.triangles.push_back(a);
+            b.v0.v = 5 + offset;
+            b.v1.v = 4 + offset;
+            b.v2.v = 0 + offset;
+            mesh.triangles.push_back(b);
+
+            // Bottom
+            a.v0.v = 2 + offset;
+            a.v1.v = 3 + offset;
+            a.v2.v = 7 + offset;
+            mesh.triangles.push_back(a);
+            b.v0.v = 7 + offset;
+            b.v1.v = 6 + offset;
+            b.v2.v = 2 + offset;
+            mesh.triangles.push_back(b);
+
+            // Left
+            a.v0.v = 0 + offset;
+            a.v1.v = 4 + offset;
+            a.v2.v = 7 + offset;
+            mesh.triangles.push_back(a);
+            b.v0.v = 7 + offset;
+            b.v1.v = 3 + offset;
+            b.v2.v = 0 + offset;
+            mesh.triangles.push_back(b);
+
+            // Right
+            a.v0.v = 1 + offset;
+            a.v1.v = 2 + offset;
+            a.v2.v = 6 + offset;
+            mesh.triangles.push_back(a);
+            b.v0.v = 6 + offset;
+            b.v1.v = 5 + offset;
+            b.v2.v = 1 + offset;
+            mesh.triangles.push_back(b);
+
+            calcNormals(mesh);
         }
 
         bool intersectTriangle(
@@ -221,94 +290,25 @@ namespace djv
             return out;
         }
 
-        void triangulateBBox(const Math::BBox3f& value, TriangleMesh& mesh)
+        void faceToTriangles(
+            const TriangleMesh::Face& face,
+            std::vector<TriangleMesh::Triangle>& triangles)
         {
-            mesh.clear();
-
-            mesh.v.push_back(glm::vec3(value.min.x, value.min.y, value.max.z));
-            mesh.v.push_back(glm::vec3(value.max.x, value.min.y, value.max.z));
-            mesh.v.push_back(glm::vec3(value.max.x, value.min.y, value.min.z));
-            mesh.v.push_back(glm::vec3(value.min.x, value.min.y, value.min.z));
-            mesh.v.push_back(glm::vec3(value.min.x, value.max.y, value.max.z));
-            mesh.v.push_back(glm::vec3(value.max.x, value.max.y, value.max.z));
-            mesh.v.push_back(glm::vec3(value.max.x, value.max.y, value.min.z));
-            mesh.v.push_back(glm::vec3(value.min.x, value.max.y, value.min.z));
-
-            mesh.t.push_back(glm::vec3(0.F, 1.F, 0.F));
-            mesh.t.push_back(glm::vec3(1.F, 1.F, 0.F));
-            mesh.t.push_back(glm::vec3(1.F, 0.F, 0.F));
-            mesh.t.push_back(glm::vec3(0.F, 0.F, 0.F));
-
-            // Back
-            const size_t offset = 1;
-            TriangleMesh::Triangle a;
-            TriangleMesh::Triangle b;
-            a.v0.v = 0 + offset;
-            a.v1.v = 3 + offset;
-            a.v2.v = 2 + offset;
-            a.v0.t = 0 + offset;
-            a.v1.t = 3 + offset;
-            a.v2.t = 2 + offset;
-            mesh.triangles.push_back(a);
-            b.v0.v = 2 + offset;
-            b.v1.v = 1 + offset;
-            b.v2.v = 0 + offset;
-            b.v0.t = 2 + offset;
-            b.v1.t = 1 + offset;
-            b.v2.t = 0 + offset;
-            mesh.triangles.push_back(b);
-
-            // Front
-            a.v0.v = 4 + offset;
-            a.v1.v = 5 + offset;
-            a.v2.v = 6 + offset;
-            mesh.triangles.push_back(a);
-            b.v0.v = 6 + offset;
-            b.v1.v = 7 + offset;
-            b.v2.v = 4 + offset;
-            mesh.triangles.push_back(b);
-
-            // Top
-            a.v0.v = 0 + offset;
-            a.v1.v = 1 + offset;
-            a.v2.v = 5 + offset;
-            mesh.triangles.push_back(a);
-            b.v0.v = 5 + offset;
-            b.v1.v = 4 + offset;
-            b.v2.v = 0 + offset;
-            mesh.triangles.push_back(b);
-
-            // Bottom
-            a.v0.v = 2 + offset;
-            a.v1.v = 3 + offset;
-            a.v2.v = 7 + offset;
-            mesh.triangles.push_back(a);
-            b.v0.v = 7 + offset;
-            b.v1.v = 6 + offset;
-            b.v2.v = 2 + offset;
-            mesh.triangles.push_back(b);
-
-            // Left
-            a.v0.v = 0 + offset;
-            a.v1.v = 4 + offset;
-            a.v2.v = 7 + offset;
-            mesh.triangles.push_back(a);
-            b.v0.v = 7 + offset;
-            b.v1.v = 3 + offset;
-            b.v2.v = 0 + offset;
-            mesh.triangles.push_back(b);
-
-            // Right
-            a.v0.v = 1 + offset;
-            a.v1.v = 2 + offset;
-            a.v2.v = 6 + offset;
-            mesh.triangles.push_back(a);
-            b.v0.v = 6 + offset;
-            b.v1.v = 5 + offset;
-            b.v2.v = 1 + offset;
-            mesh.triangles.push_back(b);
-
-            calcNormals(mesh);
+            const size_t size = face.v.size();
+            for (size_t i = 1; i < size - 1; ++i)
+            {
+                TriangleMesh::Triangle t;
+                t.v0.v = face.v[0].v;
+                t.v0.t = face.v[0].t;
+                t.v0.n = face.v[0].n;
+                t.v1.v = face.v[i].v;
+                t.v1.t = face.v[i].t;
+                t.v1.n = face.v[i].n;
+                t.v2.v = face.v[i + 1].v;
+                t.v2.t = face.v[i + 1].t;
+                t.v2.n = face.v[i + 1].n;
+                triangles.push_back(t);
+            }
         }
 
     } // namespace Geom

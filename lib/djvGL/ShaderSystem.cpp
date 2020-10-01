@@ -72,11 +72,11 @@ namespace djv
 
                     auto io = System::File::IO::create();
                     std::string vertexFileName = std::string(System::File::Path(shaderPath, vertexSource));
-                    io->open(vertexFileName, System::File::IO::Mode::Read);
+                    io->open(vertexFileName, System::File::Mode::Read);
                     std::string vertexSource = System::File::readContents(io);
 
                     std::string fragmentFileName = std::string(System::File::Path(shaderPath, fragmentSource));
-                    io->open(fragmentFileName, System::File::IO::Mode::Read);
+                    io->open(fragmentFileName, System::File::Mode::Read);
                     std::string fragmentSource = System::File::readContents(io);
 
                     out = Shader::create(vertexSource, fragmentSource);

@@ -112,7 +112,7 @@ namespace djv
                     {
                         // Open the file.
                         auto io = System::File::IO::create();
-                        io->open(fileName, System::File::IO::Mode::Read);
+                        io->open(fileName, System::File::Mode::Read);
                         const size_t fileSize = io->getSize();
                         std::vector<char> data(fileSize);
                         char* fileStart = data.data();

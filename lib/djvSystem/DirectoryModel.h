@@ -40,7 +40,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Directory Contents
+                //! \name Contents
                 ///@{
 
                 std::shared_ptr<Core::Observer::IListSubject<File::Info> > observeInfo() const;

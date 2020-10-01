@@ -58,7 +58,7 @@ namespace djv
 
             uint16_t w = 0;
             uint16_t h = 0;
-            
+
             bool isValid() const noexcept;
             float getAspectRatio() const noexcept;
 
@@ -110,6 +110,9 @@ namespace djv
 
             static std::shared_ptr<Data> create(const Info&);
 
+            //! \name Information
+            ///@{
+
             Core::UID getUID() const;
 
             const Info& getInfo() const;
@@ -128,6 +131,11 @@ namespace djv
             size_t getScanlineByteCount() const;
             size_t getDataByteCount() const;
 
+            ///@}
+
+            //! \name Data
+            ///@{
+
             const uint8_t* getData() const;
             const uint8_t* getData(uint16_t y) const;
             const uint8_t* getData(uint16_t x, uint16_t y) const;
@@ -135,7 +143,14 @@ namespace djv
             uint8_t* getData(uint16_t y);
             uint8_t* getData(uint16_t x, uint16_t y);
 
+            ///@}
+
+            //! \name Utility
+            ///@{
+
             void zero();
+
+            ///@}
 
             bool operator == (const Data&) const;
             bool operator != (const Data&) const;

@@ -84,6 +84,9 @@ namespace djv
         typedef half     F16_T;
         typedef float    F32_T;
 
+        //! \name Ranges
+        ///@{
+
         const Math::Range<U8_T> U8Range(
             std::numeric_limits<U8_T>::min(),
             std::numeric_limits<U8_T>::max());
@@ -103,6 +106,8 @@ namespace djv
         const Math::Range<F16_T> F16Range(0.F, 1.F);
         
         const Math::Range<F32_T> F32Range(0.F, 1.F);
+
+        ///@}
 
         //! This struct provides 10-bit MSB pixel data.
         struct U10_S_MSB

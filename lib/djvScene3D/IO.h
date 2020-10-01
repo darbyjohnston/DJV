@@ -33,7 +33,7 @@ namespace djv
                 bool operator == (const Info&) const;
             };
 
-            //! This class provides an interface for I/O.
+            //! This class provides the interface for I/O.
             class IIO : public std::enable_shared_from_this<IIO>
             {
             protected:
@@ -53,7 +53,7 @@ namespace djv
                 System::File::Info _fileInfo;
             };
 
-            //! This class provides an interface for reading.
+            //! This class provides the interface for reading.
             class IRead : public IIO
             {
             protected:
@@ -70,7 +70,7 @@ namespace djv
                 virtual std::future<std::shared_ptr<Scene> > getScene() = 0;
             };
 
-            //! This class provides an interface for writing.
+            //! This class provides the interface for writing.
             class IWrite : public IIO
             {
             protected:
@@ -86,7 +86,7 @@ namespace djv
                 virtual std::future<bool> setScene(const std::shared_ptr<Scene>&) = 0;
             };
 
-            //! This class provides an interface for I/O plugins.
+            //! This class provides the interface for I/O plugins.
             class IPlugin : public std::enable_shared_from_this<IPlugin>
             {
             protected:

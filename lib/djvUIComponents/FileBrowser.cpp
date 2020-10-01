@@ -117,7 +117,7 @@ namespace djv
                 p.directoryModel = System::File::DirectoryModel::create(context);
                 p.shortcutsModel = ShortcutsModel::create(context);
                 p.recentPathsModel = System::File::RecentFilesModel::create();
-                p.recentPathsModel->setFilesMax(10);
+                p.recentPathsModel->setMax(10);
                 p.drivesModel = System::File::DrivesModel::create(context);
 
                 p.actions["Paths"] = Action::create();

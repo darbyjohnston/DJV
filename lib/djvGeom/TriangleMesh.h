@@ -57,9 +57,6 @@ namespace djv
                 bool operator == (const Triangle&) const;
             };
 
-            //! \name Mesh Components
-            ///@{
-
             std::vector<glm::vec3> v;
             std::vector<glm::vec3> c;
             std::vector<glm::vec2> t;
@@ -68,12 +65,10 @@ namespace djv
 
             Math::BBox3f bbox = Math::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
 
-            void clear();
-
-            ///@}
-
-            //! \name Mesh Utilities
+            //! \name Utility
             ///@{
+
+            void clear();
 
             //! Compute the bounding-box of the mesh.
             void bboxUpdate();

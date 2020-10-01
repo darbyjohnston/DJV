@@ -69,7 +69,7 @@ namespace djv
             //! - ThumbnailError
             static std::shared_ptr<ThumbnailSystem> create(const std::shared_ptr<System::Context>&);
 
-            //! This structure provides information about a file.
+            //! This structure provides thumbnail information.
             struct InfoFuture
             {
                 InfoFuture();
@@ -84,7 +84,7 @@ namespace djv
             //! Cancel information about a file.
             void cancelInfo(Core::UID);
 
-            //! This structure provides a thumbnail image for a file.
+            //! This structure provides a thumbnail image.
             struct ImageFuture
             {
                 ImageFuture();
@@ -93,7 +93,7 @@ namespace djv
                 Core::UID uid = 0;
             };
 
-            //! Get a thumbnail image for the given file.
+            //! Get a thumbnail image.
             ImageFuture getImage(
                 const System::File::Info& path,
                 const Image::Size&        size,

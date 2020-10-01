@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <djvRender2D/Data.h>
+
 #include <djvSystem/ISystem.h>
 
 #include <djvMath/BBox.h>
@@ -26,15 +28,20 @@ namespace djv
         //! This namespace provides font functionality.
         namespace Font
         {
-            //! This constant provides the default DPI.
-            const float dpiDefault = 96.F;
-        
+            //! This typedef provides font family IDs.
             typedef uint16_t FamilyID;
+
+            //! This typedef provides font face IDs.
             typedef uint16_t FaceID;
 
+            //! This constant provides the default font family.
             const std::string familyDefault = "Noto Sans";
-            const std::string faceDefault   = "Regular";
-            const std::string familyMono    = "Noto Mono";
+
+            //! This constant provides the default font face.
+            const std::string faceDefault = "Regular";
+
+            //! This constant provides the default mono font family.
+            const std::string familyMono = "Noto Mono";
 
             //! This class provides font information.
             class FontInfo
@@ -143,14 +150,33 @@ namespace djv
                 //! - Error
                 static std::shared_ptr<FontSystem> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Information
+                ///@{
+
                 //! Observe the font names.
                 std::shared_ptr<Core::Observer::IMapSubject<FamilyID, std::string> > observeFontNames() const;
 
                 //! Observe the font faces.
                 std::shared_ptr<Core::Observer::IMapSubject<FamilyID, std::map<FaceID, std::string> > > observeFontFaces() const;
 
+                //! Get the glyph cache size.
+                size_t getGlyphCacheSize() const;
+
+                //! Get the glyph cache percentage used.
+                float getGlyphCachePercentage() const;
+
+                ///@}
+
+                //! \name Options
+                ///@{
+
                 //! Set whether LCD hinting is enabled.
                 void setLCDRendering(bool);
+
+                ///@}
+
+                //! \name Measure
+                ///@{
 
                 //! Get font metrics.
                 std::future<Metrics> getMetrics(const FontInfo&);
@@ -167,6 +193,11 @@ namespace djv
                     const FontInfo&    fontInfo,
                     uint16_t           elide    = 0);
 
+                ///@}
+
+                //! \name Glyphs
+                ///@{
+
                 //! Get font glyphs.
                 std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(
                     const std::string& text,
@@ -182,11 +213,7 @@ namespace djv
                 //! Request font glyphs to be cached.
                 void cacheGlyphs(const std::string& text, const FontInfo&);
 
-                //! Get the glyph cache size.
-                size_t getGlyphCacheSize() const;
-
-                //! Get the glyph cache percentage used.
-                float getGlyphCachePercentage() const;
+                ///@}
             
             private:
                 void _initFreeType();

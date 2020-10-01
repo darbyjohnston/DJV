@@ -21,7 +21,7 @@ namespace djv
         //! This namespace provides user settings.
         namespace Settings
         {
-            //! This class provides an interface for saving and restoring user settings.
+            //! This class provides the interface for saving and restoring user settings.
             class ISettings : public std::enable_shared_from_this<ISettings>
             {
             protected:

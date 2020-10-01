@@ -33,7 +33,7 @@ namespace djv
         };
         NumericWidgetKey fromGLFWKey(int);
 
-        //! This class provides an interface for numeric widgets.
+        //! This class provides the interface for numeric widgets.
         template<typename T>
         class INumericWidget
         {
@@ -73,7 +73,7 @@ namespace djv
             std::function<void(T, TextEditReason)> _callback;
         };
 
-        //! This class provides an interface for numeric editor widgets.
+        //! This class provides the interface for numeric editor widgets.
         template<typename T>
         class INumericEdit : public INumericWidget<T>
         {
@@ -84,7 +84,7 @@ namespace djv
             bool _doKeyPress(NumericWidgetKey) override;
         };
 
-        //! This class provides an interface for numeric slider widgets.
+        //! This class provides the interface for numeric slider widgets.
         template<typename T>
         class INumericSlider : public INumericWidget<T>
         {

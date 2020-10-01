@@ -33,7 +33,15 @@ namespace djv
 
                 static std::shared_ptr<Group> create(ButtonType);
 
+                //! \name Button Type
+                ///@{
+
                 ButtonType getButtonType() const;
+
+                ///@}
+
+                //! \name Buttons
+                ///@{
 
                 const std::vector<std::shared_ptr<IButton> >& getButtons() const;
                 size_t getButtonCount() const;
@@ -42,14 +50,26 @@ namespace djv
                 void setButtons(const std::vector<std::shared_ptr<IButton> >&);
                 void clearButtons();
 
+                ///@}
+
+                //! \name Checked State
+                ///@{
+
                 int getChecked() const;
 
                 void setChecked(int, bool = true);
+
+                ///@}
+
+                //! \name Callbacks
+                ///@{
 
                 void setPushCallback(const std::function<void(int)>&);
                 void setToggleCallback(const std::function<void(int, bool)>&);
                 void setRadioCallback(const std::function<void(int)>&);
                 void setExclusiveCallback(const std::function<void(int)>&);
+
+                ///@}
 
             private:
                 DJV_PRIVATE();

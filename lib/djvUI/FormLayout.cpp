@@ -78,16 +78,6 @@ namespace djv
                 }
             }
 
-            const Spacing& Form::getSpacing() const
-            {
-                return _p->layout->getSpacing();
-            }
-
-            void Form::setSpacing(const Spacing& value)
-            {
-                _p->layout->setSpacing(value);
-            }
-
             const std::string& Form::getFontFamily() const
             {
                 return _p->fontFamily;
@@ -120,6 +110,16 @@ namespace djv
                 {
                     i.second->setFontFace(value);
                 }
+            }
+
+            const Spacing& Form::getSpacing() const
+            {
+                return _p->layout->getSpacing();
+            }
+
+            void Form::setSpacing(const Spacing& value)
+            {
+                _p->layout->setSpacing(value);
             }
 
             void Form::setAlternateRowsRoles(ColorRole value0, ColorRole value1)

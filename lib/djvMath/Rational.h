@@ -17,15 +17,25 @@ namespace djv
             Rational() noexcept;
             explicit Rational(int num, int den = 1) noexcept;
 
+            //! \name Information
+            ///@{
+
             int getNum() const noexcept;
             int getDen() const noexcept;
             bool isValid() const noexcept;
+
+            ///@}
+
+            //! \name Conversion
+            ///@{
 
             float toFloat() const noexcept;
 
             static Rational fromFloat(float);
 
             Rational swap() const noexcept;
+
+            ///@}
 
             bool operator == (const Rational&) const noexcept;
             bool operator != (const Rational&) const noexcept;

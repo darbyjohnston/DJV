@@ -34,26 +34,54 @@ namespace djv
             static std::shared_ptr<Action> create();
             static std::shared_ptr<Action> create(const std::string& text);
 
+            //! \name Button Type
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<ButtonType> > observeButtonType() const;
 
             void setButtonType(ButtonType);
 
+            ///@}
+
+            //! \name Checked State
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeChecked() const;
             
             void setChecked(bool);
+
+            ///@}
+
+            //! \name Icon
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeIcon() const;
             
             void setIcon(const std::string&);
             void setCheckedIcon(const std::string&);
 
+            ///@}
+
+            //! \name Text
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeText() const;
             
             void setText(const std::string&);
 
+            ///@}
+
+            //! \name Text Font
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeFont() const;
             
             void setFont(const std::string&);
+
+            ///@}
+
+            //! \name Keyboard Shortcuts
+            ///@{
 
             std::shared_ptr<Core::Observer::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
             
@@ -67,21 +95,43 @@ namespace djv
             void addShortcut(int key, int keyModifiers);
             void clearShortcuts();
 
+            ///@}
+
+            //! \name Enabled State
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeEnabled() const;
             
             void setEnabled(bool);
+
+            ///@}
+
+            //! \name Tooltip
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeTooltip() const;
             
             void setTooltip(const std::string&);
 
+            ///@}
+
+            //! \name Auto-Repeat
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeAutoRepeat() const;
             
             void setAutoRepeat(bool);
 
+            ///@}
+
+            //! \name Callbacks
+            ///@{
+
             void setClickedCallback(const std::function<void(void)>&);
             void setCheckedCallback(const std::function<void(bool)>&);
             void doClick();
+
+            ///@}
 
         private:
             void _iconUpdate();

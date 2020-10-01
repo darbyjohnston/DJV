@@ -43,4 +43,3 @@ namespace djv
 
     } // namespace OCIO
 } // namespace djv
-

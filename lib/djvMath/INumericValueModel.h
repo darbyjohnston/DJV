@@ -20,7 +20,7 @@ namespace djv
             Wrap
         };
 
-        //! This class provides an interface for numeric value models.
+        //! This class provides the interface for numeric value models.
         template<typename T>
         class INumericValueModel
         {
@@ -55,7 +55,7 @@ namespace djv
 
             ///@}
 
-            //! \name Increments
+            //! \name Increment
             ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<T> > observeSmallIncrement() const;

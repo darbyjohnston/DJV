@@ -25,9 +25,14 @@ namespace djv
 
             static std::shared_ptr<FloatEdit> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Precision
+            ///@{
+
             int getPrecision();
 
             void setPrecision(int);
+
+            ///@}
 
             void setModel(const std::shared_ptr<Math::INumericValueModel<float> >&) override;
 

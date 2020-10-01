@@ -37,7 +37,7 @@ namespace djv
         {
             UI::UIComponentsSystem::create(context);
             auto glfwSystem = Desktop::GLFWSystem::create(context);
-            auto eventSystem = Desktop::EventSystem::create(context->getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow(), context);
+            auto eventSystem = Desktop::EventSystem::create(context->getSystemT<GL::GLFW::GLFWSystem>()->getWindow(), context);
         }
         
         void FileSystemTest::run()

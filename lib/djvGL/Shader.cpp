@@ -118,10 +118,10 @@ namespace djv
             try
             {
                 auto fileIO = System::File::IO::create();
-                fileIO->open(std::string(vertexSource), System::File::IO::Mode::Read);
+                fileIO->open(std::string(vertexSource), System::File::Mode::Read);
                 out->_vertexSource.second = System::File::readContents(fileIO);
                 out->_vertexSource.first = vertexSource.get();
-                fileIO->open(std::string(fragmentSource), System::File::IO::Mode::Read);
+                fileIO->open(std::string(fragmentSource), System::File::Mode::Read);
                 out->_fragmentSource.second = System::File::readContents(fileIO);
                 out->_fragmentSource.first = fragmentSource.get();
                 out->_init();

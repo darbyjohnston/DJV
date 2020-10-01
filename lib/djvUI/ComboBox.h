@@ -26,6 +26,9 @@ namespace djv
 
             static std::shared_ptr<ComboBox> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Items
+            ///@{
+
             void setItems(const std::vector<std::string>&);
             void setItems(const std::vector<std::shared_ptr<Action> >&);
             void clearItems();
@@ -38,15 +41,32 @@ namespace djv
             void prevItem();
             void nextItem();
 
+            ///@}
+
+            //! \name Open and Close
+            ///@{
+
             bool isOpen() const;
 
             void open();
             void close();
 
+            ///@}
+
+            //! \name Text Font
+            ///@{
+
             void setFont(int, const std::string&);
             void setFontSizeRole(MetricsRole);
 
+            ///@}
+
+            //! \name Callbacks
+            ///@{
+
             void setCallback(const std::function<void(int)>&);
+
+            ///@}
 
             std::shared_ptr<Widget> getFocusWidget() override;
 

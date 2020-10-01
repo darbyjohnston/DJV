@@ -334,7 +334,7 @@ namespace djv
                 Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io)
                 {
                     io->setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
-                    io->open(fileName, System::File::IO::Mode::Read);
+                    io->open(fileName, System::File::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _compression, _textSystem);
                     Info info;

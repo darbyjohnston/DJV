@@ -27,7 +27,7 @@ namespace djv
             bool operator == (const MonitorInfo&) const;
         };
 
-            //! This class provides a system for GLFW functionality.
+        //! This class provides a system for GLFW functionality.
         class GLFWSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(GLFWSystem);
@@ -42,12 +42,22 @@ namespace djv
             //! Create a new GLFW system.
             static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Monitors
+            ///@{
+
             std::shared_ptr<Core::Observer::IListSubject<MonitorInfo> > observeMonitorInfo() const;
+
+            ///@}
+            /// 
+            //! \name Cursor
+            ///@{
 
             bool isCursorVisible() const;
 
             void showCursor();
             void hideCursor();
+
+            ///@}
 
         private:
             DJV_PRIVATE();

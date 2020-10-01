@@ -12,7 +12,7 @@ namespace djv
     {
         class LabelSizeGroup;
 
-        //! This class provides a label.
+        //! This class provides a text label.
         class Label : public Widget
         {
             DJV_NON_COPYABLE(Label);
@@ -24,12 +24,7 @@ namespace djv
         public:
             ~Label() override;
 
-            //! \name Creation
-            ///@{
-
             static std::shared_ptr<Label> create(const std::shared_ptr<System::Context>&);
-
-            ///@}
 
             //! \name Text
             ///@{
@@ -60,7 +55,7 @@ namespace djv
 
             ///@}
 
-            //! \name Font
+            //! \name Text Font
             ///@{
 
             const std::string& getFontFamily() const;
@@ -73,7 +68,7 @@ namespace djv
 
             ///@}
 
-            //! \name Elide
+            //! \name Text Elide
             ///@{
 
             size_t getElide() const;

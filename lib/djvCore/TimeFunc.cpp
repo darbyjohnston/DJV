@@ -13,6 +13,15 @@ namespace djv
     {
         namespace Time
         {
+            void localtime(const time_t* t, tm* tm)
+            {
+#if defined(DJV_PLATFORM_WINDOWS)
+                localtime_s(tm, t);
+#else // DJV_PLATFORM_WINDOWS
+                localtime_r(t, tm);
+#endif // DJV_PLATFORM_WINDOWS
+            }
+
             std::string getLabel(double value)
             {
                 int    hours   = 0;
@@ -35,15 +44,6 @@ namespace djv
                 char buffer[32];
                 std::strftime(buffer, 32, "%Y-%m-%d %H:%M:%S", &tm);
                 return buffer;
-            }
-
-            void localtime(const time_t * t, tm * tm)
-            {
-#if defined(DJV_PLATFORM_WINDOWS)
-                localtime_s(tm, t);
-#else // DJV_PLATFORM_WINDOWS
-                localtime_r(t, tm);
-#endif // DJV_PLATFORM_WINDOWS
             }
 
         } // namespace Time

@@ -2,15 +2,10 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#pragma once
-
 namespace djv
 {
     namespace OCIO
     {
-        inline Config::Config()
-        {}
-
         inline bool Config::isValid() const
         {
             return !fileName.empty();
@@ -33,4 +28,3 @@ namespace djv
 
     } // namespace OCIO
 } // namespace djv
-

@@ -21,8 +21,16 @@ namespace djv
             Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Range.getMax());
             explicit Color(F32_T v);
 
+            //! \name Information
+            ///@{
+
             Type getType() const noexcept;
             bool isValid() const noexcept;
+
+            ///@}
+
+            //! \name Data
+            ///@{
 
             U8_T  getU8(size_t channel) const;
             U10_T getU10(size_t channel) const;
@@ -40,14 +48,25 @@ namespace djv
 
             const uint8_t * getData() const noexcept;
             uint8_t * getData() noexcept;
+
             void setData(const uint8_t*);
 
+            ///@}
+
+            //! \name Utility
+            ///@{
+
             void zero();
+
+            //! \name Conversion
+            ///@{
 
             Color convert(Type) const;
 
             static Color RGB_U8(int, int, int);
             static Color RGB_F32(float, float, float);
+
+            ///@}
 
             bool operator == (const Color&) const;
             bool operator != (const Color&) const;

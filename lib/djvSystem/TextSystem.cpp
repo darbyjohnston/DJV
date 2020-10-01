@@ -412,7 +412,7 @@ namespace djv
                 }
                 
                 auto fileIO = File::IO::create();
-                fileIO->open(path.get(), File::IO::Mode::Read);
+                fileIO->open(path.get(), File::Mode::Read);
                 size_t bufSize = 0;
 #if defined(DJV_MMAP)
                 const char* bufP = reinterpret_cast<const char*>(fileIO->mmapP());

@@ -17,10 +17,15 @@ namespace djv
     {
         namespace File
         {
+            //! \name Utility
+            ///@{
+
             //! This function provides a wrapper for fopen().
             //! Throws:
             //! - std::exception
             FILE* fopen(const std::string& fileName, const std::string& mode);
+
+            ///@}
 
         } // namespace File
     } // namespace System

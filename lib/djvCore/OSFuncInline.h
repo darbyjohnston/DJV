@@ -2,7 +2,6 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-
 namespace djv
 {
     namespace Core

@@ -35,14 +35,14 @@ namespace djv
             auto io = File::IO::create();
             io->open(
                 File::Path(getTempPath(), _fileName).get(),
-                File::IO::Mode::Write);
+                File::Mode::Write);
             
             const File::Info info(File::Path(_sequenceName), File::Type::Sequence, _sequence);
             for (const auto& i : Math::Frame::toFrames(info.getSequence()))
             {
                 io->open(
                     File::Path(getTempPath(), info.getFileName(i)).get(),
-                    File::IO::Mode::Write);
+                    File::Mode::Write);
             }
             
             _enum();

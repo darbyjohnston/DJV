@@ -17,10 +17,18 @@ namespace djv
 {
     namespace Audio
     {
+        //! \name Information
+        ///@{
+        
         uint8_t getByteCount(Type);
         Type getIntType(uint8_t);
         Type getFloatType(uint8_t);
 
+        ///@}
+        
+        //! \name Conversion
+        ///@{
+        
         //ALenum getALType(uint8_t channels, Type);
         //std::string getALErrorString(ALenum);
         RtAudioFormat toRtAudio(Type) noexcept;
@@ -50,6 +58,8 @@ namespace djv
         void F64ToS32(F64_T, S32_T&) noexcept;
         void F64ToF32(F64_T, F32_T&) noexcept;
 
+        ///@}
+        
         DJV_ENUM_HELPERS(Type);
 
     } // namespace Audio

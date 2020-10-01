@@ -17,6 +17,9 @@ namespace djv
         namespace File
         {
             class IO;
+
+            //! \name Read
+            ///@{
             
             //! Read the contents from a file.
             //! Throws:
@@ -39,10 +42,17 @@ namespace djv
             //! - Error
             std::vector<std::string> readLines(const std::string& fileName);
 
+            ///@}
+
+            //! \name Write
+            ///@{
+
             //! Write lines to a file.
             //! Throws:
             //! - Error
             void writeLines(const std::string& fileName, const std::vector<std::string>&);
+
+            ///@}
 
         } // namespace File
     } // namespace System

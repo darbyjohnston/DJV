@@ -24,20 +24,15 @@ namespace djv
 
             Core::UID getUID() const;
 
-            //! \name Components
-            ///@{
-
             std::vector<glm::vec3> v;
             std::vector<glm::vec3> c;
 
             Math::BBox3f bbox = Math::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
 
-            void clear();
-
-            ///@}
-
-            //! \name Utilities
+            //! \name Utility
             ///@{
+
+            void clear();
 
             //! Compute the bounding-box.
             void bboxUpdate();

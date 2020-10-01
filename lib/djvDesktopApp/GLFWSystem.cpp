@@ -96,7 +96,7 @@ namespace djv
                 });
 
             // Setup window.
-            auto glfwWindow = avGLFWSystem->getGLFWWindow();
+            auto glfwWindow = avGLFWSystem->getWindow();
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(glfwWindow, &contentScale.x, &contentScale.y);
             glfwSetWindowSize(
@@ -162,7 +162,7 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     auto avGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
-                    auto glfwWindow = avGLFWSystem->getGLFWWindow();
+                    auto glfwWindow = avGLFWSystem->getWindow();
                     glfwSetCursor(glfwWindow, p.arrowCursor);
                 }
             }
@@ -177,7 +177,7 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     auto avGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
-                    auto glfwWindow = avGLFWSystem->getGLFWWindow();
+                    auto glfwWindow = avGLFWSystem->getWindow();
                     glfwSetCursor(glfwWindow, p.hiddenCursor);
                 }
             }

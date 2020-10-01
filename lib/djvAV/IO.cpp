@@ -119,6 +119,14 @@ namespace djv
             Cache::Cache()
             {}
 
+            void Cache::setMax(size_t value)
+            {
+                if (value == _max)
+                    return;
+                _max = value;
+                _cacheUpdate();
+            }
+
             Math::Frame::Sequence Cache::getFrames() const
             {
                 Math::Frame::Sequence out;
@@ -152,14 +160,6 @@ namespace djv
                     }
                 }
                 return out;
-            }
-
-            void Cache::setMax(size_t value)
-            {
-                if (value == _max)
-                    return;
-                _max = value;
-                _cacheUpdate();
             }
 
             void Cache::setSequenceSize(size_t value)

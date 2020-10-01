@@ -48,7 +48,7 @@ namespace djv
                 const std::string fileName = File::Path(getTempPath(), _fileName).get();
                 io->open(
                     fileName,
-                    File::IO::Mode::Write);
+                    File::Mode::Write);
                 DJV_ASSERT(io->isOpen());
                 DJV_ASSERT(io->getFileName() == fileName);
             }
@@ -65,7 +65,7 @@ namespace djv
                 auto io = File::IO::create();
                 io->open(
                     fileName,
-                    File::IO::Mode::Write);
+                    File::Mode::Write);
                 io->write8(i8);
                 io->writeU8(u8);
                 io->write16(i16);
@@ -76,7 +76,7 @@ namespace djv
 
                 io->open(
                     fileName,
-                    File::IO::Mode::Read);
+                    File::Mode::Read);
                 int8_t   _i8  = 0;
                 uint8_t  _u8  = 0;
                 int16_t  _i16 = 0;
@@ -106,7 +106,7 @@ namespace djv
             try
             {
                 auto io = File::IO::create();
-                io->open(std::string(), File::IO::Mode::Read);
+                io->open(std::string(), File::Mode::Read);
                 DJV_ASSERT(false);
             }
             catch (const std::exception& e)
@@ -117,7 +117,7 @@ namespace djv
             try
             {
                 auto io = File::IO::create();
-                io->open(std::string(), File::IO::Mode::Write);
+                io->open(std::string(), File::Mode::Write);
                 DJV_ASSERT(false);
             }
             catch (const std::exception& e)
@@ -128,7 +128,7 @@ namespace djv
             try
             {
                 auto io = File::IO::create();
-                io->open(std::string(), File::IO::Mode::ReadWrite);
+                io->open(std::string(), File::Mode::ReadWrite);
                 DJV_ASSERT(false);
             }
             catch (const std::exception& e)
@@ -139,7 +139,7 @@ namespace djv
             try
             {
                 auto io = File::IO::create();
-                io->open(std::string(), File::IO::Mode::Append);
+                io->open(std::string(), File::Mode::Append);
                 DJV_ASSERT(false);
             }
             catch (const std::exception& e)
@@ -151,8 +151,8 @@ namespace djv
             {
                 const std::string fileName = File::Path(getTempPath(), _fileName).get();
                 auto io = File::IO::create();
-                io->open(fileName, File::IO::Mode::Write);
-                io->open(fileName, File::IO::Mode::Read);
+                io->open(fileName, File::Mode::Write);
+                io->open(fileName, File::Mode::Read);
                 uint8_t buf[16];
                 io->read(buf, 16, 1);
                 DJV_ASSERT(false);
@@ -166,8 +166,8 @@ namespace djv
             {
                 const std::string fileName = File::Path(getTempPath(), _fileName).get();
                 auto io = File::IO::create();
-                io->open(fileName, File::IO::Mode::Write);
-                io->open(fileName, File::IO::Mode::ReadWrite);
+                io->open(fileName, File::Mode::Write);
+                io->open(fileName, File::Mode::ReadWrite);
                 uint8_t buf[16];
                 io->read(buf, 16, 1);
                 DJV_ASSERT(false);
@@ -206,7 +206,7 @@ namespace djv
             const std::string fileName = File::Path(getTempPath(), _fileName).get();
             io->open(
                 fileName,
-                File::IO::Mode::Write);
+                File::Mode::Write);
             io->writeU32(a);
             io->setEndianConversion(true);
             DJV_ASSERT(io->hasEndianConversion());
@@ -214,7 +214,7 @@ namespace djv
 
             io->open(
                 fileName,
-                File::IO::Mode::Read);
+                File::Mode::Read);
             io->setEndianConversion(false);
             uint32_t _a = 0;
             uint32_t _b = 0;
@@ -226,7 +226,7 @@ namespace djv
 
             io->open(
                 fileName,
-                File::IO::Mode::ReadWrite);
+                File::Mode::ReadWrite);
             io->setEndianConversion(false);
             _a = 0;
             _b = 0;

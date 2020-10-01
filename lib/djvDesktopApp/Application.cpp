@@ -60,7 +60,7 @@ namespace djv
             // Create the systems.
             GLFWSystem::create(shared_from_this());
             UI::UISystem::create(resetSettings, shared_from_this());
-            p.eventSystem = EventSystem::create(getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow(), shared_from_this());
+            p.eventSystem = EventSystem::create(getSystemT<GL::GLFW::GLFWSystem>()->getWindow(), shared_from_this());
         }
         
         Application::Application() :
@@ -81,7 +81,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto avGLFWSystem = getSystemT<GL::GLFW::GLFWSystem>();
-            if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
+            if (auto glfwWindow = avGLFWSystem->getWindow())
             {
                 glfwShowWindow(glfwWindow);
                 _setRunning(true);

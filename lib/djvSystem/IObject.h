@@ -35,13 +35,23 @@ namespace djv
         public:
             virtual ~IObject() = 0;
 
+            //! \name Context
+            ///@{
+
             const std::weak_ptr<Context>& getContext() const;
+
+            ///@}
+
+            //! \name Information
+            ///@{
 
             const std::string& getClassName() const;
             const std::string& getObjectName() const;
 
             void setClassName(const std::string&);
             void setObjectName(const std::string&);
+
+            ///@}
 
             //! \name Object Hierarchy
             ///@{
@@ -113,7 +123,7 @@ namespace djv
 
             ///@}
 
-            //! \name Utilities
+            //! \name Utility
             ///@{
 
             //! Get the number of objects that currently exist.

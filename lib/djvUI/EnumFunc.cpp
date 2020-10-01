@@ -13,18 +13,6 @@ namespace djv
 {
     namespace UI
     {
-        Orientation getOpposite(Orientation value)
-        {
-            Orientation out = value;
-            switch (value)
-            {
-            case Orientation::Horizontal: out = Orientation::Vertical;   break;
-            case Orientation::Vertical:   out = Orientation::Horizontal; break;
-            default: break;
-            }
-            return out;
-        }
-
         float getImageRotate(ImageRotate value)
         {
             const float values[] =
@@ -49,6 +37,18 @@ namespace djv
                 2.39F
             };
             return values[static_cast<size_t>(value)];
+        }
+
+        Orientation getOpposite(Orientation value)
+        {
+            Orientation out = value;
+            switch (value)
+            {
+            case Orientation::Horizontal: out = Orientation::Vertical;   break;
+            case Orientation::Vertical:   out = Orientation::Horizontal; break;
+            default: break;
+            }
+            return out;
         }
 
         float getPixelAspectRatio(ImageAspectRatio value, float pixelAspectRatio)

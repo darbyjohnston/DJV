@@ -26,10 +26,20 @@ namespace djv
         public:
             virtual ~EventSystem() = 0;
 
+            //! \name Requests
+            ///@{
+
             void resizeRequest();
             void redrawRequest();
 
+            ///@}
+
+            //! \name Tooltips
+            ///@{
+
             bool areTooltipsEnabled() const;
+
+            ///@}
 
             void tick() override;
 

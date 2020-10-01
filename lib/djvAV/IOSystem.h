@@ -30,8 +30,16 @@ namespace djv
 
                 static std::shared_ptr<IOSystem> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Information
+                ///@{
+
                 std::set<std::string> getPluginNames() const;
                 std::set<std::string> getFileExtensions() const;
+
+                ///@}
+
+                //! \name Options
+                ///@{
 
                 rapidjson::Value getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType&) const;
 
@@ -41,19 +49,38 @@ namespace djv
 
                 std::shared_ptr<Core::Observer::IValueSubject<bool> > observeOptionsChanged() const;
 
+                ///@}
+                
+                //! \name Sequences
+                ///@{
+
                 const std::set<std::string>& getSequenceExtensions() const;
                 const std::set<std::string>& getNonSequenceExtensions() const;
                 bool canSequence(const System::File::Info&) const;
+
+                ///@}
+                
+                //! \name Read
+                ///@{
+
                 bool canRead(const System::File::Info&) const;
-                bool canWrite(const System::File::Info&, const Info&) const;
 
                 //! Throws:
                 //! - std::exception
                 std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions& = ReadOptions());
 
+                ///@}
+
+                //! \name Write
+                ///@{
+
+                bool canWrite(const System::File::Info&, const Info&) const;
+
                 //! Throws:
                 //! - std::exception
                 std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions& = WriteOptions());
+
+                ///@}
 
             private:
                 DJV_PRIVATE();

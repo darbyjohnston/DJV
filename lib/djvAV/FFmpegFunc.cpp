@@ -4,6 +4,8 @@
 
 #include <djvAV/FFmpegFunc.h>
 
+#include <djvAudio/AudioDataFunc.h>
+
 #include <djvCore/String.h>
 
 using namespace djv::Core;
@@ -70,7 +72,7 @@ namespace djv
                         }
                         else
                         {
-                            Audio::Data::extract(
+                            Audio::extract(
                                 reinterpret_cast<int16_t*>(inData[0]),
                                 reinterpret_cast<int16_t*>(out->getData()),
                                 out->getSampleCount(),
@@ -87,7 +89,7 @@ namespace djv
                         }
                         else
                         {
-                            Audio::Data::extract(
+                            Audio::extract(
                                 reinterpret_cast<int32_t*>(inData[0]),
                                 reinterpret_cast<int32_t*>(out->getData()),
                                 out->getSampleCount(),
@@ -104,7 +106,7 @@ namespace djv
                         }
                         else
                         {
-                            Audio::Data::extract(
+                            Audio::extract(
                                 reinterpret_cast<float*>(inData[0]),
                                 reinterpret_cast<float*>(out->getData()),
                                 out->getSampleCount(),
@@ -121,7 +123,7 @@ namespace djv
                         }
                         else
                         {
-                            Audio::Data::extract(
+                            Audio::extract(
                                 reinterpret_cast<double*>(inData[0]),
                                 reinterpret_cast<double*>(out->getData()),
                                 out->getSampleCount(),
@@ -137,7 +139,7 @@ namespace djv
                         {
                             c[i] = reinterpret_cast<int16_t*>(inData[i]);
                         }
-                        Audio::Data::planarInterleave(
+                        Audio::planarInterleave(
                             c,
                             reinterpret_cast<int16_t*>(out->getData()),
                             outChannelCount,
@@ -152,7 +154,7 @@ namespace djv
                         {
                             c[i] = reinterpret_cast<int32_t*>(inData[i]);
                         }
-                        Audio::Data::planarInterleave(
+                        Audio::planarInterleave(
                             c,
                             reinterpret_cast<int32_t*>(out->getData()),
                             outChannelCount,
@@ -167,7 +169,7 @@ namespace djv
                         {
                             c[i] = reinterpret_cast<float*>(inData[i]);
                         }
-                        Audio::Data::planarInterleave(
+                        Audio::planarInterleave(
                             c,
                             reinterpret_cast<float*>(out->getData()),
                             outChannelCount,
@@ -182,7 +184,7 @@ namespace djv
                         {
                             c[i] = reinterpret_cast<double*>(inData[i]);
                         }
-                        Audio::Data::planarInterleave(
+                        Audio::planarInterleave(
                             c,
                             reinterpret_cast<double*>(out->getData()),
                             outChannelCount,

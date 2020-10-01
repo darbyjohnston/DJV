@@ -30,7 +30,16 @@ namespace djv
                 GLenum filterMin = GL_LINEAR,
                 GLenum filterMag = GL_LINEAR);
 
+            //! \name Information
+            ///@{
+
             const Image::Info& getInfo() const;
+
+            ///@}
+
+            //! \name Data
+            ///@{
+
             GLuint getID() const;
 
             void set(const Image::Info&);
@@ -39,7 +48,7 @@ namespace djv
 
             void bind();
 
-            static GLenum getInternalFormat(Image::Type);
+            ///@}
 
         private:
             Image::Info _info;
@@ -67,7 +76,16 @@ namespace djv
                 const Image::Info&,
                 GLenum filter = GL_LINEAR);
 
+            //! \name Information
+            ///@{
+
             const Image::Info& getInfo() const;
+
+            ///@}
+
+            //! \name Data
+            ///@{
+
             GLuint getID() const;
 
             void copy(const Image::Data&);
@@ -75,7 +93,7 @@ namespace djv
 
             void bind();
 
-            static GLenum getInternalFormat(Image::Type);
+            ///@}
 
         private:
             Image::Info _info;

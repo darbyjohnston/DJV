@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCore/TimeFunc.h>
-
 #include <iomanip>
 #include <sstream>
 

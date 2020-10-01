@@ -13,7 +13,12 @@ namespace djv
 {
     namespace Render2D
     {
+        //! \name Conversion
+        ///@{
+
         GLenum toGL(ImageFilter);
+
+        ///@}
 
         DJV_ENUM_HELPERS(ImageChannelDisplay);
         DJV_ENUM_HELPERS(ImageCache);

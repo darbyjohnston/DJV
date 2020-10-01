@@ -28,4 +28,3 @@ namespace djv
 
     } // namespace Scene3D
 } // namespace djv
-

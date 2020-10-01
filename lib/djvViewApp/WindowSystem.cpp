@@ -89,7 +89,7 @@ namespace djv
 
             p.settings = WindowSettings::create(context);
 
-            auto glfwWindow = p.glGLFWSystem->getGLFWWindow();
+            auto glfwWindow = p.glGLFWSystem->getWindow();
             if (p.settings->observeRestoreSize()->get())
             {
                 const glm::ivec2& windowSize = p.settings->getWindowSize();
@@ -255,7 +255,7 @@ namespace djv
         WindowSystem::~WindowSystem()
         {
             DJV_PRIVATE_PTR();
-            auto glfwWindow = p.glGLFWSystem->getGLFWWindow();
+            auto glfwWindow = p.glGLFWSystem->getWindow();
             if (!p.fullScreen->get())
             {
                 glm::ivec2 pos(0.F, 0.F);
@@ -473,7 +473,7 @@ namespace djv
 
         void WindowSystem::Private::setFullScreen(bool value)
         {
-            auto glfwWindow = glGLFWSystem->getGLFWWindow();
+            auto glfwWindow = glGLFWSystem->getWindow();
             auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
             if (value && glfwWindow && !glfwMonitor)
             {
@@ -535,7 +535,7 @@ namespace djv
 
         void WindowSystem::Private::setFloatOnTop(bool value)
         {
-            if (auto glfwWindow = glGLFWSystem->getGLFWWindow())
+            if (auto glfwWindow = glGLFWSystem->getWindow())
             {
                 glfwSetWindowAttrib(glfwWindow, GLFW_FLOATING, value);
             }

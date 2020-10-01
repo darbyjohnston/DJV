@@ -24,7 +24,7 @@ namespace djv
             T getMin() const noexcept;
             T getMax() const noexcept;
 
-            //! \name Utilities
+            //! \name Utility
             ///@{
 
             void zero() noexcept;

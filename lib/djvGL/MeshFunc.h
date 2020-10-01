@@ -12,8 +12,13 @@ namespace djv
 {
     namespace GL
     {
+        //! \name Information
+        ///@{
+
         //! Get the VBO type byte count.
         size_t getVertexByteCount(VBOType) noexcept;
+
+        ///@}
 
         DJV_ENUM_HELPERS(VBOType);
 

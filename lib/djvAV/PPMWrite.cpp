@@ -99,7 +99,7 @@ namespace djv
                     char magic[] = "P \n";
                     magic[1] = '0' + ppmType;
                     auto io = System::File::IO::create();
-                    io->open(fileName, System::File::IO::Mode::Write);
+                    io->open(fileName, System::File::Mode::Write);
                     io->write(magic, 3);
 
                     std::stringstream ss;

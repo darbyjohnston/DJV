@@ -60,11 +60,26 @@ namespace djv
 
             static std::shared_ptr<FloatSlider> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Model
+            ///@{
+
+            const std::shared_ptr<Math::INumericValueModel<float> >& getModel() const;
+
             void setModel(const std::shared_ptr<Math::INumericValueModel<float> >&);
+
+            ///@}
+
+            //! \name Range
+            ///@{
 
             Math::FloatRange getRange() const;
 
             void setRange(const Math::FloatRange&);
+
+            ///@}
+
+            //! \name Value
+            ///@{
 
             float getValue() const;
 
@@ -77,17 +92,27 @@ namespace djv
             void setDefaultVisible(bool);
             void resetValue();
 
+            ///@}
+
+            //! \name Increment
+            ///@{
+
             float getSmallIncrement() const;
             float getLargeIncrement() const;
 
             void setSmallIncrement(float);
             void setLargeIncrement(float);
 
+            ///@}
+
+            //! \name Delay
+            ///@{
+
             const Core::Time::Duration& getDelay() const;
 
             void setDelay(const Core::Time::Duration&);
 
-            const std::shared_ptr<Math::INumericValueModel<float>>& getModel() const;
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

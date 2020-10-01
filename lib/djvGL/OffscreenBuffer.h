@@ -82,15 +82,26 @@ namespace djv
                 OffscreenSampling,
                 const std::shared_ptr<System::TextSystem>&);
 
+            //! \name Information
+            ///@{
+
             const Image::Size& getSize() const;
             Image::Type getColorType() const;
             OffscreenDepthType getDepthType() const;
             OffscreenSampling getSampling() const;
+
+            ///@}
+
+            //! \name Data
+            ///@{
+
             GLuint getID() const;
             GLuint getColorID() const;
             GLuint getDepthID() const;
 
             void bind();
+
+            ///@}
 
         private:
             Image::Size _size;

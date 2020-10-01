@@ -62,11 +62,11 @@ namespace djv
             auto io = System::File::IO::create();
             io->open(
                 System::File::Path(getTempPath(), "file.json").get(),
-                System::File::IO::Mode::Write);
+                System::File::Mode::Write);
             io->write(buffer.GetString());
             io->open(
                 System::File::Path(getTempPath(), "file.json").get(),
-                System::File::IO::Mode::Read);
+                System::File::Mode::Read);
             std::vector<char> buf;
             const size_t bufSize = io->getSize();
             buf.resize(bufSize);

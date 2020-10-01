@@ -27,7 +27,7 @@ namespace djv
         public:
             ~ResourceSystem() override;
 
-            // Create a resource system.
+            // Create a new resource system.
             static std::shared_ptr<ResourceSystem> create(const std::string& argv0, const std::shared_ptr<Context>&);
 
             //! Get a resource path.

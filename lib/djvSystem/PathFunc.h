@@ -18,26 +18,11 @@ namespace djv
     {
         namespace File
         {
+            //! \name Utility
+            ///@{
+
             //! Remove a trailing path separator.
             void removeTrailingSeparator(std::string&);
-
-            //! Split a path into components.
-            void split(
-                const std::string&  in,
-                std::string&        directoryName,
-                std::string&        baseName,
-                std::string&        number,
-                std::string&        extension);
-
-            //! Split a directory path into sub-directories.
-            //! For example: "var/tmp" -> { "var", "tmp" }
-            std::vector<std::string> splitDir(const std::string&);
-
-            //! Join a list of sub-directories into a directory path.
-            //! For example: var, tmp -> var/tmp
-            std::string joinDirs(
-                const std::vector<std::string>&,
-                char separator = Path::getCurrentSeparator());
 
             //! Create a directory.
             //! Throws:
@@ -66,6 +51,31 @@ namespace djv
             
             //! Get the directory shortcut.
             Path getPath(DirectoryShortcut);
+
+            ///@}
+
+            //! \name Splitting and Joining
+            ///@{
+
+            //! Split a path into components.
+            void split(
+                const std::string& in,
+                std::string& directoryName,
+                std::string& baseName,
+                std::string& number,
+                std::string& extension);
+
+            //! Split a directory path into sub-directories.
+            //! For example: "var/tmp" -> { "var", "tmp" }
+            std::vector<std::string> splitDir(const std::string&);
+
+            //! Join a list of sub-directories into a directory path.
+            //! For example: var, tmp -> var/tmp
+            std::string joinDirs(
+                const std::vector<std::string>&,
+                char separator = Path::getCurrentSeparator());
+
+            ///@}
 
             DJV_ENUM_HELPERS(ResourcePath);
             DJV_ENUM_HELPERS(DirectoryShortcut);

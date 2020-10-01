@@ -22,6 +22,37 @@ namespace djv
     {
         namespace File
         {
+            bool isSequenceWildcard(const std::string& value) noexcept
+            {
+                auto i = value.begin();
+                auto end = value.end();
+                for (; i != end && '#' == *i; ++i)
+                    ;
+                return !value.empty() && i == end;
+            }
+
+            Info getSequence(const Path& path, const std::set<std::string>& extensions)
+            {
+                Info out(path);
+                DirectoryListOptions options;
+                options.sequences = true;
+                options.sequenceExtensions = extensions;
+                std::string dir = path.getDirectoryName();
+                if (dir.empty())
+                {
+                    dir = ".";
+                }
+                for (const auto& info : directoryList(Path(dir), options))
+                {
+                    if (info.isCompatible(out))
+                    {
+                        out = info;
+                        break;
+                    }
+                }
+                return out;
+            }
+
             std::string getPermissionsLabel(int in)
             {
                 const std::array<std::string, 8> data =
@@ -37,7 +68,7 @@ namespace djv
                 };
                 return data[in];
             }
-            
+
             void sequence(Info& info, const DirectoryListOptions& options, std::vector<Info>& out)
             {
                 std::string extension = info.getPath().getExtension();
@@ -89,27 +120,27 @@ namespace djv
                     std::sort(
                         out.begin(), out.end(),
                         [&options](const Info& a, const Info& b)
-                    {
-                        return options.reverseSort ?
-                            (a.getFileName(Math::Frame::invalid, false) > b.getFileName(Math::Frame::invalid, false)) :
-                            (a.getFileName(Math::Frame::invalid, false) < b.getFileName(Math::Frame::invalid, false));
-                    });
+                        {
+                            return options.reverseSort ?
+                                (a.getFileName(Math::Frame::invalid, false) > b.getFileName(Math::Frame::invalid, false)) :
+                                (a.getFileName(Math::Frame::invalid, false) < b.getFileName(Math::Frame::invalid, false));
+                        });
                     break;
                 case DirectoryListSort::Size:
                     std::sort(
                         out.begin(), out.end(),
                         [&options](const Info& a, const Info& b)
-                    {
-                        return options.reverseSort ? (a.getSize() > b.getSize()) : (a.getSize() < b.getSize());
-                    });
+                        {
+                            return options.reverseSort ? (a.getSize() > b.getSize()) : (a.getSize() < b.getSize());
+                        });
                     break;
                 case DirectoryListSort::Time:
                     std::sort(
                         out.begin(), out.end(),
                         [&options](const Info& a, const Info& b)
-                    {
-                        return options.reverseSort ? (a.getTime() > b.getTime()) : (a.getTime() < b.getTime());
-                    });
+                        {
+                            return options.reverseSort ? (a.getTime() > b.getTime()) : (a.getTime() < b.getTime());
+                        });
                     break;
                 default: break;
                 }
@@ -118,41 +149,10 @@ namespace djv
                     std::stable_sort(
                         out.begin(), out.end(),
                         [](const Info& a, const Info& b)
-                    {
-                        return Type::Directory == a.getType() && b.getType() != Type::Directory;
-                    });
+                        {
+                            return Type::Directory == a.getType() && b.getType() != Type::Directory;
+                        });
                 }
-            }
-
-            bool isSequenceWildcard(const std::string& value) noexcept
-            {
-                auto i = value.begin();
-                auto end = value.end();
-                for (; i != end && '#' == *i; ++i)
-                    ;
-                return !value.empty() && i == end;
-            }
-
-            Info getSequence(const Path& path, const std::set<std::string>& extensions)
-            {
-                Info out(path);
-                DirectoryListOptions options;
-                options.sequences = true;
-                options.sequenceExtensions = extensions;
-                std::string dir = path.getDirectoryName();
-                if (dir.empty())
-                {
-                    dir = ".";
-                }
-                for (const auto& info : directoryList(Path(dir), options))
-                {
-                    if (info.isCompatible(out))
-                    {
-                        out = info;
-                        break;
-                    }
-                }
-                return out;
             }
 
             DJV_ENUM_HELPERS_IMPLEMENTATION(Type);

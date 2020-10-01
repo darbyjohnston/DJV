@@ -8,6 +8,7 @@ set(header
     OffscreenBufferTest.h
     ShaderTest.h
     TextureAtlasTest.h
+    TextureFuncTest.h
     TextureTest.h)
 set(source
     EnumFuncTest.cpp
@@ -19,6 +20,7 @@ set(source
     OffscreenBufferTest.cpp
     ShaderTest.cpp
     TextureAtlasTest.cpp
+    TextureFuncTest.cpp
     TextureTest.cpp)
 
 add_library(djvGLTest ${header} ${source})

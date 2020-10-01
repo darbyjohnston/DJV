@@ -30,11 +30,16 @@ namespace djv
 
             static std::shared_ptr<RenderSystem> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Options
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<Render2D::ImageFilterOptions> > observeImageFilterOptions() const;
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeTextLCDRendering() const;
 
             void setImageFilterOptions(const Render2D::ImageFilterOptions&);
             void setTextLCDRendering(bool);
+
+            ///@}
 
         private:
             DJV_PRIVATE();

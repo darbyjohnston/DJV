@@ -50,6 +50,11 @@ namespace djv
                 return _p->borderSize;
             }
 
+            ColorRole Border::getBorderColorRole() const
+            {
+                return _p->borderColor;
+            }
+
             void Border::setBorderSize(MetricsRole value)
             {
                 DJV_PRIVATE_PTR();
@@ -57,11 +62,6 @@ namespace djv
                     return;
                 p.borderSize = value;
                 _resize();
-            }
-
-            ColorRole Border::getBorderColorRole() const
-            {
-                return _p->borderColor;
             }
 
             void Border::setBorderColorRole(ColorRole value)

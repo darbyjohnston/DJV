@@ -57,4 +57,3 @@ namespace djv
 
     } // namespace System
 } // namespace djv
-

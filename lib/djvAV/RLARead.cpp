@@ -224,7 +224,7 @@ namespace djv
                 {
                     // Open the file.
                     io->setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
-                    io->open(fileName, System::File::IO::Mode::Read);
+                    io->open(fileName, System::File::Mode::Read);
 
                     // Read the header.
                     Header header;

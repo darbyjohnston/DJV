@@ -16,13 +16,24 @@ namespace djv
 {
     namespace UI
     {
-        Orientation getOpposite(Orientation);
+        //! \name Information
+        ///@{
 
         float getImageRotate(ImageRotate);
 
         float getImageAspectRatio(ImageAspectRatio);
+
+        ///@}
+
+        //! \name Utility
+        ///@{
+
+        Orientation getOpposite(Orientation);
+
         float getPixelAspectRatio(ImageAspectRatio, float pixelAspectRatio);
         float getAspectRatioScale(ImageAspectRatio, float aspectRatio);
+
+        ///@}
 
         DJV_ENUM_HELPERS(Orientation);
         DJV_ENUM_HELPERS(Side);

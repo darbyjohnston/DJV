@@ -14,6 +14,9 @@ namespace djv
 {
     namespace Math
     {
+        //! \name Utility
+        ///@{
+
         //! Get the absolute value.
         template<typename T>
         constexpr T abs(T) noexcept;
@@ -66,6 +69,8 @@ namespace djv
         template<typename T>
         size_t closest(T, const std::vector<T>&) noexcept;
 
+        ///@}
+
         //! \name Conversion
         ///@{
 
@@ -82,7 +87,7 @@ namespace djv
         //! Convert degrees to radians.
         constexpr float deg2rad(float) noexcept;
 
-        ///@{
+        ///@}
 
         //! \name Comparison
         ///@{

@@ -95,7 +95,7 @@ namespace djv
             struct GLFWSystem::Private
             {
                 std::shared_ptr<System::TextSystem> textSystem;
-                GLFWwindow* glfwWindow = nullptr;
+                GLFWwindow* window = nullptr;
                 std::shared_ptr<Observer::ValueSubject<SwapInterval> > swapInterval;
             };
 
@@ -144,26 +144,26 @@ namespace djv
                 {
                     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
                 }
-                p.glfwWindow = glfwCreateWindow(
+                p.window = glfwCreateWindow(
                     windowSize.x,
                     windowSize.y,
                     context->getName().c_str(),
                     NULL,
                     NULL);
-                if (!p.glfwWindow)
+                if (!p.window)
                 {
                     throw Error(getErrorMessage(ErrorString::Window, p.textSystem));
                 }
                 {
-                    const int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
-                    const int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
-                    const int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
+                    const int glMajor = glfwGetWindowAttrib(_p->window, GLFW_CONTEXT_VERSION_MAJOR);
+                    const int glMinor = glfwGetWindowAttrib(_p->window, GLFW_CONTEXT_VERSION_MINOR);
+                    const int glRevision = glfwGetWindowAttrib(_p->window, GLFW_CONTEXT_REVISION);
                     std::stringstream ss;
                     ss << "GLFW OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
                     _log(ss.str());
                 }
-                glfwSetWindowUserPointer(p.glfwWindow, context.get());
-                glfwMakeContextCurrent(p.glfwWindow);
+                glfwSetWindowUserPointer(p.window, context.get());
+                glfwMakeContextCurrent(p.window);
 #if defined(DJV_GL_ES2)
                 if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
 #else
@@ -222,10 +222,10 @@ namespace djv
             GLFWSystem::~GLFWSystem()
             {
                 DJV_PRIVATE_PTR();
-                if (p.glfwWindow)
+                if (p.window)
                 {
-                    glfwDestroyWindow(p.glfwWindow);
-                    p.glfwWindow = nullptr;
+                    glfwDestroyWindow(p.window);
+                    p.window = nullptr;
                 }
                 glfwTerminate();
             }
@@ -241,9 +241,9 @@ namespace djv
                 return out;
             }
 
-            GLFWwindow* GLFWSystem::getGLFWWindow() const
+            GLFWwindow* GLFWSystem::getWindow() const
             {
-                return _p->glfwWindow;
+                return _p->window;
             }
 
             std::shared_ptr<Observer::IValueSubject<SwapInterval> > GLFWSystem::observeSwapInterval() const

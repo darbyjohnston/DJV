@@ -133,10 +133,10 @@ namespace djv
             {
                 p.vertexFileName = std::string(System::File::Path(shaderPath, "djvRender2DVertex.glsl"));
                 auto io = System::File::IO::create();
-                io->open(p.vertexFileName, System::File::IO::Mode::Read);
+                io->open(p.vertexFileName, System::File::Mode::Read);
                 p.vertexSource = System::File::readContents(io);
                 p.fragmentFileName = std::string(System::File::Path(shaderPath, "djvRender2DFragment.glsl"));
-                io->open(p.fragmentFileName, System::File::IO::Mode::Read);
+                io->open(p.fragmentFileName, System::File::Mode::Read);
                 p.fragmentSource = System::File::readContents(io);
             }
             catch (const std::exception& e)

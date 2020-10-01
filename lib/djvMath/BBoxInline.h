@@ -116,6 +116,24 @@ namespace djv
         }
 
         template<>
+        inline void tBBox2<int>::zero() noexcept
+        {
+            min.x = min.y = max.x = max.y = 0;
+        }
+
+        template<>
+        inline void tBBox2<float>::zero() noexcept
+        {
+            min.x = min.y = max.x = max.y = 0.F;
+        }
+
+        template<>
+        inline void tBBox3<float>::zero() noexcept
+        {
+            min.x = min.y = min.z = max.x = max.y = max.z = 0.F;
+        }
+
+        template<>
         inline glm::tvec2<int> tBBox2<int>::getSize() const noexcept
         {
             return glm::tvec2<int>(max.x - min.x + 1, max.y - min.y + 1);
@@ -182,24 +200,6 @@ namespace djv
         {
             const float h = this->h();
             return h != 0 ? w() / h : 0.F;
-        }
-
-        template<>
-        inline void tBBox2<int>::zero() noexcept
-        {
-            min.x = min.y = max.x = max.y = 0;
-        }
-
-        template<>
-        inline void tBBox2<float>::zero() noexcept
-        {
-            min.x = min.y = max.x = max.y = 0.F;
-        }
-
-        template<>
-        inline void tBBox3<float>::zero() noexcept
-        {
-            min.x = min.y = min.z = max.x = max.y = max.z = 0.F;
         }
 
         template<>
@@ -466,4 +466,3 @@ namespace djv
 
     } // namespace Math
 } // namespace djv
-

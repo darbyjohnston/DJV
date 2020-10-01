@@ -47,7 +47,7 @@ namespace djv
                 //! Create a new animation.
                 static std::shared_ptr<Animation> create(const std::shared_ptr<Context>&);
 
-                //! \name Animation Type
+                //! \name Information
                 ///@{
 
                 Type getType() const;
@@ -56,7 +56,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Animation Options
+                //! \name Options
                 ///@{
 
                 bool isRepeating() const;
@@ -64,6 +64,9 @@ namespace djv
                 void setRepeating(bool);
 
                 ///@}
+
+                //! \name Active
+                ///@{
 
                 //! Get whether the animation is active.
                 bool isActive() const;
@@ -81,16 +84,18 @@ namespace djv
                 //! Stop the animation.
                 void stop();
 
+                ///@}
+
             private:
                 void _tick();
 
-                Type                  _type       = Type::Linear;
+                Type                  _type        = Type::Linear;
                 Function              _function;
-                bool                  _repeating  = false;
-                bool                  _active     = false;
-                float                 _begin      = 0.F;
-                float                 _end        = 0.F;
-                Core::Time::Duration  _duration   = Core::Time::Duration::zero();
+                bool                  _repeating   = false;
+                bool                  _active      = false;
+                float                 _begin       = 0.F;
+                float                 _end         = 0.F;
+                Core::Time::Duration  _duration    = Core::Time::Duration::zero();
                 Callback              _callback;
                 Callback              _endCallback;
                 Core::Time::TimePoint _time;

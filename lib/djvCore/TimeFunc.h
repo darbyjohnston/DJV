@@ -15,14 +15,18 @@ namespace djv
     {
         namespace Time
         {
-            //! \name Time Utilities
+            //! \name Utility
             ///@{
 
+            //! Get the local time.
+            void localtime(const time_t*, tm*);
+
+            //! Sleep the current thread for the given duration.
             void sleep(const Duration&);
 
             ///@}
 
-            //! \name Time Conversion
+            //! \name Conversion
             ///@{
 
             void secondsToTime(
@@ -33,8 +37,6 @@ namespace djv
 
             std::string getLabel(double seconds);
             std::string getLabel(time_t);
-            
-            void localtime(const time_t*, tm*);
             
             ///@}
             

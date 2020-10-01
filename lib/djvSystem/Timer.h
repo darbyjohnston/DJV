@@ -38,10 +38,10 @@ namespace djv
             Timer();
 
         public:
-            //! Create a new time.
+            //! Create a new timer.
             static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
 
-            //! \name Timer Options
+            //! \name Options
             ///@{
 
             bool isRepeating() const;
@@ -49,6 +49,9 @@ namespace djv
             void setRepeating(bool);
 
             ///@}
+
+            //! \name Active
+            ///@{
 
             //! Is the timer active?
             bool isActive() const;
@@ -60,6 +63,8 @@ namespace djv
 
             //! Stop the timer.
             void stop();
+
+            ///@}
 
         private:
             void _tick();

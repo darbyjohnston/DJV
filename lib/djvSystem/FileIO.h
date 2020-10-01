@@ -29,6 +29,18 @@ namespace djv
     {
         namespace File
         {
+            //! This enumeration provides file I/O modes.
+            enum class Mode
+            {
+                Read,
+                Write,
+                ReadWrite,
+                Append,
+
+                Count,
+                First = Read
+            };
+
             //! This class provides file I/O.
             class IO
             {
@@ -40,18 +52,11 @@ namespace djv
             public:
                 ~IO();
 
+                //! Create a new file I/O object.
                 static std::shared_ptr<IO> create();
 
-                enum class Mode
-                {
-                    Read,
-                    Write,
-                    ReadWrite,
-                    Append,
-
-                    Count,
-                    First = Read
-                };
+                //! \name Open and Close
+                ///@{
 
                 //! Open the file.
                 //! Throws:
@@ -69,17 +74,26 @@ namespace djv
                 //! Get whether the file is open.
                 bool isOpen() const;
 
+                ///@}
+
+                //! \name Information
+                ///@{
+
                 //! Get the file name.
                 const std::string& getFileName() const;
 
                 //! Get the file size.
                 size_t getSize() const;
 
-                //! \name File Position
+                ///@}
+
+                //! \name Position
                 ///@{
 
+                //! Get the current file position.
                 size_t getPos() const;
                 
+                //! Set the current file position.
                 void setPos(size_t);
 
                 //! Move the position relative to the current position.
@@ -90,7 +104,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Reading
+                //! \name Read
                 //! Throws:
                 //! - Error
                 ///@{
@@ -107,7 +121,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Writing
+                //! \name Write
                 //! Throws:
                 //! - Error
                 ///@{

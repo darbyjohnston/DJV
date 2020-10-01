@@ -15,7 +15,12 @@ namespace djv
         class Color;
         class Data;
 
+        //! \name Utility
+        ///@{
+
         Color getAverageColor(const std::shared_ptr<Data>&);
+
+        ///@}
 
     } // namespace Image
 } // namespace djv

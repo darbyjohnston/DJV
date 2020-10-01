@@ -302,12 +302,12 @@ namespace djv
                         const auto j = meshCacheUIDs.find(uid);
                         if (j != meshCacheUIDs.end())
                         {
-                            cached = meshCache->getItem(j->second, range);
+                            cached = meshCache->get(j->second, range);
                         }
                         if (!cached)
                         {
                             const auto data = GL::VBO::convert(*i, solidColorMeshType);
-                            meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                            meshCacheUIDs[uid] = meshCache->add(data, range);
                         }
                         primitive->vaoRange.push_back(range);
                     }
@@ -335,12 +335,12 @@ namespace djv
                 const auto i = meshCacheUIDs.find(uid);
                 if (i != meshCacheUIDs.end())
                 {
-                    meshCache->getItem(i->second, range);
+                    meshCache->get(i->second, range);
                 }
                 if (range.getMin() == range.getMax())
                 {
                     const auto data = GL::VBO::convert(*value, solidColorMeshType);
-                    meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                    meshCacheUIDs[uid] = meshCache->add(data, range);
                 }
                 primitive->vaoRange.push_back(range);
 
@@ -370,12 +370,12 @@ namespace djv
                         const auto j = meshCacheUIDs.find(uid);
                         if (j != meshCacheUIDs.end())
                         {
-                            meshCache->getItem(j->second, range);
+                            meshCache->get(j->second, range);
                         }
                         if (range.getMin() == range.getMax())
                         {
                             const auto data = GL::VBO::convert(*i, solidColorMeshType);
-                            meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                            meshCacheUIDs[uid] = meshCache->add(data, range);
                         }
                         primitive->vaoRange.push_back(range);
                     }
@@ -402,12 +402,12 @@ namespace djv
                 const auto i = meshCacheUIDs.find(uid);
                 if (i != meshCacheUIDs.end())
                 {
-                    meshCache->getItem(i->second, range);
+                    meshCache->get(i->second, range);
                 }
                 if (range.getMin() == range.getMax())
                 {
                     const auto data = GL::VBO::convert(value, shadedMeshType);
-                    meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                    meshCacheUIDs[uid] = meshCache->add(data, range);
                 }
                 primitive->vaoRange.push_back(range);
 
@@ -436,12 +436,12 @@ namespace djv
                         const auto j = meshCacheUIDs.find(uid);
                         if (j != meshCacheUIDs.end())
                         {
-                            meshCache->getItem(j->second, range);
+                            meshCache->get(j->second, range);
                         }
                         if (range.getMin() == range.getMax())
                         {
                             const auto data = GL::VBO::convert(i, shadedMeshType);
-                            meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                            meshCacheUIDs[uid] = meshCache->add(data, range);
                         }
                         primitive->vaoRange.push_back(range);
                     }
@@ -472,12 +472,12 @@ namespace djv
                         const auto j = meshCacheUIDs.find(uid);
                         if (j != meshCacheUIDs.end())
                         {
-                            meshCache->getItem(j->second, range);
+                            meshCache->get(j->second, range);
                         }
                         if (range.getMin() == range.getMax())
                         {
                             const auto data = GL::VBO::convert(*i, shadedMeshType);
-                            meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                            meshCacheUIDs[uid] = meshCache->add(data, range);
                         }
                         primitive->vaoRange.push_back(range);
                     }

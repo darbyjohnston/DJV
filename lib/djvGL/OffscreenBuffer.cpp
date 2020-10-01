@@ -5,7 +5,7 @@
 #include <djvGL/OffscreenBuffer.h>
 
 #include <djvGL/OffscreenBufferFunc.h>
-#include <djvGL/Texture.h>
+#include <djvGL/TextureFunc.h>
 
 #include <djvSystem/TextSystem.h>
 
@@ -131,7 +131,7 @@ namespace djv
                     glTexImage2DMultisample(
                         target,
                         static_cast<GLsizei>(samples),
-                        Texture::getInternalFormat(colorType),
+                        getInternalFormat2D(colorType),
                         size.w,
                         size.h,
                         false);
@@ -144,7 +144,7 @@ namespace djv
                     glTexImage2D(
                         target,
                         0,
-                        Texture::getInternalFormat(colorType),
+                        getInternalFormat2D(colorType),
                         size.w,
                         size.h,
                         0,

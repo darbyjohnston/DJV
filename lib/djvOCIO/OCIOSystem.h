@@ -101,7 +101,7 @@ namespace djv
 
             ///@}
 
-            //! \name Utilities
+            //! \name Utility
             ///@{
 
             //! Get the color space for the given display and view.

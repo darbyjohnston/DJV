@@ -29,11 +29,21 @@ namespace djv
         public:
             explicit Square(float radius = .5F);
 
+            //! \name Radius
+            ///@{
+
             float getRadius() const;
 
             void setRadius(float);
 
+            ///@}
+        
+            //! \name Utility
+            ///@{
+
             void triangulate(TriangleMesh&) const override;
+
+            ///@}
 
         private:
             float _radius = .5F;
@@ -45,13 +55,30 @@ namespace djv
         public:
             Circle(float radius = .5F, size_t resolution = 10);
 
+            //! \name Radius
+            ///@{
+
             float getRadius() const;
-            size_t getResolution() const;
 
             void setRadius(float);
+
+            ///@}
+        
+            //! \name Resolution
+            ///@{
+
+            size_t getResolution() const;
+
             void setResolution(size_t);
 
+            ///@}
+        
+            //! \name Utility
+            ///@{
+
             void triangulate(TriangleMesh&) const override;
+
+            ///@}
 
         private:
             float _radius = .5F;
@@ -64,11 +91,21 @@ namespace djv
         public:
             explicit Cube(float radius = .5F);
 
+            //! \name Radius
+            ///@{
+
             float getRadius() const;
 
             void setRadius(float);
 
+            ///@}
+
+            //! \name Utility
+            ///@{
+
             void triangulate(TriangleMesh&) const override;
+
+            ///@}
 
         private:
             float _radius = .5F;
@@ -83,19 +120,43 @@ namespace djv
 
             Sphere(float radius = .5F, const Resolution& = Resolution(10, 10));
 
+            //! \name Radius
+            ///@{
+
             float getRadius() const;
+
+            void setRadius(float);
+
+            ///@}
+
+            //! \name Resolution
+            ///@{
+
             const Resolution& getResolution() const;
+
+            void setResolution(const Resolution&);
+
+            ///@}
+
+            //! \name Span
+            ///@{
+
             const Span& getUSpan() const;
             const Span& getVSpan() const;
             bool hasTextureSpan() const;
 
-            void setRadius(float);
-            void setResolution(const Resolution&);
             void setUSpan(const Span&);
             void setVSpan(const Span&);
             void setTextureSpan(bool);
 
+            ///@}
+
+            //! \name Utility
+            ///@{
+
             void triangulate(TriangleMesh&) const override;
+
+            ///@}
 
         private:
             float _radius = .5F;
@@ -113,21 +174,59 @@ namespace djv
 
             Cylinder(float radius = .5F, float length = 1.F, size_t resolution = 100);
 
+            //! \name Radius
+            ///@{
+
             float getRadius() const;
+
+            void setRadius(float);
+
+            ///@}
+
+            //! \name Length
+            ///@{
+
             float getLength() const;
+
+            void setLength(float);
+
+            ///@}
+
+            //! \name Options
+            ///@{
+
             bool isCapped() const;
+
+            void setCapped(bool);
+
+            ///@}
+
+            //! \name Resolution
+            ///@{
+
             size_t getResolution() const;
+
+            void setResolution(size_t);
+
+            ///@}
+
+            //! \name Span
+            ///@{
+
             const Span& getSpan() const;
             bool hasTextureSpan() const;
 
-            void setRadius(float);
-            void setLength(float);
-            void setCapped(bool);
-            void setResolution(size_t);
             void setSpan(const Span&);
             void setTextureSpan(bool);
 
+            ///@}
+
+            //! \name Utility
+            ///@{
+
             void triangulate(TriangleMesh&) const override;
+
+            ///@}
 
         private:
             float _radius = .5F;

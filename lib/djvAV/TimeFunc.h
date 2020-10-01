@@ -21,14 +21,14 @@ namespace djv
     {
         namespace Time
         {
-            //! \name Time Utilities
+            //! \name Utility
             ///@{
 
             void sleep(const Duration&);
 
             ///@}
 
-            //! \name Time Conversion
+            //! \name Conversion
             ///@{
 
             Math::Rational getTimebaseRational();
@@ -100,7 +100,7 @@ namespace djv
 
             ///@}
 
-            //! \name Time Units
+            //! \name Units
             ///@{
 
             std::string toString(Math::Frame::Number, const Math::Rational&, Units);

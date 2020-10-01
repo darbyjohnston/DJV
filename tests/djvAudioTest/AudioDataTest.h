@@ -20,7 +20,6 @@ namespace djv
         private:
             void _info();
             void _data();
-            void _util();
             void _operators();
         };
         

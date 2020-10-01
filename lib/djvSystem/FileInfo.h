@@ -33,7 +33,7 @@ namespace djv
                 First = File
             };
 
-            //! This enumeration provides the file permissions.
+            //! This enumeration provides file permissions.
             enum class Permissions
             {
                 Read  = 1, //!< Readable
@@ -41,7 +41,7 @@ namespace djv
                 Exec  = 4, //!< Executable
             };
 
-            //! This enumeration provides the directory listing sort options.
+            //! This enumeration provides directory listing sort options.
             enum class DirectoryListSort
             {
                 Name,
@@ -110,7 +110,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Information
+                //! \name Information
                 ///@{
 
                 Type getType() const noexcept;
@@ -124,7 +124,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Sequences
+                //! \name Sequences
                 ///@{
 
                 const Math::Frame::Sequence& getSequence() const noexcept;

@@ -41,7 +41,7 @@ namespace djv
                     _p(new Private)
                 {
                     DJV_PRIVATE_PTR();
-                    p.f.open(fileName, System::File::IO::Mode::Read);
+                    p.f.open(fileName, System::File::Mode::Read);
                     p.size = p.f.getSize();
                     p.p = (char*)(p.f.mmapP());
                 }

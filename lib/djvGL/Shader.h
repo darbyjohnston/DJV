@@ -65,6 +65,9 @@ namespace djv
                 const System::File::Path& vertexSource,
                 const System::File::Path& fragmentSource);
 
+            //! \name Source
+            ///@{
+
             const std::string& getVertexName() const;
             const std::string& getVertexSource() const;
             const std::string& getFragmentName() const;
@@ -73,9 +76,19 @@ namespace djv
             void setVertexName(const std::string&);
             void setFragmentName(const std::string&);
 
+            ///@}
+
+            //! \name Data
+            ///@{
+            
             GLuint getProgram() const;
 
             void bind();
+
+            ///@}
+
+            //! \name Uniforms
+            ///@{
 
             void setUniform(GLint, int);
             void setUniform(GLint, float);
@@ -108,6 +121,8 @@ namespace djv
             void setUniform(const std::string&, const std::vector<float>&);
             void setUniform(const std::string&, const std::vector<glm::vec3>&);
             void setUniform(const std::string&, const std::vector<glm::vec4>&);
+
+            ///@}
 
         private:
             std::pair<std::string, std::string> _vertexSource;

@@ -44,6 +44,28 @@ namespace djv
                 return out;
             }
 
+            std::shared_ptr<Observer::IValueSubject<size_t> > RecentFilesModel::observeMax() const
+            {
+                return _p->filesMax;
+            }
+
+            void RecentFilesModel::setMax(size_t value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.filesMax->get())
+                    return;
+                p.filesMax->setIfChanged(value);
+                if (p.files->getSize() > value)
+                {
+                    std::vector<Info> list = p.files->get();
+                    while (list.size() > value)
+                    {
+                        list.pop_back();
+                    }
+                    p.files->setIfChanged(list);
+                }
+            }
+
             std::shared_ptr<Observer::IListSubject<Info> > RecentFilesModel::observeFiles() const
             {
                 return _p->files;
@@ -74,28 +96,6 @@ namespace djv
                     list.pop_back();
                 }
                 p.files->setIfChanged(list);
-            }
-
-            std::shared_ptr<Observer::IValueSubject<size_t> > RecentFilesModel::observeFilesMax() const
-            {
-                return _p->filesMax;
-            }
-
-            void RecentFilesModel::setFilesMax(size_t value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.filesMax->get())
-                    return;
-                p.filesMax->setIfChanged(value);
-                if (p.files->getSize() > value)
-                {
-                    std::vector<Info> list = p.files->get();
-                    while (list.size() > value)
-                    {
-                        list.pop_back();
-                    }
-                    p.files->setIfChanged(list);
-                }
             }
 
         } // namespace File
