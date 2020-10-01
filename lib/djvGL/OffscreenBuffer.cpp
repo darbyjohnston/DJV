@@ -114,7 +114,7 @@ namespace djv
                 glTexImage2D(
                     target,
                     0,
-                    Texture::getInternalFormat2D(colorType),
+                    getInternalFormat2D(colorType),
                     size.w,
                     size.h,
                     0,
