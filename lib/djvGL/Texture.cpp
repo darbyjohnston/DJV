@@ -251,7 +251,7 @@ namespace djv
                 glTexImage1D(
                     GL_TEXTURE_1D,
                     0,
-                    getInternalFormat(_info.type),
+                    getInternalFormat1D(_info.type),
                     _info.size.w,
                     0,
                     _info.getGLFormat(),
