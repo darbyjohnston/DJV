@@ -6,7 +6,7 @@
 
 #include <djvUI/DrawUtil.h>
 #include <djvUI/IntEdit.h>
-#include <djvUI/InumericWidgetFunc.h>
+#include <djvUI/INumericWidgetFunc.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
 

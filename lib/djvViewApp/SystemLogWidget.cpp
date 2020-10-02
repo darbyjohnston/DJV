@@ -34,7 +34,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::ToolButton> reloadButton;
             std::shared_ptr<UI::ToolButton> clearButton;
-            std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UIComponents::SearchBox> searchBox;
         };
 
         void SystemLogWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -61,7 +61,7 @@ namespace djv
             p.reloadButton->setIcon("djvIconReload");
             p.clearButton = UI::ToolButton::create(context);
             p.clearButton->setIcon("djvIconClear");
-            p.searchBox = UI::SearchBox::create(context);
+            p.searchBox = UIComponents::SearchBox::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);

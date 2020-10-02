@@ -8,7 +8,7 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a UI system.
         class UIComponentsSystem : public System::ISystem
@@ -28,5 +28,5 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides a keyboard shortcut settings widget.
-        class KeyboardShortcutSettingsWidget : public UI::ISettingsWidget
+        class KeyboardShortcutSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(KeyboardShortcutSettingsWidget);
 

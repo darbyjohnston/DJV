@@ -17,7 +17,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -33,8 +33,8 @@ namespace djv
                 std::shared_ptr<ShortcutsWidget> shortcutsWidget;
                 std::shared_ptr<RecentPathsWidget> recentPathsWidget;
                 std::shared_ptr<DrivesWidget> drivesWidget;
-                std::map<std::string, std::shared_ptr<Bellows> > bellows;
-                std::shared_ptr<VerticalLayout> layout;
+                std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
+                std::shared_ptr<UI::VerticalLayout> layout;
 
                 std::shared_ptr<Observer::Value<System::File::Path> > pathObserver;
                 std::shared_ptr<Observer::Map<std::string, bool> > pathsBellowsStateObserver;
@@ -50,22 +50,22 @@ namespace djv
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
-                setClassName("djv::UI::FileBrowser::DrawerWidget");
+                setClassName("djv::UIComponents::FileBrowser::DrawerWidget");
 
                 p.shortcutsWidget = ShortcutsWidget::create(shortcutsModel, elide, context);
-                p.bellows["Shortcuts"] = Bellows::create(context);
+                p.bellows["Shortcuts"] = UI::Bellows::create(context);
                 p.bellows["Shortcuts"]->addChild(p.shortcutsWidget);
 
                 auto recentPathsWidget = RecentPathsWidget::create(recentFilesModel, elide, context);
-                p.bellows["Recent"] = Bellows::create(context);
+                p.bellows["Recent"] = UI::Bellows::create(context);
                 p.bellows["Recent"]->addChild(recentPathsWidget);
 
                 auto drivesWidget = DrivesWidget::create(drivesModel, elide, context);
-                p.bellows["Drives"] = Bellows::create(context);
+                p.bellows["Drives"] = UI::Bellows::create(context);
                 p.bellows["Drives"]->addChild(drivesWidget);
 
-                p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout = UI::VerticalLayout::create(context);
+                p.layout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(p.bellows["Shortcuts"]);
                 p.layout->addChild(p.bellows["Recent"]);
                 p.layout->addChild(p.bellows["Drives"]);
@@ -100,7 +100,7 @@ namespace djv
                         }
                     });
 
-                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                 p.pathsBellowsStateObserver = Observer::Map<std::string, bool>::create(
                     fileBrowserSettings->observePathsBellowsState(),
@@ -184,7 +184,7 @@ namespace djv
                         {
                             state[i.first] = i.second->isOpen();
                         }
-                        auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                         fileBrowserSettings->setPathsBellowsState(state);
                     }
@@ -192,5 +192,5 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

@@ -35,7 +35,7 @@ namespace djv
             setClassName("djv::ViewApp::RecentFilesThumbnailWidget");
 
             p.thumbnailSizeSlider = UI::Numeric::IntSlider::create(context);
-            p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
+            p.thumbnailSizeSlider->setRange(UIComponents::FileBrowser::thumbnailSizeRange);
             p.thumbnailSizeSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
 
             p.layout = UI::VerticalLayout::create(context);
@@ -43,7 +43,7 @@ namespace djv
             addChild(p.layout);
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+            auto fileBrowserSettings = settingsSystem->getSettingsT<UIComponents::Settings::FileBrowser>();
             auto weak = std::weak_ptr<RecentFilesThumbnailWidget>(std::dynamic_pointer_cast<RecentFilesThumbnailWidget>(shared_from_this()));
             p.thumbnailSizeSettingsObserver = Observer::Value<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
@@ -62,7 +62,7 @@ namespace djv
                     if (auto context = contextWeak.lock())
                     {
                         auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UIComponents::Settings::FileBrowser>();
                         fileBrowserSettings->setThumbnailSize(Image::Size(value, ceilf(value / 2.F)));
                     }
                 });

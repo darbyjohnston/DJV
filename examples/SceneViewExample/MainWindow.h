@@ -53,10 +53,10 @@ private:
     std::shared_ptr<djv::UI::ActionGroup> _sceneRotateActionGroup;
 
     std::shared_ptr<djv::UI::Text::Label> _fileInfoLabel;
-    std::shared_ptr<djv::UI::SceneWidget> _sceneWidget;
+    std::shared_ptr<djv::UIComponents::SceneWidget> _sceneWidget;
     std::shared_ptr<djv::UI::Drawer> _settingsDrawer;
 
-    std::shared_ptr<djv::UI::FileBrowser::Dialog> _fileBrowserDialog;
+    std::shared_ptr<djv::UIComponents::FileBrowser::Dialog> _fileBrowserDialog;
     djv::System::File::Path _fileBrowserPath = djv::System::File::Path(".");
     
     std::function<void(const djv::System::File::Info)> _openCallback;
@@ -64,7 +64,7 @@ private:
     std::function<void(void)> _exitCallback;
     
     std::shared_ptr<djv::Core::Observer::Value<djv::Scene3D::PolarCameraData> > _cameraDataObserver;
-    std::shared_ptr<djv::Core::Observer::Value<djv::UI::SceneRenderOptions> > _renderOptionsObserver;
+    std::shared_ptr<djv::Core::Observer::Value<djv::UIComponents::SceneRenderOptions> > _renderOptionsObserver;
     std::shared_ptr<djv::Core::Observer::Value<djv::Math::BBox3f> > _bboxObserver;
     std::shared_ptr<djv::Core::Observer::Value<size_t> > _primitivesCountObserver;
     std::shared_ptr<djv::Core::Observer::Value<size_t> > _pointCountObserver;

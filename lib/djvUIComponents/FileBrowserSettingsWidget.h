@@ -4,25 +4,25 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        namespace FileBrowser
+        namespace Settings
         {
             //! This class provides a file browser settings widget.
-            class SettingsWidget : public UI::ISettingsWidget
+            class FileBrowserWidget : public IWidget
             {
-                DJV_NON_COPYABLE(SettingsWidget);
+                DJV_NON_COPYABLE(FileBrowserWidget);
 
             protected:
                 void _init(const std::shared_ptr<System::Context>&);
-                SettingsWidget();
+                FileBrowserWidget();
 
             public:
-                static std::shared_ptr<SettingsWidget> create(const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<FileBrowserWidget> create(const std::shared_ptr<System::Context>&);
 
                 std::string getSettingsName() const override;
                 std::string getSettingsGroup() const override;
@@ -32,7 +32,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-        } // namespace FileBrowser
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

@@ -16,7 +16,6 @@ namespace djv
     namespace UI
     {
         class Action;
-        class ISettingsWidget;
         class Menu;
         struct ShortcutDataPair;
     
@@ -25,6 +24,15 @@ namespace djv
             class Canvas;
 
         } // namespace MDI
+    } // namespace UI
+
+    namespace UIComponents
+    {
+        namespace Settings
+        {
+            class IWidget;
+
+        } // namespace Settings
     } // namespace UI
 
     namespace ViewApp
@@ -52,7 +60,7 @@ namespace djv
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions() const;
             virtual MenuData getMenu() const;
-            virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets() const;
+            virtual std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > createSettingsWidgets() const;
 
             void setCanvas(const std::shared_ptr<UI::MDI::Canvas>&);
 

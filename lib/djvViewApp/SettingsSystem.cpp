@@ -78,35 +78,35 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::createSettingsWidgets() const
+        std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > SettingsSystem::createSettingsWidgets() const
         {
-            std::vector<std::shared_ptr<UI::ISettingsWidget> > out;
+            std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > out;
             if (auto context = getContext().lock())
             {
                 out =
                 {
-                    UI::MouseSettingsWidget::create(context),
-                    UI::FileBrowser::SettingsWidget::create(context),
-                    UI::GLFWSettingsWidget::create(context),
-                    UI::LanguageSettingsWidget::create(context),
-                    UI::StyleSettingsWidget::create(context),
-                    UI::Render2DImageSettingsWidget::create(context),
-                    UI::Render2DTextSettingsWidget::create(context),
-                    UI::TimeSettingsWidget::create(context),
-                    UI::TooltipsSettingsWidget::create(context),
-                    UI::IOThreadsSettingsWidget::create(context),
-                    UI::PPMSettingsWidget::create(context),
+                    UIComponents::Settings::MouseWidget::create(context),
+                    UIComponents::Settings::FileBrowserWidget::create(context),
+                    UIComponents::Settings::GLFWWidget::create(context),
+                    UIComponents::Settings::LanguageWidget::create(context),
+                    UIComponents::Settings::StyleWidget::create(context),
+                    UIComponents::Settings::Render2DImageWidget::create(context),
+                    UIComponents::Settings::Render2DTextWidget::create(context),
+                    UIComponents::Settings::TimeWidget::create(context),
+                    UIComponents::Settings::TooltipsWidget::create(context),
+                    UIComponents::Settings::IOThreadsWidget::create(context),
+                    UIComponents::Settings::PPMWidget::create(context),
 #if defined(JPEG_FOUND)
-                    UI::JPEGSettingsWidget::create(context),
+                    UIComponents::Settings::JPEGWidget::create(context),
 #endif
 #if defined(FFmpeg_FOUND)
-                    UI::FFmpegSettingsWidget::create(context),
+                    UIComponents::Settings::FFmpegWidget::create(context),
 #endif
 #if defined(OpenEXR_FOUND)
-                    UI::OpenEXRSettingsWidget::create(context),
+                    UIComponents::Settings::OpenEXRWidget::create(context),
 #endif
 #if defined(TIFF_FOUND)
-                    UI::TIFFSettingsWidget::create(context),
+                    UIComponents::Settings::TIFFWidget::create(context),
 #endif
 
                     SequenceSettingsWidget::create(context),

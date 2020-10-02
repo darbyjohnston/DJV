@@ -17,15 +17,15 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct SearchBox::Private
         {
-            std::shared_ptr<Text::LineEditBase> lineEditBase;
-            std::shared_ptr<Icon> searchIcon;
-            std::shared_ptr<ToolButton> clearButton;
-            std::shared_ptr<SoloLayout> soloLayout;
-            std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<UI::Text::LineEditBase> lineEditBase;
+            std::shared_ptr<UI::Icon> searchIcon;
+            std::shared_ptr<UI::ToolButton> clearButton;
+            std::shared_ptr<UI::SoloLayout> soloLayout;
+            std::shared_ptr<UI::HorizontalLayout> layout;
             std::function<void(const std::string &)> filterCallback;
         };
 
@@ -34,28 +34,28 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::SearchBox");
-            setVAlign(VAlign::Center);
+            setClassName("djv::UIComponents::SearchBox");
+            setVAlign(UI::VAlign::Center);
 
-            p.lineEditBase = Text::LineEditBase::create(context);
-            p.lineEditBase->setTextSizeRole(MetricsRole::SearchBox);
+            p.lineEditBase = UI::Text::LineEditBase::create(context);
+            p.lineEditBase->setTextSizeRole(UI::MetricsRole::SearchBox);
             
-            p.searchIcon = Icon::create(context);
+            p.searchIcon = UI::Icon::create(context);
             p.searchIcon->setIcon("djvIconSearch");
-            p.searchIcon->setIconColorRole(ColorRole::Foreground);
+            p.searchIcon->setIconColorRole(UI::ColorRole::Foreground);
             
-            p.clearButton = ToolButton::create(context);
+            p.clearButton = UI::ToolButton::create(context);
             p.clearButton->setIcon("djvIconClear");
-            p.clearButton->setInsideMargin(MetricsRole::None);
+            p.clearButton->setInsideMargin(UI::MetricsRole::None);
             p.clearButton->setTextFocusEnabled(false);
-            p.clearButton->setBackgroundRole(ColorRole::None);
+            p.clearButton->setBackgroundRole(UI::ColorRole::None);
             
-            p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::None);
-            p.layout->setBackgroundRole(ColorRole::Trough);
+            p.layout = UI::HorizontalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->setBackgroundRole(UI::ColorRole::Trough);
             p.layout->addChild(p.lineEditBase);
-            p.layout->setStretch(p.lineEditBase, RowStretch::Expand);
-            p.soloLayout = SoloLayout::create(context);
+            p.layout->setStretch(p.lineEditBase, UI::RowStretch::Expand);
+            p.soloLayout = UI::SoloLayout::create(context);
             p.soloLayout->addChild(p.searchIcon);
             p.soloLayout->addChild(p.clearButton);
             p.layout->addChild(p.soloLayout);
@@ -134,7 +134,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
-            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+            const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             float size = value - m.x - btf * 2.F;
             float out = p.layout->getHeightForWidth(size);
             return out + btf * 2.F + m.y;
@@ -144,7 +144,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+            const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             glm::vec2 size = p.layout->getMinimumSize();
             size += btf * 2.F;
             _setMinimumSize(size + getMargin().getSize(style));
@@ -154,7 +154,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+            const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
             const Math::BBox2f g2 = g.margin(-btf);
             _p->layout->setGeometry(g2);
@@ -172,12 +172,12 @@ namespace djv
             if (p.lineEditBase->hasTextFocus())
             {
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
-                drawBorder(render, g, btf);
+                UI::drawBorder(render, g, btf);
             }
             else
             {
                 render->setFillColor(style->getColor(UI::ColorRole::Border));
-                drawBorder(render, g.margin(-b), b);
+                UI::drawBorder(render, g.margin(-b), b);
             }
         }
 
@@ -201,5 +201,5 @@ namespace djv
             p.soloLayout->setCurrentWidget(currentWidget);
         }
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

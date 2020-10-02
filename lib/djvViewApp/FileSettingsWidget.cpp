@@ -34,7 +34,7 @@ namespace djv
 
         void SequenceSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISettingsWidget::_init(context);
+            IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::SequenceSettingsWidget");
@@ -134,7 +134,7 @@ namespace djv
 
         void SequenceSettingsWidget::_initEvent(System::Event::Init& event)
         {
-            ISettingsWidget::_initEvent(event);
+            IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
@@ -153,7 +153,7 @@ namespace djv
 
         void RecentFilesSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISettingsWidget::_init(context);
+            IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::RecentFilesSettingsWidget");

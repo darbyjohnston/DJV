@@ -116,7 +116,7 @@ namespace djv
             KeyboardSettings::create(shared_from_this());
 
             // Create the systems.
-            UI::UIComponentsSystem::create(shared_from_this());
+            UIComponents::UIComponentsSystem::create(shared_from_this());
             FileSystem::create(shared_from_this());
             WindowSystem::create(shared_from_this());
             //EditSystem::create(shared_from_this());

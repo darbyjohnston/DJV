@@ -4,36 +4,39 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        //! This class provides a tooltips settings widget.
-        class TooltipsSettingsWidget : public ISettingsWidget
+        namespace Settings
         {
-            DJV_NON_COPYABLE(TooltipsSettingsWidget);
+            //! This class provides a tooltips settings widget.
+            class TooltipsWidget : public IWidget
+            {
+                DJV_NON_COPYABLE(TooltipsWidget);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            TooltipsSettingsWidget();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                TooltipsWidget();
 
-        public:
-            static std::shared_ptr<TooltipsSettingsWidget> create(const std::shared_ptr<System::Context>&);
+            public:
+                static std::shared_ptr<TooltipsWidget> create(const std::shared_ptr<System::Context>&);
 
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
+                std::string getSettingsGroup() const override;
+                std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&) override;
+                void setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>&) override;
 
-        protected:
-            void _initEvent(System::Event::Init&) override;
+            protected:
+                void _initEvent(System::Event::Init&) override;
 
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

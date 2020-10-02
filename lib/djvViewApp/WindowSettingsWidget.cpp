@@ -45,7 +45,7 @@ namespace djv
 
         void WindowGeometrySettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISettingsWidget::_init(context);
+            IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::WindowGeometrySettingsWidget");
@@ -149,7 +149,7 @@ namespace djv
 
         void WindowGeometrySettingsWidget::_initEvent(System::Event::Init& event)
         {
-            ISettingsWidget::_initEvent(event);
+            IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
@@ -170,7 +170,7 @@ namespace djv
 
         void FullscreenMonitorSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISettingsWidget::_init(context);
+            IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::FullscreenMonitorSettingsWidget");
@@ -262,7 +262,7 @@ namespace djv
 
         void FullscreenMonitorSettingsWidget::_initEvent(System::Event::Init& event)
         {
-            ISettingsWidget::_initEvent(event);
+            IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
@@ -292,7 +292,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::ToggleButton> scaleButton;
             std::shared_ptr<UI::ToggleButton> colorizeButton;
-            std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            std::shared_ptr<UIComponents::FileBrowser::Dialog> fileBrowserDialog;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
@@ -303,7 +303,7 @@ namespace djv
 
         void BackgroundImageSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISettingsWidget::_init(context);
+            IWidget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::BackgroundImageSettingsWidget");
@@ -375,7 +375,7 @@ namespace djv
                             {
                                 widget->_p->fileBrowserDialog->close();
                             }
-                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
+                            widget->_p->fileBrowserDialog = UIComponents::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
                             auto io = context->getSystemT<AV::IO::IOSystem>();
                             widget->_p->fileBrowserDialog->setFileExtensions(io->getFileExtensions());
                             widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
@@ -542,7 +542,7 @@ namespace djv
 
         void BackgroundImageSettingsWidget::_initEvent(System::Event::Init& event)
         {
-            ISettingsWidget::_initEvent(event);
+            IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {

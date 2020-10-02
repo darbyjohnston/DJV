@@ -118,13 +118,13 @@ std::shared_ptr<RenderWidget> RenderWidget::create(const std::shared_ptr<System:
     return out;
 }
 
-void RenderWidget::setRenderOptions(const UI::SceneRenderOptions& value)
+void RenderWidget::setRenderOptions(const UIComponents::SceneRenderOptions& value)
 {
     _renderOptions = value;
     _widgetUpdate();
 }
 
-void RenderWidget::setRenderOptionsCallback(const std::function<void(const UI::SceneRenderOptions&)>& value)
+void RenderWidget::setRenderOptionsCallback(const std::function<void(const UIComponents::SceneRenderOptions&)>& value)
 {
     _renderOptionsCallback = value;
 }

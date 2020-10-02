@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a time units widget.
-        class TimeUnitsWidget : public Widget
+        class TimeUnitsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(TimeUnitsWidget);
 
@@ -37,30 +37,33 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a time settings widget.
-        class TimeSettingsWidget : public ISettingsWidget
+        namespace Settings
         {
-            DJV_NON_COPYABLE(TimeSettingsWidget);
+            //! This class provides a time settings widget.
+            class TimeWidget : public IWidget
+            {
+                DJV_NON_COPYABLE(TimeWidget);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            TimeSettingsWidget();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                TimeWidget();
 
-        public:
-            static std::shared_ptr<TimeSettingsWidget> create(const std::shared_ptr<System::Context>&);
+            public:
+                static std::shared_ptr<TimeWidget> create(const std::shared_ptr<System::Context>&);
 
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
+                std::string getSettingsGroup() const override;
+                std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&) override;
+                void setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>&) override;
 
-        protected:
-            void _initEvent(System::Event::Init &) override;
+            protected:
+                void _initEvent(System::Event::Init&) override;
 
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

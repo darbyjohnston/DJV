@@ -20,12 +20,12 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct LanguageWidget::Private
         {
             std::string locale;
-            std::shared_ptr<ComboBox> comboBox;
+            std::shared_ptr<UI::ComboBox> comboBox;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
@@ -38,10 +38,10 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::LanguageWidget");
-            setHAlign(HAlign::Fill);
+            setClassName("djv::UIComponents::LanguageWidget");
+            setHAlign(UI::HAlign::Fill);
 
-            p.comboBox = ComboBox::create(context);
+            p.comboBox = UI::ComboBox::create(context);
             addChild(p.comboBox);
 
             auto weak = std::weak_ptr<LanguageWidget>(std::dynamic_pointer_cast<LanguageWidget>(shared_from_this()));
@@ -75,8 +75,8 @@ namespace djv
                 }
             });
 
-            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-            auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto fontSettings = settingsSystem->getSettingsT<UI::Settings::Font>();
             p.localeFontsObserver = Observer::Map<std::string, std::string>::create(
                 fontSettings->observeLocaleFonts(),
                 [weak](const std::map<std::string, std::string> & value)
@@ -169,62 +169,65 @@ namespace djv
             }
         }
 
-        struct LanguageSettingsWidget::Private
+        namespace Settings
         {
-            std::shared_ptr<LanguageWidget> languageWidget;
-            std::shared_ptr<FormLayout> layout;
-        };
-
-        void LanguageSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
-        {
-            ISettingsWidget::_init(context);
-
-            DJV_PRIVATE_PTR();
-            setClassName("djv::UI::LanguageSettingsWidget");
-
-            p.languageWidget = LanguageWidget::create(context);
-
-            p.layout = UI::FormLayout::create(context);
-            p.layout->addChild(p.languageWidget);
-            addChild(p.layout);
-        }
-
-        LanguageSettingsWidget::LanguageSettingsWidget() :
-            _p(new Private)
-        {}
-
-        std::shared_ptr<LanguageSettingsWidget> LanguageSettingsWidget::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<LanguageSettingsWidget>(new LanguageSettingsWidget);
-            out->_init(context);
-            return out;
-        }
-
-        std::string LanguageSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("settings_title_general");
-        }
-
-        std::string LanguageSettingsWidget::getSettingsSortKey() const
-        {
-            return "0";
-        }
-
-        void LanguageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
-        void LanguageSettingsWidget::_initEvent(System::Event::Init& event)
-        {
-            ISettingsWidget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
+            struct LanguageWidget::Private
             {
-                p.layout->setText(p.languageWidget, _getText(DJV_TEXT("settings_language")) + ":");
-            }
-        }
+                std::shared_ptr<LanguageWidget> languageWidget;
+                std::shared_ptr<UI::FormLayout> layout;
+            };
 
-    } // namespace UI
+            void LanguageWidget::_init(const std::shared_ptr<System::Context>& context)
+            {
+                IWidget::_init(context);
+
+                DJV_PRIVATE_PTR();
+                setClassName("djv::UIComponents::Settings::LanguageWidget");
+
+                p.languageWidget = LanguageWidget::create(context);
+
+                p.layout = UI::FormLayout::create(context);
+                p.layout->addChild(p.languageWidget);
+                addChild(p.layout);
+            }
+
+            LanguageWidget::LanguageWidget() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<LanguageWidget> LanguageWidget::create(const std::shared_ptr<System::Context>& context)
+            {
+                auto out = std::shared_ptr<LanguageWidget>(new LanguageWidget);
+                out->_init(context);
+                return out;
+            }
+
+            std::string LanguageWidget::getSettingsGroup() const
+            {
+                return DJV_TEXT("settings_title_general");
+            }
+
+            std::string LanguageWidget::getSettingsSortKey() const
+            {
+                return "0";
+            }
+
+            void LanguageWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
+            {
+                _p->layout->setLabelSizeGroup(value);
+            }
+
+            void LanguageWidget::_initEvent(System::Event::Init& event)
+            {
+                IWidget::_initEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.getData().text)
+                {
+                    p.layout->setText(p.languageWidget, _getText(DJV_TEXT("settings_language")) + ":");
+                }
+            }
+
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

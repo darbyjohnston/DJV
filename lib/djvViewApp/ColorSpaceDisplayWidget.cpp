@@ -28,7 +28,7 @@ namespace djv
             OCIO::Displays displays;
 
             std::shared_ptr<UI::ListWidget> listWidget;
-            std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UIComponents::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<Observer::Value<OCIO::Displays> > displaysObserver;
@@ -44,7 +44,7 @@ namespace djv
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
             p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
-            p.searchBox = UI::SearchBox::create(context);
+            p.searchBox = UIComponents::SearchBox::create(context);
             
             p.layout = UI::VerticalLayout::create(context);
 

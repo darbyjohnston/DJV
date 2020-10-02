@@ -9,10 +9,10 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a widget for editing keyboard shortcuts.
-        class ShortcutsWidget : public Widget
+        class ShortcutsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ShortcutsWidget);
 
@@ -23,8 +23,8 @@ namespace djv
         public:
             static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setShortcuts(const ShortcutDataMap&);
-            void setShortcutsCallback(const std::function<void(const ShortcutDataMap&)>&);
+            void setShortcuts(const UI::ShortcutDataMap&);
+            void setShortcutsCallback(const std::function<void(const UI::ShortcutDataMap&)>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -36,6 +36,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

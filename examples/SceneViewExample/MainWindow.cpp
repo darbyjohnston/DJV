@@ -116,7 +116,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     _fileInfoLabel->setTextHAlign(UI::TextHAlign::Left);
     _fileInfoLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
 
-    _sceneWidget = UI::SceneWidget::create(context);
+    _sceneWidget = UIComponents::SceneWidget::create(context);
 
     _settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
 
@@ -215,7 +215,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_sceneWidget->setSceneRotate(static_cast<UI::SceneRotate>(value + 1));
+                widget->_sceneWidget->setSceneRotate(static_cast<UIComponents::SceneRotate>(value + 1));
                 widget->_sceneWidget->frameView();
             }
         });
@@ -247,7 +247,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                         });
 
                     renderWidget->setRenderOptionsCallback(
-                        [weak](const UI::SceneRenderOptions& value)
+                        [weak](const UIComponents::SceneRenderOptions& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -265,9 +265,9 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                             }
                         });
 
-                    widget->_renderOptionsObserver = Core::Observer::Value<UI::SceneRenderOptions>::create(
+                    widget->_renderOptionsObserver = Core::Observer::Value<UIComponents::SceneRenderOptions>::create(
                         widget->_sceneWidget->observeRenderOptions(),
-                        [renderWidget, weak](const UI::SceneRenderOptions& value)
+                        [renderWidget, weak](const UIComponents::SceneRenderOptions& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -403,7 +403,7 @@ void MainWindow::_open()
         {
             _fileBrowserDialog->close();
         }
-        _fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
+        _fileBrowserDialog = UIComponents::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
         auto io = context->getSystemT<Scene3D::IO::IOSystem>();
         _fileBrowserDialog->setFileExtensions(io->getFileExtensions());
         _fileBrowserDialog->setPath(_fileBrowserPath);

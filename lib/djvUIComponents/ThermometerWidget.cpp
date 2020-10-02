@@ -12,22 +12,22 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct ThermometerWidget::Private
         {
-            Orientation orientation = Orientation::Horizontal;
+            UI::Orientation orientation = UI::Orientation::Horizontal;
             float percentage = 0.F;
-            ColorRole colorRole = ColorRole::Checked;
-            MetricsRole sizeRole = MetricsRole::Slider;
+            UI::ColorRole colorRole = UI::ColorRole::Checked;
+            UI::MetricsRole sizeRole = UI::MetricsRole::Slider;
         };
 
         void ThermometerWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
-            setClassName("djv::UI::ThermometerWidget");
-            setBackgroundRole(ColorRole::Trough);
+            setClassName("djv::UIComponents::ThermometerWidget");
+            setBackgroundRole(UI::ColorRole::Trough);
         }
 
         ThermometerWidget::ThermometerWidget() :
@@ -44,12 +44,12 @@ namespace djv
             return out;
         }
 
-        Orientation ThermometerWidget::getOrientation() const
+        UI::Orientation ThermometerWidget::getOrientation() const
         {
             return _p->orientation;
         }
 
-        void ThermometerWidget::setOrientation(Orientation value)
+        void ThermometerWidget::setOrientation(UI::Orientation value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.orientation)
@@ -72,12 +72,12 @@ namespace djv
             _redraw();
         }
 
-        ColorRole ThermometerWidget::getColorRole() const
+        UI::ColorRole ThermometerWidget::getColorRole() const
         {
             return _p->colorRole;
         }
 
-        void ThermometerWidget::setColorRole(ColorRole value)
+        void ThermometerWidget::setColorRole(UI::ColorRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.colorRole)
@@ -86,12 +86,12 @@ namespace djv
             _resize();
         }
 
-        MetricsRole ThermometerWidget::getSizeRole() const
+        UI::MetricsRole ThermometerWidget::getSizeRole() const
         {
             return _p->sizeRole;
         }
 
-        void ThermometerWidget::setSizeRole(MetricsRole value)
+        void ThermometerWidget::setSizeRole(UI::MetricsRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.sizeRole)
@@ -105,12 +105,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sr = style->getMetric(p.sizeRole);
-            const float hw = style->getMetric(MetricsRole::Handle);
+            const float hw = style->getMetric(UI::MetricsRole::Handle);
             glm::vec2 size(0.F, 0.F);
             switch (p.orientation)
             {
-            case Orientation::Horizontal: size = glm::vec2(sr, hw); break;
-            case Orientation::Vertical:   size = glm::vec2(hw, sr); break;
+            case UI::Orientation::Horizontal: size = glm::vec2(sr, hw); break;
+            case UI::Orientation::Vertical:   size = glm::vec2(hw, sr); break;
             default: break;
             }
             _setMinimumSize(size);
@@ -129,13 +129,13 @@ namespace djv
             render->setFillColor(style->getColor(p.colorRole));
             switch (p.orientation)
             {
-            case Orientation::Horizontal:
+            case UI::Orientation::Horizontal:
             {
                 const float w = p.percentage / 100.F * g.w();
                 render->drawRect(Math::BBox2f(g.min.x, g.min.y, w, g.h()));
                 break;
             }
-            case Orientation::Vertical:
+            case UI::Orientation::Vertical:
             {
                 const float h = p.percentage / 100.F * g.h();
                 render->drawRect(Math::BBox2f(g.min.x, g.max.y - h, g.w(), h));
@@ -145,6 +145,6 @@ namespace djv
             }
         }
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

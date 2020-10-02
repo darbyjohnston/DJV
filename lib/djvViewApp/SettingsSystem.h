@@ -28,7 +28,7 @@ namespace djv
             static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets() const override;
+            std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > createSettingsWidgets() const override;
             
         private:
             DJV_PRIVATE();

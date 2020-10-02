@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the window geometry settings widget.
-        class WindowGeometrySettingsWidget : public UI::ISettingsWidget
+        class WindowGeometrySettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(WindowGeometrySettingsWidget);
 
@@ -37,7 +37,7 @@ namespace djv
         };
 
         //! This class provides the fullscreen monitor settings widget.
-        class FullscreenMonitorSettingsWidget : public UI::ISettingsWidget
+        class FullscreenMonitorSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(FullscreenMonitorSettingsWidget);
 
@@ -65,7 +65,7 @@ namespace djv
         };
         
         //! This class provides the background image settings widget.
-        class BackgroundImageSettingsWidget : public UI::ISettingsWidget
+        class BackgroundImageSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(BackgroundImageSettingsWidget);
 

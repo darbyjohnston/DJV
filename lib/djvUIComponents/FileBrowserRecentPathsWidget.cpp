@@ -14,7 +14,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -22,7 +22,7 @@ namespace djv
             {
                 size_t textElide = 0;
 
-                std::shared_ptr<VerticalLayout> layout;
+                std::shared_ptr<UI::VerticalLayout> layout;
 
                 std::function<void(const System::File::Path&)> callback;
 
@@ -37,12 +37,12 @@ namespace djv
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
-                setClassName("djv::UI::FileBrowser::RecentPathsWidget");
+                setClassName("djv::UIComponents::FileBrowser::RecentPathsWidget");
 
                 p.textElide = textElide;
 
-                p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout = UI::VerticalLayout::create(context);
+                p.layout->setSpacing(UI::MetricsRole::None);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<RecentPathsWidget>(std::dynamic_pointer_cast<RecentPathsWidget>(shared_from_this()));
@@ -58,7 +58,7 @@ namespace djv
                                 widget->_p->layout->clearChildren();
                                 for (const auto& i : value)
                                 {
-                                    auto button = ListButton::create(context);
+                                    auto button = UI::ListButton::create(context);
                                     const auto path = i.getPath();
                                     button->setText(getPathLabel(path));
                                     button->setTextElide(widget->_p->textElide);
@@ -116,5 +116,5 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

@@ -30,7 +30,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace Settings
         {
@@ -40,7 +40,7 @@ namespace djv
                 std::shared_ptr<Observer::MapSubject<std::string, bool> > pathsBellowsState;
                 std::shared_ptr<Observer::ListSubject<System::File::Path> > shortcuts;
                 std::shared_ptr<Observer::ListSubject<System::File::Path> > recentPaths;
-                std::shared_ptr<Observer::ValueSubject<ViewType> > viewType;
+                std::shared_ptr<Observer::ValueSubject<UI::ViewType> > viewType;
                 std::shared_ptr<Observer::ValueSubject<Image::Size> > thumbnailSize;
                 std::shared_ptr<Observer::ListSubject<float> > listViewHeaderSplit;
                 std::shared_ptr<Observer::ValueSubject<bool> > fileSequences;
@@ -48,7 +48,7 @@ namespace djv
                 std::shared_ptr<Observer::ValueSubject<System::File::DirectoryListSort> > sort;
                 std::shared_ptr<Observer::ValueSubject<bool> > reverseSort;
                 std::shared_ptr<Observer::ValueSubject<bool> > sortDirectoriesFirst;
-                std::shared_ptr<Observer::MapSubject<std::string, ShortcutDataPair> > keyShortcuts;
+                std::shared_ptr<Observer::MapSubject<std::string, UI::ShortcutDataPair> > keyShortcuts;
             };
 
             void FileBrowser::_init(const std::shared_ptr<System::Context>& context)
@@ -65,7 +65,7 @@ namespace djv
                     p.shortcuts->pushBack(shortcut);
                 }
                 p.recentPaths = Observer::ListSubject<System::File::Path>::create();
-                p.viewType = Observer::ValueSubject<ViewType>::create(ViewType::Tiles);
+                p.viewType = Observer::ValueSubject<UI::ViewType>::create(UI::ViewType::Tiles);
                 p.thumbnailSize = Observer::ValueSubject<Image::Size>::create(Image::Size(200, 100));
                 p.listViewHeaderSplit = Observer::ListSubject<float>::create({ .7F, .8F, 1.F });
                 p.fileSequences = Observer::ValueSubject<bool>::create(true);
@@ -73,25 +73,25 @@ namespace djv
                 p.sort = Observer::ValueSubject<System::File::DirectoryListSort>::create(System::File::DirectoryListSort::Name);
                 p.reverseSort = Observer::ValueSubject<bool>::create(false);
                 p.sortDirectoriesFirst = Observer::ValueSubject<bool>::create(true);
-                p.keyShortcuts = Observer::MapSubject<std::string, ShortcutDataPair>::create({
-                    { "file_browser_shortcut_paths", { ShortcutData(GLFW_KEY_P) } },
-                    { "file_browser_shortcut_back", { ShortcutData(GLFW_KEY_LEFT, getSystemModifier()) } },
-                    { "file_browser_shortcut_forward", { ShortcutData(GLFW_KEY_RIGHT, getSystemModifier()) } },
-                    { "file_browser_shortcut_up", { ShortcutData(GLFW_KEY_UP, getSystemModifier()) } },
-                    { "file_browser_shortcut_select_all", { ShortcutData(GLFW_KEY_A, getSystemModifier()) } },
-                    { "file_browser_shortcut_select_none", { ShortcutData(GLFW_KEY_N, getSystemModifier()) } },
-                    { "file_browser_shortcut_invert_selection", { ShortcutData(GLFW_KEY_I, getSystemModifier()) } },
-                    { "file_browser_shortcut_tiles", { ShortcutData(GLFW_KEY_T) } },
-                    { "file_browser_shortcut_list", { ShortcutData(GLFW_KEY_L) } },
-                    { "file_browser_shortcut_increase_thumbnail_size", { ShortcutData(GLFW_KEY_EQUAL) } },
-                    { "file_browser_shortcut_decrease_thumbnail_size", { ShortcutData(GLFW_KEY_MINUS) } },
-                    { "file_browser_shortcut_file_sequences", { ShortcutData(GLFW_KEY_S) } },
-                    { "file_browser_shortcut_show_hidden", { ShortcutData(GLFW_KEY_N) } },
-                    { "file_browser_shortcut_sort_by_name", { ShortcutData(GLFW_KEY_3) } },
-                    { "file_browser_shortcut_sort_by_size", { ShortcutData(GLFW_KEY_4) } },
-                    { "file_browser_shortcut_sort_by_time", { ShortcutData(GLFW_KEY_5) } },
-                    { "file_browser_shortcut_reverse_sort", { ShortcutData(GLFW_KEY_R) } },
-                    { "file_browser_shortcut_sort_directories_first", { ShortcutData(GLFW_KEY_D) } } });
+                p.keyShortcuts = Observer::MapSubject<std::string, UI::ShortcutDataPair>::create({
+                    { "file_browser_shortcut_paths", { UI::ShortcutData(GLFW_KEY_P) } },
+                    { "file_browser_shortcut_back", { UI::ShortcutData(GLFW_KEY_LEFT, UI::getSystemModifier()) } },
+                    { "file_browser_shortcut_forward", { UI::ShortcutData(GLFW_KEY_RIGHT, UI::getSystemModifier()) } },
+                    { "file_browser_shortcut_up", { UI::ShortcutData(GLFW_KEY_UP, UI::getSystemModifier()) } },
+                    { "file_browser_shortcut_select_all", { UI::ShortcutData(GLFW_KEY_A, UI::getSystemModifier()) } },
+                    { "file_browser_shortcut_select_none", { UI::ShortcutData(GLFW_KEY_N, UI::getSystemModifier()) } },
+                    { "file_browser_shortcut_invert_selection", { UI::ShortcutData(GLFW_KEY_I, UI::getSystemModifier()) } },
+                    { "file_browser_shortcut_tiles", { UI::ShortcutData(GLFW_KEY_T) } },
+                    { "file_browser_shortcut_list", { UI::ShortcutData(GLFW_KEY_L) } },
+                    { "file_browser_shortcut_increase_thumbnail_size", { UI::ShortcutData(GLFW_KEY_EQUAL) } },
+                    { "file_browser_shortcut_decrease_thumbnail_size", { UI::ShortcutData(GLFW_KEY_MINUS) } },
+                    { "file_browser_shortcut_file_sequences", { UI::ShortcutData(GLFW_KEY_S) } },
+                    { "file_browser_shortcut_show_hidden", { UI::ShortcutData(GLFW_KEY_N) } },
+                    { "file_browser_shortcut_sort_by_name", { UI::ShortcutData(GLFW_KEY_3) } },
+                    { "file_browser_shortcut_sort_by_size", { UI::ShortcutData(GLFW_KEY_4) } },
+                    { "file_browser_shortcut_sort_by_time", { UI::ShortcutData(GLFW_KEY_5) } },
+                    { "file_browser_shortcut_reverse_sort", { UI::ShortcutData(GLFW_KEY_R) } },
+                    { "file_browser_shortcut_sort_directories_first", { UI::ShortcutData(GLFW_KEY_D) } } });
 
                 _load();
             }
@@ -150,12 +150,12 @@ namespace djv
                 _p->recentPaths->setIfChanged(value);
             }
 
-            std::shared_ptr<Observer::IValueSubject<ViewType> > FileBrowser::observeViewType() const
+            std::shared_ptr<Observer::IValueSubject<UI::ViewType> > FileBrowser::observeViewType() const
             {
                 return _p->viewType;
             }
 
-            void FileBrowser::setViewType(ViewType value)
+            void FileBrowser::setViewType(UI::ViewType value)
             {
                 _p->viewType->setIfChanged(value);
             }
@@ -230,12 +230,12 @@ namespace djv
                 _p->sortDirectoriesFirst->setIfChanged(value);
             }
 
-            std::shared_ptr<Observer::MapSubject<std::string, ShortcutDataPair> > FileBrowser::observeKeyShortcuts() const
+            std::shared_ptr<Observer::MapSubject<std::string, UI::ShortcutDataPair> > FileBrowser::observeKeyShortcuts() const
             {
                 return _p->keyShortcuts;
             }
 
-            void FileBrowser::setKeyShortcuts(const ShortcutDataMap& value)
+            void FileBrowser::setKeyShortcuts(const UI::ShortcutDataMap& value)
             {
                 _p->keyShortcuts->setIfChanged(value);
             }
@@ -245,19 +245,19 @@ namespace djv
                 if (value.IsObject())
                 {
                     DJV_PRIVATE_PTR();
-                    read("PathsOpen", value, p.pathsOpen);
-                    read("PathsBellowsState", value, p.pathsBellowsState);
-                    read("Shortcuts", value, p.shortcuts);
-                    read("RecentPaths", value, p.recentPaths);
-                    read("ViewType", value, p.viewType);
-                    read("ThumbnailSize", value, p.thumbnailSize);
-                    read("ListViewHeaderSplit", value, p.listViewHeaderSplit);
-                    read("FileSequences", value, p.fileSequences);
-                    read("ShowHidden", value, p.showHidden);
-                    read("Sort", value, p.sort);
-                    read("ReverseSort", value, p.reverseSort);
-                    read("SortDirectoriesFirst", value, p.sortDirectoriesFirst);
-                    read("KeyShortcuts", value, p.keyShortcuts);
+                    UI::Settings::read("PathsOpen", value, p.pathsOpen);
+                    UI::Settings::read("PathsBellowsState", value, p.pathsBellowsState);
+                    UI::Settings::read("Shortcuts", value, p.shortcuts);
+                    UI::Settings::read("RecentPaths", value, p.recentPaths);
+                    UI::Settings::read("ViewType", value, p.viewType);
+                    UI::Settings::read("ThumbnailSize", value, p.thumbnailSize);
+                    UI::Settings::read("ListViewHeaderSplit", value, p.listViewHeaderSplit);
+                    UI::Settings::read("FileSequences", value, p.fileSequences);
+                    UI::Settings::read("ShowHidden", value, p.showHidden);
+                    UI::Settings::read("Sort", value, p.sort);
+                    UI::Settings::read("ReverseSort", value, p.reverseSort);
+                    UI::Settings::read("SortDirectoriesFirst", value, p.sortDirectoriesFirst);
+                    UI::Settings::read("KeyShortcuts", value, p.keyShortcuts);
                 }
             }
 
@@ -265,23 +265,23 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
-                write("PathsOpen", p.pathsOpen->get(), out, allocator);
-                write("PathsBellowsState", p.pathsBellowsState->get(), out, allocator);
-                write("Shortcuts", p.shortcuts->get(), out, allocator);
-                write("RecentPaths", p.recentPaths->get(), out, allocator);
-                write("ViewType", p.viewType->get(), out, allocator);
-                write("ThumbnailSize", p.thumbnailSize->get(), out, allocator);
-                write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), out, allocator);
-                write("FileSequences", p.fileSequences->get(), out, allocator);
-                write("ShowHidden", p.showHidden->get(), out, allocator);
-                write("Sort", p.sort->get(), out, allocator);
-                write("ReverseSort", p.reverseSort->get(), out, allocator);
-                write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), out, allocator);
-                write("KeyShortcuts", p.keyShortcuts->get(), out, allocator);
+                UI::Settings::write("PathsOpen", p.pathsOpen->get(), out, allocator);
+                UI::Settings::write("PathsBellowsState", p.pathsBellowsState->get(), out, allocator);
+                UI::Settings::write("Shortcuts", p.shortcuts->get(), out, allocator);
+                UI::Settings::write("RecentPaths", p.recentPaths->get(), out, allocator);
+                UI::Settings::write("ViewType", p.viewType->get(), out, allocator);
+                UI::Settings::write("ThumbnailSize", p.thumbnailSize->get(), out, allocator);
+                UI::Settings::write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), out, allocator);
+                UI::Settings::write("FileSequences", p.fileSequences->get(), out, allocator);
+                UI::Settings::write("ShowHidden", p.showHidden->get(), out, allocator);
+                UI::Settings::write("Sort", p.sort->get(), out, allocator);
+                UI::Settings::write("ReverseSort", p.reverseSort->get(), out, allocator);
+                UI::Settings::write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), out, allocator);
+                UI::Settings::write("KeyShortcuts", p.keyShortcuts->get(), out, allocator);
                 return out;
             }
 
         } // namespace Settings
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

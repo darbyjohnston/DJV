@@ -16,7 +16,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -25,11 +25,11 @@ namespace djv
                 System::File::Path path;
                 bool edit = false;
                 size_t textElide = 0;
-                std::shared_ptr<ToolButton> addButton;
-                std::shared_ptr<ToolButton> editButton;
-                std::shared_ptr<ButtonGroup> deleteButtonGroup;
-                std::shared_ptr<GridLayout> itemLayout;
-                std::shared_ptr<VerticalLayout> layout;
+                std::shared_ptr<UI::ToolButton> addButton;
+                std::shared_ptr<UI::ToolButton> editButton;
+                std::shared_ptr<UI::ButtonGroup> deleteButtonGroup;
+                std::shared_ptr<UI::GridLayout> itemLayout;
+                std::shared_ptr<UI::VerticalLayout> layout;
                 std::function<void(const System::File::Path&)> callback;
                 std::shared_ptr<Observer::List<System::File::Path> > shortcutsObserver;
             };
@@ -42,32 +42,32 @@ namespace djv
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                setClassName("djv::UI::FileBrowser::ShortcutsWidget");
+                setClassName("djv::UIComponents::FileBrowser::ShortcutsWidget");
 
                 p.textElide = textElide;
 
-                p.addButton = ToolButton::create(context);
+                p.addButton = UI::ToolButton::create(context);
                 p.addButton->setIcon("djvIconAdd");
-                p.addButton->setInsideMargin(MetricsRole::None);
+                p.addButton->setInsideMargin(UI::MetricsRole::None);
 
-                p.editButton = ToolButton::create(context);
-                p.editButton->setButtonType(ButtonType::Toggle);
+                p.editButton = UI::ToolButton::create(context);
+                p.editButton->setButtonType(UI::ButtonType::Toggle);
                 p.editButton->setIcon("djvIconClear");
-                p.editButton->setInsideMargin(MetricsRole::None);
+                p.editButton->setInsideMargin(UI::MetricsRole::None);
 
-                p.deleteButtonGroup = ButtonGroup::create(ButtonType::Push);
+                p.deleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
                 
-                p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
-                auto toolBar = ToolBar::create(context);
+                p.layout = UI::VerticalLayout::create(context);
+                p.layout->setSpacing(UI::MetricsRole::None);
+                auto toolBar = UI::ToolBar::create(context);
                 toolBar->addExpander();
                 toolBar->addChild(p.addButton);
                 toolBar->addChild(p.editButton);
                 p.layout->addChild(toolBar);
-                p.itemLayout = GridLayout::create(context);
-                p.itemLayout->setSpacing(MetricsRole::None);
+                p.itemLayout = UI::GridLayout::create(context);
+                p.itemLayout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(p.itemLayout);
-                p.layout->setStretch(p.itemLayout, RowStretch::Expand);
+                p.layout->setStretch(p.itemLayout, UI::RowStretch::Expand);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
@@ -108,17 +108,17 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                std::vector<std::shared_ptr<Button::IButton> > deleteButtons;
+                                std::vector<std::shared_ptr<UI::Button::IButton> > deleteButtons;
                                 widget->_p->itemLayout->clearChildren();
                                 size_t j = 0;
                                 for (const auto& i : value)
                                 {
-                                    auto button = ListButton::create(context);
+                                    auto button = UI::ListButton::create(context);
                                     button->setText(getPathLabel(i));
                                     button->setTextElide(widget->_p->textElide);
                                     button->setTooltip(i.get());
 
-                                    auto deleteButton = ToolButton::create(context);
+                                    auto deleteButton = UI::ToolButton::create(context);
                                     deleteButton->setIcon("djvIconClearSmall");
                                     deleteButton->setInsideMargin(UI::MetricsRole::None);
                                     deleteButton->setVisible(widget->_p->edit);
@@ -126,7 +126,7 @@ namespace djv
 
                                     widget->_p->itemLayout->addChild(button);
                                     widget->_p->itemLayout->setGridPos(button, 0, j);
-                                    widget->_p->itemLayout->setStretch(button, GridStretch::Horizontal);
+                                    widget->_p->itemLayout->setStretch(button, UI::GridStretch::Horizontal);
                                     widget->_p->itemLayout->addChild(deleteButton);
                                     widget->_p->itemLayout->setGridPos(deleteButton, 1, j);
 
@@ -199,5 +199,5 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

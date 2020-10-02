@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
@@ -57,7 +57,7 @@ namespace djv
         };
 
         //! This class provides a memory settings widget.
-        class MemorySettingsWidget : public UI::ISettingsWidget
+        class MemorySettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(MemorySettingsWidget);
 

@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<Observer::ValueSubject<float> > cachePercentage;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            std::shared_ptr<UIComponents::FileBrowser::Dialog> fileBrowserDialog;
             System::File::Path fileBrowserPath = System::File::Path(".");
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             std::shared_ptr<ActiveFilesDialog> activeFilesDialog;
@@ -363,7 +363,7 @@ namespace djv
                 });
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto ioSettings = settingsSystem->getSettingsT<UI::Settings::IO>();
+            auto ioSettings = settingsSystem->getSettingsT<UIComponents::Settings::IO>();
             p.threadCountObserver = Observer::Value<size_t>::create(
                 ioSettings->observeThreadCount(),
                 [weak](size_t value)
@@ -678,7 +678,7 @@ namespace djv
                 {
                     p.fileBrowserDialog->close();
                 }
-                p.fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Multiple, context);
+                p.fileBrowserDialog = UIComponents::FileBrowser::Dialog::create(UI::SelectionType::Multiple, context);
                 auto io = context->getSystemT<AV::IO::IOSystem>();
                 p.fileBrowserDialog->setFileExtensions(io->getFileExtensions());
                 System::File::Path path;

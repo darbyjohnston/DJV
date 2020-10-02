@@ -8,10 +8,10 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a list view header widget.
-        class ListViewHeader : public Widget
+        class ListViewHeader : public UI::Widget
         {
             DJV_NON_COPYABLE(ListViewHeader);
 
@@ -48,6 +48,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

@@ -22,12 +22,12 @@ namespace djv
 
     } // namespace Image
 
-    namespace UI
+    namespace UIComponents
     {
         namespace Settings
         {
             //! This class provides the file browser settings.
-            class FileBrowser : public ISettings
+            class FileBrowser : public UI::Settings::ISettings
             {
                 DJV_NON_COPYABLE(FileBrowser);
 
@@ -57,9 +57,9 @@ namespace djv
                 
                 void setRecentPaths(const std::vector<System::File::Path>&);
 
-                std::shared_ptr<Core::Observer::IValueSubject<ViewType> > observeViewType() const;
+                std::shared_ptr<Core::Observer::IValueSubject<UI::ViewType> > observeViewType() const;
                 
-                void setViewType(ViewType);
+                void setViewType(UI::ViewType);
 
                 std::shared_ptr<Core::Observer::IValueSubject<Image::Size> > observeThumbnailSize() const;
                 
@@ -89,9 +89,9 @@ namespace djv
                 
                 void setSortDirectoriesFirst(bool);
 
-                std::shared_ptr<Core::Observer::MapSubject<std::string, ShortcutDataPair> > observeKeyShortcuts() const;
+                std::shared_ptr<Core::Observer::MapSubject<std::string, UI::ShortcutDataPair> > observeKeyShortcuts() const;
                 
-                void setKeyShortcuts(const ShortcutDataMap&);
+                void setKeyShortcuts(const UI::ShortcutDataMap&);
 
                 void load(const rapidjson::Value &) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
@@ -101,5 +101,5 @@ namespace djv
             };
 
         } // namespace Settings
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

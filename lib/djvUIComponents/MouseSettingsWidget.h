@@ -4,38 +4,41 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        //! This class provides a mouse settings widget.
-        class MouseSettingsWidget : public ISettingsWidget
+        namespace Settings
         {
-            DJV_NON_COPYABLE(MouseSettingsWidget);
+            //! This class provides a mouse settings widget.
+            class MouseWidget : public IWidget
+            {
+                DJV_NON_COPYABLE(MouseWidget);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            MouseSettingsWidget();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                MouseWidget();
 
-        public:
-            static std::shared_ptr<MouseSettingsWidget> create(const std::shared_ptr<System::Context>&);
+            public:
+                static std::shared_ptr<MouseWidget> create(const std::shared_ptr<System::Context>&);
 
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
+                std::string getSettingsGroup() const override;
+                std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&) override;
+                void setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>&) override;
 
-        protected:
-            void _initEvent(System::Event::Init&) override;
+            protected:
+                void _initEvent(System::Event::Init&) override;
 
-        private:
-            void _widgetUpdate();
+            private:
+                void _widgetUpdate();
 
-            DJV_PRIVATE();
-        };
+                DJV_PRIVATE();
+            };
 
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

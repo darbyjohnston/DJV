@@ -47,7 +47,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -62,22 +62,22 @@ namespace djv
                 std::shared_ptr<System::File::DrivesModel> drivesModel;
                 std::vector<System::File::Info> selected;
 
-                std::map<std::string, std::shared_ptr<Action> > actions;
-                std::shared_ptr<ActionGroup> viewTypeActionGroup;
-                std::shared_ptr<ActionGroup> sortActionGroup;
-                std::shared_ptr<Drawer> pathsDrawer;
-                std::shared_ptr<PopupButton> thumbnailPopupButton;
+                std::map<std::string, std::shared_ptr<UI::Action> > actions;
+                std::shared_ptr<UI::ActionGroup> viewTypeActionGroup;
+                std::shared_ptr<UI::ActionGroup> sortActionGroup;
+                std::shared_ptr<UI::Drawer> pathsDrawer;
+                std::shared_ptr<UI::PopupButton> thumbnailPopupButton;
                 std::shared_ptr<SearchBox> searchBox;
-                std::shared_ptr<Menu> menu;
-                std::shared_ptr<PopupMenu> popupMenu;
+                std::shared_ptr<UI::Menu> menu;
+                std::shared_ptr<UI::PopupMenu> popupMenu;
                 std::shared_ptr<ListViewHeader> listViewHeader;
-                std::shared_ptr<VerticalLayout> itemViewLayout;
+                std::shared_ptr<UI::VerticalLayout> itemViewLayout;
                 std::shared_ptr<ItemView> itemView;
-                std::shared_ptr<ScrollWidget> scrollWidget;
-                std::shared_ptr<Text::Label> itemCountLabel;
-                std::shared_ptr<PushButton> acceptButton;
-                std::shared_ptr<PushButton> cancelButton;
-                std::shared_ptr<VerticalLayout> layout;
+                std::shared_ptr<UI::ScrollWidget> scrollWidget;
+                std::shared_ptr<UI::Text::Label> itemCountLabel;
+                std::shared_ptr<UI::PushButton> acceptButton;
+                std::shared_ptr<UI::PushButton> cancelButton;
+                std::shared_ptr<UI::VerticalLayout> layout;
 
                 std::function<void(const std::vector<System::File::Info>&)> callback;
                 std::function<void(void)> cancelCallback;
@@ -94,7 +94,7 @@ namespace djv
                 std::shared_ptr<Observer::List<System::File::Path> > shortcutsSettingsObserver;
                 std::shared_ptr<Observer::List<System::File::Info> > recentPathsObserver;
                 std::shared_ptr<Observer::List<System::File::Path> > recentPathsSettingsObserver;
-                std::shared_ptr<Observer::Value<ViewType> > viewTypeSettingsObserver;
+                std::shared_ptr<Observer::Value<UI::ViewType> > viewTypeSettingsObserver;
                 std::shared_ptr<Observer::Value<Image::Size> > thumbnailSizeSettingsObserver;
                 std::shared_ptr<Observer::List<float> > listViewHeaderSplitSettingsObserver;
                 std::shared_ptr<Observer::Value<bool> > fileSequencesSettingsObserver;
@@ -102,15 +102,15 @@ namespace djv
                 std::shared_ptr<Observer::Value<System::File::DirectoryListSort> > sortSettingsObserver;
                 std::shared_ptr<Observer::Value<bool> > reverseSortSettingsObserver;
                 std::shared_ptr<Observer::Value<bool> > sortDirectoriesFirstSettingsObserver;
-                std::shared_ptr<Observer::Map<std::string, ShortcutDataPair> > keyShortcutsObserver;
+                std::shared_ptr<Observer::Map<std::string, UI::ShortcutDataPair> > keyShortcutsObserver;
             };
 
-            void FileBrowser::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
+            void FileBrowser::_init(UI::SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
-                setClassName("djv::UI::FileBrowser::FileBrowser");
+                setClassName("djv::UIComponents::FileBrowser::FileBrowser");
 
                 auto io = context->getSystemT<AV::IO::IOSystem>();
                 p.options.sequenceExtensions = io->getSequenceExtensions();
@@ -120,70 +120,70 @@ namespace djv
                 p.recentPathsModel->setMax(10);
                 p.drivesModel = System::File::DrivesModel::create(context);
 
-                p.actions["Paths"] = Action::create();
-                p.actions["Paths"]->setButtonType(ButtonType::Toggle);
+                p.actions["Paths"] = UI::Action::create();
+                p.actions["Paths"]->setButtonType(UI::ButtonType::Toggle);
                 p.actions["Paths"]->setIcon("djvIconDrawerLeft");
 
-                p.actions["Back"] = Action::create();
+                p.actions["Back"] = UI::Action::create();
                 p.actions["Back"]->setIcon("djvIconArrowLeft");
-                p.actions["Forward"] = Action::create();
+                p.actions["Forward"] = UI::Action::create();
                 p.actions["Forward"]->setIcon("djvIconArrowRight");
-                p.actions["Up"] = Action::create();
+                p.actions["Up"] = UI::Action::create();
                 p.actions["Up"]->setIcon("djvIconArrowUp");
 
-                p.actions["SelectAll"] = Action::create();
-                p.actions["SelectNone"] = Action::create();
-                p.actions["InvertSelection"] = Action::create();
+                p.actions["SelectAll"] = UI::Action::create();
+                p.actions["SelectNone"] = UI::Action::create();
+                p.actions["InvertSelection"] = UI::Action::create();
 
-                p.actions["Tiles"] = Action::create();
+                p.actions["Tiles"] = UI::Action::create();
                 p.actions["Tiles"]->setIcon("djvIconTileView");
-                p.actions["List"] = Action::create();
+                p.actions["List"] = UI::Action::create();
                 p.actions["List"]->setIcon("djvIconListView");
-                p.viewTypeActionGroup = ActionGroup::create(ButtonType::Radio);
+                p.viewTypeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
                 p.viewTypeActionGroup->setActions({
                     p.actions["Tiles"],
                     p.actions["List"] });
-                p.actions["IncreaseThumbnailSize"] = Action::create();
+                p.actions["IncreaseThumbnailSize"] = UI::Action::create();
                 p.actions["IncreaseThumbnailSize"]->setIcon("djvIconAdd");
-                p.actions["DecreaseThumbnailSize"] = Action::create();
+                p.actions["DecreaseThumbnailSize"] = UI::Action::create();
                 p.actions["DecreaseThumbnailSize"]->setIcon("djvIconSubtract");
 
-                p.actions["FileSequences"] = Action::create();
-                p.actions["FileSequences"]->setButtonType(ButtonType::Toggle);
+                p.actions["FileSequences"] = UI::Action::create();
+                p.actions["FileSequences"]->setButtonType(UI::ButtonType::Toggle);
                 p.actions["FileSequences"]->setIcon("djvIconFileSequence");
-                p.actions["ShowHidden"] = Action::create();
-                p.actions["ShowHidden"]->setButtonType(ButtonType::Toggle);
+                p.actions["ShowHidden"] = UI::Action::create();
+                p.actions["ShowHidden"]->setButtonType(UI::ButtonType::Toggle);
 
-                p.actions["SortByName"] = Action::create();
-                p.actions["SortBySize"] = Action::create();
-                p.actions["SortByTime"] = Action::create();
-                p.sortActionGroup = ActionGroup::create(ButtonType::Radio);
+                p.actions["SortByName"] = UI::Action::create();
+                p.actions["SortBySize"] = UI::Action::create();
+                p.actions["SortByTime"] = UI::Action::create();
+                p.sortActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
                 p.sortActionGroup->setActions({
                     p.actions["SortByName"],
                     p.actions["SortBySize"],
                     p.actions["SortByTime"] });
-                p.actions["ReverseSort"] = Action::create();
-                p.actions["ReverseSort"]->setButtonType(ButtonType::Toggle);
-                p.actions["SortDirectoriesFirst"] = Action::create();
-                p.actions["SortDirectoriesFirst"]->setButtonType(ButtonType::Toggle);
+                p.actions["ReverseSort"] = UI::Action::create();
+                p.actions["ReverseSort"]->setButtonType(UI::ButtonType::Toggle);
+                p.actions["SortDirectoriesFirst"] = UI::Action::create();
+                p.actions["SortDirectoriesFirst"]->setButtonType(UI::ButtonType::Toggle);
 
                 for (auto action : p.actions)
                 {
                     addAction(action.second);
                 }
 
-                p.pathsDrawer = Drawer::create(Side::Left, context);
+                p.pathsDrawer = UI::Drawer::create(UI::Side::Left, context);
 
                 auto pathWidget = PathWidget::create(context);
 
-                p.thumbnailPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
+                p.thumbnailPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
                 p.thumbnailPopupButton->setIcon("djvIconThumbnailSize");
 
                 p.searchBox = SearchBox::create(context);
 
-                p.menu = Menu::create(context);
+                p.menu = UI::Menu::create(context);
                 p.menu->setIcon("djvIconMenu");
-                p.menu->setMinimumSizeRole(MetricsRole::None);
+                p.menu->setMinimumSizeRole(UI::MetricsRole::None);
                 p.menu->addAction(p.actions["Paths"]);
                 p.menu->addSeparator();
                 p.menu->addAction(p.actions["Forward"]);
@@ -209,16 +209,16 @@ namespace djv
                 p.menu->addAction(p.actions["FileSequences"]);
                 p.menu->addAction(p.actions["ShowHidden"]);
 
-                p.popupMenu = PopupMenu::create(context);
+                p.popupMenu = UI::PopupMenu::create(context);
                 p.popupMenu->setMenu(p.menu);
 
-                auto toolBar = ToolBar::create(context);
+                auto toolBar = UI::ToolBar::create(context);
                 toolBar->addAction(p.actions["Paths"]);
                 toolBar->addAction(p.actions["Back"]);
                 toolBar->addAction(p.actions["Forward"]);
                 toolBar->addAction(p.actions["Up"]);
                 toolBar->addChild(pathWidget);
-                toolBar->setStretch(pathWidget, RowStretch::Expand);
+                toolBar->setStretch(pathWidget, UI::RowStretch::Expand);
                 toolBar->addChild(p.thumbnailPopupButton);
                 toolBar->addChild(p.searchBox);
                 toolBar->addChild(p.popupMenu);
@@ -226,42 +226,42 @@ namespace djv
                 p.listViewHeader = ListViewHeader::create(context);
                 p.listViewHeader->setText({ std::string(), std::string(), std::string() });
                 p.itemView = ItemView::create(selectionType, context);
-                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
                 p.scrollWidget->setBorder(false);
                 p.scrollWidget->addChild(p.itemView);
-                p.scrollWidget->setShadowOverlay({ Side::Top });
+                p.scrollWidget->setShadowOverlay({ UI::Side::Top });
 
-                p.itemCountLabel = Text::Label::create(context);
-                p.itemCountLabel->setHAlign(HAlign::Right);
-                p.itemCountLabel->setVAlign(VAlign::Bottom);
-                p.itemCountLabel->setMargin(MetricsRole::Margin);
+                p.itemCountLabel = UI::Text::Label::create(context);
+                p.itemCountLabel->setHAlign(UI::HAlign::Right);
+                p.itemCountLabel->setVAlign(UI::VAlign::Bottom);
+                p.itemCountLabel->setMargin(UI::MetricsRole::Margin);
 
-                p.acceptButton = PushButton::create(context);
-                p.cancelButton = PushButton::create(context);
+                p.acceptButton = UI::PushButton::create(context);
+                p.cancelButton = UI::PushButton::create(context);
 
-                p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout = UI::VerticalLayout::create(context);
+                p.layout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(toolBar);
                 p.layout->addSeparator();
-                auto hLayout = HorizontalLayout::create(context);
-                hLayout->setSpacing(MetricsRole::None);
+                auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->setSpacing(UI::MetricsRole::None);
                 hLayout->addChild(p.pathsDrawer);
-                p.itemViewLayout = VerticalLayout::create(context);
-                p.itemViewLayout->setSpacing(MetricsRole::None);
+                p.itemViewLayout = UI::VerticalLayout::create(context);
+                p.itemViewLayout->setSpacing(UI::MetricsRole::None);
                 p.itemViewLayout->addChild(p.listViewHeader);
-                auto stackLayout = StackLayout::create(context);
+                auto stackLayout = UI::StackLayout::create(context);
                 stackLayout->addChild(p.scrollWidget);
                 stackLayout->addChild(p.itemCountLabel);
                 p.itemViewLayout->addChild(stackLayout);
-                p.itemViewLayout->setStretch(stackLayout, RowStretch::Expand);
+                p.itemViewLayout->setStretch(stackLayout, UI::RowStretch::Expand);
                 hLayout->addChild(p.itemViewLayout);
-                hLayout->setStretch(p.itemViewLayout, RowStretch::Expand);
+                hLayout->setStretch(p.itemViewLayout, UI::RowStretch::Expand);
                 p.layout->addChild(hLayout);
-                p.layout->setStretch(hLayout, RowStretch::Expand);
+                p.layout->setStretch(hLayout, UI::RowStretch::Expand);
                 p.layout->addSeparator();
-                hLayout = HorizontalLayout::create(context);
-                hLayout->setMargin(MetricsRole::MarginSmall);
-                hLayout->setSpacing(MetricsRole::SpacingSmall);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->setMargin(UI::MetricsRole::MarginSmall);
+                hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
                 hLayout->addExpander();
                 hLayout->addChild(p.acceptButton);
                 hLayout->addChild(p.cancelButton);
@@ -337,7 +337,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             auto size = fileBrowserSettings->observeThumbnailSize()->get();
                             size.w = Math::clamp(static_cast<int>(size.w * 1.25F), thumbnailSizeRange.getMin(), thumbnailSizeRange.getMax());
@@ -350,7 +350,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             auto size = fileBrowserSettings->observeThumbnailSize()->get();
                             size.w = Math::clamp(static_cast<int>(size.w * .75F), thumbnailSizeRange.getMin(), thumbnailSizeRange.getMax());
@@ -364,7 +364,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setFileSequences(value);
                         }
@@ -375,7 +375,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setShowHidden(value);
                         }
@@ -386,7 +386,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setReverseSort(value);
                         }
@@ -396,7 +396,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setSortDirectoriesFirst(value);
                         }
@@ -416,16 +416,16 @@ namespace djv
                                     widget->_p->recentPathsModel,
                                     widget->_p->drivesModel,
                                     context);
-                                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                                auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
                                 scrollWidget->setBorder(false);
                                 scrollWidget->addChild(drawerWidget);
-                                auto hLayout = HorizontalLayout::create(context);
-                                hLayout->setSpacing(MetricsRole::None);
+                                auto hLayout = UI::HorizontalLayout::create(context);
+                                hLayout->setSpacing(UI::MetricsRole::None);
                                 hLayout->addChild(scrollWidget);
                                 hLayout->addSeparator();
                                 out = hLayout;
 
-                                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                                 fileBrowserSettings->setPathsOpen(true);
                             }
@@ -438,7 +438,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setPathsOpen(false);
                         }
@@ -622,7 +622,7 @@ namespace djv
                     }
                 });
 
-                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                 p.pathsOpenSettingsObserver = Observer::Value<bool>::create(
                     fileBrowserSettings->observePathsOpen(),
@@ -660,14 +660,14 @@ namespace djv
                         }
                     });
 
-                p.viewTypeSettingsObserver = Observer::Value<ViewType>::create(
+                p.viewTypeSettingsObserver = Observer::Value<UI::ViewType>::create(
                     fileBrowserSettings->observeViewType(),
-                    [weak](ViewType value)
+                    [weak](UI::ViewType value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_p->viewTypeActionGroup->setChecked(static_cast<int>(value));
-                        widget->_p->listViewHeader->setVisible(ViewType::List == value);
+                        widget->_p->listViewHeader->setVisible(UI::ViewType::List == value);
                         widget->_p->itemView->setViewType(value);
                     }
                 });
@@ -755,9 +755,9 @@ namespace djv
                     }
                 });
 
-                p.keyShortcutsObserver = Observer::Map<std::string, ShortcutDataPair>::create(
+                p.keyShortcutsObserver = Observer::Map<std::string, UI::ShortcutDataPair>::create(
                     fileBrowserSettings->observeKeyShortcuts(),
-                    [weak](const std::map<std::string, ShortcutDataPair>& value)
+                    [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -859,10 +859,10 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
-                                fileBrowserSettings->setViewType(static_cast<ViewType>(value));
+                                fileBrowserSettings->setViewType(static_cast<UI::ViewType>(value));
                             }
                         }
                     });
@@ -872,7 +872,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setSort(static_cast<System::File::DirectoryListSort>(value));
@@ -886,7 +886,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setShortcuts(value);
@@ -900,7 +900,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 std::vector<System::File::Path> tmp;
@@ -918,7 +918,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setSort(static_cast<System::File::DirectoryListSort>(sort));
@@ -932,7 +932,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setListViewHeaderSplit(value);
@@ -948,7 +948,7 @@ namespace djv
             FileBrowser::~FileBrowser()
             {}
 
-            std::shared_ptr<FileBrowser> FileBrowser::create(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<FileBrowser> FileBrowser::create(UI::SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(selectionType, context);
@@ -1088,5 +1088,5 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

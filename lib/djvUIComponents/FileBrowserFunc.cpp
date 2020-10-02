@@ -10,7 +10,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -31,6 +31,6 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

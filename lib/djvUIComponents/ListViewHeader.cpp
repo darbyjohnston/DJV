@@ -17,11 +17,11 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace
         {
-            class HeaderButton : public Button::IButton
+            class HeaderButton : public UI::Button::IButton
             {
                 DJV_NON_COPYABLE(HeaderButton);
 
@@ -47,31 +47,31 @@ namespace djv
                 void _paintEvent(System::Event::Paint &) override;
 
             private:
-                std::shared_ptr<Text::Label> _label;
-                std::shared_ptr<Icon> _icon;
-                std::shared_ptr<HorizontalLayout> _layout;
+                std::shared_ptr<UI::Text::Label> _label;
+                std::shared_ptr<UI::Icon> _icon;
+                std::shared_ptr<UI::HorizontalLayout> _layout;
             };
 
             void HeaderButton::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
-                setClassName("djv::UI::ListViewHeader::HeaderButton");
-                setButtonType(ButtonType::Toggle);
-                setBackgroundRole(ColorRole::Button);
+                setClassName("djv::UIComponents::ListViewHeader::HeaderButton");
+                setButtonType(UI::ButtonType::Toggle);
+                setBackgroundRole(UI::ColorRole::Button);
 
-                _label = Text::Label::create(context);
-                _label->setTextHAlign(TextHAlign::Left);
+                _label = UI::Text::Label::create(context);
+                _label->setTextHAlign(UI::TextHAlign::Left);
 
-                _icon = Icon::create(context);
-                _icon->setIconSizeRole(MetricsRole::IconSmall);
-                _icon->setVAlign(VAlign::Center);
+                _icon = UI::Icon::create(context);
+                _icon->setIconSizeRole(UI::MetricsRole::IconSmall);
+                _icon->setVAlign(UI::VAlign::Center);
 
-                _layout = HorizontalLayout::create(context);
-                _layout->setMargin(MetricsRole::MarginSmall);
-                _layout->setSpacing(MetricsRole::SpacingSmall);
+                _layout = UI::HorizontalLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginSmall);
+                _layout->setSpacing(UI::MetricsRole::SpacingSmall);
                 _layout->addChild(_label);
-                _layout->setStretch(_label, RowStretch::Expand);
+                _layout->setStretch(_label, UI::RowStretch::Expand);
                 _layout->addChild(_icon);
                 addChild(_layout);
             }
@@ -123,12 +123,12 @@ namespace djv
                 const auto& style = _getStyle();
                 if (_isPressed())
                 {
-                    render->setFillColor(style->getColor(ColorRole::Pressed));
+                    render->setFillColor(style->getColor(UI::ColorRole::Pressed));
                     render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
-                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->setFillColor(style->getColor(UI::ColorRole::Hovered));
                     render->drawRect(g);
                 }
             }
@@ -140,8 +140,8 @@ namespace djv
             size_t sort = 0;
             bool reverseSort = false;
             std::function<void(size_t, bool)> sortCallback;
-            std::shared_ptr<ButtonGroup> buttonGroup;
-            std::shared_ptr<Layout::Splitter> splitter;
+            std::shared_ptr<UI::ButtonGroup> buttonGroup;
+            std::shared_ptr<UI::Layout::Splitter> splitter;
         };
 
         void ListViewHeader::_init(const std::shared_ptr<System::Context>& context)
@@ -150,13 +150,13 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             
-            setClassName("djv::UI::ListViewHeader");
-            setBackgroundRole(ColorRole::Button);
+            setClassName("djv::UIComponents::ListViewHeader");
+            setBackgroundRole(UI::ColorRole::Button);
             
-            p.buttonGroup = ButtonGroup::create(ButtonType::Push);
+            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
 
-            p.splitter = Layout::Splitter::create(Orientation::Horizontal, context);
-            p.splitter->setHandleColorRole(ColorRole::Button);
+            p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
+            p.splitter->setHandleColorRole(UI::ColorRole::Button);
             addChild(p.splitter);
 
             _sortUpdate();
@@ -206,7 +206,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                std::vector<std::shared_ptr<Button::IButton> > buttons;
+                std::vector<std::shared_ptr<UI::Button::IButton> > buttons;
                 auto split = p.splitter->getSplit();
                 p.splitter->clearChildren();
                 for (const auto& i : value)
@@ -297,5 +297,5 @@ namespace djv
             }
         }
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

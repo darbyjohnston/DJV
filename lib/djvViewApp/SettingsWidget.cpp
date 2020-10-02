@@ -7,7 +7,7 @@
 #include <djvViewApp/ApplicationSettings.h>
 #include <djvViewApp/IViewSystem.h>
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 #include <djvUI/Bellows.h>
 #include <djvUI/Label.h>
@@ -25,9 +25,9 @@ namespace djv
     {
         struct SettingsWidget::Private
         {
-            std::map<std::string, std::vector<std::shared_ptr<UI::ISettingsWidget> > > widgets;
-            std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Bellows> > bellows;
-            std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Text::Label> > labels;
+            std::map<std::string, std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > > widgets;
+            std::map<std::shared_ptr<UIComponents::Settings::IWidget>, std::shared_ptr<UI::Bellows> > bellows;
+            std::map<std::shared_ptr<UIComponents::Settings::IWidget>, std::shared_ptr<UI::Text::Label> > labels;
             std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;

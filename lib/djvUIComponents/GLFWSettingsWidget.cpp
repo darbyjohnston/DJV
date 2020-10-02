@@ -18,109 +18,112 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        struct GLFWSettingsWidget::Private
+        namespace Settings
         {
-            GL::SwapInterval swapInterval = GL::SwapInterval::Default;
-            std::shared_ptr<ComboBox> swapIntervalComboBox;
-            std::shared_ptr<FormLayout> layout;
-            std::shared_ptr<Observer::Value<GL::SwapInterval> > swapIntervalObserver;
-        };
+            struct GLFWWidget::Private
+            {
+                GL::SwapInterval swapInterval = GL::SwapInterval::Default;
+                std::shared_ptr<UI::ComboBox> swapIntervalComboBox;
+                std::shared_ptr<UI::FormLayout> layout;
+                std::shared_ptr<Observer::Value<GL::SwapInterval> > swapIntervalObserver;
+            };
 
-        void GLFWSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
-        {
-            ISettingsWidget::_init(context);
+            void GLFWWidget::_init(const std::shared_ptr<System::Context>& context)
+            {
+                IWidget::_init(context);
 
-            DJV_PRIVATE_PTR();
-            setClassName("djv::UI::GLFWSettingsWidget");
+                DJV_PRIVATE_PTR();
+                setClassName("djv::UIComponents::Settings::GLFWWidget");
 
-            p.swapIntervalComboBox = ComboBox::create(context);
+                p.swapIntervalComboBox = UI::ComboBox::create(context);
 
-            p.layout = FormLayout::create(context);
-            p.layout->addChild(p.swapIntervalComboBox);
-            addChild(p.layout);
+                p.layout = UI::FormLayout::create(context);
+                p.layout->addChild(p.swapIntervalComboBox);
+                addChild(p.layout);
 
-            auto weak = std::weak_ptr<GLFWSettingsWidget>(std::dynamic_pointer_cast<GLFWSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.swapIntervalComboBox->setCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
+                auto weak = std::weak_ptr<GLFWWidget>(std::dynamic_pointer_cast<GLFWWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                p.swapIntervalComboBox->setCallback(
+                    [weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                auto glfwSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
+                                glfwSystem->setSwapInterval(static_cast<GL::SwapInterval>(value));
+                            }
+                        }
+                    });
+
+                auto glfwSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
+                p.swapIntervalObserver = Observer::Value<GL::SwapInterval>::create(
+                    glfwSystem->observeSwapInterval(),
+                    [weak](GL::SwapInterval value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto glfwSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
-                            glfwSystem->setSwapInterval(static_cast<GL::SwapInterval>(value));
+                            widget->_p->swapInterval = value;
+                            widget->_widgetUpdate();
                         }
-                    }
-                });
+                    });
+            }
 
-            auto glfwSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
-            p.swapIntervalObserver = Observer::Value<GL::SwapInterval>::create(
-                glfwSystem->observeSwapInterval(),
-                [weak](GL::SwapInterval value)
+            GLFWWidget::GLFWWidget() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<GLFWWidget> GLFWWidget::create(const std::shared_ptr<System::Context>& context)
             {
-                if (auto widget = weak.lock())
+                auto out = std::shared_ptr<GLFWWidget>(new GLFWWidget);
+                out->_init(context);
+                return out;
+            }
+
+            std::string GLFWWidget::getSettingsGroup() const
+            {
+                return DJV_TEXT("settings_title_glfw");
+            }
+
+            std::string GLFWWidget::getSettingsSortKey() const
+            {
+                return "c";
+            }
+
+            void GLFWWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
+            {
+                _p->layout->setLabelSizeGroup(value);
+            }
+
+            void GLFWWidget::_initEvent(System::Event::Init& event)
+            {
+                IWidget::_initEvent(event);
+                if (event.getData().text)
                 {
-                    widget->_p->swapInterval = value;
-                    widget->_widgetUpdate();
+                    _widgetUpdate();
                 }
-            });
-        }
-
-        GLFWSettingsWidget::GLFWSettingsWidget() :
-            _p(new Private)
-        {}
-
-        std::shared_ptr<GLFWSettingsWidget> GLFWSettingsWidget::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<GLFWSettingsWidget>(new GLFWSettingsWidget);
-            out->_init(context);
-            return out;
-        }
-
-        std::string GLFWSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("settings_title_glfw");
-        }
-
-        std::string GLFWSettingsWidget::getSettingsSortKey() const
-        {
-            return "c";
-        }
-
-        void GLFWSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
-        void GLFWSettingsWidget::_initEvent(System::Event::Init & event)
-        {
-            ISettingsWidget::_initEvent(event);
-            if (event.getData().text)
-            {
-                _widgetUpdate();
             }
-        }
 
-        void GLFWSettingsWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-
-            std::vector<std::string> items;
-            for (auto i : GL::getSwapIntervalEnums())
+            void GLFWWidget::_widgetUpdate()
             {
-                std::stringstream ss;
-                ss << i;
-                items.push_back(_getText(ss.str()));
+                DJV_PRIVATE_PTR();
+
+                std::vector<std::string> items;
+                for (auto i : GL::getSwapIntervalEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    items.push_back(_getText(ss.str()));
+                }
+                p.swapIntervalComboBox->setItems(items);
+                p.swapIntervalComboBox->setCurrentItem(static_cast<int>(p.swapInterval));
+
+                p.layout->setText(p.swapIntervalComboBox, _getText(DJV_TEXT("settings_glfw_swap_interval")) + ":");
             }
-            p.swapIntervalComboBox->setItems(items);
-            p.swapIntervalComboBox->setCurrentItem(static_cast<int>(p.swapInterval));
 
-            p.layout->setText(p.swapIntervalComboBox, _getText(DJV_TEXT("settings_glfw_swap_interval")) + ":");
-        }
-
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

@@ -27,10 +27,10 @@ int main(int argc, char ** argv)
         auto app = Desktop::Application::create(args);
 
         // Create the systems.
-        UI::UIComponentsSystem::create(app);
+        UIComponents::UIComponentsSystem::create(app);
 
         // Create a file browser.
-        auto fileBrowser = UI::FileBrowser::FileBrowser::create(UI::SelectionType::Multiple, app);
+        auto fileBrowser = UIComponents::FileBrowser::FileBrowser::create(UI::SelectionType::Multiple, app);
         fileBrowser->setPath(System::File::Path("."));
         fileBrowser->setCallback(
             [](const std::vector<System::File::Info>& value)

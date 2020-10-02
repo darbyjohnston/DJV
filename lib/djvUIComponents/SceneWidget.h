@@ -23,7 +23,7 @@ namespace djv
 
     } // namespace Scene3D
 
-    namespace UI
+    namespace UIComponents
     {
         //! This enumeration provides the scene rotation.
         enum class SceneRotate
@@ -58,7 +58,7 @@ namespace djv
         };
 
         //! This class provides a scene view widget.
-        class SceneWidget : public Widget
+        class SceneWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(SceneWidget);
 
@@ -108,9 +108,9 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIComponents
 
-    DJV_ENUM_SERIALIZE_HELPERS(UI::SceneRotate);
+    DJV_ENUM_SERIALIZE_HELPERS(UIComponents::SceneRotate);
 
 } // namespace djv
 

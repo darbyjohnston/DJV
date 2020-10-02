@@ -31,7 +31,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace
         {
@@ -81,7 +81,7 @@ namespace djv
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::UI::SceneWidget");
+            setClassName("djv::UIComponents::SceneWidget");
             setPointerEnabled(true);
 
             p.sceneRotate = Observer::ValueSubject<SceneRotate>::create(SceneRotate::None);
@@ -487,10 +487,10 @@ namespace djv
 
         DJV_ENUM_HELPERS_IMPLEMENTATION(SceneRotate);
 
-    } // namespace UI
+    } // namespace UIComponents
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI,
+        UIComponents,
         SceneRotate,
         DJV_TEXT("scene_rotate_none"),
         DJV_TEXT("scene_rotate_x_+90"),

@@ -9,7 +9,6 @@ set(header
     GLFWSettingsWidget.h
 	IOSettings.h
 	IOSettingsWidget.h
-    ISettingsWidget.h
     LanguageSettingsWidget.h
 	LineGraphWidget.h
     ListViewHeader.h
@@ -18,6 +17,7 @@ set(header
     Render2DSettingsWidget.h
     SceneWidget.h
     SearchBox.h
+    SettingsIWidget.h
     ShortcutsWidget.h
     StyleSettingsWidget.h
 	ThermometerWidget.h
@@ -42,7 +42,6 @@ set(source
     GLFWSettingsWidget.cpp
 	IOSettings.cpp
 	IOSettingsWidget.cpp
-    ISettingsWidget.cpp
     LanguageSettingsWidget.cpp
 	LineGraphWidget.cpp
     ListViewHeader.cpp
@@ -51,6 +50,7 @@ set(source
     Render2DSettingsWidget.cpp
     SceneWidget.cpp
     SearchBox.cpp
+    SettingsIWidget.cpp
     ShortcutsWidget.cpp
     StyleSettingsWidget.cpp
 	ThermometerWidget.cpp

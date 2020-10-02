@@ -18,12 +18,12 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct TimeUnitsWidget::Private
         {
-            AV::Time::Units timeUnits = AV::Time::Units::First; 
-            std::shared_ptr<ComboBox> comboBox;
+            AV::Time::Units timeUnits = AV::Time::Units::First;
+            std::shared_ptr<UI::ComboBox> comboBox;
             std::shared_ptr<Observer::Value<AV::Time::Units> > timeUnitsObserver;
         };
 
@@ -32,9 +32,9 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::TimeUnitsWidget");
+            setClassName("djv::UIComponents::TimeUnitsWidget");
 
-            p.comboBox = ComboBox::create(context);
+            p.comboBox = UI::ComboBox::create(context);
             addChild(p.comboBox);
 
             _widgetUpdate();
@@ -57,13 +57,13 @@ namespace djv
             p.timeUnitsObserver = Observer::Value<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
                 [weak](AV::Time::Units value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->_p->timeUnits = value;
-                    widget->_currentItemUpdate();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timeUnits = value;
+                        widget->_currentItemUpdate();
+                    }
+                });
         }
 
         TimeUnitsWidget::TimeUnitsWidget() :
@@ -120,62 +120,65 @@ namespace djv
             p.comboBox->setCurrentItem(static_cast<int>(p.timeUnits));
         }
 
-        struct TimeSettingsWidget::Private
+        namespace Settings
         {
-            std::shared_ptr<TimeUnitsWidget> timeUnitsWidget;
-            std::shared_ptr<FormLayout> layout;
-        };
-
-        void TimeSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
-        {
-            ISettingsWidget::_init(context);
-
-            DJV_PRIVATE_PTR();
-            setClassName("djv::UI::TimeSettingsWidget");
-
-            p.timeUnitsWidget = TimeUnitsWidget::create(context);
-
-            p.layout = FormLayout::create(context);
-            p.layout->addChild(p.timeUnitsWidget);
-            addChild(p.layout);
-        }
-
-        TimeSettingsWidget::TimeSettingsWidget() :
-            _p(new Private)
-        {}
-
-        std::shared_ptr<TimeSettingsWidget> TimeSettingsWidget::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<TimeSettingsWidget>(new TimeSettingsWidget);
-            out->_init(context);
-            return out;
-        }
-
-        std::string TimeSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("settings_title_general");
-        }
-
-        std::string TimeSettingsWidget::getSettingsSortKey() const
-        {
-            return "0";
-        }
-
-        void TimeSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
-        void TimeSettingsWidget::_initEvent(System::Event::Init & event)
-        {
-            ISettingsWidget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
+            struct TimeWidget::Private
             {
-                p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("settings_general_time_units")) + ":");
-            }
-        }
+                std::shared_ptr<TimeUnitsWidget> timeUnitsWidget;
+                std::shared_ptr<UI::FormLayout> layout;
+            };
 
-    } // namespace UI
+            void TimeWidget::_init(const std::shared_ptr<System::Context>& context)
+            {
+                IWidget::_init(context);
+                DJV_PRIVATE_PTR();
+
+                setClassName("djv::UIComponents::Settings::TimeWidget");
+
+                p.timeUnitsWidget = TimeUnitsWidget::create(context);
+
+                p.layout = UI::FormLayout::create(context);
+                p.layout->addChild(p.timeUnitsWidget);
+                addChild(p.layout);
+            }
+
+            TimeWidget::TimeWidget() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<TimeWidget> TimeWidget::create(const std::shared_ptr<System::Context>& context)
+            {
+                auto out = std::shared_ptr<TimeWidget>(new TimeWidget);
+                out->_init(context);
+                return out;
+            }
+
+            std::string TimeWidget::getSettingsGroup() const
+            {
+                return DJV_TEXT("settings_title_general");
+            }
+
+            std::string TimeWidget::getSettingsSortKey() const
+            {
+                return "0";
+            }
+
+            void TimeWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
+            {
+                _p->layout->setLabelSizeGroup(value);
+            }
+
+            void TimeWidget::_initEvent(System::Event::Init& event)
+            {
+                IWidget::_initEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.getData().text)
+                {
+                    p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("settings_general_time_units")) + ":");
+                }
+            }
+
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

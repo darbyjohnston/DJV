@@ -39,7 +39,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> userConfigDeleteButton;
             std::shared_ptr<UI::VerticalLayout> userConfigButtonLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
-            std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            std::shared_ptr<UIComponents::FileBrowser::Dialog> fileBrowserDialog;
 
             std::shared_ptr<Observer::Value<OCIO::ConfigMode> > configModeObserver;
             std::shared_ptr<Observer::Value<OCIO::UserConfigs> > userConfigsObserver;
@@ -102,7 +102,7 @@ namespace djv
                                 widget->_p->fileBrowserDialog->close();
                                 widget->_p->fileBrowserDialog.reset();
                             }
-                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
+                            widget->_p->fileBrowserDialog = UIComponents::FileBrowser::Dialog::create(UI::SelectionType::Single, context);
                             widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
                             widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
                             widget->_p->fileBrowserDialog->setCallback(

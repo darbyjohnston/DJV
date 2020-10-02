@@ -16,10 +16,10 @@ namespace djv
 
     } // Image
 
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a popup widget for choosing a color type.
-        class ColorTypeWidget : public Widget
+        class ColorTypeWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorTypeWidget);
 
@@ -52,7 +52,7 @@ namespace djv
         //! This class provides slider widgets for choosing a color.
         //!
         //! \todo Implement HSV.
-        class ColorSliders : public Widget
+        class ColorSliders : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorSliders);
 
@@ -89,7 +89,7 @@ namespace djv
         };
 
         //! This class provides a color picker widget.
-        class ColorPicker : public Widget
+        class ColorPicker : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorPicker);
 
@@ -118,7 +118,7 @@ namespace djv
         };
 
         //! This class provides a color swatch with a color picker.
-        class ColorPickerSwatch : public Widget
+        class ColorPickerSwatch : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorPickerSwatch);
 
@@ -136,9 +136,9 @@ namespace djv
             void setColor(const Image::Color&);
             void setColorCallback(const std::function<void(const Image::Color&)>&);
 
-            MetricsRole getSwatchSizeRole() const;
+            UI::MetricsRole getSwatchSizeRole() const;
 
-            void setSwatchSizeRole(MetricsRole);
+            void setSwatchSizeRole(UI::MetricsRole);
 
             void open();
             void close();
@@ -153,6 +153,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

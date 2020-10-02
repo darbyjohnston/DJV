@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the sequence settings widget.
-        class SequenceSettingsWidget : public UI::ISettingsWidget
+        class SequenceSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(SequenceSettingsWidget);
 
@@ -36,7 +36,7 @@ namespace djv
         };
 
         //! This class provides the recent files settings widget.
-        class RecentFilesSettingsWidget : public UI::ISettingsWidget
+        class RecentFilesSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(RecentFilesSettingsWidget);
 

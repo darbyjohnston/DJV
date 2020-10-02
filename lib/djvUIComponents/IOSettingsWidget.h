@@ -4,36 +4,39 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        //! This class provides an I/O threads settings widget.
-        class IOThreadsSettingsWidget : public ISettingsWidget
+        namespace Settings
         {
-            DJV_NON_COPYABLE(IOThreadsSettingsWidget);
+            //! This class provides an I/O threads settings widget.
+            class IOThreadsWidget : public IWidget
+            {
+                DJV_NON_COPYABLE(IOThreadsWidget);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            IOThreadsSettingsWidget();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                IOThreadsWidget();
 
-        public:
-            static std::shared_ptr<IOThreadsSettingsWidget> create(const std::shared_ptr<System::Context>&);
+            public:
+                static std::shared_ptr<IOThreadsWidget> create(const std::shared_ptr<System::Context>&);
 
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
+                std::string getSettingsGroup() const override;
+                std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&) override;
+                void setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>&) override;
 
-        protected:
-            void _initEvent(System::Event::Init &) override;
+            protected:
+                void _initEvent(System::Event::Init&) override;
 
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

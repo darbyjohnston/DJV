@@ -88,7 +88,7 @@ namespace djv
             std::shared_ptr<UI::Text::Label> colorLabel;
             std::shared_ptr<UI::Text::Label> pixelLabel;
             std::shared_ptr<UI::Numeric::IntSlider> sampleSizeSlider;
-            std::shared_ptr<UI::ColorTypeWidget> typeWidget;
+            std::shared_ptr<UIComponents::ColorTypeWidget> typeWidget;
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::Menu> settingsMenu;
             std::shared_ptr<UI::PopupMenu> settingsPopupMenu;
@@ -142,7 +142,7 @@ namespace djv
             p.sampleSizeSlider = UI::Numeric::IntSlider::create(context);
             p.sampleSizeSlider->setRange(Math::IntRange(1, sampleSizeMax));
 
-            p.typeWidget = UI::ColorTypeWidget::create(context);
+            p.typeWidget = UIComponents::ColorTypeWidget::create(context);
 
             p.copyButton = UI::ToolButton::create(context);
             p.copyButton->setIcon("djvIconShare");

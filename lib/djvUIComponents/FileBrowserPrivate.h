@@ -28,7 +28,7 @@ namespace djv
         } // namespace File
     } // namespace System
 
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -248,6 +248,6 @@ namespace djv
             };
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

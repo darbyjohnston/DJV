@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a style size widget.
-        class SizeWidget : public Widget
+        class SizeWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(SizeWidget);
 
@@ -35,7 +35,7 @@ namespace djv
         };
 
         //! This class provides a style palette widget.
-        class PaletteWidget : public Widget
+        class PaletteWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(PaletteWidget);
 
@@ -59,30 +59,33 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a style settings widget.
-        class StyleSettingsWidget : public ISettingsWidget
+        namespace Settings
         {
-            DJV_NON_COPYABLE(StyleSettingsWidget);
+            //! This class provides a style settings widget.
+            class StyleWidget : public IWidget
+            {
+                DJV_NON_COPYABLE(StyleWidget);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            StyleSettingsWidget();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                StyleWidget();
 
-        public:
-            static std::shared_ptr<StyleSettingsWidget> create(const std::shared_ptr<System::Context>&);
+            public:
+                static std::shared_ptr<StyleWidget> create(const std::shared_ptr<System::Context>&);
 
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
+                std::string getSettingsGroup() const override;
+                std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&) override;
+                void setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>&) override;
 
-        protected:
-            void _initEvent(System::Event::Init&) override;
+            protected:
+                void _initEvent(System::Event::Init&) override;
 
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

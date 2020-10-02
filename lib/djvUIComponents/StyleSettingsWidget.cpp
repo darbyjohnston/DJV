@@ -18,16 +18,16 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct SizeWidget::Private
         {
             std::vector<std::string> metrics;
             std::string currentMetrics;
-            std::shared_ptr<ComboBox> comboBox;
+            std::shared_ptr<UI::ComboBox> comboBox;
             std::map<size_t, std::string> indexToMetrics;
             std::map<std::string, size_t> metricsToIndex;
-            std::shared_ptr<Observer::Map<std::string, Style::Metrics> > metricsObserver;
+            std::shared_ptr<Observer::Map<std::string, UI::Style::Metrics> > metricsObserver;
             std::shared_ptr<Observer::Value<std::string> > currentMetricsObserver;
         };
 
@@ -36,9 +36,9 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::SizeWidget");
+            setClassName("djv::UIComponents::SizeWidget");
 
-            p.comboBox = ComboBox::create(context);
+            p.comboBox = UI::ComboBox::create(context);
             addChild(p.comboBox);
 
             auto weak = std::weak_ptr<SizeWidget>(std::dynamic_pointer_cast<SizeWidget>(shared_from_this()));
@@ -50,8 +50,8 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-                        auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                        auto styleSettings = settingsSystem->getSettingsT<UI::Settings::Style>();
                         const auto i = widget->_p->indexToMetrics.find(value);
                         if (i != widget->_p->indexToMetrics.end())
                         {
@@ -61,11 +61,11 @@ namespace djv
                 }
             });
 
-            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-            p.metricsObserver = Observer::Map<std::string, Style::Metrics>::create(
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto styleSettings = settingsSystem->getSettingsT<UI::Settings::Style>();
+            p.metricsObserver = Observer::Map<std::string, UI::Style::Metrics>::create(
                 styleSettings->observeMetrics(),
-                [weak](const std::map<std::string, Style::Metrics>& value)
+                [weak](const std::map<std::string, UI::Style::Metrics>& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -153,10 +153,10 @@ namespace djv
         {
             std::vector<std::string> palettes;
             std::string currentPalette;
-            std::shared_ptr<ComboBox> comboBox;
+            std::shared_ptr<UI::ComboBox> comboBox;
             std::map<size_t, std::string> indexToPalette;
             std::map<std::string, size_t> paletteToIndex;
-            std::shared_ptr<Observer::Map<std::string, Style::Palette> > palettesObserver;
+            std::shared_ptr<Observer::Map<std::string, UI::Style::Palette> > palettesObserver;
             std::shared_ptr<Observer::Value<std::string> > currentPaletteObserver;
         };
 
@@ -165,9 +165,9 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::PaletteWidget");
+            setClassName("djv::UIComponents::PaletteWidget");
 
-            p.comboBox = ComboBox::create(context);
+            p.comboBox = UI::ComboBox::create(context);
             addChild(p.comboBox);
 
             auto weak = std::weak_ptr<PaletteWidget>(std::dynamic_pointer_cast<PaletteWidget>(shared_from_this()));
@@ -179,8 +179,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-                            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto styleSettings = settingsSystem->getSettingsT<UI::Settings::Style>();
                             const auto i = widget->_p->indexToPalette.find(value);
                             if (i != widget->_p->indexToPalette.end())
                             {
@@ -190,11 +190,11 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-            p.palettesObserver = Observer::Map<std::string, Style::Palette>::create(
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto styleSettings = settingsSystem->getSettingsT<UI::Settings::Style>();
+            p.palettesObserver = Observer::Map<std::string, UI::Style::Palette>::create(
                 styleSettings->observePalettes(),
-                [weak](const std::map<std::string, Style::Palette > & value)
+                [weak](const std::map<std::string, UI::Style::Palette > & value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -278,131 +278,134 @@ namespace djv
             }
         }
 
-        struct StyleSettingsWidget::Private
+        namespace Settings
         {
-            std::shared_ptr<SizeWidget> sizeWidget;
-            std::shared_ptr<PaletteWidget> paletteWidget;
-            std::shared_ptr<Numeric::FloatSlider> brightnessSlider;
-            std::shared_ptr<Numeric::FloatSlider> contrastSlider;
-            std::shared_ptr<FormLayout> layout;
-            std::shared_ptr<Observer::Value<float> > brightnessObserver;
-            std::shared_ptr<Observer::Value<float> > contrastObserver;
-        };
-
-        void StyleSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
-        {
-            ISettingsWidget::_init(context);
-            DJV_PRIVATE_PTR();
-
-            setClassName("djv::UI::StyleSettingsWidget");
-
-            p.sizeWidget = SizeWidget::create(context);
-
-            p.paletteWidget = PaletteWidget::create(context);
-
-            p.brightnessSlider = Numeric::FloatSlider::create(context);
-            p.brightnessSlider->setRange(Math::FloatRange(.5F, 1.5F));
-            p.brightnessSlider->setDefault(1.F);
-            p.brightnessSlider->setDefaultVisible(true);
-
-            p.contrastSlider = Numeric::FloatSlider::create(context);
-            p.contrastSlider->setRange(Math::FloatRange(.5F, 1.5F));
-            p.contrastSlider->setDefault(1.F);
-            p.contrastSlider->setDefaultVisible(true);
-
-            p.layout = FormLayout::create(context);
-            p.layout->addChild(p.sizeWidget);
-            p.layout->addChild(p.paletteWidget);
-            p.layout->addChild(p.brightnessSlider);
-            p.layout->addChild(p.contrastSlider);
-            addChild(p.layout);
-
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.brightnessSlider->setValueCallback(
-                [contextWeak](float value)
+            struct StyleWidget::Private
             {
-                if (auto context = contextWeak.lock())
-                {
-                    auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-                    auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-                    styleSettings->setBrightness(value);
-                }
-            });
+                std::shared_ptr<SizeWidget> sizeWidget;
+                std::shared_ptr<PaletteWidget> paletteWidget;
+                std::shared_ptr<UI::Numeric::FloatSlider> brightnessSlider;
+                std::shared_ptr<UI::Numeric::FloatSlider> contrastSlider;
+                std::shared_ptr<UI::FormLayout> layout;
+                std::shared_ptr<Observer::Value<float> > brightnessObserver;
+                std::shared_ptr<Observer::Value<float> > contrastObserver;
+            };
 
-            p.contrastSlider->setValueCallback(
-                [contextWeak](float value)
+            void StyleWidget::_init(const std::shared_ptr<System::Context>& context)
             {
-                if (auto context = contextWeak.lock())
-                {
-                    auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-                    auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-                    styleSettings->setContrast(value);
-                }
-            });
+                IWidget::_init(context);
+                DJV_PRIVATE_PTR();
 
-            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
-            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-            auto weak = std::weak_ptr<StyleSettingsWidget>(std::dynamic_pointer_cast<StyleSettingsWidget>(shared_from_this()));
-            p.brightnessObserver = Observer::Value<float>::create(
-                styleSettings->observeBrightness(),
-                [weak](const float value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->brightnessSlider->setValue(value);
-                }
-            });
+                setClassName("djv::UIComponents::Settings::StyleWidget");
 
-            p.contrastObserver = Observer::Value<float>::create(
-                styleSettings->observeContrast(),
-                [weak](const float value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->contrastSlider->setValue(value);
-                }
-            });
-        }
+                p.sizeWidget = SizeWidget::create(context);
 
-        StyleSettingsWidget::StyleSettingsWidget() :
-            _p(new Private)
-        {}
+                p.paletteWidget = PaletteWidget::create(context);
 
-        std::shared_ptr<StyleSettingsWidget> StyleSettingsWidget::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<StyleSettingsWidget>(new StyleSettingsWidget);
-            out->_init(context);
-            return out;
-        }
+                p.brightnessSlider = UI::Numeric::FloatSlider::create(context);
+                p.brightnessSlider->setRange(Math::FloatRange(.5F, 1.5F));
+                p.brightnessSlider->setDefault(1.F);
+                p.brightnessSlider->setDefaultVisible(true);
 
-        std::string StyleSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("settings_title_general");
-        }
+                p.contrastSlider = UI::Numeric::FloatSlider::create(context);
+                p.contrastSlider->setRange(Math::FloatRange(.5F, 1.5F));
+                p.contrastSlider->setDefault(1.F);
+                p.contrastSlider->setDefaultVisible(true);
 
-        std::string StyleSettingsWidget::getSettingsSortKey() const
-        {
-            return "0";
-        }
+                p.layout = UI::FormLayout::create(context);
+                p.layout->addChild(p.sizeWidget);
+                p.layout->addChild(p.paletteWidget);
+                p.layout->addChild(p.brightnessSlider);
+                p.layout->addChild(p.contrastSlider);
+                addChild(p.layout);
 
-        void StyleSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                p.brightnessSlider->setValueCallback(
+                    [contextWeak](float value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto styleSettings = settingsSystem->getSettingsT<UI::Settings::Style>();
+                            styleSettings->setBrightness(value);
+                        }
+                    });
 
-        void StyleSettingsWidget::_initEvent(System::Event::Init& event)
-        {
-            ISettingsWidget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-                p.layout->setText(p.sizeWidget, _getText(DJV_TEXT("settings_style_size")) + ":");
-                p.layout->setText(p.paletteWidget, _getText(DJV_TEXT("settings_style_palette")) + ":");
-                p.layout->setText(p.brightnessSlider, _getText(DJV_TEXT("settings_style_brightness")) + ":");
-                p.layout->setText(p.contrastSlider, _getText(DJV_TEXT("settings_style_contrast")) + ":");
+                p.contrastSlider->setValueCallback(
+                    [contextWeak](float value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                            auto styleSettings = settingsSystem->getSettingsT<UI::Settings::Style>();
+                            styleSettings->setContrast(value);
+                        }
+                    });
+
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                auto styleSettings = settingsSystem->getSettingsT<UI::Settings::Style>();
+                auto weak = std::weak_ptr<StyleWidget>(std::dynamic_pointer_cast<StyleWidget>(shared_from_this()));
+                p.brightnessObserver = Observer::Value<float>::create(
+                    styleSettings->observeBrightness(),
+                    [weak](const float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->brightnessSlider->setValue(value);
+                        }
+                    });
+
+                p.contrastObserver = Observer::Value<float>::create(
+                    styleSettings->observeContrast(),
+                    [weak](const float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->contrastSlider->setValue(value);
+                        }
+                    });
             }
-        }
 
-    } // namespace UI
+            StyleWidget::StyleWidget() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<StyleWidget> StyleWidget::create(const std::shared_ptr<System::Context>& context)
+            {
+                auto out = std::shared_ptr<StyleWidget>(new StyleWidget);
+                out->_init(context);
+                return out;
+            }
+
+            std::string StyleWidget::getSettingsGroup() const
+            {
+                return DJV_TEXT("settings_title_general");
+            }
+
+            std::string StyleWidget::getSettingsSortKey() const
+            {
+                return "0";
+            }
+
+            void StyleWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
+            {
+                _p->layout->setLabelSizeGroup(value);
+            }
+
+            void StyleWidget::_initEvent(System::Event::Init& event)
+            {
+                IWidget::_initEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.getData().text)
+                {
+                    p.layout->setText(p.sizeWidget, _getText(DJV_TEXT("settings_style_size")) + ":");
+                    p.layout->setText(p.paletteWidget, _getText(DJV_TEXT("settings_style_palette")) + ":");
+                    p.layout->setText(p.brightnessSlider, _getText(DJV_TEXT("settings_style_brightness")) + ":");
+                    p.layout->setText(p.contrastSlider, _getText(DJV_TEXT("settings_style_contrast")) + ":");
+                }
+            }
+
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

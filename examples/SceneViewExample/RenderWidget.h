@@ -25,8 +25,8 @@ public:
 
     static std::shared_ptr<RenderWidget> create(const std::shared_ptr<djv::System::Context>&);
 
-    void setRenderOptions(const djv::UI::SceneRenderOptions&);
-    void setRenderOptionsCallback(const std::function<void(const djv::UI::SceneRenderOptions&)>&);
+    void setRenderOptions(const djv::UIComponents::SceneRenderOptions&);
+    void setRenderOptionsCallback(const std::function<void(const djv::UIComponents::SceneRenderOptions&)>&);
 
     void setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>&) override;
 
@@ -36,12 +36,12 @@ protected:
 private:
     void _widgetUpdate();
 
-    djv::UI::SceneRenderOptions _renderOptions;
+    djv::UIComponents::SceneRenderOptions _renderOptions;
     std::shared_ptr<djv::UI::ComboBox> _shaderModeComboBox;
     std::shared_ptr<djv::UI::ComboBox> _depthBufferModeComboBox;
     std::shared_ptr<djv::UI::ComboBox> _depthBufferTypeComboBox;
     std::shared_ptr<djv::UI::ComboBox> _multiSamplingComboBox;
     std::map<std::string, std::shared_ptr<djv::UI::FormLayout> > _layouts;
     std::map<std::string, std::shared_ptr<djv::UI::GroupBox> > _groupBoxes;
-    std::function<void(const djv::UI::SceneRenderOptions&)> _renderOptionsCallback;
+    std::function<void(const djv::UIComponents::SceneRenderOptions&)> _renderOptionsCallback;
 };

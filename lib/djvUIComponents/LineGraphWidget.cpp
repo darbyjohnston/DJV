@@ -16,7 +16,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct LineGraphWidget::Private
         {
@@ -24,9 +24,9 @@ namespace djv
             size_t samplesSize = 0;
             Math::FloatRange samplesRange = Math::FloatRange(0.F, 0.F);
             size_t precision = 2;
-            std::shared_ptr<Text::Label> label;
-            std::shared_ptr<Text::Label> labelValue;
-            std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<UI::Text::Label> label;
+            std::shared_ptr<UI::Text::Label> labelValue;
+            std::shared_ptr<UI::HorizontalLayout> layout;
         };
 
         void LineGraphWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -34,21 +34,21 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::LineGraphWidget");
+            setClassName("djv::UIComponents::LineGraphWidget");
 
-            setBackgroundRole(ColorRole::Trough);
+            setBackgroundRole(UI::ColorRole::Trough);
 
-            p.label = Text::Label::create(context);
-            p.label->setFontSizeRole(MetricsRole::FontSmall);
+            p.label = UI::Text::Label::create(context);
+            p.label->setFontSizeRole(UI::MetricsRole::FontSmall);
             
-            p.labelValue = Text::Label::create(context);
+            p.labelValue = UI::Text::Label::create(context);
             p.labelValue->setFontFamily(Render2D::Font::familyMono);
-            p.labelValue->setFontSizeRole(MetricsRole::FontSmall);
+            p.labelValue->setFontSizeRole(UI::MetricsRole::FontSmall);
             
-            p.layout = HorizontalLayout::create(context);
-            p.layout->setMargin(MetricsRole::Border);
-            p.layout->setSpacing(MetricsRole::SpacingSmall);
-            p.layout->setBackgroundRole(ColorRole::OverlayLight);
+            p.layout = UI::HorizontalLayout::create(context);
+            p.layout->setMargin(UI::MetricsRole::Border);
+            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.layout->addChild(p.label);
             p.layout->addChild(p.labelValue);
             addChild(p.layout);
@@ -123,7 +123,7 @@ namespace djv
         void LineGraphWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             const auto& style = _getStyle();
-            const float tc = style->getMetric(MetricsRole::TextColumn);
+            const float tc = style->getMetric(UI::MetricsRole::TextColumn);
             _setMinimumSize(glm::vec2(tc, tc / 3.F));
         }
 
@@ -132,7 +132,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const Math::BBox2f& g = getGeometry();
-            const float b = style->getMetric(MetricsRole::Border) * 2.F;
+            const float b = style->getMetric(UI::MetricsRole::Border) * 2.F;
             const float w = g.w();
             p.samplesSize = static_cast<size_t>(w > 0.F ? (g.w() / b) : 0.F);
             while (p.samples.size() > p.samplesSize)
@@ -148,11 +148,11 @@ namespace djv
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border) * 2.F;
+            const float b = style->getMetric(UI::MetricsRole::Border) * 2.F;
             const Math::BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
             const auto& render = _getRender();
-            auto color1 = style->getColor(ColorRole::Checked);
-            auto color2 = style->getColor(ColorRole::Checked);
+            auto color1 = style->getColor(UI::ColorRole::Checked);
+            auto color2 = style->getColor(UI::ColorRole::Checked);
             color2.setF32(color2.getF32(3) * .5F, 3);
             float x = g.min.x;
             const float range = p.samplesRange.getMax() - p.samplesRange.getMin();
@@ -198,6 +198,6 @@ namespace djv
             }
         }
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

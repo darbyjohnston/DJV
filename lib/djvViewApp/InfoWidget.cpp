@@ -33,7 +33,7 @@ namespace djv
         {
             AV::IO::Info info;
             std::string filter;
-            std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UIComponents::SearchBox> searchBox;
             std::vector<std::shared_ptr<UI::GroupBox> > groupBoxes;
             std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> infoLayout;
@@ -66,7 +66,7 @@ namespace djv
 
             setClassName("djv::ViewApp::InfoWidget");
 
-            p.searchBox = UI::SearchBox::create(context);
+            p.searchBox = UIComponents::SearchBox::create(context);
 
             p.sizeGroup = UI::Text::LabelSizeGroup::create();
 

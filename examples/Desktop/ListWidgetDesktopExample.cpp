@@ -64,7 +64,7 @@ void Application::_init(std::list<std::string>& args)
     alternateRowsCheckBox->setText("Alternate rows");
 
     // Create a search box.
-    auto searchBox = UI::SearchBox::create(shared_from_this());
+    auto searchBox = UIComponents::SearchBox::create(shared_from_this());
 
     // Create a scroll widget for the list widget.
     _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, shared_from_this());

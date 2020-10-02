@@ -17,106 +17,109 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        struct FFmpegSettingsWidget::Private
+        namespace Settings
         {
-            std::shared_ptr<Numeric::IntSlider> threadCountSlider;
-            std::shared_ptr<FormLayout> layout;
-        };
+            struct FFmpegWidget::Private
+            {
+                std::shared_ptr<UI::Numeric::IntSlider> threadCountSlider;
+                std::shared_ptr<UI::FormLayout> layout;
+            };
 
-        void FFmpegSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
-        {
-            ISettingsWidget::_init(context);
+            void FFmpegWidget::_init(const std::shared_ptr<System::Context>& context)
+            {
+                IWidget::_init(context);
 
-            DJV_PRIVATE_PTR();
-            setClassName("djv::UI::FFmpegSettingsWidget");
+                DJV_PRIVATE_PTR();
+                setClassName("djv::UIComponents::Settings::FFmpegWidget");
 
-            p.threadCountSlider = Numeric::IntSlider::create(context);
-            p.threadCountSlider->setRange(Math::IntRange(1, 16));
+                p.threadCountSlider = UI::Numeric::IntSlider::create(context);
+                p.threadCountSlider->setRange(Math::IntRange(1, 16));
 
-            p.layout = FormLayout::create(context);
-            p.layout->addChild(p.threadCountSlider);
-            addChild(p.layout);
+                p.layout = UI::FormLayout::create(context);
+                p.layout->addChild(p.threadCountSlider);
+                addChild(p.layout);
 
-            _widgetUpdate();
+                _widgetUpdate();
 
-            auto weak = std::weak_ptr<FFmpegSettingsWidget>(std::dynamic_pointer_cast<FFmpegSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.threadCountSlider->setValueCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
+                auto weak = std::weak_ptr<FFmpegWidget>(std::dynamic_pointer_cast<FFmpegWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                p.threadCountSlider->setValueCallback(
+                    [weak, contextWeak](int value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::IOSystem>();
-                            AV::IO::FFmpeg::Options options;
-                            rapidjson::Document document;
-                            auto& allocator = document.GetAllocator();
-                            fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
-                            options.threadCount = value;
-                            io->setOptions(AV::IO::FFmpeg::pluginName, toJSON(options, allocator));
+                            if (auto widget = weak.lock())
+                            {
+                                auto io = context->getSystemT<AV::IO::IOSystem>();
+                                AV::IO::FFmpeg::Options options;
+                                rapidjson::Document document;
+                                auto& allocator = document.GetAllocator();
+                                fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
+                                options.threadCount = value;
+                                io->setOptions(AV::IO::FFmpeg::pluginName, toJSON(options, allocator));
+                            }
                         }
-                    }
-                });
-        }
-
-        FFmpegSettingsWidget::FFmpegSettingsWidget() :
-            _p(new Private)
-        {}
-
-        std::shared_ptr<FFmpegSettingsWidget> FFmpegSettingsWidget::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<FFmpegSettingsWidget>(new FFmpegSettingsWidget);
-            out->_init(context);
-            return out;
-        }
-
-        std::string FFmpegSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_io_section_ffmpeg");
-        }
-
-        std::string FFmpegSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("settings_title_io");
-        }
-
-        std::string FFmpegSettingsWidget::getSettingsSortKey() const
-        {
-            return "d";
-        }
-
-        void FFmpegSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
-        void FFmpegSettingsWidget::_initEvent(System::Event::Init& event)
-        {
-            ISettingsWidget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-                p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("settings_io_ffmpeg_thread_count")) + ":");
+                    });
             }
-        }
 
-        void FFmpegSettingsWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            FFmpegWidget::FFmpegWidget() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<FFmpegWidget> FFmpegWidget::create(const std::shared_ptr<System::Context>& context)
             {
-                auto io = context->getSystemT<AV::IO::IOSystem>();
-                AV::IO::FFmpeg::Options options;
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
-                p.threadCountSlider->setValue(options.threadCount);
+                auto out = std::shared_ptr<FFmpegWidget>(new FFmpegWidget);
+                out->_init(context);
+                return out;
             }
-        }
 
-    } // namespace UI
+            std::string FFmpegWidget::getSettingsName() const
+            {
+                return DJV_TEXT("settings_io_section_ffmpeg");
+            }
+
+            std::string FFmpegWidget::getSettingsGroup() const
+            {
+                return DJV_TEXT("settings_title_io");
+            }
+
+            std::string FFmpegWidget::getSettingsSortKey() const
+            {
+                return "d";
+            }
+
+            void FFmpegWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
+            {
+                _p->layout->setLabelSizeGroup(value);
+            }
+
+            void FFmpegWidget::_initEvent(System::Event::Init& event)
+            {
+                IWidget::_initEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.getData().text)
+                {
+                    p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("settings_io_ffmpeg_thread_count")) + ":");
+                }
+            }
+
+            void FFmpegWidget::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                if (auto context = getContext().lock())
+                {
+                    auto io = context->getSystemT<AV::IO::IOSystem>();
+                    AV::IO::FFmpeg::Options options;
+                    rapidjson::Document document;
+                    auto& allocator = document.GetAllocator();
+                    fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
+                    p.threadCountSlider->setValue(options.threadCount);
+                }
+            }
+
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

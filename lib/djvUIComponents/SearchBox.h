@@ -8,10 +8,10 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a search box widget.
-        class SearchBox : public Widget
+        class SearchBox : public UI::Widget
         {
             DJV_NON_COPYABLE(SearchBox);
 
@@ -44,6 +44,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the playback settings widget.
-        class PlaybackSettingsWidget : public UI::ISettingsWidget
+        class PlaybackSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(PlaybackSettingsWidget);
 
@@ -35,7 +35,7 @@ namespace djv
         };
 
         //! This class provides the timeline settings widget.
-        class TimelineSettingsWidget : public UI::ISettingsWidget
+        class TimelineSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(TimelineSettingsWidget);
 

@@ -31,11 +31,11 @@ int main(int argc, char ** argv)
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
         // Create some line graph widgets.
-        std::vector<std::shared_ptr<UI::LineGraphWidget> > lineGraphWidgets;
+        std::vector<std::shared_ptr<UIComponents::LineGraphWidget> > lineGraphWidgets;
         auto vLayout = UI::VerticalLayout::create(app);
         for (size_t i = 0; i < 3; ++i)
         {
-            auto lineGraphWidget = UI::LineGraphWidget::create(app);
+            auto lineGraphWidget = UIComponents::LineGraphWidget::create(app);
             lineGraphWidgets.push_back(lineGraphWidget);
             vLayout->addChild(lineGraphWidget);
         }

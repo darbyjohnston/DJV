@@ -32,7 +32,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -74,8 +74,8 @@ namespace djv
             struct ItemView::Private
             {
                 std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
-                ViewType viewType = ViewType::First;
-                std::shared_ptr<SelectionModel> selectionModel;
+                UI::ViewType viewType = UI::ViewType::First;
+                std::shared_ptr<UI::SelectionModel> selectionModel;
                 std::set<size_t> selection;
                 Render2D::Font::Metrics nameFontMetrics;
                 std::future<Render2D::Font::Metrics> nameFontMetricsFuture;
@@ -106,15 +106,15 @@ namespace djv
                 std::function<void(const std::set<size_t>&)> activatedCallback2;
             };
 
-            void ItemView::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
+            void ItemView::_init(UI::SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
-                setClassName("djv::UI::FileBrowser::ItemView");
+                setClassName("djv::UIComponents::FileBrowser::ItemView");
 
                 p.fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
 
-                p.selectionModel = SelectionModel::create(selectionType);
+                p.selectionModel = UI::SelectionModel::create(selectionType);
 
                 auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
                 p.selectionModel->setCallback(
@@ -160,14 +160,14 @@ namespace djv
             ItemView::~ItemView()
             {}
 
-            std::shared_ptr<ItemView> ItemView::create(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<ItemView> ItemView::create(UI::SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ItemView>(new ItemView);
                 out->_init(selectionType, context);
                 return out;
             }
 
-            void ItemView::setViewType(ViewType value)
+            void ItemView::setViewType(UI::ViewType value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.viewType)
@@ -267,12 +267,12 @@ namespace djv
                 if (itemsSize > 0)
                 {
                     const auto& style = _getStyle();
-                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float s = style->getMetric(MetricsRole::Spacing);
-                    const float sh = style->getMetric(MetricsRole::Shadow);
+                    const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+                    const float s = style->getMetric(UI::MetricsRole::Spacing);
+                    const float sh = style->getMetric(UI::MetricsRole::Shadow);
                     switch (p.viewType)
                     {
-                    case ViewType::Tiles:
+                    case UI::ViewType::Tiles:
                     {
                         size_t columns = 1;
                         const float itemWidth = p.thumbnailSize.w + sh * 2.F;
@@ -287,7 +287,7 @@ namespace djv
                         out += s * (rows + 1);
                         break;
                     }
-                    case ViewType::List:
+                    case UI::ViewType::List:
                         out = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.F) * itemsSize;
                         break;
                     default: break;
@@ -301,14 +301,14 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const Math::BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float s = style->getMetric(MetricsRole::Spacing);
-                const float sh = style->getMetric(MetricsRole::Shadow);
+                const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+                const float s = style->getMetric(UI::MetricsRole::Spacing);
+                const float sh = style->getMetric(UI::MetricsRole::Shadow);
                 glm::vec2 pos = g.min;
                 const size_t itemsSize = p.items.size();
                 switch (p.viewType)
                 {
-                case ViewType::Tiles:
+                case UI::ViewType::Tiles:
                     pos += s;
                     for (size_t i = 0; i < itemsSize; ++i)
                     {
@@ -327,7 +327,7 @@ namespace djv
                         }
                     }
                     break;
-                case ViewType::List:
+                case UI::ViewType::List:
                     for (size_t i = 0; i < itemsSize; ++i)
                     {
                         const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.F);
@@ -360,8 +360,8 @@ namespace djv
                                 const auto k = p.nameLinesFutures.find(i);
                                 if (k == p.nameLinesFutures.end())
                                 {
-                                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
+                                    const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, UI::MetricsRole::FontMedium);
                                     item.name = item.info.getFileName(Math::Frame::invalid, false);
                                     p.nameLinesFutures[i] = p.fontSystem->textLines(
                                         item.name,
@@ -404,7 +404,7 @@ namespace djv
                                 if (p.nameGlyphsFutures.find(i) == p.nameGlyphsFutures.end())
                                 {
                                     const std::string& label = item.info.getFileName(Math::Frame::invalid, false);
-                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
+                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, UI::MetricsRole::FontMedium);
                                     p.nameGlyphsFutures[i] = p.fontSystem->getGlyphs(label, fontInfo);
                                 }
                             }
@@ -419,7 +419,7 @@ namespace djv
                                     std::stringstream ss2;
                                     ss2 << Memory::getUnitLabel(size);
                                     ss << _getText(ss2.str());
-                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
+                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, UI::MetricsRole::FontMedium);
                                     p.sizeGlyphsFutures[i] = p.fontSystem->getGlyphs(ss.str(), fontInfo);
                                 }
                             }
@@ -429,7 +429,7 @@ namespace djv
                                 if (p.timeGlyphsFutures.find(i) == p.timeGlyphsFutures.end())
                                 {
                                     const std::string& label = AV::Time::getLabel(item.info.getTime());
-                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
+                                    const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, UI::MetricsRole::FontMedium);
                                     p.timeGlyphsFutures[i] = p.fontSystem->getGlyphs(label, fontInfo);
                                 }
                             }
@@ -461,9 +461,9 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float s = style->getMetric(MetricsRole::Spacing);
-                const float sh = style->getMetric(MetricsRole::Shadow);
+                const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+                const float s = style->getMetric(UI::MetricsRole::Spacing);
+                const float sh = style->getMetric(UI::MetricsRole::Shadow);
 
                 const auto& render = _getRender();
                 const auto& ut = _getUpdateTime();
@@ -476,24 +476,24 @@ namespace djv
                     const bool selected = p.selectionModel->isSelected(i);
                     switch (p.viewType)
                     {
-                    case ViewType::Tiles:
-                        render->setFillColor(style->getColor(ColorRole::Shadow));
+                    case UI::ViewType::Tiles:
+                        render->setFillColor(style->getColor(UI::ColorRole::Shadow));
                         render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
                         itemGeometry = itemGeometry.margin(-sh);
-                        render->setFillColor(style->getColor(selected ? ColorRole::Checked : ColorRole::BackgroundBellows));
+                        render->setFillColor(style->getColor(selected ? UI::ColorRole::Checked : UI::ColorRole::BackgroundBellows));
                         render->drawRect(itemGeometry);
                         break;
-                    case ViewType::List:
+                    case UI::ViewType::List:
                         if (selected)
                         {
-                            render->setFillColor(style->getColor(ColorRole::Checked));
+                            render->setFillColor(style->getColor(UI::ColorRole::Checked));
                             render->drawRect(itemGeometry);
                         }
                         break;
                     default: break;
                     }
 
-                    if (ViewType::List == p.viewType)
+                    if (UI::ViewType::List == p.viewType)
                     {
                         render->pushClipRect(Math::BBox2f(
                             itemGeometry.min.x,
@@ -516,11 +516,11 @@ namespace djv
                         glm::vec2 pos(0.F, 0.F);
                         switch (p.viewType)
                         {
-                        case ViewType::Tiles:
+                        case UI::ViewType::Tiles:
                             pos.x = floor(itemGeometry.min.x + p.thumbnailSize.w / 2.F - w / 2.F);
                             pos.y = floor(itemGeometry.min.y + p.thumbnailSize.h - h);
                             break;
-                        case ViewType::List:
+                        case UI::ViewType::List:
                             pos.x = floor(itemGeometry.min.x);
                             pos.y = floor(itemGeometry.min.y + itemGeometry.h() / 2.F - h / 2.F);
                             break;
@@ -556,27 +556,27 @@ namespace djv
                             glm::vec2 pos(0.F, 0.F);
                             switch (p.viewType)
                             {
-                            case ViewType::Tiles:
+                            case UI::ViewType::Tiles:
                                 pos.x = floor(itemGeometry.min.x + p.thumbnailSize.w / 2.F - w / 2.F);
                                 pos.y = floor(itemGeometry.min.y + p.thumbnailSize.h - h);
                                 break;
-                            case ViewType::List:
+                            case UI::ViewType::List:
                                 pos.x = floor(itemGeometry.min.x);
                                 pos.y = floor(itemGeometry.min.y + itemGeometry.h() / 2.F - h / 2.F);
                                 break;
                             default: break;
                             }
-                            auto c = style->getColor(ColorRole::Button).convert(Image::Type::RGBA_F32);
+                            auto c = style->getColor(UI::ColorRole::Button).convert(Image::Type::RGBA_F32);
                             c.setF32(1.F - opacity, 3);
                             render->setFillColor(c);
                             render->drawFilledImage(j->second, pos);
                         }
                     }
                     {
-                        render->setFillColor(style->getColor(ColorRole::Foreground));
+                        render->setFillColor(style->getColor(UI::ColorRole::Foreground));
                         switch (p.viewType)
                         {
-                        case ViewType::Tiles:
+                        case UI::ViewType::Tiles:
                         {
                             if (!item.nameLines.empty())
                             {
@@ -597,7 +597,7 @@ namespace djv
                             }
                             break;
                         }
-                        case ViewType::List:
+                        case UI::ViewType::List:
                         {
                             float x = itemGeometry.min.x + p.thumbnailSize.w + s;
                             float y = itemGeometry.min.y + itemGeometry.h() / 2.F - p.nameFontMetrics.lineHeight / 2.F;
@@ -658,12 +658,12 @@ namespace djv
 
                     if (p.grab == i)
                     {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
+                        render->setFillColor(style->getColor(UI::ColorRole::Pressed));
                         render->drawRect(itemGeometry);
                     }
                     else if (p.hover == i)
                     {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
+                        render->setFillColor(style->getColor(UI::ColorRole::Hovered));
                         render->drawRect(itemGeometry);
                     }
                 }
@@ -706,7 +706,7 @@ namespace djv
                 {
                     const float distance = glm::length(pointerInfo.projectedPos - p.pressedPos);
                     const auto& style = _getStyle();
-                    const bool accepted = distance < style->getMetric(MetricsRole::Drag);
+                    const bool accepted = distance < style->getMetric(UI::MetricsRole::Drag);
                     event.setAccepted(accepted);
                     if (!accepted)
                     {
@@ -826,10 +826,10 @@ namespace djv
                 event.accept();
             }
 
-            std::shared_ptr<ITooltipWidget> ItemView::_createTooltip(const glm::vec2& pos)
+            std::shared_ptr<UI::ITooltipWidget> ItemView::_createTooltip(const glm::vec2& pos)
             {
                 DJV_PRIVATE_PTR();
-                std::shared_ptr<ITooltipWidget> out;
+                std::shared_ptr<UI::ITooltipWidget> out;
                 std::string text;
                 const size_t itemsSize = p.items.size();
                 for (size_t i = 0; i < itemsSize; ++i)
@@ -1168,7 +1168,7 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     p.icons.clear();
-                    auto iconSystem = context->getSystemT<IconSystem>();
+                    auto iconSystem = context->getSystemT<UI::IconSystem>();
                     for (size_t i = 0; i < static_cast<size_t>(System::File::Type::Count); ++i)
                     {
                         const auto type = static_cast<System::File::Type>(i);
@@ -1216,9 +1216,9 @@ namespace djv
                         auto& item = p.items[i];
                         if (item.geometry.intersects(clipRect))
                         {
-                            const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium);
+                            const auto fontInfo = style->getFontInfo(Render2D::Font::faceDefault, UI::MetricsRole::FontMedium);
                             item.name = item.info.getFileName(Math::Frame::invalid, false);
-                            const float m = style->getMetric(MetricsRole::MarginSmall);
+                            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                             p.nameLinesFutures[i] = p.fontSystem->textLines(
                                 item.name,
                                 p.thumbnailSize.w - static_cast<uint16_t>(m * 2.F),
@@ -1241,7 +1241,7 @@ namespace djv
                 {
                     const auto& style = _getStyle();
                     p.nameFontMetricsFuture = p.fontSystem->getMetrics(
-                        style->getFontInfo(Render2D::Font::faceDefault, MetricsRole::FontMedium));
+                        style->getFontInfo(Render2D::Font::faceDefault, UI::MetricsRole::FontMedium));
 
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                     const size_t itemsSize = p.items.size();
@@ -1279,5 +1279,5 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

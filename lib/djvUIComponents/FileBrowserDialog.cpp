@@ -13,7 +13,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -22,7 +22,7 @@ namespace djv
                 std::shared_ptr<FileBrowser> fileBrowser;
             };
 
-            void Dialog::_init(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
+            void Dialog::_init(UI::SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 IDialog::_init(context);
 
@@ -52,7 +52,7 @@ namespace djv
             Dialog::~Dialog()
             {}
 
-            std::shared_ptr<Dialog> Dialog::create(SelectionType selectionType, const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<Dialog> Dialog::create(UI::SelectionType selectionType, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Dialog>(new Dialog);
                 out->_init(selectionType, context);
@@ -89,5 +89,5 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

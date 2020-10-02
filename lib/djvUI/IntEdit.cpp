@@ -4,8 +4,8 @@
 
 #include <djvUI/IntEdit.h>
 
+#include <djvUI/INumericWidgetFunc.h>
 #include <djvUI/IntLabel.h>
-#include <djvUI/InumericWidgetFunc.h>
 
 #include <djvMath/NumericValueModels.h>
 

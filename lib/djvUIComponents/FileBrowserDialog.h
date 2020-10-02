@@ -18,23 +18,23 @@ namespace djv
         } // namespace File
     } // namespace System
 
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
             //! This class provides a file browser dialog.
-            class Dialog : public IDialog
+            class Dialog : public UI::IDialog
             {
                 DJV_NON_COPYABLE(Dialog);
 
             protected:
-                void _init(SelectionType, const std::shared_ptr<System::Context>&);
+                void _init(UI::SelectionType, const std::shared_ptr<System::Context>&);
                 Dialog();
 
             public:
                 ~Dialog() override;
 
-                static std::shared_ptr<Dialog> create(SelectionType, const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<Dialog> create(UI::SelectionType, const std::shared_ptr<System::Context>&);
 
                 void setFileExtensions(const std::set<std::string>&);
 
@@ -52,6 +52,6 @@ namespace djv
             };
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

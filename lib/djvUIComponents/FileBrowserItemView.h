@@ -32,7 +32,7 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -46,15 +46,15 @@ namespace djv
                 DJV_NON_COPYABLE(ItemView);
 
             protected:
-                void _init(SelectionType, const std::shared_ptr<System::Context>&);
+                void _init(UI::SelectionType, const std::shared_ptr<System::Context>&);
                 ItemView();
 
             public:
                 ~ItemView() override;
 
-                static std::shared_ptr<ItemView> create(SelectionType, const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<ItemView> create(UI::SelectionType, const std::shared_ptr<System::Context>&);
 
-                void setViewType(ViewType);
+                void setViewType(UI::ViewType);
                 void setThumbnailSize(const Image::Size&);
                 void setSplit(const std::vector<float>&);
 
@@ -86,7 +86,7 @@ namespace djv
                 void _keyPressEvent(System::Event::KeyPress&) override;
                 void _keyReleaseEvent(System::Event::KeyRelease&) override;
 
-                std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2& pos) override;
+                std::shared_ptr<UI::ITooltipWidget> _createTooltip(const glm::vec2& pos) override;
 
                 void _initEvent(System::Event::Init&) override;
                 void _updateEvent(System::Event::Update&) override;
@@ -105,6 +105,6 @@ namespace djv
             };
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

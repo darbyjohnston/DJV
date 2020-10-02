@@ -18,106 +18,109 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        struct JPEGSettingsWidget::Private
+        namespace Settings
         {
-            std::shared_ptr<Numeric::IntSlider> qualitySlider;
-            std::shared_ptr<FormLayout> layout;
-        };
+            struct JPEGWidget::Private
+            {
+                std::shared_ptr<UI::Numeric::IntSlider> qualitySlider;
+                std::shared_ptr<UI::FormLayout> layout;
+            };
 
-        void JPEGSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
-        {
-            ISettingsWidget::_init(context);
+            void JPEGWidget::_init(const std::shared_ptr<System::Context>& context)
+            {
+                IWidget::_init(context);
 
-            DJV_PRIVATE_PTR();
-            setClassName("djv::UI::JPEGSettingsWidget");
+                DJV_PRIVATE_PTR();
+                setClassName("djv::UIComponents::Settings::JPEGWidget");
 
-            p.qualitySlider = Numeric::IntSlider::create(context);
-            p.qualitySlider->setRange(Math::IntRange(0, 100));
+                p.qualitySlider = UI::Numeric::IntSlider::create(context);
+                p.qualitySlider->setRange(Math::IntRange(0, 100));
 
-            p.layout = FormLayout::create(context);
-            p.layout->addChild(p.qualitySlider);
-            addChild(p.layout);
+                p.layout = UI::FormLayout::create(context);
+                p.layout->addChild(p.qualitySlider);
+                addChild(p.layout);
 
-            _widgetUpdate();
+                _widgetUpdate();
 
-            auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.qualitySlider->setValueCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
+                auto weak = std::weak_ptr<JPEGWidget>(std::dynamic_pointer_cast<JPEGWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                p.qualitySlider->setValueCallback(
+                    [weak, contextWeak](int value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::IOSystem>();
-                            AV::IO::JPEG::Options options;
-                            rapidjson::Document document;
-                            auto& allocator = document.GetAllocator();
-                            fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
-                            options.quality = value;
-                            io->setOptions(AV::IO::JPEG::pluginName, toJSON(options, allocator));
+                            if (auto widget = weak.lock())
+                            {
+                                auto io = context->getSystemT<AV::IO::IOSystem>();
+                                AV::IO::JPEG::Options options;
+                                rapidjson::Document document;
+                                auto& allocator = document.GetAllocator();
+                                fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
+                                options.quality = value;
+                                io->setOptions(AV::IO::JPEG::pluginName, toJSON(options, allocator));
+                            }
                         }
-                    }
-                });
-        }
-
-        JPEGSettingsWidget::JPEGSettingsWidget() :
-            _p(new Private)
-        {}
-
-        std::shared_ptr<JPEGSettingsWidget> JPEGSettingsWidget::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<JPEGSettingsWidget>(new JPEGSettingsWidget);
-            out->_init(context);
-            return out;
-        }
-
-        std::string JPEGSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_io_section_jpeg");
-        }
-
-        std::string JPEGSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("settings_title_io");
-        }
-
-        std::string JPEGSettingsWidget::getSettingsSortKey() const
-        {
-            return "d";
-        }
-
-        void JPEGSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
-        void JPEGSettingsWidget::_initEvent(System::Event::Init & event)
-        {
-            ISettingsWidget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-                p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("settings_io_jpeg_compression_quality")) + ":");
+                    });
             }
-        }
 
-        void JPEGSettingsWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            JPEGWidget::JPEGWidget() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<JPEGWidget> JPEGWidget::create(const std::shared_ptr<System::Context>& context)
             {
-                auto io = context->getSystemT<AV::IO::IOSystem>();
-                AV::IO::JPEG::Options options;
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
-                p.qualitySlider->setValue(options.quality);
+                auto out = std::shared_ptr<JPEGWidget>(new JPEGWidget);
+                out->_init(context);
+                return out;
             }
-        }
 
-    } // namespace UI
+            std::string JPEGWidget::getSettingsName() const
+            {
+                return DJV_TEXT("settings_io_section_jpeg");
+            }
+
+            std::string JPEGWidget::getSettingsGroup() const
+            {
+                return DJV_TEXT("settings_title_io");
+            }
+
+            std::string JPEGWidget::getSettingsSortKey() const
+            {
+                return "d";
+            }
+
+            void JPEGWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
+            {
+                _p->layout->setLabelSizeGroup(value);
+            }
+
+            void JPEGWidget::_initEvent(System::Event::Init& event)
+            {
+                IWidget::_initEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.getData().text)
+                {
+                    p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("settings_io_jpeg_compression_quality")) + ":");
+                }
+            }
+
+            void JPEGWidget::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                if (auto context = getContext().lock())
+                {
+                    auto io = context->getSystemT<AV::IO::IOSystem>();
+                    AV::IO::JPEG::Options options;
+                    rapidjson::Document document;
+                    auto& allocator = document.GetAllocator();
+                    fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
+                    p.qualitySlider->setValue(options.quality);
+                }
+            }
+
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

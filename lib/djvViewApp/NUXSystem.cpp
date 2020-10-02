@@ -231,22 +231,22 @@ namespace djv
             p.logoIcon->setIcon("djvLogoStartScreen");
             p.logoIcon->setHAlign(UI::HAlign::Left);
 
-            p.formWidgets["Language"] = UI::LanguageWidget::create(context);
+            p.formWidgets["Language"] = UIComponents::LanguageWidget::create(context);
             p.formLayouts["Language"] = UI::FormLayout::create(context);
             p.formLayouts["Language"]->addChild(p.formWidgets["Language"]);
             p.navWidgets.push_back(p.formLayouts["Language"]);
 
-            p.formWidgets["StyleSize"] = UI::SizeWidget::create(context);
+            p.formWidgets["StyleSize"] = UIComponents::SizeWidget::create(context);
             p.formLayouts["StyleSize"] = UI::FormLayout::create(context);
             p.formLayouts["StyleSize"]->addChild(p.formWidgets["StyleSize"]);
             p.navWidgets.push_back(p.formLayouts["StyleSize"]);
 
-            p.formWidgets["StylePalette"] = UI::PaletteWidget::create(context);
+            p.formWidgets["StylePalette"] = UIComponents::PaletteWidget::create(context);
             p.formLayouts["StylePalette"] = UI::FormLayout::create(context);
             p.formLayouts["StylePalette"]->addChild(p.formWidgets["StylePalette"]);
             p.navWidgets.push_back(p.formLayouts["StylePalette"]);
 
-            p.formWidgets["TimeUnits"] = UI::TimeUnitsWidget::create(context);
+            p.formWidgets["TimeUnits"] = UIComponents::TimeUnitsWidget::create(context);
             p.formLayouts["TimeUnits"] = UI::FormLayout::create(context);
             p.formLayouts["TimeUnits"]->addChild(p.formWidgets["TimeUnits"]);
             p.navWidgets.push_back(p.formLayouts["TimeUnits"]);

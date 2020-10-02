@@ -296,9 +296,9 @@ namespace djv
 
             std::shared_ptr<UI::ToolButton> gridEnabledButton;
             std::shared_ptr<UI::Numeric::IntSlider> gridSizeSlider;
-            std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
+            std::shared_ptr<UIComponents::ColorPickerSwatch> gridColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
-            std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
+            std::shared_ptr<UIComponents::ColorPickerSwatch> gridLabelsColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> layout;
 
             std::shared_ptr<Observer::Value<GridOptions> > gridOptionsObserver;
@@ -318,11 +318,11 @@ namespace djv
             p.gridSizeSlider->setRange(Math::IntRange(1, 500));
             p.gridSizeSlider->setSmallIncrement(1);
             p.gridSizeSlider->setLargeIncrement(10);
-            p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.gridColorPickerSwatch = UIComponents::ColorPickerSwatch::create(context);
             p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.gridColorPickerSwatch->setHAlign(UI::HAlign::Fill);
             p.gridLabelsComboBox = UI::ComboBox::create(context);
-            p.gridLabelsColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.gridLabelsColorPickerSwatch = UIComponents::ColorPickerSwatch::create(context);
             p.gridLabelsColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.gridLabelsColorPickerSwatch->setHAlign(UI::HAlign::Fill);
 
@@ -499,7 +499,7 @@ namespace djv
 
             std::shared_ptr<UI::ToolButton> hudEnabledButton;
             std::shared_ptr<MediaWidget> activeWidget;
-            std::shared_ptr<UI::ColorPickerSwatch> hudColorPickerSwatch;
+            std::shared_ptr<UIComponents::ColorPickerSwatch> hudColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
             std::shared_ptr<UI::FormLayout> layout;
 
@@ -516,7 +516,7 @@ namespace djv
             p.hudEnabledButton->setIcon("djvIconHidden");
             p.hudEnabledButton->setCheckedIcon("djvIconVisible");
             p.hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.hudColorPickerSwatch = UIComponents::ColorPickerSwatch::create(context);
             p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.hudColorPickerSwatch->setHAlign(UI::HAlign::Fill);
             p.hudBackgroundComboBox = UI::ComboBox::create(context);
@@ -657,9 +657,9 @@ namespace djv
             ViewBackgroundOptions backgroundOptions;
 
             std::shared_ptr<UI::ComboBox> backgroundComboBox;
-            std::shared_ptr<UI::ColorPickerSwatch> solidPickerSwatch;
+            std::shared_ptr<UIComponents::ColorPickerSwatch> solidPickerSwatch;
             std::shared_ptr<UI::Numeric::FloatSlider> checkersSizeSlider;
-            std::shared_ptr<UI::ColorPickerSwatch> checkersColorPickerSwatches[2];
+            std::shared_ptr<UIComponents::ColorPickerSwatch> checkersColorPickerSwatches[2];
             std::shared_ptr<UI::HorizontalLayout> checkersColorsLayout;
             std::shared_ptr<UI::FormLayout> backgroundLayout;
             std::shared_ptr<UI::FormLayout> solidLayout;
@@ -675,17 +675,17 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.backgroundComboBox = UI::ComboBox::create(context);
-            p.solidPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.solidPickerSwatch = UIComponents::ColorPickerSwatch::create(context);
             p.solidPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.solidPickerSwatch->setHAlign(UI::HAlign::Fill);
             p.checkersSizeSlider = UI::Numeric::FloatSlider::create(context);
             p.checkersSizeSlider->setRange(Math::FloatRange(10.F, 100.F));
             p.checkersSizeSlider->setSmallIncrement(1);
             p.checkersSizeSlider->setLargeIncrement(10);
-            p.checkersColorPickerSwatches[0] = UI::ColorPickerSwatch::create(context);
+            p.checkersColorPickerSwatches[0] = UIComponents::ColorPickerSwatch::create(context);
             p.checkersColorPickerSwatches[0]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.checkersColorPickerSwatches[0]->setHAlign(UI::HAlign::Fill);
-            p.checkersColorPickerSwatches[1] = UI::ColorPickerSwatch::create(context);
+            p.checkersColorPickerSwatches[1] = UIComponents::ColorPickerSwatch::create(context);
             p.checkersColorPickerSwatches[1]->setHAlign(UI::HAlign::Fill);
             p.checkersColorPickerSwatches[1]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
@@ -884,7 +884,7 @@ namespace djv
 
             std::shared_ptr<UI::ToolButton> borderEnabledButton;
             std::shared_ptr<UI::Numeric::FloatSlider> borderWidthSlider;
-            std::shared_ptr<UI::ColorPickerSwatch> borderColorPickerSwatch;
+            std::shared_ptr<UIComponents::ColorPickerSwatch> borderColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> layout;
 
             std::shared_ptr<Observer::Value<ViewBackgroundOptions> > backgroundOptionsObserver;
@@ -904,7 +904,7 @@ namespace djv
             p.borderWidthSlider->setRange(Math::FloatRange(1.F, 20.F));
             p.borderWidthSlider->setSmallIncrement(1.F);
             p.borderWidthSlider->setLargeIncrement(5.F);
-            p.borderColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.borderColorPickerSwatch = UIComponents::ColorPickerSwatch::create(context);
             p.borderColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.borderColorPickerSwatch->setHAlign(UI::HAlign::Fill);
 

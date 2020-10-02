@@ -27,7 +27,7 @@ namespace djv
             std::vector<Image::Info> layers;
             int currentLayer = -1;
             std::shared_ptr<UI::ListWidget> listWidget;
-            std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UIComponents::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<std::pair<std::vector<Image::Info>, int> > > layersObserver;
@@ -46,7 +46,7 @@ namespace djv
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.listWidget);
 
-            p.searchBox = UI::SearchBox::create(context);
+            p.searchBox = UIComponents::SearchBox::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);

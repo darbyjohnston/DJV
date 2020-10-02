@@ -18,25 +18,25 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        namespace FileBrowser
+        namespace Settings
         {
-            struct SettingsWidget::Private
+            struct FileBrowserWidget::Private
             {
-                std::shared_ptr<UI::ShortcutsWidget> widget;
+                std::shared_ptr<ShortcutsWidget> widget;
 
                 std::shared_ptr<Observer::Map<std::string, UI::ShortcutDataPair> > shortcutsObserver;
             };
 
-            void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
+            void FileBrowserWidget::_init(const std::shared_ptr<System::Context>& context)
             {
-                ISettingsWidget::_init(context);
+                IWidget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                setClassName("djv::UI::FileBrowser::SettingsWidget");
+                setClassName("djv::UIComponents::Settings::FileBrowserWidget");
 
-                p.widget = UI::ShortcutsWidget::create(context);
+                p.widget = ShortcutsWidget::create(context);
                 addChild(p.widget);
 
                 auto contextWeak = std::weak_ptr<System::Context>(context);
@@ -53,7 +53,7 @@ namespace djv
 
                 auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
+                auto weak = std::weak_ptr<FileBrowserWidget>(std::dynamic_pointer_cast<FileBrowserWidget>(shared_from_this()));
                 p.shortcutsObserver = Observer::Map<std::string, UI::ShortcutDataPair>::create(
                     fileBrowserSettings->observeKeyShortcuts(),
                     [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
@@ -65,32 +65,32 @@ namespace djv
                     });
             }
 
-            SettingsWidget::SettingsWidget() :
+            FileBrowserWidget::FileBrowserWidget() :
                 _p(new Private)
             {}
 
-            std::shared_ptr<SettingsWidget> SettingsWidget::create(const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<FileBrowserWidget> FileBrowserWidget::create(const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
+                auto out = std::shared_ptr<FileBrowserWidget>(new FileBrowserWidget);
                 out->_init(context);
                 return out;
             }
 
-            std::string SettingsWidget::getSettingsName() const
+            std::string FileBrowserWidget::getSettingsName() const
             {
                 return DJV_TEXT("settings_file_browser_section_shortcuts");
             }
 
-            std::string SettingsWidget::getSettingsGroup() const
+            std::string FileBrowserWidget::getSettingsGroup() const
             {
                 return DJV_TEXT("settings_title_file_browser");
             }
 
-            std::string SettingsWidget::getSettingsSortKey() const
+            std::string FileBrowserWidget::getSettingsSortKey() const
             {
                 return "b";
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

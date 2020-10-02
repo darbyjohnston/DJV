@@ -16,7 +16,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace Settings
         {
@@ -65,7 +65,7 @@ namespace djv
                 if (value.IsObject())
                 {
                     DJV_PRIVATE_PTR();
-                    read("ThreadCount", value, p.threadCount);
+                    UI::Settings::read("ThreadCount", value, p.threadCount);
                 }
             }
 
@@ -73,11 +73,11 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
-                write("ThreadCount", p.threadCount->get(), out, allocator);
+                UI::Settings::write("ThreadCount", p.threadCount->get(), out, allocator);
                 return out;
             }
 
         } // namespace Settings
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

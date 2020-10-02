@@ -56,10 +56,10 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::PopupButton> thumbnailPopupButton;
-            std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UIComponents::SearchBox> searchBox;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::PopupMenu> popupMenu;
-            std::shared_ptr<UI::FileBrowser::ItemView> itemView;
+            std::shared_ptr<UIComponents::FileBrowser::ItemView> itemView;
             std::shared_ptr<UI::Text::Label> itemCountLabel;
             std::shared_ptr<UI::VerticalLayout> layout;
 
@@ -86,7 +86,7 @@ namespace djv
             p.thumbnailPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.thumbnailPopupButton->setIcon("djvIconThumbnailSize");
 
-            p.searchBox = UI::SearchBox::create(context);
+            p.searchBox = UIComponents::SearchBox::create(context);
 
             p.menu = UI::Menu::create(context);
             p.menu->setIcon("djvIconMenu");
@@ -103,7 +103,7 @@ namespace djv
             toolBar->addChild(p.searchBox);
             toolBar->addChild(p.popupMenu);
 
-            p.itemView = UI::FileBrowser::ItemView::create(UI::SelectionType::Radio, context);
+            p.itemView = UIComponents::FileBrowser::ItemView::create(UI::SelectionType::Radio, context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
@@ -138,12 +138,12 @@ namespace djv
                     if (auto context = contextWeak.lock())
                     {
                         auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UIComponents::Settings::FileBrowser>();
                         auto size = fileBrowserSettings->observeThumbnailSize()->get();
                         size.w = Math::clamp(
                             static_cast<int>(size.w * 1.25F),
-                            UI::FileBrowser::thumbnailSizeRange.getMin(),
-                            UI::FileBrowser::thumbnailSizeRange.getMax());
+                            UIComponents::FileBrowser::thumbnailSizeRange.getMin(),
+                            UIComponents::FileBrowser::thumbnailSizeRange.getMax());
                         size.h = static_cast<int>(ceilf(size.w / 2.F));
                         fileBrowserSettings->setThumbnailSize(size);
                     }
@@ -154,12 +154,12 @@ namespace djv
                     if (auto context = contextWeak.lock())
                     {
                         auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UIComponents::Settings::FileBrowser>();
                         auto size = fileBrowserSettings->observeThumbnailSize()->get();
                         size.w = Math::clamp(
                             static_cast<int>(size.w * .75F),
-                            UI::FileBrowser::thumbnailSizeRange.getMin(),
-                            UI::FileBrowser::thumbnailSizeRange.getMax());
+                            UIComponents::FileBrowser::thumbnailSizeRange.getMin(),
+                            UIComponents::FileBrowser::thumbnailSizeRange.getMax());
                         size.h = static_cast<int>(ceilf(size.w / 2.F));
                         fileBrowserSettings->setThumbnailSize(size);
                     }
@@ -236,7 +236,7 @@ namespace djv
                 });
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+            auto fileBrowserSettings = settingsSystem->getSettingsT<UIComponents::Settings::FileBrowser>();
             p.thumbnailSizeSettingsObserver = Observer::Value<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
                 [weak](const Image::Size& value)
@@ -247,7 +247,7 @@ namespace djv
                     }
                 });
 
-            auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+            auto shortcutsSettings = settingsSystem->getSettingsT<UIComponents::Settings::FileBrowser>();
             p.shortcutsObserver = Observer::Map<std::string, UI::ShortcutDataPair>::create(
                 shortcutsSettings->observeKeyShortcuts(),
                 [weak](const std::map<std::string, UI::ShortcutDataPair>& value)

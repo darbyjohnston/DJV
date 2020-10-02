@@ -4,39 +4,42 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
-        //! This class provides an OpenEXR settings widget.
-        class OpenEXRSettingsWidget : public ISettingsWidget
+        namespace Settings
         {
-            DJV_NON_COPYABLE(OpenEXRSettingsWidget);
+            //! This class provides an OpenEXR settings widget.
+            class OpenEXRWidget : public IWidget
+            {
+                DJV_NON_COPYABLE(OpenEXRWidget);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            OpenEXRSettingsWidget();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                OpenEXRWidget();
 
-        public:
-            static std::shared_ptr<OpenEXRSettingsWidget> create(const std::shared_ptr<System::Context>&);
+            public:
+                static std::shared_ptr<OpenEXRWidget> create(const std::shared_ptr<System::Context>&);
 
-            std::string getSettingsName() const override;
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
+                std::string getSettingsName() const override;
+                std::string getSettingsGroup() const override;
+                std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&) override;
+                void setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>&) override;
 
-        protected:
-            void _initEvent(System::Event::Init &) override;
+            protected:
+                void _initEvent(System::Event::Init&) override;
 
-        private:
-            void _widgetUpdate();
+            private:
+                void _widgetUpdate();
 
-            DJV_PRIVATE();
-        };
+                DJV_PRIVATE();
+            };
 
-    } // namespace UI
+        } // namespace Settings
+    } // namespace UIComponents
 } // namespace djv
 

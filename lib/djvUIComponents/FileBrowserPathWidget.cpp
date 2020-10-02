@@ -22,7 +22,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         namespace FileBrowser
         {
@@ -30,13 +30,13 @@ namespace djv
             {
                 System::File::Path path;
                 std::vector<System::File::Path> history;
-                std::shared_ptr<ActionGroup> historyActionGroup;
+                std::shared_ptr<UI::ActionGroup> historyActionGroup;
                 std::shared_ptr<UI::Menu> historyMenu;
-                std::shared_ptr<Button::Menu> historyButton;
-                std::shared_ptr<HorizontalLayout> buttonLayout;
-                std::shared_ptr<Text::LineEdit> lineEdit;
-                std::shared_ptr<SoloLayout> soloLayout;
-                std::shared_ptr<HorizontalLayout> layout;
+                std::shared_ptr<UI::Button::Menu> historyButton;
+                std::shared_ptr<UI::HorizontalLayout> buttonLayout;
+                std::shared_ptr<UI::Text::LineEdit> lineEdit;
+                std::shared_ptr<UI::SoloLayout> soloLayout;
+                std::shared_ptr<UI::HorizontalLayout> layout;
                 std::function<void(const System::File::Path &)> pathCallback;
                 std::function<void(size_t)> historyIndexCallback;
             };
@@ -46,36 +46,36 @@ namespace djv
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                setClassName("djv::UI::FileBrowser::PathWidget");
+                setClassName("djv::UIComponents::FileBrowser::PathWidget");
                 setPointerEnabled(true);
 
-                p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
+                p.historyActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
                 p.historyMenu = UI::Menu::create(context);
-                p.historyMenu->setMinimumSizeRole(MetricsRole::None);
+                p.historyMenu->setMinimumSizeRole(UI::MetricsRole::None);
                 addChild(p.historyMenu);
-                p.historyButton = Button::Menu::create(UI::MenuButtonStyle::Flat, context);
+                p.historyButton = UI::Button::Menu::create(UI::MenuButtonStyle::Flat, context);
                 p.historyButton->setIcon("djvIconPopupMenu");
                 p.historyButton->setEnabled(false);
 
-                p.buttonLayout = HorizontalLayout::create(context);
-                p.buttonLayout->setSpacing(MetricsRole::None);
+                p.buttonLayout = UI::HorizontalLayout::create(context);
+                p.buttonLayout->setSpacing(UI::MetricsRole::None);
                 p.buttonLayout->setPointerEnabled(true);
                 p.buttonLayout->installEventFilter(shared_from_this());
 
-                p.lineEdit = Text::LineEdit::create(context);
-                p.lineEdit->setBackgroundRole(ColorRole::Trough);
+                p.lineEdit = UI::Text::LineEdit::create(context);
+                p.lineEdit->setBackgroundRole(UI::ColorRole::Trough);
 
-                p.layout = HorizontalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
-                auto hLayout = HorizontalLayout::create(context);
-                hLayout->setSpacing(MetricsRole::None);
+                p.layout = UI::HorizontalLayout::create(context);
+                p.layout->setSpacing(UI::MetricsRole::None);
+                auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->setSpacing(UI::MetricsRole::None);
                 hLayout->addChild(p.historyButton);
                 p.layout->addChild(hLayout);
-                p.soloLayout = SoloLayout::create(context);
+                p.soloLayout = UI::SoloLayout::create(context);
                 p.soloLayout->addChild(p.buttonLayout);
                 p.soloLayout->addChild(p.lineEdit);
                 p.layout->addChild(p.soloLayout);
-                p.layout->setStretch(p.soloLayout, RowStretch::Expand);
+                p.layout->setStretch(p.soloLayout, UI::RowStretch::Expand);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
@@ -184,10 +184,10 @@ namespace djv
                     {
                         if (j < paths.size() - 1)
                         {
-                            auto button = ListButton::create(context);
+                            auto button = UI::ListButton::create(context);
                             button->setText(_getLabel(*i));
-                            button->setForegroundColorRole(ColorRole::ForegroundDim);
-                            button->setShadowOverlay({ Side::Left });
+                            button->setForegroundColorRole(UI::ColorRole::ForegroundDim);
+                            button->setShadowOverlay({ UI::Side::Left });
 
                             p.buttonLayout->addChild(button);
 
@@ -207,11 +207,11 @@ namespace djv
                         }
                         else
                         {
-                            auto label = Text::Label::create(context);
+                            auto label = UI::Text::Label::create(context);
                             label->setText(_getLabel(*i));
-                            label->setVAlign(VAlign::Fill);
-                            label->setMargin(MetricsRole::MarginSmall);
-                            label->setShadowOverlay({ Side::Left });
+                            label->setVAlign(UI::VAlign::Fill);
+                            label->setMargin(UI::MetricsRole::MarginSmall);
+                            label->setShadowOverlay({ UI::Side::Left });
 
                             p.buttonLayout->addChild(label);
                         }
@@ -232,11 +232,11 @@ namespace djv
                 if (value == p.history)
                     return;
                 p.history = value;
-                std::vector<std::shared_ptr<Action> > actions;
+                std::vector<std::shared_ptr<UI::Action> > actions;
                 p.historyMenu->clearActions();
                 for (const auto & i : p.history)
                 {
-                    auto action = Action::create();
+                    auto action = UI::Action::create();
                     action->setText(std::string(i));
                     actions.push_back(action);
                     p.historyMenu->addAction(action);
@@ -311,5 +311,5 @@ namespace djv
             }
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv

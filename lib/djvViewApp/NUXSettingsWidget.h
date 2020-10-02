@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/SettingsIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the new user experience settings widget.
-        class NUXSettingsWidget : public UI::ISettingsWidget
+        class NUXSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(NUXSettingsWidget);
 

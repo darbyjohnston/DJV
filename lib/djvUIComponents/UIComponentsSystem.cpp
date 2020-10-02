@@ -15,7 +15,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct UIComponentsSystem::Private
         {};
@@ -24,7 +24,7 @@ namespace djv
         {
             ISystem::_init("djv::UI::UIComponentsSystem", context);
 
-            addDependency(context->getSystemT<UISystem>());
+            addDependency(context->getSystemT<UI::UISystem>());
             Settings::IO::create(context);
             Settings::FileBrowser::create(context);
         }
@@ -47,6 +47,6 @@ namespace djv
             return out;
         }
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

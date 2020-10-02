@@ -8,11 +8,11 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         //! This class provides a widget for displaying a value in a
         //! "thermometer" style.
-        class ThermometerWidget : public Widget
+        class ThermometerWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ThermometerWidget);
 
@@ -25,21 +25,21 @@ namespace djv
 
             static std::shared_ptr<ThermometerWidget> create(const std::shared_ptr<System::Context>&);
 
-            Orientation getOrientation() const;
+            UI::Orientation getOrientation() const;
 
-            void setOrientation(Orientation);
+            void setOrientation(UI::Orientation);
 
             float getPercentage() const;
 
             void setPercentage(float);
 
-            ColorRole getColorRole() const;
+            UI::ColorRole getColorRole() const;
 
-            void setColorRole(ColorRole);
+            void setColorRole(UI::ColorRole);
 
-            MetricsRole getSizeRole() const;
+            UI::MetricsRole getSizeRole() const;
 
-            void setSizeRole(MetricsRole);
+            void setSizeRole(UI::MetricsRole);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -50,6 +50,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

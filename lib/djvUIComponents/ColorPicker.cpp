@@ -32,12 +32,12 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UIComponents
     {
         struct ColorTypeWidget::Private
         {
             Image::Type type = Image::Type::First;
-            std::shared_ptr<ComboBox> comboBox;
+            std::shared_ptr<UI::ComboBox> comboBox;
             std::function<void(Image::Type)> typeCallback;
         };
 
@@ -46,11 +46,11 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::ColorTypeWidget");
-            setVAlign(VAlign::Center);
+            setClassName("djv::UIComponents::ColorTypeWidget");
+            setVAlign(UI::VAlign::Center);
 
-            p.comboBox = ComboBox::create(context);
-            p.comboBox->setBackgroundRole(ColorRole::None);
+            p.comboBox = UI::ComboBox::create(context);
+            p.comboBox->setBackgroundRole(UI::ColorRole::None);
             addChild(p.comboBox);
 
             _widgetUpdate();
@@ -141,13 +141,13 @@ namespace djv
         {
             Image::Color color = Image::Color(0.F, 0.F, 0.F);
             bool hsv = false;
-            std::vector<std::shared_ptr<Text::Label> > intLabels;
-            std::vector<std::shared_ptr<Numeric::IntEdit> > intEdits;
-            std::vector<std::shared_ptr<Numeric::BasicIntSlider> > intSliders;
-            std::vector<std::shared_ptr<Text::Label> > floatLabels;
-            std::vector<std::shared_ptr<Numeric::FloatEdit> > floatEdits;
-            std::vector<std::shared_ptr<Numeric::BasicFloatSlider> > floatSliders;
-            std::shared_ptr<GridLayout> layout;
+            std::vector<std::shared_ptr<UI::Text::Label> > intLabels;
+            std::vector<std::shared_ptr<UI::Numeric::IntEdit> > intEdits;
+            std::vector<std::shared_ptr<UI::Numeric::BasicIntSlider> > intSliders;
+            std::vector<std::shared_ptr<UI::Text::Label> > floatLabels;
+            std::vector<std::shared_ptr<UI::Numeric::FloatEdit> > floatEdits;
+            std::vector<std::shared_ptr<UI::Numeric::BasicFloatSlider> > floatSliders;
+            std::shared_ptr<UI::GridLayout> layout;
             std::function<void(const Image::Color &)> colorCallback;
             std::vector<std::shared_ptr<Observer::Value<int> > > intObservers;
             std::vector < std::shared_ptr<Observer::Value<float> > > floatObservers;
@@ -158,10 +158,10 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::ColorSliders");
+            setClassName("djv::UIComponents::ColorSliders");
 
-            p.layout = GridLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall, MetricsRole::None));
+            p.layout = UI::GridLayout::create(context);
+            p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall, UI::MetricsRole::None));
             addChild(p.layout);
 
             _widgetUpdate();
@@ -266,39 +266,39 @@ namespace djv
                 {
                     if (Image::isIntType(type))
                     {
-                        auto intLabel = Text::Label::create(context);
+                        auto intLabel = UI::Text::Label::create(context);
                         p.layout->addChild(intLabel);
                         p.layout->setGridPos(intLabel, 0, static_cast<int>(i));
                         p.intLabels.push_back(intLabel);
 
-                        auto intEdit = Numeric::IntEdit::create(context);
+                        auto intEdit = UI::Numeric::IntEdit::create(context);
                         p.layout->addChild(intEdit);
                         p.layout->setGridPos(intEdit, 1, static_cast<int>(i));
                         p.intEdits.push_back(intEdit);
 
-                        auto intSlider = Numeric::BasicIntSlider::create(Orientation::Horizontal, context);
+                        auto intSlider = UI::Numeric::BasicIntSlider::create(UI::Orientation::Horizontal, context);
                         p.layout->addChild(intSlider);
                         p.layout->setGridPos(intSlider, 2, static_cast<int>(i));
-                        p.layout->setStretch(intSlider, GridStretch::Horizontal);
+                        p.layout->setStretch(intSlider, UI::GridStretch::Horizontal);
                         intEdit->setModel(intSlider->getModel());
                         p.intSliders.push_back(intSlider);
                     }
                     else
                     {
-                        auto floatLabel = Text::Label::create(context);
+                        auto floatLabel = UI::Text::Label::create(context);
                         p.layout->addChild(floatLabel);
                         p.layout->setGridPos(floatLabel, 0, static_cast<int>(i));
                         p.floatLabels.push_back(floatLabel);
 
-                        auto floatEdit = Numeric::FloatEdit::create(context);
+                        auto floatEdit = UI::Numeric::FloatEdit::create(context);
                         p.layout->addChild(floatEdit);
                         p.layout->setGridPos(floatEdit, 1, static_cast<int>(i));
                         p.floatEdits.push_back(floatEdit);
 
-                        auto floatSlider = Numeric::BasicFloatSlider::create(Orientation::Horizontal, context);
+                        auto floatSlider = UI::Numeric::BasicFloatSlider::create(UI::Orientation::Horizontal, context);
                         p.layout->addChild(floatSlider);
                         p.layout->setGridPos(floatSlider, 2, static_cast<int>(i));
-                        p.layout->setStretch(floatSlider, GridStretch::Horizontal);
+                        p.layout->setStretch(floatSlider, UI::GridStretch::Horizontal);
                         floatEdit->setModel(floatSlider->getModel());
                         p.floatSliders.push_back(floatSlider);
                     }
@@ -606,10 +606,10 @@ namespace djv
         struct ColorPicker::Private
         {
             Image::Color color = Image::Color(0.F, 0.F, 0.F);
-            std::shared_ptr<ColorSwatch> colorSwatch;
+            std::shared_ptr<UI::ColorSwatch> colorSwatch;
             std::shared_ptr<ColorSliders> sliders;
             std::shared_ptr<ColorTypeWidget> typeWidget;
-            std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<UI::HorizontalLayout> layout;
             std::function<void(const Image::Color &)> colorCallback;
         };
 
@@ -618,19 +618,19 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::ColorPicker");
+            setClassName("djv::UIComponents::ColorPicker");
 
-            p.colorSwatch = ColorSwatch::create(context);
+            p.colorSwatch = UI::ColorSwatch::create(context);
 
             p.sliders = ColorSliders::create(context);
 
             p.typeWidget = ColorTypeWidget::create(context);
 
-            p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::SpacingSmall);
+            p.layout = UI::HorizontalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.layout->addChild(p.colorSwatch);
-            auto vLayout = VerticalLayout::create(context);
-            vLayout->setSpacing(MetricsRole::SpacingSmall);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             vLayout->addChild(p.sliders);
             vLayout->addChild(p.typeWidget);
             p.layout->addChild(vLayout);
@@ -712,7 +712,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const Math::BBox2f& g = getGeometry();
             const auto& style = _getStyle();
-            p.layout->setGeometry(Layout::getAlign(getMargin().bbox(g, style), p.layout->getMinimumSize(), getHAlign(), getVAlign()));
+            p.layout->setGeometry(UI::Layout::getAlign(getMargin().bbox(g, style), p.layout->getMinimumSize(), getHAlign(), getVAlign()));
         }
 
         void ColorPicker::_colorUpdate()
@@ -726,8 +726,8 @@ namespace djv
         struct ColorPickerSwatch::Private
         {
             Image::Color color = Image::Color(0.F, 0.F, 0.F);
-            std::shared_ptr<ColorSwatch> colorSwatch;
-            std::shared_ptr<Window> window;
+            std::shared_ptr<UI::ColorSwatch> colorSwatch;
+            std::shared_ptr<UI::Window> window;
             std::function<void(const Image::Color&)> colorCallback;
         };
 
@@ -736,10 +736,10 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::UI::ColorPickerSwatch");
-            setHAlign(HAlign::Left);
+            setClassName("djv::UIComponents::ColorPickerSwatch");
+            setHAlign(UI::HAlign::Left);
 
-            p.colorSwatch = ColorSwatch::create(context);
+            p.colorSwatch = UI::ColorSwatch::create(context);
             addChild(p.colorSwatch);
 
             _colorUpdate();
@@ -788,12 +788,12 @@ namespace djv
             _p->colorCallback = callback;
         }
 
-        MetricsRole ColorPickerSwatch::getSwatchSizeRole() const
+        UI::MetricsRole ColorPickerSwatch::getSwatchSizeRole() const
         {
             return _p->colorSwatch->getSwatchSizeRole();
         }
 
-        void ColorPickerSwatch::setSwatchSizeRole(MetricsRole value)
+        void ColorPickerSwatch::setSwatchSizeRole(UI::MetricsRole value)
         {
             _p->colorSwatch->setSwatchSizeRole(value);
         }
@@ -809,18 +809,18 @@ namespace djv
                     colorPicker->setColor(p.color);
                     colorPicker->setMargin(UI::MetricsRole::MarginSmall);
 
-                    auto popupWidget = PopupWidget::create(context);
+                    auto popupWidget = UI::PopupWidget::create(context);
                     popupWidget->addChild(colorPicker);
-                    auto popupLayout = Layout::Popup::create(context);
+                    auto popupLayout = UI::Layout::Popup::create(context);
                     popupLayout->addChild(popupWidget);
                     popupLayout->setButton(p.colorSwatch);
 
-                    auto overlay = Layout::Overlay::create(context);
+                    auto overlay = UI::Layout::Overlay::create(context);
                     overlay->setFadeIn(false);
                     overlay->setBackgroundRole(UI::ColorRole::None);
                     overlay->addChild(popupLayout);
 
-                    p.window = Window::create(context);
+                    p.window = UI::Window::create(context);
                     p.window->setBackgroundRole(UI::ColorRole::None);
                     p.window->addChild(overlay);
                     
@@ -876,7 +876,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const Math::BBox2f& g = getGeometry();
             const auto& style = _getStyle();
-            p.colorSwatch->setGeometry(Layout::getAlign(getMargin().bbox(g, style), p.colorSwatch->getMinimumSize(), getHAlign(), getVAlign()));
+            p.colorSwatch->setGeometry(UI::Layout::getAlign(getMargin().bbox(g, style), p.colorSwatch->getMinimumSize(), getHAlign(), getVAlign()));
         }
 
         void ColorPickerSwatch::_colorUpdate()
@@ -886,6 +886,6 @@ namespace djv
             p.colorSwatch->setColor(p.color);
         }
 
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

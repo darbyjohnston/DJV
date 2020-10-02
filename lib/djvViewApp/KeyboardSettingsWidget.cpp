@@ -23,19 +23,19 @@ namespace djv
     {
         struct KeyboardShortcutSettingsWidget::Private
         {
-            std::shared_ptr<UI::ShortcutsWidget> widget;
+            std::shared_ptr<UIComponents::ShortcutsWidget> widget;
 
             std::shared_ptr<Observer::Map<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void KeyboardShortcutSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISettingsWidget::_init(context);
+            IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::KeyboardShortcutSettingsWidget");
 
-            p.widget = UI::ShortcutsWidget::create(context);
+            p.widget = UIComponents::ShortcutsWidget::create(context);
             addChild(p.widget);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);

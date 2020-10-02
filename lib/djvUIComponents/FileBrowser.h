@@ -20,24 +20,24 @@ namespace djv
         } // namespace FileSystem
     } // namespace System
 
-    namespace UI
+    namespace UIComponents
     {
         //! This namespace provides file browser functionality.
         namespace FileBrowser
         {
             //! This class provides a file browser widget.
-            class FileBrowser : public Widget
+            class FileBrowser : public UI::Widget
             {
                 DJV_NON_COPYABLE(FileBrowser);
 
             protected:
-                void _init(SelectionType, const std::shared_ptr<System::Context>&);
+                void _init(UI::SelectionType, const std::shared_ptr<System::Context>&);
                 FileBrowser();
 
             public:
                 ~FileBrowser() override;
 
-                static std::shared_ptr<FileBrowser> create(SelectionType, const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<FileBrowser> create(UI::SelectionType, const std::shared_ptr<System::Context>&);
 
                 void setFileExtensions(const std::set<std::string>&);
 
@@ -66,6 +66,6 @@ namespace djv
             };
 
         } // namespace FileBrowser
-    } // namespace UI
+    } // namespace UIComponents
 } // namespace djv
 

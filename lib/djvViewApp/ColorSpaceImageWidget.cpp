@@ -63,7 +63,7 @@ namespace djv
                 OCIO::ImageColorSpaces _imageColorSpaces;
 
                 std::shared_ptr<UI::ListWidget> _listWidget;
-                std::shared_ptr<UI::SearchBox> _searchBox;
+                std::shared_ptr<UIComponents::SearchBox> _searchBox;
 
                 std::shared_ptr<UI::VerticalLayout> _layout;
 
@@ -80,7 +80,7 @@ namespace djv
                 _listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
                 _listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
-                _searchBox = UI::SearchBox::create(context);
+                _searchBox = UIComponents::SearchBox::create(context);
 
                 _layout = UI::VerticalLayout::create(context);
 

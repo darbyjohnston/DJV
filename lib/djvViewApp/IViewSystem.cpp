@@ -40,7 +40,7 @@ namespace djv
             ISystem::_init(name, context);
             DJV_PRIVATE_PTR();
 
-            addDependency(UI::UIComponentsSystem::create(context));
+            addDependency(UIComponents::UIComponentsSystem::create(context));
 
             p.settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             p.keyboardSettings = p.settingsSystem->getSettingsT<KeyboardSettings>();
@@ -90,9 +90,9 @@ namespace djv
             return MenuData();
         }
 
-        std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::createSettingsWidgets() const
+        std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > IViewSystem::createSettingsWidgets() const
         {
-            return std::vector<std::shared_ptr<UI::ISettingsWidget> >();
+            return std::vector<std::shared_ptr<UIComponents::Settings::IWidget> >();
         }
 
         void IViewSystem::setCanvas(const std::shared_ptr<UI::MDI::Canvas>& value)
