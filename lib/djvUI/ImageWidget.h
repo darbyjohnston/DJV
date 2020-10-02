@@ -36,28 +36,45 @@ namespace djv
         public:
             ~ImageWidget() override;
 
+            //! Create a new image widget.
             static std::shared_ptr<ImageWidget> create(const std::shared_ptr<System::Context>&);
+
+            //! \name Image
+            ///@{
 
             const std::shared_ptr<Image::Image>& getImage() const;
 
             void setImage(const std::shared_ptr<Image::Image>&);
+
+            ///@}
+
+            //! \name Options
+            ///@{
+
+            const Render2D::ImageOptions& getImageOptions() const;
+            ImageRotate getImageRotate() const;
+            ImageAspectRatio getImageAspectRatio() const;
+            ColorRole getImageColorRole() const;
+            MetricsRole getImageSizeRole() const;
+
             void setImageOptions(const Render2D::ImageOptions&);
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
-
-            ColorRole getImageColorRole() const;
-
             void setImageColorRole(ColorRole);
+            void setImageSizeRole(MetricsRole);
 
-            MetricsRole getSizeRole() const;
+            ///@}
 
-            void setSizeRole(MetricsRole);
+            //! \name Utility
+            ///@{
 
             static glm::mat3x3 getXForm(
                 const std::shared_ptr<Image::Image>&,
                 UI::ImageRotate,
                 const glm::vec2& zoom,
                 UI::ImageAspectRatio);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

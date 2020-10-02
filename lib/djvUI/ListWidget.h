@@ -40,24 +40,50 @@ namespace djv
         public:
             ~ListWidget() override;
 
+            //! Create a new list widget.
             static std::shared_ptr<ListWidget> create(ButtonType, const std::shared_ptr<System::Context>&);
+
+            //! \name Items
+            ///@{
 
             void setItems(const std::vector<std::string>&);
             void setItems(const std::vector<ListItem>&);
             void clearItems();
 
+            ///@}
+
+            //! \name Checked State
+            ///@{
+
             int getChecked() const;
 
             void setChecked(int, bool = true);
+
+            ///@}
+
+            //! \name Callbacks
+            ///@{
 
             void setPushCallback(const std::function<void(int)>&);
             void setToggleCallback(const std::function<void(int, bool)>&);
             void setRadioCallback(const std::function<void(int)>&);
             void setExclusiveCallback(const std::function<void(int)>&);
 
+            ///@}
+
+            //! \name Filter
+            ///@{
+
             void setFilter(const std::string&);
 
+            ///@}
+
+            //! \name Options
+            ///@{
+
             void setAlternateRowsRoles(ColorRole, ColorRole);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

@@ -28,7 +28,7 @@ public:
     void setPointCount(size_t);
     void setFPS(float);
 
-    void setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) override;
+    void setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>&) override;
 
 protected:
     void _initEvent(djv::System::Event::Init&) override;
@@ -40,7 +40,7 @@ private:
     size_t _primitivesCount = 0;
     size_t _pointCount = 0;
     float _fps = 0.F;
-    std::map<std::string, std::shared_ptr<djv::UI::Label> > _labels;
+    std::map<std::string, std::shared_ptr<djv::UI::Text::Label> > _labels;
     std::map<std::string, std::shared_ptr<djv::UI::FormLayout> > _layouts;
     std::map<std::string, std::shared_ptr<djv::UI::GroupBox> > _groupBoxes;
 };

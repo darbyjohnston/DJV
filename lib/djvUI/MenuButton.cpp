@@ -32,10 +32,10 @@ namespace djv
                 std::string fontFamily;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
-                size_t elide = 0;
+                size_t textElide = 0;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Icon> icon;
-                std::shared_ptr<Label> label;
+                std::shared_ptr<Text::Label> label;
                 std::shared_ptr<Icon> popupIcon;
                 std::function<void(bool)> openCallback;
             };
@@ -155,12 +155,12 @@ namespace djv
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.label = Label::create(context);
+                            p.label = Text::Label::create(context);
                             p.label->setTextHAlign(TextHAlign::Left);
                             p.label->setFontFamily(p.fontFamily);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
-                            p.label->setElide(p.elide);
+                            p.label->setTextElide(p.textElide);
                             p.label->setMargin(MetricsRole::MarginSmall);
                             addChild(p.label);
                         }
@@ -220,26 +220,31 @@ namespace djv
                 }
             }
 
-            size_t Menu::getElide() const
+            size_t Menu::getTextElide() const
             {
-                return _p->elide;
-            }
-
-            void Menu::setElide(size_t value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.elide)
-                    return;
-                p.elide = value;
-                if (p.label)
-                {
-                    p.label->setElide(value);
-                }
+                return _p->textElide;
             }
 
             MetricsRole Menu::getInsideMargin() const
             {
                 return _p->insideMargin;
+            }
+
+            MenuButtonStyle Menu::getMenuButtonStyle() const
+            {
+                return _p->buttonStyle;
+            }
+
+            void Menu::setTextElide(size_t value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.textElide)
+                    return;
+                p.textElide = value;
+                if (p.label)
+                {
+                    p.label->setTextElide(value);
+                }
             }
 
             void Menu::setInsideMargin(MetricsRole value)
@@ -254,11 +259,6 @@ namespace djv
             void Menu::setTextFocusEnabled(bool value)
             {
                 _p->textFocusEnabled = value;
-            }
-
-            MenuButtonStyle Menu::getMenuButtonStyle() const
-            {
-                return _p->buttonStyle;
             }
 
             bool Menu::acceptFocus(TextFocusDirection)

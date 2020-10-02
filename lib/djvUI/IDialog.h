@@ -23,16 +23,32 @@ namespace djv
         public:
             ~IDialog() override = 0;
 
-            void setTitle(const std::string&);
+            //! \name Title
+            ///@{
 
-            void setStretch(const std::shared_ptr<Widget>&, RowStretch = RowStretch::None);
-            void setFillLayout(bool);
+            void setTitle(const std::string&);
 
             void addTitleBarWidget(const std::shared_ptr<Widget>&);
             void removeTitleBarWidget(const std::shared_ptr<Widget>&);
             void clearTitleBarWidgets();
 
+            ///@}
+
+            //! \name Layout
+            ///@{
+
+            void setStretch(const std::shared_ptr<Widget>&, RowStretch = RowStretch::None);
+
+            void setFillLayout(bool);
+
+            ///@}
+
+            //! \name Callbacks
+            ///@{
+
             void setCloseCallback(const std::function<void(void)>&);
+
+            ///@}
 
             void setVisible(bool) override;
             float getHeightForWidth(float) const override;

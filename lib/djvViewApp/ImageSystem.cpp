@@ -19,7 +19,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 
 #include <djvRender2D/Render.h>
 
@@ -99,8 +99,8 @@ namespace djv
             p.actions["LoadFrameStore"] = UI::Action::create();
             p.actions["ClearFrameStore"] = UI::Action::create();
 
-            _addShortcut("shortcut_image_controls", GLFW_KEY_B, UI::ShortcutData::getSystemModifier());
-            _addShortcut("shortcut_image_color_space", GLFW_KEY_P, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_image_controls", GLFW_KEY_B, UI::getSystemModifier());
+            _addShortcut("shortcut_image_color_space", GLFW_KEY_P, UI::getSystemModifier());
             _addShortcut("shortcut_image_red_channel", GLFW_KEY_R);
             _addShortcut("shortcut_image_green_channel", GLFW_KEY_G);
             _addShortcut("shortcut_image_blue_channel", GLFW_KEY_B);

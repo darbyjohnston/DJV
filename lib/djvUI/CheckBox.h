@@ -35,7 +35,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Text Font
+                //! \name Font
                 ///@{
 
                 const std::string& getFontFamily() const;

@@ -26,17 +26,25 @@ namespace djv
 
                 static std::shared_ptr<Tool> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Icon
+                ///@{
+
                 void setIcon(const std::string&);
-                void setIconSizeRole(MetricsRole);
                 void setCheckedIcon(const std::string&);
+
+                ///@}
+
+                //! \name Text
+                ///@{
 
                 std::string getText() const;
 
                 void setText(const std::string&);
 
-                TextHAlign getTextHAlign() const;
+                ///@}
 
-                void setTextHAlign(TextHAlign);
+                //! \name Font
+                ///@{
 
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
@@ -46,17 +54,23 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
-                size_t getElide() const;
+                ///@}
 
-                void setElide(size_t);
+                //! \name Options
+                ///@{
 
+                TextHAlign getTextHAlign() const;
+                size_t getTextElide() const;
                 MetricsRole getInsideMargin() const;
 
+                void setIconSizeRole(MetricsRole);
+                void setTextHAlign(TextHAlign);
+                void setTextElide(size_t);
                 void setInsideMargin(MetricsRole);
-
                 void setTextFocusEnabled(bool);
-
                 void setAutoRepeat(bool);
+
+                ///@}
 
                 void setChecked(bool) override;
                 void setForegroundColorRole(ColorRole) override;

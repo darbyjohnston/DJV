@@ -107,8 +107,8 @@ namespace djv
 
         struct MemoryCacheSizeWidget::Private
         {
-            std::shared_ptr<UI::IntSlider> slider;
-            std::shared_ptr<UI::Label> label;
+            std::shared_ptr<UI::Numeric::IntSlider> slider;
+            std::shared_ptr<UI::Text::Label> label;
             std::shared_ptr<UI::HorizontalLayout> layout;
 
             std::shared_ptr<Observer::Value<int> > sizeObserver;
@@ -120,9 +120,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MemoryCacheSizeWidget");
 
-            p.slider = UI::IntSlider::create(context);
+            p.slider = UI::Numeric::IntSlider::create(context);
             p.slider->setRange(Math::IntRange(1, OS::getRAMSize() / Memory::gigabyte));
-            p.label = UI::Label::create(context);
+            p.label = UI::Text::Label::create(context);
             p.label->setTextHAlign(UI::TextHAlign::Left);
 
             p.layout = UI::HorizontalLayout::create(context);
@@ -245,7 +245,7 @@ namespace djv
             return "H";
         }
 
-        void MemorySettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void MemorySettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

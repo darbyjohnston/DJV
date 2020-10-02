@@ -18,7 +18,7 @@ void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
 
     setBackgroundRole(UI::ColorRole::Background);
 
-    _sizeGroup = UI::LabelSizeGroup::create();
+    _sizeGroup = UI::Text::LabelSizeGroup::create();
 
     _childLayout = UI::VerticalLayout::create(context);
     _childLayout->setSpacing(UI::MetricsRole::None);
@@ -59,7 +59,7 @@ void SettingsWidget::removeChild(const std::shared_ptr<IObject>& value)
 {
     if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
     {
-        widget->setLabelSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
+        widget->setLabelSizeGroup(std::weak_ptr<UI::Text::LabelSizeGroup>());
     }
     _childLayout->removeChild(value);
 }
@@ -70,7 +70,7 @@ void SettingsWidget::clearChildren()
     {
         if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(i))
         {
-            widget->setLabelSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
+            widget->setLabelSizeGroup(std::weak_ptr<UI::Text::LabelSizeGroup>());
         }
     }
     _childLayout->clearChildren();

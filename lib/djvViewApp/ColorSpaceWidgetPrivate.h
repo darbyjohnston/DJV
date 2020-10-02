@@ -10,13 +10,16 @@ namespace djv
 {
     namespace UI
     {
-        class LabelSizeGroup;
-    
+        namespace Text
+        {
+            class LabelSizeGroup;
+
+        } // namespace Text
     } // namespace UI
 
     namespace ViewApp
     {
-        const int labelElide = 20;
+        const int textElide = 20;
 
         //! This class provides the color space configuration widget.
         class ColorSpaceConfigWidget : public UI::Widget
@@ -58,7 +61,7 @@ namespace djv
 
             static std::shared_ptr<ColorSpaceDisplayWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+            void setSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -86,7 +89,7 @@ namespace djv
 
             static std::shared_ptr<ColorSpaceViewWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+            void setSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -114,7 +117,7 @@ namespace djv
 
             static std::shared_ptr<ColorSpaceImageWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+            void setSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

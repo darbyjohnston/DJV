@@ -29,13 +29,12 @@ namespace djv
             public:
                 ~SettingsSystem() override;
 
-                //! Create a new settings system.
                 static std::shared_ptr<SettingsSystem> create(bool reset, const std::shared_ptr<System::Context>&);
 
                 //! Get the list of settings.
                 const std::vector<std::shared_ptr<ISettings> >& getSettings() const;
 
-                //! Get a settings of the given type.
+                //! Get settings of the given type.
                 template<typename T>
                 std::shared_ptr<T> getSettingsT() const;
 

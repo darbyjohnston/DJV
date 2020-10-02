@@ -12,86 +12,114 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides the base functionality for line edit widgets.
-        //!
-        //! \todo Add a class for constraining the minimum size of multiple
-        //! LineEditBase widgets, similiar to LabelSizeGroup.
-        class LineEditBase : public Widget
+        namespace Text
         {
-            DJV_NON_COPYABLE(LineEditBase);
+            //! This class provides the base functionality for line edit widgets.
+            //!
+            //! \todo Add a class for constraining the minimum size of multiple
+            //! LineEditBase widgets, similiar to LabelSizeGroup.
+            class LineEditBase : public Widget
+            {
+                DJV_NON_COPYABLE(LineEditBase);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            LineEditBase();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                LineEditBase();
 
-        public:
-            ~LineEditBase() override;
+            public:
+                ~LineEditBase() override;
 
-            static std::shared_ptr<LineEditBase> create(const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<LineEditBase> create(const std::shared_ptr<System::Context>&);
 
-            const std::string& getText() const;
+                //! \name Text
+                ///@{
 
-            void setText(const std::string&);
+                const std::string& getText() const;
 
-            ColorRole getTextColorRole() const;
-            MetricsRole getTextSizeRole() const;
-            
-            void setTextColorRole(ColorRole);
-            void setTextSizeRole(MetricsRole);
+                void setText(const std::string&);
 
-            const std::string& getFont() const;
-            const std::string& getFontFace() const;
-            MetricsRole getFontSizeRole() const;
-            
-            void setFont(const std::string&);
-            void setFontFace(const std::string&);
-            void setFontSizeRole(MetricsRole);
+                ///@}
 
-            const std::string& getSizeString() const;
-            
-            void setSizeString(const std::string&);
+                //! \name Font
+                ///@{
 
-            void setTextChangedCallback(const std::function<void(const std::string&)>&);
-            void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>&);
-            void setFocusCallback(const std::function<void(bool)>&);
+                const std::string& getFont() const;
+                const std::string& getFontFace() const;
+                MetricsRole getFontSizeRole() const;
 
-            bool acceptFocus(TextFocusDirection) override;
+                void setFont(const std::string&);
+                void setFontFace(const std::string&);
+                void setFontSizeRole(MetricsRole);
 
-        protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-            void _clipEvent(System::Event::Clip&) override;
-            void _paintEvent(System::Event::Paint&) override;
-            void _pointerEnterEvent(System::Event::PointerEnter&) override;
-            void _pointerLeaveEvent(System::Event::PointerLeave&) override;
-            void _pointerMoveEvent(System::Event::PointerMove&) override;
-            void _buttonPressEvent(System::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
-            void _keyPressEvent(System::Event::KeyPress&) override;
-            void _textFocusEvent(System::Event::TextFocus&) override;
-            void _textFocusLostEvent(System::Event::TextFocusLost&) override;
-            void _textInputEvent(System::Event::TextInput&) override;
+                ///@}
 
-            void _initEvent(System::Event::Init&) override;
-            void _updateEvent(System::Event::Update&) override;
+                //! \name Options
+                ///@{
 
-        private:
-            std::string _fromUtf32(const std::basic_string<djv_char_t>&);
-            std::basic_string<djv_char_t> _toUtf32(const std::string&);
-            
-            Math::SizeTRange _getSelection() const;
+                ColorRole getTextColorRole() const;
 
-            void _textUpdate();
-            void _cursorUpdate();
-            void _viewUpdate();
+                void setTextColorRole(ColorRole);
 
-            void _doTextChangedCallback();
-            void _doTextEditCallback(TextEditReason);
-            void _doFocusCallback(bool);
+                ///@}
 
-            DJV_PRIVATE();
-        };
+                //! \name Size
+                ///@{
 
+                MetricsRole getTextSizeRole() const;
+                const std::string& getSizeString() const;
+
+                void setTextSizeRole(MetricsRole);
+                void setSizeString(const std::string&);
+
+                ///@}
+
+                //! \name Callbacks
+                ///@{
+
+                void setTextChangedCallback(const std::function<void(const std::string&)>&);
+                void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>&);
+                void setFocusCallback(const std::function<void(bool)>&);
+
+                ///@}
+
+                bool acceptFocus(TextFocusDirection) override;
+
+            protected:
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _clipEvent(System::Event::Clip&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _pointerEnterEvent(System::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
+                void _keyPressEvent(System::Event::KeyPress&) override;
+                void _textFocusEvent(System::Event::TextFocus&) override;
+                void _textFocusLostEvent(System::Event::TextFocusLost&) override;
+                void _textInputEvent(System::Event::TextInput&) override;
+
+                void _initEvent(System::Event::Init&) override;
+                void _updateEvent(System::Event::Update&) override;
+
+            private:
+                std::string _fromUtf32(const std::basic_string<djv_char_t>&);
+                std::basic_string<djv_char_t> _toUtf32(const std::string&);
+
+                Math::SizeTRange _getSelection() const;
+
+                void _textUpdate();
+                void _cursorUpdate();
+                void _viewUpdate();
+
+                void _doTextChangedCallback();
+                void _doTextEditCallback(TextEditReason);
+                void _doFocusCallback(bool);
+
+                DJV_PRIVATE();
+            };
+
+        } // namespace Text
     } // namespace UI
 } // namespace djv
 

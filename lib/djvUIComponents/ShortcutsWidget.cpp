@@ -16,6 +16,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
@@ -73,7 +74,7 @@ namespace djv
                 void _widgetUpdate();
 
                 ShortcutData _shortcut;
-                std::shared_ptr<Label> _label;
+                std::shared_ptr<Text::Label> _label;
                 std::function<void(const ShortcutData&)> _callback;
                 System::Event::PointerID _pressedID = System::Event::invalidID;
             };
@@ -85,7 +86,7 @@ namespace djv
                 setClassName("djvUIComponents::KeyPressWidget");
                 setPointerEnabled(true);
 
-                _label = Label::create(context);
+                _label = Text::Label::create(context);
                 _label->setTextHAlign(TextHAlign::Left);
                 _label->setMargin(MetricsRole::MarginSmall);
                 _label->setBackgroundRole(ColorRole::Trough);
@@ -271,7 +272,7 @@ namespace djv
             void KeyPressWidget::_widgetUpdate()
             {
                 const auto& textSystem = _getTextSystem();
-                _label->setText(ShortcutData::getText(_shortcut, textSystem));
+                _label->setText(getText(_shortcut, textSystem));
             }
 
         } // namespace
@@ -531,11 +532,11 @@ namespace djv
                 std::vector<std::string> list;
                 if (i.second.primary.isValid())
                 {
-                    list.push_back(ShortcutData::getText(i.second.primary.key, i.second.primary.modifiers, textSystem));
+                    list.push_back(getText(i.second.primary.key, i.second.primary.modifiers, textSystem));
                 }
                 if (i.second.secondary.isValid())
                 {
-                    list.push_back(ShortcutData::getText(i.second.secondary.key, i.second.secondary.modifiers, textSystem));
+                    list.push_back(getText(i.second.secondary.key, i.second.secondary.modifiers, textSystem));
                 }
                 const auto j = shortcutsCollisions.find(i.first);
                 const bool collision = j != shortcutsCollisions.end() && j->second;

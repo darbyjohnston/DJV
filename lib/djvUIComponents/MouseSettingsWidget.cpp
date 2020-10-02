@@ -120,7 +120,7 @@ namespace djv
             return "a";
         }
 
-        void MouseSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void MouseSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

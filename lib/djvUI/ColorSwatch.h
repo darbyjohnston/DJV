@@ -35,18 +35,12 @@ namespace djv
 
             ///@}
 
-            //! \name Size
+            //! \name Options
             ///@{
 
             MetricsRole getSwatchSizeRole() const;
 
             void setSwatchSizeRole(MetricsRole);
-
-            ///@}
-
-            //! \name Border
-            ///@{
-
             void setBorder(bool);
 
             ///@}

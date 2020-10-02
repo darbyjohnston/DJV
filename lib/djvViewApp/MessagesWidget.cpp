@@ -24,7 +24,7 @@ namespace djv
     {
         struct MessagesWidget::Private
         {
-            std::shared_ptr<UI::TextBlock> textBlock;
+            std::shared_ptr<UI::Text::Block> textBlock;
             std::shared_ptr<UI::CheckBox> popupCheckBox;
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::ToolButton> clearButton;
@@ -40,7 +40,7 @@ namespace djv
 
             setClassName("djv::ViewApp::MessagesWidget");
 
-            p.textBlock = UI::TextBlock::create(context);
+            p.textBlock = UI::Text::Block::create(context);
             p.textBlock->setFontFamily(Render2D::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.textBlock->setMargin(UI::MetricsRole::Margin);

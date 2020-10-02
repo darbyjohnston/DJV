@@ -121,7 +121,7 @@ namespace djv
 
             std::shared_ptr<UI::ButtonGroup> colorButtonGroup;
             std::shared_ptr<UI::ToolBar> colorToolBar;
-            std::shared_ptr<UI::TextEdit> noteTextEdit;
+            std::shared_ptr<UI::Text::Edit> noteTextEdit;
             std::shared_ptr<UI::ScrollWidget> listWidget;
             std::shared_ptr<UI::MultiStateButton> listButton;
             std::shared_ptr<UI::VerticalLayout> notesLayout;
@@ -147,7 +147,7 @@ namespace djv
 
             p.colorButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             
-            p.noteTextEdit = UI::TextEdit::create(context);
+            p.noteTextEdit = UI::Text::Edit::create(context);
             p.noteTextEdit->setBorder(false);
 
             p.listWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);

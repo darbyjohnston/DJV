@@ -35,14 +35,14 @@ namespace djv
             std::string filter;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::vector<std::shared_ptr<UI::GroupBox> > groupBoxes;
-            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> infoLayout;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<AV::IO::Info> > infoObserver;
 
-            std::shared_ptr<UI::TextBlock> createTextBlock(const std::shared_ptr<System::Context>& context)
+            std::shared_ptr<UI::Text::Block> createTextBlock(const std::shared_ptr<System::Context>& context)
             {
-                auto textBlock = UI::TextBlock::create(context);
+                auto textBlock = UI::Text::Block::create(context);
                 textBlock->setFontFamily(Render2D::Font::familyMono);
                 textBlock->setMargin(UI::MetricsRole::MarginSmall);
                 return textBlock;
@@ -68,7 +68,7 @@ namespace djv
 
             p.searchBox = UI::SearchBox::create(context);
 
-            p.sizeGroup = UI::LabelSizeGroup::create();
+            p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);

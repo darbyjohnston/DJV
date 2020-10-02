@@ -85,9 +85,9 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ColorSwatch> colorSwatch;
-            std::shared_ptr<UI::Label> colorLabel;
-            std::shared_ptr<UI::Label> pixelLabel;
-            std::shared_ptr<UI::IntSlider> sampleSizeSlider;
+            std::shared_ptr<UI::Text::Label> colorLabel;
+            std::shared_ptr<UI::Text::Label> pixelLabel;
+            std::shared_ptr<UI::Numeric::IntSlider> sampleSizeSlider;
             std::shared_ptr<UI::ColorTypeWidget> typeWidget;
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::Menu> settingsMenu;
@@ -129,17 +129,17 @@ namespace djv
             p.colorSwatch->setBorder(false);
             p.colorSwatch->setHAlign(UI::HAlign::Fill);
 
-            p.colorLabel = UI::Label::create(context);
+            p.colorLabel = UI::Text::Label::create(context);
             p.colorLabel->setFontFamily(Render2D::Font::familyMono);
             p.colorLabel->setTextHAlign(UI::TextHAlign::Left);
             p.colorLabel->setMargin(UI::MetricsRole::MarginSmall);
 
-            p.pixelLabel = UI::Label::create(context);
+            p.pixelLabel = UI::Text::Label::create(context);
             p.pixelLabel->setFontFamily(Render2D::Font::familyMono);
             p.pixelLabel->setTextHAlign(UI::TextHAlign::Left);
             p.pixelLabel->setMargin(UI::MetricsRole::MarginSmall);
 
-            p.sampleSizeSlider = UI::IntSlider::create(context);
+            p.sampleSizeSlider = UI::Numeric::IntSlider::create(context);
             p.sampleSizeSlider->setRange(Math::IntRange(1, sampleSizeMax));
 
             p.typeWidget = UI::ColorTypeWidget::create(context);

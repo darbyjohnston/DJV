@@ -34,7 +34,7 @@ namespace djv
                 std::shared_ptr<UI::Menu> historyMenu;
                 std::shared_ptr<Button::Menu> historyButton;
                 std::shared_ptr<HorizontalLayout> buttonLayout;
-                std::shared_ptr<LineEdit> lineEdit;
+                std::shared_ptr<Text::LineEdit> lineEdit;
                 std::shared_ptr<SoloLayout> soloLayout;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(const System::File::Path &)> pathCallback;
@@ -62,7 +62,7 @@ namespace djv
                 p.buttonLayout->setPointerEnabled(true);
                 p.buttonLayout->installEventFilter(shared_from_this());
 
-                p.lineEdit = LineEdit::create(context);
+                p.lineEdit = Text::LineEdit::create(context);
                 p.lineEdit->setBackgroundRole(ColorRole::Trough);
 
                 p.layout = HorizontalLayout::create(context);
@@ -207,7 +207,7 @@ namespace djv
                         }
                         else
                         {
-                            auto label = Label::create(context);
+                            auto label = Text::Label::create(context);
                             label->setText(_getLabel(*i));
                             label->setVAlign(VAlign::Fill);
                             label->setMargin(MetricsRole::MarginSmall);

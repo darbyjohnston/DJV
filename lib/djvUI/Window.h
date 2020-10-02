@@ -22,8 +22,10 @@ namespace djv
         public:
             ~Window() override;
 
+            //! Create a new window.
             static std::shared_ptr<Window> create(const std::shared_ptr<System::Context>&);
 
+            //! Has the window been closed?
             bool isClosed() const;
 
             //! Call this before destroying the window.

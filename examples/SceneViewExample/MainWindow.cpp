@@ -12,7 +12,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/ToolBar.h>
 
 #include <djvScene3D/IO.h>
@@ -32,14 +32,14 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
 
     _actions["File"]["Open"] = UI::Action::create();
     _actions["File"]["Open"]->setIcon("djvIconFileOpen");
-    _actions["File"]["Open"]->setShortcut(GLFW_KEY_O, UI::ShortcutData::getSystemModifier());
+    _actions["File"]["Open"]->setShortcut(GLFW_KEY_O, UI::getSystemModifier());
     _actions["File"]["Reload"] = UI::Action::create();
-    _actions["File"]["Reload"]->setShortcut(GLFW_KEY_R, UI::ShortcutData::getSystemModifier());
+    _actions["File"]["Reload"]->setShortcut(GLFW_KEY_R, UI::getSystemModifier());
     _actions["File"]["Close"] = UI::Action::create();
     _actions["File"]["Close"]->setIcon("djvIconFileClose");
-    _actions["File"]["Close"]->setShortcut(GLFW_KEY_E, UI::ShortcutData::getSystemModifier());
+    _actions["File"]["Close"]->setShortcut(GLFW_KEY_E, UI::getSystemModifier());
     _actions["File"]["Exit"] = UI::Action::create();
-    _actions["File"]["Exit"]->setShortcut(GLFW_KEY_Q, UI::ShortcutData::getSystemModifier());
+    _actions["File"]["Exit"]->setShortcut(GLFW_KEY_Q, UI::getSystemModifier());
 
     _actions["View"]["Frame"] = UI::Action::create();
     _actions["View"]["Frame"]->setIcon("djvIconViewFrame");
@@ -61,7 +61,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     _actions["Tools"]["Settings"] = UI::Action::create();
     _actions["Tools"]["Settings"]->setButtonType(UI::ButtonType::Toggle);
     _actions["Tools"]["Settings"]->setIcon("djvIconSettings");
-    _actions["Tools"]["Settings"]->setShortcut(GLFW_KEY_T, UI::ShortcutData::getSystemModifier());
+    _actions["Tools"]["Settings"]->setShortcut(GLFW_KEY_T, UI::getSystemModifier());
 
     for (const auto& i : _actions)
     {
@@ -112,7 +112,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     menuBar->addChild(sceneMenu);
     menuBar->addChild(toolsMenu);
 
-    _fileInfoLabel = UI::Label::create(context);
+    _fileInfoLabel = UI::Text::Label::create(context);
     _fileInfoLabel->setTextHAlign(UI::TextHAlign::Left);
     _fileInfoLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
 

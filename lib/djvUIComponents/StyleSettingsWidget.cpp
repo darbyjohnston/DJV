@@ -282,8 +282,8 @@ namespace djv
         {
             std::shared_ptr<SizeWidget> sizeWidget;
             std::shared_ptr<PaletteWidget> paletteWidget;
-            std::shared_ptr<FloatSlider> brightnessSlider;
-            std::shared_ptr<FloatSlider> contrastSlider;
+            std::shared_ptr<Numeric::FloatSlider> brightnessSlider;
+            std::shared_ptr<Numeric::FloatSlider> contrastSlider;
             std::shared_ptr<FormLayout> layout;
             std::shared_ptr<Observer::Value<float> > brightnessObserver;
             std::shared_ptr<Observer::Value<float> > contrastObserver;
@@ -300,12 +300,12 @@ namespace djv
 
             p.paletteWidget = PaletteWidget::create(context);
 
-            p.brightnessSlider = FloatSlider::create(context);
+            p.brightnessSlider = Numeric::FloatSlider::create(context);
             p.brightnessSlider->setRange(Math::FloatRange(.5F, 1.5F));
             p.brightnessSlider->setDefault(1.F);
             p.brightnessSlider->setDefaultVisible(true);
 
-            p.contrastSlider = FloatSlider::create(context);
+            p.contrastSlider = Numeric::FloatSlider::create(context);
             p.contrastSlider->setRange(Math::FloatRange(.5F, 1.5F));
             p.contrastSlider->setDefault(1.F);
             p.contrastSlider->setDefaultVisible(true);
@@ -385,7 +385,7 @@ namespace djv
             return "0";
         }
 
-        void StyleSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void StyleSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

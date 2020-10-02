@@ -11,7 +11,11 @@ namespace djv
 {
     namespace UI
     {
-        class LabelSizeGroup;
+        namespace Text
+        {
+            class LabelSizeGroup;
+
+        } // namespace Text
 
         namespace Layout
         {
@@ -36,7 +40,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Text Font
+                //! \name Font
                 ///@{
 
                 const std::string& getFontFamily() const;
@@ -47,12 +51,14 @@ namespace djv
 
                 ///@}
 
-                //! \name Spacing
+                //! \name Layout
                 ///@{
 
                 const Spacing& getSpacing() const;
 
                 void setSpacing(const Spacing&);
+                void setLabelVAlign(VAlign);
+                void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&);
 
                 ///@}
 
@@ -60,9 +66,6 @@ namespace djv
                 ///@{
 
                 void setAlternateRowsRoles(ColorRole, ColorRole);
-
-                void setLabelVAlign(VAlign);
-                void setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
 
                 ///@}
 

@@ -22,7 +22,7 @@ namespace djv
     {
         struct IOThreadsSettingsWidget::Private
         {
-            std::shared_ptr<IntSlider> threadCountSlider;
+            std::shared_ptr<Numeric::IntSlider> threadCountSlider;
             std::shared_ptr<FormLayout> layout;
             std::shared_ptr<Observer::Value<size_t> > threadCountObserver;
         };
@@ -34,7 +34,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::IOThreadsSettingsWidget");
 
-            p.threadCountSlider = IntSlider::create(context);
+            p.threadCountSlider = Numeric::IntSlider::create(context);
             p.threadCountSlider->setRange(Math::IntRange(2, 64));
 
             p.layout = FormLayout::create(context);
@@ -95,7 +95,7 @@ namespace djv
             return "d";
         }
 
-        void IOThreadsSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void IOThreadsSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

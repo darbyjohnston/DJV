@@ -22,7 +22,7 @@ namespace djv
     {
         struct JPEGSettingsWidget::Private
         {
-            std::shared_ptr<IntSlider> qualitySlider;
+            std::shared_ptr<Numeric::IntSlider> qualitySlider;
             std::shared_ptr<FormLayout> layout;
         };
 
@@ -33,7 +33,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::JPEGSettingsWidget");
 
-            p.qualitySlider = IntSlider::create(context);
+            p.qualitySlider = Numeric::IntSlider::create(context);
             p.qualitySlider->setRange(Math::IntRange(0, 100));
 
             p.layout = FormLayout::create(context);
@@ -89,7 +89,7 @@ namespace djv
             return "d";
         }
 
-        void JPEGSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void JPEGSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

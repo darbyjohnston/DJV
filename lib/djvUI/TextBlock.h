@@ -11,64 +11,77 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a block of text.
-        class TextBlock : public Widget
+        namespace Text
         {
-            DJV_NON_COPYABLE(TextBlock);
-            
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            TextBlock();
+            //! This class provides a text block.
+            class Block : public Widget
+            {
+                DJV_NON_COPYABLE(Block);
 
-        public:
-            ~TextBlock() override;
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                Block();
 
-            static std::shared_ptr<TextBlock> create(const std::shared_ptr<System::Context>&);
+            public:
+                ~Block() override;
 
-            const std::string& getText() const;
+                static std::shared_ptr<Block> create(const std::shared_ptr<System::Context>&);
 
-            void setText(const std::string&);
-            void appendText(const std::string&);
-            void clearText();
+                //! \name Text
+                ///@{
 
-            TextHAlign getTextHAlign() const;
+                const std::string& getText() const;
 
-            void setTextHAlign(TextHAlign);
+                void setText(const std::string&);
+                void appendText(const std::string&);
+                void clearText();
 
-            ColorRole getTextColorRole() const;
+                ///@}
 
-            void setTextColorRole(ColorRole);
+                //! \name Font
+                ///@{
 
-            MetricsRole getTextSizeRole() const;
+                const std::string& getFontFamily() const;
+                const std::string& getFontFace() const;
+                MetricsRole getFontSizeRole() const;
 
-            void setTextSizeRole(MetricsRole);
+                void setFontFamily(const std::string&);
+                void setFontFace(const std::string&);
+                void setFontSizeRole(MetricsRole);
 
-            const std::string& getFontFamily() const;
-            const std::string& getFontFace() const;
-            MetricsRole getFontSizeRole() const;
+                ///@}
 
-            void setFontFamily(const std::string&);
-            void setFontFace(const std::string&);
-            void setFontSizeRole(MetricsRole);
+                //! \name Options
+                ///@{
 
-            void setWordWrap(bool);
+                TextHAlign getTextHAlign() const;
+                ColorRole getTextColorRole() const;
+                MetricsRole getTextSizeRole() const;
 
-            float getHeightForWidth(float) const override;
+                void setTextHAlign(TextHAlign);
+                void setTextColorRole(ColorRole);
+                void setTextSizeRole(MetricsRole);
+                void setWordWrap(bool);
 
-        protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-            void _clipEvent(System::Event::Clip&) override;
-            void _paintEvent(System::Event::Paint&) override;
+                ///@}
 
-            void _initEvent(System::Event::Init&) override;
-            void _updateEvent(System::Event::Update&) override;
+                float getHeightForWidth(float) const override;
 
-        private:
-            void _textUpdate();
+            protected:
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _clipEvent(System::Event::Clip&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
-            DJV_PRIVATE();
-        };
+                void _initEvent(System::Event::Init&) override;
+                void _updateEvent(System::Event::Update&) override;
 
+            private:
+                void _textUpdate();
+
+                DJV_PRIVATE();
+            };
+
+        } // namespace Text
     } // namespace UI
 } // namespace djv

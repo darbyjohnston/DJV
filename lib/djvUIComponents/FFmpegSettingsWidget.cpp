@@ -21,7 +21,7 @@ namespace djv
     {
         struct FFmpegSettingsWidget::Private
         {
-            std::shared_ptr<IntSlider> threadCountSlider;
+            std::shared_ptr<Numeric::IntSlider> threadCountSlider;
             std::shared_ptr<FormLayout> layout;
         };
 
@@ -32,7 +32,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::FFmpegSettingsWidget");
 
-            p.threadCountSlider = IntSlider::create(context);
+            p.threadCountSlider = Numeric::IntSlider::create(context);
             p.threadCountSlider->setRange(Math::IntRange(1, 16));
 
             p.layout = FormLayout::create(context);
@@ -88,7 +88,7 @@ namespace djv
             return "d";
         }
 
-        void FFmpegSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void FFmpegSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

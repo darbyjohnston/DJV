@@ -20,8 +20,8 @@ namespace djv
     {
         struct AboutDialog::Private
         {
-            std::map<std::string, std::shared_ptr<UI::Label> > headers;
-            std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
+            std::map<std::string, std::shared_ptr<UI::Text::Label> > headers;
+            std::map<std::string, std::shared_ptr<UI::Text::Block> > textBlocks;
         };
 
         void AboutDialog::_init(const std::shared_ptr<System::Context>& context)
@@ -37,7 +37,7 @@ namespace djv
             };
             for (const auto& i : headers)
             {
-                p.headers[i] = UI::Label::create(context);
+                p.headers[i] = UI::Text::Label::create(context);
                 p.headers[i]->setTextHAlign(UI::TextHAlign::Left);
                 p.headers[i]->setFontSizeRole(UI::MetricsRole::FontLarge);
             }
@@ -49,7 +49,7 @@ namespace djv
             };
             for (const auto& i : credits)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
                 p.textBlocks[i]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
             }
             
@@ -61,7 +61,7 @@ namespace djv
             };
             for (const auto& i : creditsText)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
             }
 
             const std::vector<std::string> sponsorsText = 
@@ -70,7 +70,7 @@ namespace djv
             };
             for (const auto& i : sponsorsText)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
             }
 
             const std::vector<std::string> licenseText = 
@@ -79,20 +79,20 @@ namespace djv
             };
             for (const auto& i : licenseText)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
             }
 
-            p.textBlocks["CopyrightText"] = UI::TextBlock::create(context);
+            p.textBlocks["CopyrightText"] = UI::Text::Block::create(context);
             const std::vector<std::string> copyrightText =
             {
                 "Copyright1", "Copyright2", "Copyright3"
             };
             for (const auto& i : copyrightText)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
             }
 
-            p.textBlocks["ThirdPartyText"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdPartyText"] = UI::Text::Block::create(context);
             const std::vector<std::string> thirdPartyText =
             {
                 "ThirdParty1", "ThirdParty2", "ThirdParty3", "ThirdParty4",
@@ -103,10 +103,10 @@ namespace djv
             };
             for (const auto& i : thirdPartyText)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
             }
 
-            p.textBlocks["TrademarksText"] = UI::TextBlock::create(context);
+            p.textBlocks["TrademarksText"] = UI::Text::Block::create(context);
             const std::vector<std::string> trademarksText =
             {
                 "Trademarks1", "Trademarks2", "Trademarks3", "Trademarks4",
@@ -118,9 +118,9 @@ namespace djv
             };
             for (const auto& i : trademarksText)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
             }
-            p.textBlocks["TrademarksEnd"] = UI::TextBlock::create(context);
+            p.textBlocks["TrademarksEnd"] = UI::Text::Block::create(context);
 
             const std::vector<std::string> madeInText = 
             {
@@ -128,7 +128,7 @@ namespace djv
             };
             for (const auto& i : madeInText)
             {
-                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i] = UI::Text::Block::create(context);
             }
                     
             auto textLayout = UI::VerticalLayout::create(context);

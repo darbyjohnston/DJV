@@ -47,7 +47,7 @@ namespace djv
 
                 virtual void _widgetUpdate() = 0;
 
-                std::map<std::string, std::shared_ptr<UI::Label> > _labels;
+                std::map<std::string, std::shared_ptr<UI::Text::Label> > _labels;
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::map<std::string, std::shared_ptr<UI::ThermometerWidget> > _thermometerWidgets;
                 std::shared_ptr<UI::VerticalLayout> _layout;
@@ -96,56 +96,56 @@ namespace djv
 
                 setClassName("djv::ViewApp::GeneralDebugWidget");
 
-                _labels["FPS"] = UI::Label::create(context);
-                _labels["FPSValue"] = UI::Label::create(context);
+                _labels["FPS"] = UI::Text::Label::create(context);
+                _labels["FPSValue"] = UI::Text::Label::create(context);
                 _labels["FPSValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["FPS"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["FPS"]->setPrecision(2);
 
-                _labels["TotalSystemTime"] = UI::Label::create(context);
-                _labels["TotalSystemTimeValue"] = UI::Label::create(context);
+                _labels["TotalSystemTime"] = UI::Text::Label::create(context);
+                _labels["TotalSystemTimeValue"] = UI::Text::Label::create(context);
                 _lineGraphs["TotalSystemTime"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["TotalSystemTime"]->setPrecision(0);
 
-                _labels["TopSystemTime"] = UI::Label::create(context);
-                _labels["TopSystemTimeValue"] = UI::Label::create(context);
+                _labels["TopSystemTime"] = UI::Text::Label::create(context);
+                _labels["TopSystemTimeValue"] = UI::Text::Label::create(context);
                 _lineGraphs["TopSystemTime"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["TopSystemTime"]->setPrecision(0);
 
-                _labels["ObjectCount"] = UI::Label::create(context);
-                _labels["ObjectCountValue"] = UI::Label::create(context);
+                _labels["ObjectCount"] = UI::Text::Label::create(context);
+                _labels["ObjectCountValue"] = UI::Text::Label::create(context);
                 _labels["ObjectCountValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["ObjectCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["ObjectCount"]->setPrecision(0);
 
-                _labels["WidgetCount"] = UI::Label::create(context);
-                _labels["WidgetCountValue"] = UI::Label::create(context);
+                _labels["WidgetCount"] = UI::Text::Label::create(context);
+                _labels["WidgetCountValue"] = UI::Text::Label::create(context);
                 _labels["WidgetCountValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["WidgetCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["WidgetCount"]->setPrecision(0);
 
-                _labels["Hover"] = UI::Label::create(context);
-                _labels["Grab"] = UI::Label::create(context);
-                _labels["KeyGrab"] = UI::Label::create(context);
-                _labels["TextFocus"] = UI::Label::create(context);
+                _labels["Hover"] = UI::Text::Label::create(context);
+                _labels["Grab"] = UI::Text::Label::create(context);
+                _labels["KeyGrab"] = UI::Text::Label::create(context);
+                _labels["TextFocus"] = UI::Text::Label::create(context);
 
-                _labels["GlyphCache"] = UI::Label::create(context);
-                _labels["GlyphCacheValue"] = UI::Label::create(context);
+                _labels["GlyphCache"] = UI::Text::Label::create(context);
+                _labels["GlyphCacheValue"] = UI::Text::Label::create(context);
                 _labels["GlyphCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["GlyphCache"] = UI::ThermometerWidget::create(context);
 
-                _labels["ThumbnailInfoCache"] = UI::Label::create(context);
-                _labels["ThumbnailInfoCacheValue"] = UI::Label::create(context);
+                _labels["ThumbnailInfoCache"] = UI::Text::Label::create(context);
+                _labels["ThumbnailInfoCacheValue"] = UI::Text::Label::create(context);
                 _labels["ThumbnailInfoCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["ThumbnailInfoCache"] = UI::ThermometerWidget::create(context);
 
-                _labels["ThumbnailImageCache"] = UI::Label::create(context);
-                _labels["ThumbnailImageCacheValue"] = UI::Label::create(context);
+                _labels["ThumbnailImageCache"] = UI::Text::Label::create(context);
+                _labels["ThumbnailImageCacheValue"] = UI::Text::Label::create(context);
                 _labels["ThumbnailInfoCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["ThumbnailImageCache"] = UI::ThermometerWidget::create(context);
 
-                _labels["IconCache"] = UI::Label::create(context);
-                _labels["IconCacheValue"] = UI::Label::create(context);
+                _labels["IconCache"] = UI::Text::Label::create(context);
+                _labels["IconCacheValue"] = UI::Text::Label::create(context);
                 _labels["IconCacheValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["IconCache"] = UI::ThermometerWidget::create(context);
 
@@ -422,25 +422,25 @@ namespace djv
 
                 setClassName("djv::ViewApp::RenderDebugWidget");
 
-                _labels["Primitives"] = UI::Label::create(context);
-                _labels["PrimitivesValue"] = UI::Label::create(context);
+                _labels["Primitives"] = UI::Text::Label::create(context);
+                _labels["PrimitivesValue"] = UI::Text::Label::create(context);
                 _labels["PrimitivesValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["Primitives"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["Primitives"]->setPrecision(0);
 
-                _labels["TextureAtlas"] = UI::Label::create(context);
-                _labels["TextureAtlasValue"] = UI::Label::create(context);
+                _labels["TextureAtlas"] = UI::Text::Label::create(context);
+                _labels["TextureAtlasValue"] = UI::Text::Label::create(context);
                 _labels["TextureAtlasValue"]->setFontFamily(Render2D::Font::familyMono);
                 _thermometerWidgets["TextureAtlas"] = UI::ThermometerWidget::create(context);
 
-                _labels["DynamicTextureCount"] = UI::Label::create(context);
-                _labels["DynamicTextureCountValue"] = UI::Label::create(context);
+                _labels["DynamicTextureCount"] = UI::Text::Label::create(context);
+                _labels["DynamicTextureCountValue"] = UI::Text::Label::create(context);
                 _labels["DynamicTextureCountValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["DynamicTextureCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["DynamicTextureCount"]->setPrecision(0);
 
-                _labels["VBOSize"] = UI::Label::create(context);
-                _labels["VBOSizeValue"] = UI::Label::create(context);
+                _labels["VBOSize"] = UI::Text::Label::create(context);
+                _labels["VBOSizeValue"] = UI::Text::Label::create(context);
                 _labels["VBOSizeValue"]->setFontFamily(Render2D::Font::familyMono);
                 _lineGraphs["VBOSize"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["VBOSize"]->setPrecision(0);
@@ -580,7 +580,7 @@ namespace djv
                 size_t _videoQueueCount = 0;
                 size_t _audioQueueMax = 0;
                 size_t _audioQueueCount = 0;
-                std::map<std::string, std::shared_ptr<UI::Label> > _labels;
+                std::map<std::string, std::shared_ptr<UI::Text::Label> > _labels;
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::shared_ptr<UI::VerticalLayout> _layout;
                 std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > _currentMediaObserver;
@@ -598,15 +598,15 @@ namespace djv
 
                 setClassName("djv::ViewApp::MediaDebugWidget");
 
-                _labels["CurrentFrame"] = UI::Label::create(context);
-                _labels["CurrentFrameValue"] = UI::Label::create(context);
+                _labels["CurrentFrame"] = UI::Text::Label::create(context);
+                _labels["CurrentFrameValue"] = UI::Text::Label::create(context);
                 _labels["CurrentFrameValue"]->setFontFamily(Render2D::Font::familyMono);
                 
-                _labels["VideoQueue"] = UI::Label::create(context);
+                _labels["VideoQueue"] = UI::Text::Label::create(context);
                 _lineGraphs["VideoQueue"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["VideoQueue"]->setPrecision(0);
 
-                _labels["AudioQueue"] = UI::Label::create(context);
+                _labels["AudioQueue"] = UI::Text::Label::create(context);
                 _lineGraphs["AudioQueue"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["AudioQueue"]->setPrecision(0);
 

@@ -5,7 +5,7 @@
 #include <djvUI/Window.h>
 
 #include <djvUI/EventSystem.h>
-#include <djvUI/StackLayout.h>
+#include <djvUI/StackLayoutFunc.h>
 
 #include <djvSystem/Context.h>
 
@@ -64,12 +64,12 @@ namespace djv
 
         void Window::_preLayoutEvent(System::Event::PreLayout&)
         {
-            _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), Layout::Margin(), _getStyle()));
+            _setMinimumSize(stackMinimumSize(getChildWidgets(), Layout::Margin(), _getStyle()));
         }
 
         void Window::_layoutEvent(System::Event::Layout&)
         {
-            StackLayout::layout(getGeometry(), getChildWidgets(), Layout::Margin(), _getStyle());
+            stackLayout(getGeometry(), getChildWidgets(), Layout::Margin(), _getStyle());
         }
 
         void Window::_initEvent(System::Event::Init& event)

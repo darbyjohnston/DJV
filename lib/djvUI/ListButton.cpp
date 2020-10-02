@@ -25,13 +25,13 @@ namespace djv
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Icon> rightIcon;
-                std::shared_ptr<Label> label;
-                std::shared_ptr<Label> rightLabel;
+                std::shared_ptr<Text::Label> label;
+                std::shared_ptr<Text::Label> rightLabel;
                 TextHAlign textHAlign = TextHAlign::Left;
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
-                size_t elide = 0;
+                size_t textElide = 0;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
@@ -67,6 +67,12 @@ namespace djv
                 return p.icon ? p.icon->getIcon() : std::string();
             }
 
+            std::string List::getRightIcon() const
+            {
+                DJV_PRIVATE_PTR();
+                return p.rightIcon ? p.rightIcon->getIcon() : std::string();
+            }
+
             void List::setIcon(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
@@ -88,12 +94,6 @@ namespace djv
                     p.layout->removeChild(p.icon);
                     p.icon.reset();
                 }
-            }
-
-            std::string List::getRightIcon() const
-            {
-                DJV_PRIVATE_PTR();
-                return p.rightIcon ? p.rightIcon->getIcon() : std::string();
             }
 
             void List::setRightIcon(const std::string& value)
@@ -125,6 +125,12 @@ namespace djv
                 return p.label ? p.label->getText() : std::string();
             }
 
+            std::string List::getRightText() const
+            {
+                DJV_PRIVATE_PTR();
+                return p.rightLabel ? p.rightLabel->getText() : std::string();
+            }
+
             void List::setText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
@@ -134,7 +140,7 @@ namespace djv
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.label = Label::create(context);
+                            p.label = Text::Label::create(context);
                             _widgetUpdate();
                         }
                     }
@@ -147,26 +153,6 @@ namespace djv
                 }
             }
 
-            TextHAlign List::getTextHAlign() const
-            {
-                return _p->textHAlign;
-            }
-
-            void List::setTextHAlign(TextHAlign value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.textHAlign)
-                    return;
-                p.textHAlign = value;
-                _widgetUpdate();
-            }
-
-            std::string List::getRightText() const
-            {
-                DJV_PRIVATE_PTR();
-                return p.rightLabel ? p.rightLabel->getText() : std::string();
-            }
-
             void List::setRightText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
@@ -176,7 +162,7 @@ namespace djv
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.rightLabel = Label::create(context);
+                            p.rightLabel = Text::Label::create(context);
                             _widgetUpdate();
                         }
                     }
@@ -231,23 +217,37 @@ namespace djv
                 _widgetUpdate();
             }
 
-            size_t List::getElide() const
+            TextHAlign List::getTextHAlign() const
             {
-                return _p->elide;
+                return _p->textHAlign;
             }
 
-            void List::setElide(size_t value)
+            size_t List::getTextElide() const
             {
-                DJV_PRIVATE_PTR();
-                if (value == p.elide)
-                    return;
-                p.elide = value;
-                _widgetUpdate();
+                return _p->textElide;
             }
 
             const Layout::Margin& List::getInsideMargin() const
             {
                 return _p->layout->getMargin();
+            }
+
+            void List::setTextHAlign(TextHAlign value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.textHAlign)
+                    return;
+                p.textHAlign = value;
+                _widgetUpdate();
+            }
+
+            void List::setTextElide(size_t value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.textElide)
+                    return;
+                p.textElide = value;
+                _widgetUpdate();
             }
 
             void List::setInsideMargin(const Layout::Margin& value)
@@ -311,7 +311,7 @@ namespace djv
                     p.label->setFontFamily(p.font);
                     p.label->setFontFace(p.fontFace);
                     p.label->setFontSizeRole(p.fontSizeRole);
-                    p.label->setElide(p.elide);
+                    p.label->setTextElide(p.textElide);
                     p.label->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.label);
                     p.layout->setStretch(p.label, RowStretch::Expand);
@@ -322,7 +322,7 @@ namespace djv
                     p.rightLabel->setFontFamily(p.font);
                     p.rightLabel->setFontFace(p.fontFace);
                     p.rightLabel->setFontSizeRole(p.fontSizeRole);
-                    p.rightLabel->setElide(p.elide);
+                    p.rightLabel->setTextElide(p.textElide);
                     p.rightLabel->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.rightLabel);
                 }

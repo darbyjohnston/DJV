@@ -51,21 +51,21 @@ namespace djv
             std::shared_ptr<UI::ComboBox> aspectRatioComboBox;
 
             std::shared_ptr<UI::ToolButton> colorEnabledButton;
-            std::map<std::string, std::shared_ptr<UI::FloatSlider> > colorSliders;
+            std::map<std::string, std::shared_ptr<UI::Numeric::FloatSlider> > colorSliders;
             std::shared_ptr<UI::ToggleButton> colorInvertButton;
             std::shared_ptr<UI::ToolButton> levelsEnabledButton;
-            std::map<std::string, std::shared_ptr<UI::FloatSlider> > levelsSliders;
+            std::map<std::string, std::shared_ptr<UI::Numeric::FloatSlider> > levelsSliders;
             std::shared_ptr<UI::ToolButton> exposureEnabledButton;
-            std::map<std::string, std::shared_ptr<UI::FloatSlider> > exposureSliders;
+            std::map<std::string, std::shared_ptr<UI::Numeric::FloatSlider> > exposureSliders;
             std::shared_ptr<UI::ToolButton> softClipEnabledButton;
-            std::shared_ptr<UI::FloatSlider> softClipSlider;
+            std::shared_ptr<UI::Numeric::FloatSlider> softClipSlider;
 
             std::shared_ptr<UI::ToolButton> frameStoreEnabledButton;
             std::shared_ptr<UI::PushButton> loadFrameStoreButton;
             std::shared_ptr<UI::PushButton> clearFrameStoreButton;
             std::shared_ptr<UI::ImageWidget> frameStoreWidget;
 
-            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
 
@@ -96,14 +96,14 @@ namespace djv
             p.colorEnabledButton->setIcon("djvIconHidden");
             p.colorEnabledButton->setCheckedIcon("djvIconVisible");
             p.colorEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.colorSliders["Brightness"] = UI::FloatSlider::create(context);
+            p.colorSliders["Brightness"] = UI::Numeric::FloatSlider::create(context);
             p.colorSliders["Brightness"]->setRange(Math::FloatRange(0.F, 4.F));
             const Render2D::ImageColor color;
             p.colorSliders["Brightness"]->setDefault(color.brightness);
-            p.colorSliders["Contrast"] = UI::FloatSlider::create(context);
+            p.colorSliders["Contrast"] = UI::Numeric::FloatSlider::create(context);
             p.colorSliders["Contrast"]->setRange(Math::FloatRange(0.F, 4.F));
             p.colorSliders["Contrast"]->setDefault(color.contrast);
-            p.colorSliders["Saturation"] = UI::FloatSlider::create(context);
+            p.colorSliders["Saturation"] = UI::Numeric::FloatSlider::create(context);
             p.colorSliders["Saturation"]->setRange(Math::FloatRange(0.F, 4.F));
             p.colorSliders["Saturation"]->setDefault(color.saturation);
             for (const auto& slider : p.colorSliders)
@@ -117,17 +117,17 @@ namespace djv
             p.levelsEnabledButton->setIcon("djvIconHidden");
             p.levelsEnabledButton->setCheckedIcon("djvIconVisible");
             p.levelsEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.levelsSliders["InLow"] = UI::FloatSlider::create(context);
+            p.levelsSliders["InLow"] = UI::Numeric::FloatSlider::create(context);
             const Render2D::ImageLevels levels;
             p.levelsSliders["InLow"]->setDefault(levels.inLow);
-            p.levelsSliders["InHigh"] = UI::FloatSlider::create(context);
+            p.levelsSliders["InHigh"] = UI::Numeric::FloatSlider::create(context);
             p.levelsSliders["InHigh"]->setDefault(levels.inHigh);
-            p.levelsSliders["Gamma"] = UI::FloatSlider::create(context);
+            p.levelsSliders["Gamma"] = UI::Numeric::FloatSlider::create(context);
             p.levelsSliders["Gamma"]->setRange(Math::FloatRange(.1F, 4.F));
             p.levelsSliders["Gamma"]->setDefault(levels.gamma);
-            p.levelsSliders["OutLow"] = UI::FloatSlider::create(context);
+            p.levelsSliders["OutLow"] = UI::Numeric::FloatSlider::create(context);
             p.levelsSliders["OutLow"]->setDefault(levels.outLow);
-            p.levelsSliders["OutHigh"] = UI::FloatSlider::create(context);
+            p.levelsSliders["OutHigh"] = UI::Numeric::FloatSlider::create(context);
             p.levelsSliders["OutHigh"]->setDefault(levels.outHigh);
             for (const auto& slider : p.levelsSliders)
             {
@@ -139,17 +139,17 @@ namespace djv
             p.exposureEnabledButton->setIcon("djvIconHidden");
             p.exposureEnabledButton->setCheckedIcon("djvIconVisible");
             p.exposureEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.exposureSliders["Exposure"] = UI::FloatSlider::create(context);
+            p.exposureSliders["Exposure"] = UI::Numeric::FloatSlider::create(context);
             p.exposureSliders["Exposure"]->setRange(Math::FloatRange(-10.F, 10.F));
             const Render2D::ImageExposure exposure;
             p.exposureSliders["Exposure"]->setDefault(exposure.exposure);
-            p.exposureSliders["Defog"] = UI::FloatSlider::create(context);
+            p.exposureSliders["Defog"] = UI::Numeric::FloatSlider::create(context);
             p.exposureSliders["Defog"]->setRange(Math::FloatRange(0.F, .01F));
             p.exposureSliders["Defog"]->setDefault(exposure.defog);
-            p.exposureSliders["KneeLow"] = UI::FloatSlider::create(context);
+            p.exposureSliders["KneeLow"] = UI::Numeric::FloatSlider::create(context);
             p.exposureSliders["KneeLow"]->setRange(Math::FloatRange(-3.F, 3.F));
             p.exposureSliders["KneeLow"]->setDefault(exposure.kneeLow);
-            p.exposureSliders["KneeHigh"] = UI::FloatSlider::create(context);
+            p.exposureSliders["KneeHigh"] = UI::Numeric::FloatSlider::create(context);
             p.exposureSliders["KneeHigh"]->setRange(Math::FloatRange(3.5F, 7.5F));
             p.exposureSliders["KneeHigh"]->setDefault(exposure.kneeHigh);
             for (const auto& slider : p.exposureSliders)
@@ -162,7 +162,7 @@ namespace djv
             p.softClipEnabledButton->setIcon("djvIconHidden");
             p.softClipEnabledButton->setCheckedIcon("djvIconVisible");
             p.softClipEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.softClipSlider = UI::FloatSlider::create(context);
+            p.softClipSlider = UI::Numeric::FloatSlider::create(context);
             p.softClipSlider->setDefaultVisible(true);
 
             p.frameStoreEnabledButton = UI::ToolButton::create(context);
@@ -173,11 +173,11 @@ namespace djv
             p.loadFrameStoreButton = UI::PushButton::create(context);
             p.clearFrameStoreButton = UI::PushButton::create(context);
             p.frameStoreWidget = UI::ImageWidget::create(context);
-            p.frameStoreWidget->setSizeRole(UI::MetricsRole::TextColumn);
+            p.frameStoreWidget->setImageSizeRole(UI::MetricsRole::TextColumn);
             p.frameStoreWidget->setHAlign(UI::HAlign::Center);
             p.frameStoreWidget->setVAlign(UI::VAlign::Center);
 
-            p.sizeGroup = UI::LabelSizeGroup::create();
+            p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
             p.formLayouts["Channels"] = UI::FormLayout::create(context);
             p.formLayouts["Channels"]->addChild(p.channelDisplayComboBox);
@@ -202,7 +202,7 @@ namespace djv
             }
             p.formLayouts["Color"]->addChild(p.colorInvertButton);
             p.bellows["Color"] = UI::Bellows::create(context);
-            p.bellows["Color"]->addWidget(p.colorEnabledButton);
+            p.bellows["Color"]->addButtonWidget(p.colorEnabledButton);
             p.bellows["Color"]->addChild(p.formLayouts["Color"]);
 
             p.formLayouts["Levels"] = UI::FormLayout::create(context);
@@ -211,7 +211,7 @@ namespace djv
                 p.formLayouts["Levels"]->addChild(p.levelsSliders[i]);
             }
             p.bellows["Levels"] = UI::Bellows::create(context);
-            p.bellows["Levels"]->addWidget(p.levelsEnabledButton);
+            p.bellows["Levels"]->addButtonWidget(p.levelsEnabledButton);
             p.bellows["Levels"]->addChild(p.formLayouts["Levels"]);
 
             p.formLayouts["Exposure"] = UI::FormLayout::create(context);
@@ -220,13 +220,13 @@ namespace djv
                 p.formLayouts["Exposure"]->addChild(p.exposureSliders[i]);
             }
             p.bellows["Exposure"] = UI::Bellows::create(context);
-            p.bellows["Exposure"]->addWidget(p.exposureEnabledButton);
+            p.bellows["Exposure"]->addButtonWidget(p.exposureEnabledButton);
             p.bellows["Exposure"]->addChild(p.formLayouts["Exposure"]);
 
             p.formLayouts["SoftClip"] = UI::FormLayout::create(context);
             p.formLayouts["SoftClip"]->addChild(p.softClipSlider);
             p.bellows["SoftClip"] = UI::Bellows::create(context);
-            p.bellows["SoftClip"]->addWidget(p.softClipEnabledButton);
+            p.bellows["SoftClip"]->addButtonWidget(p.softClipEnabledButton);
             p.bellows["SoftClip"]->addChild(p.formLayouts["SoftClip"]);
 
             auto vLayout = UI::VerticalLayout::create(context);
@@ -239,7 +239,7 @@ namespace djv
             vLayout->addChild(hLayout);
             vLayout->addChild(p.frameStoreWidget);
             p.bellows["FrameStore"] = UI::Bellows::create(context);
-            p.bellows["FrameStore"]->addWidget(p.frameStoreEnabledButton);
+            p.bellows["FrameStore"]->addButtonWidget(p.frameStoreEnabledButton);
             p.bellows["FrameStore"]->addChild(vLayout);
 
             for (const auto& i : p.formLayouts)

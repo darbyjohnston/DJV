@@ -47,7 +47,7 @@ namespace djv
                 void _paintEvent(System::Event::Paint &) override;
 
             private:
-                std::shared_ptr<Label> _label;
+                std::shared_ptr<Text::Label> _label;
                 std::shared_ptr<Icon> _icon;
                 std::shared_ptr<HorizontalLayout> _layout;
             };
@@ -60,7 +60,7 @@ namespace djv
                 setButtonType(ButtonType::Toggle);
                 setBackgroundRole(ColorRole::Button);
 
-                _label = Label::create(context);
+                _label = Text::Label::create(context);
                 _label->setTextHAlign(TextHAlign::Left);
 
                 _icon = Icon::create(context);

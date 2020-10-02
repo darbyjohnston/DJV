@@ -27,17 +27,27 @@ namespace djv
 
                 static std::shared_ptr<Push> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Icon
+                ///@{
+
                 std::string getIcon() const;
 
                 void setIcon(const std::string&);
+
+                ///@}
+
+                //! \name Text
+                ///@{
 
                 std::string getText() const;
 
                 void setText(const std::string&);
 
-                TextHAlign getTextHAlign() const;
+                ///@}
 
-                void setTextHAlign(TextHAlign);
+
+                //! \name Font
+                ///@{
 
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
@@ -47,9 +57,18 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
+                ///@}
+
+                //! \name Options
+                ///@{
+
+                TextHAlign getTextHAlign() const;
                 const Layout::Margin& getInsideMargin() const;
 
+                void setTextHAlign(TextHAlign);
                 void setInsideMargin(const Layout::Margin&);
+
+                ///@}
 
                 void setForegroundColorRole(ColorRole) override;
 

@@ -96,7 +96,7 @@ namespace djv
             return "0";
         }
 
-        void NUXSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void NUXSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

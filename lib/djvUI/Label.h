@@ -10,129 +10,118 @@ namespace djv
 {
     namespace UI
     {
-        class LabelSizeGroup;
-
-        //! This class provides a text label.
-        class Label : public Widget
+        //! This namespace provides text widget functionality.
+        namespace Text
         {
-            DJV_NON_COPYABLE(Label);
-            
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            Label();
+            class LabelSizeGroup;
 
-        public:
-            ~Label() override;
+            //! This class provides a text label.
+            class Label : public Widget
+            {
+                DJV_NON_COPYABLE(Label);
 
-            static std::shared_ptr<Label> create(const std::shared_ptr<System::Context>&);
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                Label();
 
-            //! \name Text
-            ///@{
+            public:
+                ~Label() override;
 
-            const std::string& getText() const;
+                static std::shared_ptr<Label> create(const std::shared_ptr<System::Context>&);
 
-            void setText(const std::string&);
+                //! \name Text
+                ///@{
 
-            ///@}
+                const std::string& getText() const;
 
-            //! \name Text Align
-            ///@{
+                void setText(const std::string&);
 
-            TextHAlign getTextHAlign() const;
-            TextVAlign getTextVAlign() const;
+                ///@}
 
-            void setTextHAlign(TextHAlign);
-            void setTextVAlign(TextVAlign);
+                //! \name Font
+                ///@{
 
-            ///@}
+                const std::string& getFontFamily() const;
+                const std::string& getFontFace() const;
+                MetricsRole getFontSizeRole() const;
 
-            //! \name Text Color Role
-            ///@{
+                void setFontFamily(const std::string&);
+                void setFontFace(const std::string&);
+                void setFontSizeRole(MetricsRole);
 
-            ColorRole getTextColorRole() const;
+                ///@}
 
-            void setTextColorRole(ColorRole);
+                //! \name Options
+                ///@{
 
-            ///@}
+                TextHAlign getTextHAlign() const;
+                TextVAlign getTextVAlign() const;
+                ColorRole getTextColorRole() const;
+                size_t getTextElide() const;
 
-            //! \name Text Font
-            ///@{
+                void setTextHAlign(TextHAlign);
+                void setTextVAlign(TextVAlign);
+                void setTextColorRole(ColorRole);
+                void setTextElide(size_t);
 
-            const std::string& getFontFamily() const;
-            const std::string& getFontFace() const;
-            MetricsRole getFontSizeRole() const;
+                ///@}
 
-            void setFontFamily(const std::string&);
-            void setFontFace(const std::string&);
-            void setFontSizeRole(MetricsRole);
+                //! \name Size
+                ///@{
 
-            ///@}
+                const std::string& getSizeString() const;
 
-            //! \name Text Elide
-            ///@{
+                void setSizeString(const std::string&);
+                void setSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
 
-            size_t getElide() const;
+                ///@}
 
-            void setElide(size_t);
+            protected:
+                void _initLayoutEvent(System::Event::InitLayout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
-            ///@}
+                void _initEvent(System::Event::Init&) override;
+                void _updateEvent(System::Event::Update&) override;
 
-            //! \name Size String
-            ///@{
+            private:
+                glm::vec2 _labelMinimumSize = glm::vec2(0.F, 0.F);
 
-            const std::string& getSizeString() const;
+                void _textUpdate();
+                void _sizeStringUpdate();
+                void _fontUpdate();
 
-            void setSizeString(const std::string&);
+                friend class LabelSizeGroup;
 
-            ///@}
+                DJV_PRIVATE();
+            };
 
-            void setSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
+            //! This class provides functionality to constrain the minimum size
+            //! of multiple Label widgets.
+            class LabelSizeGroup : public std::enable_shared_from_this<LabelSizeGroup>
+            {
+                DJV_NON_COPYABLE(LabelSizeGroup);
 
-        protected:
-            void _initLayoutEvent(System::Event::InitLayout&) override;
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-            void _paintEvent(System::Event::Paint&) override;
+            protected:
+                LabelSizeGroup();
 
-            void _initEvent(System::Event::Init&) override;
-            void _updateEvent(System::Event::Update&) override;
+            public:
+                ~LabelSizeGroup();
 
-        private:
-            glm::vec2 _labelMinimumSize = glm::vec2(0.F, 0.F);
+                static std::shared_ptr<LabelSizeGroup> create();
 
-            void _textUpdate();
-            void _sizeStringUpdate();
-            void _fontUpdate();
+                void addLabel(const std::weak_ptr<Label>&);
+                void removeLabel(const std::weak_ptr<Label>&);
+                void clearLabels();
 
-            friend class LabelSizeGroup;
+                const glm::vec2& getMinimumSize() const;
+                void calcMinimumSize();
 
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
-        //! This class provides functionality to constrain the minimum size
-        //! of multiple Label widgets.
-        class LabelSizeGroup : public std::enable_shared_from_this<LabelSizeGroup>
-        {
-            DJV_NON_COPYABLE(LabelSizeGroup);
-
-        protected:
-            LabelSizeGroup();
-
-        public:
-            ~LabelSizeGroup();
-
-            static std::shared_ptr<LabelSizeGroup> create();
-
-            void addLabel(const std::weak_ptr<Label>&);
-            void removeLabel(const std::weak_ptr<Label>&);
-            void clearLabels();
-
-            const glm::vec2& getMinimumSize() const;
-            void calcMinimumSize();
-
-        private:
-            DJV_PRIVATE();
-        };
-
+        } // namespace Text
     } // namespace UI
 } // namespace djv

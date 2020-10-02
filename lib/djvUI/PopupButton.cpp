@@ -33,15 +33,14 @@ namespace djv
             struct Popup::Private
             {
                 MenuButtonStyle buttonStyle = MenuButtonStyle::Flat;
+                UI::Popup popupDefault = UI::Popup::BelowRight;
                 bool capturePointer = true;
                 bool captureKeyboard = true;
-                UI::Popup popupDefault = UI::Popup::BelowRight;
 
                 std::shared_ptr<Widget> widget;
                 std::shared_ptr<Button::Menu> button;
                 std::shared_ptr<UI::Window> window;
 
-                std::function<void(int)> callback;
                 std::function<std::shared_ptr<Widget>(void)> openCallback;
                 std::function<void(const std::shared_ptr<Widget>&)> closeCallback;
             };
@@ -229,24 +228,14 @@ namespace djv
                 _p->button->setFontSizeRole(value);
             }
 
-            size_t Popup::getElide() const
+            size_t Popup::getTextElide() const
             {
-                return _p->button->getElide();
-            }
-
-            void Popup::setElide(size_t value)
-            {
-                _p->button->setElide(value);
+                return _p->button->getTextElide();
             }
 
             MetricsRole Popup::getInsideMargin() const
             {
                 return _p->button->getInsideMargin();
-            }
-
-            void Popup::setInsideMargin(MetricsRole value)
-            {
-                _p->button->setInsideMargin(value);
             }
 
             bool Popup::hasCapturePointer() const
@@ -257,6 +246,16 @@ namespace djv
             bool Popup::hasCaptureKeyboard() const
             {
                 return _p->captureKeyboard;
+            }
+
+            void Popup::setTextElide(size_t value)
+            {
+                _p->button->setTextElide(value);
+            }
+
+            void Popup::setInsideMargin(MetricsRole value)
+            {
+                _p->button->setInsideMargin(value);
             }
 
             void Popup::setCapturePointer(bool value)

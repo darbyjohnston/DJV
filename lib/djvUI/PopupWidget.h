@@ -22,6 +22,7 @@ namespace djv
         public:
             ~PopupWidget() override;
 
+            //! Create a new popup widget.
             static std::shared_ptr<PopupWidget> create(const std::shared_ptr<System::Context>&);
 
             void addChild(const std::shared_ptr<IObject>&) override;

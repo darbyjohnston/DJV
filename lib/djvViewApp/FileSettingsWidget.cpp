@@ -127,7 +127,7 @@ namespace djv
             return "A";
         }
 
-        void SequenceSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void SequenceSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
@@ -145,7 +145,7 @@ namespace djv
 
         struct RecentFilesSettingsWidget::Private
         {
-            std::shared_ptr<UI::IntSlider> maxSlider;
+            std::shared_ptr<UI::Numeric::IntSlider> maxSlider;
             std::shared_ptr<UI::FormLayout> layout;
 
             std::shared_ptr<Observer::Value<size_t> > maxObserver;
@@ -158,7 +158,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::RecentFilesSettingsWidget");
 
-            p.maxSlider = UI::IntSlider::create(context);
+            p.maxSlider = UI::Numeric::IntSlider::create(context);
             p.maxSlider->setRange(Math::IntRange(5, 100));
             p.maxSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
 

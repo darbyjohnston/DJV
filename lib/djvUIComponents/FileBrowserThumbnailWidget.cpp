@@ -23,7 +23,7 @@ namespace djv
         {
             struct ThumbnailWidget::Private
             {
-                std::shared_ptr<IntSlider> thumbnailSizeSlider;
+                std::shared_ptr<Numeric::IntSlider> thumbnailSizeSlider;
 
                 std::shared_ptr<VerticalLayout> layout;
 
@@ -37,7 +37,7 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::ThumbnailWidget");
 
-                p.thumbnailSizeSlider = IntSlider::create(context);
+                p.thumbnailSizeSlider = Numeric::IntSlider::create(context);
                 p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
                 p.thumbnailSizeSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
 

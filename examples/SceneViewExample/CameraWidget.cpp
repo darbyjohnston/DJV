@@ -19,7 +19,7 @@ void CameraWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     ISettingsWidget::_init(context);
 
-    _floatEdits["FOV"] = UI::FloatEdit::create(context);
+    _floatEdits["FOV"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["FOV"]->setRange(Math::FloatRange(10.F, 170.F));
     auto model = _floatEdits["FOV"]->getModel();
     model->setSmallIncrement(1.F);
@@ -30,13 +30,13 @@ void CameraWidget::_init(const std::shared_ptr<System::Context>& context)
     _groupBoxes["Lens"] = UI::GroupBox::create(context);
     _groupBoxes["Lens"]->addChild(_layouts["Lens"]);
 
-    _floatEdits["ClippingNear"] = UI::FloatEdit::create(context);
+    _floatEdits["ClippingNear"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["ClippingNear"]->setRange(Math::FloatRange(.001F, posMax));
     _floatEdits["ClippingNear"]->setPrecision(3);
     model = _floatEdits["ClippingNear"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-    _floatEdits["ClippingFar"] = UI::FloatEdit::create(context);
+    _floatEdits["ClippingFar"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["ClippingFar"]->setRange(Math::FloatRange(.001F, posMax));
     _floatEdits["ClippingFar"]->setPrecision(3);
     model = _floatEdits["ClippingFar"]->getModel();
@@ -49,17 +49,17 @@ void CameraWidget::_init(const std::shared_ptr<System::Context>& context)
     _groupBoxes["Clipping"] = UI::GroupBox::create(context);
     _groupBoxes["Clipping"]->addChild(_layouts["Clipping"]);
 
-    _floatEdits["TargetX"] = UI::FloatEdit::create(context);
+    _floatEdits["TargetX"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["TargetX"]->setRange(Math::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetX"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-    _floatEdits["TargetY"] = UI::FloatEdit::create(context);
+    _floatEdits["TargetY"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["TargetY"]->setRange(Math::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetY"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-    _floatEdits["TargetZ"] = UI::FloatEdit::create(context);
+    _floatEdits["TargetZ"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["TargetZ"]->setRange(Math::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetZ"]->getModel();
     model->setSmallIncrement(1.F);
@@ -72,17 +72,17 @@ void CameraWidget::_init(const std::shared_ptr<System::Context>& context)
     _groupBoxes["Target"] = UI::GroupBox::create(context);
     _groupBoxes["Target"]->addChild(_layouts["Target"]);
 
-    _floatEdits["PositionDistance"] = UI::FloatEdit::create(context);
+    _floatEdits["PositionDistance"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["PositionDistance"]->setRange(Math::FloatRange(1.F, posMax));
     model = _floatEdits["PositionDistance"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-    _floatEdits["PositionLatitude"] = UI::FloatEdit::create(context);
+    _floatEdits["PositionLatitude"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["PositionLatitude"]->setRange(Math::FloatRange(-89.F, 89.F));
     model = _floatEdits["PositionLatitude"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-    _floatEdits["PositionLongitude"] = UI::FloatEdit::create(context);
+    _floatEdits["PositionLongitude"] = UI::Numeric::FloatEdit::create(context);
     _floatEdits["PositionLongitude"]->setRange(Math::FloatRange(0.F, 360.F));
     model = _floatEdits["PositionLongitude"]->getModel();
     model->setSmallIncrement(1.F);
@@ -247,7 +247,7 @@ void CameraWidget::setCameraDataCallback(const std::function<void(const Scene3D:
     _cameraDataCallback = value;
 }
 
-void CameraWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
+void CameraWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>& value)
 {
     for (auto i : _layouts)
     {

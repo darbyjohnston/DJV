@@ -193,12 +193,12 @@ namespace djv
                 auto widget4 = ToggleButton::create(context);
                 widget4->setHAlign(HAlign::Center);
                     
-                auto widget5 = IntSlider::create(context);
+                auto widget5 = Numeric::IntSlider::create(context);
                 widget5->setVAlign(VAlign::Top);
                 widget5->setVAlign(VAlign::Top);
-                auto widget6 = FloatSlider::create(context);
+                auto widget6 = Numeric::FloatSlider::create(context);
                 widget6->setVAlign(VAlign::Bottom);
-                auto widget7 = LineEdit::create(context);
+                auto widget7 = Text::LineEdit::create(context);
                 widget7->setVAlign(VAlign::Center);
                     
                 auto stackLayout = StackLayout::create(context);
@@ -210,7 +210,7 @@ namespace djv
                 stackLayout->addChild(widget6);
                     
                 auto rowLayout = HorizontalLayout::create(context);
-                auto label = Label::create(context);
+                auto label = Text::Label::create(context);
                 label->setText("Hello world!");
                 rowLayout->addChild(label);
                 auto icon = Icon::create(context);

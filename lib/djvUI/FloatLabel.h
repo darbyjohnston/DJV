@@ -18,54 +18,42 @@ namespace djv
 
     namespace UI
     {
-        //! This class provides a label for floating-point values.
-        class FloatLabel : public Widget
+        namespace Numeric
         {
-            DJV_NON_COPYABLE(FloatLabel);
+            //! This class provides a label for floating-point values.
+            class FloatLabel : public Widget
+            {
+                DJV_NON_COPYABLE(FloatLabel);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            FloatLabel();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                FloatLabel();
 
-        public:
-            ~FloatLabel() override;
+            public:
+                ~FloatLabel() override;
 
-            static std::shared_ptr<FloatLabel> create(const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<FloatLabel> create(const std::shared_ptr<System::Context>&);
 
-            //! \name Model
-            ///@{
+                const std::shared_ptr<Math::FloatValueModel>& getModel() const;
 
-            const std::shared_ptr<Math::FloatValueModel>& getModel() const;
+                void setModel(const std::shared_ptr<Math::FloatValueModel>&);
 
-            void setModel(const std::shared_ptr<Math::FloatValueModel>&);
+                size_t getPrecision();
 
-            ///@}
+                void setPrecision(size_t);
 
-            //! \name Precision
-            ///@{
+                static std::string getSizeString(const Math::FloatRange&, size_t precision);
 
-            size_t getPrecision();
+            protected:
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-            void setPrecision(size_t);
+            private:
+                void _textUpdate();
 
-            ///@}
+                DJV_PRIVATE();
+            };
 
-            //! \name Utility
-            ///@{
-            
-            static std::string getSizeString(const Math::FloatRange&, size_t precision);
-
-            ///@}
-
-        protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-
-        private:
-            void _textUpdate();
-
-            DJV_PRIVATE();
-        };
-
+        } // namespace Numeric
     } // namespace UI
 } // namespace djv

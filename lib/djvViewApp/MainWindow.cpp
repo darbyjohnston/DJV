@@ -53,7 +53,7 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t elide = 40;
+            const size_t textElide = 40;
 
         } // namespace
 
@@ -110,7 +110,7 @@ namespace djv
             }
 
             p.activeButton = UI::ToolButton::create(context);
-            p.activeButton->setElide(elide);
+            p.activeButton->setTextElide(textElide);
 
             auto viewFrameButton = UI::ToolButton::create(context);
             auto viewCenterButton = UI::ToolButton::create(context);

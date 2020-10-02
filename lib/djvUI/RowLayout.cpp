@@ -51,6 +51,20 @@ namespace djv
                 return out;
             }
 
+            Orientation Row::getOrientation() const
+            {
+                return _p->orientation;
+            }
+
+            void Row::setOrientation(Orientation value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.orientation)
+                    return;
+                p.orientation = value;
+                _resize();
+            }
+
             void Row::addSeparator()
             {
                 if (auto context = getContext().lock())
@@ -79,23 +93,16 @@ namespace djv
                 }
             }
 
-            Orientation Row::getOrientation() const
-            {
-                return _p->orientation;
-            }
-
-            void Row::setOrientation(Orientation value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.orientation)
-                    return;
-                p.orientation = value;
-                _resize();
-            }
-
             const Spacing& Row::getSpacing() const
             {
                 return _p->spacing;
+            }
+
+            RowStretch Row::getStretch(const std::shared_ptr<Widget>& value) const
+            {
+                DJV_PRIVATE_PTR();
+                const auto i = p.stretch.find(value);
+                return i != p.stretch.end() ? i->second : RowStretch::First;
             }
 
             void Row::setSpacing(const Spacing& value)
@@ -105,13 +112,6 @@ namespace djv
                     return;
                 p.spacing = value;
                 _resize();
-            }
-
-            RowStretch Row::getStretch(const std::shared_ptr<Widget>& value) const
-            {
-                DJV_PRIVATE_PTR();
-                const auto i = p.stretch.find(value);
-                return i != p.stretch.end() ? i->second : RowStretch::First;
             }
 
             void Row::setStretch(const std::shared_ptr<Widget>& value, RowStretch stretch)

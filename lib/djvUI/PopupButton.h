@@ -26,10 +26,18 @@ namespace djv
 
                 static std::shared_ptr<Popup> create(MenuButtonStyle, const std::shared_ptr<System::Context>&);
 
+                //! \name Open and Close
+                ///@{
+
                 void open();
                 void close();
 
                 void setPopupDefault(UI::Popup);
+
+                ///@}
+
+                //! \name Icon
+                ///@{
 
                 const std::string& getIcon() const;
                 const std::string& getPopupIcon() const;
@@ -37,9 +45,19 @@ namespace djv
                 void setIcon(const std::string&);
                 void setPopupIcon(const std::string&);
 
+                ///@}
+
+                //! \name Text
+                ///@{
+
                 const std::string& getText() const;
 
                 void setText(const std::string&);
+
+                ///@}
+
+                //! \name Font
+                ///@{
 
                 const std::string& getFontFamily() const;
                 const std::string& getFontFace() const;
@@ -49,22 +67,30 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
-                size_t getElide() const;
+                ///@}
 
-                void setElide(size_t);
+                //! \name Options
+                ///@{
 
+                size_t getTextElide() const;
                 MetricsRole getInsideMargin() const;
-
-                void setInsideMargin(MetricsRole);
-
                 bool hasCapturePointer() const;
                 bool hasCaptureKeyboard() const;
 
+                void setTextElide(size_t);
+                void setInsideMargin(MetricsRole);
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
 
+                ///@}
+
+                //! \name Callbacks
+                ///@{
+
                 void setOpenCallback(const std::function<std::shared_ptr<Widget>(void)>&);
                 void setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>&);
+
+                ///@}
 
             protected:
                 void _preLayoutEvent(System::Event::PreLayout&) override;

@@ -26,15 +26,7 @@ namespace djv
 
                 static std::shared_ptr<Drawer> create(Side, const std::shared_ptr<System::Context>&);
 
-                //! \name Size
-                ///@{
-
                 Side getSide() const;
-
-                ///@}
-
-                //! \name Open and Close
-                ///@{
 
                 bool isOpen() const;
 
@@ -44,8 +36,6 @@ namespace djv
 
                 void setOpenCallback(const std::function<std::shared_ptr<Widget>(void)>&);
                 void setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>&);
-
-                ///@}
 
             protected:
                 void _preLayoutEvent(System::Event::PreLayout&) override;

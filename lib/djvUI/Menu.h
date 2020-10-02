@@ -35,26 +35,56 @@ namespace djv
         public:
             ~Menu() override;
 
+            //! Create a new menu.
             static std::shared_ptr<Menu> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Icon
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeIcon() const;
-            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeText() const;
 
             void setIcon(const std::string&);
+
+            ///@}
+
+            //! \name Text
+            ///@{
+
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeText() const;
+
             void setText(const std::string&);
+
+            ///@}
+
+            //! \name Actions
+            ///@{
 
             void addAction(const std::shared_ptr<Action>&);
             void removeAction(const std::shared_ptr<Action>&);
             void clearActions();
+
+            ///@}
+
+            //! \name Layout
+            ///@{
+
             void addSeparator();
 
-            MetricsRole getMinimumSizeRole() const;
-            
-            void setMinimumSizeRole(MetricsRole);
+            ///@}
 
+            //! \name Options
+            ///@{
+
+            MetricsRole getMinimumSizeRole() const;
             ColorRole getBackgroundRole() const;
-            
+
+            void setMinimumSizeRole(MetricsRole);
             void setBackgroundRole(ColorRole);
+
+            ///@}
+
+            //! \name Open and Close
+            ///@{
 
             std::shared_ptr<Widget> popup(const glm::vec2&);
             std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu>& button);
@@ -63,8 +93,9 @@ namespace djv
             bool isOpen() const;
             
             void close();
-
             void setCloseCallback(const std::function<void(void)>&);
+
+            ///@}
 
         private:
             void _createWidgets();

@@ -25,17 +25,32 @@ namespace djv
                 ~Overlay() override;
                 static std::shared_ptr<Overlay> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Capture Input
+                ///@{
+
                 bool hasCapturePointer() const;
                 bool hasCaptureKeyboard() const;
 
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
 
+                ///@}
+
+                //! \name Fade
+                ///@{
+
                 bool hasFadeIn() const;
 
                 void setFadeIn(bool);
 
+                ///@}
+
+                //! \name Callbacks
+                ///@{
+
                 void setCloseCallback(const std::function<void(void)>&);
+
+                ///@}
 
                 void setVisible(bool) override;
                 float getHeightForWidth(float) const override;

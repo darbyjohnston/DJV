@@ -5,6 +5,7 @@
 #include <djvUI/FloatEdit.h>
 
 #include <djvUI/FloatLabel.h>
+#include <djvUI/InumericWidgetFunc.h>
 #include <djvUI/LineEdit.h>
 
 #include <djvMath/NumericValueModels.h>
@@ -19,152 +20,155 @@ namespace djv
 {
     namespace UI
     {
-        struct FloatEdit::Private
+        namespace Numeric
         {
-            int precision = 2;
-            std::shared_ptr<Observer::Value<Math::FloatRange> > rangeObserver;
-            std::shared_ptr<Observer::Value<float> > valueObserver;
-        };
-
-        void FloatEdit::_init(const std::shared_ptr<System::Context>& context)
-        {
-            NumericEdit::_init(context);
-            setClassName("djv::UI::FloatEdit");
-            setModel(Math::FloatValueModel::create());
-        }
-
-        FloatEdit::FloatEdit() :
-            _p(new Private)
-        {}
-
-        FloatEdit::~FloatEdit()
-        {}
-        
-        std::shared_ptr<FloatEdit> FloatEdit::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<FloatEdit>(new FloatEdit);
-            out->_init(context);
-            return out;
-        }
-
-        int FloatEdit::getPrecision()
-        {
-            return _p->precision;
-        }
-
-        void FloatEdit::setPrecision(int value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.precision)
-                return;
-            p.precision = value;
-            _textUpdate();
-        }
-
-        void FloatEdit::setModel(const std::shared_ptr<Math::INumericValueModel<float> >& model)
-        {
-            INumericEdit<float>::setModel(model);
-            DJV_PRIVATE_PTR();
-            if (model)
+            struct FloatEdit::Private
             {
-                auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
-                p.rangeObserver = Observer::Value<Math::FloatRange>::create(
-                    model->observeRange(),
-                    [weak](const Math::FloatRange& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_textUpdate();
-                    }
-                });
-                p.valueObserver = Observer::Value<float>::create(
-                    model->observeValue(),
-                    [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_textUpdate();
-                    }
-                });
+                int precision = 2;
+                std::shared_ptr<Observer::Value<Math::FloatRange> > rangeObserver;
+                std::shared_ptr<Observer::Value<float> > valueObserver;
+            };
+
+            void FloatEdit::_init(const std::shared_ptr<System::Context>& context)
+            {
+                Edit::_init(context);
+                setClassName("djv::UI::FloatEdit");
+                setModel(Math::FloatValueModel::create());
             }
-            else
+
+            FloatEdit::FloatEdit() :
+                _p(new Private)
+            {}
+
+            FloatEdit::~FloatEdit()
+            {}
+
+            std::shared_ptr<FloatEdit> FloatEdit::create(const std::shared_ptr<System::Context>& context)
             {
-                p.rangeObserver.reset();
-                p.valueObserver.reset();
+                auto out = std::shared_ptr<FloatEdit>(new FloatEdit);
+                out->_init(context);
+                return out;
             }
-        }
 
-        void FloatEdit::_setIsMin(bool value)
-        {
-            NumericEdit::_setIsMin(value);
-        }
-
-        void FloatEdit::_setIsMax(bool value)
-        {
-            NumericEdit::_setIsMax(value);
-        }
-
-        void FloatEdit::_textEdit(const std::string& value, TextEditReason reason)
-        {
-            if (auto model = getModel())
+            int FloatEdit::getPrecision()
             {
-                try
-                {
-                    model->setValue(std::stof(value));
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), System::LogLevel::Error);
-                }
+                return _p->precision;
+            }
+
+            void FloatEdit::setPrecision(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.precision)
+                    return;
+                p.precision = value;
                 _textUpdate();
-                _doCallback(reason);
             }
-        }
 
-        bool FloatEdit::_keyPress(int value)
-        {
-            return INumericEdit<float>::_doKeyPress(fromGLFWKey(value));
-        }
-
-        void FloatEdit::_scroll(float value)
-        {
-            if (auto model = getModel())
+            void FloatEdit::setModel(const std::shared_ptr<Math::INumericValueModel<float> >& model)
             {
-                model->setValue(model->observeValue()->get() + model->observeSmallIncrement()->get() * value);
+                IEdit<float>::setModel(model);
+                DJV_PRIVATE_PTR();
+                if (model)
+                {
+                    auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
+                    p.rangeObserver = Observer::Value<Math::FloatRange>::create(
+                        model->observeRange(),
+                        [weak](const Math::FloatRange& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_textUpdate();
+                            }
+                        });
+                    p.valueObserver = Observer::Value<float>::create(
+                        model->observeValue(),
+                        [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_textUpdate();
+                            }
+                        });
+                }
+                else
+                {
+                    p.rangeObserver.reset();
+                    p.valueObserver.reset();
+                }
             }
-        }
 
-        void FloatEdit::_incrementValue()
-        {
-            if (auto model = getModel())
+            void FloatEdit::_setIsMin(bool value)
             {
-                model->incrementSmall();
-                _doCallback(TextEditReason::Accepted);
+                Edit::_setIsMin(value);
             }
-        }
 
-        void FloatEdit::_decrementValue()
-        {
-            if (auto model = getModel())
+            void FloatEdit::_setIsMax(bool value)
             {
-                model->decrementSmall();
-                _doCallback(TextEditReason::Accepted);
+                Edit::_setIsMax(value);
             }
-        }
 
-        void FloatEdit::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto model = getModel())
+            void FloatEdit::_textEdit(const std::string& value, TextEditReason reason)
             {
-                std::stringstream ss;
-                ss.precision(p.precision);
-                const float value = model->observeValue()->get();
-                ss << std::fixed << value;
-                NumericEdit::_textUpdate(ss.str(), FloatLabel::getSizeString(model->observeRange()->get(), p.precision));
+                if (auto model = getModel())
+                {
+                    try
+                    {
+                        model->setValue(std::stof(value));
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _log(e.what(), System::LogLevel::Error);
+                    }
+                    _textUpdate();
+                    _doCallback(reason);
+                }
             }
-            _resize();
-        }
 
+            bool FloatEdit::_keyPress(int value)
+            {
+                return IEdit<float>::_doKeyPress(glfwToKey(value));
+            }
+
+            void FloatEdit::_scroll(float value)
+            {
+                if (auto model = getModel())
+                {
+                    model->setValue(model->observeValue()->get() + model->observeSmallIncrement()->get() * value);
+                }
+            }
+
+            void FloatEdit::_incrementValue()
+            {
+                if (auto model = getModel())
+                {
+                    model->incrementSmall();
+                    _doCallback(TextEditReason::Accepted);
+                }
+            }
+
+            void FloatEdit::_decrementValue()
+            {
+                if (auto model = getModel())
+                {
+                    model->decrementSmall();
+                    _doCallback(TextEditReason::Accepted);
+                }
+            }
+
+            void FloatEdit::_textUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                if (auto model = getModel())
+                {
+                    std::stringstream ss;
+                    ss.precision(p.precision);
+                    const float value = model->observeValue()->get();
+                    ss << std::fixed << value;
+                    Edit::_textUpdate(ss.str(), FloatLabel::getSizeString(model->observeRange()->get(), p.precision));
+                }
+                _resize();
+            }
+
+        } // namespace Numeric
     } // namespace UI
 } // namespace djv

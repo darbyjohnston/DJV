@@ -37,7 +37,7 @@ namespace djv
             std::shared_ptr<UI::PopupButton> configPopupButton;
             std::shared_ptr<UI::PopupButton> displayPopupButton;
             std::shared_ptr<UI::PopupButton> viewPopupButton;
-            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<ColorSpaceImageWidget> imageWidget;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
@@ -61,17 +61,17 @@ namespace djv
 
             p.configPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
             p.configPopupButton->setPopupIcon("djvIconPopupMenu");
-            p.configPopupButton->setElide(labelElide);
+            p.configPopupButton->setTextElide(textElide);
 
             p.displayPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
             p.displayPopupButton->setPopupIcon("djvIconPopupMenu");
-            p.displayPopupButton->setElide(labelElide);
+            p.displayPopupButton->setTextElide(textElide);
 
             p.viewPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
             p.viewPopupButton->setPopupIcon("djvIconPopupMenu");
-            p.viewPopupButton->setElide(labelElide);
+            p.viewPopupButton->setTextElide(textElide);
 
-            p.sizeGroup = UI::LabelSizeGroup::create();
+            p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
             p.imageWidget = ColorSpaceImageWidget::create(context);
             p.imageWidget->setSizeGroup(p.sizeGroup);

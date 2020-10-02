@@ -40,11 +40,20 @@ namespace djv
         public:
             ~ScrollWidget() override;
 
+            //! Create a new scroll widget.
             static std::shared_ptr<ScrollWidget> create(ScrollType, const std::shared_ptr<System::Context>&);
+
+            //! \name Scroll Type
+            ///@{
 
             ScrollType getScrollType() const;
 
             void setScrollType(ScrollType);
+
+            ///@}
+
+            //! \name Scroll Position
+            ///@{
 
             const glm::vec2& getScrollPos() const;
 
@@ -58,17 +67,28 @@ namespace djv
             void moveLeft();
             void moveRight();
 
+            ///@}
+
+            //! \name Scroll Bars
+            ///@{
+
             bool hasAutoHideScrollBars() const;
 
             void setAutoHideScrollBars(bool);
 
-            void setBorder(bool);
+            ///@}
+
+            //! \name Options
+            ///@{
 
             MetricsRole getMinimumSizeRole() const;
             MetricsRole getScrollBarSizeRole() const;
 
+            void setBorder(bool);
             void setMinimumSizeRole(MetricsRole);
             void setScrollBarSizeRole(MetricsRole);
+
+            ///@}
 
             void addChild(const std::shared_ptr<IObject>&) override;
             void removeChild(const std::shared_ptr<IObject>&) override;

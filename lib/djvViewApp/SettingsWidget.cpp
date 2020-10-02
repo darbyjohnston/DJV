@@ -27,8 +27,8 @@ namespace djv
         {
             std::map<std::string, std::vector<std::shared_ptr<UI::ISettingsWidget> > > widgets;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Bellows> > bellows;
-            std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Label> > labels;
-            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Text::Label> > labels;
+            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
         };
@@ -40,7 +40,7 @@ namespace djv
 
             setClassName("djv::ViewApp::SettingsWidget");
 
-            p.sizeGroup = UI::LabelSizeGroup::create();
+            p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
             for (auto system : context->getSystemsT<IViewSystem>())
             {
@@ -71,7 +71,7 @@ namespace djv
                         const auto& widget = i.second[j];
                         if (!widget->getSettingsName().empty())
                         {
-                            auto label = UI::Label::create(context);
+                            auto label = UI::Text::Label::create(context);
                             label->setFontFace("Bold");
                             label->setMargin(UI::MetricsRole::MarginSmall);
                             label->setHAlign(UI::HAlign::Left);

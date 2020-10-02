@@ -41,7 +41,7 @@ private:
     UI::ButtonType _buttonType = UI::ButtonType::Radio;
     int _listSize = 20;
     std::vector<std::string> _list;
-    std::shared_ptr<UI::IntSlider> _countSlider;
+    std::shared_ptr<UI::Numeric::IntSlider> _countSlider;
     std::shared_ptr<UI::ListWidget> _listWidget;
     std::shared_ptr<UI::ScrollWidget> _scrollWidget;
     std::shared_ptr<UI::Window> _window;
@@ -52,7 +52,7 @@ void Application::_init(std::list<std::string>& args)
     Desktop::Application::_init(args);
 
     // Create widgets for modifying the list.
-    _countSlider = UI::IntSlider::create(shared_from_this());
+    _countSlider = UI::Numeric::IntSlider::create(shared_from_this());
     auto newButton = UI::PushButton::create(shared_from_this());
     newButton->setText("New List");
 

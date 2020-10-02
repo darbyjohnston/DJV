@@ -39,14 +39,14 @@ namespace djv
             {
                 std::string icon;
                 std::string checkedIcon;
-                MetricsRole iconSizeRole = MetricsRole::Icon;
-                std::shared_ptr<Icon> iconWidget;
-                std::shared_ptr<Label> label;
-                TextHAlign textHAlign = TextHAlign::Left;
+                std::shared_ptr<Text::Label> label;
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
-                size_t elide = 0;
+                MetricsRole iconSizeRole = MetricsRole::Icon;
+                std::shared_ptr<Icon> iconWidget;
+                TextHAlign textHAlign = TextHAlign::Left;
+                size_t textElide = 0;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Action> action;
                 bool textFocusEnabled = false;
@@ -94,15 +94,6 @@ namespace djv
                 p.icon = value;
                 _iconUpdate();
             }
-            
-            void Tool::setIconSizeRole(MetricsRole value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.iconSizeRole)
-                    return;
-                p.iconSizeRole = value;
-                _iconUpdate();
-            }
 
             void Tool::setCheckedIcon(const std::string& value)
             {
@@ -128,13 +119,13 @@ namespace djv
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.label = Label::create(context);
+                            p.label = Text::Label::create(context);
                             p.label->setTextHAlign(p.textHAlign);
                             p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
                             p.label->setFontFamily(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
-                            p.label->setElide(p.elide);
+                            p.label->setTextElide(p.textElide);
                             addChild(p.label);
                         }
                     }
@@ -148,21 +139,6 @@ namespace djv
                     removeChild(p.label);
                     p.label.reset();
                     _resize();
-                }
-            }
-
-            TextHAlign Tool::getTextHAlign() const
-            {
-                return _p->textHAlign;
-            }
-
-            void Tool::setTextHAlign(TextHAlign value)
-            {
-                DJV_PRIVATE_PTR();
-                p.textHAlign = value;
-                if (p.label)
-                {
-                    p.label->setTextHAlign(value);
                 }
             }
 
@@ -211,24 +187,48 @@ namespace djv
                 }
             }
 
-            size_t Tool::getElide() const
+            TextHAlign Tool::getTextHAlign() const
             {
-                return _p->elide;
+                return _p->textHAlign;
             }
 
-            void Tool::setElide(size_t value)
+            size_t Tool::getTextElide() const
             {
-                DJV_PRIVATE_PTR();
-                p.elide = value;
-                if (p.label)
-                {
-                    p.label->setElide(value);
-                }
+                return _p->textElide;
             }
 
             MetricsRole Tool::getInsideMargin() const
             {
                 return _p->insideMargin;
+            }
+
+            void Tool::setIconSizeRole(MetricsRole value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.iconSizeRole)
+                    return;
+                p.iconSizeRole = value;
+                _iconUpdate();
+            }
+
+            void Tool::setTextHAlign(TextHAlign value)
+            {
+                DJV_PRIVATE_PTR();
+                p.textHAlign = value;
+                if (p.label)
+                {
+                    p.label->setTextHAlign(value);
+                }
+            }
+
+            void Tool::setTextElide(size_t value)
+            {
+                DJV_PRIVATE_PTR();
+                p.textElide = value;
+                if (p.label)
+                {
+                    p.label->setTextElide(value);
+                }
             }
 
             void Tool::setInsideMargin(MetricsRole value)

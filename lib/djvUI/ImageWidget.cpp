@@ -31,7 +31,7 @@ namespace djv
             ImageRotate imageRotate = ImageRotate::_0;
             ImageAspectRatio imageAspectRatio = ImageAspectRatio::FromSource;
             ColorRole imageColorRole = ColorRole::None;
-            MetricsRole sizeRole = MetricsRole::None;
+            MetricsRole imageSizeRole = MetricsRole::None;
             OCIO::Config ocioConfig;
             std::string outputColorSpace;
             std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
@@ -92,6 +92,31 @@ namespace djv
             _resize();
         }
 
+        const Render2D::ImageOptions& ImageWidget::getImageOptions() const
+        {
+            return _p->imageOptions;
+        }
+
+        ImageRotate ImageWidget::getImageRotate() const
+        {
+            return _p->imageRotate;
+        }
+
+        ImageAspectRatio ImageWidget::getImageAspectRatio() const
+        {
+            return _p->imageAspectRatio;
+        }
+
+        ColorRole ImageWidget::getImageColorRole() const
+        {
+            return _p->imageColorRole;
+        }
+
+        MetricsRole ImageWidget::getImageSizeRole() const
+        {
+            return _p->imageSizeRole;
+        }
+
         void ImageWidget::setImageOptions(const Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
@@ -119,11 +144,6 @@ namespace djv
             _resize();
         }
 
-        ColorRole ImageWidget::getImageColorRole() const
-        {
-            return _p->imageColorRole;
-        }
-
         void ImageWidget::setImageColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
@@ -133,17 +153,12 @@ namespace djv
             _redraw();
         }
 
-        MetricsRole ImageWidget::getSizeRole() const
-        {
-            return _p->sizeRole;
-        }
-
-        void ImageWidget::setSizeRole(MetricsRole value)
+        void ImageWidget::setImageSizeRole(MetricsRole value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.sizeRole)
+            if (value == p.imageSizeRole)
                 return;
-            p.sizeRole = value;
+            p.imageSizeRole = value;
             _resize();
         }
 
@@ -187,9 +202,9 @@ namespace djv
                 pixelAspectRatio = UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio);
                 aspectRatioScale = UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio());
             }
-            if (p.sizeRole != MetricsRole::None)
+            if (p.imageSizeRole != MetricsRole::None)
             {
-                size.x = style->getMetric(p.sizeRole);
+                size.x = style->getMetric(p.imageSizeRole);
                 if (p.image && p.image->getAspectRatio() > 0.F && pixelAspectRatio > 0.F)
                 {
                     size.y = ceilf(size.x / p.image->getAspectRatio() / pixelAspectRatio * aspectRatioScale);
@@ -230,9 +245,9 @@ namespace djv
                 const glm::vec2 c = g.getCenter();
                 const auto& info = p.image->getInfo();
                 glm::vec2 size(0.F, 0.F);
-                if (p.sizeRole != MetricsRole::None)
+                if (p.imageSizeRole != MetricsRole::None)
                 {
-                    size.x = style->getMetric(p.sizeRole);
+                    size.x = style->getMetric(p.imageSizeRole);
                     size.y = size.x / p.image->getAspectRatio();
                 }
                 else

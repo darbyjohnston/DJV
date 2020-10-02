@@ -42,37 +42,17 @@ namespace djv
 
                 static std::shared_ptr<Grid> create(const std::shared_ptr<System::Context>&);
 
-                //! \name Grid Size
+                //! \name Layout
                 ///@{
 
                 glm::ivec2 getGridSize() const;
-
-                ///@}
-
-                //! \name Grid Position
-                ///@{
-
                 glm::ivec2 getGridPos(const std::shared_ptr<Widget>&);
+                const Spacing& getSpacing() const;
+                GridStretch getStretch(const std::shared_ptr<Widget>&) const;
 
                 void setGridPos(const std::shared_ptr<Widget>&, const glm::ivec2&, GridStretch = GridStretch::None);
                 void setGridPos(const std::shared_ptr<Widget>&, int x, int y, GridStretch = GridStretch::None);
-
-                ///@}
-
-                //! \name Spacing
-                ///@{
-
-                const Spacing& getSpacing() const;
-
                 void setSpacing(const Spacing&);
-
-                ///@}
-
-                //! \name Stretch
-                ///@{
-
-                GridStretch getStretch(const std::shared_ptr<Widget>&) const;
-
                 void setStretch(const std::shared_ptr<Widget>&, GridStretch);
 
                 ///@}

@@ -141,12 +141,12 @@ namespace djv
         {
             Image::Color color = Image::Color(0.F, 0.F, 0.F);
             bool hsv = false;
-            std::vector<std::shared_ptr<Label> > intLabels;
-            std::vector<std::shared_ptr<IntEdit> > intEdits;
-            std::vector<std::shared_ptr<BasicIntSlider> > intSliders;
-            std::vector<std::shared_ptr<Label> > floatLabels;
-            std::vector<std::shared_ptr<FloatEdit> > floatEdits;
-            std::vector<std::shared_ptr<BasicFloatSlider> > floatSliders;
+            std::vector<std::shared_ptr<Text::Label> > intLabels;
+            std::vector<std::shared_ptr<Numeric::IntEdit> > intEdits;
+            std::vector<std::shared_ptr<Numeric::BasicIntSlider> > intSliders;
+            std::vector<std::shared_ptr<Text::Label> > floatLabels;
+            std::vector<std::shared_ptr<Numeric::FloatEdit> > floatEdits;
+            std::vector<std::shared_ptr<Numeric::BasicFloatSlider> > floatSliders;
             std::shared_ptr<GridLayout> layout;
             std::function<void(const Image::Color &)> colorCallback;
             std::vector<std::shared_ptr<Observer::Value<int> > > intObservers;
@@ -266,17 +266,17 @@ namespace djv
                 {
                     if (Image::isIntType(type))
                     {
-                        auto intLabel = Label::create(context);
+                        auto intLabel = Text::Label::create(context);
                         p.layout->addChild(intLabel);
                         p.layout->setGridPos(intLabel, 0, static_cast<int>(i));
                         p.intLabels.push_back(intLabel);
 
-                        auto intEdit = IntEdit::create(context);
+                        auto intEdit = Numeric::IntEdit::create(context);
                         p.layout->addChild(intEdit);
                         p.layout->setGridPos(intEdit, 1, static_cast<int>(i));
                         p.intEdits.push_back(intEdit);
 
-                        auto intSlider = BasicIntSlider::create(Orientation::Horizontal, context);
+                        auto intSlider = Numeric::BasicIntSlider::create(Orientation::Horizontal, context);
                         p.layout->addChild(intSlider);
                         p.layout->setGridPos(intSlider, 2, static_cast<int>(i));
                         p.layout->setStretch(intSlider, GridStretch::Horizontal);
@@ -285,17 +285,17 @@ namespace djv
                     }
                     else
                     {
-                        auto floatLabel = Label::create(context);
+                        auto floatLabel = Text::Label::create(context);
                         p.layout->addChild(floatLabel);
                         p.layout->setGridPos(floatLabel, 0, static_cast<int>(i));
                         p.floatLabels.push_back(floatLabel);
 
-                        auto floatEdit = FloatEdit::create(context);
+                        auto floatEdit = Numeric::FloatEdit::create(context);
                         p.layout->addChild(floatEdit);
                         p.layout->setGridPos(floatEdit, 1, static_cast<int>(i));
                         p.floatEdits.push_back(floatEdit);
 
-                        auto floatSlider = BasicFloatSlider::create(Orientation::Horizontal, context);
+                        auto floatSlider = Numeric::BasicFloatSlider::create(Orientation::Horizontal, context);
                         p.layout->addChild(floatSlider);
                         p.layout->setGridPos(floatSlider, 2, static_cast<int>(i));
                         p.layout->setStretch(floatSlider, GridStretch::Horizontal);

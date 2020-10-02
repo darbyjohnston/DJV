@@ -95,7 +95,7 @@ namespace djv
             return "G";
         }
 
-        void PlaybackSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void PlaybackSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
@@ -184,7 +184,7 @@ namespace djv
             return "G";
         }
 
-        void TimelineSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void TimelineSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

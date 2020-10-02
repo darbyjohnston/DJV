@@ -31,11 +31,9 @@ namespace djv
                 void setOrientation(Orientation);
 
                 MetricsRole getSpacerSize() const;
-
-                void setSpacerSize(MetricsRole);
-
                 MetricsRole getSpacerOppositeSize() const;
 
+                void setSpacerSize(MetricsRole);
                 void setSpacerOppositeSize(MetricsRole);
 
             protected:

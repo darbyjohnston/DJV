@@ -81,6 +81,25 @@ namespace djv
                 return out;
             }
 
+            const Spacing& Grid::getSpacing() const
+            {
+                return _p->spacing;
+            }
+
+            GridStretch Grid::getStretch(const std::shared_ptr<Widget>& value) const
+            {
+                GridStretch out = GridStretch::First;
+                DJV_PRIVATE_PTR();
+                for (const auto& widget : p.widgets)
+                {
+                    if (value == widget.second)
+                    {
+                        out = p.stretch[widget.first];
+                    }
+                }
+                return out;
+            }
+
             void Grid::setGridPos(const std::shared_ptr<Widget>& widget, const glm::ivec2& pos, GridStretch stretch)
             {
                 DJV_PRIVATE_PTR();
@@ -107,11 +126,6 @@ namespace djv
                 setGridPos(widget, glm::ivec2(x, y), stretch);
             }
 
-            const Spacing& Grid::getSpacing() const
-            {
-                return _p->spacing;
-            }
-
             void Grid::setSpacing(const Spacing& value)
             {
                 DJV_PRIVATE_PTR();
@@ -119,20 +133,6 @@ namespace djv
                     return;
                 p.spacing = value;
                 _resize();
-            }
-
-            GridStretch Grid::getStretch(const std::shared_ptr<Widget>& value) const
-            {
-                GridStretch out = GridStretch::First;
-                DJV_PRIVATE_PTR();
-                for (const auto& widget : p.widgets)
-                {
-                    if (value == widget.second)
-                    {
-                        out = p.stretch[widget.first];
-                    }
-                }
-                return out;
             }
 
             void Grid::setStretch(const std::shared_ptr<Widget>& value, GridStretch stretch)

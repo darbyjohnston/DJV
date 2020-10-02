@@ -21,9 +21,9 @@ namespace djv
                 std::string fontFace;
                 std::vector<ColorRole> alternateRowsRoles = { ColorRole::None, ColorRole::None };
                 VAlign labelVAlign = VAlign::Center;
-                std::weak_ptr<LabelSizeGroup> labelSizeGroup;
+                std::weak_ptr<Text::LabelSizeGroup> labelSizeGroup;
                 std::shared_ptr<Grid> layout;
-                std::map<std::shared_ptr<Widget>, std::shared_ptr<Label>> widgetToLabel;
+                std::map<std::shared_ptr<Widget>, std::shared_ptr<Text::Label>> widgetToLabel;
             };
 
             void Form::_init(const std::shared_ptr<System::Context>& context)
@@ -62,7 +62,7 @@ namespace djv
                 }
                 else if (auto context = getContext().lock())
                 {
-                    auto label = Label::create(context);
+                    auto label = Text::Label::create(context);
                     label->setText(text);
                     label->setTextHAlign(TextHAlign::Left);
                     label->setFontFamily(p.fontFamily);
@@ -122,15 +122,6 @@ namespace djv
                 _p->layout->setSpacing(value);
             }
 
-            void Form::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
-            {
-                DJV_PRIVATE_PTR();
-                if (value0 == p.alternateRowsRoles[0] && value1 == p.alternateRowsRoles[1])
-                    return;
-                p.alternateRowsRoles = { value0, value1 };
-                _widgetUpdate();
-            }
-
             void Form::setLabelVAlign(VAlign value)
             {
                 DJV_PRIVATE_PTR();
@@ -143,18 +134,27 @@ namespace djv
                 }
             }
 
-            void Form::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+            void Form::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
             {
                 DJV_PRIVATE_PTR();
                 for (auto i : p.widgetToLabel)
                 {
-                    i.second->setSizeGroup(std::weak_ptr<LabelSizeGroup>());
+                    i.second->setSizeGroup(std::weak_ptr<Text::LabelSizeGroup>());
                 }
                 p.labelSizeGroup = value;
                 for (auto i : p.widgetToLabel)
                 {
                     i.second->setSizeGroup(p.labelSizeGroup);
                 }
+            }
+
+            void Form::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
+            {
+                DJV_PRIVATE_PTR();
+                if (value0 == p.alternateRowsRoles[0] && value1 == p.alternateRowsRoles[1])
+                    return;
+                p.alternateRowsRoles = { value0, value1 };
+                _widgetUpdate();
             }
 
             float Form::getHeightForWidth(float value) const

@@ -21,6 +21,7 @@ namespace djv
         public:
             ~ITooltipWidget() override = 0;
 
+            //! Set the tooltip text.
             virtual void setTooltip(const std::string&) = 0;
         };
 

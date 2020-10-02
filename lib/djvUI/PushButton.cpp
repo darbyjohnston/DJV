@@ -27,12 +27,12 @@ namespace djv
             struct Push::Private
             {
                 std::shared_ptr<Icon> icon;
-                std::shared_ptr<Label> label;
-                TextHAlign textHAlign = TextHAlign::Center;
-                ColorRole textColorRole = ColorRole::Foreground;
+                std::shared_ptr<Text::Label> label;
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                TextHAlign textHAlign = TextHAlign::Center;
+                ColorRole textColorRole = ColorRole::Foreground;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
@@ -109,7 +109,7 @@ namespace djv
                     {
                         if (!p.label)
                         {
-                            p.label = Label::create(context);
+                            p.label = Text::Label::create(context);
                             p.label->setTextHAlign(p.textHAlign);
                             p.label->setTextColorRole(getForegroundColorRole());
                             p.label->setFontFamily(p.font);
@@ -126,21 +126,6 @@ namespace djv
                 {
                     p.layout->removeChild(p.label);
                     p.label.reset();
-                }
-            }
-
-            TextHAlign Push::getTextHAlign() const
-            {
-                return _p->textHAlign;
-            }
-
-            void Push::setTextHAlign(TextHAlign value)
-            {
-                DJV_PRIVATE_PTR();
-                p.textHAlign = value;
-                if (p.label)
-                {
-                    p.label->setTextHAlign(value);
                 }
             }
 
@@ -189,9 +174,24 @@ namespace djv
                 }
             }
 
+            TextHAlign Push::getTextHAlign() const
+            {
+                return _p->textHAlign;
+            }
+
             const Layout::Margin& Push::getInsideMargin() const
             {
                 return _p->layout->getMargin();
+            }
+
+            void Push::setTextHAlign(TextHAlign value)
+            {
+                DJV_PRIVATE_PTR();
+                p.textHAlign = value;
+                if (p.label)
+                {
+                    p.label->setTextHAlign(value);
+                }
             }
 
             void Push::setInsideMargin(const Layout::Margin& value)

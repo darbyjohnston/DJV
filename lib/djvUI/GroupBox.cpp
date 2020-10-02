@@ -20,7 +20,7 @@ namespace djv
         {
             struct GroupBox::Private
             {
-                std::shared_ptr<Label> titleLabel;
+                std::shared_ptr<Text::Label> titleLabel;
                 std::shared_ptr<StackLayout> childLayout;
                 std::shared_ptr<VerticalLayout> layout;
             };
@@ -33,7 +33,7 @@ namespace djv
                 setClassName("djv::UI::Layout::GroupBox");
                 setVAlign(VAlign::Top);
 
-                p.titleLabel = Label::create(context);
+                p.titleLabel = Text::Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
                 p.titleLabel->setFontFace("Bold");
                 p.titleLabel->setMargin(MetricsRole::MarginSmall);

@@ -129,7 +129,7 @@ void RenderWidget::setRenderOptionsCallback(const std::function<void(const UI::S
     _renderOptionsCallback = value;
 }
 
-void RenderWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
+void RenderWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>& value)
 {
     for (auto i : _layouts)
     {

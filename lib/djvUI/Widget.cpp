@@ -8,7 +8,7 @@
 #include <djvUI/EventSystem.h>
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/Tooltip.h>
@@ -50,7 +50,7 @@ namespace djv
                 void _init(const std::shared_ptr<System::Context>& context)
                 {
                     ITooltipWidget::_init(context);
-                    _textBlock = TextBlock::create(context);
+                    _textBlock = Text::Block::create(context);
                     _textBlock->setTextColorRole(ColorRole::TooltipForeground);
                     _textBlock->setBackgroundRole(ColorRole::TooltipBackground);
                     _textBlock->setMargin(MetricsRole::Margin);
@@ -87,7 +87,7 @@ namespace djv
                 }
 
             private:
-                std::shared_ptr<TextBlock> _textBlock;
+                std::shared_ptr<Text::Block> _textBlock;
             };
 
         } // namespace
@@ -907,7 +907,7 @@ namespace djv
                         const auto& shortcut = i->observeShortcut()->get();
                         if (shortcut.isValid())
                         {
-                            shortcutsText.push_back(ShortcutData::getText(shortcut, textSystem));
+                            shortcutsText.push_back(getText(shortcut, textSystem));
                         }
                     }
                     out << String::join(shortcutsText, ", ");

@@ -17,7 +17,7 @@
 #include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
@@ -111,8 +111,8 @@ namespace djv
             p.actions["HUD"] = UI::Action::create();
             p.actions["HUD"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("shortcut_view_controls", GLFW_KEY_W, UI::ShortcutData::getSystemModifier());
-            _addShortcut("shortcut_view_pan", GLFW_KEY_N, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_view_controls", GLFW_KEY_W, UI::getSystemModifier());
+            _addShortcut("shortcut_view_pan", GLFW_KEY_N, UI::getSystemModifier());
             _addShortcut("shortcut_view_left", GLFW_KEY_KP_4);
             _addShortcut("shortcut_view_right", GLFW_KEY_KP_6);
             _addShortcut("shortcut_view_up", GLFW_KEY_KP_8);
@@ -142,8 +142,8 @@ namespace djv
             _addShortcut("shortcut_view_center_lock", {
                 UI::ShortcutData(GLFW_KEY_BACKSLASH, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_KP_5, GLFW_MOD_SHIFT) });
-            _addShortcut("shortcut_view_grid", GLFW_KEY_G, UI::ShortcutData::getSystemModifier());
-            _addShortcut("shortcut_view_hud", GLFW_KEY_U, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_view_grid", GLFW_KEY_G, UI::getSystemModifier());
+            _addShortcut("shortcut_view_hud", GLFW_KEY_U, UI::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ViewControls"]);

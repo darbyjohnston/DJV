@@ -30,6 +30,7 @@ set(header
     IButton.h
     IDialog.h
     INumericWidget.h
+    INumericWidgetFunc.h
     INumericWidgetInline.h
     ISettings.h
     ISettingsTemplates.h
@@ -85,6 +86,7 @@ set(header
     Splitter.h
     SoloLayout.h
     StackLayout.h
+    StackLayoutFunc.h
     Style.h
     StyleFunc.h
     StyleInline.h
@@ -132,7 +134,7 @@ set(source
     GroupBox.cpp
     IButton.cpp
     IDialog.cpp
-    INumericWidget.cpp
+    INumericWidgetFunc.cpp
     ISettings.cpp
     ITooltipWidget.cpp
     Icon.cpp
@@ -179,6 +181,7 @@ set(source
     Splitter.cpp
     SoloLayout.cpp
     StackLayout.cpp
+    StackLayoutFunc.cpp
     Style.cpp
     StyleFunc.cpp
     StyleSettings.cpp

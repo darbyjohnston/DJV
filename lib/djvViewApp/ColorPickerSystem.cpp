@@ -9,7 +9,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
@@ -42,7 +42,7 @@ namespace djv
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
 
-            _addShortcut("shortcut_color_picker", GLFW_KEY_K, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_color_picker", GLFW_KEY_K, UI::getSystemModifier());
 
             _textUpdate();
             _shortcutsUpdate();

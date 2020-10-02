@@ -30,7 +30,7 @@ namespace djv
         {
             std::vector<std::string> log;
             std::string filter;
-            std::shared_ptr<UI::TextBlock> textBlock;
+            std::shared_ptr<UI::Text::Block> textBlock;
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::ToolButton> reloadButton;
             std::shared_ptr<UI::ToolButton> clearButton;
@@ -44,7 +44,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::SystemLogWidget");
 
-            p.textBlock = UI::TextBlock::create(context);
+            p.textBlock = UI::Text::Block::create(context);
             p.textBlock->setFontFamily(Render2D::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.textBlock->setWordWrap(false);

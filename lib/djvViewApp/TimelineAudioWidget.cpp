@@ -25,7 +25,7 @@ namespace djv
             float volume = 0.F;
             bool mute = false;
 
-            std::shared_ptr<UI::FloatSlider> volumeSlider;
+            std::shared_ptr<UI::Numeric::FloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::HorizontalLayout> layout;
 
@@ -44,7 +44,7 @@ namespace djv
 
             p.media = media;
 
-            p.volumeSlider = UI::FloatSlider::create(context);
+            p.volumeSlider = UI::Numeric::FloatSlider::create(context);
             p.volumeSlider->setRange(Math::FloatRange(0.F, 100.F));
             p.volumeSlider->getModel()->setSmallIncrement(1.F);
             p.volumeSlider->getModel()->setLargeIncrement(10.F);

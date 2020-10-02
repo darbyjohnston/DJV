@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::PopupMenu> popupMenu;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
-            std::shared_ptr<UI::Label> itemCountLabel;
+            std::shared_ptr<UI::Text::Label> itemCountLabel;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::function<void(const std::shared_ptr<Media>&)> callback;
@@ -109,7 +109,7 @@ namespace djv
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.itemView);
 
-            p.itemCountLabel = UI::Label::create(context);
+            p.itemCountLabel = UI::Text::Label::create(context);
             p.itemCountLabel->setHAlign(UI::HAlign::Right);
             p.itemCountLabel->setVAlign(UI::VAlign::Bottom);
             p.itemCountLabel->setMargin(UI::MetricsRole::Margin);

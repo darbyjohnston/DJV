@@ -25,7 +25,7 @@ namespace djv
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>&) override;
+            void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&) override;
 
         protected:
             void _initEvent(System::Event::Init &) override;

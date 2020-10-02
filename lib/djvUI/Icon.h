@@ -24,7 +24,7 @@ namespace djv
 
             static std::shared_ptr<Icon> create(const std::shared_ptr<System::Context>&);
 
-            //! \name Icons
+            //! \name Icon
             ///@{
 
             const std::string& getIcon() const;

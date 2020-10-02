@@ -325,7 +325,7 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<ImageWidget> imageWidget;
-            std::shared_ptr<UI::IntSlider> magnifySlider;
+            std::shared_ptr<UI::Numeric::IntSlider> magnifySlider;
 
             std::shared_ptr<Observer::Value<size_t> > magnifyObserver;
         };
@@ -340,7 +340,7 @@ namespace djv
             p.imageWidget = ImageWidget::create(context);
             p.imageWidget->setShadowOverlay({ UI::Side::Top });
             
-            p.magnifySlider = UI::IntSlider::create(context);
+            p.magnifySlider = UI::Numeric::IntSlider::create(context);
             p.magnifySlider->setRange(Math::IntRange(1, 10));
 
             auto layout = UI::VerticalLayout::create(context);

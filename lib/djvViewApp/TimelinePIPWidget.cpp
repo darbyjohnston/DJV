@@ -54,7 +54,7 @@ namespace djv
             OCIO::Config ocioConfig;
             std::string outputColorSpace;
             std::shared_ptr<UI::ImageWidget> imageWidget;
-            std::shared_ptr<UI::Label> timeLabel;
+            std::shared_ptr<UI::Text::Label> timeLabel;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<System::Timer> timer;
 
@@ -71,9 +71,9 @@ namespace djv
             setClassName("djv::ViewApp::TimelinePIPWidget");
 
             p.imageWidget = UI::ImageWidget::create(context);
-            p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
+            p.imageWidget->setImageSizeRole(UI::MetricsRole::TextColumn);
 
-            p.timeLabel = UI::Label::create(context);
+            p.timeLabel = UI::Text::Label::create(context);
             p.timeLabel->setFontFamily(Render2D::Font::familyMono);
             p.timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);

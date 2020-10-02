@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
         };
         for (size_t i = 0; i < 3; ++i)
         {
-            auto slider = UI::IntSlider::create(app);
+            auto slider = UI::Numeric::IntSlider::create(app);
             slider->setRange(intRange[i]);
             slider->setValueCallback(
                 [](int value)
@@ -68,7 +68,7 @@ int main(int argc, char ** argv)
         };
         for (size_t i = 0; i < 3; ++i)
         {
-            auto slider = UI::FloatSlider::create(app);
+            auto slider = UI::Numeric::FloatSlider::create(app);
             slider->setRange(floatRange[i]);
             slider->setValueCallback(
                 [](float value)

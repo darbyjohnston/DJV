@@ -21,7 +21,7 @@ namespace djv
     {
         struct MDIWidget::Private
         {
-            std::shared_ptr<UI::Label> titleLabel;
+            std::shared_ptr<UI::Text::Label> titleLabel;
             std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::HorizontalLayout> titleBar;
             std::shared_ptr<UI::VerticalLayout> childLayout;
@@ -38,7 +38,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MDIWidget");
 
-            p.titleLabel = UI::Label::create(context);
+            p.titleLabel = UI::Text::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall, UI::MetricsRole::None, UI::MetricsRole::None));
 

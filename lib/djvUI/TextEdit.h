@@ -11,49 +11,66 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a text editor widget.
-        class TextEdit : public Widget
+        namespace Text
         {
-            DJV_NON_COPYABLE(TextEdit);
-            
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            TextEdit();
+            //! This class provides a text editor widget.
+            class Edit : public Widget
+            {
+                DJV_NON_COPYABLE(Edit);
 
-        public:
-            ~TextEdit() override;
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                Edit();
 
-            static std::shared_ptr<TextEdit> create(const std::shared_ptr<System::Context>&);
+            public:
+                ~Edit() override;
 
-            const std::string& getText() const;
+                static std::shared_ptr<Edit> create(const std::shared_ptr<System::Context>&);
 
-            void setText(const std::string&);
-            void appendText(const std::string&);
-            void clearText();
+                //! \name Text
+                ///@{
 
-            MetricsRole getTextSizeRole() const;
+                const std::string& getText() const;
 
-            void setTextSizeRole(MetricsRole);
+                void setText(const std::string&);
+                void appendText(const std::string&);
+                void clearText();
 
-            const std::string& getFontFamily() const;
-            const std::string& getFontFace() const;
-            MetricsRole getFontSizeRole() const;
+                ///@}
 
-            void setFontFamily(const std::string&);
-            void setFontFace(const std::string&);
-            void setFontSizeRole(MetricsRole);
+                //! \name Font
+                ///@{
 
-            void setBorder(bool);
-            
-            float getHeightForWidth(float) const override;
+                const std::string& getFontFamily() const;
+                const std::string& getFontFace() const;
+                MetricsRole getFontSizeRole() const;
 
-        protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
+                void setFontFamily(const std::string&);
+                void setFontFace(const std::string&);
+                void setFontSizeRole(MetricsRole);
 
-        private:
-            DJV_PRIVATE();
-        };
+                ///@}
 
+                //! \name Options
+                ///@{
+
+                MetricsRole getTextSizeRole() const;
+
+                void setTextSizeRole(MetricsRole);
+                void setBorder(bool);
+
+                ///@}
+
+                float getHeightForWidth(float) const override;
+
+            protected:
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace Text
     } // namespace UI
 } // namespace djv

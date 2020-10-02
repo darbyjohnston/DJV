@@ -18,10 +18,6 @@ namespace djv
 
         } // namespace Layout
 
-        typedef Layout::Horizontal HorizontalLayout;
-        typedef Layout::Vertical VerticalLayout;
-        using Layout::RowStretch;
-
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);

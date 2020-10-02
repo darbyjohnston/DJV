@@ -21,7 +21,7 @@ namespace djv
     {
         struct RecentFilesThumbnailWidget::Private
         {
-            std::shared_ptr<UI::IntSlider> thumbnailSizeSlider;
+            std::shared_ptr<UI::Numeric::IntSlider> thumbnailSizeSlider;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<Observer::Value<Image::Size> > thumbnailSizeSettingsObserver;
@@ -34,7 +34,7 @@ namespace djv
 
             setClassName("djv::ViewApp::RecentFilesThumbnailWidget");
 
-            p.thumbnailSizeSlider = UI::IntSlider::create(context);
+            p.thumbnailSizeSlider = UI::Numeric::IntSlider::create(context);
             p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
             p.thumbnailSizeSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
 

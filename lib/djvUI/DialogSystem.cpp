@@ -34,7 +34,7 @@ namespace djv
                     setClassName("djv::UI::MessageDialog");
                     setFillLayout(false);
 
-                    _textBlock = TextBlock::create(context);
+                    _textBlock = Text::Block::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
                     _textBlock->setMargin(MetricsRole::MarginLarge);
 
@@ -80,7 +80,7 @@ namespace djv
                 }
 
             private:
-                std::shared_ptr<TextBlock> _textBlock;
+                std::shared_ptr<Text::Block> _textBlock;
                 std::shared_ptr<PushButton> _closeButton;
             };
 
@@ -96,7 +96,7 @@ namespace djv
                     setClassName("djv::UI::ConfirmationDialog");
                     setFillLayout(false);
                     
-                    _textBlock = TextBlock::create(context);
+                    _textBlock = Text::Block::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
                     _textBlock->setMargin(MetricsRole::MarginLarge);
 
@@ -180,7 +180,7 @@ namespace djv
                 }
 
             private:
-                std::shared_ptr<TextBlock> _textBlock;
+                std::shared_ptr<Text::Block> _textBlock;
                 std::shared_ptr<PushButton> _acceptButton;
                 std::shared_ptr<PushButton> _cancelButton;
                 std::function<void(void)> _acceptCallback;

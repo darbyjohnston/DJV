@@ -11,37 +11,40 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides an editor widget for integer values.
-        class IntEdit : public INumericEdit<int>, public NumericEdit
+        namespace Numeric
         {
-            DJV_NON_COPYABLE(IntEdit);
+            //! This class provides an editor widget for integer values.
+            class IntEdit : public IEdit<int>, public Edit
+            {
+                DJV_NON_COPYABLE(IntEdit);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            IntEdit();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                IntEdit();
 
-        public:
-            ~IntEdit() override;
+            public:
+                ~IntEdit() override;
 
-            static std::shared_ptr<IntEdit> create(const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<IntEdit> create(const std::shared_ptr<System::Context>&);
 
-            void setModel(const std::shared_ptr<Math::INumericValueModel<int> >&) override;
+                void setModel(const std::shared_ptr<Math::INumericValueModel<int> >&) override;
 
-        protected:
-            void _setIsMin(bool) override;
-            void _setIsMax(bool) override;
+            protected:
+                void _setIsMin(bool) override;
+                void _setIsMax(bool) override;
 
-            void _textEdit(const std::string&, TextEditReason) override;
-            bool _keyPress(int) override;
-            void _scroll(float) override;
-            void _incrementValue() override;
-            void _decrementValue() override;
+                void _textEdit(const std::string&, TextEditReason) override;
+                bool _keyPress(int) override;
+                void _scroll(float) override;
+                void _incrementValue() override;
+                void _decrementValue() override;
 
-        private:
-            void _textUpdate();
+            private:
+                void _textUpdate();
 
-            DJV_PRIVATE();
-        };
+                DJV_PRIVATE();
+            };
 
+        } // namespace Numeric
     } // namespace UI
 } // namespace djv

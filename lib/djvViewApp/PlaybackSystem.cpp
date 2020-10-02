@@ -16,7 +16,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
@@ -140,8 +140,8 @@ namespace djv
                 UI::ShortcutData(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT) });
             _addShortcut("shortcut_playback_next_frame_100", {
-                UI::ShortcutData(GLFW_KEY_RIGHT, UI::ShortcutData::getSystemModifier()),
-                UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, UI::ShortcutData::getSystemModifier()) });
+                UI::ShortcutData(GLFW_KEY_RIGHT, UI::getSystemModifier()),
+                UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, UI::getSystemModifier()) });
             _addShortcut("shortcut_playback_prev_frame", {
                 UI::ShortcutData(GLFW_KEY_LEFT),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET) });
@@ -149,8 +149,8 @@ namespace djv
                 UI::ShortcutData(GLFW_KEY_LEFT, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT) });
             _addShortcut("shortcut_playback_prev_frame_100", {
-                UI::ShortcutData(GLFW_KEY_LEFT, UI::ShortcutData::getSystemModifier()),
-                UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, UI::ShortcutData::getSystemModifier()) });
+                UI::ShortcutData(GLFW_KEY_LEFT, UI::getSystemModifier()),
+                UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, UI::getSystemModifier()) });
             _addShortcut("shortcut_playback_in_out_points", GLFW_KEY_P);
             _addShortcut("shortcut_playback_set_in_point", GLFW_KEY_I);
             _addShortcut("shortcut_playback_set_out_point", GLFW_KEY_O);

@@ -25,7 +25,7 @@ namespace djv
         {
             struct CheckBox::Private
             {
-                std::shared_ptr<Label> label;
+                std::shared_ptr<Text::Label> label;
             };
 
             void CheckBox::_init(const std::shared_ptr<System::Context>& context)
@@ -36,7 +36,7 @@ namespace djv
                 setClassName("djv::UI::Button::CheckBox");
                 setButtonType(UI::ButtonType::Toggle);
 
-                p.label = Label::create(context);
+                p.label = Text::Label::create(context);
                 p.label->setTextHAlign(TextHAlign::Left);
                 p.label->setTextColorRole(getForegroundColorRole());
                 p.label->setMargin(MetricsRole::MarginSmall);

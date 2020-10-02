@@ -10,59 +10,87 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a widget for editing a line of text.
-        class LineEdit : public Widget
+        namespace Text
         {
-            DJV_NON_COPYABLE(LineEdit);
+            //! This class provides a widget for editing a line of text.
+            class LineEdit : public Widget
+            {
+                DJV_NON_COPYABLE(LineEdit);
 
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            LineEdit();
+            protected:
+                void _init(const std::shared_ptr<System::Context>&);
+                LineEdit();
 
-        public:
-            ~LineEdit() override;
+            public:
+                ~LineEdit() override;
 
-            static std::shared_ptr<LineEdit> create(const std::shared_ptr<System::Context>&);
+                static std::shared_ptr<LineEdit> create(const std::shared_ptr<System::Context>&);
 
-            const std::string& getText() const;
+                //! \name Text
+                ///@{
 
-            void setText(const std::string&);
+                const std::string& getText() const;
 
-            ColorRole getTextColorRole() const;
-            MetricsRole getTextSizeRole() const;
-            
-            void setTextColorRole(ColorRole);
-            void setTextSizeRole(MetricsRole);
+                void setText(const std::string&);
 
-            const std::string& getFont() const;
-            const std::string& getFontFace() const;
-            MetricsRole getFontSizeRole() const;
-            
-            void setFont(const std::string&);
-            void setFontFace(const std::string&);
-            void setFontSizeRole(MetricsRole);
+                ///@}
 
-            const std::string& getSizeString() const;
-            
-            void setSizeString(const std::string&);
+                //! \name Font
+                ///@{
 
-            void setTextChangedCallback(const std::function<void(const std::string&)>&);
-            void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>&);
-            void setFocusCallback(const std::function<void(bool)>&);
+                const std::string& getFont() const;
+                const std::string& getFontFace() const;
+                MetricsRole getFontSizeRole() const;
 
-            void setBackgroundRole(ColorRole) override;
-            
-            std::shared_ptr<Widget> getFocusWidget() override;
+                void setFont(const std::string&);
+                void setFontFace(const std::string&);
+                void setFontSizeRole(MetricsRole);
 
-        protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-            void _paintEvent(System::Event::Paint&) override;
+                ///@}
 
-        private:
-            DJV_PRIVATE();
-        };
+                //! \name Options
+                ///@{
 
+                ColorRole getTextColorRole() const;
+
+                void setTextColorRole(ColorRole);
+
+                ///@}
+
+                //! \name Size
+                ///@{
+
+                MetricsRole getTextSizeRole() const;
+                const std::string& getSizeString() const;
+
+                void setTextSizeRole(MetricsRole);
+                void setSizeString(const std::string&);
+
+                ///@}
+
+                //! \name Callbacks
+                ///@{
+
+                void setTextChangedCallback(const std::function<void(const std::string&)>&);
+                void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>&);
+                void setFocusCallback(const std::function<void(bool)>&);
+
+                ///@}
+
+                void setBackgroundRole(ColorRole) override;
+
+                std::shared_ptr<Widget> getFocusWidget() override;
+
+            protected:
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace Text
     } // namespace UI
 } // namespace djv
 

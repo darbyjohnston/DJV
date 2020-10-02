@@ -57,7 +57,7 @@ namespace djv
 
         struct IDialog::Private
         {
-            std::shared_ptr<Label> titleLabel;
+            std::shared_ptr<Text::Label> titleLabel;
             std::shared_ptr<ToolButton> closeButton;
             std::shared_ptr<HorizontalLayout> titleBarLayout;
             std::shared_ptr<VerticalLayout> childLayout;
@@ -75,7 +75,7 @@ namespace djv
             setClassName("djv::UI::IDialog");
             setBackgroundRole(ColorRole::None);
 
-            p.titleLabel = Label::create(context);
+            p.titleLabel = Text::Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
             p.titleLabel->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
@@ -151,18 +151,6 @@ namespace djv
             p.titleLabel->setVisible(!text.empty());
         }
 
-        void IDialog::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
-        {
-            _p->childLayout->setStretch(widget, value);
-        }
-
-        void IDialog::setFillLayout(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            p.layout->setHAlign(value ? HAlign::Fill : HAlign::Center);
-            p.layout->setVAlign(value ? VAlign::Fill : VAlign::Center);
-        }
-
         void IDialog::addTitleBarWidget(const std::shared_ptr<Widget>& widget)
         {
             _p->titleBarLayout->addChild(widget);
@@ -176,6 +164,18 @@ namespace djv
         void IDialog::clearTitleBarWidgets()
         {
             _p->titleBarLayout->clearChildren();
+        }
+
+        void IDialog::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
+        {
+            _p->childLayout->setStretch(widget, value);
+        }
+
+        void IDialog::setFillLayout(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.layout->setHAlign(value ? HAlign::Fill : HAlign::Center);
+            p.layout->setVAlign(value ? VAlign::Fill : VAlign::Center);
         }
 
         void IDialog::setCloseCallback(const std::function<void(void)>& value)

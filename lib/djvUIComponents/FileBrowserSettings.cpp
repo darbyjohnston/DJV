@@ -75,12 +75,12 @@ namespace djv
                 p.sortDirectoriesFirst = Observer::ValueSubject<bool>::create(true);
                 p.keyShortcuts = Observer::MapSubject<std::string, ShortcutDataPair>::create({
                     { "file_browser_shortcut_paths", { ShortcutData(GLFW_KEY_P) } },
-                    { "file_browser_shortcut_back", { ShortcutData(GLFW_KEY_LEFT, ShortcutData::getSystemModifier()) } },
-                    { "file_browser_shortcut_forward", { ShortcutData(GLFW_KEY_RIGHT, ShortcutData::getSystemModifier()) } },
-                    { "file_browser_shortcut_up", { ShortcutData(GLFW_KEY_UP, ShortcutData::getSystemModifier()) } },
-                    { "file_browser_shortcut_select_all", { ShortcutData(GLFW_KEY_A, ShortcutData::getSystemModifier()) } },
-                    { "file_browser_shortcut_select_none", { ShortcutData(GLFW_KEY_N, ShortcutData::getSystemModifier()) } },
-                    { "file_browser_shortcut_invert_selection", { ShortcutData(GLFW_KEY_I, ShortcutData::getSystemModifier()) } },
+                    { "file_browser_shortcut_back", { ShortcutData(GLFW_KEY_LEFT, getSystemModifier()) } },
+                    { "file_browser_shortcut_forward", { ShortcutData(GLFW_KEY_RIGHT, getSystemModifier()) } },
+                    { "file_browser_shortcut_up", { ShortcutData(GLFW_KEY_UP, getSystemModifier()) } },
+                    { "file_browser_shortcut_select_all", { ShortcutData(GLFW_KEY_A, getSystemModifier()) } },
+                    { "file_browser_shortcut_select_none", { ShortcutData(GLFW_KEY_N, getSystemModifier()) } },
+                    { "file_browser_shortcut_invert_selection", { ShortcutData(GLFW_KEY_I, getSystemModifier()) } },
                     { "file_browser_shortcut_tiles", { ShortcutData(GLFW_KEY_T) } },
                     { "file_browser_shortcut_list", { ShortcutData(GLFW_KEY_L) } },
                     { "file_browser_shortcut_increase_thumbnail_size", { ShortcutData(GLFW_KEY_EQUAL) } },

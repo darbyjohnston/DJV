@@ -354,7 +354,7 @@ namespace djv
             return out;
         }
 
-        void ColorSpaceImageWidget::setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+        void ColorSpaceImageWidget::setSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->formLayout->setLabelSizeGroup(value);
         }
@@ -413,7 +413,7 @@ namespace djv
                     const std::string& text = !i.second.empty() ? i.second : _getText(DJV_TEXT("av_ocio_image_none"));
                     button->setText(text);
                     button->setPopupIcon("djvIconPopupMenu");
-                    button->setElide(labelElide);
+                    button->setTextElide(textElide);
                     button->setTooltip(text);
                     p.buttons.push_back(button);
                     std::string image = i.first;

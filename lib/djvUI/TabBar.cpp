@@ -48,7 +48,7 @@ namespace djv
                 void _paintEvent(System::Event::Paint&) override;
 
             private:
-                std::shared_ptr<Label> _label;
+                std::shared_ptr<Text::Label> _label;
                 std::shared_ptr<StackLayout> _layout;
             };
 
@@ -58,7 +58,7 @@ namespace djv
 
                 setClassName("djv::UI::TabBarButton");
 
-                _label = Label::create(context);
+                _label = Text::Label::create(context);
                 _label->setText(text);
                 _label->setTextColorRole(ColorRole::ForegroundDim);
                 _label->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));

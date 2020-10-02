@@ -74,7 +74,7 @@ namespace djv
                 std::shared_ptr<VerticalLayout> itemViewLayout;
                 std::shared_ptr<ItemView> itemView;
                 std::shared_ptr<ScrollWidget> scrollWidget;
-                std::shared_ptr<Label> itemCountLabel;
+                std::shared_ptr<Text::Label> itemCountLabel;
                 std::shared_ptr<PushButton> acceptButton;
                 std::shared_ptr<PushButton> cancelButton;
                 std::shared_ptr<VerticalLayout> layout;
@@ -231,7 +231,7 @@ namespace djv
                 p.scrollWidget->addChild(p.itemView);
                 p.scrollWidget->setShadowOverlay({ Side::Top });
 
-                p.itemCountLabel = Label::create(context);
+                p.itemCountLabel = Text::Label::create(context);
                 p.itemCountLabel->setHAlign(HAlign::Right);
                 p.itemCountLabel->setVAlign(VAlign::Bottom);
                 p.itemCountLabel->setMargin(MetricsRole::Margin);

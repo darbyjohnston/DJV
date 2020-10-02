@@ -24,6 +24,9 @@ namespace djv
 
             static std::shared_ptr<TabBar> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Tabs
+            ///@{
+
             size_t getTabCount() const;
 
             void setTabs(const std::vector<std::string>&);
@@ -31,10 +34,17 @@ namespace djv
 
             void setText(int, const std::string&);
 
+            ///@}
+
+            //! \name Current Tab
+            ///@{
+
             int getCurrentTab() const;
             
             void setCurrentTab(int);
             void setCurrentTabCallback(const std::function<void(int)>&);
+
+            ///@}
 
             float getHeightForWidth(float) const override;
 

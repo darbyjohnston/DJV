@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
         auto app = Desktop::Application::create(args);
 
         // Create a label.
-        auto label = UI::Label::create(app);
+        auto label = UI::Text::Label::create(app);
         label->setText("Hello world!");
         label->setFontSizeRole(UI::MetricsRole::FontHeader);
         label->setHAlign(UI::HAlign::Center);

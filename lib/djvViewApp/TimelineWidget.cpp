@@ -55,7 +55,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::PopupButton> speedPopupButton;
-            std::shared_ptr<UI::Label> realSpeedLabel;
+            std::shared_ptr<UI::Text::Label> realSpeedLabel;
             std::shared_ptr<UI::MultiStateButton> playbackModeButton;
             std::shared_ptr<FrameWidget> currentFrameWidget;
             std::shared_ptr<FrameWidget> inPointWidget;
@@ -64,7 +64,7 @@ namespace djv
             std::shared_ptr<FrameWidget> outPointWidget;
             std::shared_ptr<UI::ToolButton> outPointSetButton;
             std::shared_ptr<UI::ToolButton> outPointResetButton;
-            std::shared_ptr<UI::Label> durationLabel;
+            std::shared_ptr<UI::Text::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::PopupButton> audioPopupButton;
             std::shared_ptr<UI::GridLayout> layout;
@@ -122,7 +122,7 @@ namespace djv
             p.speedPopupButton->setPopupDefault(UI::Popup::AboveRight);
             p.speedPopupButton->setFontFamily(Render2D::Font::familyMono);
             p.speedPopupButton->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.realSpeedLabel = UI::Label::create(context);
+            p.realSpeedLabel = UI::Text::Label::create(context);
             p.realSpeedLabel->setFontFamily(Render2D::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.realSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
@@ -152,7 +152,7 @@ namespace djv
             p.outPointResetButton->setInsideMargin(UI::MetricsRole::None);
             p.outPointResetButton->setVAlign(UI::VAlign::Center);
 
-            p.durationLabel = UI::Label::create(context);
+            p.durationLabel = UI::Text::Label::create(context);
             p.durationLabel->setFontFamily(Render2D::Font::familyMono);
             p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
@@ -302,7 +302,7 @@ namespace djv
                     return out;
                 });
 
-            p.playbackModeButton->setCallback(
+            p.playbackModeButton->setCurrentCallback(
                 [weak, contextWeak](int index)
                 {
                     if (auto context = contextWeak.lock())

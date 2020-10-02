@@ -71,7 +71,7 @@ namespace djv
 
             ///@}
 
-            //! \name Text Font
+            //! \name Font
             ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeFont() const;

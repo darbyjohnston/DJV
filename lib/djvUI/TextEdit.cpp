@@ -15,119 +15,122 @@ namespace djv
 {
     namespace UI
     {
-        struct TextEdit::Private
+        namespace Text
         {
-            std::shared_ptr<TextBlock> textBlock;
-            std::shared_ptr<ScrollWidget> scrollWidget;
-        };
+            struct Edit::Private
+            {
+                std::shared_ptr<Block> textBlock;
+                std::shared_ptr<ScrollWidget> scrollWidget;
+            };
 
-        void TextEdit::_init(const std::shared_ptr<System::Context>& context)
-        {
-            Widget::_init(context);
-            DJV_PRIVATE_PTR();
-            
-            setClassName("djv::UI::TextEdit");
-            
-            p.textBlock = TextBlock::create(context);
-            
-            p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-            p.scrollWidget->addChild(p.textBlock);
-            addChild(p.scrollWidget);
-        }
-        
-        TextEdit::TextEdit() :
-            _p(new Private)
-        {}
+            void Edit::_init(const std::shared_ptr<System::Context>& context)
+            {
+                Widget::_init(context);
+                DJV_PRIVATE_PTR();
 
-        TextEdit::~TextEdit()
-        {}
+                setClassName("djv::UI::Text::Edit");
 
-        std::shared_ptr<TextEdit> TextEdit::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<TextEdit>(new TextEdit);
-            out->_init(context);
-            return out;
-        }
+                p.textBlock = Block::create(context);
 
-        const std::string& TextEdit::getText() const
-        {
-            return _p->textBlock->getText();
-        }
+                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                p.scrollWidget->addChild(p.textBlock);
+                addChild(p.scrollWidget);
+            }
 
-        void TextEdit::setText(const std::string& value)
-        {
-            _p->textBlock->setText(value);
-        }
+            Edit::Edit() :
+                _p(new Private)
+            {}
 
-        void TextEdit::appendText(const std::string& value)
-        {
-            _p->textBlock->appendText(value);
-        }
+            Edit::~Edit()
+            {}
 
-        void TextEdit::clearText()
-        {
-            _p->textBlock->clearText();
-        }
+            std::shared_ptr<Edit> Edit::create(const std::shared_ptr<System::Context>& context)
+            {
+                auto out = std::shared_ptr<Edit>(new Edit);
+                out->_init(context);
+                return out;
+            }
 
-        MetricsRole TextEdit::getTextSizeRole() const
-        {
-            return _p->textBlock->getTextSizeRole();
-        }
+            const std::string& Edit::getText() const
+            {
+                return _p->textBlock->getText();
+            }
 
-        void TextEdit::setTextSizeRole(MetricsRole value)
-        {
-            _p->textBlock->setTextSizeRole(value);
-        }
+            void Edit::setText(const std::string& value)
+            {
+                _p->textBlock->setText(value);
+            }
 
-        const std::string& TextEdit::getFontFamily() const
-        {
-            return _p->textBlock->getFontFamily();
-        }
+            void Edit::appendText(const std::string& value)
+            {
+                _p->textBlock->appendText(value);
+            }
 
-        const std::string& TextEdit::getFontFace() const
-        {
-            return _p->textBlock->getFontFace();
-        }
+            void Edit::clearText()
+            {
+                _p->textBlock->clearText();
+            }
 
-        MetricsRole TextEdit::getFontSizeRole() const
-        {
-            return _p->textBlock->getFontSizeRole();
-        }
+            const std::string& Edit::getFontFamily() const
+            {
+                return _p->textBlock->getFontFamily();
+            }
 
-        void TextEdit::setFontFamily(const std::string& value)
-        {
-            _p->textBlock->setFontFamily(value);
-        }
+            const std::string& Edit::getFontFace() const
+            {
+                return _p->textBlock->getFontFace();
+            }
 
-        void TextEdit::setFontFace(const std::string& value)
-        {
-            _p->textBlock->setFontFace(value);
-        }
+            MetricsRole Edit::getFontSizeRole() const
+            {
+                return _p->textBlock->getFontSizeRole();
+            }
 
-        void TextEdit::setFontSizeRole(MetricsRole value)
-        {
-            _p->textBlock->setFontSizeRole(value);
-        }
+            void Edit::setFontFamily(const std::string& value)
+            {
+                _p->textBlock->setFontFamily(value);
+            }
 
-        void TextEdit::setBorder(bool value)
-        {
-            _p->scrollWidget->setBorder(value);
-        }
-        
-        float TextEdit::getHeightForWidth(float value) const
-        {
-            return _p->scrollWidget->getHeightForWidth(value);
-        }
+            void Edit::setFontFace(const std::string& value)
+            {
+                _p->textBlock->setFontFace(value);
+            }
 
-        void TextEdit::_preLayoutEvent(System::Event::PreLayout&)
-        {
-            _setMinimumSize(_p->scrollWidget->getMinimumSize());
-        }
+            void Edit::setFontSizeRole(MetricsRole value)
+            {
+                _p->textBlock->setFontSizeRole(value);
+            }
 
-        void TextEdit::_layoutEvent(System::Event::Layout&)
-        {
-            _p->scrollWidget->setGeometry(getGeometry());
-        }
+            MetricsRole Edit::getTextSizeRole() const
+            {
+                return _p->textBlock->getTextSizeRole();
+            }
 
+            void Edit::setTextSizeRole(MetricsRole value)
+            {
+                _p->textBlock->setTextSizeRole(value);
+            }
+
+            void Edit::setBorder(bool value)
+            {
+                _p->scrollWidget->setBorder(value);
+            }
+
+            float Edit::getHeightForWidth(float value) const
+            {
+                return _p->scrollWidget->getHeightForWidth(value);
+            }
+
+            void Edit::_preLayoutEvent(System::Event::PreLayout&)
+            {
+                _setMinimumSize(_p->scrollWidget->getMinimumSize());
+            }
+
+            void Edit::_layoutEvent(System::Event::Layout&)
+            {
+                _p->scrollWidget->setGeometry(getGeometry());
+            }
+
+        } // namespace Text
     } // namespace UI
 } // namespace djv

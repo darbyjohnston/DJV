@@ -852,11 +852,6 @@ namespace djv
             _resize();
         }
 
-        void ScrollWidget::setBorder(bool value)
-        {
-            _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
-        }
-
         MetricsRole ScrollWidget::getMinimumSizeRole() const
         {
             return _p->scrollArea->getMinimumSizeRole();
@@ -865,6 +860,11 @@ namespace djv
         MetricsRole ScrollWidget::getScrollBarSizeRole() const
         {
             return _p->scrollBars[Orientation::First]->getSizeRole();
+        }
+
+        void ScrollWidget::setBorder(bool value)
+        {
+            _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
         }
 
         void ScrollWidget::setMinimumSizeRole(MetricsRole value)

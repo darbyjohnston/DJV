@@ -55,7 +55,7 @@ namespace djv
 
                 private:
                     std::shared_ptr<Icon> _icon;
-                    std::shared_ptr<Label> _label;
+                    std::shared_ptr<Text::Label> _label;
                     std::shared_ptr<HorizontalLayout> _layout;
                 };
 
@@ -71,7 +71,7 @@ namespace djv
                     _icon->setIconSizeRole(MetricsRole::IconSmall);
                     _icon->setVAlign(VAlign::Center);
 
-                    _label = Label::create(context);
+                    _label = Text::Label::create(context);
                     _label->setTextHAlign(TextHAlign::Left);
 
                     _layout = HorizontalLayout::create(context);
@@ -403,17 +403,17 @@ namespace djv
                 _p->openCallback = callback;
             }
 
-            void Bellows::addWidget(const std::shared_ptr<IObject>& value)
+            void Bellows::addButtonWidget(const std::shared_ptr<IObject>& value)
             {
                 _p->buttonLayout->addChild(value);
             }
 
-            void Bellows::removeWidget(const std::shared_ptr<IObject>& value)
+            void Bellows::removeButtonWidget(const std::shared_ptr<IObject>& value)
             {
                 _p->buttonLayout->removeChild(value);
             }
 
-            void Bellows::clearWidgets()
+            void Bellows::clearButtonWidgets()
             {
                 _p->buttonLayout->clearChildren();
             }

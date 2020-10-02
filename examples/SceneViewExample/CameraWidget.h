@@ -28,7 +28,7 @@ public:
     void setCameraData(const djv::Scene3D::PolarCameraData&);
     void setCameraDataCallback(const std::function<void(const djv::Scene3D::PolarCameraData&)>&);
 
-    void setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) override;
+    void setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>&) override;
 
 protected:
     void _initEvent(djv::System::Event::Init&) override;
@@ -37,7 +37,7 @@ private:
     void _widgetUpdate();
 
     djv::Scene3D::PolarCameraData _cameraData;
-    std::map<std::string, std::shared_ptr<djv::UI::FloatEdit> > _floatEdits;
+    std::map<std::string, std::shared_ptr<djv::UI::Numeric::FloatEdit> > _floatEdits;
     std::map<std::string, std::shared_ptr<djv::UI::FormLayout> > _layouts;
     std::map<std::string, std::shared_ptr<djv::UI::GroupBox> > _groupBoxes;
     std::function<void(const djv::Scene3D::PolarCameraData&)> _cameraDataCallback;

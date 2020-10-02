@@ -34,8 +34,8 @@ namespace djv
             Math::Frame::Sequence sequence;
             Math::Rational speed;
             Math::Frame::Index index = 0;
-            std::shared_ptr<UI::LineEditBase> lineEditBase;
-            std::shared_ptr<UI::NumericEditButtons> buttons;
+            std::shared_ptr<UI::Text::LineEditBase> lineEditBase;
+            std::shared_ptr<UI::Numeric::IncrementButtons> buttons;
             std::shared_ptr<UI::HorizontalLayout> layout;
             std::function<void(Math::Frame::Index)> callback;
             std::shared_ptr<Observer::Value<AV::Time::Units> > timeUnitsObserver;
@@ -58,7 +58,7 @@ namespace djv
             auto prevX10Action = UI::Action::create();
             prevX10Action->setShortcut(GLFW_KEY_PAGE_DOWN);
 
-            p.lineEditBase = UI::LineEditBase::create(context);
+            p.lineEditBase = UI::Text::LineEditBase::create(context);
             p.lineEditBase->setFont(Render2D::Font::familyMono);
             p.lineEditBase->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.lineEditBase->addAction(nextAction);
@@ -66,7 +66,7 @@ namespace djv
             p.lineEditBase->addAction(nextX10Action);
             p.lineEditBase->addAction(prevX10Action);
 
-            p.buttons = UI::NumericEditButtons::create(context);
+            p.buttons = UI::Numeric::IncrementButtons::create(context);
             p.buttons->setBackgroundRole(UI::ColorRole::None);
 
             p.layout = UI::HorizontalLayout::create(context);

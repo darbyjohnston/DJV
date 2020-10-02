@@ -21,7 +21,7 @@ namespace djv
     {
         struct SearchBox::Private
         {
-            std::shared_ptr<LineEditBase> lineEditBase;
+            std::shared_ptr<Text::LineEditBase> lineEditBase;
             std::shared_ptr<Icon> searchIcon;
             std::shared_ptr<ToolButton> clearButton;
             std::shared_ptr<SoloLayout> soloLayout;
@@ -37,7 +37,7 @@ namespace djv
             setClassName("djv::UI::SearchBox");
             setVAlign(VAlign::Center);
 
-            p.lineEditBase = LineEditBase::create(context);
+            p.lineEditBase = Text::LineEditBase::create(context);
             p.lineEditBase->setTextSizeRole(MetricsRole::SearchBox);
             
             p.searchIcon = Icon::create(context);

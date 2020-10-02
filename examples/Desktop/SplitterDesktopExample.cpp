@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
         // Create some widgets and add them to the splitter.
         for (size_t i = 0; i < 3; ++i)
         {
-            auto textBlock = UI::TextBlock::create(app);
+            auto textBlock = UI::Text::Block::create(app);
             textBlock->setText(Core::String::getRandomText(50));
             textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
             textBlock->setMargin(UI::MetricsRole::Margin);

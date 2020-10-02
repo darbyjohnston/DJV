@@ -20,9 +20,9 @@ namespace djv
             struct MultiState::Private
             {
                 std::vector<std::string> icons;
-                int currentIndex = -1;
                 std::shared_ptr<Icon> icon;
-                std::function<void(int)> callback;
+                int currentIndex = -1;
+                std::function<void(int)> currentCallback;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
                 System::Event::PointerID pressedID = System::Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
@@ -97,9 +97,9 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void MultiState::setCallback(const std::function<void(int)>& callback)
+            void MultiState::setCurrentCallback(const std::function<void(int)>& callback)
             {
-                _p->callback = callback;
+                _p->currentCallback = callback;
             }
 
             MetricsRole MultiState::getInsideMargin() const
@@ -224,9 +224,9 @@ namespace djv
                         }
                         setCurrentIndex(index);
                         _redraw();
-                        if (p.callback)
+                        if (p.currentCallback)
                         {
-                            p.callback(p.currentIndex);
+                            p.currentCallback(p.currentIndex);
                         }
                     }
                 }

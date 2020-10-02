@@ -53,7 +53,7 @@ namespace djv
 
             ///@}
 
-            //! \name Text Font
+            //! \name Font
             ///@{
 
             void setFont(int, const std::string&);

@@ -61,6 +61,11 @@ namespace djv
                 return _p->spacerSize;
             }
 
+            MetricsRole Spacer::getSpacerOppositeSize() const
+            {
+                return _p->spacerOppositeSize;
+            }
+
             void Spacer::setSpacerSize(MetricsRole value)
             {
                 DJV_PRIVATE_PTR();
@@ -68,11 +73,6 @@ namespace djv
                     return;
                 p.spacerSize = value;
                 _resize();
-            }
-
-            MetricsRole Spacer::getSpacerOppositeSize() const
-            {
-                return _p->spacerOppositeSize;
             }
 
             void Spacer::setSpacerOppositeSize(MetricsRole value)

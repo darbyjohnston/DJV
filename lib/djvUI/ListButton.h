@@ -24,27 +24,33 @@ namespace djv
             public:
                 ~List() override;
 
+                //! Create a new list button.
                 static std::shared_ptr<List> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Icon
+                ///@{
+
                 std::string getIcon() const;
-
-                void setIcon(const std::string&);
-
                 std::string getRightIcon() const;
 
+                void setIcon(const std::string&);
                 void setRightIcon(const std::string&);
 
+                ///@}
+
+                //! \name Text
+                ///@{
+
                 std::string getText() const;
-
-                void setText(const std::string&);
-
-                TextHAlign getTextHAlign() const;
-
-                void setTextHAlign(TextHAlign);
-
                 std::string getRightText() const;
 
+                void setText(const std::string&);
                 void setRightText(const std::string&);
+
+                ///@}
+
+                //! \name Font
+                ///@{
 
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
@@ -54,13 +60,20 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
-                size_t getElide() const;
+                ///@}
 
-                void setElide(size_t);
+                //! \name Options
+                ///@{
 
+                TextHAlign getTextHAlign() const;
+                size_t getTextElide() const;
                 const Layout::Margin& getInsideMargin() const;
 
+                void setTextHAlign(TextHAlign);
+                void setTextElide(size_t);
                 void setInsideMargin(const Layout::Margin&);
+
+                ///@}
 
                 void setForegroundColorRole(ColorRole) override;
 

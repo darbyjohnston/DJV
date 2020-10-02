@@ -27,17 +27,31 @@ namespace djv
             public:
                 ~Canvas() override;
 
+                //! Create a new MDI canvas.
                 static std::shared_ptr<Canvas> create(const std::shared_ptr<System::Context>&);
+
+                //! \name Canvas Size
+                ///@{
 
                 const glm::vec2& getCanvasSize() const;
 
                 void setCanvasSize(const glm::vec2&);
+
+                ///@}
+
+                //! \name Active Widget
+                ///@{
 
                 const std::shared_ptr<IWidget>& getActiveWidget() const;
 
                 void nextWidget();
                 void prevWidget();
                 void setActiveCallback(const std::function<void(const std::shared_ptr<IWidget>&)>&);
+
+                ///@}
+
+                //! \name Widget Geometry
+                ///@{
 
                 glm::vec2 getWidgetPos(const std::shared_ptr<IWidget>&) const;
 
@@ -46,10 +60,17 @@ namespace djv
                 void setWidgetPos(const std::shared_ptr<IWidget>&, const glm::vec2&);
                 void setWidgetGeometry(const std::shared_ptr<IWidget>&, const Math::BBox2f&);
 
+                ///@}
+
+                //! \name Maximized
+                ///@{
+
                 bool isMaximized() const;
 
                 void setMaximize(bool);
                 void setMaximizeCallback(const std::function<void(bool)>&);
+
+                ///@}
 
             protected:
                 void _preLayoutEvent(System::Event::PreLayout&) override;

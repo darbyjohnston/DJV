@@ -46,8 +46,8 @@ namespace djv
 
             std::map<PlaybackSpeed, std::shared_ptr<UI::CheckBox> > speedCheckBoxes;
             std::map<AV::FPS, std::shared_ptr<UI::ListButton> > presetSpeedButtons;
-            std::shared_ptr<UI::FloatEdit> customSpeedFloatEdit;
-            std::shared_ptr<UI::Label> defaultSpeedLabel;
+            std::shared_ptr<UI::Numeric::FloatEdit> customSpeedFloatEdit;
+            std::shared_ptr<UI::Text::Label> defaultSpeedLabel;
             std::shared_ptr<UI::ButtonGroup> speedButtonGroup;
             std::shared_ptr<UI::ButtonGroup> presetSpeedButtonGroup;
             std::shared_ptr<UI::VerticalLayout> speedButtonLayout;
@@ -75,12 +75,12 @@ namespace djv
 
             p.media = media;
 
-            p.customSpeedFloatEdit = UI::FloatEdit::create(context);
+            p.customSpeedFloatEdit = UI::Numeric::FloatEdit::create(context);
             p.customSpeedFloatEdit->setRange(Math::FloatRange(.1F, 1000.F));
             p.customSpeedFloatEdit->getModel()->setSmallIncrement(1.F);
             p.customSpeedFloatEdit->getModel()->setLargeIncrement(10.F);
 
-            p.defaultSpeedLabel = UI::Label::create(context);
+            p.defaultSpeedLabel = UI::Text::Label::create(context);
             p.defaultSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);

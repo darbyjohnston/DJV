@@ -52,7 +52,7 @@ private:
     std::map<std::string, std::map<std::string, std::shared_ptr<djv::UI::Action> > > _actions;
     std::shared_ptr<djv::UI::ActionGroup> _sceneRotateActionGroup;
 
-    std::shared_ptr<djv::UI::Label> _fileInfoLabel;
+    std::shared_ptr<djv::UI::Text::Label> _fileInfoLabel;
     std::shared_ptr<djv::UI::SceneWidget> _sceneWidget;
     std::shared_ptr<djv::UI::Drawer> _settingsDrawer;
 

@@ -38,20 +38,18 @@ namespace djv
 
                 static std::shared_ptr<Row> create(Orientation, const std::shared_ptr<System::Context>&);
 
-                void addSeparator();
-                void addSpacer(MetricsRole = MetricsRole::Spacing);
-                void addExpander();
-
                 Orientation getOrientation() const;
 
                 void setOrientation(Orientation);
 
+                void addSeparator();
+                void addSpacer(MetricsRole = MetricsRole::Spacing);
+                void addExpander();
+
                 const Spacing& getSpacing() const;
-
-                void setSpacing(const Spacing&);
-
                 RowStretch getStretch(const std::shared_ptr<Widget>&) const;
 
+                void setSpacing(const Spacing&);
                 void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
                 float getHeightForWidth(float) const override;

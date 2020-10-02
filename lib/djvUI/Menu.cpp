@@ -14,7 +14,7 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/Window.h>
 
 #include <djvRender2D/FontSystem.h>
@@ -689,7 +689,7 @@ namespace djv
                                         const auto& shortcut = i->observeShortcut()->get();
                                         if (shortcut.isValid())
                                         {
-                                            labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                            labels.push_back(getText(shortcut.key, shortcut.modifiers, textSystem));
                                         }
                                     }
                                     item->shortcutLabel = String::join(labels, ", ");
@@ -1021,14 +1021,14 @@ namespace djv
             return _p->icon;
         }
 
-        std::shared_ptr<Observer::IValueSubject<std::string> > Menu::observeText() const
-        {
-            return _p->text;
-        }
-
         void Menu::setIcon(const std::string& value)
         {
             _p->icon->setIfChanged(value);
+        }
+
+        std::shared_ptr<Observer::IValueSubject<std::string> > Menu::observeText() const
+        {
+            return _p->text;
         }
 
         void Menu::setText(const std::string& value)
@@ -1075,15 +1075,15 @@ namespace djv
         {
             return _p->minimumSizeRole;
         }
-
-        void Menu::setMinimumSizeRole(MetricsRole value)
-        {
-            _p->minimumSizeRole = value;
-        }
         
         ColorRole Menu::getBackgroundRole() const
         {
             return _p->backgroundRole;
+        }
+
+        void Menu::setMinimumSizeRole(MetricsRole value)
+        {
+            _p->minimumSizeRole = value;
         }
 
         void Menu::setBackgroundRole(ColorRole value)

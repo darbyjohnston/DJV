@@ -18,91 +18,114 @@ namespace djv
 {
     namespace UI
     {
-        //! This enumeration provides the numeric widget keyboard shortcuts.
-        enum class NumericWidgetKey
+        //! This namespace provides numeric widget functionality.
+        namespace Numeric
         {
-            None,
-            Home,
-            End,
-            Up,
-            Right,
-            Down,
-            Left,
-            PageUp,
-            PageDown
-        };
-        NumericWidgetKey fromGLFWKey(int);
+            //! This enumeration provides the numeric widget keyboard shortcuts.
+            enum class Key
+            {
+                None,
+                Home,
+                End,
+                Up,
+                Right,
+                Down,
+                Left,
+                PageUp,
+                PageDown
+            };
 
-        //! This class provides the interface for numeric widgets.
-        template<typename T>
-        class INumericWidget
-        {
-        public:
-            virtual ~INumericWidget() = 0;
+            //! This class provides the interface for numeric widgets.
+            template<typename T>
+            class IWidget
+            {
+            public:
+                virtual ~IWidget() = 0;
 
-            const Math::Range<T>& getRange() const;
+                //! \name Range
+                ///@{
 
-            void setRange(const Math::Range<T>&);
+                const Math::Range<T>& getRange() const;
 
-            T getValue() const;
+                void setRange(const Math::Range<T>&);
 
-            void setValue(T);
-            void setValueCallback(const std::function<void(T, TextEditReason)>&);
+                ///@}
 
-            T getSmallIncrement() const;
-            T getLargeIncrement() const;
+                //! \name Value
+                ///@{
 
-            void setSmallIncrement(T);
-            void setLargeIncrement(T);
+                T getValue() const;
 
-            const std::shared_ptr<Math::INumericValueModel<T> >& getModel() const;
+                void setValue(T);
+                void setValueCallback(const std::function<void(T, TextEditReason)>&);
 
-            virtual void setModel(const std::shared_ptr<Math::INumericValueModel<T> >&);
+                ///@}
 
-        protected:
-            void _doCallback(TextEditReason);
-            virtual bool _doKeyPress(NumericWidgetKey);
-            virtual void _setIsMin(bool) {}
-            virtual void _setIsMax(bool) {}
+                //! \name Increment
+                ///@{
 
-            std::shared_ptr<Math::INumericValueModel<T> > _model;
+                T getSmallIncrement() const;
+                T getLargeIncrement() const;
 
-        private:
-            std::shared_ptr<Core::Observer::Value<bool> > _isMinObserver;
-            std::shared_ptr<Core::Observer::Value<bool> > _isMaxObserver;
-            std::function<void(T, TextEditReason)> _callback;
-        };
+                void setSmallIncrement(T);
+                void setLargeIncrement(T);
 
-        //! This class provides the interface for numeric editor widgets.
-        template<typename T>
-        class INumericEdit : public INumericWidget<T>
-        {
-        public:
-            virtual ~INumericEdit() = 0;
-            
-        protected:
-            bool _doKeyPress(NumericWidgetKey) override;
-        };
+                ///@}
 
-        //! This class provides the interface for numeric slider widgets.
-        template<typename T>
-        class INumericSlider : public INumericWidget<T>
-        {
-        public:
-            virtual ~INumericSlider() = 0;
+                //! \name Model
+                ///@{
 
-        protected:
-            void _pointerMove(float, const Core::Time::Duration&);
-            void _buttonPress(float, const Core::Time::Duration&);
-            void _buttonRelease(const Core::Time::Duration&);
-            void _valueUpdate();
+                const std::shared_ptr<Math::INumericValueModel<T> >& getModel() const;
 
-            virtual float _valueToPos(T) const = 0;
-            virtual T _posToValue(float) const = 0;
+                virtual void setModel(const std::shared_ptr<Math::INumericValueModel<T> >&);
 
-            T _value = static_cast<T>(0);
-        };
+                ///@}
 
+            protected:
+                void _doCallback(TextEditReason);
+                virtual bool _doKeyPress(Key);
+                virtual void _setIsMin(bool) {}
+                virtual void _setIsMax(bool) {}
+
+                std::shared_ptr<Math::INumericValueModel<T> > _model;
+
+            private:
+                std::shared_ptr<Core::Observer::Value<bool> > _isMinObserver;
+                std::shared_ptr<Core::Observer::Value<bool> > _isMaxObserver;
+                std::function<void(T, TextEditReason)> _callback;
+            };
+
+            //! This class provides the interface for numeric editor widgets.
+            template<typename T>
+            class IEdit : public IWidget<T>
+            {
+            public:
+                virtual ~IEdit() = 0;
+
+            protected:
+                bool _doKeyPress(Key) override;
+            };
+
+            //! This class provides the interface for numeric slider widgets.
+            template<typename T>
+            class ISlider : public IWidget<T>
+            {
+            public:
+                virtual ~ISlider() = 0;
+
+            protected:
+                void _pointerMove(float, const Core::Time::Duration&);
+                void _buttonPress(float, const Core::Time::Duration&);
+                void _buttonRelease(const Core::Time::Duration&);
+                void _valueUpdate();
+
+                virtual float _valueToPos(T) const = 0;
+                virtual T _posToValue(float) const = 0;
+
+                T _value = static_cast<T>(0);
+            };
+
+        } // namespace Numeric
     } // namespace UI
 } // namespace djv
 

@@ -5,7 +5,7 @@
 #include <djvUI/Border.h>
 
 #include <djvUI/DrawUtil.h>
-#include <djvUI/StackLayout.h>
+#include <djvUI/StackLayoutFunc.h>
 #include <djvUI/Style.h>
 
 #include <djvRender2D/Render.h>
@@ -93,7 +93,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 const float b = style->getMetric(p.borderSize);
-                out = StackLayout::heightForWidth(value - b * 2.F - m.x, getChildWidgets(), p.insideMargin, style) + b * 2.F + m.y;
+                out = stackHeightForWidth(value - b * 2.F - m.x, getChildWidgets(), p.insideMargin, style) + b * 2.F + m.y;
                 return out;
             }
 
@@ -103,7 +103,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 const float b = style->getMetric(p.borderSize);
-                _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), p.insideMargin, style) + b * 2.F + m);
+                _setMinimumSize(stackMinimumSize(getChildWidgets(), p.insideMargin, style) + b * 2.F + m);
             }
 
             void Border::_layoutEvent(System::Event::Layout& event)
@@ -112,7 +112,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const float b = style->getMetric(p.borderSize);
                 const Math::BBox2f& g = getGeometry().margin(-b);
-                StackLayout::layout(getMargin().bbox(g, style), getChildWidgets(), p.insideMargin, style);
+                stackLayout(getMargin().bbox(g, style), getChildWidgets(), p.insideMargin, style);
             }
 
             void Border::_paintEvent(System::Event::Paint& event)

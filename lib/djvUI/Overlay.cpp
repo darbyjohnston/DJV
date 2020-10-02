@@ -5,7 +5,7 @@
 #include <djvUI/Overlay.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/StackLayout.h>
+#include <djvUI/StackLayoutFunc.h>
 
 #include <djvSystem/Animation.h>
 #include <djvSystem/Timer.h>
@@ -141,20 +141,20 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
-                float out = Stack::heightForWidth(value - m.x, getChildWidgets(), Margin(), style) + m.y;
+                float out = stackHeightForWidth(value - m.x, getChildWidgets(), Margin(), style) + m.y;
                 return out;
             }
 
             void Overlay::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
-                _setMinimumSize(Stack::minimumSize(getChildWidgets(), Margin(), style) + getMargin().getSize(style));
+                _setMinimumSize(stackMinimumSize(getChildWidgets(), Margin(), style) + getMargin().getSize(style));
             }
 
             void Overlay::_layoutEvent(System::Event::Layout& event)
             {
                 const auto& style = _getStyle();
-                Stack::layout(getMargin().bbox(getGeometry(), style), getChildWidgets(), Margin(), style);
+                stackLayout(getMargin().bbox(getGeometry(), style), getChildWidgets(), Margin(), style);
             }
 
             void Overlay::_pointerEnterEvent(System::Event::PointerEnter& event)

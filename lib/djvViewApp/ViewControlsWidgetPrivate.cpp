@@ -42,9 +42,9 @@ namespace djv
             glm::vec2 viewPos = glm::vec2(0.F, 0.F);
             float viewZoom = 1.F;
 
-            std::shared_ptr<UI::FloatEdit> viewPosEdit[2];
+            std::shared_ptr<UI::Numeric::FloatEdit> viewPosEdit[2];
             std::shared_ptr<UI::ToolButton> viewPosResetButton[2];
-            std::shared_ptr<UI::FloatEdit> viewZoomEdit;
+            std::shared_ptr<UI::Numeric::FloatEdit> viewZoomEdit;
             std::shared_ptr<UI::ToolButton> viewZoomResetButton;
             std::shared_ptr<UI::HorizontalLayout> viewPosLayout[2];
             std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
@@ -62,7 +62,7 @@ namespace djv
 
             for (size_t i = 0; i < 2; ++i)
             {
-                auto edit = UI::FloatEdit::create(context);
+                auto edit = UI::Numeric::FloatEdit::create(context);
                 edit->setRange(Math::FloatRange(-1000000.F, 1000000.F));
                 edit->setSmallIncrement(1.F);
                 edit->setLargeIncrement(10.F);
@@ -72,7 +72,7 @@ namespace djv
                 p.viewPosResetButton[i]->setIcon("djvIconClearSmall");
                 p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
             }
-            p.viewZoomEdit = UI::FloatEdit::create(context);
+            p.viewZoomEdit = UI::Numeric::FloatEdit::create(context);
             p.viewZoomEdit->setRange(Math::FloatRange(.1F, 1000.F));
             p.viewZoomEdit->setSmallIncrement(.1F);
             p.viewZoomEdit->setLargeIncrement(1.F);
@@ -214,7 +214,7 @@ namespace djv
             return out;
         }
 
-        void ViewControlsViewWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+        void ViewControlsViewWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
@@ -295,7 +295,7 @@ namespace djv
             GridOptions gridOptions;
 
             std::shared_ptr<UI::ToolButton> gridEnabledButton;
-            std::shared_ptr<UI::IntSlider> gridSizeSlider;
+            std::shared_ptr<UI::Numeric::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
@@ -314,7 +314,7 @@ namespace djv
             p.gridEnabledButton->setIcon("djvIconHidden");
             p.gridEnabledButton->setCheckedIcon("djvIconVisible");
             p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.gridSizeSlider = UI::IntSlider::create(context);
+            p.gridSizeSlider = UI::Numeric::IntSlider::create(context);
             p.gridSizeSlider->setRange(Math::IntRange(1, 500));
             p.gridSizeSlider->setSmallIncrement(1);
             p.gridSizeSlider->setLargeIncrement(10);
@@ -447,7 +447,7 @@ namespace djv
             return _p->gridEnabledButton;
         }
 
-        void ViewControlsGridWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+        void ViewControlsGridWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
@@ -610,7 +610,7 @@ namespace djv
             return _p->hudEnabledButton;
         }
 
-        void ViewControlsHUDWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+        void ViewControlsHUDWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
@@ -658,7 +658,7 @@ namespace djv
 
             std::shared_ptr<UI::ComboBox> backgroundComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> solidPickerSwatch;
-            std::shared_ptr<UI::FloatSlider> checkersSizeSlider;
+            std::shared_ptr<UI::Numeric::FloatSlider> checkersSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> checkersColorPickerSwatches[2];
             std::shared_ptr<UI::HorizontalLayout> checkersColorsLayout;
             std::shared_ptr<UI::FormLayout> backgroundLayout;
@@ -678,7 +678,7 @@ namespace djv
             p.solidPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.solidPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.solidPickerSwatch->setHAlign(UI::HAlign::Fill);
-            p.checkersSizeSlider = UI::FloatSlider::create(context);
+            p.checkersSizeSlider = UI::Numeric::FloatSlider::create(context);
             p.checkersSizeSlider->setRange(Math::FloatRange(10.F, 100.F));
             p.checkersSizeSlider->setSmallIncrement(1);
             p.checkersSizeSlider->setLargeIncrement(10);
@@ -818,7 +818,7 @@ namespace djv
             return out;
         }
 
-        void ViewControlsBackgroundWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+        void ViewControlsBackgroundWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
         {
             DJV_PRIVATE_PTR();
             p.backgroundLayout->setLabelSizeGroup(value);
@@ -883,7 +883,7 @@ namespace djv
             ViewBackgroundOptions backgroundOptions;
 
             std::shared_ptr<UI::ToolButton> borderEnabledButton;
-            std::shared_ptr<UI::FloatSlider> borderWidthSlider;
+            std::shared_ptr<UI::Numeric::FloatSlider> borderWidthSlider;
             std::shared_ptr<UI::ColorPickerSwatch> borderColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> layout;
 
@@ -900,7 +900,7 @@ namespace djv
             p.borderEnabledButton->setIcon("djvIconHidden");
             p.borderEnabledButton->setCheckedIcon("djvIconVisible");
             p.borderEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.borderWidthSlider = UI::FloatSlider::create(context);
+            p.borderWidthSlider = UI::Numeric::FloatSlider::create(context);
             p.borderWidthSlider->setRange(Math::FloatRange(1.F, 20.F));
             p.borderWidthSlider->setSmallIncrement(1.F);
             p.borderWidthSlider->setLargeIncrement(5.F);
@@ -997,7 +997,7 @@ namespace djv
             return _p->borderEnabledButton;
         }
 
-        void ViewControlsBorderWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+        void ViewControlsBorderWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

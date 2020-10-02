@@ -20,7 +20,7 @@ namespace djv
         {
             struct RecentPathsWidget::Private
             {
-                size_t elide = 0;
+                size_t textElide = 0;
 
                 std::shared_ptr<VerticalLayout> layout;
 
@@ -31,7 +31,7 @@ namespace djv
 
             void RecentPathsWidget::_init(
                 const std::shared_ptr<System::File::RecentFilesModel> & model,
-                size_t elide,
+                size_t textElide,
                 const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
@@ -39,7 +39,7 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::RecentPathsWidget");
 
-                p.elide = elide;
+                p.textElide = textElide;
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
@@ -61,7 +61,7 @@ namespace djv
                                     auto button = ListButton::create(context);
                                     const auto path = i.getPath();
                                     button->setText(getPathLabel(path));
-                                    button->setElide(widget->_p->elide);
+                                    button->setTextElide(widget->_p->textElide);
                                     button->setTooltip(path.get());
 
                                     widget->_p->layout->addChild(button);
@@ -92,11 +92,11 @@ namespace djv
 
             std::shared_ptr<RecentPathsWidget> RecentPathsWidget::create(
                 const std::shared_ptr<System::File::RecentFilesModel> & model,
-                size_t elide,
+                size_t textElide,
                 const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<RecentPathsWidget>(new RecentPathsWidget);
-                out->_init(model, elide, context);
+                out->_init(model, textElide, context);
                 return out;
             }
 

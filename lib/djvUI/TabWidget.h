@@ -23,14 +23,24 @@ namespace djv
             ~TabWidget() override;
 
             static std::shared_ptr<TabWidget> create(const std::shared_ptr<System::Context>&);
+
+            //! \name Tabs
+            ///@{
             
             void setText(const std::shared_ptr<Widget>&, const std::string&);
+
+            ///@}
+
+            //! \name Current Tab
+            ///@{
 
             int getCurrentTab() const;
 
             void setCurrentTab(int);
             void setCurrentTabCallback(const std::function<void(int)>&);
             void closeCurrentTab();
+
+            ///@}
 
             float getHeightForWidth(float) const override;
 

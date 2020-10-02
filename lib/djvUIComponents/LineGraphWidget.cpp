@@ -24,8 +24,8 @@ namespace djv
             size_t samplesSize = 0;
             Math::FloatRange samplesRange = Math::FloatRange(0.F, 0.F);
             size_t precision = 2;
-            std::shared_ptr<Label> label;
-            std::shared_ptr<Label> labelValue;
+            std::shared_ptr<Text::Label> label;
+            std::shared_ptr<Text::Label> labelValue;
             std::shared_ptr<HorizontalLayout> layout;
         };
 
@@ -38,10 +38,10 @@ namespace djv
 
             setBackgroundRole(ColorRole::Trough);
 
-            p.label = Label::create(context);
+            p.label = Text::Label::create(context);
             p.label->setFontSizeRole(MetricsRole::FontSmall);
             
-            p.labelValue = Label::create(context);
+            p.labelValue = Text::Label::create(context);
             p.labelValue->setFontFamily(Render2D::Font::familyMono);
             p.labelValue->setFontSizeRole(MetricsRole::FontSmall);
             

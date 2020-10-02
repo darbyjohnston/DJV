@@ -26,10 +26,18 @@ namespace djv
 
                 static std::shared_ptr<Menu> create(MenuButtonStyle, const std::shared_ptr<System::Context>&);
 
+                //! \name Open
+                ///@{
+
                 bool isOpen() const;
 
                 void setOpen(bool);
                 void setOpenCallback(const std::function<void(bool)>&);
+
+                ///@}
+
+                //! \name Icon
+                ///@{
 
                 const std::string& getIcon() const;
                 const std::string& getPopupIcon() const;
@@ -37,9 +45,19 @@ namespace djv
                 void setIcon(const std::string&);
                 void setPopupIcon(const std::string&);
 
+                ///@}
+
+                //! \name Text
+                ///@{
+
                 const std::string& getText() const;
 
                 void setText(const std::string&);
+
+                ///@}
+
+                //! \name Font
+                ///@{
 
                 const std::string& getFontFamily() const;
                 const std::string& getFontFace() const;
@@ -49,17 +67,20 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
-                size_t getElide() const;
+                ///@}
 
-                void setElide(size_t);
+                //! \name Options
+                ///@{
 
+                size_t getTextElide() const;
                 MetricsRole getInsideMargin() const;
-
-                void setInsideMargin(MetricsRole);
-
                 MenuButtonStyle getMenuButtonStyle() const;
 
+                void setTextElide(size_t);
+                void setInsideMargin(MetricsRole);
                 void setTextFocusEnabled(bool);
+
+                ///@}
 
                 bool acceptFocus(TextFocusDirection) override;
 

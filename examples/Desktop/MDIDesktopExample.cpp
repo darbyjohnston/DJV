@@ -53,7 +53,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<System::C
 {
     IWidget::_init(context);
 
-    auto titleLabel = UI::Label::create(context);
+    auto titleLabel = UI::Text::Label::create(context);
     titleLabel->setText(title);
     titleLabel->setMargin(UI::MetricsRole::Margin);
 
@@ -67,7 +67,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<System::C
     titleBar->addExpander();
     titleBar->addChild(_closeButton);
 
-    auto textBlock = UI::TextBlock::create(context);
+    auto textBlock = UI::Text::Block::create(context);
     textBlock->setText(Core::String::getRandomText(20));
     textBlock->setMargin(UI::MetricsRole::Margin);
 

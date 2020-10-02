@@ -24,7 +24,7 @@ public:
     std::shared_ptr<djv::Core::Observer::IValueSubject<std::string> > observeTitle() const;
     void setTitle(const std::string&);
 
-    virtual void setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) {}
+    virtual void setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>&) {}
 
     float getHeightForWidth(float) const override;
 
@@ -37,7 +37,7 @@ protected:
     void _layoutEvent(djv::System::Event::Layout&) override;
 
 private:
-    std::weak_ptr<djv::UI::LabelSizeGroup> _sizeGroup;
+    std::weak_ptr<djv::UI::Text::LabelSizeGroup> _sizeGroup;
     std::shared_ptr<djv::Core::Observer::ValueSubject<std::string> > _title;
     std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
     std::shared_ptr<djv::UI::Layout::Bellows> _bellows;

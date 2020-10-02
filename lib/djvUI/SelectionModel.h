@@ -29,9 +29,17 @@ namespace djv
 
             static std::shared_ptr<SelectionModel> create(SelectionType);
 
+            //! \name Items
+            ///@{
+
             size_t getCount() const;
 
             void setCount(size_t);
+
+            ///@}
+
+            //! \name Selection
+            ///@{
 
             const std::set<size_t>& getSelected() const;
             bool isSelected(size_t) const;
@@ -43,7 +51,14 @@ namespace djv
 
             void select(size_t, int keyModifiers = 0);
 
+            ///@}
+
+            //! \name Callbacks
+            ///@{
+
             void setCallback(const std::function<void(const std::set<size_t>&)>&);
+
+            ///@}
 
         private:
             SelectionType _selectionType = SelectionType::First;

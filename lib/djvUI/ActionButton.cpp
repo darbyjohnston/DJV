@@ -10,7 +10,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 
 #include <djvRender2D/Render.h>
 
@@ -107,8 +107,8 @@ namespace djv
                 std::shared_ptr<Action> action;
                 std::shared_ptr<CheckBox> checkBox;
                 std::shared_ptr<Icon> icon;
-                std::shared_ptr<Label> textLabel;
-                std::shared_ptr<Label> shortcutsLabel;
+                std::shared_ptr<Text::Label> textLabel;
+                std::shared_ptr<Text::Label> shortcutsLabel;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::shared_ptr<Observer::Value<std::string> > iconObserver;
                 std::shared_ptr<Observer::Value<std::string> > textObserver;
@@ -124,10 +124,10 @@ namespace djv
 
                 p.checkBox = CheckBox::create(context);
                 p.icon = Icon::create(context);
-                p.textLabel = Label::create(context);
+                p.textLabel = Text::Label::create(context);
                 p.textLabel->setTextHAlign(TextHAlign::Left);
                 p.textLabel->setMargin(MetricsRole::MarginSmall);
-                p.shortcutsLabel = Label::create(context);
+                p.shortcutsLabel = Text::Label::create(context);
                 p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = HorizontalLayout::create(context);
@@ -358,7 +358,7 @@ namespace djv
                                     const auto& shortcut = i->observeShortcut()->get();
                                     if (shortcut.isValid())
                                     {
-                                        labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                        labels.push_back(getText(shortcut.key, shortcut.modifiers, textSystem));
                                     }
                                 }
                                 widget->_p->shortcutsLabel->setText(String::join(labels, ", "));

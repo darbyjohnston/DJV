@@ -26,14 +26,9 @@ namespace djv
 
                 static std::shared_ptr<ActionButton> create(const std::shared_ptr<System::Context>&);
 
-                //! \name Keyboard Shortcuts
-                ///@{
-
                 bool hasShowShortcuts() const;
 
                 void setShowShortcuts(bool);
-
-                ///@}
 
                 void setChecked(bool) override;
                 void setButtonType(ButtonType) override;

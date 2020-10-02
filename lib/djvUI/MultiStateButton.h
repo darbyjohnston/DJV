@@ -24,20 +24,35 @@ namespace djv
             public:
                 ~MultiState() override;
 
+                //! Create a new multi-state button.
                 static std::shared_ptr<MultiState> create(const std::shared_ptr<System::Context>&);
+
+                //! \name Icons
+                ///@{
                 
                 void addIcon(const std::string&);
                 void clearIcons();
 
+                ///@}
+
+                //! \name Current Index
+                ///@{
+
                 int getCurrentIndex() const;
 
                 void setCurrentIndex(int);
+                void setCurrentCallback(const std::function<void(int)>&);
 
-                void setCallback(const std::function<void(int)>&);
+                ///@}
+
+                //! \name Options
+                ///@{
 
                 MetricsRole getInsideMargin() const;
 
                 void setInsideMargin(MetricsRole);
+
+                ///@}
 
             protected:
                 void _preLayoutEvent(System::Event::PreLayout&) override;

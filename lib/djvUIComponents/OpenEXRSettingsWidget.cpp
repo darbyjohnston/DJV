@@ -23,10 +23,10 @@ namespace djv
     {
         struct OpenEXRSettingsWidget::Private
         {
-            std::shared_ptr<IntSlider> threadCountSlider;
+            std::shared_ptr<Numeric::IntSlider> threadCountSlider;
             std::shared_ptr<ComboBox> channelsComboBox;
             std::shared_ptr<ComboBox> compressionComboBox;
-            std::shared_ptr<FloatSlider> dwaCompressionLevelSlider;
+            std::shared_ptr<Numeric::FloatSlider> dwaCompressionLevelSlider;
             std::shared_ptr<FormLayout> layout;
         };
 
@@ -37,14 +37,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::OpenEXRSettingsWidget");
 
-            p.threadCountSlider = IntSlider::create(context);
+            p.threadCountSlider = Numeric::IntSlider::create(context);
             p.threadCountSlider->setRange(Math::IntRange(1, 16));
 
             p.channelsComboBox = ComboBox::create(context);
             
             p.compressionComboBox = ComboBox::create(context);
 
-            p.dwaCompressionLevelSlider = FloatSlider::create(context);
+            p.dwaCompressionLevelSlider = Numeric::FloatSlider::create(context);
             p.dwaCompressionLevelSlider->setRange(Math::FloatRange(0.F, 200.F));
 
             p.layout = FormLayout::create(context);
@@ -157,7 +157,7 @@ namespace djv
             return "d";
         }
 
-        void OpenEXRSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void OpenEXRSettingsWidget::setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }

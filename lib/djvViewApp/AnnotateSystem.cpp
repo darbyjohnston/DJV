@@ -18,7 +18,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutData.h>
+#include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
@@ -121,7 +121,7 @@ namespace djv
             p.actions["Prev"] = UI::Action::create();
             p.actions["Prev"]->setIcon("djvIconArrowLeft");
 
-            _addShortcut("shortcut_annotate", GLFW_KEY_A, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_annotate", GLFW_KEY_A, UI::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Polyline"]);

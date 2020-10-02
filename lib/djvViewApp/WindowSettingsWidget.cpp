@@ -142,7 +142,7 @@ namespace djv
             return "B";
         }
 
-        void WindowGeometrySettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void WindowGeometrySettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
@@ -255,7 +255,7 @@ namespace djv
             return "B";
         }
 
-        void FullscreenMonitorSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void FullscreenMonitorSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
@@ -287,7 +287,7 @@ namespace djv
             System::File::Path fileBrowserPath = System::File::Path(".");
 
             std::shared_ptr<UI::ImageWidget> imageWidget;
-            std::shared_ptr<UI::LineEdit> lineEdit;
+            std::shared_ptr<UI::Text::LineEdit> lineEdit;
             std::shared_ptr<UI::ToolButton> openButton;
             std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::ToggleButton> scaleButton;
@@ -313,11 +313,11 @@ namespace djv
             Render2D::ImageOptions options;
             options.alphaBlend = Render2D::AlphaBlend::Straight;
             p.imageWidget->setImageOptions(options);
-            p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
+            p.imageWidget->setImageSizeRole(UI::MetricsRole::TextColumn);
             p.imageWidget->setHAlign(UI::HAlign::Center);
             p.imageWidget->setVAlign(UI::VAlign::Center);
 
-            p.lineEdit = UI::LineEdit::create(context);
+            p.lineEdit = UI::Text::LineEdit::create(context);
 
             p.openButton = UI::ToolButton::create(context);
             p.openButton->setIcon("djvIconFile");
@@ -535,7 +535,7 @@ namespace djv
             return "B";
         }
 
-        void BackgroundImageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void BackgroundImageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
         {
             _p->formLayout->setLabelSizeGroup(value);
         }

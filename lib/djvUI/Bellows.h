@@ -26,7 +26,7 @@ namespace djv
 
                 static std::shared_ptr<Bellows> create(const std::shared_ptr<System::Context>&);
 
-                //! \name Button Type
+                //! \name Text
                 ///@{
                 
                 const std::string& getText() const;
@@ -47,12 +47,12 @@ namespace djv
 
                 ///@}
 
-                //! \name Title Widgets
+                //! \name Button Widgets
                 ///@{
 
-                void addWidget(const std::shared_ptr<IObject>&);
-                void removeWidget(const std::shared_ptr<IObject>&);
-                void clearWidgets();
+                void addButtonWidget(const std::shared_ptr<IObject>&);
+                void removeButtonWidget(const std::shared_ptr<IObject>&);
+                void clearButtonWidgets();
 
                 ///@}
 

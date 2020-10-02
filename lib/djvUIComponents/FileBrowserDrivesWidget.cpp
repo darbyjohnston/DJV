@@ -62,7 +62,7 @@ namespace djv
                                 {
                                     auto button = ListButton::create(context);
                                     button->setText(getPathLabel(i));
-                                    button->setElide(widget->_p->elide);
+                                    button->setTextElide(widget->_p->elide);
                                     button->setTooltip(i.get());
 
                                     widget->_p->layout->addChild(button);

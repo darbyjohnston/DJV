@@ -26,7 +26,7 @@ namespace djv
             std::shared_ptr<ViewControlsHUDWidget> hudWidget;
             std::shared_ptr<ViewControlsBackgroundWidget> backgroundWidget;
             std::shared_ptr<ViewControlsBorderWidget> borderWidget;
-            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
         };
 
@@ -37,7 +37,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ViewControlsWidget");
 
-            p.sizeGroup = UI::LabelSizeGroup::create();
+            p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
             p.viewWidget = ViewControlsViewWidget::create(context);
             p.viewWidget->setLabelSizeGroup(p.sizeGroup);
@@ -53,15 +53,15 @@ namespace djv
             p.bellows["View"] = UI::Bellows::create(context);
             p.bellows["View"]->addChild(p.viewWidget);
             p.bellows["Grid"] = UI::Bellows::create(context);
-            p.bellows["Grid"]->addWidget(p.gridWidget->getEnabledButton());
+            p.bellows["Grid"]->addButtonWidget(p.gridWidget->getEnabledButton());
             p.bellows["Grid"]->addChild(p.gridWidget);
             p.bellows["HUD"] = UI::Bellows::create(context);
-            p.bellows["HUD"]->addWidget(p.hudWidget->getEnabledButton());
+            p.bellows["HUD"]->addButtonWidget(p.hudWidget->getEnabledButton());
             p.bellows["HUD"]->addChild(p.hudWidget);
             p.bellows["Background"] = UI::Bellows::create(context);
             p.bellows["Background"]->addChild(p.backgroundWidget);
             p.bellows["Border"] = UI::Bellows::create(context);
-            p.bellows["Border"]->addWidget(p.borderWidget->getEnabledButton());
+            p.bellows["Border"]->addButtonWidget(p.borderWidget->getEnabledButton());
             p.bellows["Border"]->addChild(p.borderWidget);
             
             auto vLayout = UI::VerticalLayout::create(context);
