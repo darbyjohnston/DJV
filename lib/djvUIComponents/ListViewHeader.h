@@ -24,7 +24,15 @@ namespace djv
 
             static std::shared_ptr<ListViewHeader> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Text
+            ///@{
+
             void setText(const std::vector<std::string> &);
+
+            ///@}
+
+            //! \name Sorting
+            ///@{
 
             size_t getSort() const;
             bool getReverseSort() const;
@@ -33,10 +41,15 @@ namespace djv
             void setReverseSort(bool);
             void setSortCallback(const std::function<void(size_t, bool)> &);
 
+            //! \name Split
+            ///@{
+
             const std::vector<float> & getSplit() const;
 
             void setSplit(const std::vector<float> &);
             void setSplitCallback(const std::function<void(const std::vector<float> &)> &);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

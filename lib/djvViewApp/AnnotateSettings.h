@@ -39,25 +39,36 @@ namespace djv
 
             static std::shared_ptr<AnnotateSettings> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Tool
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<AnnotateTool> > observeTool() const;
 
             void setTool(AnnotateTool);
 
+            ///@}
+
+            //! \name Options
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<AnnotateLineSize> > observeLineSize() const;
-
-            void setLineSize(AnnotateLineSize);
-
             std::shared_ptr<Core::Observer::IListSubject<Image::Color> > observeColors() const;
-
-            void setColors(const std::vector<Image::Color>&);
-
             std::shared_ptr<Core::Observer::IValueSubject<int> > observeCurrentColor() const;
 
+            void setLineSize(AnnotateLineSize);
+            void setColors(const std::vector<Image::Color>&);
             void setCurrentColor(int);
+
+            /// @}
+
+            //! \name Geometry
+            ///@{
 
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
 
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
+
+            /// @}
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

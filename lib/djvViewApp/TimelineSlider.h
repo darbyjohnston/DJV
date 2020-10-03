@@ -32,16 +32,38 @@ namespace djv
 
             static std::shared_ptr<TimelineSlider> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Media
+            ///@{
+
             void setMedia(const std::shared_ptr<Media>&);
+
+            ///@}
+
+            //! \name In/Out Points
+            ///@{
+
             void setInOutPointsEnabled(bool);
             void setInPoint(Math::Frame::Index);
             void setOutPoint(Math::Frame::Index);
+
+            ///@}
+
+            //! \name Cache
+            ///@{
+
             void setCacheEnabled(bool);
             void setCacheSequence(const Math::Frame::Sequence&);
             void setCachedFrames(const Math::Frame::Sequence&);
 
+            ///@}
+
+            //! \name Callbacks
+            ///@{
+            
             void setCurrentFrameCallback(const std::function<void(Math::Frame::Index)>&);
             void setCurrentFrameDragCallback(const std::function<void(bool)>&);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

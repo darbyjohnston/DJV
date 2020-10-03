@@ -167,36 +167,6 @@ namespace djv
                 return out;
             }
 
-            void ItemView::setViewType(UI::ViewType value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.viewType)
-                    return;
-                p.viewType = value;
-                _iconsUpdate();
-                _itemsUpdate();
-            }
-
-            void ItemView::setThumbnailSize(const Image::Size& value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.thumbnailSize)
-                    return;
-                p.thumbnailSize = value;
-                _iconsUpdate();
-                _thumbnailsSizeUpdate();
-                _resize();
-            }
-
-            void ItemView::setSplit(const std::vector<float>& value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.split)
-                    return;
-                p.split = value;
-                _resize();
-            }
-
             void ItemView::setItems(const std::vector<System::File::Info>& value)
             {
                 _p->items.clear();
@@ -237,6 +207,36 @@ namespace djv
             {
                 _p->selectionModel->invertSelection();
                 _redraw();
+            }
+
+            void ItemView::setViewType(UI::ViewType value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.viewType)
+                    return;
+                p.viewType = value;
+                _iconsUpdate();
+                _itemsUpdate();
+            }
+
+            void ItemView::setThumbnailSize(const Image::Size& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.thumbnailSize)
+                    return;
+                p.thumbnailSize = value;
+                _iconsUpdate();
+                _thumbnailsSizeUpdate();
+                _resize();
+            }
+
+            void ItemView::setSplit(const std::vector<float>& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.split)
+                    return;
+                p.split = value;
+                _resize();
             }
 
             void ItemView::setSelectedCallback(const std::function<void(const std::vector<System::File::Info>&)>& value)

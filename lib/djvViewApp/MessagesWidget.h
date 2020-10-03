@@ -24,12 +24,28 @@ namespace djv
 
             static std::shared_ptr<MessagesWidget> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Text
+            ///@{
+            
             void setText(const std::string&);
+
+            ///@}
+
+            //! \name Options
+            ///@{
+
             void setPopup(bool);
+
+            ///@}
+
+            //! \name Callbacks
+            ///@{
 
             void setPopupCallback(const std::function<void(bool)>&);
             void setCopyCallback(const std::function<void(void)>&);
             void setClearCallback(const std::function<void(void)>&);
+
+            ///@}
 
         protected:
             void _initEvent(System::Event::Init &) override;

@@ -32,6 +32,9 @@ namespace djv
 
             static std::shared_ptr<WindowSettings> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Position and Size
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeRestorePos() const;
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeRestoreSize() const;
 
@@ -44,20 +47,33 @@ namespace djv
             void setWindowPos(const glm::ivec2&);
             void setWindowSize(const glm::ivec2&);
 
+            ///@}
+
+            //! \name Full Screen
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFullScreen() const;
             std::shared_ptr<Core::Observer::IValueSubject<int> > observeFullScreenMonitor() const;
 
             void setFullScreen(bool);
             void setFullScreenMonitor(int);
 
+            ///@}
+
+            //! \name Window State
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFloatOnTop() const;
-
-            void setFloatOnTop(bool);
-
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeMaximize() const;
 
+            void setFloatOnTop(bool);
             void setMaximize(bool);
             
+            ///@}
+
+            //! \name Background Image
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeBackgroundImage() const;
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeBackgroundImageScale() const;
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeBackgroundImageColorize() const;
@@ -65,6 +81,8 @@ namespace djv
             void setBackgroundImage(const std::string&);
             void setBackgroundImageScale(bool);
             void setBackgroundImageColorize(bool);
+
+            ///@}
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

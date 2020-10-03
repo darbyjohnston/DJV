@@ -25,21 +25,27 @@ namespace djv
 
             static std::shared_ptr<ThermometerWidget> create(const std::shared_ptr<System::Context>&);
 
-            UI::Orientation getOrientation() const;
-
-            void setOrientation(UI::Orientation);
+            //! \name Percentage
+            ///@{
 
             float getPercentage() const;
 
             void setPercentage(float);
 
+            ///@}
+
+            //! \name Options
+            ///@{
+
+            UI::Orientation getOrientation() const;
             UI::ColorRole getColorRole() const;
-
-            void setColorRole(UI::ColorRole);
-
             UI::MetricsRole getSizeRole() const;
 
+            void setOrientation(UI::Orientation);
+            void setColorRole(UI::ColorRole);
             void setSizeRole(UI::MetricsRole);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

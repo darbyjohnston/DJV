@@ -17,6 +17,7 @@
 #include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/NUXWidget.h>
 #include <djvViewApp/NUXSystem.h>
 #include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/SettingsSystem.h>

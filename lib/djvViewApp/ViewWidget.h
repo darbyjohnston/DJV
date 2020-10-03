@@ -38,9 +38,17 @@ namespace djv
                 const std::shared_ptr<Media>&,
                 const std::shared_ptr<System::Context>&);
 
+            //! \name Image
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Image> > > observeImage() const;
 
             void setImage(const std::shared_ptr<Image::Image>&);
+
+            ///@}
+
+            //! \name Zoom and Position
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<glm::vec2> > observeImagePos() const;
             std::shared_ptr<Core::Observer::IValueSubject<float> > observeImageZoom() const;
@@ -55,6 +63,8 @@ namespace djv
 
             void imageFrame(bool animate = false);
             void imageCenter(bool animate = false);
+
+            ///@}
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

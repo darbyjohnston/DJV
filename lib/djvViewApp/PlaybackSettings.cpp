@@ -23,10 +23,10 @@ namespace djv
         struct PlaybackSettings::Private
         {
             std::shared_ptr<Observer::ValueSubject<bool> > startPlayback;
+            std::shared_ptr<Observer::ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<Observer::ValueSubject<PlaybackSpeed> > playbackSpeed;
             std::shared_ptr<Observer::ValueSubject<Math::Rational> > customSpeed;
             std::shared_ptr<Observer::ValueSubject<bool> > playEveryFrame;
-            std::shared_ptr<Observer::ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<Observer::ValueSubject<bool> > pipEnabled;
         };
 
@@ -60,9 +60,19 @@ namespace djv
             return _p->startPlayback;
         }
 
+        std::shared_ptr<Observer::IValueSubject<PlaybackMode> > PlaybackSettings::observePlaybackMode() const
+        {
+            return _p->playbackMode;
+        }
+
         void PlaybackSettings::setStartPlayback(bool value)
         {
             _p->startPlayback->setIfChanged(value);
+        }
+
+        void PlaybackSettings::setPlaybackMode(PlaybackMode value)
+        {
+            _p->playbackMode->setIfChanged(value);
         }
 
         std::shared_ptr<Observer::IValueSubject<PlaybackSpeed> > PlaybackSettings::observePlaybackSpeed() const
@@ -70,19 +80,9 @@ namespace djv
             return _p->playbackSpeed;
         }
 
-        void PlaybackSettings::setPlaybackSpeed(PlaybackSpeed value)
-        {
-            _p->playbackSpeed->setIfChanged(value);
-        }
-
         std::shared_ptr<Observer::IValueSubject<Math::Rational> > PlaybackSettings::observeCustomSpeed() const
         {
             return _p->customSpeed;
-        }
-
-        void PlaybackSettings::setCustomSpeed(const Math::Rational& value)
-        {
-            _p->customSpeed->setIfChanged(value);
         }
 
         std::shared_ptr<Observer::IValueSubject<bool> > PlaybackSettings::observePlayEveryFrame() const
@@ -90,19 +90,19 @@ namespace djv
             return _p->playEveryFrame;
         }
 
+        void PlaybackSettings::setPlaybackSpeed(PlaybackSpeed value)
+        {
+            _p->playbackSpeed->setIfChanged(value);
+        }
+
+        void PlaybackSettings::setCustomSpeed(const Math::Rational& value)
+        {
+            _p->customSpeed->setIfChanged(value);
+        }
+
         void PlaybackSettings::setPlayEveryFrame(bool value)
         {
             _p->playEveryFrame->setIfChanged(value);
-        }
-
-        std::shared_ptr<Observer::IValueSubject<PlaybackMode> > PlaybackSettings::observePlaybackMode() const
-        {
-            return _p->playbackMode;
-        }
-
-        void PlaybackSettings::setPlaybackMode(PlaybackMode value)
-        {
-            _p->playbackMode->setIfChanged(value);
         }
 
         std::shared_ptr<Observer::IValueSubject<bool> > PlaybackSettings::observePIPEnabled() const

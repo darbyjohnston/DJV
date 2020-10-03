@@ -40,10 +40,18 @@ namespace djv
             ~FileSettings() override;
 
             static std::shared_ptr<FileSettings> create(const std::shared_ptr<System::Context>&);
+
+            //! \name Open Maximum
+            ///@{
             
             std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeOpenMax() const;
 
             void setOpenMax(size_t);
+
+            ///@}
+
+            //! \name Recent Files
+            ///@{
 
             std::shared_ptr<Core::Observer::IListSubject<System::File::Info> > observeRecentFiles() const;
             std::shared_ptr<Core::Observer::IValueSubject<size_t> > observeRecentFilesMax() const;
@@ -51,11 +59,21 @@ namespace djv
             void setRecentFiles(const std::vector<System::File::Info>&);
             void setRecentFilesMax(size_t);
 
+            ///@}
+
+            //! \name Sequences
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeAutoDetectSequences() const;
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeSequencesFirstFrame() const;
 
             void setAutoDetectSequences(bool);
             void setSequencesFirstFrame(bool);
+
+            ///@}
+
+            //! \name Cache
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeCacheEnabled() const;
             std::shared_ptr<Core::Observer::IValueSubject<int> > observeCacheSize() const;
@@ -63,9 +81,16 @@ namespace djv
             void setCacheEnabled(bool);
             void setCacheSize(int);
 
+            ///@}
+
+            //! \name Geometry
+            ///@{
+
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
 
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
+
+            ///@}
 
             void load(const rapidjson::Value&) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

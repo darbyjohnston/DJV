@@ -54,11 +54,15 @@ namespace djv
 
                 static std::shared_ptr<ItemView> create(UI::SelectionType, const std::shared_ptr<System::Context>&);
 
-                void setViewType(UI::ViewType);
-                void setThumbnailSize(const Image::Size&);
-                void setSplit(const std::vector<float>&);
-
+                //! \name Items
+                ///@{
+                
                 void setItems(const std::vector<System::File::Info>&);
+
+                ///@}
+
+                //! \name Selection
+                ///@{
 
                 std::set<size_t> getSelected() const;
 
@@ -67,10 +71,26 @@ namespace djv
                 void selectNone();
                 void invertSelection();
 
+                ///@}
+
+                //! \name Options
+                ///@{
+
+                void setViewType(UI::ViewType);
+                void setThumbnailSize(const Image::Size&);
+                void setSplit(const std::vector<float>&);
+
+                ///@}
+                
+                //! \name Callbacks
+                ///@{
+
                 void setSelectedCallback(const std::function<void(const std::vector<System::File::Info>&)>&);
                 void setSelectedCallback(const std::function<void(const std::set<size_t>&)>&);
                 void setActivatedCallback(const std::function<void(const std::vector<System::File::Info>&)>&);
                 void setActivatedCallback(const std::function<void(const std::set<size_t>&)>&);
+
+                ///@}
 
                 float getHeightForWidth(float) const override;
 

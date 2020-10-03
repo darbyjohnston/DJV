@@ -33,19 +33,34 @@ namespace djv
         public:
             static std::shared_ptr<ImageSettings> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Bellows
+            ///@{
+
             std::map<std::string, bool> getControlsBellowsState() const;
             std::map<std::string, bool> getColorSpaceBellowsState() const;
 
             void setControlsBellowsState(const std::map<std::string, bool>&);
             void setColorSpaceBellowsState(const std::map<std::string, bool>&);
 
+            ///@}
+
+            //! \name Data
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<ImageData> > observeData() const;
 
             void setData(const ImageData&);
 
+            ///@}
+
+            //! \name Geoemtry
+            ///@{
+
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
 
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
+
+            ///@}
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

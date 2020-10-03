@@ -39,7 +39,6 @@ namespace djv
             Count,
             First = None
         };
-        DJV_ENUM_HELPERS(SceneRotate);
 
         //! This struct provides render options.
         struct SceneRenderOptions
@@ -71,27 +70,45 @@ namespace djv
 
             static std::shared_ptr<SceneWidget> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Scene
+            ///@{
+
             const std::shared_ptr<Scene3D::Scene>& getScene() const;
 
             void setScene(const std::shared_ptr<Scene3D::Scene>&);
 
-            std::shared_ptr<Core::Observer::IValueSubject<SceneRotate> > observeSceneRotate() const;
-            
-            void setSceneRotate(SceneRotate);
+            ///@}
+
+            //! \name View
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<Scene3D::PolarCameraData> > observeCameraData() const;
-            
+
             void setCameraData(const Scene3D::PolarCameraData&);
 
+            void frameView();
+
+            ///@}
+
+            //! \name Options
+            ///@{
+
+            std::shared_ptr<Core::Observer::IValueSubject<SceneRotate> > observeSceneRotate() const;
             std::shared_ptr<Core::Observer::IValueSubject<SceneRenderOptions> > observeRenderOptions() const;
-            
+
+            void setSceneRotate(SceneRotate);
             void setRenderOptions(const SceneRenderOptions&);
 
-            void frameView();
+            ///@}
+
+            //! \name Information
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<Math::BBox3f> > observeBBox() const;
             std::shared_ptr<Core::Observer::IValueSubject<size_t> > observePrimitivesCount() const;
             std::shared_ptr<Core::Observer::IValueSubject<size_t> > observePointCount() const;
+
+            ///@}
 
         protected:
             void _layoutEvent(System::Event::Layout&) override;
@@ -109,8 +126,5 @@ namespace djv
         };
 
     } // namespace UIComponents
-
-    DJV_ENUM_SERIALIZE_HELPERS(UIComponents::SceneRotate);
-
 } // namespace djv
 

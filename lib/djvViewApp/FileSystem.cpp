@@ -459,11 +459,6 @@ namespace djv
             return _p->currentMedia;
         }
 
-        std::shared_ptr<Observer::IValueSubject<float> > FileSystem::observeCachePercentage() const
-        {
-            return _p->cachePercentage;
-        }
-
         void FileSystem::open()
         {
             _showFileBrowserDialog();
@@ -617,6 +612,11 @@ namespace djv
             {
                 _actionsUpdate();
             }
+        }
+
+        std::shared_ptr<Observer::IValueSubject<float> > FileSystem::observeCachePercentage() const
+        {
+            return _p->cachePercentage;
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions() const

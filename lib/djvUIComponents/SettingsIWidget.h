@@ -21,6 +21,7 @@ namespace djv
 
     namespace UIComponents
     {
+        //! This namespace provides settings functionality.
         namespace Settings
         {
             //! This class provides the base functionality for settings widgets.
@@ -35,7 +36,7 @@ namespace djv
             public:
                 ~IWidget() override = 0;
 
-                virtual std::string getSettingsName() const { return std::string(); }
+                virtual std::string getSettingsName() const;
                 virtual std::string getSettingsSortKey() const = 0;
                 virtual std::string getSettingsGroup() const = 0;
 

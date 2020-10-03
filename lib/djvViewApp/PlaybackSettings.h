@@ -29,29 +29,38 @@ namespace djv
         public:
             static std::shared_ptr<PlaybackSettings> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Playback
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeStartPlayback() const;
-
-            void setStartPlayback(bool);
-
-            std::shared_ptr<Core::Observer::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
-
-            void setPlaybackSpeed(PlaybackSpeed);
-
-            std::shared_ptr<Core::Observer::IValueSubject<Math::Rational> > observeCustomSpeed() const;
-
-            void setCustomSpeed(const Math::Rational&);
-
-            std::shared_ptr<Core::Observer::IValueSubject<bool> > observePlayEveryFrame() const;
-
-            void setPlayEveryFrame(bool);
-
             std::shared_ptr<Core::Observer::IValueSubject<PlaybackMode> > observePlaybackMode() const;
 
+            void setStartPlayback(bool);
             void setPlaybackMode(PlaybackMode);
+
+            ///@}
+
+            //! \name Speed
+            ///@{
+
+            std::shared_ptr<Core::Observer::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::Rational> > observeCustomSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observePlayEveryFrame() const;
+
+            void setPlaybackSpeed(PlaybackSpeed);
+            void setCustomSpeed(const Math::Rational&);
+            void setPlayEveryFrame(bool);
+
+            ///@}
+
+            //! \name Options
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observePIPEnabled() const;
 
             void setPIPEnabled(bool);
+
+            ///@}
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

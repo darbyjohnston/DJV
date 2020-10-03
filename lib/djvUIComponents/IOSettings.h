@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the general I/O settings.
+            //! This class provides general I/O settings.
             class IO : public UI::Settings::ISettings
             {
                 DJV_NON_COPYABLE(IO);

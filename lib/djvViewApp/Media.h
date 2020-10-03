@@ -152,7 +152,7 @@ namespace djv
 
             ///@}
 
-            //! \name Memory Cache
+            //! \name Cache
             ///@{
 
             bool hasCache() const;

@@ -38,6 +38,11 @@ namespace djv
             IWidget::~IWidget()
             {}
 
+            std::string IWidget::getSettingsName() const
+            {
+                return std::string();
+            }
+
             float IWidget::getHeightForWidth(float value) const
             {
                 return _p->childLayout->getHeightForWidth(value);

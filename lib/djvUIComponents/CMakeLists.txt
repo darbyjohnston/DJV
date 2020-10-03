@@ -13,9 +13,11 @@ set(header
 	LineGraphWidget.h
     ListViewHeader.h
     MouseSettingsWidget.h
+    Namespace.h
     PPMSettingsWidget.h
     Render2DSettingsWidget.h
     SceneWidget.h
+    SceneWidgetFunc.h
     SearchBox.h
     SettingsIWidget.h
     ShortcutsWidget.h
@@ -49,6 +51,7 @@ set(source
     PPMSettingsWidget.cpp
     Render2DSettingsWidget.cpp
     SceneWidget.cpp
+    SceneWidgetFunc.cpp
     SearchBox.cpp
     SettingsIWidget.cpp
     ShortcutsWidget.cpp

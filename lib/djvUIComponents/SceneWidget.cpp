@@ -136,25 +136,17 @@ namespace djv
             return out;
         }
 
+        const std::shared_ptr<Scene3D::Scene>& SceneWidget::getScene() const
+        {
+            return _p->scene;
+        }
+
         void SceneWidget::setScene(const std::shared_ptr<Scene3D::Scene>& value)
         {
             DJV_PRIVATE_PTR();
             p.scene = value;
             p.render->setScene(p.scene);
             _sceneUpdate();
-        }
-
-        std::shared_ptr<Observer::IValueSubject<SceneRotate> > SceneWidget::observeSceneRotate() const
-        {
-            return _p->sceneRotate;
-        }
-
-        void SceneWidget::setSceneRotate(SceneRotate value)
-        {
-            if (_p->sceneRotate->setIfChanged(value))
-            {
-                _sceneUpdate();
-            }
         }
 
         std::shared_ptr<Observer::IValueSubject<Scene3D::PolarCameraData> > SceneWidget::observeCameraData() const
@@ -167,22 +159,6 @@ namespace djv
             if (_p->cameraData->setIfChanged(value))
             {
                 _p->camera->setData(value);
-                _redraw();
-            }
-        }
-
-        std::shared_ptr<Observer::IValueSubject<SceneRenderOptions> > SceneWidget::observeRenderOptions() const
-        {
-            return _p->renderOptions;
-        }
-
-        void SceneWidget::setRenderOptions(const SceneRenderOptions& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.renderOptions->setIfChanged(value))
-            {
-                p.offscreenBuffer.reset();
-                p.offscreenBuffer2.reset();
                 _redraw();
             }
         }
@@ -211,6 +187,35 @@ namespace djv
                 cameraData.distance = distance;
                 setCameraData(cameraData);
                 _redraw();
+            }
+        }
+
+        std::shared_ptr<Observer::IValueSubject<SceneRotate> > SceneWidget::observeSceneRotate() const
+        {
+            return _p->sceneRotate;
+        }
+
+        std::shared_ptr<Observer::IValueSubject<SceneRenderOptions> > SceneWidget::observeRenderOptions() const
+        {
+            return _p->renderOptions;
+        }
+
+        void SceneWidget::setRenderOptions(const SceneRenderOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.renderOptions->setIfChanged(value))
+            {
+                p.offscreenBuffer.reset();
+                p.offscreenBuffer2.reset();
+                _redraw();
+            }
+        }
+
+        void SceneWidget::setSceneRotate(SceneRotate value)
+        {
+            if (_p->sceneRotate->setIfChanged(value))
+            {
+                _sceneUpdate();
             }
         }
 
@@ -485,19 +490,5 @@ namespace djv
             }
         }
 
-        DJV_ENUM_HELPERS_IMPLEMENTATION(SceneRotate);
-
     } // namespace UIComponents
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UIComponents,
-        SceneRotate,
-        DJV_TEXT("scene_rotate_none"),
-        DJV_TEXT("scene_rotate_x_+90"),
-        DJV_TEXT("scene_rotate_x_-90"),
-        DJV_TEXT("scene_rotate_y_+90"),
-        DJV_TEXT("scene_rotate_y_-90"),
-        DJV_TEXT("scene_rotate_z_+90"),
-        DJV_TEXT("scene_rotate_z_-90"));
-
 } // namespace djv

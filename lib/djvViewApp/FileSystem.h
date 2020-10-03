@@ -53,11 +53,13 @@ namespace djv
 
             static std::shared_ptr<FileSystem> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Media
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
             std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
             std::shared_ptr<Core::Observer::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
             std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
-            std::shared_ptr<Core::Observer::IValueSubject<float> > observeCachePercentage() const;
 
             void open();
             void open(const System::File::Info&, const OpenOptions& = OpenOptions());
@@ -65,6 +67,15 @@ namespace djv
             void close(const std::shared_ptr<Media> &);
             void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media> &);
+
+            ///@}
+
+            //! \name Cache
+            ///@{
+
+            std::shared_ptr<Core::Observer::IValueSubject<float> > observeCachePercentage() const;
+
+            ///@}
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

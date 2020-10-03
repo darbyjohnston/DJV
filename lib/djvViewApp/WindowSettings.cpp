@@ -146,14 +146,14 @@ namespace djv
             return _p->floatOnTop;
         }
 
-        void WindowSettings::setFloatOnTop(bool value)
-        {
-            _p->floatOnTop->setIfChanged(value);
-        }
-
         std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeMaximize() const
         {
             return _p->maximize;
+        }
+
+        void WindowSettings::setFloatOnTop(bool value)
+        {
+            _p->floatOnTop->setIfChanged(value);
         }
 
         void WindowSettings::setMaximize(bool value)

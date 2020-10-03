@@ -115,14 +115,14 @@ namespace djv
                 return _p->pathsOpen;
             }
 
-            void FileBrowser::setPathsOpen(bool value)
-            {
-                _p->pathsOpen->setIfChanged(value);
-            }
-
             std::shared_ptr<Core::Observer::IMapSubject<std::string, bool> > FileBrowser::observePathsBellowsState() const
             {
                 return _p->pathsBellowsState;
+            }
+
+            void FileBrowser::setPathsOpen(bool value)
+            {
+                _p->pathsOpen->setIfChanged(value);
             }
 
             void FileBrowser::setPathsBellowsState(const std::map<std::string, bool>& value)
@@ -155,19 +155,9 @@ namespace djv
                 return _p->viewType;
             }
 
-            void FileBrowser::setViewType(UI::ViewType value)
-            {
-                _p->viewType->setIfChanged(value);
-            }
-
             std::shared_ptr<Observer::IValueSubject<Image::Size> > FileBrowser::observeThumbnailSize() const
             {
                 return _p->thumbnailSize;
-            }
-
-            void FileBrowser::setThumbnailSize(const Image::Size& value)
-            {
-                _p->thumbnailSize->setIfChanged(value);
             }
 
             std::shared_ptr<Observer::IListSubject<float> > FileBrowser::observeListViewHeaderSplit() const
@@ -175,19 +165,9 @@ namespace djv
                 return _p->listViewHeaderSplit;
             }
 
-            void FileBrowser::setListViewHeaderSplit(const std::vector<float> & value)
-            {
-                _p->listViewHeaderSplit->setIfChanged(value);
-            }
-
             std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeFileSequences() const
             {
                 return _p->fileSequences;
-            }
-
-            void FileBrowser::setFileSequences(bool value)
-            {
-                _p->fileSequences->setIfChanged(value);
             }
 
             std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeShowHidden() const
@@ -195,19 +175,9 @@ namespace djv
                 return _p->showHidden;
             }
 
-            void FileBrowser::setShowHidden(bool value)
-            {
-                _p->showHidden->setIfChanged(value);
-            }
-
             std::shared_ptr<Observer::IValueSubject<System::File::DirectoryListSort> > FileBrowser::observeSort() const
             {
                 return _p->sort;
-            }
-
-            void FileBrowser::setSort(System::File::DirectoryListSort value)
-            {
-                _p->sort->setIfChanged(value);
             }
 
             std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeReverseSort() const
@@ -215,14 +185,44 @@ namespace djv
                 return _p->reverseSort;
             }
 
-            void FileBrowser::setReverseSort(bool value)
-            {
-                _p->reverseSort->setIfChanged(value);
-            }
-
             std::shared_ptr<Observer::IValueSubject<bool> > FileBrowser::observeSortDirectoriesFirst() const
             {
                 return _p->sortDirectoriesFirst;
+            }
+
+            void FileBrowser::setViewType(UI::ViewType value)
+            {
+                _p->viewType->setIfChanged(value);
+            }
+
+            void FileBrowser::setThumbnailSize(const Image::Size& value)
+            {
+                _p->thumbnailSize->setIfChanged(value);
+            }
+
+            void FileBrowser::setListViewHeaderSplit(const std::vector<float>& value)
+            {
+                _p->listViewHeaderSplit->setIfChanged(value);
+            }
+
+            void FileBrowser::setFileSequences(bool value)
+            {
+                _p->fileSequences->setIfChanged(value);
+            }
+
+            void FileBrowser::setShowHidden(bool value)
+            {
+                _p->showHidden->setIfChanged(value);
+            }
+
+            void FileBrowser::setSort(System::File::DirectoryListSort value)
+            {
+                _p->sort->setIfChanged(value);
+            }
+
+            void FileBrowser::setReverseSort(bool value)
+            {
+                _p->reverseSort->setIfChanged(value);
             }
 
             void FileBrowser::setSortDirectoriesFirst(bool value)

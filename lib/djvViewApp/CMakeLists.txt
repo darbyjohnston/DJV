@@ -50,6 +50,7 @@ set(header
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
+	NUXWidget.h
     Namespace.h
 	PlaybackSettings.h
     PlaybackSettingsWidget.h
@@ -131,6 +132,7 @@ set(source
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp
+	NUXWidget.cpp
 	PlaybackSettings.cpp
     PlaybackSettingsWidget.cpp
     PlaybackSystem.cpp

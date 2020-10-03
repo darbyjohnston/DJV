@@ -30,22 +30,48 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Active Widget
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<MediaWidget> > > observeActiveWidget() const;
 
             void setActiveWidget(const std::shared_ptr<MediaWidget>&);
+
+            ///@}
+
+            //! \name Full Screen
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFullScreen() const;
 
             void setFullScreen(bool);
 
+            ///@}
+
+            //! \name Presentation Mode
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observePresentation() const;
+
             void setPresentation(bool);
+
+            ///@}
+
+            //! \name Window State
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFloatOnTop() const;
             
             void setFloatOnTop(bool);
 
+            ///@}
+
+            //! \name Fade
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<float> > observeFade() const;
+
+            ///@}
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

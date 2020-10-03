@@ -44,20 +44,6 @@ namespace djv
             return out;
         }
 
-        UI::Orientation ThermometerWidget::getOrientation() const
-        {
-            return _p->orientation;
-        }
-
-        void ThermometerWidget::setOrientation(UI::Orientation value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.orientation)
-                return;
-            p.orientation = value;
-            _resize();
-        }
-
         float ThermometerWidget::getPercentage() const
         {
             return _p->percentage;
@@ -72,9 +58,28 @@ namespace djv
             _redraw();
         }
 
+        UI::Orientation ThermometerWidget::getOrientation() const
+        {
+            return _p->orientation;
+        }
+
         UI::ColorRole ThermometerWidget::getColorRole() const
         {
             return _p->colorRole;
+        }
+
+        UI::MetricsRole ThermometerWidget::getSizeRole() const
+        {
+            return _p->sizeRole;
+        }
+
+        void ThermometerWidget::setOrientation(UI::Orientation value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.orientation)
+                return;
+            p.orientation = value;
+            _resize();
         }
 
         void ThermometerWidget::setColorRole(UI::ColorRole value)
@@ -84,11 +89,6 @@ namespace djv
                 return;
             p.colorRole = value;
             _resize();
-        }
-
-        UI::MetricsRole ThermometerWidget::getSizeRole() const
-        {
-            return _p->sizeRole;
         }
 
         void ThermometerWidget::setSizeRole(UI::MetricsRole value)

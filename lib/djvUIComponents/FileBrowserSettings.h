@@ -41,57 +41,66 @@ namespace djv
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Paths
+                ///@{
+
                 std::shared_ptr<Core::Observer::IValueSubject<bool> > observePathsOpen() const;
+                std::shared_ptr<Core::Observer::IMapSubject<std::string, bool> > observePathsBellowsState() const;
 
                 void setPathsOpen(bool);
-
-                std::shared_ptr<Core::Observer::IMapSubject<std::string, bool> > observePathsBellowsState() const;
-                
                 void setPathsBellowsState(const std::map<std::string, bool>&);
+
+                ///@}
+
+                //! \name Shortcuts
+                ///@{
 
                 std::shared_ptr<Core::Observer::IListSubject<System::File::Path> > observeShortcuts() const;
                 
                 void setShortcuts(const std::vector<System::File::Path>&);
 
+                ///@}
+
+                //! \name Recent Paths
+                ///@{
+
                 std::shared_ptr<Core::Observer::IListSubject<System::File::Path> > observeRecentPaths() const;
                 
                 void setRecentPaths(const std::vector<System::File::Path>&);
 
+                ///@}
+
+                //! \name Options
+                ///@{
+
                 std::shared_ptr<Core::Observer::IValueSubject<UI::ViewType> > observeViewType() const;
-                
-                void setViewType(UI::ViewType);
-
                 std::shared_ptr<Core::Observer::IValueSubject<Image::Size> > observeThumbnailSize() const;
-                
-                void setThumbnailSize(const Image::Size&);
-
                 std::shared_ptr<Core::Observer::IListSubject<float> > observeListViewHeaderSplit() const;
-                
-                void setListViewHeaderSplit(const std::vector<float> &);
-
                 std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFileSequences() const;
-                
-                void setFileSequences(bool);
-
                 std::shared_ptr<Core::Observer::IValueSubject<bool> > observeShowHidden() const;
-                
-                void setShowHidden(bool);
-
                 std::shared_ptr<Core::Observer::IValueSubject<System::File::DirectoryListSort> > observeSort() const;
-                
-                void setSort(System::File::DirectoryListSort);
-
                 std::shared_ptr<Core::Observer::IValueSubject<bool> > observeReverseSort() const;
-                
-                void setReverseSort(bool);
-
                 std::shared_ptr<Core::Observer::IValueSubject<bool> > observeSortDirectoriesFirst() const;
-                
+
+                void setViewType(UI::ViewType);
+                void setThumbnailSize(const Image::Size&);
+                void setListViewHeaderSplit(const std::vector<float> &);
+                void setFileSequences(bool);
+                void setShowHidden(bool);
+                void setSort(System::File::DirectoryListSort);
+                void setReverseSort(bool);
                 void setSortDirectoriesFirst(bool);
+
+                ///@}
+
+                //! \name Keyboard Shortcuts
+                ///@{
 
                 std::shared_ptr<Core::Observer::MapSubject<std::string, UI::ShortcutDataPair> > observeKeyShortcuts() const;
                 
                 void setKeyShortcuts(const UI::ShortcutDataMap&);
+
+                ///@}
 
                 void load(const rapidjson::Value &) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

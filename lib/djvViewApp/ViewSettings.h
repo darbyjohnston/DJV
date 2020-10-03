@@ -35,13 +35,26 @@ namespace djv
         public:
             static std::shared_ptr<ViewSettings> create(const std::shared_ptr<System::Context>&);
 
+            //! \name Bellows
+            ///@{
+
             const std::map<std::string, bool> getBellowsState() const;
 
             void setBellowsState(const std::map<std::string, bool>&);
 
+            ///@}
+
+            //! \name View Lock
+            ///@{
+
             std::shared_ptr<Core::Observer::IValueSubject<ViewLock> > observeLock() const;
 
             void setLock(ViewLock);
+
+            ///@}
+
+            //! \name Options
+            ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<GridOptions> > observeGridOptions() const;
             std::shared_ptr<Core::Observer::IValueSubject<HUDOptions> > observeHUDOptions() const;
@@ -51,9 +64,16 @@ namespace djv
             void setHUDOptions(const HUDOptions&);
             void setBackgroundOptions(const ViewBackgroundOptions&);
 
+            ///@}
+
+            //! \name Geometry
+            ///@{
+
             const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
 
             void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
+
+            ///@}
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
