@@ -316,6 +316,7 @@ else()
     add_subdirectory(bin)
     add_subdirectory(docs)
     add_subdirectory(examples)
+    add_subdirectory(experiments)
 endif()
 
 include(CPack)
