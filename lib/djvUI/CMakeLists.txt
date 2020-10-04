@@ -199,7 +199,7 @@ set(source
     Window.cpp)
 
 add_library(djvUI ${header} ${source})
-target_link_libraries(djvUI djvAV)
+target_link_libraries(djvUI djvRender2D djvAV)
 set_target_properties(
     djvUI
     PROPERTIES
