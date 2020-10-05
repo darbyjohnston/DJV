@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "Enum.h"
+
 #include <djvSystem/ISystem.h>
 
 #include <djvImage/Image.h>
@@ -37,9 +39,9 @@ class VideoFrame
 {
 public:
     VideoFrame();
-    VideoFrame(djv::Math::Frame::Number, const std::shared_ptr<djv::Image::Image>&);
+    VideoFrame(djv::Math::Frame::Index, const std::shared_ptr<djv::Image::Image>&);
 
-    djv::Math::Frame::Number           frame = 0;
+    djv::Math::Frame::Index            frame = 0;
     std::shared_ptr<djv::Image::Image> image;
 
     bool operator == (const VideoFrame&) const;
@@ -49,8 +51,9 @@ class AudioFrame
 {
 public:
     AudioFrame();
-    explicit AudioFrame(const std::shared_ptr<djv::Audio::Data>&);
+    explicit AudioFrame(int64_t, const std::shared_ptr<djv::Audio::Data>&);
 
+    int64_t                           sample = 0;
     std::shared_ptr<djv::Audio::Data> audio;
 
     bool operator == (const AudioFrame&) const;
@@ -60,7 +63,7 @@ template<typename T>
 class IOQueue
 {
 public:
-    IOQueue();
+    IOQueue(size_t max);
 
     size_t getMax() const;
     void setMax(size_t);
@@ -77,7 +80,7 @@ public:
     void setFinished(bool);
 
 private:
-    size_t _max = 8;
+    size_t _max = 0;
     std::queue<T> _queue;
     bool _finished = false;
 };
@@ -104,12 +107,17 @@ public:
     VideoQueue& getVideoQueue();
     AudioQueue& getAudioQueue();
 
+    void setPlaybackDirection(PlaybackDirection);
+    void seek(int64_t);
+
 protected:
     std::shared_ptr<djv::System::LogSystem> _logSystem;
     djv::System::File::Info _fileInfo;
     std::mutex _mutex;
     VideoQueue _videoQueue;
     AudioQueue _audioQueue;
+    PlaybackDirection _playbackDirection = PlaybackDirection::Forward;
+    int64_t _seek = -1;
 };
 
 class IIOPlugin : public std::enable_shared_from_this<IIOPlugin>

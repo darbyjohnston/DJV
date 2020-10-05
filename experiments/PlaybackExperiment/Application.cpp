@@ -8,12 +8,15 @@
 #include "Media.h"
 #include "Window.h"
 
+#include <djvUIComponents/UIComponentsSystem.h>
+
 using namespace djv;
 
 void Application::_init(std::list<std::string>& args)
 {
     Desktop::Application::_init(args);
 
+    UIComponents::UIComponentsSystem::create(shared_from_this());
     IOSystem::create(shared_from_this());
 
     if (args.size() > 0)

@@ -41,13 +41,13 @@ private:
     {
         AVPacket* packet = nullptr;
     };
-    int _decodeVideo(const DecodeVideo&, djv::Math::Frame::Number&);
+    int _decodeVideo(const DecodeVideo&);
 
     struct DecodeAudio
     {
         AVPacket* packet = nullptr;
     };
-    int _decodeAudio(const DecodeAudio&, djv::Math::Frame::Number&);
+    int _decodeAudio(const DecodeAudio&);
 
     IOInfo _info;
     std::promise<IOInfo> _infoPromise;
@@ -63,6 +63,9 @@ private:
     AVFrame* _avFrame = nullptr;
     AVFrame* _avFrameRgb = nullptr;
     SwsContext* _swsContext = nullptr;
+
+    djv::Math::Frame::Index _videoFrame = 0;
+    int64_t _audioSample = 0;
 };
 
 class FFmpegPlugin : public IIOPlugin

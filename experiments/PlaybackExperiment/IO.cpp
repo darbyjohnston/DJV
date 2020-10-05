@@ -26,7 +26,7 @@ bool IOInfo::operator == (const IOInfo& other) const
 VideoFrame::VideoFrame()
 {}
 
-VideoFrame::VideoFrame(Math::Frame::Number frame, const std::shared_ptr<Image::Image>& image) :
+VideoFrame::VideoFrame(Math::Frame::Index frame, const std::shared_ptr<Image::Image>& image) :
     frame(frame),
     image(image)
 {}
@@ -40,7 +40,8 @@ bool VideoFrame::operator == (const VideoFrame& other) const
 AudioFrame::AudioFrame()
 {}
 
-AudioFrame::AudioFrame(const std::shared_ptr<Audio::Data>& audio) :
+AudioFrame::AudioFrame(int64_t sample, const std::shared_ptr<Audio::Data>& audio) :
+    sample(sample),
     audio(audio)
 {}
 
@@ -57,7 +58,9 @@ void IIO::_init(
     _fileInfo = fileInfo;
 }
 
-IIO::IIO()
+IIO::IIO() :
+    _videoQueue(10),
+    _audioQueue(100)
 {}
 
 IIO::~IIO()
@@ -76,6 +79,18 @@ VideoQueue& IIO::getVideoQueue()
 AudioQueue& IIO::getAudioQueue()
 {
     return _audioQueue;
+}
+
+void IIO::setPlaybackDirection(PlaybackDirection value)
+{
+    std::lock_guard<std::mutex> lock(_mutex);
+    _playbackDirection = value;
+}
+
+void IIO::seek(int64_t value)
+{
+    std::lock_guard<std::mutex> lock(_mutex);
+    _seek = value;
 }
 
 IIOPlugin::IIOPlugin(const std::shared_ptr<djv::System::LogSystem>& logSystem) :

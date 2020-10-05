@@ -3,7 +3,8 @@
 // All rights reserved.
 
 template<typename T>
-inline IOQueue<T>::IOQueue()
+inline IOQueue<T>::IOQueue(size_t max) :
+    _max(max)
 {}
 
 template<typename T>

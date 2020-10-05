@@ -1,10 +1,12 @@
 set(header
     Application.h
+    Enum.h
     FFmpeg.h
     IO.h
     IOInline.h
     ImageWidget.h
     Media.h
+    PlaybackWidget.h
     TimelineWidget.h
     Window.h)
 set(source
@@ -13,12 +15,13 @@ set(source
     IO.cpp
     ImageWidget.cpp
     Media.cpp
+    PlaybackWidget.cpp
     TimelineWidget.cpp
     Window.cpp
     main.cpp)
 
 add_executable(PlaybackExperiment ${header} ${source})
-target_link_libraries(PlaybackExperiment djvDesktopApp FFmpeg)
+target_link_libraries(PlaybackExperiment djvDesktopApp djvUIComponents FFmpeg)
 set_target_properties(
     PlaybackExperiment
     PROPERTIES

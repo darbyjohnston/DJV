@@ -8,6 +8,9 @@
 
 #include <djvRender2D/Render.h>
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/matrix_transform_2d.hpp>
+
 using namespace djv;
 
 void ImageWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -52,6 +55,10 @@ void ImageWidget::_paintEvent(System::Event::Paint&)
     if (_image)
     {
         render->setFillColor(Image::Color(1.F, 1.F, 1.F));
+        glm::mat3x3 m(1.F);
+        m = glm::scale(m, glm::vec2(g.w() / _image->getWidth(), g.h() / _image->getHeight()));
+        render->pushTransform(m);
         render->drawImage(_image, g.min);
+        render->popTransform();
     }
 }
