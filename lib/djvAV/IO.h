@@ -14,7 +14,6 @@
 
 #include <future>
 #include <queue>
-#include <mutex>
 #include <set>
 
 namespace djv
@@ -150,7 +149,6 @@ namespace djv
                 ///@}
 
             private:
-                std::mutex _mutex;
                 size_t _max = 0;
                 std::queue<AudioFrame> _queue;
                 bool _finished = false;

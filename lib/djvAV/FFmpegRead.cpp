@@ -41,14 +41,14 @@ namespace djv
                     std::thread thread;
                     std::atomic<bool> running;
 
-                    AVFormatContext * avFormatContext = nullptr;
+                    AVFormatContext* avFormatContext = nullptr;
                     int avVideoStream = -1;
                     int avAudioStream = -1;
-                    std::map<int, AVCodecParameters *> avCodecParameters;
-                    std::map<int, AVCodecContext *> avCodecContext;
-                    AVFrame * avFrame = nullptr;
-                    AVFrame * avFrameRgb = nullptr;
-                    SwsContext * swsContext = nullptr;
+                    std::map<int, AVCodecParameters*> avCodecParameters;
+                    std::map<int, AVCodecContext*> avCodecContext;
+                    AVFrame* avFrame = nullptr;
+                    AVFrame* avFrameRgb = nullptr;
+                    SwsContext* swsContext = nullptr;
                 };
 
                 void Read::_init(
