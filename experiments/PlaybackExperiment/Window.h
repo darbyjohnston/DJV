@@ -42,7 +42,7 @@ private:
 
     std::shared_ptr<Media> _media;
     IOInfo _info;
-    double _currentTime = 0.0;
+    djv::Math::Frame::Index _currentFrame = 0;
 
     std::shared_ptr<ImageWidget> _imageWidget;
     std::shared_ptr<PlaybackWidget> _playbackWidget;
@@ -57,5 +57,5 @@ private:
     std::shared_ptr<djv::Core::Observer::Value<size_t> > _videoQueueSizeObserver;
     std::shared_ptr<djv::Core::Observer::Value<size_t> > _audioQueueSizeObserver;
     std::shared_ptr<djv::Core::Observer::Value<Playback> > _playbackObserver;
-    std::shared_ptr<djv::Core::Observer::Value<double> > _currentTimeObserver;
+    std::shared_ptr<djv::Core::Observer::Value<djv::Math::Frame::Index> > _currentFrameObserver;
 };

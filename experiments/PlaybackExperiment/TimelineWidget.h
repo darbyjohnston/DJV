@@ -6,6 +6,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvMath/FrameNumber.h>
+
 class TimelineWidget : public djv::UI::Widget
 {
     DJV_NON_COPYABLE(TimelineWidget);
@@ -19,7 +21,27 @@ public:
 
     static std::shared_ptr<TimelineWidget> create(const std::shared_ptr<djv::System::Context>&);
 
+    void setSequence(const djv::Math::Frame::Sequence&);
+
+    void setFrame(const djv::Math::Frame::Index);
+    void setFrameCallback(const std::function<void(djv::Math::Frame::Index)>&);
+
 protected:
     void _preLayoutEvent(djv::System::Event::PreLayout&) override;
     void _paintEvent(djv::System::Event::Paint&) override;
+    void _pointerEnterEvent(djv::System::Event::PointerEnter&) override;
+    void _pointerLeaveEvent(djv::System::Event::PointerLeave&) override;
+    void _pointerMoveEvent(djv::System::Event::PointerMove&) override;
+    void _buttonPressEvent(djv::System::Event::ButtonPress&) override;
+    void _buttonReleaseEvent(djv::System::Event::ButtonRelease&) override;
+
+private:
+    float _frameToPos(djv::Math::Frame::Index) const;
+    djv::Math::Frame::Index _posToFrame(float) const;
+
+    djv::Math::Frame::Sequence _sequence;
+    djv::Math::Frame::Index _frame;
+    std::function<void(djv::Math::Frame::Index)> _frameCallback;
+    djv::System::Event::PointerID _pressedID = djv::System::Event::invalidID;
+    glm::vec2 _pressedPos = glm::vec2(0.F, 0.F);
 };

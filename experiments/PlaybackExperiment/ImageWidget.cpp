@@ -58,7 +58,9 @@ void ImageWidget::_paintEvent(System::Event::Paint&)
         glm::mat3x3 m(1.F);
         m = glm::scale(m, glm::vec2(g.w() / _image->getWidth(), g.h() / _image->getHeight()));
         render->pushTransform(m);
-        render->drawImage(_image, g.min);
+        Render2D::ImageOptions options;
+        options.cache = Render2D::ImageCache::Dynamic;
+        render->drawImage(_image, g.min, options);
         render->popTransform();
     }
 }

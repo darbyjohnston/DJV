@@ -34,18 +34,24 @@ public:
 
     std::future<IOInfo> getInfo() override;
 
+    void seek(int64_t) override;
+
 private:
-    void _work(const djv::System::File::Info&);
+    void _init(const djv::System::File::Info&);
+    void _work();
+    void _cleanup();
 
     struct DecodeVideo
     {
         AVPacket* packet = nullptr;
+        int64_t seek = seekNone;
     };
     int _decodeVideo(const DecodeVideo&);
 
     struct DecodeAudio
     {
         AVPacket* packet = nullptr;
+        int64_t seek = seekNone;
     };
     int _decodeAudio(const DecodeAudio&);
 
@@ -64,8 +70,8 @@ private:
     AVFrame* _avFrameRgb = nullptr;
     SwsContext* _swsContext = nullptr;
 
-    djv::Math::Frame::Index _videoFrame = 0;
-    int64_t _audioSample = 0;
+    int64_t _videoTime = timeInvalid;
+    int64_t _audioTime = timeInvalid;
 };
 
 class FFmpegPlugin : public IIOPlugin

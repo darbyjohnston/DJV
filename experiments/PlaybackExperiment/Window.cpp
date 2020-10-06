@@ -24,6 +24,7 @@ void Window::_init(
     _playbackWidget = PlaybackWidget::create(context);
 
     _currentTimeLabel = UI::Text::Label::create(context);
+    _currentTimeLabel->setSizeString("000000");
 
     _timelineWidget = TimelineWidget::create(context);
 
@@ -70,6 +71,15 @@ void Window::_init(
             if (auto widget = weak.lock())
             {
                 widget->_media->setPlayback(value);
+            }
+        });
+
+    _timelineWidget->setFrameCallback(
+        [weak](Math::Frame::Index value)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_media->seek(value);
             }
         });
 
@@ -126,13 +136,13 @@ void Window::_init(
             }
         });
 
-    _currentTimeObserver = Core::Observer::Value<double>::create(
-        media->observeCurrentTime(),
-        [weak](double value)
+    _currentFrameObserver = Core::Observer::Value<Math::Frame::Index>::create(
+        media->observeCurrentFrame(),
+        [weak](Math::Frame::Index value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_currentTime = value;
+                widget->_currentFrame = value;
                 widget->_widgetUpdate();
             }
         });
@@ -156,6 +166,9 @@ std::shared_ptr<Window> Window::create(
 void Window::_widgetUpdate()
 {
     std::stringstream ss;
-    ss << static_cast<int64_t>(_currentTime * static_cast<double>(_info.videoSpeed.toFloat()));
+    ss << _currentFrame;
     _currentTimeLabel->setText(ss.str());
+
+    _timelineWidget->setSequence(_info.videoSequence);
+    _timelineWidget->setFrame(_currentFrame);
 }

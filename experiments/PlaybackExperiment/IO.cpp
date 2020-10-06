@@ -87,12 +87,6 @@ void IIO::setPlaybackDirection(PlaybackDirection value)
     _playbackDirection = value;
 }
 
-void IIO::seek(int64_t value)
-{
-    std::lock_guard<std::mutex> lock(_mutex);
-    _seek = value;
-}
-
 IIOPlugin::IIOPlugin(const std::shared_ptr<djv::System::LogSystem>& logSystem) :
     _logSystem(logSystem)
 {}

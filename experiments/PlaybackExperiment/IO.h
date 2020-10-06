@@ -59,6 +59,9 @@ public:
     bool operator == (const AudioFrame&) const;
 };
 
+const int64_t seekNone = -1;
+const int64_t timeInvalid = std::numeric_limits<int64_t>::min();
+
 template<typename T>
 class IOQueue
 {
@@ -108,7 +111,7 @@ public:
     AudioQueue& getAudioQueue();
 
     void setPlaybackDirection(PlaybackDirection);
-    void seek(int64_t);
+    virtual void seek(int64_t) = 0;
 
 protected:
     std::shared_ptr<djv::System::LogSystem> _logSystem;
@@ -117,7 +120,7 @@ protected:
     VideoQueue _videoQueue;
     AudioQueue _audioQueue;
     PlaybackDirection _playbackDirection = PlaybackDirection::Forward;
-    int64_t _seek = -1;
+    int64_t _seek = seekNone;
 };
 
 class IIOPlugin : public std::enable_shared_from_this<IIOPlugin>
