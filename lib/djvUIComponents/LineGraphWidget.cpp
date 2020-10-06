@@ -77,9 +77,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.samples.push_front(value);
-            p.samplesRange = Math::FloatRange(
-                std::min(value, p.samplesRange.getMin()),
-                std::max(value, p.samplesRange.getMax()));
             while (p.samples.size() > p.samplesSize)
             {
                 p.samples.pop_back();
