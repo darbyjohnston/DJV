@@ -9,10 +9,15 @@
 
 extern "C"
 {
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
 #include <libavutil/dict.h>
 #include <libavutil/imgutils.h>
 
 } // extern "C"
+
+#include <atomic>
+#include <thread>
 
 using namespace djv;
 
@@ -38,13 +43,35 @@ namespace
 
 } // namespace
 
+struct FFmpegIO::Private
+{
+    IOInfo info;
+    std::promise<IOInfo> infoPromise;
+    std::thread thread;
+    std::atomic<bool> running;
+    std::condition_variable queueCV;
+
+    AVFormatContext* avFormatContext = nullptr;
+    int avVideoStream = -1;
+    int avAudioStream = -1;
+    std::map<int, AVCodecParameters*> avCodecParameters;
+    std::map<int, AVCodecContext*> avCodecContext;
+    AVFrame* avFrame = nullptr;
+    AVFrame* avFrameRgb = nullptr;
+    SwsContext* swsContext = nullptr;
+
+    int64_t videoTime = timeInvalid;
+    int64_t audioTime = timeInvalid;
+};
+
 void FFmpegIO::_init(
     const System::File::Info& info,
     const std::shared_ptr<System::LogSystem>& logSystem)
 {
     IIO::_init(info, logSystem);
-    _running = true;
-    _thread = std::thread(
+    DJV_PRIVATE_PTR();
+    p.running = true;
+    p.thread = std::thread(
         [info, this]
         {
             try
@@ -54,22 +81,24 @@ void FFmpegIO::_init(
             }
             catch (const std::exception& e)
             {
-                _infoPromise.set_value(IOInfo());
+                _p->infoPromise.set_value(IOInfo());
                 _logSystem->log("FFmpegIO", e.what(), System::LogLevel::Error);
             }
             _cleanup();
         });
 }
 
-FFmpegIO::FFmpegIO()
+FFmpegIO::FFmpegIO() :
+    _p(new Private)
 {}
 
 FFmpegIO::~FFmpegIO()
 {
-    _running = false;
-    if (_thread.joinable())
+    DJV_PRIVATE_PTR();
+    p.running = false;
+    if (p.thread.joinable())
     {
-        _thread.join();
+        p.thread.join();
     }
 }
 
@@ -84,24 +113,25 @@ std::shared_ptr<FFmpegIO> FFmpegIO::create(
 
 std::future<IOInfo> FFmpegIO::getInfo()
 {
-    return _infoPromise.get_future();
+    return _p->infoPromise.get_future();
 }
 
 void FFmpegIO::seek(int64_t value)
 {
     {
         std::lock_guard<std::mutex> lock(_mutex);
-        _videoQueue.clearFrames();
-        _audioQueue.clearFrames();
+        //_videoQueue.clearFrames();
+        //_audioQueue.clearFrames();
         _seek = value;
     }
-    _queueCV.notify_one();
+    _p->queueCV.notify_one();
 }
 
 void FFmpegIO::_init(const System::File::Info& info)
 {
+    DJV_PRIVATE_PTR();
     int r = avformat_open_input(
-        &_avFormatContext,
+        &p.avFormatContext,
         _fileInfo.getFileName().c_str(),
         nullptr,
         nullptr);
@@ -111,44 +141,44 @@ void FFmpegIO::_init(const System::File::Info& info)
         ss << "Cannot open " << info.getFileName();
         throw std::runtime_error(ss.str());
     }
-    r = avformat_find_stream_info(_avFormatContext, 0);
+    r = avformat_find_stream_info(p.avFormatContext, 0);
     if (r < 0)
     {
         std::stringstream ss;
         ss << "Cannot open " << info.getFileName();
         throw std::runtime_error(ss.str());
     }
-    av_dump_format(_avFormatContext, 0, _fileInfo.getFileName().c_str(), 0);
+    av_dump_format(p.avFormatContext, 0, _fileInfo.getFileName().c_str(), 0);
 
-    for (unsigned int i = 0; i < _avFormatContext->nb_streams; ++i)
+    for (unsigned int i = 0; i < p.avFormatContext->nb_streams; ++i)
     {
-        if (-1 == _avVideoStream && _avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+        if (-1 == p.avVideoStream && p.avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
         {
-            _avVideoStream = i;
+            p.avVideoStream = i;
         }
-        if (-1 == _avAudioStream && _avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO)
+        if (-1 == p.avAudioStream && p.avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO)
         {
-            _avAudioStream = i;
+            p.avAudioStream = i;
         }
     }
-    if (-1 == _avVideoStream && -1 == _avAudioStream)
+    if (-1 == p.avVideoStream && -1 == p.avAudioStream)
     {
         std::stringstream ss;
         ss << "Cannot open " << info.getFileName();
         throw std::runtime_error(ss.str());
     }
 
-    _info.fileInfo = std::string(_fileInfo);
+    p.info.fileInfo = std::string(_fileInfo);
 
-    if (_avVideoStream != -1 || _avAudioStream != -1)
+    if (p.avVideoStream != -1 || p.avAudioStream != -1)
     {
-        _avFrame = av_frame_alloc();
+        p.avFrame = av_frame_alloc();
     }
 
     size_t sequenceSize = 0;
-    if (_avVideoStream != -1)
+    if (p.avVideoStream != -1)
     {
-        auto avVideoStream = _avFormatContext->streams[_avVideoStream];
+        auto avVideoStream = p.avFormatContext->streams[p.avVideoStream];
         auto avVideoCodecParameters = avVideoStream->codecpar;
         auto avVideoCodec = avcodec_find_decoder(avVideoCodecParameters->codec_id);
         if (!avVideoCodec)
@@ -157,25 +187,25 @@ void FFmpegIO::_init(const System::File::Info& info)
             ss << "Cannot open " << info.getFileName();
             throw std::runtime_error(ss.str());
         }
-        _avCodecParameters[_avVideoStream] = avcodec_parameters_alloc();
-        r = avcodec_parameters_copy(_avCodecParameters[_avVideoStream], avVideoCodecParameters);
+        p.avCodecParameters[p.avVideoStream] = avcodec_parameters_alloc();
+        r = avcodec_parameters_copy(p.avCodecParameters[p.avVideoStream], avVideoCodecParameters);
         if (r < 0)
         {
             std::stringstream ss;
             ss << "Cannot open " << info.getFileName();
             throw std::runtime_error(ss.str());
         }
-        _avCodecContext[_avVideoStream] = avcodec_alloc_context3(avVideoCodec);
-        r = avcodec_parameters_to_context(_avCodecContext[_avVideoStream], _avCodecParameters[_avVideoStream]);
+        p.avCodecContext[p.avVideoStream] = avcodec_alloc_context3(avVideoCodec);
+        r = avcodec_parameters_to_context(p.avCodecContext[p.avVideoStream], p.avCodecParameters[p.avVideoStream]);
         if (r < 0)
         {
             std::stringstream ss;
             ss << "Cannot open " << info.getFileName();
             throw std::runtime_error(ss.str());
         }
-        _avCodecContext[_avVideoStream]->thread_count = 1;
-        _avCodecContext[_avVideoStream]->thread_type = FF_THREAD_SLICE;
-        r = avcodec_open2(_avCodecContext[_avVideoStream], avVideoCodec, 0);
+        p.avCodecContext[p.avVideoStream]->thread_count = 1;
+        p.avCodecContext[p.avVideoStream]->thread_type = FF_THREAD_SLICE;
+        r = avcodec_open2(p.avCodecContext[p.avVideoStream], avVideoCodec, 0);
         if (r < 0)
         {
             std::stringstream ss;
@@ -183,14 +213,14 @@ void FFmpegIO::_init(const System::File::Info& info)
             throw std::runtime_error(ss.str());
         }
 
-        _avFrameRgb = av_frame_alloc();
+        p.avFrameRgb = av_frame_alloc();
 
-        _swsContext = sws_getContext(
-            _avCodecParameters[_avVideoStream]->width,
-            _avCodecParameters[_avVideoStream]->height,
-            static_cast<AVPixelFormat>(_avCodecParameters[_avVideoStream]->format),
-            _avCodecParameters[_avVideoStream]->width,
-            _avCodecParameters[_avVideoStream]->height,
+        p.swsContext = sws_getContext(
+            p.avCodecParameters[p.avVideoStream]->width,
+            p.avCodecParameters[p.avVideoStream]->height,
+            static_cast<AVPixelFormat>(p.avCodecParameters[p.avVideoStream]->format),
+            p.avCodecParameters[p.avVideoStream]->width,
+            p.avCodecParameters[p.avVideoStream]->height,
             AV_PIX_FMT_RGBA,
             SWS_BILINEAR,
             0,
@@ -198,8 +228,8 @@ void FFmpegIO::_init(const System::File::Info& info)
             0);
 
         Image::Info imageInfo;
-        imageInfo.size.w = _avCodecParameters[_avVideoStream]->width;
-        imageInfo.size.h = _avCodecParameters[_avVideoStream]->height;
+        imageInfo.size.w = p.avCodecParameters[p.avVideoStream]->width;
+        imageInfo.size.h = p.avCodecParameters[p.avVideoStream]->height;
         imageInfo.type = Image::Type::RGBA_U8;
         imageInfo.codec = avVideoCodec->long_name;
         if (avVideoStream->duration != AV_NOPTS_VALUE)
@@ -212,24 +242,24 @@ void FFmpegIO::_init(const System::File::Info& info)
                 avVideoStream->time_base,
                 r);
         }
-        else if (_avFormatContext->duration != AV_NOPTS_VALUE)
+        else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
         {
             AVRational r;
             r.num = avVideoStream->r_frame_rate.den;
             r.den = avVideoStream->r_frame_rate.num;
             sequenceSize = av_rescale_q(
-                _avFormatContext->duration,
+                p.avFormatContext->duration,
                 av_get_time_base_q(),
                 r);
         }
-        _info.videoSpeed = Math::Rational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
-        _info.videoSequence = Math::Frame::Sequence(Math::Frame::Range(1, sequenceSize));
-        _info.video.push_back(imageInfo);
+        p.info.videoSpeed = Math::Rational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+        p.info.videoSequence = Math::Frame::Sequence(Math::Frame::Range(1, sequenceSize));
+        p.info.video.push_back(imageInfo);
     }
 
-    if (_avAudioStream != -1)
+    if (p.avAudioStream != -1)
     {
-        auto avAudioStream = _avFormatContext->streams[_avAudioStream];
+        auto avAudioStream = p.avFormatContext->streams[p.avAudioStream];
         auto avAudioCodecParameters = avAudioStream->codecpar;
         Audio::Type audioType = toAudioType(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
         if (Audio::Type::None == audioType)
@@ -245,23 +275,23 @@ void FFmpegIO::_init(const System::File::Info& info)
             ss << "Cannot open " << info.getFileName();
             throw std::runtime_error(ss.str());
         }
-        _avCodecParameters[_avAudioStream] = avcodec_parameters_alloc();
-        r = avcodec_parameters_copy(_avCodecParameters[_avAudioStream], avAudioCodecParameters);
+        p.avCodecParameters[p.avAudioStream] = avcodec_parameters_alloc();
+        r = avcodec_parameters_copy(p.avCodecParameters[p.avAudioStream], avAudioCodecParameters);
         if (r < 0)
         {
             std::stringstream ss;
             ss << "Cannot open " << info.getFileName();
             throw std::runtime_error(ss.str());
         }
-        _avCodecContext[_avAudioStream] = avcodec_alloc_context3(avAudioCodec);
-        r = avcodec_parameters_to_context(_avCodecContext[_avAudioStream], _avCodecParameters[_avAudioStream]);
+        p.avCodecContext[p.avAudioStream] = avcodec_alloc_context3(avAudioCodec);
+        r = avcodec_parameters_to_context(p.avCodecContext[p.avAudioStream], p.avCodecParameters[p.avAudioStream]);
         if (r < 0)
         {
             std::stringstream ss;
             ss << "Cannot open " << info.getFileName();
             throw std::runtime_error(ss.str());
         }
-        r = avcodec_open2(_avCodecContext[_avAudioStream], avAudioCodec, 0);
+        r = avcodec_open2(p.avCodecContext[p.avAudioStream], avAudioCodec, 0);
         if (r < 0)
         {
             std::stringstream ss;
@@ -274,14 +304,14 @@ void FFmpegIO::_init(const System::File::Info& info)
         {
             sampleCount = avAudioStream->duration;
         }
-        else if (_avFormatContext->duration != AV_NOPTS_VALUE)
+        else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
         {
             sampleCount = av_rescale_q(
-                _avFormatContext->duration,
+                p.avFormatContext->duration,
                 av_get_time_base_q(),
                 avAudioStream->time_base);
         }
-        uint8_t channelCount = _avCodecParameters[_avAudioStream]->channels;
+        uint8_t channelCount = p.avCodecParameters[p.avAudioStream]->channels;
         switch (channelCount)
         {
         case 1:
@@ -291,31 +321,32 @@ void FFmpegIO::_init(const System::File::Info& info)
         case 8: break;
         default: channelCount = 2; break;
         }
-        _info.audio.channelCount = channelCount;
-        _info.audio.type = audioType;
-        _info.audio.sampleRate = _avCodecParameters[_avAudioStream]->sample_rate;
-        _info.audio.sampleCount = sampleCount;
-        _info.audio.codec = std::string(avAudioCodec->long_name);
+        p.info.audio.channelCount = channelCount;
+        p.info.audio.type = audioType;
+        p.info.audio.sampleRate = p.avCodecParameters[p.avAudioStream]->sample_rate;
+        p.info.audio.sampleCount = sampleCount;
+        p.info.audio.codec = std::string(avAudioCodec->long_name);
     }
 
-    _infoPromise.set_value(_info);
+    p.infoPromise.set_value(p.info);
 }
 
 void FFmpegIO::_work()
 {
-    while (_running)
+    DJV_PRIVATE_PTR();
+    while (p.running)
     {
         bool read = false;
         int64_t seek = seekNone;
         {
             std::unique_lock<std::mutex> lock(_mutex);
-            if (_queueCV.wait_for(
+            if (p.queueCV.wait_for(
                 lock,
                 System::getTimerDuration(System::TimerValue::Fast),
                 [this]
                 {
-                    const bool video = _avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getCount() < _videoQueue.getMax()));
-                    const bool audio = _avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getCount() < _audioQueue.getMax()));
+                    const bool video = _p->avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getCount() < _videoQueue.getMax()));
+                    const bool audio = _p->avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getCount() < _audioQueue.getMax()));
                     return video || audio || _seek != seekNone;
                 }))
             {
@@ -339,64 +370,62 @@ void FFmpegIO::_work()
             {
                 int64_t t = 0;
                 int stream = -1;
-                if (_avVideoStream != -1)
+                if (p.avVideoStream != -1)
                 {
-                    stream = _avVideoStream;
+                    stream = p.avVideoStream;
                     AVRational r;
-                    r.num = _info.videoSpeed.getDen();
-                    r.den = _info.videoSpeed.getNum();
-                    t = av_rescale_q(seek, r, _avFormatContext->streams[_avVideoStream]->time_base);
-                    //t = av_rescale_q(seek, r, av_get_time_base_q());
+                    r.num = p.info.videoSpeed.getDen();
+                    r.den = p.info.videoSpeed.getNum();
+                    t = av_rescale_q(seek, r, p.avFormatContext->streams[p.avVideoStream]->time_base);
                 }
-                else if (_avAudioStream != -1)
+                else if (p.avAudioStream != -1)
                 {
-                    stream = _avAudioStream;
+                    stream = p.avAudioStream;
                     AVRational r;
                     r.num = 1;
-                    r.den = _info.audio.sampleRate;
-                    t = av_rescale_q(seek, r, _avFormatContext->streams[_avAudioStream]->time_base);
-                    //t = av_rescale_q(seek, r, av_get_time_base_q());
+                    r.den = p.info.audio.sampleRate;
+                    t = av_rescale_q(seek, r, p.avFormatContext->streams[p.avAudioStream]->time_base);
                 }
-                if (_avVideoStream != -1)
+                if (p.avVideoStream != -1)
                 {
-                    avcodec_flush_buffers(_avCodecContext[_avVideoStream]);
+                    avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                 }
-                if (_avAudioStream != -1)
+                if (p.avAudioStream != -1)
                 {
-                    avcodec_flush_buffers(_avCodecContext[_avAudioStream]);
+                    avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                 }
                 if (av_seek_frame(
-                    _avFormatContext,
+                    p.avFormatContext,
                     stream,
                     t,
                     AVSEEK_FLAG_BACKWARD) < 0)
                 {
                     throw std::exception();
                 }
-                _videoTime = timeInvalid;
-                _audioTime = timeInvalid;
-                while ((_avVideoStream != -1 && _videoTime < seek - 1) ||
-                    (_avAudioStream != -1 && _audioTime < seek - 1))
+                p.videoTime = timeInvalid;
+                p.audioTime = timeInvalid;
+                while ((p.avVideoStream != -1 && p.videoTime < seek - 1) ||
+                    (p.avAudioStream != -1 && p.audioTime < seek - 1))
                 {
-                    if (av_read_frame(_avFormatContext, &packet) < 0)
+                    if (av_read_frame(p.avFormatContext, &packet) < 0)
                     {
-                        if (_avVideoStream != -1)
+                        if (p.avVideoStream != -1)
                         {
                             DecodeVideo dv;
                             dv.seek = seek;
                             _decodeVideo(dv);
-                            avcodec_flush_buffers(_avCodecContext[_avVideoStream]);
+                            avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                         }
-                        if (_avAudioStream != -1)
+                        if (p.avAudioStream != -1)
                         {
                             DecodeAudio da;
                             da.seek = seek;
                             _decodeAudio(da);
-                            avcodec_flush_buffers(_avCodecContext[_avAudioStream]);
+                            avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                         }
                         throw std::exception();
                     }
-                    if (_avVideoStream == packet.stream_index)
+                    if (p.avVideoStream == packet.stream_index)
                     {
                         DecodeVideo dv;
                         dv.packet = &packet;
@@ -406,7 +435,7 @@ void FFmpegIO::_work()
                             throw std::exception();
                         }
                     }
-                    else if (_avAudioStream == packet.stream_index)
+                    else if (p.avAudioStream == packet.stream_index)
                     {
                         DecodeAudio da;
                         da.packet = &packet;
@@ -421,24 +450,24 @@ void FFmpegIO::_work()
             }
             if (read)
             {
-                int r = av_read_frame(_avFormatContext, &packet);
+                int r = av_read_frame(p.avFormatContext, &packet);
                 if (r < 0)
                 {
-                    if (_avVideoStream != -1)
+                    if (p.avVideoStream != -1)
                     {
                         DecodeVideo dv;
                         _decodeVideo(dv);
-                        avcodec_flush_buffers(_avCodecContext[_avVideoStream]);
+                        avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                     }
-                    if (_avAudioStream != -1)
+                    if (p.avAudioStream != -1)
                     {
                         DecodeAudio da;
                         _decodeAudio(da);
-                        avcodec_flush_buffers(_avCodecContext[_avAudioStream]);
+                        avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                     }
                     throw std::exception();
                 }
-                if (_avVideoStream == packet.stream_index)
+                if (p.avVideoStream == packet.stream_index)
                 {
                     DecodeVideo dv;
                     dv.packet = &packet;
@@ -447,7 +476,7 @@ void FFmpegIO::_work()
                         throw std::exception();
                     }
                 }
-                else if (_avAudioStream == packet.stream_index)
+                else if (p.avAudioStream == packet.stream_index)
                 {
                     DecodeAudio da;
                     da.packet = &packet;
@@ -473,39 +502,41 @@ void FFmpegIO::_work()
 
 void FFmpegIO::_cleanup()
 {
-    if (_swsContext)
+    DJV_PRIVATE_PTR();
+    if (p.swsContext)
     {
-        sws_freeContext(_swsContext);
+        sws_freeContext(p.swsContext);
     }
-    if (_avFrameRgb)
+    if (p.avFrameRgb)
     {
-        av_frame_free(&_avFrameRgb);
+        av_frame_free(&p.avFrameRgb);
     }
-    if (_avFrame)
+    if (p.avFrame)
     {
-        av_frame_free(&_avFrame);
+        av_frame_free(&p.avFrame);
     }
-    for (auto i : _avCodecContext)
+    for (auto i : p.avCodecContext)
     {
         avcodec_close(i.second);
         avcodec_free_context(&i.second);
     }
-    for (auto i : _avCodecParameters)
+    for (auto i : p.avCodecParameters)
     {
         avcodec_parameters_free(&i.second);
     }
-    if (_avFormatContext)
+    if (p.avFormatContext)
     {
-        avformat_close_input(&_avFormatContext);
+        avformat_close_input(&p.avFormatContext);
     }
 }
 
 int FFmpegIO::_decodeVideo(const DecodeVideo& dv)
 {
-    int r = avcodec_send_packet(_avCodecContext[_avVideoStream], dv.packet);
+    DJV_PRIVATE_PTR();
+    int r = avcodec_send_packet(p.avCodecContext[p.avVideoStream], dv.packet);
     while (r >= 0)
     {
-        r = avcodec_receive_frame(_avCodecContext[_avVideoStream], _avFrame);
+        r = avcodec_receive_frame(p.avCodecContext[p.avVideoStream], p.avFrame);
         if (AVERROR(EAGAIN) == r)
         {
             r = 0;
@@ -517,46 +548,46 @@ int FFmpegIO::_decodeVideo(const DecodeVideo& dv)
         }
 
         AVRational r;
-        r.num = _info.videoSpeed.getDen();
-        r.den = _info.videoSpeed.getNum();
-        _videoTime = av_rescale_q(
-            _avFrame->pts,
-            _avFormatContext->streams[_avVideoStream]->time_base,
+        r.num = p.info.videoSpeed.getDen();
+        r.den = p.info.videoSpeed.getNum();
+        p.videoTime = av_rescale_q(
+            p.avFrame->pts,
+            p.avFormatContext->streams[p.avVideoStream]->time_base,
             r);
 
         if (seekNone == dv.seek)
         {
             Image::Info imageInfo;
-            if (_info.video.size())
+            if (p.info.video.size())
             {
-                imageInfo = _info.video[0];
+                imageInfo = p.info.video[0];
             }
-            if (!((0 == _avFrame->sample_aspect_ratio.num && 1 == _avFrame->sample_aspect_ratio.den) ||
-                0 == _avFrame->sample_aspect_ratio.den))
+            if (!((0 == p.avFrame->sample_aspect_ratio.num && 1 == p.avFrame->sample_aspect_ratio.den) ||
+                0 == p.avFrame->sample_aspect_ratio.den))
             {
-                imageInfo.pixelAspectRatio = _avFrame->sample_aspect_ratio.num / static_cast<float>(_avFrame->sample_aspect_ratio.den);
+                imageInfo.pixelAspectRatio = p.avFrame->sample_aspect_ratio.num / static_cast<float>(p.avFrame->sample_aspect_ratio.den);
             }
             auto image = Image::Image::create(imageInfo);
             av_image_fill_arrays(
-                _avFrameRgb->data,
-                _avFrameRgb->linesize,
+                p.avFrameRgb->data,
+                p.avFrameRgb->linesize,
                 image->getData(),
                 AV_PIX_FMT_RGBA,
                 image->getWidth(),
                 image->getHeight(),
                 1);
             sws_scale(
-                _swsContext,
-                (uint8_t const* const*)_avFrame->data,
-                _avFrame->linesize,
+                p.swsContext,
+                (uint8_t const* const*)p.avFrame->data,
+                p.avFrame->linesize,
                 0,
-                _avCodecParameters[_avVideoStream]->height,
-                _avFrameRgb->data,
-                _avFrameRgb->linesize);
+                p.avCodecParameters[p.avVideoStream]->height,
+                p.avFrameRgb->data,
+                p.avFrameRgb->linesize);
 
             {
                 std::lock_guard<std::mutex> lock(_mutex);
-                _videoQueue.addFrame(VideoFrame(_videoTime, image));
+                _videoQueue.addFrame(VideoFrame(p.videoTime, image));
             }
         }
     }
@@ -565,10 +596,11 @@ int FFmpegIO::_decodeVideo(const DecodeVideo& dv)
 
 int FFmpegIO::_decodeAudio(const DecodeAudio& da)
 {
-    int r = avcodec_send_packet(_avCodecContext[_avAudioStream], da.packet);
+    DJV_PRIVATE_PTR();
+    int r = avcodec_send_packet(p.avCodecContext[p.avAudioStream], da.packet);
     while (r >= 0)
     {
-        r = avcodec_receive_frame(_avCodecContext[_avAudioStream], _avFrame);
+        r = avcodec_receive_frame(p.avCodecContext[p.avAudioStream], p.avFrame);
         if (AVERROR(EAGAIN) == r)
         {
             r = 0;
@@ -580,21 +612,21 @@ int FFmpegIO::_decodeAudio(const DecodeAudio& da)
         }
 
         AVRational r;
-        r.num = _info.videoSpeed.getDen();
-        r.den = _info.videoSpeed.getNum();
-        _audioTime = av_rescale_q(
-            _avFrame->pts,
-            _avFormatContext->streams[_avAudioStream]->time_base,
+        r.num = p.info.videoSpeed.getDen();
+        r.den = p.info.videoSpeed.getNum();
+        p.audioTime = av_rescale_q(
+            p.avFrame->pts,
+            p.avFormatContext->streams[p.avAudioStream]->time_base,
             r);
 
         if (seekNone == da.seek)
         {
-            auto audioInfo = _info.audio;
-            audioInfo.sampleCount = _avFrame->nb_samples;
+            auto audioInfo = p.info.audio;
+            audioInfo.sampleCount = p.avFrame->nb_samples;
             auto audioData = Audio::Data::create(audioInfo);
             {
                 std::lock_guard<std::mutex> lock(_mutex);
-                _audioQueue.addFrame(AudioFrame(_audioTime, audioData));
+                _audioQueue.addFrame(AudioFrame(p.audioTime, audioData));
             }
         }
     }

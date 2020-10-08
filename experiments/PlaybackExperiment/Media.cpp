@@ -6,34 +6,55 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
+#include <djvSystem/Timer.h>
 #include <djvSystem/TimerFunc.h>
 
 using namespace djv;
 
+struct Media::Private
+{
+    std::weak_ptr<System::Context> context;
+    System::File::Info fileInfo;
+    std::shared_ptr<IIO> read;
+    std::shared_ptr<Core::Observer::ValueSubject<IOInfo> > info;
+    std::shared_ptr<Core::Observer::ValueSubject<std::shared_ptr<Image::Image> > > image;
+    std::shared_ptr<Core::Observer::ValueSubject<size_t> > videoQueueSize;
+    std::shared_ptr<Core::Observer::ValueSubject<size_t> > audioQueueSize;
+    std::shared_ptr<Core::Observer::ValueSubject<Playback> > playback;
+    std::shared_ptr<Core::Observer::ValueSubject<bool> > playbackEveryFrame;
+    std::shared_ptr<Core::Observer::ValueSubject<Math::Frame::Index> > currentFrame;
+    double playbackTime = 0.0;
+    Math::Frame::Index playbackStartFrame = 0;
+    std::chrono::steady_clock::time_point playbackStartTime;
+    std::shared_ptr<System::Timer> timer;
+};
+
 void Media::_init(
-    const djv::System::File::Info& fileInfo,
+    const System::File::Info& fileInfo,
     const std::shared_ptr<System::Context>& context)
 {
-    _context = context;
-    _fileInfo = fileInfo;
-    _info = Core::Observer::ValueSubject<IOInfo>::create();
-    _image = Core::Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
-    _videoQueueSize = Core::Observer::ValueSubject<size_t>::create();
-    _audioQueueSize = Core::Observer::ValueSubject<size_t>::create();
-    _playback = Core::Observer::ValueSubject<Playback>::create();
-    _currentFrame = Core::Observer::ValueSubject<Math::Frame::Index>::create();
+    DJV_PRIVATE_PTR();
+    p.context = context;
+    p.fileInfo = fileInfo;
+    p.info = Core::Observer::ValueSubject<IOInfo>::create();
+    p.image = Core::Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
+    p.videoQueueSize = Core::Observer::ValueSubject<size_t>::create();
+    p.audioQueueSize = Core::Observer::ValueSubject<size_t>::create();
+    p.playback = Core::Observer::ValueSubject<Playback>::create();
+    p.playbackEveryFrame = Core::Observer::ValueSubject<bool>::create(false);
+    p.currentFrame = Core::Observer::ValueSubject<Math::Frame::Index>::create();
 
     auto ioSystem = context->getSystemT<IOSystem>();
-    _read = ioSystem->read(fileInfo);
-    if (_read)
+    p.read = ioSystem->read(fileInfo);
+    if (p.read)
     {
-        _info->setIfChanged(_read->getInfo().get());
+        p.info->setIfChanged(p.read->getInfo().get());
     }
 
-    _timer = System::Timer::create(context);
-    _timer->setRepeating(true);
+    p.timer = System::Timer::create(context);
+    p.timer->setRepeating(true);
     auto weak = std::weak_ptr<Media>(shared_from_this());
-    _timer->start(
+    p.timer->start(
         System::getTimerDuration(System::TimerValue::Fast),
         [weak](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
         {
@@ -44,14 +65,15 @@ void Media::_init(
         });
 }
 
-Media::Media()
+Media::Media() :
+    _p(new Private)
 {}
 
 Media::~Media()
 {}
 
 std::shared_ptr<Media> Media::create(
-    const djv::System::File::Info& fileInfo,
+    const System::File::Info& fileInfo,
     const std::shared_ptr<System::Context>& context)
 {
     auto out = std::shared_ptr<Media>(new Media);
@@ -61,68 +83,80 @@ std::shared_ptr<Media> Media::create(
 
 const System::File::Info& Media::getFileInfo() const
 {
-    return _fileInfo;
+    return _p->fileInfo;
 }
 
 std::shared_ptr<Core::Observer::IValueSubject<IOInfo> > Media::observeInfo() const
 {
-    return _info;
+    return _p->info;
 }
 
 std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Image> > > Media::observeCurrentImage() const
 {
-    return _image;
+    return _p->image;
 }
 
 std::shared_ptr<Core::Observer::IValueSubject<size_t> > Media::observeVideoQueueSize() const
 {
-    return _videoQueueSize;
+    return _p->videoQueueSize;
 }
 
 std::shared_ptr<Core::Observer::IValueSubject<size_t> > Media::observeAudioQueueSize() const
 {
-    return _audioQueueSize;
+    return _p->audioQueueSize;
 }
 
 std::shared_ptr<Core::Observer::IValueSubject<Playback> > Media::observePlayback() const
 {
-    return _playback;
+    return _p->playback;
+}
+
+std::shared_ptr<Core::Observer::IValueSubject<bool> > Media::observePlaybackEveryFrame() const
+{
+    return _p->playbackEveryFrame;
 }
 
 std::shared_ptr<Core::Observer::IValueSubject<Math::Frame::Index> > Media::observeCurrentFrame() const
 {
-    return _currentFrame;
+    return _p->currentFrame;
 }
 
 void Media::setPlayback(Playback value)
 {
-    if (_read && _playback->setIfChanged(value))
+    DJV_PRIVATE_PTR();
+    if (p.read && p.playback->setIfChanged(value))
     {
-        _read->setPlaybackDirection(Playback::Forward == value ? PlaybackDirection::Forward : PlaybackDirection::Reverse);
+        p.read->setPlaybackDirection(Playback::Forward == value ? PlaybackDirection::Forward : PlaybackDirection::Reverse);
         switch (value)
         {
         case Playback::Forward:
         case Playback::Reverse:
-            _playbackStartFrame = _currentFrame->get();
-            _playbackStartTime = std::chrono::steady_clock::now();
+            p.playbackStartFrame = p.currentFrame->get();
+            p.playbackStartTime = std::chrono::steady_clock::now();
             break;
         default: break;
         }
     }
 }
 
-void Media::seek(djv::Math::Frame::Index value)
+void Media::setPlaybackEveryFrame(bool value)
 {
-    if (_read)
+    _p->playbackEveryFrame->setIfChanged(value);
+}
+
+void Media::seek(Math::Frame::Index value)
+{
+    DJV_PRIVATE_PTR();
+    if (p.read)
     {
-        _read->seek(value);
-        _playbackStartFrame = value;
-        _playbackTime = 0.0;
-        switch (_playback->get())
+        p.read->seek(value);
+        p.playbackStartFrame = value;
+        p.playbackTime = 0.0;
+        switch (p.playback->get())
         {
         case Playback::Forward:
         case Playback::Reverse:
-            _playbackStartTime = std::chrono::steady_clock::now();
+            p.playbackStartTime = std::chrono::steady_clock::now();
             break;
         default: break;
         }
@@ -131,15 +165,16 @@ void Media::seek(djv::Math::Frame::Index value)
 
 void Media::_tick()
 {
-    if (_read)
+    DJV_PRIVATE_PTR();
+    if (p.read)
     {
-        switch (_playback->get())
+        switch (p.playback->get())
         {
         case Playback::Forward:
         case Playback::Reverse:
         {
             const auto now = std::chrono::steady_clock::now();
-            _playbackTime = std::chrono::duration<double>(now - _playbackStartTime).count();
+            p.playbackTime = std::chrono::duration<double>(now - p.playbackStartTime).count();
             break;
         }
         default: break;
@@ -151,50 +186,61 @@ void Media::_tick()
 
 void Media::_videoTick()
 {
-    const int64_t currentFrame = _playbackStartFrame + static_cast<int64_t>(
-        _playbackTime * static_cast<double>(_info->get().videoSpeed.toFloat()));
+    DJV_PRIVATE_PTR();
+
+    const int64_t currentFrame = p.playbackStartFrame + static_cast<int64_t>(
+        p.playbackTime * static_cast<double>(p.info->get().videoSpeed.toFloat()));
 
     VideoFrame frame;
     bool valid = false;
     size_t queueSize = 0;
     bool finished = false;
     {
-        std::lock_guard<std::mutex> lock(_read->getMutex());
-        auto& queue = _read->getVideoQueue();
+        std::lock_guard<std::mutex> lock(p.read->getMutex());
+        auto& queue = p.read->getVideoQueue();
         finished = queue.isFinished() && queue.isEmpty();
 
-        //while (!queue.isEmpty() && queue.getFrame().frame <= currentFrame)
-        //{
-        //    frame = queue.popFrame();
-        //    valid = true;
-        //}
-        if (!queue.isEmpty() && queue.getFrame().frame <= currentFrame)
+        if (!p.playbackEveryFrame->get())
         {
-            frame = queue.popFrame();
-            valid = true;
+            while (!queue.isEmpty() && queue.getFrame().frame <= currentFrame)
+            {
+                frame = queue.popFrame();
+                valid = true;
+            }
+        }
+        else
+        {
+            if (!queue.isEmpty() && queue.getFrame().frame <= currentFrame)
+            {
+                frame = queue.popFrame();
+                valid = true;
+            }
         }
         queueSize = queue.getCount();
     }
 
     if (valid)
     {
-        _image->setIfChanged(frame.image);
-        _currentFrame->setIfChanged(frame.frame);
-        _videoQueueSize->setAlways(queueSize);
+        //std::cout << "frame: " << frame.frame << std::endl;
+        p.image->setIfChanged(frame.image);
+        p.currentFrame->setIfChanged(frame.frame);
+        p.videoQueueSize->setAlways(queueSize);
     }
 }
 
 void Media::_audioTick()
 {
+    DJV_PRIVATE_PTR();
+
     const int64_t samples = static_cast<int64_t>(
-        _playbackTime * static_cast<double>(_info->get().audio.sampleRate));
+        p.playbackTime * static_cast<double>(p.info->get().audio.sampleRate));
 
     bool valid = false;
     size_t queueSize = 0;
     bool finished = false;
     {
-        std::lock_guard<std::mutex> lock(_read->getMutex());
-        auto& queue = _read->getAudioQueue();
+        std::lock_guard<std::mutex> lock(p.read->getMutex());
+        auto& queue = p.read->getAudioQueue();
         finished = queue.isFinished() && queue.isEmpty();
 
         while (!queue.isEmpty() && queue.getFrame().sample < samples)
@@ -207,6 +253,6 @@ void Media::_audioTick()
 
     if (valid)
     {
-        _audioQueueSize->setAlways(queueSize);
+        p.audioQueueSize->setAlways(queueSize);
     }
 }

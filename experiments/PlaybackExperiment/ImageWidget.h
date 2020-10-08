@@ -28,5 +28,5 @@ protected:
     void _paintEvent(djv::System::Event::Paint&) override;
 
 private:
-    std::shared_ptr<djv::Image::Image> _image;
+    DJV_PRIVATE();
 };

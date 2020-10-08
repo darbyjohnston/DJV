@@ -1,23 +1,23 @@
 set(header
     Application.h
+    DrawerWidget.h
     Enum.h
     FFmpeg.h
     IO.h
     IOInline.h
     ImageWidget.h
+    MainWindow.h
     Media.h
-    PlaybackWidget.h
-    TimelineWidget.h
-    Window.h)
+    TimelineWidget.h)
 set(source
     Application.cpp
+    DrawerWidget.cpp
     FFmpeg.cpp
     IO.cpp
     ImageWidget.cpp
+    MainWindow.cpp
     Media.cpp
-    PlaybackWidget.cpp
     TimelineWidget.cpp
-    Window.cpp
     main.cpp)
 
 add_executable(PlaybackExperiment ${header} ${source})

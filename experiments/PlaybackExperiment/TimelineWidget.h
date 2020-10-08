@@ -39,9 +39,5 @@ private:
     float _frameToPos(djv::Math::Frame::Index) const;
     djv::Math::Frame::Index _posToFrame(float) const;
 
-    djv::Math::Frame::Sequence _sequence;
-    djv::Math::Frame::Index _frame;
-    std::function<void(djv::Math::Frame::Index)> _frameCallback;
-    djv::System::Event::PointerID _pressedID = djv::System::Event::invalidID;
-    glm::vec2 _pressedPos = glm::vec2(0.F, 0.F);
+    DJV_PRIVATE();
 };

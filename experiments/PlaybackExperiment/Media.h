@@ -12,7 +12,6 @@
 #include <djvImage/Image.h>
 
 #include <djvSystem/FileInfo.h>
-#include <djvSystem/Timer.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -41,9 +40,12 @@ public:
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeAudioQueueSize() const;
 
     std::shared_ptr<djv::Core::Observer::IValueSubject<Playback> > observePlayback() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<bool> > observePlaybackEveryFrame() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<djv::Math::Frame::Index> > observeCurrentFrame() const;
 
     void setPlayback(Playback);
+    void setPlaybackEveryFrame(bool);
+
     void seek(djv::Math::Frame::Index);
 
 private:
@@ -51,17 +53,5 @@ private:
     void _videoTick();
     void _audioTick();
 
-    std::weak_ptr<djv::System::Context> _context;
-    djv::System::File::Info _fileInfo;
-    std::shared_ptr<IIO> _read;
-    std::shared_ptr<djv::Core::Observer::ValueSubject<IOInfo> > _info;
-    std::shared_ptr<djv::Core::Observer::ValueSubject<std::shared_ptr<djv::Image::Image> > > _image;
-    std::shared_ptr<djv::Core::Observer::ValueSubject<size_t> > _videoQueueSize;
-    std::shared_ptr<djv::Core::Observer::ValueSubject<size_t> > _audioQueueSize;
-    std::shared_ptr<djv::Core::Observer::ValueSubject<Playback> > _playback;
-    std::shared_ptr<djv::Core::Observer::ValueSubject<djv::Math::Frame::Index> > _currentFrame;
-    double _playbackTime = 0.0;
-    djv::Math::Frame::Index _playbackStartFrame = 0;
-    std::chrono::steady_clock::time_point _playbackStartTime;
-    std::shared_ptr<djv::System::Timer> _timer;
+    DJV_PRIVATE();
 };

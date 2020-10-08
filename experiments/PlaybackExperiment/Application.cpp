@@ -5,27 +5,35 @@
 #include "Application.h"
 
 #include "IO.h"
+#include "MainWindow.h"
 #include "Media.h"
-#include "Window.h"
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
 using namespace djv;
 
+struct Application::Private
+{
+    std::shared_ptr<MainWindow> mainWindow;
+    std::shared_ptr<Media> media;
+};
+
 void Application::_init(std::list<std::string>& args)
 {
     Desktop::Application::_init(args);
+    DJV_PRIVATE_PTR();
 
     UIComponents::UIComponentsSystem::create(shared_from_this());
     IOSystem::create(shared_from_this());
 
     if (args.size() > 0)
     {
-        _media = Media::create(args.front(), shared_from_this());
+        p.media = Media::create(args.front(), shared_from_this());
     }
 }
 
-Application::Application()
+Application::Application() :
+    _p(new Private)
 {}
 
 Application::~Application()
@@ -40,8 +48,10 @@ std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 
 void Application::run()
 {
-    _window = Window::create(_media, shared_from_this());
-    _window->show();
+    DJV_PRIVATE_PTR();
+
+    p.mainWindow = MainWindow::create(p.media, shared_from_this());
+    p.mainWindow->show();
 
     Desktop::Application::run();
 }

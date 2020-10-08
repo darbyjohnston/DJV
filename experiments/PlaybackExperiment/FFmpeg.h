@@ -6,14 +6,7 @@
 
 #include "IO.h"
 
-extern "C"
-{
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-}
-
-#include <atomic>
-#include <thread>
+struct AVPacket;
 
 class FFmpegIO : public IIO
 {
@@ -55,23 +48,7 @@ private:
     };
     int _decodeAudio(const DecodeAudio&);
 
-    IOInfo _info;
-    std::promise<IOInfo> _infoPromise;
-    std::thread _thread;
-    std::atomic<bool> _running;
-    std::condition_variable _queueCV;
-
-    AVFormatContext* _avFormatContext = nullptr;
-    int _avVideoStream = -1;
-    int _avAudioStream = -1;
-    std::map<int, AVCodecParameters*> _avCodecParameters;
-    std::map<int, AVCodecContext*> _avCodecContext;
-    AVFrame* _avFrame = nullptr;
-    AVFrame* _avFrameRgb = nullptr;
-    SwsContext* _swsContext = nullptr;
-
-    int64_t _videoTime = timeInvalid;
-    int64_t _audioTime = timeInvalid;
+    DJV_PRIVATE();
 };
 
 class FFmpegPlugin : public IIOPlugin

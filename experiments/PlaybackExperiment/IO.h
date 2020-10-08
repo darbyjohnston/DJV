@@ -154,7 +154,7 @@ public:
     std::shared_ptr<IIO> read(const djv::System::File::Info&);
 
 private:
-    std::vector<std::shared_ptr<IIOPlugin> > _plugins;
+    DJV_PRIVATE();
 };
 
 #include "IOInline.h"

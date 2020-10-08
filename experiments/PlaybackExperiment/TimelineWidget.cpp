@@ -10,6 +10,15 @@
 
 using namespace djv;
 
+struct TimelineWidget::Private
+{
+    Math::Frame::Sequence sequence;
+    Math::Frame::Index frame;
+    std::function<void(Math::Frame::Index)> frameCallback;
+    System::Event::PointerID pressedID = System::Event::invalidID;
+    glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
+};
+
 void TimelineWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     Widget::_init(context);
@@ -17,7 +26,8 @@ void TimelineWidget::_init(const std::shared_ptr<System::Context>& context)
     setPointerEnabled(true);
 }
 
-TimelineWidget::TimelineWidget()
+TimelineWidget::TimelineWidget() :
+    _p(new Private)
 {}
 
 TimelineWidget::~TimelineWidget()
@@ -32,23 +42,25 @@ std::shared_ptr<TimelineWidget> TimelineWidget::create(const std::shared_ptr<Sys
 
 void TimelineWidget::setSequence(const Math::Frame::Sequence& value)
 {
-    if (value == _sequence)
+    DJV_PRIVATE_PTR();
+    if (value == p.sequence)
         return;
-    _sequence = value;
+    p.sequence = value;
     _redraw();
 }
 
 void TimelineWidget::setFrame(const Math::Frame::Index value)
 {
-    if (value == _frame)
+    DJV_PRIVATE_PTR();
+    if (value == p.frame)
         return;
-    _frame = value;
+    p.frame = value;
     _redraw();
 }
 
 void TimelineWidget::setFrameCallback(const std::function<void(Math::Frame::Index)>& value)
 {
-    _frameCallback = value;
+   _p->frameCallback = value;
 }
 
 void TimelineWidget::_preLayoutEvent(System::Event::PreLayout&)
@@ -59,13 +71,15 @@ void TimelineWidget::_preLayoutEvent(System::Event::PreLayout&)
 
 void TimelineWidget::_paintEvent(System::Event::Paint&)
 {
+    DJV_PRIVATE_PTR();
+
     const auto& style = _getStyle();
     const float b = style->getMetric(UI::MetricsRole::Border);
     const Math::BBox2f& g = getGeometry();
 
     const float size0 = floorf(_frameToPos(0));
     const float size1 = ceilf(_frameToPos(1));
-    const float x = floorf(_frameToPos(_frame));
+    const float x = floorf(_frameToPos(p.frame));
     const auto& render = _getRender();
     render->setFillColor(style->getColor(UI::ColorRole::Foreground));
     render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
@@ -94,37 +108,40 @@ void TimelineWidget::_pointerLeaveEvent(System::Event::PointerLeave& event)
 
 void TimelineWidget::_pointerMoveEvent(System::Event::PointerMove& event)
 {
+    DJV_PRIVATE_PTR();
     event.accept();
     const auto& pointerInfo = event.getPointerInfo();
-    if (pointerInfo.id == _pressedID)
+    if (pointerInfo.id == p.pressedID)
     {
-        _frame = _posToFrame(pointerInfo.projectedPos.x);
-        if (_frameCallback)
+        p.frame = _posToFrame(pointerInfo.projectedPos.x);
+        if (p.frameCallback)
         {
-            _frameCallback(_frame);
+            p.frameCallback(p.frame);
         }
     }
 }
 
 void TimelineWidget::_buttonPressEvent(System::Event::ButtonPress& event)
 {
-    if (_pressedID)
+    DJV_PRIVATE_PTR();
+    if (p.pressedID)
         return;
     event.accept();
     takeTextFocus();
     const auto& pointerInfo = event.getPointerInfo();
-    _pressedID = pointerInfo.id;
-    _pressedPos = pointerInfo.projectedPos;
+    p.pressedID = pointerInfo.id;
+    p.pressedPos = pointerInfo.projectedPos;
     _redraw();
 }
 
 void TimelineWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
 {
+    DJV_PRIVATE_PTR();
     const auto& pointerInfo = event.getPointerInfo();
-    if (pointerInfo.id == _pressedID)
+    if (pointerInfo.id == p.pressedID)
     {
         event.accept();
-        _pressedID = System::Event::invalidID;
+        p.pressedID = System::Event::invalidID;
         _redraw();
     }
 }
@@ -132,13 +149,13 @@ void TimelineWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
 float TimelineWidget::_frameToPos(Math::Frame::Index value) const
 {
     const Math::BBox2f& g = getGeometry();
-    const size_t frameCount = _sequence.getFrameCount();
+    const size_t frameCount = _p->sequence.getFrameCount();
     return frameCount > 0 ? (g.min.x + value / static_cast<float>(frameCount - 1) * g.w()) : g.min.x;
 }
 
 Math::Frame::Index TimelineWidget::_posToFrame(float value) const
 {
     const Math::BBox2f& g = getGeometry();
-    const size_t frameCount = _sequence.getFrameCount();
+    const size_t frameCount = _p->sequence.getFrameCount();
     return frameCount > 0 ? ((value - g.min.x) / g.w() * (frameCount - 1)) : 0;
 }

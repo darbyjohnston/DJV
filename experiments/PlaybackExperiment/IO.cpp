@@ -52,7 +52,7 @@ bool AudioFrame::operator == (const AudioFrame& other) const
 
 void IIO::_init(
     const System::File::Info& fileInfo,
-    const std::shared_ptr<djv::System::LogSystem>& logSystem)
+    const std::shared_ptr<System::LogSystem>& logSystem)
 {
     _logSystem = logSystem;
     _fileInfo = fileInfo;
@@ -87,22 +87,29 @@ void IIO::setPlaybackDirection(PlaybackDirection value)
     _playbackDirection = value;
 }
 
-IIOPlugin::IIOPlugin(const std::shared_ptr<djv::System::LogSystem>& logSystem) :
+IIOPlugin::IIOPlugin(const std::shared_ptr<System::LogSystem>& logSystem) :
     _logSystem(logSystem)
 {}
 
 IIOPlugin::~IIOPlugin()
 {}
 
+struct IOSystem::Private
+{
+    std::vector<std::shared_ptr<IIOPlugin> > plugins;
+};
+
 void IOSystem::_init(const std::shared_ptr<System::Context>& context)
 {
     ISystem::_init("IOSystem", context);
+    DJV_PRIVATE_PTR();
 
     auto logSystem = context->getSystemT<System::LogSystem>();
-    _plugins.push_back(FFmpegPlugin::create(logSystem));
+    p.plugins.push_back(FFmpegPlugin::create(logSystem));
 }
 
-IOSystem::IOSystem()
+IOSystem::IOSystem() :
+    _p(new Private)
 {}
 
 IOSystem::~IOSystem()
@@ -117,8 +124,9 @@ std::shared_ptr<IOSystem> IOSystem::create(const std::shared_ptr<System::Context
 
 std::shared_ptr<IIO> IOSystem::read(const System::File::Info& fileInfo)
 {
+    DJV_PRIVATE_PTR();
     std::shared_ptr<IIO> out;
-    for (const auto& i : _plugins)
+    for (const auto& i : p.plugins)
     {
         if (i->canRead(fileInfo))
         {

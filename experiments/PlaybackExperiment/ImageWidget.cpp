@@ -13,12 +13,18 @@
 
 using namespace djv;
 
+struct ImageWidget::Private
+{
+    std::shared_ptr<Image::Image> image;
+};
+
 void ImageWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     Widget::_init(context);
 }
 
-ImageWidget::ImageWidget()
+ImageWidget::ImageWidget() :
+    _p(new Private)
 {}
 
 ImageWidget::~ImageWidget()
@@ -31,11 +37,12 @@ std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<System::C
     return out;
 }
 
-void ImageWidget::setImage(const std::shared_ptr<djv::Image::Image>& value)
+void ImageWidget::setImage(const std::shared_ptr<Image::Image>& value)
 {
-    if (_image == value)
+    DJV_PRIVATE_PTR();
+    if (p.image == value)
         return;
-    _image = value;
+    p.image = value;
     _redraw();
 }
 
@@ -48,19 +55,20 @@ void ImageWidget::_preLayoutEvent(System::Event::PreLayout&)
 
 void ImageWidget::_paintEvent(System::Event::Paint&)
 {
+    DJV_PRIVATE_PTR();
     const auto& g = getGeometry();
     const auto& render = _getRender();
     render->setFillColor(Image::Color(0.F, 0.F, 0.F));
     render->drawRect(g);
-    if (_image)
+    if (p.image)
     {
         render->setFillColor(Image::Color(1.F, 1.F, 1.F));
         glm::mat3x3 m(1.F);
-        m = glm::scale(m, glm::vec2(g.w() / _image->getWidth(), g.h() / _image->getHeight()));
+        m = glm::scale(m, glm::vec2(g.w() / p.image->getWidth(), g.h() / p.image->getHeight()));
         render->pushTransform(m);
         Render2D::ImageOptions options;
         options.cache = Render2D::ImageCache::Dynamic;
-        render->drawImage(_image, g.min, options);
+        render->drawImage(p.image, g.min, options);
         render->popTransform();
     }
 }

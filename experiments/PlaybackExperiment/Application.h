@@ -8,9 +8,6 @@
 
 #include <djvSystem/FileInfo.h>
 
-class Media;
-class Window;
-
 class Application : public djv::Desktop::Application
 {
     DJV_NON_COPYABLE(Application);
@@ -29,6 +26,5 @@ public:
 private:
     void _open(const djv::System::File::Info&);
 
-    std::shared_ptr<Window> _window;
-    std::shared_ptr<Media> _media;
+    DJV_PRIVATE();
 };
