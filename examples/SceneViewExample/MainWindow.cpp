@@ -30,83 +30,79 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
 {
     Window::_init(context);
 
-    _actions["File"]["Open"] = UI::Action::create();
-    _actions["File"]["Open"]->setIcon("djvIconFileOpen");
-    _actions["File"]["Open"]->setShortcut(GLFW_KEY_O, UI::getSystemModifier());
-    _actions["File"]["Reload"] = UI::Action::create();
-    _actions["File"]["Reload"]->setShortcut(GLFW_KEY_R, UI::getSystemModifier());
-    _actions["File"]["Close"] = UI::Action::create();
-    _actions["File"]["Close"]->setIcon("djvIconFileClose");
-    _actions["File"]["Close"]->setShortcut(GLFW_KEY_E, UI::getSystemModifier());
-    _actions["File"]["Exit"] = UI::Action::create();
-    _actions["File"]["Exit"]->setShortcut(GLFW_KEY_Q, UI::getSystemModifier());
+    _actions["File/Open"] = UI::Action::create();
+    _actions["File/Open"]->setIcon("djvIconFileOpen");
+    _actions["File/Open"]->setShortcut(GLFW_KEY_O, UI::getSystemModifier());
+    _actions["File/Reload"] = UI::Action::create();
+    _actions["File/Reload"]->setShortcut(GLFW_KEY_R, UI::getSystemModifier());
+    _actions["File/Close"] = UI::Action::create();
+    _actions["File/Close"]->setIcon("djvIconFileClose");
+    _actions["File/Close"]->setShortcut(GLFW_KEY_E, UI::getSystemModifier());
+    _actions["File/Exit"] = UI::Action::create();
+    _actions["File/Exit"]->setShortcut(GLFW_KEY_Q, UI::getSystemModifier());
 
-    _actions["View"]["Frame"] = UI::Action::create();
-    _actions["View"]["Frame"]->setIcon("djvIconViewFrame");
-    _actions["View"]["Frame"]->setShortcut(GLFW_KEY_F);
+    _actions["View/Frame"] = UI::Action::create();
+    _actions["View/Frame"]->setIcon("djvIconViewFrame");
+    _actions["View/Frame"]->setShortcut(GLFW_KEY_F);
     
-    _actions["Scene"]["Rotate+X"] = UI::Action::create();
-    _actions["Scene"]["Rotate+X"]->setShortcut(GLFW_KEY_X);
-    _actions["Scene"]["Rotate-X"] = UI::Action::create();
-    _actions["Scene"]["Rotate-X"]->setShortcut(GLFW_KEY_X, GLFW_MOD_SHIFT);
-    _actions["Scene"]["Rotate+Y"] = UI::Action::create();
-    _actions["Scene"]["Rotate+Y"]->setShortcut(GLFW_KEY_Y);
-    _actions["Scene"]["Rotate-Y"] = UI::Action::create();
-    _actions["Scene"]["Rotate-Y"]->setShortcut(GLFW_KEY_Y, GLFW_MOD_SHIFT);
-    _actions["Scene"]["Rotate+Z"] = UI::Action::create();
-    _actions["Scene"]["Rotate+Z"]->setShortcut(GLFW_KEY_Z);
-    _actions["Scene"]["Rotate-Z"] = UI::Action::create();
-    _actions["Scene"]["Rotate-Z"]->setShortcut(GLFW_KEY_Z, GLFW_MOD_SHIFT);
+    _actions["Scene/Rotate+X"] = UI::Action::create();
+    _actions["Scene/Rotate+X"]->setShortcut(GLFW_KEY_X);
+    _actions["Scene/Rotate-X"] = UI::Action::create();
+    _actions["Scene/Rotate-X"]->setShortcut(GLFW_KEY_X, GLFW_MOD_SHIFT);
+    _actions["Scene/Rotate+Y"] = UI::Action::create();
+    _actions["Scene/Rotate+Y"]->setShortcut(GLFW_KEY_Y);
+    _actions["Scene/Rotate-Y"] = UI::Action::create();
+    _actions["Scene/Rotate-Y"]->setShortcut(GLFW_KEY_Y, GLFW_MOD_SHIFT);
+    _actions["Scene/Rotate+Z"] = UI::Action::create();
+    _actions["Scene/Rotate+Z"]->setShortcut(GLFW_KEY_Z);
+    _actions["Scene/Rotate-Z"] = UI::Action::create();
+    _actions["Scene/Rotate-Z"]->setShortcut(GLFW_KEY_Z, GLFW_MOD_SHIFT);
 
-    _actions["Tools"]["Settings"] = UI::Action::create();
-    _actions["Tools"]["Settings"]->setButtonType(UI::ButtonType::Toggle);
-    _actions["Tools"]["Settings"]->setIcon("djvIconSettings");
-    _actions["Tools"]["Settings"]->setShortcut(GLFW_KEY_T, UI::getSystemModifier());
+    _actions["Tools/Settings"] = UI::Action::create();
+    _actions["Tools/Settings"]->setButtonType(UI::ButtonType::Toggle);
+    _actions["Tools/Settings"]->setIcon("djvIconSettings");
+    _actions["Tools/Settings"]->setShortcut(GLFW_KEY_T, UI::getSystemModifier());
 
     for (const auto& i : _actions)
     {
-        for (const auto& j : i.second)
-        {
-            addAction(j.second);
-        }
+        addAction(i.second);
     }
 
     _sceneRotateActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
     _sceneRotateActionGroup->setActions({
-        _actions["Scene"]["Rotate+X"],
-        _actions["Scene"]["Rotate-X"],
-        _actions["Scene"]["Rotate+Y"],
-        _actions["Scene"]["Rotate-Y"],
-        _actions["Scene"]["Rotate+Z"],
-        _actions["Scene"]["Rotate-Z"] });
+        _actions["Scene/Rotate+X"],
+        _actions["Scene/Rotate-X"],
+        _actions["Scene/Rotate+Y"],
+        _actions["Scene/Rotate-Y"],
+        _actions["Scene/Rotate+Z"],
+        _actions["Scene/Rotate-Z"] });
 
     auto fileMenu = UI::Menu::create(context);
     fileMenu->setText("File");
-    fileMenu->addAction(_actions["File"]["Open"]);
-    fileMenu->addAction(_actions["File"]["Reload"]);
-    fileMenu->addAction(_actions["File"]["Close"]);
+    fileMenu->addAction(_actions["File/Open"]);
+    fileMenu->addAction(_actions["File/Reload"]);
+    fileMenu->addAction(_actions["File/Close"]);
     fileMenu->addSeparator();
-    fileMenu->addAction(_actions["File"]["Exit"]);
+    fileMenu->addAction(_actions["File/Exit"]);
 
     auto viewMenu = UI::Menu::create(context);
     viewMenu->setText("View");
-    viewMenu->addAction(_actions["View"]["Frame"]);
+    viewMenu->addAction(_actions["View/Frame"]);
 
     auto sceneMenu = UI::Menu::create(context);
     sceneMenu->setText("Scene");
-    sceneMenu->addAction(_actions["Scene"]["Rotate+X"]);
-    sceneMenu->addAction(_actions["Scene"]["Rotate-X"]);
-    sceneMenu->addAction(_actions["Scene"]["Rotate+Y"]);
-    sceneMenu->addAction(_actions["Scene"]["Rotate-Y"]);
-    sceneMenu->addAction(_actions["Scene"]["Rotate+Z"]);
-    sceneMenu->addAction(_actions["Scene"]["Rotate-Z"]);
+    sceneMenu->addAction(_actions["Scene/Rotate+X"]);
+    sceneMenu->addAction(_actions["Scene/Rotate-X"]);
+    sceneMenu->addAction(_actions["Scene/Rotate+Y"]);
+    sceneMenu->addAction(_actions["Scene/Rotate-Y"]);
+    sceneMenu->addAction(_actions["Scene/Rotate+Z"]);
+    sceneMenu->addAction(_actions["Scene/Rotate-Z"]);
 
     auto toolsMenu = UI::Menu::create(context);
     toolsMenu->setText("Tools");
-    toolsMenu->addAction(_actions["Tools"]["Settings"]);
+    toolsMenu->addAction(_actions["Tools/Settings"]);
 
     auto menuBar = UI::MenuBar::create(context);
-    menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
     menuBar->addChild(fileMenu);
     menuBar->addChild(viewMenu);
     menuBar->addChild(sceneMenu);
@@ -114,6 +110,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
 
     _fileInfoLabel = UI::Text::Label::create(context);
     _fileInfoLabel->setTextHAlign(UI::TextHAlign::Left);
+    _fileInfoLabel->setTextElide(40);
     _fileInfoLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
 
     _sceneWidget = UIComponents::SceneWidget::create(context);
@@ -121,16 +118,16 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     _settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
 
     auto toolBar = UI::ToolBar::create(context);
-    toolBar->setBackgroundRole(UI::ColorRole::OverlayLight);
+    toolBar->setBackgroundRole(UI::ColorRole::Background);
     toolBar->addChild(_fileInfoLabel);
     toolBar->setStretch(_fileInfoLabel, UI::RowStretch::Expand);
     toolBar->addSeparator();
-    toolBar->addAction(_actions["File"]["Open"]);
-    toolBar->addAction(_actions["File"]["Close"]);
+    toolBar->addAction(_actions["File/Open"]);
+    toolBar->addAction(_actions["File/Close"]);
     toolBar->addSeparator();
-    toolBar->addAction(_actions["View"]["Frame"]);
+    toolBar->addAction(_actions["View/Frame"]);
     toolBar->addSeparator();
-    toolBar->addAction(_actions["Tools"]["Settings"]);
+    toolBar->addAction(_actions["Tools/Settings"]);
 
     addChild(_sceneWidget);
     auto vLayout = UI::VerticalLayout::create(context);
@@ -142,12 +139,17 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     hLayout->addChild(toolBar);
     hLayout->setStretch(toolBar, UI::RowStretch::Expand);
     vLayout->addChild(hLayout);
-    vLayout->addChild(_settingsDrawer);
-    vLayout->setStretch(_settingsDrawer, UI::RowStretch::Expand);
+    vLayout->addSeparator();
+    hLayout = UI::HorizontalLayout::create(context);
+    hLayout->setSpacing(UI::MetricsRole::None);
+    hLayout->addChild(_sceneWidget);
+    hLayout->setStretch(_sceneWidget, UI::RowStretch::Expand);
+    vLayout->addChild(hLayout);
+    vLayout->setStretch(hLayout, UI::RowStretch::Expand);
     addChild(vLayout);
 
     auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-    _actions["File"]["Open"]->setClickedCallback(
+    _actions["File/Open"]->setClickedCallback(
         [weak]
         {
             if (auto widget = weak.lock())
@@ -156,7 +158,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
             }
         });
 
-    _actions["File"]["Reload"]->setClickedCallback(
+    _actions["File/Reload"]->setClickedCallback(
         [weak]
         {
             if (auto widget = weak.lock())
@@ -168,7 +170,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
             }
         });
 
-    _actions["File"]["Close"]->setClickedCallback(
+    _actions["File/Close"]->setClickedCallback(
         [weak]
         {
             if (auto widget = weak.lock())
@@ -180,7 +182,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
             }
         });
 
-    _actions["File"]["Exit"]->setClickedCallback(
+    _actions["File/Exit"]->setClickedCallback(
         [weak]
         {
             if (auto widget = weak.lock())
@@ -192,7 +194,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
             }
         });
 
-    _actions["View"]["Frame"]->setClickedCallback(
+    _actions["View/Frame"]->setClickedCallback(
         [weak]
         {
             if (auto widget = weak.lock())
@@ -201,7 +203,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
             }
         });
 
-    _actions["Tools"]["Settings"]->setCheckedCallback(
+    _actions["Tools/Settings"]->setCheckedCallback(
         [weak](bool value)
         {
             if (auto widget = weak.lock())
@@ -364,35 +366,38 @@ std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<System::Con
     return out;
 }
 
-void MainWindow::_initEvent(System::Event::Init&)
+void MainWindow::_initEvent(System::Event::Init& event)
 {
-    _actions["File"]["Open"]->setText(_getText(DJV_TEXT("action_file_open")));
-    _actions["File"]["Open"]->setTooltip(_getText(DJV_TEXT("action_file_open_tooltip")));
-    _actions["File"]["Reload"]->setText(_getText(DJV_TEXT("action_file_reload")));
-    _actions["File"]["Reload"]->setTooltip(_getText(DJV_TEXT("action_file_reload_tooltip")));
-    _actions["File"]["Close"]->setText(_getText(DJV_TEXT("action_file_close")));
-    _actions["File"]["Close"]->setTooltip(_getText(DJV_TEXT("action_file_close_tooltip")));
-    _actions["File"]["Exit"]->setText(_getText(DJV_TEXT("action_file_exit")));
-    _actions["File"]["Exit"]->setTooltip(_getText(DJV_TEXT("action_file_exit_tooltip")));
+    if (event.getData().text)
+    {
+        _actions["File/Open"]->setText(_getText(DJV_TEXT("action_file_open")));
+        _actions["File/Open"]->setTooltip(_getText(DJV_TEXT("action_file_open_tooltip")));
+        _actions["File/Reload"]->setText(_getText(DJV_TEXT("action_file_reload")));
+        _actions["File/Reload"]->setTooltip(_getText(DJV_TEXT("action_file_reload_tooltip")));
+        _actions["File/Close"]->setText(_getText(DJV_TEXT("action_file_close")));
+        _actions["File/Close"]->setTooltip(_getText(DJV_TEXT("action_file_close_tooltip")));
+        _actions["File/Exit"]->setText(_getText(DJV_TEXT("action_file_exit")));
+        _actions["File/Exit"]->setTooltip(_getText(DJV_TEXT("action_file_exit_tooltip")));
 
-    _actions["View"]["Frame"]->setText(_getText(DJV_TEXT("action_view_frame")));
-    _actions["View"]["Frame"]->setTooltip(_getText(DJV_TEXT("action_view_frame_tooltip")));
+        _actions["View/Frame"]->setText(_getText(DJV_TEXT("action_view_frame")));
+        _actions["View/Frame"]->setTooltip(_getText(DJV_TEXT("action_view_frame_tooltip")));
 
-    _actions["Scene"]["Rotate+X"]->setText(_getText(DJV_TEXT("action_scene_rotate_x_90")));
-    _actions["Scene"]["Rotate+X"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_x_90_tooltip")));
-    _actions["Scene"]["Rotate-X"]->setText(_getText(DJV_TEXT("action_scene_rotate_x_-90")));
-    _actions["Scene"]["Rotate-X"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_x_-90_tooltip")));
-    _actions["Scene"]["Rotate+Y"]->setText(_getText(DJV_TEXT("action_scene_rotate_y_90")));
-    _actions["Scene"]["Rotate+Y"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_y_90_tooltip")));
-    _actions["Scene"]["Rotate-Y"]->setText(_getText(DJV_TEXT("action_scene_rotate_y_-90")));
-    _actions["Scene"]["Rotate-Y"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_y_-90_tooltip")));
-    _actions["Scene"]["Rotate+Z"]->setText(_getText(DJV_TEXT("action_scene_rotate_z_90")));
-    _actions["Scene"]["Rotate+Z"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_z_90_tooltip")));
-    _actions["Scene"]["Rotate-Z"]->setText(_getText(DJV_TEXT("action_scene_rotate_z_-90")));
-    _actions["Scene"]["Rotate+Z"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_z_-90_tooltip")));
+        _actions["Scene/Rotate+X"]->setText(_getText(DJV_TEXT("action_scene_rotate_x_90")));
+        _actions["Scene/Rotate+X"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_x_90_tooltip")));
+        _actions["Scene/Rotate-X"]->setText(_getText(DJV_TEXT("action_scene_rotate_x_-90")));
+        _actions["Scene/Rotate-X"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_x_-90_tooltip")));
+        _actions["Scene/Rotate+Y"]->setText(_getText(DJV_TEXT("action_scene_rotate_y_90")));
+        _actions["Scene/Rotate+Y"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_y_90_tooltip")));
+        _actions["Scene/Rotate-Y"]->setText(_getText(DJV_TEXT("action_scene_rotate_y_-90")));
+        _actions["Scene/Rotate-Y"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_y_-90_tooltip")));
+        _actions["Scene/Rotate+Z"]->setText(_getText(DJV_TEXT("action_scene_rotate_z_90")));
+        _actions["Scene/Rotate+Z"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_z_90_tooltip")));
+        _actions["Scene/Rotate-Z"]->setText(_getText(DJV_TEXT("action_scene_rotate_z_-90")));
+        _actions["Scene/Rotate+Z"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_z_-90_tooltip")));
 
-    _actions["Tools"]["Settings"]->setText(_getText(DJV_TEXT("action_tool_settings")));
-    _actions["Tools"]["Settings"]->setTooltip(_getText(DJV_TEXT("action_tool_settings_tooltip")));
+        _actions["Tools/Settings"]->setText(_getText(DJV_TEXT("action_tool_settings")));
+        _actions["Tools/Settings"]->setTooltip(_getText(DJV_TEXT("action_tool_settings_tooltip")));
+    }
 }
 
 void MainWindow::_open()

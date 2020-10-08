@@ -49,7 +49,7 @@ protected:
 private:
     void _open();
 
-    std::map<std::string, std::map<std::string, std::shared_ptr<djv::UI::Action> > > _actions;
+    std::map<std::string, std::shared_ptr<djv::UI::Action> > _actions;
     std::shared_ptr<djv::UI::ActionGroup> _sceneRotateActionGroup;
 
     std::shared_ptr<djv::UI::Text::Label> _fileInfoLabel;
