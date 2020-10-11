@@ -31,8 +31,8 @@ before_script:
 - make -j 4
 - make install
 - cd ..
-- export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
-- export LD_LIBRARY_PATH=:$LD_LIBRARY_PATH/DJV-install-Debug/lib
+- export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
+- export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
 - export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
 - echo "Building third party dependencies..."
 - mkdir DJV-third-party-Debug
