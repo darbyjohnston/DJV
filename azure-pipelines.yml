@@ -20,9 +20,16 @@ jobs:
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
       export DJV_BUILD=$PWD
-      export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
-      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Debug/lib
+      export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
+      export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
       export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
+      echo "Building CMake..."
+      tar zxvf cmake-3.18.4.tar.gz
+      cd cmake-3.18.4
+      ./configure --prefix=$DJV_BUILD/DJV-install-Debug
+      make -j 4
+      make install
+      cd ..
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
@@ -55,9 +62,16 @@ jobs:
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
       export DJV_BUILD=$PWD
-      export PATH=$PATH:$DJV_BUILD/DJV-install-Release/bin
-      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Release/lib
+      export PATH=$DJV_BUILD/DJV-install-Release/bin:$PATH
+      export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$LD_LIBRARY_PATH
       export PYTHONPATH=$DJV_BUILD/DJV-install-Release/lib:$PYTHONPATH
+      echo "Building CMake..."
+      tar zxvf cmake-3.18.4.tar.gz
+      cd cmake-3.18.4
+      ./configure --prefix=$DJV_BUILD/DJV-install-Debug
+      make -j 4
+      make install
+      cd ..
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
@@ -154,9 +168,16 @@ jobs:
       mkdir build
       cd build
       export DJV_BUILD=$PWD
-      export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
-      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Debug/lib
+      export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
+      export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
       export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
+      echo "Building CMake..."
+      tar zxvf cmake-3.18.4.tar.gz
+      cd cmake-3.18.4
+      ./configure --prefix=$DJV_BUILD/DJV-install-Debug
+      make -j 4
+      make install
+      cd ..
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
@@ -185,9 +206,16 @@ jobs:
       mkdir build
       cd build
       export DJV_BUILD=$PWD
-      export PATH=$PATH:$DJV_BUILD/DJV-install-Release/bin
-      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Release/lib
+      export PATH=$DJV_BUILD/DJV-install-Release/bin:$PATH
+      export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$DYLD_LIBRARY_PATH
       export PYTHONPATH=$DJV_BUILD/DJV-install-Release/lib:$PYTHONPATH
+      echo "Building CMake..."
+      tar zxvf cmake-3.18.4.tar.gz
+      cd cmake-3.18.4
+      ./configure --prefix=$DJV_BUILD/DJV-install-Debug
+      make -j 4
+      make install
+      cd ..
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release

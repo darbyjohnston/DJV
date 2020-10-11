@@ -24,16 +24,17 @@ before_script:
 - mkdir build
 - cd build
 - export DJV_BUILD=$PWD
+- export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
+- export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
+- export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
 - wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
+- echo "Building CMake..."
 - tar zxvf cmake-3.18.4.tar.gz
 - cd cmake-3.18.4
 - ./configure --prefix=$DJV_BUILD/DJV-install-Debug
 - make -j 4
 - make install
 - cd ..
-- export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
-- export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
-- export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
 - echo "Building third party dependencies..."
 - mkdir DJV-third-party-Debug
 - cd DJV-third-party-Debug
