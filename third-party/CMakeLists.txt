@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.18)
 cmake_policy(SET CMP0091 NEW)
 
 project(DJV-third-party)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/../cmake/Modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake/Modules ${CMAKE_MODULE_PATH})
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
 
@@ -37,9 +37,8 @@ if(DJV_PYTHON)
 endif()
 
 # Set the list of required dependencies.
-set(DJV_THIRD_PARTY_REQUIRED_DEPS ZLIB)
 set(DJV_THIRD_PARTY_REQUIRED_DEPS
-    ${DJV_THIRD_PARTY_REQUIRED_DEPS}
+    ZLIB
     FSeq
     GLM
     GLFW

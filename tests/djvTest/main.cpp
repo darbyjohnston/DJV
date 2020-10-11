@@ -112,12 +112,18 @@
 #include <djvAVTest/SpeedFuncTest.h>
 #include <djvAVTest/ThumbnailSystemTest.h>
 #include <djvAVTest/TimeFuncTest.h>
-#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
+#if defined(FFmpeg_FOUND)
 #include <djvAVTest/FFmpegFuncTest.h>
+#endif // FFmpeg_FOUND
+#if defined(JPEG_FOUND)
 #include <djvAVTest/JPEGFuncTest.h>
+#endif // JPEG_FOUND
+#if defined(OpenEXR_FOUND)
 #include <djvAVTest/OpenEXRFuncTest.h>
+#endif // OpenEXR_FOUND
+#if defined(TIFF_FOUND)
 #include <djvAVTest/TIFFFuncTest.h>
-#endif
+#endif // TIFF_FOUND
 
 #include <djvUITest/ActionGroupTest.h>
 #include <djvUITest/ButtonGroupTest.h>
@@ -273,12 +279,18 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::SpeedFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::ThumbnailSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::TimeFuncTest(tempPath, context));
-#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
+#if defined(FFmpeg_FOUND)
         tests.emplace_back(new AVTest::FFmpegFuncTest(tempPath, context));
+#endif // FFmpeg_FOUND
+#if defined(JPEG_FOUND)
         tests.emplace_back(new AVTest::JPEGFuncTest(tempPath, context));
+#endif // JPEG_FOUND
+#if defined(OpenEXR_FOUND)
         tests.emplace_back(new AVTest::OpenEXRFuncTest(tempPath, context));
+#endif // OpenEXR_FOUND
+#if defined(TIFF_FOUND)
         tests.emplace_back(new AVTest::TIFFFuncTest(tempPath, context));
-#endif
+#endif // TIFF_FOUND
 
         tests.emplace_back(new UITest::ActionGroupTest(tempPath, context));
         tests.emplace_back(new UITest::ButtonGroupTest(tempPath, context));

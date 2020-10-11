@@ -18,7 +18,7 @@ project(
     HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES C CXX)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
 

@@ -101,8 +101,7 @@ if(OpenCV_FOUND AND NOT TARGET OpenCV::core)
     set_target_properties(OpenCV::core PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBCORE}"
         INTERFACE_COMPILE_DEFINITIONS OpenCV_FOUND
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}"
-        INTERFACE_LINK_LIBRARIES ZLIB)
+        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
     if(WIN32)
 	    set_property(TARGET OpenCV::core PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/x64/vc16/staticlib)
         if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
@@ -114,6 +113,7 @@ if(OpenCV_FOUND AND NOT TARGET OpenCV::core)
 	    set_property(TARGET OpenCV::core PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib/opencv4/3rdparty)
         set_property(TARGET OpenCV::core APPEND PROPERTY INTERFACE_LINK_LIBRARIES "ade;ippiw;ippicv;ittnotify;libprotobuf;quirc")
     endif()
+    set_property(TARGET OpenCV::core APPEND PROPERTY INTERFACE_LINK_LIBRARIES ZLIB)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::calib3d)
     add_library(OpenCV::calib3d UNKNOWN IMPORTED)

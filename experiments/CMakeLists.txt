@@ -1,5 +1,6 @@
-add_subdirectory(PlaybackExperiment)
-
+if(FFmpeg_FOUND)
+    add_subdirectory(PlaybackExperiment)
+endif()
 if(OpenCV_FOUND)
     add_subdirectory(OpenCVExperiment)
 endif()
