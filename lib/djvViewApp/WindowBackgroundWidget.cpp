@@ -73,6 +73,14 @@ namespace djv
                                     {
                                         auto io = context->getSystemT<AV::IO::IOSystem>();
                                         widget->_p->read = io->read(value);
+                                    }
+                                    catch (const std::exception& e)
+                                    {
+                                        auto logSystem = context->getSystemT<System::LogSystem>();
+                                        logSystem->log("djv::ViewApp::WindowBackgroundWidget", e.what(), System::LogLevel::Error);
+                                    }
+                                    if (widget->_p->read)
+                                    {
                                         widget->_p->timer->start(
                                             System::getTimerDuration(System::TimerValue::Fast),
                                             [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
@@ -96,11 +104,6 @@ namespace djv
                                                     }
                                                 }
                                             });
-                                    }
-                                    catch (const std::exception& e)
-                                    {
-                                        auto logSystem = context->getSystemT<System::LogSystem>();
-                                        logSystem->log("djv::ViewApp::WindowBackgroundWidget", e.what(), System::LogLevel::Error);
                                     }
                                 }
                             }
