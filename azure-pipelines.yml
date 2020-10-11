@@ -70,7 +70,7 @@ jobs:
       wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
       tar zxvf cmake-3.18.4.tar.gz
       cd cmake-3.18.4
-      ./configure --prefix=$DJV_BUILD/DJV-install-Debug --parallel=4
+      ./configure --prefix=$DJV_BUILD/DJV-install-Release --parallel=4
       make -j 4
       make install
       cd ..
@@ -216,7 +216,7 @@ jobs:
       wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
       tar zxvf cmake-3.18.4.tar.gz
       cd cmake-3.18.4
-      ./configure --prefix=$DJV_BUILD/DJV-install-Debug --parallel=4
+      ./configure --prefix=$DJV_BUILD/DJV-install-Release --parallel=4
       make -j 4
       make install
       cd ..
