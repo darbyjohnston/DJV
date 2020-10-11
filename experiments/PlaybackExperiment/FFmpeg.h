@@ -27,26 +27,22 @@ public:
 
     std::future<IOInfo> getInfo() override;
 
-    void seek(int64_t) override;
+    void seek(double) override;
 
 private:
     void _init(const djv::System::File::Info&);
     void _work();
     void _cleanup();
 
-    struct DecodeVideo
+    enum class Decode
     {
-        AVPacket* packet = nullptr;
-        int64_t seek = seekNone;
+        ReadFrame,
+        SeekSkip,
+        SeekFrame
     };
-    int _decodeVideo(const DecodeVideo&);
 
-    struct DecodeAudio
-    {
-        AVPacket* packet = nullptr;
-        int64_t seek = seekNone;
-    };
-    int _decodeAudio(const DecodeAudio&);
+    int _decodeVideo(AVPacket*, Decode);
+    int _decodeAudio(AVPacket*, Decode);
 
     DJV_PRIVATE();
 };

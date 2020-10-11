@@ -171,7 +171,9 @@ set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     FFmpeg
     JPEG
     TIFF
-    OpenEXR)
+    OpenEXR
+    #OpenCV
+    )
 if(WIN32)
     set(DJV_THIRD_PARTY_OPTIONAL_DEPS
         ${DJV_THIRD_PARTY_OPTIONAL_DEPS}

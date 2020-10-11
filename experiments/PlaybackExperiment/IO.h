@@ -39,9 +39,13 @@ class VideoFrame
 {
 public:
     VideoFrame();
-    VideoFrame(djv::Math::Frame::Index, const std::shared_ptr<djv::Image::Image>&);
+    VideoFrame(
+        double time,
+        bool seekFrame,
+        const std::shared_ptr<djv::Image::Image>&);
 
-    djv::Math::Frame::Index            frame = 0;
+    double                             time      = 0.0;
+    bool                               seekFrame = false;
     std::shared_ptr<djv::Image::Image> image;
 
     bool operator == (const VideoFrame&) const;
@@ -51,16 +55,17 @@ class AudioFrame
 {
 public:
     AudioFrame();
-    explicit AudioFrame(int64_t, const std::shared_ptr<djv::Audio::Data>&);
+    explicit AudioFrame(
+        double time,
+        bool seekFrame,
+        const std::shared_ptr<djv::Audio::Data>&);
 
-    int64_t                           sample = 0;
+    double                            time      = 0.0;
+    bool                              seekFrame = false;
     std::shared_ptr<djv::Audio::Data> audio;
 
     bool operator == (const AudioFrame&) const;
 };
-
-const int64_t seekNone = -1;
-const int64_t timeInvalid = std::numeric_limits<int64_t>::min();
 
 template<typename T>
 class IOQueue
@@ -91,6 +96,9 @@ private:
 typedef IOQueue<VideoFrame> VideoQueue;
 typedef IOQueue<AudioFrame> AudioQueue;
 
+const double timeInvalid = std::numeric_limits<double>::min();
+const double seekNone = -1.0;
+
 class IIO : public std::enable_shared_from_this<IIO>
 {
     DJV_NON_COPYABLE(IIO);
@@ -111,7 +119,7 @@ public:
     AudioQueue& getAudioQueue();
 
     void setPlaybackDirection(PlaybackDirection);
-    virtual void seek(int64_t) = 0;
+    virtual void seek(double) = 0;
 
 protected:
     std::shared_ptr<djv::System::LogSystem> _logSystem;
@@ -120,7 +128,7 @@ protected:
     VideoQueue _videoQueue;
     AudioQueue _audioQueue;
     PlaybackDirection _playbackDirection = PlaybackDirection::Forward;
-    int64_t _seek = seekNone;
+    double _seek = seekNone;
 };
 
 class IIOPlugin : public std::enable_shared_from_this<IIOPlugin>

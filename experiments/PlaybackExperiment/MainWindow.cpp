@@ -21,6 +21,8 @@
 #include <djvUI/ShortcutData.h>
 #include <djvUI/ToolBar.h>
 
+#include <djvAV/TimeFunc.h>
+
 #include <djvImage/Image.h>
 
 #define GLFW_INCLUDE_NONE
@@ -33,7 +35,7 @@ struct MainWindow::Private
     std::shared_ptr<Media> media;
     IOInfo info;
     Playback playback = Playback::Forward;
-    Math::Frame::Index currentFrame = 0;
+    double currentTime = 0.0;
 
     std::map<std::string, std::shared_ptr<djv::UI::Action> > actions;
     std::shared_ptr<UI::ActionGroup> playbackActionGroup;
@@ -45,8 +47,7 @@ struct MainWindow::Private
     std::shared_ptr<Core::Observer::Value<IOInfo> > infoObserver;
     std::shared_ptr<Core::Observer::Value<std::shared_ptr<Image::Image> > > imageObserver;
     std::shared_ptr<Core::Observer::Value<Playback> > playbackObserver;
-    std::shared_ptr<Core::Observer::Value<bool> > playbackEveryFrameObserver;
-    std::shared_ptr<Core::Observer::Value<Math::Frame::Index> > currentFrameObserver;
+    std::shared_ptr<Core::Observer::Value<double> > currentTimeObserver;
 };
 
 void MainWindow::_init(
@@ -77,9 +78,6 @@ void MainWindow::_init(
         UI::ShortcutData(GLFW_KEY_SPACE),
         UI::ShortcutData(GLFW_KEY_K) });
 
-    p.actions["Playback/EveryFrame"] = UI::Action::create();
-    p.actions["Playback/EveryFrame"]->setButtonType(UI::ButtonType::Toggle);
-
     p.actions["Tools/Drawer"] = UI::Action::create();
     p.actions["Tools/Drawer"]->setButtonType(UI::ButtonType::Toggle);
     p.actions["Tools/Drawer"]->setIcon("djvIconDrawerRight");
@@ -99,8 +97,6 @@ void MainWindow::_init(
     playbackMenu->setText("Playback");
     playbackMenu->addAction(p.actions["Playback/Forward"]);
     playbackMenu->addAction(p.actions["Playback/Reverse"]);
-    playbackMenu->addSeparator();
-    playbackMenu->addAction(p.actions["Playback/EveryFrame"]);
 
     auto toolsMenu = UI::Menu::create(context);
     toolsMenu->setText("Tools");
@@ -181,17 +177,6 @@ void MainWindow::_init(
                 }
             }
         });
-    p.actions["Playback/EveryFrame"]->setCheckedCallback(
-        [weak](bool value)
-        {
-            if (auto widget = weak.lock())
-            {
-                if (auto media = widget->_p->media)
-                {
-                    media->setPlaybackEveryFrame(value);
-                }
-            }
-        });
 
     p.actions["Tools/Drawer"]->setCheckedCallback(
         [weak](bool value)
@@ -217,8 +202,8 @@ void MainWindow::_init(
             }
         });
 
-    p.timelineWidget->setFrameCallback(
-        [weak](Math::Frame::Index value)
+    p.timelineWidget->setCallback(
+        [weak](double value)
         {
             if (auto widget = weak.lock())
             {
@@ -278,23 +263,13 @@ void MainWindow::_init(
             }
         });
 
-    p.playbackEveryFrameObserver = Core::Observer::Value<bool>::create(
-        media->observePlaybackEveryFrame(),
-        [weak](bool value)
+    p.currentTimeObserver = Core::Observer::Value<double>::create(
+        media->observeCurrentTime(),
+        [weak](double value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_p->actions["Playback/EveryFrame"]->setChecked(value);
-            }
-        });
-
-    p.currentFrameObserver = Core::Observer::Value<Math::Frame::Index>::create(
-        media->observeCurrentFrame(),
-        [weak](Math::Frame::Index value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_p->currentFrame = value;
+                widget->_p->currentTime = value;
                 widget->_widgetUpdate();
             }
         });
@@ -323,7 +298,6 @@ void MainWindow::_initEvent(System::Event::Init& event)
     {
         p.actions["Playback/Forward"]->setText("Forward");
         p.actions["Playback/Reverse"]->setText("Reverse");
-        p.actions["Playback/EveryFrame"]->setText("Every Frame");
 
         p.actions["Tools/Drawer"]->setText("Drawer");
     }
@@ -334,9 +308,10 @@ void MainWindow::_widgetUpdate()
     DJV_PRIVATE_PTR();
 
     std::stringstream ss;
-    ss << p.currentFrame;
+    ss << p.currentTime * p.info.videoSpeed.getNum() / p.info.videoSpeed.getDen();
     p.currentTimeLabel->setText(ss.str());
 
+    p.timelineWidget->setSpeed(p.info.videoSpeed);
     p.timelineWidget->setSequence(p.info.videoSequence);
-    p.timelineWidget->setFrame(p.currentFrame);
+    p.timelineWidget->setTime(p.currentTime);
 }

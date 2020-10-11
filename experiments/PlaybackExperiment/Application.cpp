@@ -10,6 +10,8 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
+#include <djvAV/TimeFunc.h>
+
 using namespace djv;
 
 struct Application::Private

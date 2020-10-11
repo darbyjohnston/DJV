@@ -26,28 +26,40 @@ bool IOInfo::operator == (const IOInfo& other) const
 VideoFrame::VideoFrame()
 {}
 
-VideoFrame::VideoFrame(Math::Frame::Index frame, const std::shared_ptr<Image::Image>& image) :
-    frame(frame),
+VideoFrame::VideoFrame(
+    double time,
+    bool seekFrame,
+    const std::shared_ptr<Image::Image>& image) :
+    time(time),
+    seekFrame(seekFrame),
     image(image)
 {}
 
 bool VideoFrame::operator == (const VideoFrame& other) const
 {
-    return frame == other.frame &&
+    return time == other.time &&
+        seekFrame == other.seekFrame &&
         image == other.image;
 }
 
 AudioFrame::AudioFrame()
 {}
 
-AudioFrame::AudioFrame(int64_t sample, const std::shared_ptr<Audio::Data>& audio) :
-    sample(sample),
+AudioFrame::AudioFrame(
+    double time,
+    bool seekFrame,
+    const std::shared_ptr<Audio::Data>& audio) :
+    time(time),
+    seekFrame(seekFrame),
     audio(audio)
 {}
 
 bool AudioFrame::operator == (const AudioFrame& other) const
 {
-    return audio == other.audio;
+    return
+        time == other.time &&
+        seekFrame == other.seekFrame &&
+        audio == other.audio;
 }
 
 void IIO::_init(

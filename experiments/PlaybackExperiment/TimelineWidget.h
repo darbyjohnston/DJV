@@ -6,7 +6,10 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvAV/Time.h>
+
 #include <djvMath/FrameNumber.h>
+#include <djvMath/Rational.h>
 
 class TimelineWidget : public djv::UI::Widget
 {
@@ -21,10 +24,11 @@ public:
 
     static std::shared_ptr<TimelineWidget> create(const std::shared_ptr<djv::System::Context>&);
 
+    void setSpeed(const djv::Math::Rational&);
     void setSequence(const djv::Math::Frame::Sequence&);
+    void setTime(const double);
 
-    void setFrame(const djv::Math::Frame::Index);
-    void setFrameCallback(const std::function<void(djv::Math::Frame::Index)>&);
+    void setCallback(const std::function<void(double)>&);
 
 protected:
     void _preLayoutEvent(djv::System::Event::PreLayout&) override;
@@ -36,8 +40,8 @@ protected:
     void _buttonReleaseEvent(djv::System::Event::ButtonRelease&) override;
 
 private:
-    float _frameToPos(djv::Math::Frame::Index) const;
-    djv::Math::Frame::Index _posToFrame(float) const;
+    float _timeToPos(double) const;
+    double _posToTime(float) const;
 
     DJV_PRIVATE();
 };

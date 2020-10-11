@@ -9,6 +9,8 @@
 
 #include <djvUI/Window.h>
 
+#include <djvAV/Time.h>
+
 #include <djvImage/Image.h>
 
 #include <djvSystem/FileInfo.h>
@@ -40,13 +42,11 @@ public:
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeAudioQueueSize() const;
 
     std::shared_ptr<djv::Core::Observer::IValueSubject<Playback> > observePlayback() const;
-    std::shared_ptr<djv::Core::Observer::IValueSubject<bool> > observePlaybackEveryFrame() const;
-    std::shared_ptr<djv::Core::Observer::IValueSubject<djv::Math::Frame::Index> > observeCurrentFrame() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<double> > observeCurrentTime() const;
 
     void setPlayback(Playback);
-    void setPlaybackEveryFrame(bool);
 
-    void seek(djv::Math::Frame::Index);
+    void seek(double);
 
 private:
     void _tick();

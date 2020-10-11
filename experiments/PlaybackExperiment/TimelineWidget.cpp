@@ -8,13 +8,16 @@
 
 #include <djvRender2D/Render.h>
 
+#include <djvAV/TimeFunc.h>
+
 using namespace djv;
 
 struct TimelineWidget::Private
 {
+    Math::Rational speed;
     Math::Frame::Sequence sequence;
-    Math::Frame::Index frame;
-    std::function<void(Math::Frame::Index)> frameCallback;
+    double time = 0.0;
+    std::function<void(double)> callback;
     System::Event::PointerID pressedID = System::Event::invalidID;
     glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
 };
@@ -40,6 +43,15 @@ std::shared_ptr<TimelineWidget> TimelineWidget::create(const std::shared_ptr<Sys
     return out;
 }
 
+void TimelineWidget::setSpeed(const Math::Rational& value)
+{
+    DJV_PRIVATE_PTR();
+    if (value == p.speed)
+        return;
+    p.speed = value;
+    _redraw();
+}
+
 void TimelineWidget::setSequence(const Math::Frame::Sequence& value)
 {
     DJV_PRIVATE_PTR();
@@ -49,18 +61,18 @@ void TimelineWidget::setSequence(const Math::Frame::Sequence& value)
     _redraw();
 }
 
-void TimelineWidget::setFrame(const Math::Frame::Index value)
+void TimelineWidget::setTime(double value)
 {
     DJV_PRIVATE_PTR();
-    if (value == p.frame)
+    if (value == p.time)
         return;
-    p.frame = value;
+    p.time = value;
     _redraw();
 }
 
-void TimelineWidget::setFrameCallback(const std::function<void(Math::Frame::Index)>& value)
+void TimelineWidget::setCallback(const std::function<void(double)>& value)
 {
-   _p->frameCallback = value;
+   _p->callback = value;
 }
 
 void TimelineWidget::_preLayoutEvent(System::Event::PreLayout&)
@@ -77,10 +89,21 @@ void TimelineWidget::_paintEvent(System::Event::Paint&)
     const float b = style->getMetric(UI::MetricsRole::Border);
     const Math::BBox2f& g = getGeometry();
 
-    const float size0 = floorf(_frameToPos(0));
-    const float size1 = ceilf(_frameToPos(1));
-    const float x = floorf(_frameToPos(p.frame));
+    const float size0 = floorf(_timeToPos(0));
+    const float size1 = ceilf(_timeToPos(_p->speed.getDen() / static_cast<float>(_p->speed.getNum())));
+
     const auto& render = _getRender();
+    render->setFillColor(style->getColor(UI::ColorRole::ForegroundDim));
+    float t = 0.F;
+    float x = floorf(_timeToPos(t));
+    while (x < g.max.x)
+    {
+        render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
+        t += 1.F;
+        x = floorf(_timeToPos(t));
+    }
+
+    x = floorf(_timeToPos(p.time));
     render->setFillColor(style->getColor(UI::ColorRole::Foreground));
     render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
 }
@@ -113,10 +136,10 @@ void TimelineWidget::_pointerMoveEvent(System::Event::PointerMove& event)
     const auto& pointerInfo = event.getPointerInfo();
     if (pointerInfo.id == p.pressedID)
     {
-        p.frame = _posToFrame(pointerInfo.projectedPos.x);
-        if (p.frameCallback)
+        p.time = _posToTime(pointerInfo.projectedPos.x);
+        if (p.callback)
         {
-            p.frameCallback(p.frame);
+            p.callback(p.time);
         }
     }
 }
@@ -146,16 +169,18 @@ void TimelineWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
     }
 }
 
-float TimelineWidget::_frameToPos(Math::Frame::Index value) const
+float TimelineWidget::_timeToPos(double value) const
 {
     const Math::BBox2f& g = getGeometry();
-    const size_t frameCount = _p->sequence.getFrameCount();
-    return frameCount > 0 ? (g.min.x + value / static_cast<float>(frameCount - 1) * g.w()) : g.min.x;
+    const double length = (_p->sequence.getFrameCount() - 1) * _p->speed.getDen() / static_cast<double>(_p->speed.getNum());
+    const float out = length > 0.0 ? static_cast<float>(g.min.x + value / length * g.w()) : g.min.x;
+    return out;
 }
 
-Math::Frame::Index TimelineWidget::_posToFrame(float value) const
+double TimelineWidget::_posToTime(float value) const
 {
     const Math::BBox2f& g = getGeometry();
-    const size_t frameCount = _p->sequence.getFrameCount();
-    return frameCount > 0 ? ((value - g.min.x) / g.w() * (frameCount - 1)) : 0;
+    const double length = (_p->sequence.getFrameCount() - 1) * _p->speed.getDen() / static_cast<double>(_p->speed.getNum());
+    double out = length > 0.0 ? ((value - g.min.x) / g.w() * length) : 0.0;
+    return out;
 }

@@ -6,6 +6,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/../cmake/Module
 
 set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Build optional dependencies")
 
+cmake_policy(SET CMP0091 NEW)
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
+
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -64,7 +67,9 @@ set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     FFmpeg
     JPEGTurbo
     TIFF
-    OpenEXR)
+    OpenEXR
+    #OpenCV
+    )
 if(WIN32)
     set(DJV_THIRD_PARTY_OPTIONAL_DEPS
         ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
