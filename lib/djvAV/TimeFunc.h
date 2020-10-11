@@ -21,17 +21,8 @@ namespace djv
     {
         namespace Time
         {
-            //! \name Utility
-            ///@{
-
-            void sleep(const Duration&);
-
-            ///@}
-
             //! \name Conversion
             ///@{
-
-            Math::Rational getTimebaseRational();
 
             int64_t scale(int64_t, const Math::Rational&, const Math::Rational&) noexcept;
 

@@ -8,11 +8,6 @@ namespace djv
     {
         namespace Time
         {
-            inline Math::Rational getTimebaseRational()
-            {
-                return Math::Rational(1, timebase);
-            }
-            
             inline void secondsToTime(double in, int& hour, int& minute, double& seconds)
             {
                 hour     = static_cast<int>(in / 3600);

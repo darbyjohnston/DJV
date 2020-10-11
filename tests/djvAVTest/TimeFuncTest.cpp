@@ -35,12 +35,6 @@ namespace djv
         void TimeFuncTest::_conversion()
         {
             {
-                std::stringstream ss;
-                ss << "Timebase: " << Time::getTimebaseRational();
-                _print(ss.str());
-            }
-            
-            {
                 int64_t t = 1;
                 int64_t t2 = Time::scale(t, Math::Rational(2, 1), Math::Rational(1, 1));
                 DJV_ASSERT(2 == t2);
