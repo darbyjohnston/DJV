@@ -24,6 +24,13 @@ before_script:
 - mkdir build
 - cd build
 - export DJV_BUILD=$PWD
+- wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
+- tar zxvf cmake-3.18.4.tar.gz
+- cd cmake-3.18.4
+- ./configure --prefix=$DJV_BUILD/DJV-install-Debug
+- make -j 4
+- make install
+- cd ..
 - export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
 - export LD_LIBRARY_PATH=:$LD_LIBRARY_PATH/DJV-install-Debug/lib
 - export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
