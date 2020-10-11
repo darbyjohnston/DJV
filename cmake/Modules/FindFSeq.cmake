@@ -3,8 +3,6 @@
 # This module defines the following variables:
 #
 # * FSeq_FOUND
-# * FSeq_INCLUDE_DIRS
-# * FSeq_LIBRARIES
 #
 # This module defines the following imported targets:
 #
@@ -15,14 +13,12 @@
 # * FSeq
 	
 find_path(FSeq_INCLUDE_DIR NAMES fseq.h)
-set(FSeq_INCLUDE_DIRS ${FSeq_INCLUDE_DIR})
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     find_library(FSeq_LIBRARY NAMES fseq)
 else()
     find_library(FSeq_LIBRARY NAMES fseq)
 endif()
-set(FSeq_LIBRARIES ${FSeq_LIBRARY})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(

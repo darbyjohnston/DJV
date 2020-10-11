@@ -3,8 +3,6 @@
 # This module defines the following variables:
 #
 # * TIFF_FOUND
-# * TIFF_INCLUDE_DIRS
-# * TIFF_LIBRARIES
 #
 # This module defines the following imported targets:
 #
@@ -14,25 +12,13 @@
 #
 # * TIFF
 
-find_package(ZLIB)
-find_package(JPEG)
-
-find_path(TIFF_INCLUDE_DIR
-    NAMES tiff.h)
-set(TIFF_INCLUDE_DIRS
-    ${TIFF_INCLUDE_DIR}
-    ${JPEG_INCLUDE_DIRS}
-    ${ZLIB_INCLUDE_DIRS})
+find_path(TIFF_INCLUDE_DIR NAMES tiff.h)
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     find_library(TIFF_LIBRARY NAMES tiffd tiff)
 else()
     find_library(TIFF_LIBRARY NAMES tiff)
 endif()
-set(TIFF_LIBRARIES
-    ${TIFF_LIBRARY}
-    ${JPEG_LIBRARIES}
-    ${ZLIB_LIBRARIES})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
@@ -42,12 +28,13 @@ mark_as_advanced(TIFF_INCLUDE_DIR TIFF_LIBRARY)
 
 if(TIFF_FOUND AND NOT TARGET TIFF::TIFF)
     add_library(TIFF::TIFF UNKNOWN IMPORTED)
+    find_package(ZLIB)
+    find_package(JPEG)
     set_target_properties(TIFF::TIFF PROPERTIES
         IMPORTED_LOCATION "${TIFF_LIBRARY}"
-        IMPORTED_LINK_INTERFACE_LIBRARIES ZLIB
-        IMPORTED_LINK_INTERFACE_LIBRARIES JPEG
-        INTERFACE_INCLUDE_DIRECTORIES "${TIFF_INCLUDE_DIRS}"
-        INTERFACE_COMPILE_DEFINITIONS TIFF_FOUND)
+        INTERFACE_COMPILE_DEFINITIONS TIFF_FOUND
+        INTERFACE_INCLUDE_DIRECTORIES "${TIFF_INCLUDE_DIR}"
+        INTERFACE_LINK_LIBRARIES "JPEG;ZLIB")
 endif()
 if(TIFF_FOUND AND NOT TARGET TIFF)
     add_library(TIFF INTERFACE)

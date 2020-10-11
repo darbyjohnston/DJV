@@ -3,8 +3,6 @@
 # This module defines the following variables:
 #
 # * glad_FOUND
-# * glad_INCLUDE_DIRS
-# * glad_LIBRARIES
 #
 # This module defines the following imported targets:
 #
@@ -15,14 +13,12 @@
 # * glad
 
 find_path(glad_INCLUDE_DIR NAMES glad.h)
-set(glad_INCLUDE_DIRS ${glad_INCLUDE_DIR})
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     find_library(glad_LIBRARY NAMES glad)
 else()
     find_library(glad_LIBRARY NAMES glad)
 endif()
-set(glad_LIBRARIES ${glad_LIBRARY})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(

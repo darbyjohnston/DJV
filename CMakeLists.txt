@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.18)
 cmake_policy(SET CMP0048 NEW)
+cmake_policy(SET CMP0091 NEW)
 
 set(DJV_VERSION_MAJOR "2")
 set(DJV_VERSION_MINOR "0")
@@ -18,6 +19,8 @@ project(
     LANGUAGES C CXX)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
 
 #-------------------------------------------------------------------------------
 # Options

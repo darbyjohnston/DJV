@@ -11,7 +11,7 @@
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
-#include <RtAudio.h>
+#include <rtaudio/RtAudio.h>
 
 namespace djv
 {

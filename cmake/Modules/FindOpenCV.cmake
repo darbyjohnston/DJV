@@ -3,8 +3,6 @@
 # This module defines the following variables:
 #
 # * OpenCV_FOUND
-# * OpenCV_INCLUDE_DIRS
-# * OpenCV_LIBRARIES
 #
 # This module defines the following imported targets:
 #
@@ -24,19 +22,15 @@
 #
 # * OpenCV
 
-find_path(OpenCV_INCLUDE_DIR
-    NAMES cvconfig.h
-    PATH_SUFFIXES opencv2)
-set(OpenCV_INCLUDE_DIRS ${OpenCV_INCLUDE_DIR})
+find_path(OpenCV_INCLUDE_DIR NAMES opencv2/cvconfig.h PATH_SUFFIXES opencv4)
 
-set(OpenCV_VERSION 440)
-set(OpenCV_LIBRARY_SUFFIXES x64/vc16/staticlib)
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    set(OpenCV_LIBRARY_SUFFIX d)
-else()
-    set(OpenCV_LIBRARY_SUFFIX)
+if(WIN32)
+    set(OpenCV_VERSION 440)
+    set(OpenCV_LIBRARY_SUFFIXES x64/vc16/staticlib)
+    if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+        set(OpenCV_LIBRARY_SUFFIX d)
+    endif()
 endif()
-
 find_library(OpenCV_LIBCALIB3D
     NAMES opencv_calib3d${OpenCV_VERSION}${OpenCV_LIBRARY_SUFFIX}
     PATH_SUFFIXES ${OpenCV_LIBRARY_SUFFIXES})
@@ -70,18 +64,6 @@ find_library(OpenCV_LIBPHOTO
 find_library(OpenCV_LIBSTITCHING
     NAMES opencv_stitching${OpenCV_VERSION}${OpenCV_LIBRARY_SUFFIX}
     PATH_SUFFIXES ${OpenCV_LIBRARY_SUFFIXES})
-set(OpenCV_LIBRARIES
-    ${OpenCV_LIBCALIB3D}
-    ${OpenCV_LIBCORE}
-    ${OpenCV_LIBDNN}
-    ${OpenCV_LIBFEATURES2D}
-    ${OpenCV_LIBFLANN}
-    ${OpenCV_LIBGAPI}
-    ${OpenCV_LIBIMGPROC}
-    ${OpenCV_LIBML}
-    ${OpenCV_LIBOBJDETECT}
-    ${OpenCV_LIBPHOTO}
-    ${OpenCV_LIBSTITCHING})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
@@ -113,104 +95,90 @@ mark_as_advanced(
     OpenCV_LIBPHOTO
     OpenCV_LIBSTITCHING)
 
-set(OpenCV_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/x64/vc16/staticlib)
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    set(OpenCV_LINK_LIBRARIES ade ippicvmt ippiwd ittnotifyd libprotobufd quircd)
-else()
-    set(OpenCV_LINK_LIBRARIES ade ippicvmt ippiw ittnotify libprotobuf quirc)
+if(OpenCV_FOUND AND NOT TARGET OpenCV::core)
+    add_library(OpenCV::core UNKNOWN IMPORTED)
+    find_package(ZLIB REQUIRED)
+    set_target_properties(OpenCV::core PROPERTIES
+        IMPORTED_LOCATION "${OpenCV_LIBCORE}"
+        INTERFACE_COMPILE_DEFINITIONS OpenCV_FOUND
+        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}"
+        INTERFACE_LINK_LIBRARIES ZLIB)
+    if(WIN32)
+	    set_property(TARGET OpenCV::core PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/x64/vc16/staticlib)
+        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+    	    set_property(TARGET OpenCV::core APPEND PROPERTY INTERFACE_LINK_LIBRARIES "ade;ippiwd;ippicvmt;ittnotifyd;libprotobufd;quircd")
+        else()
+            set_property(TARGET OpenCV::core APPEND PROPERTY INTERFACE_LINK_LIBRARIES "ade;ippiw;ippicvmt;ittnotify;libprotobuf;quirc")
+        endif()
+    else()
+	    set_property(TARGET OpenCV::core PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib/opencv4/3rdparty)
+        set_property(TARGET OpenCV::core APPEND PROPERTY INTERFACE_LINK_LIBRARIES "ade;ippiw;ippicv;ittnotify;libprotobuf;quirc")
+    endif()
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::calib3d)
     add_library(OpenCV::calib3d UNKNOWN IMPORTED)
     set_target_properties(OpenCV::calib3d PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBCALIB3D}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
-endif()
-if(OpenCV_FOUND AND NOT TARGET OpenCV::core)
-    add_library(OpenCV::core UNKNOWN IMPORTED)
-    set_target_properties(OpenCV::core PROPERTIES
-        IMPORTED_LOCATION "${OpenCV_LIBCORE}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::dnn)
     add_library(OpenCV::dnn UNKNOWN IMPORTED)
     set_target_properties(OpenCV::dnn PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBDNN}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::features2d)
     add_library(OpenCV::features2d UNKNOWN IMPORTED)
     set_target_properties(OpenCV::features2d PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBFEATURES2D}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::flann)
     add_library(OpenCV::flann UNKNOWN IMPORTED)
     set_target_properties(OpenCV::flann PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBFLANN}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::gapi)
     add_library(OpenCV::gapi UNKNOWN IMPORTED)
     set_target_properties(OpenCV::gapi PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBGAPI}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::imgproc)
     add_library(OpenCV::imgproc UNKNOWN IMPORTED)
     set_target_properties(OpenCV::imgproc PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBIMGPROC}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::ml)
     add_library(OpenCV::ml UNKNOWN IMPORTED)
     set_target_properties(OpenCV::ml PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBML}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::objdetect)
     add_library(OpenCV::objdetect UNKNOWN IMPORTED)
     set_target_properties(OpenCV::objdetect PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBOBJDETECT}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::photo)
     add_library(OpenCV::photo UNKNOWN IMPORTED)
     set_target_properties(OpenCV::photo PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBPHOTO}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV::stitching)
     add_library(OpenCV::stitching UNKNOWN IMPORTED)
     set_target_properties(OpenCV::stitching PROPERTIES
         IMPORTED_LOCATION "${OpenCV_LIBSTITCHING}"
-        INTERFACE_LINK_DIRECTORIES "${OpenCV_LINK_DIRECTORIES}"
-        INTERFACE_LINK_LIBRARIES "${OpenCV_LINK_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIR}")
+        INTERFACE_LINK_LIBRARIES OpenCV::core)
 endif()
 if(OpenCV_FOUND AND NOT TARGET OpenCV)
     add_library(OpenCV INTERFACE)
-    target_link_libraries(OpenCV INTERFACE OpenCV::calib3d)
     target_link_libraries(OpenCV INTERFACE OpenCV::core)
+    target_link_libraries(OpenCV INTERFACE OpenCV::calib3d)
     target_link_libraries(OpenCV INTERFACE OpenCV::dnn)
     target_link_libraries(OpenCV INTERFACE OpenCV::features2d)
     target_link_libraries(OpenCV INTERFACE OpenCV::flann)
@@ -221,3 +189,4 @@ if(OpenCV_FOUND AND NOT TARGET OpenCV)
     target_link_libraries(OpenCV INTERFACE OpenCV::photo)
     target_link_libraries(OpenCV INTERFACE OpenCV::stitching)
 endif()
+

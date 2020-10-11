@@ -3,9 +3,6 @@
 # This module defines the following variables:
 #
 # * OCIO_FOUND
-# * OCIO_INCLUDE_DIRS
-# * OCIO_LIBRARIES
-# * OCIO_DEFINES
 #
 # This module defines the following imported targets:
 #
@@ -15,17 +12,9 @@
 #
 # * OCIO
 
-find_path(OCIO_INCLUDE_DIR
-    NAMES OpenColorIO.h
-    PATH_SUFFIXES OpenColorIO)
-set(OCIO_INCLUDE_DIRS
-    ${OCIO_INCLUDE_DIR})
+find_path(OCIO_INCLUDE_DIR NAMES OpenColorIO/OpenColorIO.h)
 
-find_library(
-	OCIO_LIBRARY NAMES OpenColorIO
-	PATH_SUFFIXES static)
-set(OCIO_LIBRARIES
-    ${OCIO_LIBRARY})
+find_library(OCIO_LIBRARY NAMES OpenColorIO PATH_SUFFIXES static)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
@@ -33,17 +22,14 @@ find_package_handle_standard_args(
     REQUIRED_VARS OCIO_INCLUDE_DIR OCIO_LIBRARY)
 mark_as_advanced(OCIO_INCLUDE_DIR OCIO_LIBRARY)
 
-set(OCIO_DEFINES)
-if(NOT OCIO_SHARED_LIBS)
-	set(OCIO_DEFINES OpenColorIO_STATIC)
-endif()
-
 if(OCIO_FOUND AND NOT TARGET OCIO::OCIO)
     add_library(OCIO::OCIO UNKNOWN IMPORTED)
     set_target_properties(OCIO::OCIO PROPERTIES
         IMPORTED_LOCATION "${OCIO_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${OCIO_INCLUDE_DIRS}"
-		INTERFACE_COMPILE_DEFINITIONS ${OCIO_DEFINES})
+        INTERFACE_INCLUDE_DIRECTORIES "${OCIO_INCLUDE_DIR}")
+    if(NOT OCIO_SHARED_LIBS)
+		set_property(TARGET OCIO::OCIO APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS OpenColorIO_STATIC)
+    endif()
 endif()
 if(OCIO_FOUND AND NOT TARGET OCIO)
     add_library(OCIO INTERFACE)

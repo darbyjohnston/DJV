@@ -3,8 +3,6 @@
 # This module defines the following variables:
 #
 # * OpenNURBS_FOUND
-# * OpenNURBS_INCLUDE_DIRS
-# * OpenNURBS_LIBRARIES
 #
 # This module defines the following imported targets:
 #
@@ -15,14 +13,8 @@
 # * OpenNURBS
 
 find_path(OpenNURBS_INCLUDE_DIR NAMES opennurbs/opennurbs.h)
-set(OpenNURBS_INCLUDE_DIRS ${OpenNURBS_INCLUDE_DIR})
 
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    find_library(OpenNURBS_LIBRARY NAMES opennurbs)
-else()
-    find_library(OpenNURBS_LIBRARY NAMES opennurbs)
-endif()
-set(OpenNURBS_LIBRARIES ${OpenNURBS_LIBRARY})
+find_library(OpenNURBS_LIBRARY NAMES opennurbs)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
@@ -32,15 +24,13 @@ mark_as_advanced(OpenNURBS_INCLUDE_DIR OpenNURBS_LIBRARY)
 
 if(OpenNURBS_FOUND AND NOT TARGET OpenNURBS::OpenNURBS)
     add_library(OpenNURBS::OpenNURBS UNKNOWN IMPORTED)
-    set(OpenNURBS_IMPORTED_LINK_INTERFACE_LIBRARIES)
-    if(WIN32)
-        set(OpenNURBS_IMPORTED_LINK_INTERFACE_LIBRARIES ${OpenNURBS_IMPORTED_LINK_INTERFACE_LIBRARIES} Shlwapi)
-    endif()
     set_target_properties(OpenNURBS::OpenNURBS PROPERTIES
         IMPORTED_LOCATION "${OpenNURBS_LIBRARY}"
-        IMPORTED_LINK_INTERFACE_LIBRARIES ${OpenNURBS_IMPORTED_LINK_INTERFACE_LIBRARIES}
-        INTERFACE_INCLUDE_DIRECTORIES "${OpenNURBS_INCLUDE_DIR}"
-        INTERFACE_COMPILE_DEFINITIONS OpenNURBS_FOUND)
+        INTERFACE_COMPILE_DEFINITIONS OpenNURBS_FOUND
+        INTERFACE_INCLUDE_DIRECTORIES "${OpenNURBS_INCLUDE_DIR}")
+    if(WIN32)
+		set_property(TARGET OpenNURBS::OpenNURBS APPEND PROPERTY INTERFACE_LINK_LIBRARIES Shlwapi)
+    endif()
 endif()
 if(OpenNURBS_FOUND AND NOT TARGET OpenNURBS)
     add_library(OpenNURBS INTERFACE)
