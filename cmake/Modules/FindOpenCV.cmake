@@ -25,7 +25,7 @@
 find_path(OpenCV_INCLUDE_DIR NAMES opencv2/cvconfig.h PATH_SUFFIXES opencv4)
 
 if(WIN32)
-    set(OpenCV_VERSION 440)
+    set(OpenCV_VERSION 450)
     set(OpenCV_LIBRARY_SUFFIXES x64/vc16/staticlib)
     if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
         set(OpenCV_LIBRARY_SUFFIX d)

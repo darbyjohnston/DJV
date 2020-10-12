@@ -5,7 +5,7 @@ ExternalProject_Add(
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenCV
     DEPENDS ZLIB
     GIT_REPOSITORY "https://github.com/opencv/opencv.git"
-    GIT_TAG 4.4.0
+    GIT_TAG 4.5.0
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
