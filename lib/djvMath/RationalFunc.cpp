@@ -8,6 +8,11 @@
 
 namespace djv
 {
+    Math::Rational operator * (const Math::Rational a, const Math::Rational b)
+    {
+        return Math::Rational(a.getNum() * b.getNum(), a.getDen() * b.getDen());
+    }
+
     std::ostream& operator << (std::ostream& os, const Math::Rational& value)
     {
         os << value.getNum() << '/' << value.getDen();

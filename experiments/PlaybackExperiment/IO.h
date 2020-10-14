@@ -21,6 +21,10 @@
 #include <mutex>
 #include <queue>
 
+const djv::Math::Rational timebase(1, 90000);
+typedef int64_t Timestamp;
+const Timestamp seekNone = -1;
+
 class IOInfo
 {
 public:
@@ -40,12 +44,10 @@ class VideoFrame
 public:
     VideoFrame();
     VideoFrame(
-        double time,
-        bool seekFrame,
+        Timestamp,
         const std::shared_ptr<djv::Image::Image>&);
 
-    double                             time      = 0.0;
-    bool                               seekFrame = false;
+    Timestamp                          timestamp = 0;
     std::shared_ptr<djv::Image::Image> image;
 
     bool operator == (const VideoFrame&) const;
@@ -56,12 +58,10 @@ class AudioFrame
 public:
     AudioFrame();
     explicit AudioFrame(
-        double time,
-        bool seekFrame,
+        Timestamp,
         const std::shared_ptr<djv::Audio::Data>&);
 
-    double                            time      = 0.0;
-    bool                              seekFrame = false;
+    Timestamp                         timestamp = 0;
     std::shared_ptr<djv::Audio::Data> audio;
 
     bool operator == (const AudioFrame&) const;
@@ -87,17 +87,18 @@ public:
     bool isFinished() const;
     void setFinished(bool);
 
+    bool isSeek() const;
+    void setSeek(bool);
+
 private:
     size_t _max = 0;
     std::queue<T> _queue;
+    bool _seek = false;
     bool _finished = false;
 };
 
 typedef IOQueue<VideoFrame> VideoQueue;
 typedef IOQueue<AudioFrame> AudioQueue;
-
-const double timeInvalid = std::numeric_limits<double>::min();
-const double seekNone = -1.0;
 
 class IIO : public std::enable_shared_from_this<IIO>
 {
@@ -119,7 +120,7 @@ public:
     AudioQueue& getAudioQueue();
 
     void setPlaybackDirection(PlaybackDirection);
-    virtual void seek(double) = 0;
+    virtual void seek(Timestamp) = 0;
 
 protected:
     std::shared_ptr<djv::System::LogSystem> _logSystem;
@@ -128,7 +129,7 @@ protected:
     VideoQueue _videoQueue;
     AudioQueue _audioQueue;
     PlaybackDirection _playbackDirection = PlaybackDirection::Forward;
-    double _seek = seekNone;
+    Timestamp _seek = seekNone;
 };
 
 class IIOPlugin : public std::enable_shared_from_this<IIOPlugin>

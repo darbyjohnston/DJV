@@ -12,6 +12,8 @@
 
 namespace djv
 {
+    Math::Rational operator * (const Math::Rational, const Math::Rational);
+
     std::ostream& operator << (std::ostream&, const Math::Rational&);
 
     //! Throws:

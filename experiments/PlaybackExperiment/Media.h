@@ -42,16 +42,39 @@ public:
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeAudioQueueSize() const;
 
     std::shared_ptr<djv::Core::Observer::IValueSubject<Playback> > observePlayback() const;
-    std::shared_ptr<djv::Core::Observer::IValueSubject<double> > observeCurrentTime() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<Timestamp> > observeTimestamp() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<float> > observeFPS() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<float> > observeAudioVolume() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<bool> > observeAudioMute() const;
 
     void setPlayback(Playback);
 
-    void seek(double);
+    void seek(Timestamp);
 
 private:
+    bool _hasVideo() const;
+
+    bool _hasAudio() const;
+    bool _hasAudioSyncPlayback() const;
+    void _startAudio();
+    void _stopAudio();
+    static int _rtAudioCallback(
+        void* outputBuffer,
+        void* inputBuffer,
+        unsigned int nFrames,
+        double streamTime,
+        RtAudioStreamStatus status,
+        void* userData);
+    static void _rtAudioErrorCallback(
+        RtAudioError::Type type,
+        const std::string& errorText);
+
+    Timestamp _getTimestamp() const;
     void _tick();
     void _videoTick();
     void _audioTick();
+
+    void _log(const std::string& message, const std::string& what);
 
     DJV_PRIVATE();
 };

@@ -27,18 +27,15 @@ VideoFrame::VideoFrame()
 {}
 
 VideoFrame::VideoFrame(
-    double time,
-    bool seekFrame,
+    Timestamp timestamp,
     const std::shared_ptr<Image::Image>& image) :
-    time(time),
-    seekFrame(seekFrame),
+    timestamp(timestamp),
     image(image)
 {}
 
 bool VideoFrame::operator == (const VideoFrame& other) const
 {
-    return time == other.time &&
-        seekFrame == other.seekFrame &&
+    return timestamp == other.timestamp &&
         image == other.image;
 }
 
@@ -46,19 +43,16 @@ AudioFrame::AudioFrame()
 {}
 
 AudioFrame::AudioFrame(
-    double time,
-    bool seekFrame,
+    Timestamp timestamp,
     const std::shared_ptr<Audio::Data>& audio) :
-    time(time),
-    seekFrame(seekFrame),
+    timestamp(timestamp),
     audio(audio)
 {}
 
 bool AudioFrame::operator == (const AudioFrame& other) const
 {
     return
-        time == other.time &&
-        seekFrame == other.seekFrame &&
+        timestamp == other.timestamp &&
         audio == other.audio;
 }
 
@@ -72,7 +66,7 @@ void IIO::_init(
 
 IIO::IIO() :
     _videoQueue(10),
-    _audioQueue(100)
+    _audioQueue(10)
 {}
 
 IIO::~IIO()

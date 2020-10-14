@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "IO.h"
+
 #include <djvUI/Widget.h>
 
 #include <djvAV/Time.h>
@@ -26,9 +28,9 @@ public:
 
     void setSpeed(const djv::Math::Rational&);
     void setSequence(const djv::Math::Frame::Sequence&);
-    void setTime(const double);
+    void setTime(Timestamp);
 
-    void setCallback(const std::function<void(double)>&);
+    void setCallback(const std::function<void(Timestamp)>&);
 
 protected:
     void _preLayoutEvent(djv::System::Event::PreLayout&) override;
@@ -40,8 +42,8 @@ protected:
     void _buttonReleaseEvent(djv::System::Event::ButtonRelease&) override;
 
 private:
-    float _timeToPos(double) const;
-    double _posToTime(float) const;
+    float _timeToPos(Timestamp) const;
+    Timestamp _posToTime(float) const;
 
     DJV_PRIVATE();
 };

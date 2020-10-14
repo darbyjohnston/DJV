@@ -3,6 +3,7 @@ set(header
     DrawerWidget.h
     Enum.h
     FFmpeg.h
+    FFmpegFunc.h
     IO.h
     IOInline.h
     ImageWidget.h
@@ -13,6 +14,7 @@ set(source
     Application.cpp
     DrawerWidget.cpp
     FFmpeg.cpp
+    FFmpegFunc.cpp
     IO.cpp
     ImageWidget.cpp
     MainWindow.cpp

@@ -27,7 +27,7 @@ public:
 
     std::future<IOInfo> getInfo() override;
 
-    void seek(double) override;
+    void seek(Timestamp) override;
 
 private:
     void _init(const djv::System::File::Info&);
@@ -36,9 +36,8 @@ private:
 
     enum class Decode
     {
-        ReadFrame,
-        SeekSkip,
-        SeekFrame
+        False,
+        True
     };
 
     int _decodeVideo(AVPacket*, Decode);

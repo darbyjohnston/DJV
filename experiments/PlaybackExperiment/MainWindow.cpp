@@ -35,11 +35,13 @@ struct MainWindow::Private
     std::shared_ptr<Media> media;
     IOInfo info;
     Playback playback = Playback::Forward;
-    double currentTime = 0.0;
+    Timestamp timestamp = 0;
+    float fps = 0.F;
 
     std::map<std::string, std::shared_ptr<djv::UI::Action> > actions;
     std::shared_ptr<UI::ActionGroup> playbackActionGroup;
     std::shared_ptr<ImageWidget> imageWidget;
+    std::shared_ptr<UI::Text::Label> speedLabel;
     std::shared_ptr<UI::Text::Label> currentTimeLabel;
     std::shared_ptr<TimelineWidget> timelineWidget;
     std::shared_ptr<UI::Drawer> drawer;
@@ -47,7 +49,8 @@ struct MainWindow::Private
     std::shared_ptr<Core::Observer::Value<IOInfo> > infoObserver;
     std::shared_ptr<Core::Observer::Value<std::shared_ptr<Image::Image> > > imageObserver;
     std::shared_ptr<Core::Observer::Value<Playback> > playbackObserver;
-    std::shared_ptr<Core::Observer::Value<double> > currentTimeObserver;
+    std::shared_ptr<Core::Observer::Value<Timestamp> > timestampObserver;
+    std::shared_ptr<Core::Observer::Value<float> > fpsObserver;
 };
 
 void MainWindow::_init(
@@ -126,6 +129,9 @@ void MainWindow::_init(
     playbackToolBar->addAction(p.actions["Playback/Reverse"]);
     playbackToolBar->addAction(p.actions["Playback/Forward"]);
 
+    p.speedLabel = UI::Text::Label::create(context);
+    p.speedLabel->setSizeString("00.00");
+
     p.currentTimeLabel = UI::Text::Label::create(context);
     p.currentTimeLabel->setSizeString("000000");
 
@@ -154,6 +160,7 @@ void MainWindow::_init(
     hLayout = UI::HorizontalLayout::create(context);
     hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
     hLayout->addChild(playbackToolBar);
+    hLayout->addChild(p.speedLabel);
     hLayout->addChild(p.currentTimeLabel);
     hLayout->addChild(p.timelineWidget);
     hLayout->setStretch(p.timelineWidget, UI::RowStretch::Expand);
@@ -203,7 +210,7 @@ void MainWindow::_init(
         });
 
     p.timelineWidget->setCallback(
-        [weak](double value)
+        [weak](Timestamp value)
         {
             if (auto widget = weak.lock())
             {
@@ -263,13 +270,24 @@ void MainWindow::_init(
             }
         });
 
-    p.currentTimeObserver = Core::Observer::Value<double>::create(
-        media->observeCurrentTime(),
-        [weak](double value)
+    p.timestampObserver = Core::Observer::Value<Timestamp>::create(
+        media->observeTimestamp(),
+        [weak](Timestamp value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_p->currentTime = value;
+                widget->_p->timestamp = value;
+                widget->_widgetUpdate();
+            }
+        });
+
+    p.fpsObserver = Core::Observer::Value<float>::create(
+        media->observeFPS(),
+        [weak](float value)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_p->fps = value;
                 widget->_widgetUpdate();
             }
         });
@@ -307,11 +325,25 @@ void MainWindow::_widgetUpdate()
 {
     DJV_PRIVATE_PTR();
 
-    std::stringstream ss;
-    ss << p.currentTime * p.info.videoSpeed.getNum() / p.info.videoSpeed.getDen();
-    p.currentTimeLabel->setText(ss.str());
+    int64_t t = 0;
+    if (p.info.videoSpeed.isValid())
+    {
+        t = AV::Time::scale(p.timestamp, timebase, p.info.videoSpeed.swap());
+    }
+
+    {
+        std::stringstream ss;
+        ss.precision(2);
+        ss << std::fixed << p.fps;
+        p.speedLabel->setText(ss.str());
+    }
+    {
+        std::stringstream ss;
+        ss << t;
+        p.currentTimeLabel->setText(ss.str());
+    }
 
     p.timelineWidget->setSpeed(p.info.videoSpeed);
     p.timelineWidget->setSequence(p.info.videoSequence);
-    p.timelineWidget->setTime(p.currentTime);
+    p.timelineWidget->setTime(p.timestamp);
 }

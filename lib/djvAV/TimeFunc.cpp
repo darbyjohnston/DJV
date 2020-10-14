@@ -27,14 +27,10 @@ namespace djv
                 const int64_t b = br.getNum() * static_cast<int64_t>(cr.getDen());
                 const int64_t c = cr.getNum() * static_cast<int64_t>(br.getDen());
                 //! \bug The FFmpeg documentation for av_rescale_q() says that this can overflow?
-                if (b <= INT_MAX && c <= INT_MAX)
+                //if (b <= INT_MAX && c <= INT_MAX)
                 {
                     const int64_t r = c / 2;
                     out = (value * b + r) / c;
-                }
-                else
-                {
-                    DJV_ASSERT(0);
                 }
                 return out;
             }

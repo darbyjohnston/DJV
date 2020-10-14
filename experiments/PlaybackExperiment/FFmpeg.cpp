@@ -4,8 +4,12 @@
 
 #include "FFmpeg.h"
 
+#include "FFmpegFunc.h"
+
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/TimerFunc.h>
+
+#include <djvMath/RationalFunc.h>
 
 extern "C"
 {
@@ -20,28 +24,6 @@ extern "C"
 #include <thread>
 
 using namespace djv;
-
-namespace
-{
-    Audio::Type toAudioType(AVSampleFormat value)
-    {
-        Audio::Type out = Audio::Type::None;
-        switch (value)
-        {
-        case AV_SAMPLE_FMT_S16:  out = Audio::Type::S16; break;
-        case AV_SAMPLE_FMT_S32:  out = Audio::Type::S32; break;
-        case AV_SAMPLE_FMT_FLT:  out = Audio::Type::F32; break;
-        case AV_SAMPLE_FMT_DBL:  out = Audio::Type::F64; break;
-        case AV_SAMPLE_FMT_S16P: out = Audio::Type::S16; break;
-        case AV_SAMPLE_FMT_S32P: out = Audio::Type::S32; break;
-        case AV_SAMPLE_FMT_FLTP: out = Audio::Type::F32; break;
-        case AV_SAMPLE_FMT_DBLP: out = Audio::Type::F64; break;
-        default: break;
-        }
-        return out;
-    }
-
-} // namespace
 
 struct FFmpegIO::Private
 {
@@ -60,8 +42,8 @@ struct FFmpegIO::Private
     AVFrame* avFrameRgb = nullptr;
     SwsContext* swsContext = nullptr;
 
-    double videoTime = timeInvalid;
-    double audioTime = timeInvalid;
+    Timestamp videoTimestamp = timestampInvalid;
+    Timestamp audioTimestamp = timestampInvalid;
 };
 
 void FFmpegIO::_init(
@@ -116,7 +98,7 @@ std::future<IOInfo> FFmpegIO::getInfo()
     return _p->infoPromise.get_future();
 }
 
-void FFmpegIO::seek(double value)
+void FFmpegIO::seek(Timestamp value)
 {
     {
         std::lock_guard<std::mutex> lock(_mutex);
@@ -232,23 +214,17 @@ void FFmpegIO::_init(const System::File::Info& info)
         imageInfo.codec = avVideoCodec->long_name;
         if (avVideoStream->duration != AV_NOPTS_VALUE)
         {
-            AVRational r;
-            r.num = avVideoStream->r_frame_rate.den;
-            r.den = avVideoStream->r_frame_rate.num;
             sequenceSize = av_rescale_q(
                 avVideoStream->duration,
                 avVideoStream->time_base,
-                r);
+                av_inv_q(avVideoStream->r_frame_rate));
         }
         else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
         {
-            AVRational r;
-            r.num = avVideoStream->r_frame_rate.den;
-            r.den = avVideoStream->r_frame_rate.num;
             sequenceSize = av_rescale_q(
                 p.avFormatContext->duration,
                 av_get_time_base_q(),
-                r);
+                av_inv_q(avVideoStream->r_frame_rate));
         }
         p.info.videoSpeed = Math::Rational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
         p.info.videoSequence = Math::Frame::Sequence(Math::Frame::Range(1, sequenceSize));
@@ -259,7 +235,7 @@ void FFmpegIO::_init(const System::File::Info& info)
     {
         auto avAudioStream = p.avFormatContext->streams[p.avAudioStream];
         auto avAudioCodecParameters = avAudioStream->codecpar;
-        Audio::Type audioType = toAudioType(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
+        Audio::Type audioType = fromFFmpeg(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
         if (Audio::Type::None == audioType)
         {
             std::stringstream ss;
@@ -335,7 +311,7 @@ void FFmpegIO::_work()
     while (p.running)
     {
         bool read = false;
-        double seek = seekNone;
+        Timestamp seek = seekNone;
         {
             std::unique_lock<std::mutex> lock(_mutex);
             if (p.queueCV.wait_for(
@@ -353,8 +329,10 @@ void FFmpegIO::_work()
                 {
                     seek = _seek;
                     _seek = seekNone;
+                    _videoQueue.setSeek(true);
                     _videoQueue.setFinished(false);
                     _videoQueue.clearFrames();
+                    _audioQueue.setSeek(true);
                     _audioQueue.setFinished(false);
                     _audioQueue.clearFrames();
                 }
@@ -366,19 +344,20 @@ void FFmpegIO::_work()
         {
             if (seek != seekNone)
             {
-                int64_t t = 0;
+                Timestamp ts = 0;
                 int stream = -1;
+                Timestamp sub = 0;
                 if (p.avVideoStream != -1)
                 {
                     stream = p.avVideoStream;
-                    const AVRational r = p.avFormatContext->streams[p.avVideoStream]->time_base;
-                    t = seek * r.den / r.num;
+                    ts = av_rescale_q(seek, toFFmpeg(timebase), p.avFormatContext->streams[p.avVideoStream]->time_base);
+                    sub = av_rescale_q(1, toFFmpeg(p.info.videoSpeed.swap()), toFFmpeg(timebase));
                 }
                 else if (p.avAudioStream != -1)
                 {
                     stream = p.avAudioStream;
-                    const AVRational r = p.avFormatContext->streams[p.avAudioStream]->time_base;
-                    t = seek * r.den / r.num;
+                    ts = av_rescale_q(seek, toFFmpeg(timebase), p.avFormatContext->streams[p.avVideoStream]->time_base);
+                    sub = av_rescale_q(1, av_make_q(p.info.audio.sampleRate, 1), toFFmpeg(timebase));
                 }
                 if (p.avVideoStream != -1)
                 {
@@ -391,40 +370,41 @@ void FFmpegIO::_work()
                 if (av_seek_frame(
                     p.avFormatContext,
                     stream,
-                    t,
+                    ts,
                     AVSEEK_FLAG_BACKWARD) < 0)
                 {
                     throw std::exception();
                 }
-                p.videoTime = timeInvalid;
-                p.audioTime = timeInvalid;
-                while ((p.avVideoStream != -1 && p.videoTime < seek - 1) ||
-                    (p.avAudioStream != -1 && p.audioTime < seek - 1))
+                //std::cout << "FFmpeg seek: " << seek << " / " << ts << std::endl;
+                p.videoTimestamp = timestampInvalid;
+                p.audioTimestamp = timestampInvalid;
+                while ((p.avVideoStream != -1 && p.videoTimestamp < seek - sub) ||
+                    (p.avAudioStream != -1 && p.audioTimestamp < seek - sub))
                 {
                     if (av_read_frame(p.avFormatContext, &packet) < 0)
                     {
                         if (p.avVideoStream != -1)
                         {
-                            _decodeVideo(nullptr, Decode::SeekSkip);
+                            _decodeVideo(nullptr, Decode::False);
                             avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                         }
                         if (p.avAudioStream != -1)
                         {
-                            _decodeAudio(nullptr, Decode::SeekSkip);
+                            _decodeAudio(nullptr, Decode::False);
                             avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                         }
                         throw std::exception();
                     }
                     if (p.avVideoStream == packet.stream_index)
                     {
-                        if (_decodeVideo(&packet, Decode::SeekSkip) < 0)
+                        if (_decodeVideo(&packet, Decode::False) < 0)
                         {
                             throw std::exception();
                         }
                     }
                     else if (p.avAudioStream == packet.stream_index)
                     {
-                        if (_decodeAudio(&packet, Decode::SeekSkip) < 0)
+                        if (_decodeAudio(&packet, Decode::False) < 0)
                         {
                             throw std::exception();
                         }
@@ -439,26 +419,26 @@ void FFmpegIO::_work()
                 {
                     if (p.avVideoStream != -1)
                     {
-                        _decodeVideo(nullptr, Decode::ReadFrame);
+                        _decodeVideo(nullptr, Decode::True);
                         avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                     }
                     if (p.avAudioStream != -1)
                     {
-                        _decodeAudio(nullptr, Decode::ReadFrame);
+                        _decodeAudio(nullptr, Decode::True);
                         avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                     }
                     throw std::exception();
                 }
                 if (p.avVideoStream == packet.stream_index)
                 {
-                    if (_decodeVideo(&packet, seek != seekNone ? Decode::SeekFrame : Decode::ReadFrame) < 0)
+                    if (_decodeVideo(&packet, Decode::True) < 0)
                     {
                         throw std::exception();
                     }
                 }
                 else if (p.avAudioStream == packet.stream_index)
                 {
-                    if (_decodeAudio(&packet, seek != seekNone ? Decode::SeekFrame : Decode::ReadFrame) < 0)
+                    if (_decodeAudio(&packet, Decode::True) < 0)
                     {
                         throw std::exception();
                     }
@@ -525,10 +505,13 @@ int FFmpegIO::_decodeVideo(AVPacket* packet, Decode decode)
             break;
         }
 
-        const AVRational r = p.avFormatContext->streams[p.avVideoStream]->time_base;
-        p.videoTime = p.avFrame->pts * r.num / static_cast<double>(r.den);
+        p.videoTimestamp = av_rescale_q(
+            p.avFrame->pts,
+            p.avFormatContext->streams[p.avVideoStream]->time_base,
+            toFFmpeg(timebase));
+        //std::cout << "FFmpeg video: " << p.videoTimestamp << " / " << static_cast<int>(decode) << std::endl;
 
-        if (decode != Decode::SeekSkip)
+        if (Decode::True == decode)
         {
             Image::Info imageInfo;
             if (p.info.video.size())
@@ -560,7 +543,7 @@ int FFmpegIO::_decodeVideo(AVPacket* packet, Decode decode)
 
             {
                 std::lock_guard<std::mutex> lock(_mutex);
-                _videoQueue.addFrame(VideoFrame(p.videoTime, Decode::SeekFrame == decode, image));
+                _videoQueue.addFrame(VideoFrame(p.videoTimestamp, image));
             }
         }
     }
@@ -584,17 +567,25 @@ int FFmpegIO::_decodeAudio(AVPacket* packet, Decode decode)
             break;
         }
 
-        const AVRational r = p.avFormatContext->streams[p.avAudioStream]->time_base;
-        p.audioTime = p.avFrame->pts * r.num / static_cast<double>(r.den);
+        p.audioTimestamp = av_rescale_q(
+            p.avFrame->pts,
+            p.avFormatContext->streams[p.avAudioStream]->time_base,
+            toFFmpeg(timebase));
+        //std::cout << "FFmpeg audio: " << p.audioTimestamp << " / " << static_cast<int>(decode) << std::endl;
 
-        if (decode != Decode::SeekSkip)
+        if (Decode::True == decode)
         {
             auto audioInfo = p.info.audio;
             audioInfo.sampleCount = p.avFrame->nb_samples;
             auto audioData = Audio::Data::create(audioInfo);
+            extractAudio(
+                p.avFrame->data,
+                p.avCodecParameters[p.avAudioStream]->format,
+                p.avCodecParameters[p.avAudioStream]->channels,
+                audioData);
             {
                 std::lock_guard<std::mutex> lock(_mutex);
-                _audioQueue.addFrame(AudioFrame(p.audioTime, Decode::SeekFrame == decode, audioData));
+                _audioQueue.addFrame(AudioFrame(p.audioTimestamp, audioData));
             }
         }
     }

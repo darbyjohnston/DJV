@@ -65,6 +65,18 @@ inline void IOQueue<T>::clearFrames()
 }
 
 template<typename T>
+inline bool IOQueue<T>::isSeek() const
+{
+    return _seek;
+}
+
+template<typename T>
+inline void IOQueue<T>::setSeek(bool value)
+{
+    _seek = value;
+}
+
+template<typename T>
 inline bool IOQueue<T>::isFinished() const
 {
     return _finished;
