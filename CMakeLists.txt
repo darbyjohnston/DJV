@@ -175,7 +175,7 @@ set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     JPEG
     TIFF
     OpenEXR
-    OpenCV
+    #OpenCV
     )
 if(WIN32)
     set(DJV_THIRD_PARTY_OPTIONAL_DEPS
