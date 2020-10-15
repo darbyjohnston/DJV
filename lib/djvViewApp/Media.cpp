@@ -11,8 +11,8 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/TimeFunc.h>
 
-#include <djvAudio/AudioDataFunc.h>
 #include <djvAudio/AudioSystem.h>
+#include <djvAudio/DataFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfoFunc.h>
@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<Observer::ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<Observer::ValueSubject<Math::Frame::Sequence> > sequence;
             std::shared_ptr<Observer::ValueSubject<Math::Frame::Index> > currentFrame;
-            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Image> > > currentImage;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Data> > > currentImage;
             std::shared_ptr<Observer::ValueSubject<Playback> > playback;
             std::shared_ptr<Observer::ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<Observer::ValueSubject<AV::IO::InOutPoints> > inOutPoints;
@@ -119,7 +119,7 @@ namespace djv
             p.playEveryFrame = Observer::ValueSubject<bool>::create(false);
             p.sequence = Observer::ValueSubject<Math::Frame::Sequence>::create();
             p.currentFrame = Observer::ValueSubject<Math::Frame::Index>::create(Math::Frame::invalid);
-            p.currentImage = Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
+            p.currentImage = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
             p.playback = Observer::ValueSubject<Playback>::create(Playback::First);
             p.playbackMode = Observer::ValueSubject<PlaybackMode>::create(PlaybackMode::First);
             p.inOutPoints = Observer::ValueSubject<AV::IO::InOutPoints>::create();
@@ -275,7 +275,7 @@ namespace djv
             setLayer(layer);
         }
 
-        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Image> > > Media::observeCurrentImage() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Data> > > Media::observeCurrentImage() const
         {
             return _p->currentImage;
         }
@@ -1233,7 +1233,7 @@ namespace djv
                         p.realSpeedTime = now;
                         p.realSpeedFrameCount = 0;
                     }
-                    p.currentImage->setIfChanged(frame.image);
+                    p.currentImage->setIfChanged(frame.data);
                     if (p.playEveryFrame->get())
                     {
                         _setCurrentFrame(frame.frame);
@@ -1284,7 +1284,7 @@ namespace djv
                     auto frame = queue.getFrame();
                     frames.push_back(frame);
                     queue.popFrame();
-                    sampleCount += frame.audio->getSampleCount();
+                    sampleCount += frame.data->getSampleCount();
                 }
             }
 
@@ -1320,14 +1320,14 @@ namespace djv
             // Process the frames.
             for (const auto& i : frames)
             {
-                media->_p->audioData = i.audio;
-                size_t size = std::min(i.audio->getSampleCount(), outputSampleCount);
+                media->_p->audioData = i.data;
+                size_t size = std::min(i.data->getSampleCount(), outputSampleCount);
                 //memcpy(
                 //    p,
                 //    i.audio->getData(),
                 //    size * sampleByteCount);
                 Audio::volume(
-                    i.audio->getData(),
+                    i.data->getData(),
                     p,
                     volume,
                     size,

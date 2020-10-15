@@ -1,17 +1,19 @@
 set(header
-    AudioDataFuncTest.h
-    AudioDataTest.h
-    AudioFuncTest.h
     AudioSystemFuncTest.h
     AudioSystemTest.h
-    AudioTest.h)
+    DataFuncTest.h
+    DataTest.h
+    InfoTest.h
+    TypeFuncTest.h
+    TypeTest.h)
 set(source
-    AudioDataFuncTest.cpp
-    AudioDataTest.cpp
-    AudioFuncTest.cpp
     AudioSystemFuncTest.cpp
     AudioSystemTest.cpp
-    AudioTest.cpp)
+    DataFuncTest.cpp
+    DataTest.cpp
+    InfoTest.cpp
+    TypeFuncTest.cpp
+    TypeTest.cpp)
 
 add_library(djvAudioTest ${header} ${source})
 target_link_libraries(djvAudioTest djvTestLib djvAudio)

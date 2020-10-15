@@ -7,7 +7,7 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
-#include <djvImage/ImageDataFunc.h>
+#include <djvImage/InfoFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/ResourceSystem.h>
@@ -109,7 +109,7 @@ namespace djv
                 }
                 
                 // Wait for and collect images.
-                std::vector<std::shared_ptr<Image::Image> > images;
+                std::vector<std::shared_ptr<Image::Data> > images;
                 while (!imageFutures.empty())
                 {
                     _tickFor(System::getTimerDuration(System::TimerValue::Fast));

@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Image
     {
-        class Image;
+        class Data;
 
     } // namespace Image
 
@@ -41,9 +41,9 @@ namespace djv
             //! \name Image
             ///@{
 
-            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Image> > > observeImage() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Data> > > observeImage() const;
 
-            void setImage(const std::shared_ptr<Image::Image>&);
+            void setImage(const std::shared_ptr<Image::Data>&);
 
             ///@}
 

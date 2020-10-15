@@ -7,7 +7,7 @@
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/File.h>
@@ -74,7 +74,7 @@ namespace djv
                 size_t key;
                 System::File::Path path;
                 std::shared_ptr<AV::IO::IRead> read;
-                std::promise<std::shared_ptr<Image::Image> > promise;
+                std::promise<std::shared_ptr<Image::Data> > promise;
             };
 
         } // namespace
@@ -90,7 +90,7 @@ namespace djv
             std::list<ImageRequest> newImageRequests;
             std::list<ImageRequest> pendingImageRequests;
 
-            Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
+            Memory::Cache<size_t, std::shared_ptr<Image::Data> > imageCache;
             std::atomic<float> imageCachePercentage;
 
             std::shared_ptr<System::Timer> statsTimer;
@@ -213,7 +213,7 @@ namespace djv
             return out;
         }
 
-        std::future<std::shared_ptr<Image::Image> > IconSystem::getIcon(const std::string& name, float size)
+        std::future<std::shared_ptr<Image::Data> > IconSystem::getIcon(const std::string& name, float size)
         {
             DJV_PRIVATE_PTR();
             ImageRequest request(name, static_cast<uint16_t>(Math::clamp(size, 0.F, 65535.F)));
@@ -238,7 +238,7 @@ namespace djv
             // Process new requests.
             for (auto& i : p.newImageRequests)
             {
-                std::shared_ptr<Image::Image> image;
+                std::shared_ptr<Image::Data> image;
                 p.imageCache.get(i.key, image);
                 if (!image)
                 {
@@ -272,14 +272,14 @@ namespace djv
             auto i = p.pendingImageRequests.begin();
             while (i != p.pendingImageRequests.end())
             {
-                std::shared_ptr<Image::Image> image;
+                std::shared_ptr<Image::Data> image;
                 bool finished = false;
                 {
                     std::lock_guard<std::mutex> lock(i->read->getMutex());
                     auto& queue = i->read->getVideoQueue();
                     if (!queue.isEmpty())
                     {
-                        image = queue.getFrame().image;
+                        image = queue.getFrame().data;
                     }
                     else if (queue.isFinished())
                     {

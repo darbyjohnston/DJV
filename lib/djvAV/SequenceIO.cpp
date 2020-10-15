@@ -43,7 +43,7 @@ namespace djv
             struct ISequenceRead::Future
             {
                 Math::Frame::Number frame = Math::Frame::invalid;
-                std::shared_ptr<Image::Image> image;
+                std::shared_ptr<Image::Data> image;
             };
 
             struct ISequenceRead::Private
@@ -317,11 +317,11 @@ namespace djv
 
                 // Get frames to be added to the queue.
                 const size_t sequenceFrameCount = _sequence.getFrameCount();
-                std::vector<std::pair<Math::Frame::Number, std::shared_ptr<Image::Image> > > images;
+                std::vector<std::pair<Math::Frame::Number, std::shared_ptr<Image::Data> > > images;
                 std::vector<std::future<Future> > futures;
                 for (size_t i = 0; i < count; ++i)
                 {
-                    std::shared_ptr<Image::Image> cachedImage;
+                    std::shared_ptr<Image::Data> cachedImage;
                     if (cacheEnabled && _cache.get(p.frame, cachedImage))
                     {
                         images.push_back(std::make_pair(p.frame, cachedImage));
@@ -584,7 +584,7 @@ namespace djv
                         const auto timeout = System::getTimerValue(System::TimerValue::VeryFast);
                         while (p.running)
                         {
-                            std::vector<std::shared_ptr<Image::Image> > images;
+                            std::vector<std::shared_ptr<Image::Data> > images;
                             {
                                 std::unique_lock<std::mutex> lock(_mutex, std::try_to_lock);
                                 if (lock.owns_lock())
@@ -592,7 +592,7 @@ namespace djv
                                     while (!_videoQueue.isEmpty() && images.size() < _threadCount)
                                     {
                                         auto frame = _videoQueue.popFrame();
-                                        images.push_back(frame.image);
+                                        images.push_back(frame.data);
                                     }
                                     if (_videoQueue.isEmpty() && _videoQueue.isFinished())
                                     {
@@ -633,7 +633,7 @@ namespace djv
                                     if (imageType != image->getType() || imageLayout != image->getLayout())
                                     {
                                         const Image::Info imageInfo(image->getSize(), imageType, imageLayout);
-                                        auto tmp = Image::Image::create(imageInfo);
+                                        auto tmp = Image::Data::create(imageInfo);
                                         tmp->setTags(image->getTags());
                                         p.convert->process(*image, imageInfo, *tmp);
                                         image = tmp;

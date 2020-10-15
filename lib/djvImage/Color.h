@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvImage/Pixel.h>
+#include <djvImage/Type.h>
 
 namespace djv
 {

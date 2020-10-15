@@ -15,7 +15,7 @@ using namespace djv;
 
 struct ImageWidget::Private
 {
-    std::shared_ptr<Image::Image> image;
+    std::shared_ptr<Image::Data> image;
 };
 
 void ImageWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -37,7 +37,7 @@ std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<System::C
     return out;
 }
 
-void ImageWidget::setImage(const std::shared_ptr<Image::Image>& value)
+void ImageWidget::setImage(const std::shared_ptr<Image::Data>& value)
 {
     DJV_PRIVATE_PTR();
     if (p.image == value)

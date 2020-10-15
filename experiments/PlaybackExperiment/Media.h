@@ -11,7 +11,7 @@
 
 #include <djvAV/Time.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/FileInfo.h>
 
@@ -37,7 +37,7 @@ public:
     const djv::System::File::Info& getFileInfo() const;
 
     std::shared_ptr<djv::Core::Observer::IValueSubject<IOInfo> > observeInfo() const;
-    std::shared_ptr<djv::Core::Observer::IValueSubject<std::shared_ptr<djv::Image::Image> > > observeCurrentImage() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<std::shared_ptr<djv::Image::Data> > > observeCurrentImage() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeVideoQueueSize() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeAudioQueueSize() const;
 

@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvImage/PixelFunc.h>
+#include <djvImage/TypeFunc.h>
 
 namespace djv
 {

@@ -10,7 +10,7 @@
 
 #include <djvAV/IO.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 
@@ -28,8 +28,8 @@ namespace djv
             ColorRole iconColorRole = ColorRole::Foreground;
             MetricsRole iconSizeRole = MetricsRole::Icon;
 
-            std::future<std::shared_ptr<Image::Image> > imageFuture;
-            std::shared_ptr<Image::Image> image;
+            std::future<std::shared_ptr<Image::Data> > imageFuture;
+            std::shared_ptr<Image::Data> image;
 
             Math::BBox2f paintGeometry = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
             glm::vec2 paintCenter = glm::vec2(0.F, 0.F);
@@ -68,7 +68,7 @@ namespace djv
             {
                 if (value == p.name)
                     return;
-                p.imageFuture = std::future<std::shared_ptr<Image::Image> >();
+                p.imageFuture = std::future<std::shared_ptr<Image::Data> >();
                 p.name = value;
                 if (!p.name.empty())
                 {

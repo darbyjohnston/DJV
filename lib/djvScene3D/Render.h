@@ -7,7 +7,7 @@
 #include <djvRender3D/Render.h>
 #include <djvRender3D/Material.h>
 
-#include <djvImage/ImageData.h>
+#include <djvImage/Info.h>
 
 #include <glm/mat4x4.hpp>
 

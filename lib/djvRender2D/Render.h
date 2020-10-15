@@ -8,7 +8,7 @@
 #include <djvRender2D/Enum.h>
 #include <djvRender2D/FontSystem.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/ISystem.h>
 
@@ -25,6 +25,7 @@ namespace djv
     namespace Image
     {
         class Color;
+        class Data;
 
     } // namespace Image
 
@@ -104,12 +105,12 @@ namespace djv
             void setImageFilterOptions(const ImageFilterOptions&);
 
             void drawImage(
-                const std::shared_ptr<Image::Image>&,
+                const std::shared_ptr<Image::Data>&,
                 const glm::vec2& pos,
                 const ImageOptions& = ImageOptions());
 
             void drawFilledImage(
-                const std::shared_ptr<Image::Image>&,
+                const std::shared_ptr<Image::Data>&,
                 const glm::vec2& pos,
                 const ImageOptions& = ImageOptions());
 

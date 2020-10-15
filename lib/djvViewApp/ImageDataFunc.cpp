@@ -11,7 +11,7 @@
 #include <djvRender2D/DataFunc.h>
 #include <djvRender2D/EnumFunc.h>
 
-#include <djvImage/ImageDataFunc.h>
+#include <djvImage/InfoFunc.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

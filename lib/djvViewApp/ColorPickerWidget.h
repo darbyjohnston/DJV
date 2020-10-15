@@ -7,8 +7,6 @@
 #include <djvViewApp/ColorPickerData.h>
 #include <djvViewApp/MDIWidget.h>
 
-#include <djvImage/Pixel.h>
-
 namespace djv
 {
     namespace ViewApp

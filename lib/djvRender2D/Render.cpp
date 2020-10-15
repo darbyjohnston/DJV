@@ -17,6 +17,7 @@
 #include <djvGeom/TriangleMesh.h>
 
 #include <djvImage/Color.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileIO.h>
@@ -78,7 +79,7 @@ namespace djv
             void vboDataSizeUpdate(size_t);
 
             void drawImage(
-                const std::shared_ptr<Image::Image>&,
+                const std::shared_ptr<Image::Data>&,
                 const glm::vec2& pos,
                 const ImageOptions&,
                 ColorMode,
@@ -645,7 +646,7 @@ namespace djv
         }
 
         void Render::drawImage(
-            const std::shared_ptr<Image::Image>& image,
+            const std::shared_ptr<Image::Data>& image,
             const glm::vec2& pos,
             const ImageOptions& options)
         {
@@ -654,7 +655,7 @@ namespace djv
         }
 
         void Render::drawFilledImage(
-            const std::shared_ptr<Image::Image>& image,
+            const std::shared_ptr<Image::Data>& image,
             const glm::vec2& pos,
             const ImageOptions& options)
         {
@@ -1141,7 +1142,7 @@ namespace djv
         }
 
         void Render::Private::drawImage(
-            const std::shared_ptr<Image::Image>& image,
+            const std::shared_ptr<Image::Data>& image,
             const glm::vec2& pos,
             const ImageOptions& options,
             ColorMode colorMode,

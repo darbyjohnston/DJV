@@ -65,12 +65,12 @@ namespace djv
                     return _open(fileName, f);
                 }
 
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
+                std::shared_ptr<Image::Data> Read::_readImage(const std::string& fileName)
                 {
-                    std::shared_ptr<Image::Image> out;
+                    std::shared_ptr<Image::Data> out;
                     File f;
                     const auto info = _open(fileName, f);
-                    out = Image::Image::create(info.video[0]);
+                    out = Image::Data::create(info.video[0]);
                     out->setPluginName(pluginName);
                     for (uint16_t y = 0; y < info.video[0].size.h; ++y)
                     {

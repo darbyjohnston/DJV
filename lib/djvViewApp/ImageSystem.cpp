@@ -23,7 +23,7 @@
 
 #include <djvRender2D/Render.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
@@ -45,8 +45,8 @@ namespace djv
             std::map<std::string, bool> colorSpaceBellowsState;
             ImageData data;
             std::shared_ptr<Observer::ValueSubject<bool> > frameStoreEnabled;
-            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Image> > > frameStore;
-            std::shared_ptr<Image::Image> currentImage;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Data> > > frameStore;
+            std::shared_ptr<Image::Data> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
@@ -56,7 +56,7 @@ namespace djv
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
 
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > currentImageObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > currentImageObserver;
             std::shared_ptr<Observer::Value<ImageData> > dataObserver;
             std::shared_ptr<Observer::Map<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
@@ -73,7 +73,7 @@ namespace djv
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = Observer::ValueSubject<bool>::create();
-            p.frameStore = Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
+            p.frameStore = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
 
             p.actions["ImageControls"] = UI::Action::create();
             p.actions["ImageControls"]->setButtonType(UI::ButtonType::Toggle);
@@ -243,9 +243,9 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_p->currentImageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
+                                system->_p->currentImageObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
                                     value->observeCurrentImage(),
-                                    [weak](const std::shared_ptr<Image::Image>& value)
+                                    [weak](const std::shared_ptr<Image::Data>& value)
                                     {
                                         if (auto system = weak.lock())
                                         {
@@ -306,7 +306,7 @@ namespace djv
             return _p->frameStoreEnabled;
         }
 
-        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Image> > > ImageSystem::observeFrameStore() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Data> > > ImageSystem::observeFrameStore() const
         {
             return _p->frameStore;
         }

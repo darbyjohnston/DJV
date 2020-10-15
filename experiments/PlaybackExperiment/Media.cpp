@@ -7,8 +7,8 @@
 #include <djvAV/Time.h>
 #include <djvAV/TimeFunc.h>
 
-#include <djvAudio/AudioDataFunc.h>
 #include <djvAudio/AudioSystem.h>
+#include <djvAudio/DataFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
@@ -34,7 +34,7 @@ struct Media::Private
     System::File::Info fileInfo;
     std::shared_ptr<IIO> read;
     std::shared_ptr<Core::Observer::ValueSubject<IOInfo> > info;
-    std::shared_ptr<Core::Observer::ValueSubject<std::shared_ptr<Image::Image> > > image;
+    std::shared_ptr<Core::Observer::ValueSubject<std::shared_ptr<Image::Data> > > image;
     std::shared_ptr<Core::Observer::ValueSubject<size_t> > videoQueueSize;
     std::shared_ptr<Core::Observer::ValueSubject<size_t> > audioQueueSize;
     std::shared_ptr<Core::Observer::ValueSubject<Playback> > playback;
@@ -64,7 +64,7 @@ void Media::_init(
     p.context = context;
     p.fileInfo = fileInfo;
     p.info = Core::Observer::ValueSubject<IOInfo>::create();
-    p.image = Core::Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
+    p.image = Core::Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
     p.videoQueueSize = Core::Observer::ValueSubject<size_t>::create();
     p.audioQueueSize = Core::Observer::ValueSubject<size_t>::create();
     p.playback = Core::Observer::ValueSubject<Playback>::create();
@@ -153,7 +153,7 @@ std::shared_ptr<Core::Observer::IValueSubject<IOInfo> > Media::observeInfo() con
     return _p->info;
 }
 
-std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Image> > > Media::observeCurrentImage() const
+std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Data> > > Media::observeCurrentImage() const
 {
     return _p->image;
 }
@@ -324,7 +324,7 @@ int Media::_rtAudioCallback(
             auto frame = queue.getFrame();
             frames.push_back(frame);
             queue.popFrame();
-            sampleCount += frame.audio->getSampleCount();
+            sampleCount += frame.data->getSampleCount();
         }
     }
 
@@ -360,14 +360,14 @@ int Media::_rtAudioCallback(
     // Process the frames.
     for (const auto& i : frames)
     {
-        media->_p->audioData = i.audio;
-        size_t size = std::min(i.audio->getSampleCount(), outputSampleCount);
+        media->_p->audioData = i.data;
+        size_t size = std::min(i.data->getSampleCount(), outputSampleCount);
         //memcpy(
         //    p,
         //    i.audio->getData(),
         //    size * sampleByteCount);
         Audio::volume(
-            i.audio->getData(),
+            i.data->getData(),
             p,
             volume,
             size,
@@ -475,7 +475,7 @@ void Media::_videoTick()
 
     if (valid)
     {
-        p.image->setIfChanged(frame.image);
+        p.image->setIfChanged(frame.data);
         p.timestamp->setIfChanged(frame.timestamp);
         p.videoQueueSize->setAlways(queueSize);
     }

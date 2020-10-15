@@ -18,7 +18,7 @@
 
 #include <djvOCIO/OCIOSystem.h>
 
-#include <djvImage/ImageDataFunc.h>
+#include <djvImage/InfoFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfoFunc.h>
@@ -59,7 +59,7 @@ namespace djv
 
                     bool thumbnailInit = true;
                     Image::Size thumbnailSize = Image::Size(100, 50);
-                    std::shared_ptr<Image::Image> thumbnail;
+                    std::shared_ptr<Image::Data> thumbnail;
 
                     bool nameGlyphsInit = true;
                     std::vector<std::shared_ptr<Render2D::Font::Glyph> > nameGlyphs;
@@ -85,8 +85,8 @@ namespace djv
                 Image::Size thumbnailSize = Image::Size(100, 50);
                 std::map<size_t, AV::ThumbnailSystem::ImageFuture> thumbnailFutures;
                 std::map<size_t, std::chrono::steady_clock::time_point> thumbnailTimers;
-                std::map<System::File::Type, std::shared_ptr<Image::Image> > icons;
-                std::map<System::File::Type, std::future<std::shared_ptr<Image::Image> > > iconsFutures;
+                std::map<System::File::Type, std::shared_ptr<Image::Data> > icons;
+                std::map<System::File::Type, std::future<std::shared_ptr<Image::Data> > > iconsFutures;
                 std::map<size_t, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > nameGlyphsFutures;
                 std::map<size_t, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > sizeGlyphsFutures;
                 std::map<size_t, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > timeGlyphsFutures;
@@ -1154,7 +1154,7 @@ namespace djv
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_sample_rate")) << ": " <<
                             avInfo.audio.sampleRate / 1000.F << _getText(DJV_TEXT("file_browser_file_tooltip_audio_unit_khz")) << '\n';
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_duration")) << ": " <<
-                            (avInfo.audio.sampleRate > 0 ? (avInfo.audio.sampleCount / static_cast<float>(avInfo.audio.sampleRate)) : 0.F) <<
+                            (avInfo.audio.sampleRate > 0 ? (avInfo.audioSampleCount / static_cast<float>(avInfo.audio.sampleRate)) : 0.F) <<
                           " " << _getText(DJV_TEXT("file_browser_file_tooltip_audio_unit_seconds"));
                     }
                     out = ss.str();

@@ -9,7 +9,7 @@
 
 #include <djvGL/Shader.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Info.h>
 
 #include <djvMath/BBox.h>
 

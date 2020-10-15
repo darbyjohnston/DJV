@@ -12,7 +12,7 @@
 
 #include <djvGL/OffscreenBuffer.h>
 
-#include <djvImage/ImageDataFunc.h>
+#include <djvImage/InfoFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfo.h>
@@ -60,7 +60,7 @@ private:
     std::unique_ptr<Image::Type> _type;
     size_t _frame = 0;
     Image::Info _info;
-    std::list<std::shared_ptr<Image::Image> > _images;
+    std::list<std::shared_ptr<Image::Data> > _images;
     float _x = 0.F;
     std::shared_ptr<GL::OffscreenBuffer> _offscreenBuffer;
     std::shared_ptr<Render2D::Render> _render;
@@ -166,7 +166,7 @@ void Application::tick()
         }
         _x = _x + 1.F;
         _render->endFrame();
-        auto image = Image::Image::create(_info);
+        auto image = Image::Data::create(_info);
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
 #if !defined(DJV_GL_ES2)
         glPixelStorei(GL_PACK_SWAP_BYTES, _info.layout.endian != Core::Memory::getEndian());

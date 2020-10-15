@@ -6,8 +6,6 @@
 
 #include <djvUIComponents/FileBrowser.h>
 
-#include <djvImage/Image.h>
-
 #include <djvSystem/Path.h>
 
 #include <djvMath/Range.h>

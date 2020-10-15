@@ -75,15 +75,15 @@ namespace djv
             {
                 const VideoFrame frame;
                 DJV_ASSERT(0 == frame.frame);
-                DJV_ASSERT(!frame.image.get());
+                DJV_ASSERT(!frame.data.get());
             }
             
             {
                 const Math::Frame::Number number = 1;
-                auto image = Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8));
+                auto image = Image::Data::create(Image::Info(1, 2, Image::Type::RGB_U8));
                 const VideoFrame frame(number, image);
                 DJV_ASSERT(number == frame.frame);
-                DJV_ASSERT(image == frame.image);
+                DJV_ASSERT(image == frame.data);
             }
         }
         
@@ -121,13 +121,13 @@ namespace djv
         {
             {
                 const AudioFrame frame;
-                DJV_ASSERT(!frame.audio.get());
+                DJV_ASSERT(!frame.data.get());
             }
             
             {
-                auto audio = Audio::Data::create(Audio::Info(1, Audio::Type::S16, 2, 3));
+                auto audio = Audio::Data::create(Audio::Info(1, Audio::Type::S16, 2), 3);
                 const AudioFrame frame(audio);
-                DJV_ASSERT(audio == frame.audio);
+                DJV_ASSERT(audio == frame.data);
             }
         }
         
@@ -146,7 +146,7 @@ namespace djv
                 AudioQueue queue;
                 queue.setMax(1000);
                 DJV_ASSERT(1000 == queue.getMax());
-                auto audio = Audio::Data::create(Audio::Info(1, Audio::Type::S16, 2, 3));
+                auto audio = Audio::Data::create(Audio::Info(1, Audio::Type::S16, 2), 3);
                 const AudioFrame frame(audio);
                 queue.addFrame(frame);
                 queue.addFrame(AudioFrame(nullptr));
@@ -195,7 +195,7 @@ namespace djv
                 DJV_ASSERT(Math::Frame::Sequence() == cache.getFrames());
                 DJV_ASSERT(Math::Frame::Sequence() == cache.getSequence());
                 DJV_ASSERT(!cache.contains(0));
-                std::shared_ptr<Image::Image> image;
+                std::shared_ptr<Image::Data> image;
                 DJV_ASSERT(!cache.get(0, image));
             }
             
@@ -208,20 +208,20 @@ namespace djv
                 cache.setSequenceSize(10);
                 for (Math::Frame::Index i = 0; i < 20; ++i)
                 {
-                    cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
+                    cache.add(i, Image::Data::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
                 DJV_ASSERT(cache.getCount() > 0);
                 for (Math::Frame::Index i = 0; i < 20; i += 3)
                 {
-                    cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
+                    cache.add(i, Image::Data::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
                 cache.setDirection(Direction::Reverse);
                 cache.setDirection(Direction::Reverse);
                 for (Math::Frame::Index i = 20; i >= 0; --i)
                 {
-                    cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
+                    cache.add(i, Image::Data::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
-                std::shared_ptr<Image::Image> image;
+                std::shared_ptr<Image::Data> image;
                 for (Math::Frame::Index i = 0; i < 20; ++i)
                 {
                     cache.get(i, image);
@@ -380,7 +380,7 @@ namespace djv
             try
             {
                 const Image::Info imageInfo(size, type);
-                auto image = Image::Image::create(imageInfo);
+                auto image = Image::Data::create(imageInfo);
                 image->setTags(tags);
                 image->zero();
                 

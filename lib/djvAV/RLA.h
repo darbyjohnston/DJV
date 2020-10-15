@@ -51,7 +51,7 @@ namespace djv
 
                 protected:
                     Info _readInfo(const std::string& fileName) override;
-                    std::shared_ptr<Image::Image> _readImage(const std::string& fileName) override;
+                    std::shared_ptr<Image::Data> _readImage(const std::string& fileName) override;
 
                 private:
                     Info _open(const std::string&, const std::shared_ptr<System::File::IO>&);

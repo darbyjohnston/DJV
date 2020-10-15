@@ -8,7 +8,7 @@
 
 #include <djvGL/ImageConvert.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
@@ -115,7 +115,7 @@ namespace djv
                 Image::Size size;
                 Image::Type type = Image::Type::None;
                 std::shared_ptr<IO::IRead> read;
-                std::promise<std::shared_ptr<Image::Image> > promise;
+                std::promise<std::shared_ptr<Image::Data> > promise;
             };
 
             size_t getInfoCacheKey(const System::File::Info& fileInfo)
@@ -148,7 +148,7 @@ namespace djv
         ThumbnailSystem::ImageFuture::ImageFuture()
         {}
         
-        ThumbnailSystem::ImageFuture::ImageFuture(std::future<std::shared_ptr<Image::Image> >& future, UID uid) :
+        ThumbnailSystem::ImageFuture::ImageFuture(std::future<std::shared_ptr<Image::Data> >& future, UID uid) :
             future(std::move(future)),
             uid(uid)
         {}
@@ -171,7 +171,7 @@ namespace djv
 
             Memory::Cache<size_t, IO::Info> infoCache;
             std::atomic<float> infoCachePercentage;
-            Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
+            Memory::Cache<size_t, std::shared_ptr<Image::Data> > imageCache;
             std::atomic<float> imageCachePercentage;
             std::atomic<bool> clearCache;
             std::shared_ptr<Observer::Value<bool> > ioOptionsObserver;
@@ -535,7 +535,7 @@ namespace djv
                     }
                 }
                 const auto key = getImageCacheKey(i.fileInfo, i.size, i.type);
-                std::shared_ptr<Image::Image> image;
+                std::shared_ptr<Image::Data> image;
                 p.imageCache.get(key, image);
                 if (image)
                 {
@@ -574,14 +574,14 @@ namespace djv
             auto i = p.pendingImageRequests.begin();
             while (i != p.pendingImageRequests.end())
             {
-                std::shared_ptr<Image::Image> image;
+                std::shared_ptr<Image::Data> image;
                 bool finished = false;
                 {
                     std::lock_guard<std::mutex> lock(i->read->getMutex());
                     auto& queue = i->read->getVideoQueue();
                     if (!queue.isEmpty())
                     {
-                        image = queue.getFrame().image;
+                        image = queue.getFrame().data;
                     }
                     if (queue.isFinished())
                     {
@@ -612,7 +612,7 @@ namespace djv
 #if defined(DJV_GL_ES2)
                             info.type = Image::Type::RGBA_U8;
 #endif // DJV_GL_ES2
-                            auto tmp = Image::Image::create(info);
+                            auto tmp = Image::Data::create(info);
                             tmp->setPluginName(image->getPluginName());
                             tmp->setTags(image->getTags());
                             convert->process(*image, info, *tmp);

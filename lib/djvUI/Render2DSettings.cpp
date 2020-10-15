@@ -8,8 +8,6 @@
 #include <djvRender2D/EnumFunc.h>
 #include <djvRender2D/RenderSystem.h>
 
-#include <djvImage/ImageDataFunc.h>
-
 #include <djvSystem/Context.h>
 
 // These need to be included last on macOS.

@@ -69,7 +69,7 @@ namespace djv
 
                 protected:
                     Info _readInfo(const std::string&) override;
-                    std::shared_ptr<Image::Image> _readImage(const std::string&) override;
+                    std::shared_ptr<Image::Data> _readImage(const std::string&) override;
 
                 private:
                     Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, Data&);
@@ -98,7 +98,7 @@ namespace djv
                 protected:
                     Image::Type _getImageType(Image::Type) const override;
                     Image::Layout _getImageLayout() const override;
-                    void _write(const std::string& fileName, const std::shared_ptr<Image::Image>&) override;
+                    void _write(const std::string& fileName, const std::shared_ptr<Image::Data>&) override;
 
                 private:
                     DJV_PRIVATE();

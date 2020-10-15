@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Image
     {
-        class Image;
+        class Data;
 
     } // namespace Image
 
@@ -35,7 +35,7 @@ namespace djv
             static std::shared_ptr<IconSystem> create(const std::shared_ptr<System::Context>&);
             
             //! Get an icon.
-            std::future<std::shared_ptr<Image::Image> > getIcon(const std::string&, float size);
+            std::future<std::shared_ptr<Image::Data> > getIcon(const std::string&, float size);
 
             //! Get the cache percentage used.
             float getCachePercentage() const;

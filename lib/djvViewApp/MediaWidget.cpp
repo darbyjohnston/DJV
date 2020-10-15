@@ -75,10 +75,10 @@ namespace djv
         struct MediaWidget::Private
         {
             std::shared_ptr<Media> media;
-            std::shared_ptr<Image::Image> image;
+            std::shared_ptr<Image::Data> image;
             ViewLock viewLock = ViewLock::First;
             bool frameStoreEnabled = false;
-            std::shared_ptr<Image::Image> frameStore;
+            std::shared_ptr<Image::Data> frameStore;
             std::shared_ptr<Observer::ValueSubject<PointerData> > hover;
             std::shared_ptr<Observer::ValueSubject<PointerData> > drag;
             std::shared_ptr<Observer::ValueSubject<ScrollData> > scroll;
@@ -87,10 +87,10 @@ namespace djv
             std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > imageObserver;
             std::shared_ptr<Observer::Value<ViewLock> > viewLockObserver;
             std::shared_ptr<Observer::Value<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > frameStoreObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > frameStoreObserver;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
@@ -147,9 +147,9 @@ namespace djv
                     }
                 });
 
-            p.imageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
+            p.imageObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
                 p.media->observeCurrentImage(),
-                [weak](const std::shared_ptr<Image::Image>& value)
+                [weak](const std::shared_ptr<Image::Data>& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -184,9 +184,9 @@ namespace djv
                             widget->_imageUpdate();
                         }
                     });
-                p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
+                p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
                     imageSystem->observeFrameStore(),
-                    [weak](const std::shared_ptr<Image::Image>& value)
+                    [weak](const std::shared_ptr<Image::Data>& value)
                     {
                         if (auto widget = weak.lock())
                         {

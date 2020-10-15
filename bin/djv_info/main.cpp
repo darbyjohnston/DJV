@@ -8,7 +8,7 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/TimeFunc.h>
 
-#include <djvImage/ImageDataFunc.h>
+#include <djvImage/InfoFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfoFunc.h>
@@ -152,7 +152,7 @@ private:
                     ss << info.audio.type;
                     std::cout << "        Type: " << _textSystem->getText(ss.str()) << std::endl;
                     std::cout << "        Sample rate: " << info.audio.sampleRate << std::endl;
-                    std::cout << "        Duration: " << (info.audio.sampleRate > 0 ? (info.audio.sampleCount / static_cast<float>(info.audio.sampleRate)) : 0.F) << " seconds" << std::endl;
+                    std::cout << "        Duration: " << (info.audio.sampleRate > 0 ? (info.audioSampleCount / static_cast<float>(info.audio.sampleRate)) : 0.F) << " seconds" << std::endl;
                 }
             }
             catch (const std::exception & e)

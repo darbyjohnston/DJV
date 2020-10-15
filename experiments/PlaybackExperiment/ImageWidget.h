@@ -6,7 +6,7 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 class ImageWidget : public djv::UI::Widget
 {
@@ -21,7 +21,7 @@ public:
 
     static std::shared_ptr<ImageWidget> create(const std::shared_ptr<djv::System::Context>&);
 
-    void setImage(const std::shared_ptr<djv::Image::Image>&);
+    void setImage(const std::shared_ptr<djv::Image::Data>&);
 
 protected:
     void _preLayoutEvent(djv::System::Event::PreLayout&) override;

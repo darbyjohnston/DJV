@@ -6,15 +6,21 @@
 
 #include <djvViewApp/MDIWidget.h>
 
-#include <djvImage/ImageData.h>
+#include <djvImage/Type.h>
 
-#include <djvAudio/Audio.h>
+#include <djvAudio/Type.h>
 
 #include <djvMath/FrameNumber.h>
 #include <djvMath/Rational.h>
 
 namespace djv
 {
+    namespace Image
+    {
+        class Size;
+    
+    } // namespace Image
+
     namespace ViewApp
     {
         //! This class provides the information widget.

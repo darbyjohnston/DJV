@@ -20,7 +20,7 @@
 #include <djvRender2D/FontSystem.h>
 #include <djvRender2D/Render.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
@@ -70,7 +70,7 @@ namespace djv
                 {
                     ButtonType buttonType = ButtonType::First;
                     bool checked = false;
-                    std::shared_ptr<Image::Image> icon;
+                    std::shared_ptr<Image::Data> icon;
                     std::string text;
                     std::string font;
                     Render2D::Font::FontInfo fontInfo;
@@ -97,7 +97,7 @@ namespace djv
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
                 std::map<std::shared_ptr<Item>, bool> _hasIcon;
-                std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<Image::Image> > > _iconFutures;
+                std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<Image::Data> > > _iconFutures;
                 std::map<std::shared_ptr<Item>, std::future<Render2D::Font::Metrics> > _fontMetricsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
                 std::map<std::shared_ptr<Item>, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > _textGlyphsFutures;

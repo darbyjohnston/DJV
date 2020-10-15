@@ -5,7 +5,7 @@
 #pragma once
 
 #include <djvImage/Color.h>
-#include <djvImage/ImageData.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/ISystem.h>
 

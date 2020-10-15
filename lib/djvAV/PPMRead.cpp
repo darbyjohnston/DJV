@@ -50,18 +50,18 @@ namespace djv
                     return _open(fileName, io, data);
                 }
 
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
+                std::shared_ptr<Image::Data> Read::_readImage(const std::string& fileName)
                 {
                     auto io = System::File::IO::create();
                     Data data = Data::First;
                     const auto info = _open(fileName, io, data);
                     auto imageInfo = info.video[0];
-                    std::shared_ptr<Image::Image> out;
+                    std::shared_ptr<Image::Data> out;
                     switch (data)
                     {
                     case Data::ASCII:
                     {
-                        out = Image::Image::create(imageInfo);
+                        out = Image::Data::create(imageInfo);
                         out->setPluginName(pluginName);
                         const size_t channelCount = Image::getChannelCount(imageInfo.type);
                         const size_t bitDepth = Image::getBitDepth(imageInfo.type);
@@ -78,9 +78,9 @@ namespace djv
                             imageInfo.layout.endian = Memory::getEndian();
                         }
 #if defined(DJV_MMAP)
-                        out = Image::Image::create(imageInfo, io);
+                        out = Image::Data::create(imageInfo, io);
 #else // DJV_MMAP
-                        out = Image::Image::create(imageInfo);
+                        out = Image::Data::create(imageInfo);
                         io->read(out->getData(), out->getDataByteCount());
 #endif // DJV_MMAP
                         out->setPluginName(pluginName);

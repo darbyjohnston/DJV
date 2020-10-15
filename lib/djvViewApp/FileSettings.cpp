@@ -4,8 +4,6 @@
 
 #include <djvViewApp/FileSettings.h>
 
-#include <djvImage/ImageData.h>
-
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfoFunc.h>
 

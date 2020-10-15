@@ -61,8 +61,8 @@ namespace djv
                 AV_SAMPLE_FMT_FLTP,
                 AV_SAMPLE_FMT_DBLP })
             {
-                const Audio::Info info(2, FFmpeg::toAudioType(i), 0, 1);
-                auto out = Audio::Data::create(info);
+                const Audio::Info info(2, FFmpeg::toAudioType(i), 0);
+                auto out = Audio::Data::create(info, 1);
                 std::vector<uint8_t> in0(info.getByteCount() / 2);
                 std::vector<uint8_t> in1(info.getByteCount() / 2);
                 uint8_t* p[2] = { in0.data(), in1.data() };
@@ -80,8 +80,8 @@ namespace djv
                 AV_SAMPLE_FMT_FLTP,
                 AV_SAMPLE_FMT_DBLP })
             {
-                const Audio::Info info(2, FFmpeg::toAudioType(i), 0, 1);
-                auto out = Audio::Data::create(info);
+                const Audio::Info info(2, FFmpeg::toAudioType(i), 0);
+                auto out = Audio::Data::create(info, 1);
                 std::vector<uint8_t> in0(info.getByteCount() / 2);
                 std::vector<uint8_t> in1(info.getByteCount() / 2);
                 std::vector<uint8_t> in2(info.getByteCount() / 2);

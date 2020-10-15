@@ -16,12 +16,13 @@ namespace djv
                     videoSequence == other.videoSequence &&
                     video == other.video &&
                     audio == other.audio &&
+                    audioSampleCount == other.audioSampleCount &&
                     tags == other.tags;
             }
             
             inline bool VideoFrame::operator == (const VideoFrame& other) const
             {
-                return frame == other.frame && image == other.image;
+                return frame == other.frame && data == other.data;
             }
 
             inline size_t VideoQueue::getMax() const
@@ -51,7 +52,7 @@ namespace djv
             
             inline bool AudioFrame::operator == (const AudioFrame& other) const
             {
-                return audio == other.audio;
+                return data == other.data;
             }
 
             inline size_t AudioQueue::getMax() const
@@ -157,7 +158,7 @@ namespace djv
                 return _cache.find(value) != _cache.end();
             }
 
-            inline bool Cache::get(Math::Frame::Index index, std::shared_ptr<Image::Image>& out) const
+            inline bool Cache::get(Math::Frame::Index index, std::shared_ptr<Image::Data>& out) const
             {
                 const auto i = _cache.find(index);
                 const bool found = i != _cache.end();

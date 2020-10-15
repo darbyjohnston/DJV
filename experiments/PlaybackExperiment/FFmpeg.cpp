@@ -298,8 +298,8 @@ void FFmpegIO::_init(const System::File::Info& info)
         p.info.audio.channelCount = channelCount;
         p.info.audio.type = audioType;
         p.info.audio.sampleRate = p.avCodecParameters[p.avAudioStream]->sample_rate;
-        p.info.audio.sampleCount = sampleCount;
         p.info.audio.codec = std::string(avAudioCodec->long_name);
+        p.info.audioSampleCount = sampleCount;
     }
 
     p.infoPromise.set_value(p.info);
@@ -523,7 +523,7 @@ int FFmpegIO::_decodeVideo(AVPacket* packet, Decode decode)
             {
                 imageInfo.pixelAspectRatio = p.avFrame->sample_aspect_ratio.num / static_cast<float>(p.avFrame->sample_aspect_ratio.den);
             }
-            auto image = Image::Image::create(imageInfo);
+            auto image = Image::Data::create(imageInfo);
             av_image_fill_arrays(
                 p.avFrameRgb->data,
                 p.avFrameRgb->linesize,
@@ -575,9 +575,7 @@ int FFmpegIO::_decodeAudio(AVPacket* packet, Decode decode)
 
         if (Decode::True == decode)
         {
-            auto audioInfo = p.info.audio;
-            audioInfo.sampleCount = p.avFrame->nb_samples;
-            auto audioData = Audio::Data::create(audioInfo);
+            auto audioData = Audio::Data::create(p.info.audio, p.avFrame->nb_samples);
             extractAudio(
                 p.avFrame->data,
                 p.avCodecParameters[p.avAudioStream]->format,

@@ -159,7 +159,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const auto imageInfo = Image::Info(Image::Size(640, 480), Image::Type::RGB_U8);
-                auto image = Image::Image::create(imageInfo);
+                auto image = Image::Data::create(imageInfo);
                 AV::IO::Info info;
                 info.video.push_back(imageInfo);
                 auto io = context->getSystemT<AV::IO::IOSystem>();

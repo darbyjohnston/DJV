@@ -7,7 +7,7 @@
 #include <djvViewApp/Enum.h>
 
 #include <djvImage/Color.h>
-#include <djvImage/ImageData.h>
+#include <djvImage/Info.h>
 
 #include <djvMath/FrameNumber.h>
 #include <djvMath/Rational.h>

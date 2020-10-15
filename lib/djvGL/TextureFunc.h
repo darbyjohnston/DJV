@@ -6,7 +6,7 @@
 
 #include <djvGL/GL.h>
 
-#include <djvImage/Pixel.h>
+#include <djvImage/Type.h>
 
 namespace djv
 {

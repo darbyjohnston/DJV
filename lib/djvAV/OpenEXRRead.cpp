@@ -138,12 +138,12 @@ namespace djv
                     return _open(fileName, f);
                 }
 
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
+                std::shared_ptr<Image::Data> Read::_readImage(const std::string& fileName)
                 {
                     File f;
                     Info info = _open(fileName, f);
                     Image::Info imageInfo = info.video[std::min(_options.layer, info.video.size() - 1)];
-                    std::shared_ptr<Image::Image> out = Image::Image::create(imageInfo);
+                    std::shared_ptr<Image::Data> out = Image::Data::create(imageInfo);
                     out->setPluginName(pluginName);
                     out->setTags(info.tags);
                     const size_t channels = Image::getChannelCount(imageInfo.type);

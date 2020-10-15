@@ -11,7 +11,7 @@
 
 #include <djvOCIO/OCIOSystem.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 
@@ -26,7 +26,7 @@ namespace djv
     {
         struct ImageWidget::Private
         {
-            std::shared_ptr<Image::Image> image;
+            std::shared_ptr<Image::Data> image;
             Render2D::ImageOptions imageOptions;
             ImageRotate imageRotate = ImageRotate::_0;
             ImageAspectRatio imageAspectRatio = ImageAspectRatio::FromSource;
@@ -78,12 +78,12 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<Image::Image>& ImageWidget::getImage() const
+        const std::shared_ptr<Image::Data>& ImageWidget::getImage() const
         {
             return _p->image;
         }
 
-        void ImageWidget::setImage(const std::shared_ptr<Image::Image>& value)
+        void ImageWidget::setImage(const std::shared_ptr<Image::Data>& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.image)
@@ -163,7 +163,7 @@ namespace djv
         }
 
         glm::mat3x3 ImageWidget::getXForm(
-            const std::shared_ptr<Image::Image>& image,
+            const std::shared_ptr<Image::Data>& image,
             UI::ImageRotate rotate,
             const glm::vec2& zoom,
             UI::ImageAspectRatio imageAspectRatio)

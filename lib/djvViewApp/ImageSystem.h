@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Image
     {
-        class Image;
+        class Data;
 
     } // namespace Image
 
@@ -33,7 +33,7 @@ namespace djv
             static std::shared_ptr<ImageSystem> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFrameStoreEnabled() const;
-            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Image> > > observeFrameStore() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Data> > > observeFrameStore() const;
 
             void setFrameStoreEnabled(bool);
             void loadFrameStore();

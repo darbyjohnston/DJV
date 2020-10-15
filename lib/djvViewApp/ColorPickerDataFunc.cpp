@@ -6,7 +6,7 @@
 
 #include <djvViewApp/ColorPickerData.h>
 
-#include <djvImage/PixelFunc.h>
+#include <djvImage/TypeFunc.h>
 
 #include <djvMath/VectorFunc.h>
 

@@ -6,6 +6,8 @@
 
 #include <djvGL/ImageConvert.h>
 
+#include <djvImage/Data.h>
+
 #include <djvSystem/Context.h>
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TextSystem.h>

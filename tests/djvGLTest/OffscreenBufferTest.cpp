@@ -6,7 +6,7 @@
 
 #include <djvGL/OffscreenBufferFunc.h>
 
-#include <djvImage/ImageDataFunc.h>
+#include <djvImage/InfoFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>

@@ -23,7 +23,7 @@
 
 #include <djvAV/TimeFunc.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -47,7 +47,7 @@ struct MainWindow::Private
     std::shared_ptr<UI::Drawer> drawer;
 
     std::shared_ptr<Core::Observer::Value<IOInfo> > infoObserver;
-    std::shared_ptr<Core::Observer::Value<std::shared_ptr<Image::Image> > > imageObserver;
+    std::shared_ptr<Core::Observer::Value<std::shared_ptr<Image::Data> > > imageObserver;
     std::shared_ptr<Core::Observer::Value<Playback> > playbackObserver;
     std::shared_ptr<Core::Observer::Value<Timestamp> > timestampObserver;
     std::shared_ptr<Core::Observer::Value<float> > fpsObserver;
@@ -244,9 +244,9 @@ void MainWindow::_init(
             }
         });
 
-    p.imageObserver = Core::Observer::Value<std::shared_ptr<Image::Image> >::create(
+    p.imageObserver = Core::Observer::Value<std::shared_ptr<Image::Data> >::create(
         media->observeCurrentImage(),
-        [weak](const std::shared_ptr<Image::Image>& value)
+        [weak](const std::shared_ptr<Image::Data>& value)
         {
             if (auto widget = weak.lock())
             {

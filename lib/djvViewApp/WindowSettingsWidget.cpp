@@ -281,7 +281,7 @@ namespace djv
         {
             std::string fileName;
             AV::ThumbnailSystem::ImageFuture imageFuture;
-            std::shared_ptr<Image::Image> image;
+            std::shared_ptr<Image::Data> image;
             bool scale = false;
             bool colorize = false;
             System::File::Path fileBrowserPath = System::File::Path(".");

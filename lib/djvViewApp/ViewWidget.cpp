@@ -50,7 +50,7 @@ namespace djv
         {
             AV::Time::Units timeUnits = AV::Time::Units::First;
             std::shared_ptr<Media> media;
-            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Image> > > image;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Data> > > image;
             std::shared_ptr<Observer::ValueSubject<glm::vec2> > imagePos;
             std::shared_ptr<Observer::ValueSubject<float> > imageZoom;
             ViewLock lock = ViewLock::None;
@@ -99,7 +99,7 @@ namespace djv
             setClassName("djv::ViewApp::ViewWidget");
 
             p.media = media;
-            p.image = Observer::ValueSubject<std::shared_ptr<Image::Image> >::create();
+            p.image = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
             p.imagePos = Observer::ValueSubject<glm::vec2>::create();
             p.imageZoom = Observer::ValueSubject<float>::create(1.F);
 
@@ -285,12 +285,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Image> > > ViewWidget::observeImage() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Data> > > ViewWidget::observeImage() const
         {
             return _p->image;
         }
 
-        void ViewWidget::setImage(const std::shared_ptr<Image::Image>& value)
+        void ViewWidget::setImage(const std::shared_ptr<Image::Data>& value)
         {
             DJV_PRIVATE_PTR();
             if (p.image->setIfChanged(value))

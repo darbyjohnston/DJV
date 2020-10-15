@@ -4,7 +4,9 @@
 
 #pragma once
 
-#include <djvImage/ImageData.h>
+#include <djvCore/Core.h>
+
+#include <memory>
 
 namespace djv
 {
@@ -14,6 +16,13 @@ namespace djv
         class ResourceSystem;
 
     } // namespace System
+
+    namespace Image
+    {
+        class Data;
+        class Info;
+    
+    } // namespace Image
 
     namespace GL
     {

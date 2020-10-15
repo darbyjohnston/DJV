@@ -60,7 +60,7 @@ namespace djv
                     return out;
                 }
                 
-                void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Image>& image)
+                void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Data>& image)
                 {
                     DJV_PRIVATE_PTR();
                     auto io = System::File::IO::create();

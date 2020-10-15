@@ -76,7 +76,7 @@ namespace djv
             std::vector<std::string> cmdlinePaths;
 
             std::vector<std::shared_ptr<AV::IO::IRead> > read;
-            std::vector<std::shared_ptr<Image::Image> > icons;
+            std::vector<std::shared_ptr<Image::Data> > icons;
             std::shared_ptr<System::Timer> timer;
 
             std::shared_ptr<MainWindow> mainWindow;
@@ -215,7 +215,7 @@ namespace djv
                             if (!queue.isEmpty())
                             {
                                 erase = true;
-                                p.icons.push_back(queue.popFrame().image);
+                                p.icons.push_back(queue.popFrame().data);
                             }
                             else if (queue.isFinished())
                             {

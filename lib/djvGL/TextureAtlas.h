@@ -4,7 +4,7 @@
 
 #include <djvGL/GL.h>
 
-#include <djvImage/ImageData.h>
+#include <djvImage/Type.h>
 
 #include <djvMath/Range.h>
 
@@ -12,6 +12,12 @@
 
 namespace djv
 {
+    namespace Image
+    {
+        class Data;
+
+    } // namespace Image
+
     namespace GL
     {
         //! This struct provides information about a texture atlas item.

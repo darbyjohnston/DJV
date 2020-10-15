@@ -78,11 +78,11 @@ const std::vector<float> RandomText::sizes = { 12.f, 24.f, 48.f, 96.f, 1000.f };
 
 struct RandomIcon
 {
-    RandomIcon(const std::vector<std::shared_ptr<Image::Image> >& images)
+    RandomIcon(const std::vector<std::shared_ptr<Image::Data> >& images)
     {
         image = images[Core::Random::getRandom(static_cast<int>(images.size()) - 1)];
     }
-    std::shared_ptr<Image::Image> image;
+    std::shared_ptr<Image::Data> image;
     RandomIcon * next = nullptr;
 };
 
@@ -122,7 +122,7 @@ private:
     RandomText*  _currentText  = nullptr;
     RandomIcon*  _randomIcon   = nullptr;
     RandomIcon*  _currentIcon  = nullptr;
-    std::vector<std::shared_ptr<Image::Image> > _images;
+    std::vector<std::shared_ptr<Image::Data> > _images;
 };
 
 void Application::_init(std::list<std::string>& args)
@@ -156,7 +156,7 @@ void Application::_init(std::list<std::string>& args)
                     auto& queue = read->getVideoQueue();
                     if (!queue.isEmpty())
                     {
-                        _images.push_back(queue.getFrame().image);
+                        _images.push_back(queue.getFrame().data);
                         break;
                     }
                 }

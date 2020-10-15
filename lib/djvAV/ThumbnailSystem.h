@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvImage/Pixel.h>
+#include <djvImage/Type.h>
 
 #include <djvSystem/ISystem.h>
 
@@ -25,7 +25,7 @@ namespace djv
 
     namespace Image
     {
-        class Image;
+        class Data;
         class Info;
         class Size;
         
@@ -88,8 +88,8 @@ namespace djv
             struct ImageFuture
             {
                 ImageFuture();
-                ImageFuture(std::future<std::shared_ptr<Image::Image> >&, Core::UID);
-                std::future<std::shared_ptr<Image::Image> > future;
+                ImageFuture(std::future<std::shared_ptr<Image::Data> >&, Core::UID);
+                std::future<std::shared_ptr<Image::Data> > future;
                 Core::UID uid = 0;
             };
 

@@ -57,20 +57,21 @@
 
 #include <djvImageTest/ColorFuncTest.h>
 #include <djvImageTest/ColorTest.h>
-#include <djvImageTest/ImageDataFuncTest.h>
-#include <djvImageTest/ImageDataTest.h>
-#include <djvImageTest/ImageTest.h>
-#include <djvImageTest/ImageFuncTest.h>
-#include <djvImageTest/PixelFuncTest.h>
-#include <djvImageTest/PixelTest.h>
+#include <djvImageTest/DataFuncTest.h>
+#include <djvImageTest/DataTest.h>
+#include <djvImageTest/InfoFuncTest.h>
+#include <djvImageTest/InfoTest.h>
 #include <djvImageTest/TagsTest.h>
+#include <djvImageTest/TypeFuncTest.h>
+#include <djvImageTest/TypeTest.h>
 
-#include <djvAudioTest/AudioDataFuncTest.h>
-#include <djvAudioTest/AudioDataTest.h>
-#include <djvAudioTest/AudioFuncTest.h>
-#include <djvAudioTest/AudioTest.h>
 #include <djvAudioTest/AudioSystemFuncTest.h>
 #include <djvAudioTest/AudioSystemTest.h>
+#include <djvAudioTest/DataFuncTest.h>
+#include <djvAudioTest/DataTest.h>
+#include <djvAudioTest/InfoTest.h>
+#include <djvAudioTest/TypeFuncTest.h>
+#include <djvAudioTest/TypeTest.h>
 
 #include <djvGeomTest/ShapeTest.h>
 #include <djvGeomTest/TriangleMeshFuncTest.h>
@@ -224,20 +225,21 @@ int main(int argc, char ** argv)
 
         tests.emplace_back(new ImageTest::ColorFuncTest(tempPath, context));
         tests.emplace_back(new ImageTest::ColorTest(tempPath, context));
-        tests.emplace_back(new ImageTest::ImageDataFuncTest(tempPath, context));
-        tests.emplace_back(new ImageTest::ImageDataTest(tempPath, context));
-        tests.emplace_back(new ImageTest::ImageTest(tempPath, context));
-        tests.emplace_back(new ImageTest::ImageFuncTest(tempPath, context));
-        tests.emplace_back(new ImageTest::PixelFuncTest(tempPath, context));
-        tests.emplace_back(new ImageTest::PixelTest(tempPath, context));
+        tests.emplace_back(new ImageTest::DataFuncTest(tempPath, context));
+        tests.emplace_back(new ImageTest::DataTest(tempPath, context));
+        tests.emplace_back(new ImageTest::InfoTest(tempPath, context));
+        tests.emplace_back(new ImageTest::InfoFuncTest(tempPath, context));
+        tests.emplace_back(new ImageTest::TypeFuncTest(tempPath, context));
+        tests.emplace_back(new ImageTest::TypeTest(tempPath, context));
         tests.emplace_back(new ImageTest::TagsTest(tempPath, context));
 
-        tests.emplace_back(new AudioTest::AudioDataFuncTest(tempPath, context));
-        tests.emplace_back(new AudioTest::AudioDataTest(tempPath, context));
-        tests.emplace_back(new AudioTest::AudioFuncTest(tempPath, context));
-        tests.emplace_back(new AudioTest::AudioTest(tempPath, context));
         tests.emplace_back(new AudioTest::AudioSystemFuncTest(tempPath, context));
         tests.emplace_back(new AudioTest::AudioSystemTest(tempPath, context));
+        tests.emplace_back(new AudioTest::DataFuncTest(tempPath, context));
+        tests.emplace_back(new AudioTest::DataTest(tempPath, context));
+        tests.emplace_back(new AudioTest::InfoTest(tempPath, context));
+        tests.emplace_back(new AudioTest::TypeFuncTest(tempPath, context));
+        tests.emplace_back(new AudioTest::TypeTest(tempPath, context));
 
         tests.emplace_back(new GeomTest::ShapeTest(tempPath, context));
         tests.emplace_back(new GeomTest::TriangleMeshFuncTest(tempPath, context));

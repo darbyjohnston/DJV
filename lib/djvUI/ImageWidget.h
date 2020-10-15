@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Image
     {
-        class Image;
+        class Data;
 
     } // namespace Image
 
@@ -42,9 +42,9 @@ namespace djv
             //! \name Image
             ///@{
 
-            const std::shared_ptr<Image::Image>& getImage() const;
+            const std::shared_ptr<Image::Data>& getImage() const;
 
-            void setImage(const std::shared_ptr<Image::Image>&);
+            void setImage(const std::shared_ptr<Image::Data>&);
 
             ///@}
 
@@ -69,7 +69,7 @@ namespace djv
             ///@{
 
             static glm::mat3x3 getXForm(
-                const std::shared_ptr<Image::Image>&,
+                const std::shared_ptr<Image::Data>&,
                 UI::ImageRotate,
                 const glm::vec2& zoom,
                 UI::ImageAspectRatio);

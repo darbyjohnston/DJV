@@ -4,10 +4,9 @@
 
 #pragma once
 
-#include <djvImage/Image.h>
-#include <djvImage/Tags.h>
+#include <djvImage/Data.h>
 
-#include <djvAudio/AudioData.h>
+#include <djvAudio/Data.h>
 
 #include <djvMath/FrameNumber.h>
 #include <djvMath/Rational.h>
@@ -34,6 +33,7 @@ namespace djv
                 Math::Frame::Sequence    videoSequence;
                 std::vector<Image::Info> video;
                 Audio::Info              audio;
+                size_t                   audioSampleCount;
                 Image::Tags              tags;
 
                 bool operator == (const Info&) const;
@@ -44,10 +44,10 @@ namespace djv
             {
             public:
                 VideoFrame();
-                VideoFrame(Math::Frame::Number, const std::shared_ptr<Image::Image>&);
+                VideoFrame(Math::Frame::Number, const std::shared_ptr<Image::Data>&);
 
-                Math::Frame::Number           frame = 0;
-                std::shared_ptr<Image::Image> image;
+                Math::Frame::Number          frame = 0;
+                std::shared_ptr<Image::Data> data;
 
                 bool operator == (const VideoFrame&) const;
             };
@@ -104,7 +104,7 @@ namespace djv
                 AudioFrame();
                 explicit AudioFrame(const std::shared_ptr<Audio::Data>&);
 
-                std::shared_ptr<Audio::Data> audio;
+                std::shared_ptr<Audio::Data> data;
                 
                 bool operator == (const AudioFrame&) const;
             };
@@ -222,9 +222,9 @@ namespace djv
                 void setCurrentFrame(Math::Frame::Index);
 
                 bool contains(Math::Frame::Index) const;
-                bool get(Math::Frame::Index, std::shared_ptr<Image::Image>&) const;
+                bool get(Math::Frame::Index, std::shared_ptr<Image::Data>&) const;
 
-                void add(Math::Frame::Index, const std::shared_ptr<Image::Image>&);
+                void add(Math::Frame::Index, const std::shared_ptr<Image::Data>&);
                 void clear();
 
                 ///@}
@@ -240,7 +240,7 @@ namespace djv
                 //! \todo Should this be configurable?
                 size_t _readBehind = 10;
                 Math::Frame::Sequence _sequence;
-                std::map<Math::Frame::Index, std::shared_ptr<Image::Image> > _cache;
+                std::map<Math::Frame::Index, std::shared_ptr<Image::Data> > _cache;
             };
 
         } // namespace IO

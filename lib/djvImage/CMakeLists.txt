@@ -2,28 +2,28 @@ set(header
     ColorFunc.h
     Color.h
     ColorInline.h
-    ImageData.h
-    ImageDataFunc.h
-    ImageDataInline.h
-    Image.h
-    ImageFunc.h
-    ImageInline.h
+    Data.h
+    DataFunc.h
+    DataInline.h
+    Info.h
+    InfoFunc.h
+    InfoInline.h
     Namespace.h
-    Pixel.h
-    PixelFunc.h
-    PixelFuncInline.h
-    PixelInline.h
     Tags.h
-    TagsInline.h)
+    TagsInline.h
+    Type.h
+    TypeFunc.h
+    TypeFuncInline.h
+    TypeInline.h)
 set(source
     Color.cpp
     ColorFunc.cpp
-    Image.cpp
-    ImageData.cpp
-    ImageDataFunc.cpp
-    ImageFunc.cpp
-    PixelFunc.cpp
-    Tags.cpp)
+    Data.cpp
+    DataFunc.cpp
+    Info.cpp
+    InfoFunc.cpp
+    Tags.cpp
+    TypeFunc.cpp)
 
 add_library(djvImage ${header} ${source})
 target_compile_definitions(djvImage PUBLIC IlmImf_FOUND)

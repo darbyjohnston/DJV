@@ -41,7 +41,7 @@ namespace djv
         {
             ImageData data;
             bool frameStoreEnabled = false;
-            std::shared_ptr<Image::Image> frameStore;
+            std::shared_ptr<Image::Data> frameStore;
 
             std::shared_ptr<UI::ComboBox> channelDisplayComboBox;
             std::shared_ptr<UI::ComboBox> alphaComboBox;
@@ -71,7 +71,7 @@ namespace djv
 
             std::shared_ptr<Observer::Value<ImageData> > dataObserver;
             std::shared_ptr<Observer::Value<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > frameStoreObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > frameStoreObserver;
         };
 
         void ImageControlsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -691,9 +691,9 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
-            p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
+            p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
                 imageSystem->observeFrameStore(),
-                [weak](const std::shared_ptr<Image::Image>& value)
+                [weak](const std::shared_ptr<Image::Data>& value)
                 {
                     if (auto widget = weak.lock())
                     {

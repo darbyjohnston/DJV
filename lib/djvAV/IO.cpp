@@ -21,9 +21,9 @@ namespace djv
             VideoFrame::VideoFrame()
             {}
 
-            VideoFrame::VideoFrame(Math::Frame::Number frame, const std::shared_ptr<Image::Image> & image) :
+            VideoFrame::VideoFrame(Math::Frame::Number frame, const std::shared_ptr<Image::Data> & data) :
                 frame(frame),
-                image(image)
+                data(data)
             {}
 
             VideoQueue::VideoQueue()
@@ -66,8 +66,8 @@ namespace djv
             AudioFrame::AudioFrame()
             {}
 
-            AudioFrame::AudioFrame(const std::shared_ptr<Audio::Data>& audio) :
-                audio(audio)
+            AudioFrame::AudioFrame(const std::shared_ptr<Audio::Data>& data) :
+                data(data)
             {}
 
             AudioQueue::AudioQueue()
@@ -194,7 +194,7 @@ namespace djv
                 _cacheUpdate();
             }
 
-            void Cache::add(Math::Frame::Index index, const std::shared_ptr<Image::Image>& image)
+            void Cache::add(Math::Frame::Index index, const std::shared_ptr<Image::Data>& image)
             {
                 _cache[index] = image;
                 _cacheUpdate();

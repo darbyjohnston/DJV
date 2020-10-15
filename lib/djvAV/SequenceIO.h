@@ -36,7 +36,7 @@ namespace djv
 
             protected:
                 virtual Info _readInfo(const std::string& fileName) = 0;
-                virtual std::shared_ptr<Image::Image> _readImage(const std::string& fileName) = 0;
+                virtual std::shared_ptr<Image::Data> _readImage(const std::string& fileName) = 0;
                 void _finish();
 
                 Math::Rational _speed;
@@ -76,7 +76,7 @@ namespace djv
             protected:
                 virtual Image::Type _getImageType(Image::Type) const;
                 virtual Image::Layout _getImageLayout() const;
-                virtual void _write(const std::string& fileName, const std::shared_ptr<Image::Image>&) = 0;
+                virtual void _write(const std::string& fileName, const std::shared_ptr<Image::Data>&) = 0;
                 void _finish();
 
                 Info _info;

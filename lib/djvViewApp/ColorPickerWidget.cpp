@@ -39,7 +39,7 @@
 #endif // DJV_GL_ES2
 
 #include <djvImage/ColorFunc.h>
-#include <djvImage/ImageFunc.h>
+#include <djvImage/DataFunc.h>
 
 #include <djvSystem/Context.h>
 #if defined(DJV_GL_ES2)
@@ -73,7 +73,7 @@ namespace djv
         {
             bool currentTool = false;
             Image::Color color = Image::Color(0.F, 0.F, 0.F);
-            std::shared_ptr<Image::Image> image;
+            std::shared_ptr<Image::Data> image;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
@@ -105,7 +105,7 @@ namespace djv
             std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
             std::map<std::string, std::shared_ptr<Observer::Value<bool> > > actionObservers;
             std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > imageObserver;
             std::shared_ptr<Observer::Value<glm::vec2> > imagePosObserver;
             std::shared_ptr<Observer::Value<float> > imageZoomObserver;
             std::shared_ptr<Observer::Value<PointerData> > dragObserver;
@@ -357,9 +357,9 @@ namespace djv
                         {
                             if (value)
                             {
-                                widget->_p->imageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
+                                widget->_p->imageObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
                                     value->getViewWidget()->observeImage(),
-                                    [weak](const std::shared_ptr<Image::Image>& value)
+                                    [weak](const std::shared_ptr<Image::Data>& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {

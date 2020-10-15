@@ -25,7 +25,7 @@
 
 #include <djvOCIO/OCIOSystem.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
 #include <djvSystem/Context.h>
 
@@ -65,7 +65,7 @@ namespace djv
 
             private:
                 bool _currentTool = false;
-                std::shared_ptr<Image::Image> _image;
+                std::shared_ptr<Image::Data> _image;
                 glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
                 float _imageZoom = 0.F;
                 ImageData _imageData;
@@ -76,7 +76,7 @@ namespace djv
                 glm::vec2 _magnifyPos = glm::vec2(0.F, 0.F);
 
                 std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
-                std::shared_ptr<Observer::Value<std::shared_ptr<Image::Image> > > _imageObserver;
+                std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > _imageObserver;
                 std::shared_ptr<Observer::Value<glm::vec2> > _imagePosObserver;
                 std::shared_ptr<Observer::Value<float> > _imageZoomObserver;
                 std::shared_ptr<Observer::Value<PointerData> > _dragObserver;
@@ -101,9 +101,9 @@ namespace djv
                             {
                                 if (value)
                                 {
-                                    widget->_imageObserver = Observer::Value<std::shared_ptr<Image::Image> >::create(
+                                    widget->_imageObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
                                         value->getMedia()->observeCurrentImage(),
-                                        [weak](const std::shared_ptr<Image::Image>& value)
+                                        [weak](const std::shared_ptr<Image::Data>& value)
                                         {
                                             if (auto widget = weak.lock())
                                             {

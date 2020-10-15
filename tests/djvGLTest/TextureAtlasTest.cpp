@@ -6,6 +6,8 @@
 
 #include <djvGL/TextureAtlas.h>
 
+#include <djvImage/Data.h>
+
 using namespace djv::Core;
 using namespace djv::GL;
 

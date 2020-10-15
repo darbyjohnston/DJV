@@ -4,7 +4,7 @@
 
 #include "FFmpegFunc.h"
 
-#include <djvAudio/AudioDataFunc.h>
+#include <djvAudio/DataFunc.h>
 
 extern "C"
 {

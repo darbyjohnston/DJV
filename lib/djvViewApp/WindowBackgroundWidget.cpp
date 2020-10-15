@@ -31,7 +31,7 @@ namespace djv
     {
         struct WindowBackgroundWidget::Private
         {
-            std::shared_ptr<Image::Image> image;
+            std::shared_ptr<Image::Data> image;
             bool scale = false;
             bool colorize = false;
             std::shared_ptr<AV::IO::IRead> read;
@@ -87,13 +87,13 @@ namespace djv
                                             {
                                                 if (auto widget = weak.lock())
                                                 {
-                                                    std::shared_ptr<Image::Image> image;
+                                                    std::shared_ptr<Image::Data> image;
                                                     {
                                                         std::unique_lock<std::mutex> lock(widget->_p->read->getMutex());
                                                         auto& queue = widget->_p->read->getVideoQueue();
                                                         if (!queue.isEmpty())
                                                         {
-                                                            image = queue.popFrame().image;
+                                                            image = queue.popFrame().data;
                                                         }
                                                     }
                                                     if (image)

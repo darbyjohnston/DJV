@@ -356,7 +356,7 @@ namespace djv
                     const std::string sampleRateLabel = _getText(DJV_TEXT("widget_info_sample_rate"));
                     const std::string sampleRateText = _textSampleRate(p.info.audio.sampleRate);
                     const std::string durationLabel = _getText(DJV_TEXT("widget_info_duration"));
-                    const std::string durationText = _textDuration(p.info.audio.sampleCount, p.info.audio.sampleRate);
+                    const std::string durationText = _textDuration(p.info.audioSampleCount, p.info.audio.sampleRate);
                     const std::string codecLabel = _getText(DJV_TEXT("widget_info_codec"));
 
                     const bool nameMatch = String::match(p.info.audio.name, p.filter);

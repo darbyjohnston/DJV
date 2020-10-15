@@ -73,10 +73,10 @@ namespace djv
                 void _primitivesUpdate(const Time::Duration&);
 
                 std::vector<std::shared_ptr<AV::IO::IRead> > _read;
-                std::vector<std::shared_ptr<Image::Image> > _images;
+                std::vector<std::shared_ptr<Image::Data> > _images;
                 struct Primitive
                 {
-                    std::shared_ptr<Image::Image> image;
+                    std::shared_ptr<Image::Data> image;
                     float size = 0.F;
                     glm::vec2 pos = glm::vec2(0.F, 0.F);
                     glm::vec2 vel = glm::vec2(0.F, 0.F);
@@ -125,7 +125,7 @@ namespace djv
                                 if (!queue.isEmpty())
                                 {
                                     erase = true;
-                                    widget->_images.push_back(queue.popFrame().image);
+                                    widget->_images.push_back(queue.popFrame().data);
                                 }
                                 else if (queue.isFinished())
                                 {

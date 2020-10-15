@@ -56,7 +56,7 @@ namespace djv
                     return out;
                 }
                 
-                void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Image>& image)
+                void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Data>& image)
                 {
                     auto io = System::File::IO::create();
                     io->open(fileName, System::File::Mode::Write);

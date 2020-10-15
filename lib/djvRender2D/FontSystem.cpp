@@ -10,7 +10,7 @@
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TimerFunc.h>
 
-#include <djvImage/ImageData.h>
+#include <djvImage/Data.h>
 
 #include <djvCore/Cache.h>
 #include <djvCore/StringFunc.h>

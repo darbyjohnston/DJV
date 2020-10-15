@@ -285,8 +285,8 @@ namespace djv
                                 p.info.audio.channelCount = channelCount;
                                 p.info.audio.type = audioType;
                                 p.info.audio.sampleRate = p.avCodecParameters[p.avAudioStream]->sample_rate;
-                                p.info.audio.sampleCount = sampleCount;
                                 p.info.audio.codec = std::string(avAudioCodec->long_name);
+                                p.info.audioSampleCount = sampleCount;
                             }
 
                             AVDictionaryEntry* tag = nullptr;
@@ -639,7 +639,7 @@ namespace djv
 
                         if (Math::Frame::invalid == dv.seek || frame >= dv.seek)
                         {
-                            std::shared_ptr<Image::Image> image;
+                            std::shared_ptr<Image::Data> image;
                             if (dv.cacheEnabled && _cache.get(frame, image))
                             {}
                             else
@@ -654,7 +654,7 @@ namespace djv
                                 {
                                     imageInfo.pixelAspectRatio = p.avFrame->sample_aspect_ratio.num / static_cast<float>(p.avFrame->sample_aspect_ratio.den);
                                 }
-                                image = Image::Image::create(imageInfo);
+                                image = Image::Data::create(imageInfo);
                                 image->setPluginName(pluginName);
                                 av_image_fill_arrays(
                                     p.avFrameRgb->data,
@@ -717,9 +717,7 @@ namespace djv
 
                         if (Math::Frame::invalid == da.seek || frame >= da.seek)
                         {
-                            auto audioInfo = p.info.audio;
-                            audioInfo.sampleCount = p.avFrame->nb_samples;
-                            auto audioData = Audio::Data::create(audioInfo);
+                            auto audioData = Audio::Data::create(p.info.audio, p.avFrame->nb_samples);
                             extractAudio(
                                 p.avFrame->data,
                                 p.avCodecParameters[p.avAudioStream]->format,

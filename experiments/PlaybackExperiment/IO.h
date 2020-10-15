@@ -8,9 +8,9 @@
 
 #include <djvSystem/ISystem.h>
 
-#include <djvImage/Image.h>
+#include <djvImage/Data.h>
 
-#include <djvAudio/AudioData.h>
+#include <djvAudio/Data.h>
 
 #include <djvMath/FrameNumber.h>
 #include <djvMath/Rational.h>
@@ -35,6 +35,7 @@ public:
     djv::Math::Frame::Sequence    videoSequence;
     std::vector<djv::Image::Info> video;
     djv::Audio::Info              audio;
+    size_t                        audioSampleCount = 0;
 
     bool operator == (const IOInfo&) const;
 };
@@ -45,10 +46,10 @@ public:
     VideoFrame();
     VideoFrame(
         Timestamp,
-        const std::shared_ptr<djv::Image::Image>&);
+        const std::shared_ptr<djv::Image::Data>&);
 
-    Timestamp                          timestamp = 0;
-    std::shared_ptr<djv::Image::Image> image;
+    Timestamp                         timestamp = 0;
+    std::shared_ptr<djv::Image::Data> data;
 
     bool operator == (const VideoFrame&) const;
 };
@@ -62,7 +63,7 @@ public:
         const std::shared_ptr<djv::Audio::Data>&);
 
     Timestamp                         timestamp = 0;
-    std::shared_ptr<djv::Audio::Data> audio;
+    std::shared_ptr<djv::Audio::Data> data;
 
     bool operator == (const AudioFrame&) const;
 };

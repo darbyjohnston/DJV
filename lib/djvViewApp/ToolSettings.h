@@ -6,8 +6,6 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvImage/Pixel.h>
-
 #include <djvMath/BBox.h>
 
 #include <djvCore/ValueObserver.h>

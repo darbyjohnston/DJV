@@ -93,7 +93,7 @@ namespace djv
                 render->drawCircle(glm::vec2(300.F, 300.F), 100.F);
                 
                 Image::Info imageInfo(64, 64, Image::Type::RGBA_U8);
-                auto image = Image::Image::create(Image::Info(64, 64, Image::Type::RGBA_U8));
+                auto image = Image::Data::create(Image::Info(64, 64, Image::Type::RGBA_U8));
                 image->zero();
                 render->drawImage(image, glm::vec2(0.f, 100.f));
                 std::vector<ImageOptions> imageOptionsList;
@@ -128,7 +128,7 @@ namespace djv
                 imageInfo.layout.mirror.y = true;
                 for (size_t i = 0; i < dynamicTextureCacheMax; ++i)
                 {
-                    image = Image::Image::create(imageInfo);
+                    image = Image::Data::create(imageInfo);
                     render->drawImage(image, glm::vec2(200.f, 300.f), imageOptions);
                 }
                 render->setFillColor(Image::Color(.6F, 1.F, .4F));

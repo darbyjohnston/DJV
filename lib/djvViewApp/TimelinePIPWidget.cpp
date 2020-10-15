@@ -49,7 +49,7 @@ namespace djv
             glm::vec2 pipPos = glm::vec2(0.F, 0.F);
             Math::BBox2f timelineGeometry;
             Math::Frame::Index currentFrame = 0;
-            std::shared_ptr<Image::Image> image;
+            std::shared_ptr<Image::Data> image;
             ImageData imageData;
             OCIO::Config ocioConfig;
             std::string outputColorSpace;
@@ -106,11 +106,11 @@ namespace djv
                                     frame = videoQueue.getFrame();
                                 }
                             }
-                            if (frame.image)
+                            if (frame.data)
                             {
                                 widget->_p->currentFrame = frame.frame;
-                                widget->_p->image = frame.image;
-                                widget->_p->imageWidget->setImage(frame.image);
+                                widget->_p->image = frame.data;
+                                widget->_p->imageWidget->setImage(frame.data);
                                 widget->_textUpdate();
                             }
                         }

@@ -6,7 +6,7 @@
 
 #include <djvGL/Texture.h>
 
-#include <djvImage/ImageDataFunc.h>
+#include <djvImage/InfoFunc.h>
 
 using namespace djv::Core;
 using namespace djv::GL;

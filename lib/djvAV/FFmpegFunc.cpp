@@ -4,7 +4,7 @@
 
 #include <djvAV/FFmpegFunc.h>
 
-#include <djvAudio/AudioDataFunc.h>
+#include <djvAudio/DataFunc.h>
 
 #include <djvCore/String.h>
 

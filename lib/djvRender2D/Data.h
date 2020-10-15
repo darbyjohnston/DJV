@@ -8,7 +8,7 @@
 
 #include <djvOCIO/OCIO.h>
 
-#include <djvImage/ImageData.h>
+#include <djvImage/Info.h>
 
 #include <djvCore/RapidJSONFunc.h>
 

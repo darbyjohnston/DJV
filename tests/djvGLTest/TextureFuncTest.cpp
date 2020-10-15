@@ -6,7 +6,7 @@
 
 #include <djvGL/TextureFunc.h>
 
-#include <djvImage/PixelFunc.h>
+#include <djvImage/TypeFunc.h>
 
 using namespace djv::Core;
 using namespace djv::GL;
