@@ -4,6 +4,8 @@
 
 #include <djvAudio/Data.h>
 
+#include <cstring>
+
 namespace djv
 {
     namespace Audio

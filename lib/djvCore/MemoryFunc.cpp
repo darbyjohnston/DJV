@@ -8,7 +8,7 @@
 #include <array>
 #include <functional>
 
-#include <string.h>
+#include <cstring>
 
 namespace djv
 {

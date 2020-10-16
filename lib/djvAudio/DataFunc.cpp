@@ -6,7 +6,7 @@
 
 #include <djvAudio/Data.h>
 
-#include <string.h>
+#include <cstring>
 
 #define _CONVERT(a, b) \
     { \
