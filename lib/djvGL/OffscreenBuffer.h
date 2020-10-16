@@ -8,6 +8,8 @@
 
 #include <djvImage/Info.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace System
