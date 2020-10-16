@@ -4,6 +4,7 @@
 
 #include <djvAudio/AudioSystemFunc.h>
 
+#include <algorithm>
 #include <array>
 #include <sstream>
 
