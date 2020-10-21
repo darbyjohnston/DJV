@@ -91,21 +91,23 @@ void TimelineWidget::_paintEvent(System::Event::Paint&)
 
     const float size0 = floorf(_timeToPos(0));
     const float size1 = ceilf(_timeToPos(AV::Time::scale(1, p.speed.swap(), timebase)));
-
-    const auto& render = _getRender();
-    render->setFillColor(style->getColor(UI::ColorRole::ForegroundDim));
-    Timestamp ts = 0;
-    float x = floorf(_timeToPos(ts));
-    while (x < g.max.x)
+    if (size1 > size0)
     {
-        render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
-        ts += timebase.swap().toFloat();
-        x = floorf(_timeToPos(ts));
-    }
+        const auto& render = _getRender();
+        render->setFillColor(style->getColor(UI::ColorRole::ForegroundDim));
+        Timestamp ts = 0;
+        float x = floorf(_timeToPos(ts));
+        while (x < g.max.x)
+        {
+            render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
+            ts += timebase.swap().toFloat();
+            x = floorf(_timeToPos(ts));
+        }
 
-    x = floorf(_timeToPos(p.timestamp));
-    render->setFillColor(style->getColor(UI::ColorRole::Foreground));
-    render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
+        x = floorf(_timeToPos(p.timestamp));
+        render->setFillColor(style->getColor(UI::ColorRole::Foreground));
+        render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
+    }
 }
 
 void TimelineWidget::_pointerEnterEvent(System::Event::PointerEnter& event)
@@ -136,10 +138,9 @@ void TimelineWidget::_pointerMoveEvent(System::Event::PointerMove& event)
     const auto& pointerInfo = event.getPointerInfo();
     if (pointerInfo.id == p.pressedID)
     {
-        p.timestamp = _posToTime(pointerInfo.projectedPos.x);
         if (p.callback)
         {
-            p.callback(p.timestamp);
+            p.callback(_posToTime(pointerInfo.projectedPos.x));
         }
     }
 }

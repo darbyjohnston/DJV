@@ -17,9 +17,9 @@ IOInfo::IOInfo()
 bool IOInfo::operator == (const IOInfo& other) const
 {
     return fileInfo == other.fileInfo &&
+        video == other.video &&
         videoSpeed == other.videoSpeed &&
         videoSequence == other.videoSequence &&
-        video == other.video &&
         audio == other.audio &&
         audioSampleCount == other.audioSampleCount;
 }
@@ -29,15 +29,18 @@ VideoFrame::VideoFrame()
 
 VideoFrame::VideoFrame(
     Timestamp timestamp,
-    const std::shared_ptr<Image::Data>& data) :
+    const std::shared_ptr<Image::Data>& data,
+    SeekFrame seekFrame) :
     timestamp(timestamp),
-    data(data)
+    data(data),
+    seekFrame(seekFrame)
 {}
 
 bool VideoFrame::operator == (const VideoFrame& other) const
 {
     return timestamp == other.timestamp &&
-        data == other.data;
+        data == other.data &&
+        seekFrame == other.seekFrame;
 }
 
 AudioFrame::AudioFrame()
@@ -45,16 +48,19 @@ AudioFrame::AudioFrame()
 
 AudioFrame::AudioFrame(
     Timestamp timestamp,
-    const std::shared_ptr<Audio::Data>& data) :
+    const std::shared_ptr<Audio::Data>& data,
+    SeekFrame seekFrame) :
     timestamp(timestamp),
-    data(data)
+    data(data),
+    seekFrame(seekFrame)
 {}
 
 bool AudioFrame::operator == (const AudioFrame& other) const
 {
     return
         timestamp == other.timestamp &&
-        data == other.data;
+        data == other.data &&
+        seekFrame == other.seekFrame;
 }
 
 void IIO::_init(

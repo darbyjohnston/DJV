@@ -7,13 +7,12 @@
 #include "Enum.h"
 #include "IO.h"
 
-#include <djvUI/Window.h>
-
 #include <djvAV/Time.h>
 
 #include <djvImage/Data.h>
 
 #include <djvSystem/FileInfo.h>
+#include <djvSystem/ISystem.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -35,9 +34,9 @@ public:
         const std::shared_ptr<djv::System::Context>&);
 
     const djv::System::File::Info& getFileInfo() const;
+    const IOInfo& getIOInfo() const;
 
-    std::shared_ptr<djv::Core::Observer::IValueSubject<IOInfo> > observeInfo() const;
-    std::shared_ptr<djv::Core::Observer::IValueSubject<std::shared_ptr<djv::Image::Data> > > observeCurrentImage() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<std::shared_ptr<djv::Image::Data> > > observeImage() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeVideoQueueSize() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeAudioQueueSize() const;
 
@@ -48,16 +47,22 @@ public:
     std::shared_ptr<djv::Core::Observer::IValueSubject<bool> > observeAudioMute() const;
 
     void setPlayback(Playback);
-
     void seek(Timestamp);
 
 private:
-    bool _hasVideo() const;
+    void _tick();
+    void _tickNoAudio();
+    void _tickAudio();
 
-    bool _hasAudio() const;
-    bool _hasAudioSyncPlayback() const;
+    bool _hasAudioPlayback() const;
     void _startAudio();
     void _stopAudio();
+    int _audioCallback(
+        void* outputBuffer,
+        void* inputBuffer,
+        unsigned int nFrames,
+        double streamTime,
+        RtAudioStreamStatus status);
     static int _rtAudioCallback(
         void* outputBuffer,
         void* inputBuffer,
@@ -69,12 +74,7 @@ private:
         RtAudioError::Type type,
         const std::string& errorText);
 
-    Timestamp _getTimestamp() const;
-    void _tick();
-    void _videoTick();
-    void _audioTick();
-
-    void _log(const std::string& message, const std::string& what);
+    void _error(const std::string& message, const std::string& what);
 
     DJV_PRIVATE();
 };

@@ -9,8 +9,6 @@
 enum AVSampleFormat;
 struct AVRational;
 
-const Timestamp timestampInvalid = std::numeric_limits<int64_t>::min();
-
 AVRational toFFmpeg(const djv::Math::Rational& value);
 
 djv::Math::Rational fromFFmpeg(const AVRational& value);

@@ -23,6 +23,7 @@
 
 const djv::Math::Rational timebase(1, 90000);
 typedef int64_t Timestamp;
+const Timestamp timestampInvalid = std::numeric_limits<int64_t>::min();
 const Timestamp seekNone = -1;
 
 class IOInfo
@@ -31,13 +32,19 @@ public:
     IOInfo();
 
     djv::System::File::Info       fileInfo;
+    std::vector<djv::Image::Info> video;
     djv::Math::Rational           videoSpeed;
     djv::Math::Frame::Sequence    videoSequence;
-    std::vector<djv::Image::Info> video;
     djv::Audio::Info              audio;
     size_t                        audioSampleCount = 0;
 
     bool operator == (const IOInfo&) const;
+};
+
+enum class SeekFrame
+{
+    False,
+    True
 };
 
 class VideoFrame
@@ -46,10 +53,12 @@ public:
     VideoFrame();
     VideoFrame(
         Timestamp,
-        const std::shared_ptr<djv::Image::Data>&);
+        const std::shared_ptr<djv::Image::Data>&,
+        SeekFrame);
 
     Timestamp                         timestamp = 0;
     std::shared_ptr<djv::Image::Data> data;
+    SeekFrame                         seekFrame = SeekFrame::False;
 
     bool operator == (const VideoFrame&) const;
 };
@@ -60,10 +69,12 @@ public:
     AudioFrame();
     explicit AudioFrame(
         Timestamp,
-        const std::shared_ptr<djv::Audio::Data>&);
+        const std::shared_ptr<djv::Audio::Data>&,
+        SeekFrame);
 
     Timestamp                         timestamp = 0;
     std::shared_ptr<djv::Audio::Data> data;
+    SeekFrame                         seekFrame = SeekFrame::False;
 
     bool operator == (const AudioFrame&) const;
 };
@@ -88,13 +99,9 @@ public:
     bool isFinished() const;
     void setFinished(bool);
 
-    bool isSeek() const;
-    void setSeek(bool);
-
 private:
     size_t _max = 0;
     std::queue<T> _queue;
-    bool _seek = false;
     bool _finished = false;
 };
 

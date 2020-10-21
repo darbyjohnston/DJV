@@ -33,7 +33,6 @@ using namespace djv;
 struct MainWindow::Private
 {
     std::shared_ptr<Media> media;
-    IOInfo info;
     Playback playback = Playback::Forward;
     Timestamp timestamp = 0;
     float fps = 0.F;
@@ -46,7 +45,6 @@ struct MainWindow::Private
     std::shared_ptr<TimelineWidget> timelineWidget;
     std::shared_ptr<UI::Drawer> drawer;
 
-    std::shared_ptr<Core::Observer::Value<IOInfo> > infoObserver;
     std::shared_ptr<Core::Observer::Value<std::shared_ptr<Image::Data> > > imageObserver;
     std::shared_ptr<Core::Observer::Value<Playback> > playbackObserver;
     std::shared_ptr<Core::Observer::Value<Timestamp> > timestampObserver;
@@ -233,19 +231,8 @@ void MainWindow::_init(
             return out;
         });
 
-    p.infoObserver = Core::Observer::Value<IOInfo>::create(
-        media->observeInfo(),
-        [weak](const IOInfo& value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_p->info = value;
-                widget->_widgetUpdate();
-            }
-        });
-
     p.imageObserver = Core::Observer::Value<std::shared_ptr<Image::Data> >::create(
-        media->observeCurrentImage(),
+        media->observeImage(),
         [weak](const std::shared_ptr<Image::Data>& value)
         {
             if (auto widget = weak.lock())
@@ -325,10 +312,24 @@ void MainWindow::_widgetUpdate()
 {
     DJV_PRIVATE_PTR();
 
-    int64_t t = 0;
-    if (p.info.videoSpeed.isValid())
+    const auto& info = p.media->getIOInfo();
+    Math::Rational speed;
+    Math::Frame::Sequence sequence;
+    if (info.video.size())
     {
-        t = AV::Time::scale(p.timestamp, timebase, p.info.videoSpeed.swap());
+        speed = info.videoSpeed;
+        sequence = info.videoSequence;
+    }
+    else if (info.audio.isValid())
+    {
+        speed = Math::Rational(info.audio.sampleRate, 1);
+        sequence = Math::Frame::Sequence(0, info.audioSampleCount > 0 ? (info.audioSampleCount - 1) : 0);
+    }
+
+    int64_t t = 0;
+    if (speed.isValid())
+    {
+        t = AV::Time::scale(p.timestamp, timebase, speed.swap());
     }
 
     {
@@ -343,7 +344,7 @@ void MainWindow::_widgetUpdate()
         p.currentTimeLabel->setText(ss.str());
     }
 
-    p.timelineWidget->setSpeed(p.info.videoSpeed);
-    p.timelineWidget->setSequence(p.info.videoSequence);
+    p.timelineWidget->setSpeed(speed);
+    p.timelineWidget->setSequence(sequence);
     p.timelineWidget->setTime(p.timestamp);
 }
