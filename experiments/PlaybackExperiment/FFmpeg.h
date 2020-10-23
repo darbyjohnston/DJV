@@ -34,8 +34,15 @@ private:
     void _work();
     void _cleanup();
 
-    int _decodeVideo(AVPacket*, Timestamp seek, std::queue<VideoFrame>&);
-    int _decodeAudio(AVPacket*, Timestamp seek, std::queue<AudioFrame>&);
+    void _read(
+        AVPacket*,
+        Timestamp seekTimestamp,
+        Timestamp& videoTimestamp,
+        Timestamp& audioTimestamp,
+        std::queue<VideoFrame>&,
+        std::queue<AudioFrame>&);
+    int _decodeVideo(AVPacket*, Timestamp seek, Timestamp&, std::queue<VideoFrame>&);
+    int _decodeAudio(AVPacket*, Timestamp seek, Timestamp&, std::queue<AudioFrame>&);
 
     DJV_PRIVATE();
 };

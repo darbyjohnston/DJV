@@ -140,10 +140,7 @@ void TimelineWidget::_pointerMoveEvent(System::Event::PointerMove& event)
     {
         if (p.callback)
         {
-            auto ts = _posToTime(pointerInfo.projectedPos.x);
-            //ts = 90240;
-            std::cout << "!!! Timeline: " << ts << std::endl;
-            p.callback(ts);
+            p.callback(_posToTime(pointerInfo.projectedPos.x));
         }
     }
 }
