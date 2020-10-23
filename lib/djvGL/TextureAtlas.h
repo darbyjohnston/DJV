@@ -10,6 +10,8 @@
 
 #include <djvCore/UID.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace Image
