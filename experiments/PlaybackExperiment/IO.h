@@ -137,7 +137,7 @@ protected:
     VideoQueue _videoQueue;
     AudioQueue _audioQueue;
     PlaybackDirection _playbackDirection = PlaybackDirection::Forward;
-    Timestamp _seek = seekNone;
+    Timestamp _seekTimestamp = seekNone;
 };
 
 class IIOPlugin : public std::enable_shared_from_this<IIOPlugin>

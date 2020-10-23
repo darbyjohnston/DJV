@@ -34,14 +34,8 @@ private:
     void _work();
     void _cleanup();
 
-    enum class Decode
-    {
-        False,
-        True
-    };
-
-    int _decodeVideo(AVPacket*, Decode);
-    int _decodeAudio(AVPacket*, Decode);
+    int _decodeVideo(AVPacket*, Timestamp seek, std::queue<VideoFrame>&);
+    int _decodeAudio(AVPacket*, Timestamp seek, std::queue<AudioFrame>&);
 
     DJV_PRIVATE();
 };

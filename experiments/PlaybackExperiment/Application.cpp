@@ -28,6 +28,10 @@ void Application::_init(std::list<std::string>& args)
     UIComponents::UIComponentsSystem::create(shared_from_this());
     IOSystem::create(shared_from_this());
 
+    //args.push_back("/Users/darby/Desktop/good_over_evil-ras_natural.ogg");
+    //args.push_back("/Users/darby/Desktop/Albany_2012-10-10.mov");
+    args.push_back("/Users/darby/Desktop/MOE DOC V8 FINAL .mp4");
+    //args.push_back("/Users/darby/Desktop/MVI_2791.m4v");
     if (args.size() > 0)
     {
         p.media = Media::create(args.front(), shared_from_this());
