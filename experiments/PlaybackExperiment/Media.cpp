@@ -281,44 +281,43 @@ void Media::_tickAudio()
     DJV_PRIVATE_PTR();
 
     Timestamp timestamp = 0;
-    {
-        std::lock_guard<std::mutex> lock(p.audio.mutex);
-        timestamp = p.audio.timestamp;
-    }
     VideoFrame videoFrame;
-    AudioFrame audioFrame;
     bool valid = false;
     size_t videoQueueSize = 0;
     size_t audioQueueSize = 0;
-    bool finished = false;
-    const bool stopped = Playback::Stop == p.playbackSubject->get();
-    {
-        std::lock_guard<std::mutex> lock(p.io->getMutex());
-
-        auto& audioQueue = p.io->getAudioQueue();
-        if (stopped && !audioQueue.isEmpty() && SeekFrame::True == audioQueue.getFrame().seekFrame)
-        {
-            audioFrame = audioQueue.popFrame();
-            timestamp = audioFrame.timestamp;
-        }
-        audioQueueSize = audioQueue.getCount();
-
-        auto& videoQueue = p.io->getVideoQueue();
-        finished = videoQueue.isFinished() && videoQueue.isEmpty();
-        while (!videoQueue.isEmpty() &&
-            (videoQueue.getFrame().timestamp <= timestamp || (stopped && SeekFrame::True == videoQueue.getFrame().seekFrame)))
-        {
-            videoFrame = videoQueue.popFrame();
-            valid = true;
-            ++(p.fpsCount);
-        }
-        videoQueueSize = videoQueue.getCount();
-    }
-    if (stopped && SeekFrame::True == audioFrame.seekFrame)
     {
         std::lock_guard<std::mutex> lock(p.audio.mutex);
-        p.audio.timestamp = timestamp;
-        p.audio.playbackStartTimestamp = timestamp;
+        timestamp = p.audio.timestamp;
+        AudioFrame audioFrame;
+        bool finished = false;
+        const bool stopped = Playback::Stop == p.playbackSubject->get();
+        {
+            std::lock_guard<std::mutex> lock(p.io->getMutex());
+
+            auto& audioQueue = p.io->getAudioQueue();
+            if (stopped && !audioQueue.isEmpty() && SeekFrame::True == audioQueue.getFrame().seekFrame)
+            {
+                audioFrame = audioQueue.popFrame();
+                timestamp = audioFrame.timestamp;
+            }
+            audioQueueSize = audioQueue.getCount();
+
+            auto& videoQueue = p.io->getVideoQueue();
+            finished = videoQueue.isFinished() && videoQueue.isEmpty();
+            while (!videoQueue.isEmpty() &&
+                (videoQueue.getFrame().timestamp <= timestamp || (stopped && SeekFrame::True == videoQueue.getFrame().seekFrame)))
+            {
+                videoFrame = videoQueue.popFrame();
+                valid = true;
+                ++(p.fpsCount);
+            }
+            videoQueueSize = videoQueue.getCount();
+        }
+        if (stopped && SeekFrame::True == audioFrame.seekFrame)
+        {
+            p.audio.timestamp = timestamp;
+            p.audio.playbackStartTimestamp = timestamp;
+        }
     }
     if (valid)
     {
@@ -333,11 +332,11 @@ void Media::_tickNoAudio()
 {
     DJV_PRIVATE_PTR();
 
-    Timestamp timestamp = 0;
+    Timestamp currentTimestamp = 0;
     switch (p.playbackSubject->get())
     {
     case Playback::Stop:
-        timestamp = p.timestampSubject->get();
+        currentTimestamp = p.timestampSubject->get();
         break;
     case Playback::Forward:
     case Playback::Reverse:
@@ -345,7 +344,7 @@ void Media::_tickNoAudio()
         const auto now = std::chrono::steady_clock::now();
         const double playbackTime = std::chrono::duration<float>(now - p.noAudio.playbackStartTime).count();
         const auto rate = timebase.swap();
-        timestamp = p.noAudio.playbackStartTimestamp + playbackTime * rate.getNum() / rate.getDen();
+        currentTimestamp = p.noAudio.playbackStartTimestamp + playbackTime * rate.getNum() / rate.getDen();
     }
     default: break;
     }
@@ -362,10 +361,9 @@ void Media::_tickNoAudio()
         auto& videoQueue = p.io->getVideoQueue();
         finished = videoQueue.isFinished() && videoQueue.isEmpty();
         while (!videoQueue.isEmpty() &&
-            (videoQueue.getFrame().timestamp <= timestamp || SeekFrame::True == videoQueue.getFrame().seekFrame))
+            (videoQueue.getFrame().timestamp <= currentTimestamp || SeekFrame::True == videoQueue.getFrame().seekFrame))
         {
             frame = videoQueue.popFrame();
-            timestamp = frame.timestamp;
             valid = true;
             ++(p.fpsCount);
             if (SeekFrame::True == frame.seekFrame)
@@ -378,13 +376,13 @@ void Media::_tickNoAudio()
     if (SeekFrame::True == frame.seekFrame)
     {
         p.noAudio.playbackStartTime = std::chrono::steady_clock::now();
-        p.noAudio.playbackStartTimestamp = timestamp;
+        p.noAudio.playbackStartTimestamp = frame.timestamp;
     }
     if (valid)
     {
         p.imageSubject->setIfChanged(frame.data);
+        p.timestampSubject->setIfChanged(frame.timestamp);
     }
-    p.timestampSubject->setIfChanged(timestamp);
     p.videoQueueSizeSubject->setAlways(queueSize);
 }
 

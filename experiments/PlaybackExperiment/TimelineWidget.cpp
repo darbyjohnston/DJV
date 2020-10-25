@@ -19,7 +19,7 @@ struct TimelineWidget::Private
     Timestamp timestamp = 0;
     std::function<void(Timestamp)> callback;
     System::Event::PointerID pressedID = System::Event::invalidID;
-    glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
+    Timestamp pointerTimestamp = timestampInvalid;
 };
 
 void TimelineWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -138,10 +138,7 @@ void TimelineWidget::_pointerMoveEvent(System::Event::PointerMove& event)
     const auto& pointerInfo = event.getPointerInfo();
     if (pointerInfo.id == p.pressedID)
     {
-        if (p.callback)
-        {
-            p.callback(_posToTime(pointerInfo.projectedPos.x));
-        }
+        _pointerAction(pointerInfo);
     }
 }
 
@@ -154,8 +151,7 @@ void TimelineWidget::_buttonPressEvent(System::Event::ButtonPress& event)
     takeTextFocus();
     const auto& pointerInfo = event.getPointerInfo();
     p.pressedID = pointerInfo.id;
-    p.pressedPos = pointerInfo.projectedPos;
-    _redraw();
+    _pointerAction(pointerInfo);
 }
 
 void TimelineWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
@@ -166,6 +162,7 @@ void TimelineWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
     {
         event.accept();
         p.pressedID = System::Event::invalidID;
+        p.pointerTimestamp = timestampInvalid;
         _redraw();
     }
 }
@@ -185,3 +182,19 @@ Timestamp TimelineWidget::_posToTime(float value) const
     Math::Frame::Index out = length > 0 ? ((value - g.min.x) / g.w() * length) : 0;
     return out;
 }
+
+void TimelineWidget::_pointerAction(const djv::System::Event::PointerInfo& pointerInfo)
+{
+    DJV_PRIVATE_PTR();
+    const Timestamp timestamp = _posToTime(pointerInfo.projectedPos.x);
+    if (timestamp != p.pointerTimestamp)
+    {
+        p.pointerTimestamp = timestamp;
+        if (p.callback)
+        {
+            p.callback(p.pointerTimestamp);
+        }
+        _redraw();
+    }
+}
+

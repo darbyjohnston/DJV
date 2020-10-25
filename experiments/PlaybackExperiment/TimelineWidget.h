@@ -45,5 +45,7 @@ private:
     float _timeToPos(Timestamp) const;
     Timestamp _posToTime(float) const;
 
+    void _pointerAction(const djv::System::Event::PointerInfo&);
+
     DJV_PRIVATE();
 };
