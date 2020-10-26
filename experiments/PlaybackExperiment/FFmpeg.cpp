@@ -337,12 +337,12 @@ void FFmpegIO::_work()
         }
 
         AVPacket packet;
+        std::queue<VideoFrame> videoFrames;
+        std::queue<AudioFrame> audioFrames;
         try
         {
             Timestamp videoTimestamp = timestampInvalid;
             Timestamp audioTimestamp = timestampInvalid;
-            std::queue<VideoFrame> videoFrames;
-            std::queue<AudioFrame> audioFrames;
             if (seekTimestamp != seekNone)
             {
                 if (p.avVideoStream != -1)
@@ -353,6 +353,7 @@ void FFmpegIO::_work()
                 {
                     avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                 }
+                //std::cout << "FFmpeg seek: " << seekTimestamp << std::endl;
                 if (av_seek_frame(
                     p.avFormatContext,
                     -1,
@@ -366,32 +367,10 @@ void FFmpegIO::_work()
                 {
                     _read(&packet, seekTimestamp, videoTimestamp, audioTimestamp, videoFrames, audioFrames);
                 }
-                if (!videoFrames.empty())
-                {
-                    videoFrames.front().seekFrame = SeekFrame::True;
-                }
-                if (!audioFrames.empty())
-                {
-                    audioFrames.front().seekFrame = SeekFrame::True;
-                }
             }
             else if (read)
             {
                 _read(&packet, seekNone, videoTimestamp, audioTimestamp, videoFrames, audioFrames);
-            }
-            if (!videoFrames.empty() || !audioFrames.empty())
-            {
-                std::lock_guard<std::mutex> lock(_mutex);
-                while (!videoFrames.empty())
-                {
-                    _videoQueue.addFrame(videoFrames.front());
-                    videoFrames.pop();
-                }
-                while (!audioFrames.empty())
-                {
-                    _audioQueue.addFrame(audioFrames.front());
-                    audioFrames.pop();
-                }
             }
         }
         catch (const std::exception&)
@@ -401,6 +380,20 @@ void FFmpegIO::_work()
                 std::lock_guard<std::mutex> lock(_mutex);
                 _videoQueue.setFinished(true);
                 _audioQueue.setFinished(true);
+            }
+        }
+        if (!videoFrames.empty() || !audioFrames.empty())
+        {
+            std::lock_guard<std::mutex> lock(_mutex);
+            while (!videoFrames.empty())
+            {
+                _videoQueue.addFrame(videoFrames.front());
+                videoFrames.pop();
+            }
+            while (!audioFrames.empty())
+            {
+                _audioQueue.addFrame(audioFrames.front());
+                audioFrames.pop();
             }
         }
     }
@@ -531,7 +524,7 @@ int FFmpegIO::_decodeVideo(AVPacket* packet, Timestamp seekTimestamp, Timestamp&
             frames.push(VideoFrame(
                 timestamp,
                 image,
-                SeekFrame::False));
+                seekTimestamp != seekNone && frames.empty() ? SeekFrame::True : SeekFrame::False));
         }
     }
     return r;
@@ -571,7 +564,7 @@ int FFmpegIO::_decodeAudio(AVPacket* packet, Timestamp seekTimestamp, Timestamp&
             frames.push(AudioFrame(
                 timestamp,
                 audioData,
-                SeekFrame::False));
+                seekTimestamp != seekNone && frames.empty() ? SeekFrame::True : SeekFrame::False));
         }
     }
     return r;

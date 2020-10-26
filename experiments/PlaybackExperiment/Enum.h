@@ -16,3 +16,11 @@ enum class PlaybackDirection
     Forward,
     Reverse
 };
+
+enum class Frame
+{
+    Start,
+    End,
+    Next,
+    Prev
+};

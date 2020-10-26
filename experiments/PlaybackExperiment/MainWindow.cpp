@@ -78,6 +78,22 @@ void MainWindow::_init(
     p.actions["Playback/Playback"]->setShortcuts({
         UI::ShortcutData(GLFW_KEY_SPACE),
         UI::ShortcutData(GLFW_KEY_K) });
+    p.actions["Playback/StartFrame"] = UI::Action::create();
+    p.actions["Playback/StartFrame"]->setIcon("djvIconFrameStart");
+    p.actions["Playback/StartFrame"]->setShortcuts({
+        UI::ShortcutData(GLFW_KEY_HOME) });
+    p.actions["Playback/EndFrame"] = UI::Action::create();
+    p.actions["Playback/EndFrame"]->setIcon("djvIconFrameEnd");
+    p.actions["Playback/EndFrame"]->setShortcuts({
+        UI::ShortcutData(GLFW_KEY_END) });
+    p.actions["Playback/NextFrame"] = UI::Action::create();
+    p.actions["Playback/NextFrame"]->setIcon("djvIconFrameNext");
+    p.actions["Playback/NextFrame"]->setShortcuts({
+        UI::ShortcutData(GLFW_KEY_RIGHT) });
+    p.actions["Playback/PrevFrame"] = UI::Action::create();
+    p.actions["Playback/PrevFrame"]->setIcon("djvIconFramePrev");
+    p.actions["Playback/PrevFrame"]->setShortcuts({
+        UI::ShortcutData(GLFW_KEY_LEFT) });
 
     p.actions["Tools/Drawer"] = UI::Action::create();
     p.actions["Tools/Drawer"]->setButtonType(UI::ButtonType::Toggle);
@@ -98,6 +114,11 @@ void MainWindow::_init(
     playbackMenu->setText("Playback");
     playbackMenu->addAction(p.actions["Playback/Forward"]);
     playbackMenu->addAction(p.actions["Playback/Reverse"]);
+    playbackMenu->addSeparator();
+    playbackMenu->addAction(p.actions["Playback/StartFrame"]);
+    playbackMenu->addAction(p.actions["Playback/EndFrame"]);
+    playbackMenu->addAction(p.actions["Playback/NextFrame"]);
+    playbackMenu->addAction(p.actions["Playback/PrevFrame"]);
 
     auto toolsMenu = UI::Menu::create(context);
     toolsMenu->setText("Tools");
@@ -124,8 +145,12 @@ void MainWindow::_init(
 
     auto playbackToolBar = UI::ToolBar::create(context);
     playbackToolBar->setBackgroundRole(UI::ColorRole::Background);
+    playbackToolBar->addAction(p.actions["Playback/StartFrame"]);
+    playbackToolBar->addAction(p.actions["Playback/PrevFrame"]);
     playbackToolBar->addAction(p.actions["Playback/Reverse"]);
     playbackToolBar->addAction(p.actions["Playback/Forward"]);
+    playbackToolBar->addAction(p.actions["Playback/NextFrame"]);
+    playbackToolBar->addAction(p.actions["Playback/EndFrame"]);
 
     p.speedLabel = UI::Text::Label::create(context);
     p.speedLabel->setSizeString("00.00");
@@ -179,6 +204,51 @@ void MainWindow::_init(
                         Playback::Stop == media->observePlayback()->get() ?
                         (Playback::Stop == widget->_p->playback ? Playback::Forward : widget->_p->playback) :
                         Playback::Stop);
+                }
+            }
+        });
+
+    p.actions["Playback/StartFrame"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                if (auto media = widget->_p->media)
+                {
+                    media->frame(Frame::Start);
+                }
+            }
+        });
+    p.actions["Playback/EndFrame"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                if (auto media = widget->_p->media)
+                {
+                    media->frame(Frame::End);
+                }
+            }
+        });
+    p.actions["Playback/NextFrame"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                if (auto media = widget->_p->media)
+                {
+                    media->frame(Frame::Next);
+                }
+            }
+        });
+    p.actions["Playback/PrevFrame"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                if (auto media = widget->_p->media)
+                {
+                    media->frame(Frame::Prev);
                 }
             }
         });

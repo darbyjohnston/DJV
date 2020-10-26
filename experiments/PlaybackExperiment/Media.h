@@ -48,6 +48,7 @@ public:
 
     void setPlayback(Playback);
     void seek(Timestamp);
+    void frame(Frame);
 
 private:
     void _tick();
