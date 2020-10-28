@@ -173,7 +173,7 @@ namespace djv
         {
             struct LanguageWidget::Private
             {
-                std::shared_ptr<LanguageWidget> languageWidget;
+                std::shared_ptr<UIComponents::LanguageWidget> languageWidget;
                 std::shared_ptr<UI::FormLayout> layout;
             };
 
@@ -184,7 +184,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UIComponents::Settings::LanguageWidget");
 
-                p.languageWidget = LanguageWidget::create(context);
+                p.languageWidget = UIComponents::LanguageWidget::create(context);
 
                 p.layout = UI::FormLayout::create(context);
                 p.layout->addChild(p.languageWidget);
