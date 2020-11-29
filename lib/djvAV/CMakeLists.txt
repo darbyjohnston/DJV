@@ -12,7 +12,6 @@ set(header
     IOSystem.h
     Namespace.h
     PFM.h
-    PFMRead.h
     PPM.h
     PPMFunc.h
     RLA.h
@@ -41,6 +40,7 @@ set(source
     IOPlugin.cpp
     IOSystem.cpp
     PFM.cpp
+    PFMRead.cpp
     PPM.cpp
     PPMFunc.cpp
     PPMRead.cpp
