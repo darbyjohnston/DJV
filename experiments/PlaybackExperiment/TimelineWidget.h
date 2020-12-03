@@ -27,10 +27,10 @@ public:
     static std::shared_ptr<TimelineWidget> create(const std::shared_ptr<djv::System::Context>&);
 
     void setSpeed(const djv::Math::Rational&);
-    void setSequence(const djv::Math::Frame::Sequence&);
-    void setTime(Timestamp);
+    void setFrameInfo(const std::vector<IO::FrameInfo>&);
+    void setCurrentFrame(const IO::FrameInfo&);
 
-    void setCallback(const std::function<void(Timestamp)>&);
+    void setCallback(const std::function<void(const IO::FrameInfo&)>&);
 
 protected:
     void _preLayoutEvent(djv::System::Event::PreLayout&) override;
@@ -42,8 +42,8 @@ protected:
     void _buttonReleaseEvent(djv::System::Event::ButtonRelease&) override;
 
 private:
-    float _timeToPos(Timestamp) const;
-    Timestamp _posToTime(float) const;
+    float _frameToPos(const IO::FrameInfo&) const;
+    IO::FrameInfo _posToFrame(float) const;
 
     void _pointerAction(const djv::System::Event::PointerInfo&);
 

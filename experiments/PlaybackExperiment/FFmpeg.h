@@ -8,57 +8,68 @@
 
 struct AVPacket;
 
-class FFmpegIO : public IIO
+namespace IO
 {
-    DJV_NON_COPYABLE(FFmpegIO);
+    class FFmpegRead : public IRead
+    {
+        DJV_NON_COPYABLE(FFmpegRead);
 
-protected:
-    void _init(
-        const djv::System::File::Info&,
-        const std::shared_ptr<djv::System::LogSystem>&);
-    FFmpegIO();
+    protected:
+        void _init(
+            const djv::System::File::Info&,
+            const std::shared_ptr<djv::System::LogSystem>&);
+        FFmpegRead();
 
-public:
-    ~FFmpegIO() override;
+    public:
+        ~FFmpegRead() override;
 
-    static std::shared_ptr<FFmpegIO> create(
-        const djv::System::File::Info&,
-        const std::shared_ptr<djv::System::LogSystem>&);
+        static std::shared_ptr<FFmpegRead> create(
+            const djv::System::File::Info&,
+            const std::shared_ptr<djv::System::LogSystem>&);
 
-    std::future<IOInfo> getInfo() override;
+        std::future<std::shared_ptr<Info> > getInfo() override;
 
-    void seek(Timestamp) override;
+        void seek(Timestamp) override;
 
-private:
-    void _init(const djv::System::File::Info&);
-    void _work();
-    void _cleanup();
+    private:
+        void _init(const djv::System::File::Info&);
+        void _work();
+        void _cleanup();
 
-    void _read(
-        AVPacket*,
-        Timestamp seekTimestamp,
-        Timestamp& videoTimestamp,
-        Timestamp& audioTimestamp,
-        std::queue<VideoFrame>&,
-        std::queue<AudioFrame>&);
-    int _decodeVideo(AVPacket*, Timestamp seek, Timestamp&, std::queue<VideoFrame>&);
-    int _decodeAudio(AVPacket*, Timestamp seek, Timestamp&, std::queue<AudioFrame>&);
+        void _scan();
+        int _scanVideo(AVPacket*);
+        int _scanAudio(AVPacket*);
 
-    DJV_PRIVATE();
-};
+        void _seek(
+            AVPacket*,
+            Timestamp seekTimestamp,
+            std::queue<VideoFrame>&,
+            std::queue<AudioFrame>&);
+        void _read(
+            AVPacket*,
+            Timestamp seekTimestamp,
+            std::queue<VideoFrame>&,
+            std::queue<AudioFrame>&);
+        int _readVideo(AVPacket*, Timestamp seek, std::queue<VideoFrame>&);
+        int _readAudio(AVPacket*, Timestamp seek, std::queue<AudioFrame>&);
 
-class FFmpegPlugin : public IIOPlugin
-{
-    DJV_NON_COPYABLE(FFmpegPlugin);
+        DJV_PRIVATE();
+    };
 
-protected:
-    FFmpegPlugin(const std::shared_ptr<djv::System::LogSystem>&);
+    class FFmpegPlugin : public IPlugin
+    {
+        DJV_NON_COPYABLE(FFmpegPlugin);
 
-public:
-    ~FFmpegPlugin() override;
+    protected:
+        FFmpegPlugin(const std::shared_ptr<djv::System::LogSystem>&);
 
-    static std::shared_ptr<FFmpegPlugin> create(const std::shared_ptr<djv::System::LogSystem>&);
+    public:
+        ~FFmpegPlugin() override;
 
-    bool canRead(const djv::System::File::Info&) override;
-    std::shared_ptr<IIO> read(const djv::System::File::Info&) override;
-};
+        static std::shared_ptr<FFmpegPlugin> create(const std::shared_ptr<djv::System::LogSystem>&);
+
+        bool canRead(const djv::System::File::Info&) override;
+        std::shared_ptr<IRead> read(const djv::System::File::Info&) override;
+    };
+
+} // namespace IO

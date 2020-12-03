@@ -4,6 +4,8 @@
 
 #include "Media.h"
 
+#include "IOCache.h"
+
 #include <djvAV/Time.h>
 #include <djvAV/TimeFunc.h>
 
@@ -31,19 +33,22 @@ struct Media::Private
 {
     std::weak_ptr<System::Context> context;
     System::File::Info fileInfo;
-    IOInfo ioInfo;
-    std::shared_ptr<IIO> io;
+    std::shared_ptr<IO::Info> ioInfo;
+    std::shared_ptr<IO::IRead> read;
     bool hasVideo = false;
     bool hasAudio = false;
 
     std::shared_ptr<Core::Observer::ValueSubject<std::shared_ptr<Image::Data> > > imageSubject;
     std::shared_ptr<Core::Observer::ValueSubject<size_t> > videoQueueSizeSubject;
     std::shared_ptr<Core::Observer::ValueSubject<size_t> > audioQueueSizeSubject;
+    std::shared_ptr<Core::Observer::ValueSubject<float> > speedSubject;
     std::shared_ptr<Core::Observer::ValueSubject<Playback> > playbackSubject;
-    std::shared_ptr<Core::Observer::ValueSubject<Timestamp> > timestampSubject;
-    std::shared_ptr<Core::Observer::ValueSubject<float> > fpsSubject;
+    std::shared_ptr<Core::Observer::ValueSubject<IO::FrameInfo> > currentFrameSubject;
+    std::shared_ptr<Core::Observer::ValueSubject<float> > audioRateSubject;
     std::shared_ptr<Core::Observer::ValueSubject<float> > audioVolumeSubject;
     std::shared_ptr<Core::Observer::ValueSubject<bool> > audioMuteSubject;
+
+    std::shared_ptr<IO::Cache> cache;
 
     std::shared_ptr<System::Timer> timer;
     size_t fpsCount = 0;
@@ -51,15 +56,16 @@ struct Media::Private
 
     struct NoAudioPlayback
     {
-        Timestamp startTimestamp = 0;
+        IO::FrameInfo frameInfo;
+        IO::Timestamp startTimestamp = 0;
         std::chrono::steady_clock::time_point startTime;
     } noAudio;
 
     struct AudioPlayback
     {
         std::mutex mutex;
-        Timestamp timestamp = 0;
-        Timestamp startTimestamp = 0;
+        IO::FrameInfo frameInfo;
+        IO::Timestamp startTimestamp = 0;
         float volume = 1.F;
         bool mute = false;
         std::shared_ptr<djv::Audio::Data> data;
@@ -80,22 +86,23 @@ void Media::_init(
     p.imageSubject = Core::Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
     p.videoQueueSizeSubject = Core::Observer::ValueSubject<size_t>::create();
     p.audioQueueSizeSubject = Core::Observer::ValueSubject<size_t>::create();
+    p.speedSubject = Core::Observer::ValueSubject<float>::create(0.F);
     p.playbackSubject = Core::Observer::ValueSubject<Playback>::create();
-    p.timestampSubject = Core::Observer::ValueSubject<Timestamp>::create(0);
-    p.fpsSubject = Core::Observer::ValueSubject<float>::create(0.F);
+    p.currentFrameSubject = Core::Observer::ValueSubject<IO::FrameInfo>::create();
+    p.audioRateSubject = Core::Observer::ValueSubject<float>::create(0.F);
     p.audioVolumeSubject = Core::Observer::ValueSubject<float>::create(1.F);
     p.audioMuteSubject = Core::Observer::ValueSubject<bool>::create(false);
 
-    auto ioSystem = context->getSystemT<IOSystem>();
-    p.io = ioSystem->read(fileInfo);
-    if (p.io)
+    auto ioSystem = context->getSystemT<IO::IOSystem>();
+    p.read = ioSystem->read(fileInfo);
+    if (p.read)
     {
-        p.ioInfo = p.io->getInfo().get();
-        if (p.ioInfo.video.size())
+        p.ioInfo = p.read->getInfo().get();
+        if (p.ioInfo->video.size())
         {
             p.hasVideo = true;
         }
-        if (p.ioInfo.audio.isValid())
+        if (p.ioInfo->audio.isValid())
         {
             try
             {
@@ -103,13 +110,13 @@ void Media::_init(
                 RtAudio::StreamParameters rtParameters;
                 auto audioSystem = context->getSystemT<Audio::AudioSystem>();
                 rtParameters.deviceId = audioSystem->getDefaultOutputDevice();
-                rtParameters.nChannels = p.ioInfo.audio.channelCount;
+                rtParameters.nChannels = p.ioInfo->audio.channelCount;
                 unsigned int rtBufferFrames = bufferFramesCount;
                 p.rtAudio->openStream(
                     &rtParameters,
                     nullptr,
-                    Audio::toRtAudio(p.ioInfo.audio.type),
-                    p.ioInfo.audio.sampleRate,
+                    Audio::toRtAudio(p.ioInfo->audio.type),
+                    p.ioInfo->audio.sampleRate,
                     &rtBufferFrames,
                     _rtAudioCallback,
                     this,
@@ -123,6 +130,8 @@ void Media::_init(
             }
         }
     }
+
+    p.cache = IO::Cache::create(context);
 
     p.timer = System::Timer::create(context);
     p.timer->setRepeating(true);
@@ -167,7 +176,7 @@ std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Data> > > M
     return _p->imageSubject;
 }
 
-const IOInfo& Media::getIOInfo() const
+const std::shared_ptr<IO::Info>& Media::getIOInfo() const
 {
     return _p->ioInfo;
 }
@@ -182,19 +191,24 @@ std::shared_ptr<Core::Observer::IValueSubject<size_t> > Media::observeAudioQueue
     return _p->audioQueueSizeSubject;
 }
 
+std::shared_ptr<Core::Observer::IValueSubject<float> > Media::observeSpeed() const
+{
+    return _p->speedSubject;
+}
+
 std::shared_ptr<Core::Observer::IValueSubject<Playback> > Media::observePlayback() const
 {
     return _p->playbackSubject;
 }
 
-std::shared_ptr<Core::Observer::IValueSubject<Timestamp> > Media::observeTimestamp() const
+std::shared_ptr<Core::Observer::IValueSubject<IO::FrameInfo> > Media::observeCurrentFrame() const
 {
-    return _p->timestampSubject;
+    return _p->currentFrameSubject;
 }
 
-std::shared_ptr<Core::Observer::IValueSubject<float> > Media::observeFPS() const
+std::shared_ptr<Core::Observer::IValueSubject<float> > Media::observeAudioRate() const
 {
-    return _p->fpsSubject;
+    return _p->audioRateSubject;
 }
 
 std::shared_ptr<Core::Observer::IValueSubject<float> > Media::observeAudioVolume() const
@@ -210,9 +224,9 @@ std::shared_ptr<Core::Observer::IValueSubject<bool> > Media::observeAudioMute() 
 void Media::setPlayback(Playback value)
 {
     DJV_PRIVATE_PTR();
-    if (p.io && p.playbackSubject->setIfChanged(value))
+    if (p.read && p.playbackSubject->setIfChanged(value))
     {
-        p.io->setPlaybackDirection(Playback::Forward == value ? PlaybackDirection::Forward : PlaybackDirection::Reverse);
+        p.read->setPlaybackDirection(Playback::Forward == value ? PlaybackDirection::Forward : PlaybackDirection::Reverse);
         switch (value)
         {
         case Playback::Stop:
@@ -228,14 +242,14 @@ void Media::setPlayback(Playback value)
             {
                 {
                     std::lock_guard<std::mutex> lock(p.audio.mutex);
-                    p.audio.startTimestamp = p.timestampSubject->get();
+                    p.audio.startTimestamp = p.audio.frameInfo.timestamp;
                 }
                 _startAudio();
             }
             else
             {
                 p.noAudio.startTime = std::chrono::steady_clock::now();
-                p.noAudio.startTimestamp = p.timestampSubject->get();
+                p.noAudio.startTimestamp = p.noAudio.frameInfo.timestamp;
             }
             auto weak = std::weak_ptr<Media>(shared_from_this());
             p.fpsTimer->start(
@@ -244,7 +258,7 @@ void Media::setPlayback(Playback value)
                 {
                     if (auto media = weak.lock())
                     {
-                        media->_p->fpsSubject->setIfChanged(media->_p->fpsCount / std::chrono::duration<float>(duration).count());
+                        media->_p->speedSubject->setIfChanged(media->_p->fpsCount / std::chrono::duration<float>(duration).count());
                         media->_p->fpsCount = 0;
                     }
                 });
@@ -258,9 +272,9 @@ void Media::setPlayback(Playback value)
 void Media::seek(Math::Frame::Index value)
 {
     DJV_PRIVATE_PTR();
-    if (p.io)
+    if (p.read)
     {
-        p.io->seek(value);
+        p.read->seek(value);
     }
 }
 
@@ -268,55 +282,40 @@ void Media::frame(Frame value)
 {
     DJV_PRIVATE_PTR();
     Math::Rational speed;
-    Math::Frame::Sequence sequence;
-    if (!p.ioInfo.video.empty())
+    int64_t frameIndex = -1;
+    const auto& videoFrameInfo = p.ioInfo->videoFrameInfo;
+    const auto& audioFrameInfo = p.ioInfo->audioFrameInfo;
+    if (!p.ioInfo->video.empty() && !videoFrameInfo.empty())
     {
-        speed = p.ioInfo.videoSpeed;
-        sequence = p.ioInfo.videoSequence;
-    }
-    else if (p.ioInfo.audio.isValid())
-    {
-        speed = Math::Rational(p.ioInfo.audio.sampleRate, 1);
-        sequence = Math::Frame::Sequence(0, p.ioInfo.audioSampleCount > 0 ? (p.ioInfo.audioSampleCount - 1) : 0);
-    }
-    switch (value)
-    {
-    case Frame::Start:
-        p.io->seek(0);
-        break;
-    case Frame::End:
-        if (speed.isValid())
+        speed = p.ioInfo->videoSpeed;
+        switch (value)
         {
-            int64_t t = 0;
-            t = AV::Time::scale(sequence.getLastIndex(), speed.swap(), timebase);
-            p.io->seek(t);
-        }
-        break;
-    case Frame::Next:
-        if (speed.isValid())
-        {
-            int64_t t = AV::Time::scale(p.timestampSubject->get(), timebase, speed.swap());
-            ++t;
-            if (t > sequence.getLastIndex())
+        case Frame::Start:
+            frameIndex = 0;
+            break;
+        case Frame::End:
+            frameIndex = videoFrameInfo.size() - 1;
+            break;
+        case Frame::Next:
+            ++frameIndex;
+            if (frameIndex >= videoFrameInfo.size())
             {
-                t = 0;
+                frameIndex = 0;
             }
-            p.io->seek(AV::Time::scale(t, speed.swap(), timebase));
-        }
-        break;
-    case Frame::Prev:
-        if (speed.isValid())
-        {
-            int64_t t = AV::Time::scale(p.timestampSubject->get(), timebase, speed.swap());
-            --t;
-            if (t < 0)
+            break;
+        case Frame::Prev:
+            --frameIndex;
+            if (frameIndex < 0)
             {
-                t = sequence.getLastIndex();
+                frameIndex = videoFrameInfo.size() - 1;
             }
-            p.io->seek(AV::Time::scale(t, speed.swap(), timebase));
+            break;
+        default: break;
         }
-        break;
-    default: break;
+    }
+    else if (p.ioInfo->audio.isValid() && !audioFrameInfo.empty())
+    {
+        speed = Math::Rational(p.ioInfo->audio.sampleRate, 1);
     }
 }
 
@@ -336,43 +335,46 @@ void Media::_tickAudio()
 {
     DJV_PRIVATE_PTR();
 
-    Timestamp timestamp = 0;
-    VideoFrame videoFrame;
+    IO::FrameInfo frameInfo = p.currentFrameSubject->get();
+    IO::VideoFrame videoFrame;
     bool valid = false;
     size_t videoQueueSize = 0;
     size_t audioQueueSize = 0;
     {
         std::lock_guard<std::mutex> lock(p.audio.mutex);
-        timestamp = p.audio.timestamp;
-        AudioFrame audioFrame;
+        IO::AudioFrame audioFrame;
         bool finished = false;
         const bool stopped = Playback::Stop == p.playbackSubject->get();
         {
-            std::lock_guard<std::mutex> lock(p.io->getMutex());
+            std::lock_guard<std::mutex> lock(p.read->getMutex());
 
-            auto& audioQueue = p.io->getAudioQueue();
-            if (stopped && !audioQueue.isEmpty() && SeekFrame::True == audioQueue.getFrame().seekFrame)
+            // Get an audio frame from the queue if playback is stopped and
+            // this is a seek frame.
+            auto& audioQueue = p.read->getAudioQueue();
+            if (stopped && !audioQueue.isEmpty() && IO::SeekFrame::True == audioQueue.getFrame().seekFrame)
             {
                 audioFrame = audioQueue.popFrame();
-                timestamp = audioFrame.timestamp;
+                p.audio.frameInfo = audioFrame.info;
+                p.audio.startTimestamp = audioFrame.info.timestamp;
+                if (!p.hasVideo)
+                {
+                    frameInfo = audioFrame.info;
+                }
             }
             audioQueueSize = audioQueue.getCount();
 
-            auto& videoQueue = p.io->getVideoQueue();
+            // Get video frames from the queue.
+            auto& videoQueue = p.read->getVideoQueue();
             finished = videoQueue.isFinished() && videoQueue.isEmpty();
             while (!videoQueue.isEmpty() &&
-                (videoQueue.getFrame().timestamp <= timestamp || (stopped && SeekFrame::True == videoQueue.getFrame().seekFrame)))
+                (videoQueue.getFrame().info.timestamp <= p.audio.frameInfo.timestamp || (stopped && IO::SeekFrame::True == videoQueue.getFrame().seekFrame)))
             {
                 videoFrame = videoQueue.popFrame();
+                frameInfo = videoFrame.info;
                 valid = true;
                 ++(p.fpsCount);
             }
             videoQueueSize = videoQueue.getCount();
-        }
-        if (stopped && SeekFrame::True == audioFrame.seekFrame)
-        {
-            p.audio.timestamp = timestamp;
-            p.audio.startTimestamp = timestamp;
         }
     }
     if (valid)
@@ -380,7 +382,7 @@ void Media::_tickAudio()
         p.imageSubject->setIfChanged(videoFrame.data);
         //std::cout << "Media video: " << videoFrame.timestamp << std::endl;
     }
-    p.timestampSubject->setIfChanged(timestamp);
+    p.currentFrameSubject->setIfChanged(frameInfo);
     p.videoQueueSizeSubject->setAlways(videoQueueSize);
     p.audioQueueSizeSubject->setAlways(audioQueueSize);
 }
@@ -389,56 +391,56 @@ void Media::_tickNoAudio()
 {
     DJV_PRIVATE_PTR();
 
-    Timestamp currentTimestamp = 0;
+    IO::FrameInfo frameInfo;
     switch (p.playbackSubject->get())
     {
     case Playback::Stop:
-        currentTimestamp = p.timestampSubject->get();
+        frameInfo = p.currentFrameSubject->get();
         break;
     case Playback::Forward:
     case Playback::Reverse:
     {
         const auto now = std::chrono::steady_clock::now();
         const double playbackTime = std::chrono::duration<float>(now - p.noAudio.startTime).count();
-        const auto rate = timebase.swap();
-        currentTimestamp = p.noAudio.startTimestamp + playbackTime * rate.getNum() / rate.getDen();
+        const auto rate = p.ioInfo->videoSpeed.swap();
+        frameInfo.timestamp = p.noAudio.startTimestamp + playbackTime * rate.getNum() / rate.getDen();
     }
     default: break;
     }
 
-    VideoFrame frame;
+    IO::VideoFrame frame;
     bool valid = false;
     size_t queueSize = 0;
     bool finished = false;
     {
-        std::lock_guard<std::mutex> lock(p.io->getMutex());
+        std::lock_guard<std::mutex> lock(p.read->getMutex());
 
-        p.io->getAudioQueue().clearFrames();
+        p.read->getAudioQueue().clearFrames();
 
-        auto& videoQueue = p.io->getVideoQueue();
+        auto& videoQueue = p.read->getVideoQueue();
         finished = videoQueue.isFinished() && videoQueue.isEmpty();
         while (!videoQueue.isEmpty() &&
-            (videoQueue.getFrame().timestamp <= currentTimestamp || SeekFrame::True == videoQueue.getFrame().seekFrame))
+            (videoQueue.getFrame().info.timestamp <= frameInfo.timestamp || IO::SeekFrame::True == videoQueue.getFrame().seekFrame))
         {
             frame = videoQueue.popFrame();
             valid = true;
             ++(p.fpsCount);
-            if (SeekFrame::True == frame.seekFrame)
+            if (IO::SeekFrame::True == frame.seekFrame)
             {
                 break;
             }
         }
         queueSize = videoQueue.getCount();
     }
-    if (SeekFrame::True == frame.seekFrame)
+    if (IO::SeekFrame::True == frame.seekFrame)
     {
         p.noAudio.startTime = std::chrono::steady_clock::now();
-        p.noAudio.startTimestamp = frame.timestamp;
+        p.noAudio.startTimestamp = frame.info.timestamp;
     }
     if (valid)
     {
         p.imageSubject->setIfChanged(frame.data);
-        p.timestampSubject->setIfChanged(frame.timestamp);
+        p.currentFrameSubject->setIfChanged(frame.info);
     }
     p.videoQueueSizeSubject->setAlways(queueSize);
 }
@@ -497,26 +499,25 @@ int Media::_audioCallback(
     DJV_PRIVATE_PTR();
     std::lock_guard<std::mutex> lock(p.audio.mutex);
 
-    // Get audio frames from the read queue.
+    // Get audio frames from the queue.
     size_t outputSampleCount = static_cast<size_t>(nFrames);
     size_t sampleCount = 0;
     if (p.audio.samplesOffset > 0)
     {
         sampleCount += p.audio.data->getSampleCount() - p.audio.samplesOffset;
     }
-    std::vector<AudioFrame> frames;
+    std::vector<IO::AudioFrame> frames;
     size_t queueSize = 0;
     {
-        std::lock_guard<std::mutex> lock(p.io->getMutex());
-        auto& queue = p.io->getAudioQueue();
+        std::lock_guard<std::mutex> lock(p.read->getMutex());
+        auto& queue = p.read->getAudioQueue();
         while (!queue.isEmpty() && sampleCount < outputSampleCount)
         {
-            auto frame = queue.getFrame();
+            auto frame = queue.popFrame();
             frames.push_back(frame);
-            queue.popFrame();
-            if (SeekFrame::True == frame.seekFrame)
+            if (IO::SeekFrame::True == frame.seekFrame)
             {
-                p.audio.startTimestamp = frame.timestamp;
+                p.audio.startTimestamp = frame.info.timestamp;
                 p.audio.samplesOffset = 0;
                 p.audio.samplesCount = 0;
                 sampleCount = 0;
@@ -527,7 +528,7 @@ int Media::_audioCallback(
     }
 
     // Use the remaining data from the frame.
-    const auto& info = p.ioInfo.audio;
+    const auto& info = p.ioInfo->audio;
     const size_t sampleByteCount = info.channelCount * Audio::getByteCount(info.type);
     const float volume = !p.audio.mute ? p.audio.volume : 0.F;
     uint8_t* data = reinterpret_cast<uint8_t*>(outputBuffer);
@@ -560,7 +561,7 @@ int Media::_audioCallback(
     // Process the frames.
     for (const auto& i : frames)
     {
-        p.audio.timestamp = i.timestamp;
+        p.audio.frameInfo = i.info;
         p.audio.data = i.data;
         size_t size = std::min(i.data->getSampleCount(), outputSampleCount);
         //memcpy(

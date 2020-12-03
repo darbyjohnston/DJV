@@ -21,157 +21,192 @@
 #include <mutex>
 #include <queue>
 
-const djv::Math::Rational timebase(1, 90000);
-typedef int64_t Timestamp;
-const Timestamp timestampInvalid = std::numeric_limits<int64_t>::min();
-const Timestamp seekNone = -1;
-
-class IOInfo
+namespace IO
 {
-public:
-    IOInfo();
+    const djv::Math::Rational timebase(1, 90000);
+    typedef int64_t Timestamp;
+    const Timestamp timestampInvalid = std::numeric_limits<int64_t>::min();
+    const Timestamp seekNone = -1;
 
-    djv::System::File::Info       fileInfo;
-    std::vector<djv::Image::Info> video;
-    djv::Math::Rational           videoSpeed;
-    djv::Math::Frame::Sequence    videoSequence;
-    djv::Audio::Info              audio;
-    size_t                        audioSampleCount = 0;
+    enum class SeekFrame
+    {
+        False,
+        True
+    };
 
-    bool operator == (const IOInfo&) const;
-};
+    class FrameInfo
+    {
+    public:
+        FrameInfo();
+        explicit FrameInfo(
+            Timestamp                timestamp,
+            djv::Math::Frame::Number frame     = 0,
+            int32_t                  timecode  = 0);
 
-enum class SeekFrame
-{
-    False,
-    True
-};
+        Timestamp                         timestamp = 0;
+        djv::Math::Frame::Number          frame     = 0;
+        int32_t                           timecode  = 0;
 
-class VideoFrame
-{
-public:
-    VideoFrame();
-    VideoFrame(
-        Timestamp,
-        const std::shared_ptr<djv::Image::Data>&,
-        SeekFrame);
+        bool operator == (const FrameInfo&) const;
+        bool operator != (const FrameInfo&) const;
+        bool operator < (const FrameInfo&) const;
+    };
 
-    Timestamp                         timestamp = 0;
-    std::shared_ptr<djv::Image::Data> data;
-    SeekFrame                         seekFrame = SeekFrame::False;
+    class VideoFrame
+    {
+    public:
+        VideoFrame();
 
-    bool operator == (const VideoFrame&) const;
-};
+        FrameInfo                         info;
+        std::shared_ptr<djv::Image::Data> data;
+        SeekFrame                         seekFrame = SeekFrame::False;
 
-class AudioFrame
-{
-public:
-    AudioFrame();
-    explicit AudioFrame(
-        Timestamp,
-        const std::shared_ptr<djv::Audio::Data>&,
-        SeekFrame);
+        bool operator == (const VideoFrame&) const;
+    };
 
-    Timestamp                         timestamp = 0;
-    std::shared_ptr<djv::Audio::Data> data;
-    SeekFrame                         seekFrame = SeekFrame::False;
+    class AudioFrame
+    {
+    public:
+        AudioFrame();
 
-    bool operator == (const AudioFrame&) const;
-};
+        FrameInfo                         info;
+        std::shared_ptr<djv::Audio::Data> data;
+        SeekFrame                         seekFrame = SeekFrame::False;
 
-template<typename T>
-class IOQueue
-{
-public:
-    IOQueue(size_t max);
+        bool operator == (const AudioFrame&) const;
+    };
 
-    size_t getMax() const;
-    void setMax(size_t);
+    class Info : public std::enable_shared_from_this<Info>
+    {
+        DJV_NON_COPYABLE(Info);
 
-    bool isEmpty() const;
-    size_t getCount() const;
-    T getFrame() const;
+    protected:
+        Info();
 
-    void addFrame(const T&);
-    T popFrame();
-    void clearFrames();
+    public:
+        static std::shared_ptr<Info> create();
 
-    bool isFinished() const;
-    void setFinished(bool);
+        djv::System::File::Info       fileInfo;
+        std::vector<djv::Image::Info> video;
+        djv::Math::Rational           videoSpeed;
+        std::vector<FrameInfo>        videoFrameInfo;
+        djv::Audio::Info              audio;
+        std::vector<FrameInfo>        audioFrameInfo;
 
-private:
-    size_t _max = 0;
-    std::queue<T> _queue;
-    bool _finished = false;
-};
+        bool operator == (const Info&) const;
+    };
 
-typedef IOQueue<VideoFrame> VideoQueue;
-typedef IOQueue<AudioFrame> AudioQueue;
+    template<typename T>
+    class Queue
+    {
+    public:
+        Queue(size_t max);
 
-class IIO : public std::enable_shared_from_this<IIO>
-{
-    DJV_NON_COPYABLE(IIO);
+        size_t getMax() const;
+        void setMax(size_t);
 
-protected:
-    void _init(
-        const djv::System::File::Info&,
-        const std::shared_ptr<djv::System::LogSystem>&);
-    IIO();
+        bool isEmpty() const;
+        size_t getCount() const;
+        T getFrame() const;
 
-public:
-    virtual ~IIO() = 0;
+        void addFrame(const T&);
+        T popFrame();
+        void clearFrames();
 
-    virtual std::future<IOInfo> getInfo() = 0;
+        bool isFinished() const;
+        void setFinished(bool);
 
-    std::mutex& getMutex();
-    VideoQueue& getVideoQueue();
-    AudioQueue& getAudioQueue();
+    private:
+        size_t _max = 0;
+        std::queue<T> _queue;
+        bool _finished = false;
+    };
 
-    void setPlaybackDirection(PlaybackDirection);
-    virtual void seek(Timestamp) = 0;
+    typedef Queue<VideoFrame> VideoQueue;
+    typedef Queue<AudioFrame> AudioQueue;
 
-protected:
-    std::shared_ptr<djv::System::LogSystem> _logSystem;
-    djv::System::File::Info _fileInfo;
-    std::mutex _mutex;
-    VideoQueue _videoQueue;
-    AudioQueue _audioQueue;
-    PlaybackDirection _playbackDirection = PlaybackDirection::Forward;
-    Timestamp _seekTimestamp = seekNone;
-};
+    class IIO : public std::enable_shared_from_this<IIO>
+    {
+        DJV_NON_COPYABLE(IIO);
 
-class IIOPlugin : public std::enable_shared_from_this<IIOPlugin>
-{
-    DJV_NON_COPYABLE(IIOPlugin);
+    protected:
+        void _init(
+            const djv::System::File::Info&,
+            const std::shared_ptr<djv::System::LogSystem>&);
+        IIO();
 
-public:
-    IIOPlugin(const std::shared_ptr<djv::System::LogSystem>&);
-    virtual ~IIOPlugin() = 0;
+    public:
+        virtual ~IIO() = 0;
 
-    virtual bool canRead(const djv::System::File::Info&) = 0;
-    virtual std::shared_ptr<IIO> read(const djv::System::File::Info&) = 0;
+        std::mutex& getMutex();
+        VideoQueue& getVideoQueue();
+        AudioQueue& getAudioQueue();
 
-protected:
-    std::shared_ptr<djv::System::LogSystem> _logSystem;
-};
+    protected:
+        std::shared_ptr<djv::System::LogSystem> _logSystem;
+        djv::System::File::Info _fileInfo;
+        std::mutex _mutex;
+        VideoQueue _videoQueue;
+        AudioQueue _audioQueue;
+    };
 
-class IOSystem : public djv::System::ISystem
-{
-    DJV_NON_COPYABLE(IOSystem);
+    class IRead : public IIO
+    {
+        DJV_NON_COPYABLE(IRead);
 
-protected:
-    void _init(const std::shared_ptr<djv::System::Context>&);
-    IOSystem();
+    protected:
+        void _init(
+            const djv::System::File::Info&,
+            const std::shared_ptr<djv::System::LogSystem>&);
+        IRead();
 
-public:
-    ~IOSystem() override;
+    public:
+        virtual ~IRead() = 0;
 
-    static std::shared_ptr<IOSystem> create(const std::shared_ptr<djv::System::Context>&);
+        virtual std::future<std::shared_ptr<Info> > getInfo() = 0;
 
-    std::shared_ptr<IIO> read(const djv::System::File::Info&);
+        void setPlaybackDirection(PlaybackDirection);
+        virtual void seek(Timestamp) = 0;
 
-private:
-    DJV_PRIVATE();
-};
+    protected:
+        PlaybackDirection _playbackDirection = PlaybackDirection::Forward;
+        Timestamp _seekTimestamp = seekNone;
+    };
+
+    class IPlugin : public std::enable_shared_from_this<IPlugin>
+    {
+        DJV_NON_COPYABLE(IPlugin);
+
+    public:
+        IPlugin(const std::shared_ptr<djv::System::LogSystem>&);
+        virtual ~IPlugin() = 0;
+
+        virtual bool canRead(const djv::System::File::Info&) = 0;
+        virtual std::shared_ptr<IRead> read(const djv::System::File::Info&) = 0;
+
+    protected:
+        std::shared_ptr<djv::System::LogSystem> _logSystem;
+    };
+
+    class IOSystem : public djv::System::ISystem
+    {
+        DJV_NON_COPYABLE(IOSystem);
+
+    protected:
+        void _init(const std::shared_ptr<djv::System::Context>&);
+        IOSystem();
+
+    public:
+        ~IOSystem() override;
+
+        static std::shared_ptr<IOSystem> create(const std::shared_ptr<djv::System::Context>&);
+
+        std::shared_ptr<IRead> read(const djv::System::File::Info&);
+
+    private:
+        DJV_PRIVATE();
+    };
+
+} // namespace IO
 
 #include "IOInline.h"

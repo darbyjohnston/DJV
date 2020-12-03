@@ -34,8 +34,8 @@ struct MainWindow::Private
 {
     std::shared_ptr<Media> media;
     Playback playback = Playback::Forward;
-    Timestamp timestamp = 0;
-    float fps = 0.F;
+    IO::FrameInfo currentFrame;
+    float speed = 0.F;
 
     std::map<std::string, std::shared_ptr<djv::UI::Action> > actions;
     std::shared_ptr<UI::ActionGroup> playbackActionGroup;
@@ -47,8 +47,8 @@ struct MainWindow::Private
 
     std::shared_ptr<Core::Observer::Value<std::shared_ptr<Image::Data> > > imageObserver;
     std::shared_ptr<Core::Observer::Value<Playback> > playbackObserver;
-    std::shared_ptr<Core::Observer::Value<Timestamp> > timestampObserver;
-    std::shared_ptr<Core::Observer::Value<float> > fpsObserver;
+    std::shared_ptr<Core::Observer::Value<IO::FrameInfo> > frameInfoObserver;
+    std::shared_ptr<Core::Observer::Value<float> > speedObserver;
 };
 
 void MainWindow::_init(
@@ -278,11 +278,11 @@ void MainWindow::_init(
         });
 
     p.timelineWidget->setCallback(
-        [weak](Timestamp value)
+        [weak](const IO::FrameInfo& value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_p->media->seek(value);
+                widget->_p->media->seek(value.timestamp);
             }
         });
 
@@ -327,24 +327,24 @@ void MainWindow::_init(
             }
         });
 
-    p.timestampObserver = Core::Observer::Value<Timestamp>::create(
-        media->observeTimestamp(),
-        [weak](Timestamp value)
+    p.frameInfoObserver = Core::Observer::Value<IO::FrameInfo>::create(
+        media->observeCurrentFrame(),
+        [weak](const IO::FrameInfo& value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_p->timestamp = value;
+                widget->_p->currentFrame = value;
                 widget->_widgetUpdate();
             }
         });
 
-    p.fpsObserver = Core::Observer::Value<float>::create(
-        media->observeFPS(),
+    p.speedObserver = Core::Observer::Value<float>::create(
+        media->observeSpeed(),
         [weak](float value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_p->fps = value;
+                widget->_p->speed = value;
                 widget->_widgetUpdate();
             }
         });
@@ -384,37 +384,31 @@ void MainWindow::_widgetUpdate()
 
     const auto& info = p.media->getIOInfo();
     Math::Rational speed;
-    Math::Frame::Sequence sequence;
-    if (info.video.size())
+    std::vector<IO::FrameInfo> frameInfo;
+    if (info->video.size())
     {
-        speed = info.videoSpeed;
-        sequence = info.videoSequence;
+        speed = info->videoSpeed;
+        frameInfo = info->videoFrameInfo;
     }
-    else if (info.audio.isValid())
+    else if (info->audio.isValid())
     {
-        speed = Math::Rational(info.audio.sampleRate, 1);
-        sequence = Math::Frame::Sequence(0, info.audioSampleCount > 0 ? (info.audioSampleCount - 1) : 0);
-    }
-
-    int64_t t = 0;
-    if (speed.isValid())
-    {
-        t = AV::Time::scale(p.timestamp, timebase, speed.swap());
+        speed = Math::Rational(info->audio.sampleRate, 1);
+        frameInfo = info->audioFrameInfo;
     }
 
     {
         std::stringstream ss;
         ss.precision(2);
-        ss << std::fixed << p.fps;
+        ss << std::fixed << p.speed;
         p.speedLabel->setText(ss.str());
     }
     {
         std::stringstream ss;
-        ss << t;
+        ss << p.currentFrame.timestamp;
         p.currentTimeLabel->setText(ss.str());
     }
 
     p.timelineWidget->setSpeed(speed);
-    p.timelineWidget->setSequence(sequence);
-    p.timelineWidget->setTime(p.timestamp);
+    p.timelineWidget->setFrameInfo(frameInfo);
+    p.timelineWidget->setCurrentFrame(p.currentFrame);
 }

@@ -5,6 +5,7 @@ set(header
     FFmpeg.h
     FFmpegFunc.h
     IO.h
+    IOCache.h
     IOInline.h
     ImageWidget.h
     MainWindow.h
@@ -16,6 +17,7 @@ set(source
     FFmpeg.cpp
     FFmpegFunc.cpp
     IO.cpp
+    IOCache.cpp
     ImageWidget.cpp
     MainWindow.cpp
     Media.cpp

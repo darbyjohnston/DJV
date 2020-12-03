@@ -14,7 +14,10 @@
 #include <djvSystem/FileInfo.h>
 #include <djvSystem/ISystem.h>
 
+#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
+
+class Cache;
 
 class Media : public std::enable_shared_from_this<Media>
 {
@@ -34,21 +37,25 @@ public:
         const std::shared_ptr<djv::System::Context>&);
 
     const djv::System::File::Info& getFileInfo() const;
-    const IOInfo& getIOInfo() const;
+    const std::shared_ptr<IO::Info>& getIOInfo() const;
 
     std::shared_ptr<djv::Core::Observer::IValueSubject<std::shared_ptr<djv::Image::Data> > > observeImage() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeVideoQueueSize() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<size_t> > observeAudioQueueSize() const;
 
+    std::shared_ptr<djv::Core::Observer::IValueSubject<float> > observeSpeed() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<Playback> > observePlayback() const;
-    std::shared_ptr<djv::Core::Observer::IValueSubject<Timestamp> > observeTimestamp() const;
-    std::shared_ptr<djv::Core::Observer::IValueSubject<float> > observeFPS() const;
+    std::shared_ptr<djv::Core::Observer::IValueSubject<IO::FrameInfo> > observeCurrentFrame() const;
+
+    std::shared_ptr<djv::Core::Observer::IValueSubject<float> > observeAudioRate() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<float> > observeAudioVolume() const;
     std::shared_ptr<djv::Core::Observer::IValueSubject<bool> > observeAudioMute() const;
 
     void setPlayback(Playback);
-    void seek(Timestamp);
+    void seek(IO::Timestamp);
     void frame(Frame);
+
+    const std::shared_ptr<Cache>& getCache() const;
 
 private:
     void _tick();
