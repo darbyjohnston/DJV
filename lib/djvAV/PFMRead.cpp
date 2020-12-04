@@ -6,11 +6,10 @@
 
 #include <djvSystem/File.h>
 #include <djvSystem/FileIO.h>
+#include <djvSystem/FileIOFunc.h>
 #include <djvSystem/TextSystem.h>
 
 #include <djvCore/StringFormat.h>
-
-#include "djvSystem/FileIOFunc.h"
 
 using namespace djv::Core;
 
@@ -56,7 +55,7 @@ namespace djv
                     const auto info = _open(fileName, io, scale);
                     auto imageInfo = info.video[0];
                     std::shared_ptr<Image::Data> out;
-                	
+                    
 #if defined(DJV_MMAP)
                     out = Image::Data::create(imageInfo, io);
 #else // DJV_MMAP
@@ -64,21 +63,21 @@ namespace djv
                     io->read(out->getData(), out->getDataByteCount());
 #endif // DJV_MMAP
 
-                	if(scale - 1 > 1E-6)
-                	{
+                    if(scale - 1 > 1E-6)
+                    {
                         auto* data = reinterpret_cast<float*>(out->getData());
-                        size_t floats = out->getDataByteCount() / 4;
+                        const size_t floats = out->getDataByteCount() / sizeof(float);
                         for (size_t i = 0; i < floats; ++i)
                         {
                             data[i] *= scale;
                         }
-                	}
+                    }
                     
                     out->setPluginName(pluginName);
 
                     return out;
                 }
-            	
+                
                 Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io, float& scale)
                 {
                     io->open(fileName, System::File::Mode::Read);
@@ -86,11 +85,11 @@ namespace djv
                     char tmp[String::cStringLength] = "";
                     System::File::readWord(io, tmp, String::cStringLength);
                     std::string magic(tmp);
-                	
+                    
                     uint8_t channelCount = 0;
-                	
-                	if(magic.length() == 2)
-                	{
+                    
+                    if(magic.length() == 2)
+                    {
                         if (magic == "PF")
                         {
                             channelCount = 3;
@@ -99,12 +98,12 @@ namespace djv
                         {
                             channelCount = 1;
                         }
-                	}
+                    }
                     else if(magic == "PF4")
                     {
                         channelCount = 4;
                     }
-                	
+                    
                     if(channelCount == 0)
                     {
                         throw System::File::Error(String::Format("{0}: {1}").
@@ -128,9 +127,9 @@ namespace djv
                     Image::Layout layout;
                     layout.endian = isPfmLittleEndian ? Memory::Endian::LSB : Memory::Endian::MSB;
                     layout.mirror.y = true;
-                	
+                    
                     auto imageInfo = Image::Info(w, h, imageType, layout);
-                	
+                    
                     Info info;
                     info.fileName = fileName;
                     info.videoSpeed = _speed;

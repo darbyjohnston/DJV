@@ -53,7 +53,7 @@ namespace djv
                     Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, float& scale);
                 };
 
-                //! This class provides the RLA file I/O plugin.
+                //! This class provides the PFM file I/O plugin.
                 class Plugin : public ISequencePlugin
                 {
                     DJV_NON_COPYABLE(Plugin);
