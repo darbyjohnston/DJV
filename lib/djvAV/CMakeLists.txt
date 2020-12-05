@@ -11,6 +11,7 @@ set(header
     IOPluginInline.h
     IOSystem.h
     Namespace.h
+    PFM.h
     PPM.h
     PPMFunc.h
     RLA.h
@@ -38,6 +39,8 @@ set(source
     IO.cpp
     IOPlugin.cpp
     IOSystem.cpp
+    PFM.cpp
+    PFMRead.cpp
     PPM.cpp
     PPMFunc.cpp
     PPMRead.cpp
