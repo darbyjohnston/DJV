@@ -37,7 +37,7 @@ namespace djv
 
         void HelpSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::HelpSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::HelpSystem", context);
             DJV_PRIVATE_PTR();
 
             p.actions["Documentation"] = UI::Action::create();
@@ -131,24 +131,12 @@ namespace djv
             return _p->actions;
         }
 
-        MenuData HelpSystem::getMenu() const
+        std::vector<MenuData> HelpSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "Z"
+                { _p->menu, "Z" }
             };
-        }
-
-        void HelpSystem::_closeWidget(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            const auto i = p.actions.find(value);
-            if (i != p.actions.end())
-            {
-                i->second->setChecked(false);
-            }
-            IViewSystem::_closeWidget(value);
         }
 
         void HelpSystem::_textUpdate()

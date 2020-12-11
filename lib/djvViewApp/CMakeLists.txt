@@ -26,8 +26,7 @@ set(header
     FileSettingsWidget.h
     HelpSystem.h
     HistogramWidget.h
-    IToolSystem.h
-    IViewSystem.h
+    IViewAppSystem.h
     ImageControlsWidget.h
     ImageData.h
     ImageDataFunc.h
@@ -37,7 +36,6 @@ set(header
 	KeyboardSettings.h
 	KeyboardSettingsWidget.h
 	LayersWidget.h
-	MDIWidget.h
     MagnifySettings.h
     MagnifySystem.h
     MagnifyWidget.h
@@ -47,6 +45,8 @@ set(header
 	MediaWidgetPrivate.h
 	MemorySettingsWidget.h
     MessagesWidget.h
+    MiscToolsSettings.h
+    MiscToolsSystem.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -64,7 +64,7 @@ set(header
     TimelineSlider.h
     TimelineWidget.h
     TimelineWidgetPrivate.h
-    ToolSettings.h
+    ToolDrawerWidget.h
     ToolSystem.h
     ViewControlsWidget.h
     ViewControlsWidgetPrivate.h
@@ -108,8 +108,7 @@ set(source
     FileSystem.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
-    IToolSystem.cpp
-    IViewSystem.cpp
+    IViewAppSystem.cpp
     ImageControlsWidget.cpp
     ImageData.cpp
     ImageDataFunc.cpp
@@ -119,7 +118,6 @@ set(source
 	KeyboardSettings.cpp
 	KeyboardSettingsWidget.cpp
 	LayersWidget.cpp
-	MDIWidget.cpp
     MagnifySettings.cpp
     MagnifySystem.cpp
     MagnifyWidget.cpp
@@ -129,6 +127,8 @@ set(source
 	MediaWidget.cpp
 	MemorySettingsWidget.cpp
     MessagesWidget.cpp
+    MiscToolsSettings.cpp
+    MiscToolsSystem.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp
@@ -147,7 +147,7 @@ set(source
     TimelineSlider.cpp
     TimelineSpeedWidget.cpp
     TimelineWidget.cpp
-    ToolSettings.cpp
+    ToolDrawerWidget.cpp
     ToolSystem.cpp
     ViewControlsWidget.cpp
     ViewControlsWidgetPrivate.cpp

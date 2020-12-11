@@ -140,7 +140,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> >& actions,
             const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
             DJV_PRIVATE_PTR();
             
             setClassName("djv::ViewApp::AnnotateWidget");
@@ -264,12 +264,10 @@ namespace djv
         
         void AnnotateWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("widget_annotate")));
-
                 for (const auto& i : p.colorButtonGroup->getButtons())
                 {
                     i->setTooltip(_getText(DJV_TEXT("annotate_color_tooltip")));

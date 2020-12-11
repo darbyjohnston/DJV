@@ -71,7 +71,6 @@ namespace djv
 
         struct ColorPickerWidget::Private
         {
-            bool currentTool = false;
             Image::Color color = Image::Color(0.F, 0.F, 0.F);
             std::shared_ptr<Image::Data> image;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
@@ -113,7 +112,7 @@ namespace djv
 
         void ColorPickerWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ColorPickerWidget");
@@ -159,7 +158,6 @@ namespace djv
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
-            p.layout->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.colorSwatch);
             p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
             p.formLayout = UI::FormLayout::create(context);
@@ -398,12 +396,9 @@ namespace djv
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            if (widget->_p->currentTool)
-                                            {
-                                                widget->_p->pickerPos = value.pos;
-                                                widget->_sampleUpdate();
-                                                widget->_widgetUpdate();
-                                            }
+                                            widget->_p->pickerPos = value.pos;
+                                            widget->_sampleUpdate();
+                                            widget->_widgetUpdate();
                                         }
                                     });
                             }
@@ -433,16 +428,6 @@ namespace djv
             return out;
         }
 
-        void ColorPickerWidget::setCurrentTool(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.currentTool)
-                return;
-            p.currentTool = value;
-            _sampleUpdate();
-            _widgetUpdate();
-        }
-
         const glm::vec2& ColorPickerWidget::getPickerPos() const
         {
             return _p->pickerPos;
@@ -458,14 +443,22 @@ namespace djv
             _widgetUpdate();
         }
 
+        void ColorPickerWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void ColorPickerWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void ColorPickerWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("widget_color_picker")));
-
                 p.actions["LockType"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
                 p.actions["LockType"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_lock_color_type_tooltip")));
                 p.actions["ApplyColorOperations"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_operations")));

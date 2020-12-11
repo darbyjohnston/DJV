@@ -6,8 +6,6 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvMath/BBox.h>
-
 #include <djvCore/ValueObserver.h>
 
 #include <map>
@@ -16,20 +14,20 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the tool settings.
-        class ToolSettings : public UI::Settings::ISettings
+        //! This class provides the miscellaneous tools settings.
+        class MiscToolsSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(ToolSettings);
+            DJV_NON_COPYABLE(MiscToolsSettings);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
 
-            ToolSettings();
+            MiscToolsSettings();
 
         public:
-            ~ToolSettings() override;
+            ~MiscToolsSettings() override;
 
-            static std::shared_ptr<ToolSettings> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<MiscToolsSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeMessagesPopup() const;
 
@@ -38,10 +36,6 @@ namespace djv
             std::map<std::string, bool> getDebugBellowsState() const;
 
             void setDebugBellowsState(const std::map<std::string, bool>&);
-
-            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
-
-            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

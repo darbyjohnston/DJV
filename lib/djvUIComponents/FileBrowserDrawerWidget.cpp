@@ -34,7 +34,7 @@ namespace djv
                 std::shared_ptr<RecentPathsWidget> recentPathsWidget;
                 std::shared_ptr<DrivesWidget> drivesWidget;
                 std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
-                std::shared_ptr<UI::VerticalLayout> layout;
+                std::shared_ptr<UI::HorizontalLayout> layout;
 
                 std::shared_ptr<Observer::Value<System::File::Path> > pathObserver;
                 std::shared_ptr<Observer::Map<std::string, bool> > pathsBellowsStateObserver;
@@ -64,11 +64,16 @@ namespace djv
                 p.bellows["Drives"] = UI::Bellows::create(context);
                 p.bellows["Drives"]->addChild(drivesWidget);
 
-                p.layout = UI::VerticalLayout::create(context);
+                p.layout = UI::HorizontalLayout::create(context);
                 p.layout->setSpacing(UI::MetricsRole::None);
-                p.layout->addChild(p.bellows["Shortcuts"]);
-                p.layout->addChild(p.bellows["Recent"]);
-                p.layout->addChild(p.bellows["Drives"]);
+                auto vLayout = UI::VerticalLayout::create(context);
+                vLayout->setSpacing(UI::MetricsRole::None);
+                vLayout->addChild(p.bellows["Shortcuts"]);
+                vLayout->addChild(p.bellows["Recent"]);
+                vLayout->addChild(p.bellows["Drives"]);
+                p.layout->addChild(vLayout);
+                p.layout->setStretch(vLayout, UI::RowStretch::Expand);
+                p.layout->addSeparator();
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<DrawerWidget>(std::dynamic_pointer_cast<DrawerWidget>(shared_from_this()));

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 namespace djv
 {
@@ -13,7 +13,7 @@ namespace djv
         class NUXWidget;
 
         //! This class provides the new user experience system.
-        class NUXSystem : public IViewSystem
+        class NUXSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(NUXSystem);
 

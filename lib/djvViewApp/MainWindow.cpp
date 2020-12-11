@@ -5,14 +5,9 @@
 #include <djvViewApp/MainWindow.h>
 
 #include <djvViewApp/Application.h>
-#include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
-#include <djvViewApp/IToolSystem.h>
-#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/SettingsWidget.h>
-#include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/TimelineWidget.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
@@ -26,12 +21,10 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
-#include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Separator.h>
-#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
@@ -63,17 +56,13 @@ namespace djv
             
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ToolButton> activeButton;
-            std::shared_ptr<UI::ToolButton> settingsButton;
+            std::shared_ptr<UI::ToolButton> drawerButton;
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<UI::Layout::Separator> menuBarSeparator;
-            std::shared_ptr<UI::MDI::Canvas> canvas;
             std::shared_ptr<TimelineWidget> timelineWidget;
-            std::shared_ptr<UI::Layout::Separator> timelineSeparator;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaWidget> > mediaWidgets;
             std::shared_ptr<UI::SoloLayout> mediaLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<Observer::Value<bool> > settingsActionObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > openedObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > closedObserver;
@@ -87,7 +76,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MainWindow");
 
-            auto viewSystems = context->getSystemsT<IViewSystem>();
+            auto viewSystems = context->getSystemsT<IViewAppSystem>();
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             for (auto system : viewSystems)
             {
@@ -95,10 +84,9 @@ namespace djv
                 {
                     addAction(action.second);
                 }
-                auto menu = system->getMenu();
-                if (menu.menu)
+                for (const auto& menuData : system->getMenuData())
                 {
-                    menus[menu.sortKey] = menu.menu;
+                    menus[menuData.sortKey] = menuData.menu;
                 }
             }
 
@@ -121,23 +109,10 @@ namespace djv
                 viewCenterButton->addAction(viewSystem->getActions()["CenterLock"]);
             }
 
-            std::map<std::string, std::shared_ptr<UI::ToolButton> > toolButtons;
-            for (const auto& i : context->getSystemsT<IToolSystem>())
-            {
-                auto button = UI::ToolButton::create(context);
-                auto data = i->getToolAction();
-                button->addAction(data.action);
-                toolButtons[data.sortKey] = button;
-            }
-
-            p.settingsButton = UI::ToolButton::create(context);
-            p.settingsButton->setButtonType(UI::ButtonType::Toggle);
-            auto toolSystem = context->getSystemT<ToolSystem>();
-            if (toolSystem)
-            {
-                p.settingsButton->addAction(toolSystem->getActions()["Settings"]);
-            }
-            auto settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
+            p.drawerButton = UI::ToolButton::create(context);
+            p.drawerButton->setButtonType(UI::ButtonType::Toggle);
+            p.drawerButton->setIcon("djvIconDrawerRight");
+            auto drawer = UI::Drawer::create(UI::Side::Right, context);
 
             p.menuBar = UI::MenuBar::create(context);
             for (auto i : menus)
@@ -154,41 +129,26 @@ namespace djv
             hLayout->addChild(viewCenterButton);
             p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            for (const auto& i : toolButtons)
-            {
-                hLayout->addChild(i.second);
-            }
-            p.menuBar->addChild(hLayout);
-            p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.settingsButton);
+            p.menuBar->addChild(p.drawerButton);
 
             auto backgroundWidget = WindowBackgroundWidget::create(context);
-
-            p.canvas = UI::MDI::Canvas::create(context);
-            for (auto system : viewSystems)
-            {
-                system->setCanvas(p.canvas);
-            }
 
             p.timelineWidget = TimelineWidget::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->addChild(p.menuBar);
-            p.menuBarSeparator = UI::Layout::Separator::create(context);
-            p.layout->addChild(p.menuBarSeparator);
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(backgroundWidget);
             p.mediaLayout = UI::SoloLayout::create(context);
             stackLayout->addChild(p.mediaLayout);
-            stackLayout->addChild(p.canvas);
-            stackLayout->addChild(settingsDrawer);
-            p.layout->addChild(stackLayout);
-            p.layout->setStretch(stackLayout, UI::Layout::RowStretch::Expand);
-            p.timelineSeparator = UI::Layout::Separator::create(context);
-            p.layout->addChild(p.timelineSeparator);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(stackLayout);
+            hLayout->setStretch(stackLayout, UI::RowStretch::Expand);
+            hLayout->addChild(drawer);
+            p.layout->addChild(hLayout);
+            p.layout->setStretch(hLayout, UI::Layout::RowStretch::Expand);
             p.layout->addChild(p.timelineWidget);
             addChild(p.layout);
 
@@ -205,47 +165,43 @@ namespace djv
                     }
                 });
 
-            settingsDrawer->setOpenCallback(
+            auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            p.drawerButton->setCheckedCallback(
+                [drawer](bool value)
+                {
+                    drawer->setOpen(value);
+                });
+
+            drawer->setOpenCallback(
                 [contextWeak]() -> std::shared_ptr<UI::Widget>
                 {
                     std::shared_ptr<UI::Widget> out;
                     if (auto context = contextWeak.lock())
                     {
-                        out = SettingsWidget::create(context);
+                        out = context->getSystemT<ToolSystem>()->createToolDrawerWidget();
                     }
                     return out;
                 });
 
             p.actions["Escape"]->setClickedCallback(
                 [contextWeak]
-            {
-                if (auto context = contextWeak.lock())
                 {
-                    if (auto windowSystem = context->getSystemT<WindowSystem>())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (windowSystem->observePresentation()->get())
+                        if (auto windowSystem = context->getSystemT<WindowSystem>())
                         {
-                            windowSystem->setPresentation(false);
-                        }
-                        else if (windowSystem->observeFullScreen()->get())
-                        {
-                            windowSystem->setFullScreen(false);
+                            if (windowSystem->observePresentation()->get())
+                            {
+                                windowSystem->setPresentation(false);
+                            }
+                            else if (windowSystem->observeFullScreen()->get())
+                            {
+                                windowSystem->setFullScreen(false);
+                            }
                         }
                     }
-                }
-            });
+                });
 
-            if (toolSystem)
-            {
-                p.settingsActionObserver = Observer::Value<bool>::create(
-                    toolSystem->getActions()["Settings"]->observeChecked(),
-                    [settingsDrawer](bool value)
-                    {
-                        settingsDrawer->setOpen(value);
-                    });
-            }
-
-            auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
                 p.currentMediaObserver = Observer::Value<std::shared_ptr<Media>>::create(
@@ -320,9 +276,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->menuBar->setVisible(!value);
-                            widget->_p->menuBarSeparator->setVisible(!value);
                             widget->_p->timelineWidget->setVisible(!value);
-                            widget->_p->timelineSeparator->setVisible(!value);
                         }
                     });
             }

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -19,7 +19,7 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the image system.
-        class ImageSystem : public IViewSystem
+        class ImageSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(ImageSystem);
 
@@ -40,11 +40,12 @@ namespace djv
             void clearFrameStore();
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            std::vector<MenuData> getMenuData() const override;
+            std::vector<ActionData> getToolActionData() const override;
+            ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
+            void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
 
         protected:
-            void _closeWidget(const std::string&) override;
-
             void _textUpdate() override;
             void _shortcutsUpdate() override;
 

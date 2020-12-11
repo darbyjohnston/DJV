@@ -9,7 +9,6 @@
 #include <djvUI/Bellows.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #include <djvSystem/Context.h>
 
@@ -28,11 +27,12 @@ namespace djv
             std::shared_ptr<ViewControlsBorderWidget> borderWidget;
             std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::VerticalLayout> layout;
         };
 
         void ViewControlsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ViewControlsWidget");
@@ -64,19 +64,14 @@ namespace djv
             p.bellows["Border"]->addButtonWidget(p.borderWidget->getEnabledButton());
             p.bellows["Border"]->addChild(p.borderWidget);
             
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(p.bellows["View"]);
-            vLayout->addChild(p.bellows["Grid"]);
-            vLayout->addChild(p.bellows["HUD"]);
-            vLayout->addChild(p.bellows["Background"]);
-            vLayout->addChild(p.bellows["Border"]);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(vLayout);
-            addChild(scrollWidget);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.bellows["View"]);
+            p.layout->addChild(p.bellows["Grid"]);
+            p.layout->addChild(p.bellows["HUD"]);
+            p.layout->addChild(p.bellows["Background"]);
+            p.layout->addChild(p.bellows["Border"]);
+            addChild(p.layout);
         }
 
         ViewControlsWidget::ViewControlsWidget() :
@@ -122,13 +117,22 @@ namespace djv
             _p->sizeGroup->calcMinimumSize();
         }
 
+        void ViewControlsWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void ViewControlsWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void ViewControlsWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("view_controls")));
                 p.bellows["View"]->setText(_getText(DJV_TEXT("view")));
                 p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
                 p.bellows["HUD"]->setText(_getText(DJV_TEXT("view_hud")));

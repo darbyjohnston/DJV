@@ -54,7 +54,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> toolActionGroup;
             std::shared_ptr<UI::ActionGroup> lineSizeActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::weak_ptr<AnnotateWidget> widget;
+            std::shared_ptr<AnnotateWidget> widget;
             
             std::map<std::string, std::shared_ptr<Observer::Value<bool> > > actionObservers;
             std::shared_ptr<Observer::Value<AnnotateTool> > toolObserver;
@@ -72,11 +72,10 @@ namespace djv
 
         void AnnotateSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IToolSystem::_init("djv::ViewApp::AnnotateSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::AnnotateSystem", context);
             DJV_PRIVATE_PTR();
 
             p.settings = AnnotateSettings::create(context);
-            _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.actions["Annotate"] = UI::Action::create();
             p.actions["Annotate"]->setIcon("djvIconAnnotate");
@@ -294,11 +293,7 @@ namespace djv
         {}
 
         AnnotateSystem::~AnnotateSystem()
-        {
-            DJV_PRIVATE_PTR();
-            _closeWidget("Annotate");
-            p.settings->setWidgetGeom(_getWidgetGeom());
-        }
+        {}
 
         std::shared_ptr<AnnotateSystem> AnnotateSystem::create(const std::shared_ptr<System::Context>& context)
         {
@@ -311,61 +306,53 @@ namespace djv
             return out;
         }
 
-        ToolActionData AnnotateSystem::getToolAction() const
-        {
-            return
-            {
-                _p->actions["Annotate"],
-                "G"
-            };
-        }
-
-        void AnnotateSystem::setCurrentTool(bool value, int index)
-        {
-            DJV_PRIVATE_PTR();
-            p.currentTool = value;
-            if (value)
-            {
-                if (auto context = getContext().lock())
-                {
-                    if (p.widget.expired())
-                    {
-                        auto widget = AnnotateWidget::create(p.actions, context);
-                        p.widget = widget;
-                        _openWidget("Annotate", widget);
-                    }
-                }
-            }
-            else if (-1 == index)
-            {
-                _closeWidget("Annotate");
-            }
-        }
-
         std::map<std::string, std::shared_ptr<UI::Action> > AnnotateSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData AnnotateSystem::getMenu() const
+        std::vector<MenuData> AnnotateSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "I"
+                { _p->menu, "I" }
             };
         }
 
-        void AnnotateSystem::_closeWidget(const std::string& value)
+        std::vector<ActionData> AnnotateSystem::getToolActionData() const
+        {
+            return
+            {
+                { _p->actions["Annotate"], "G" }
+            };
+        }
+
+        ToolWidgetData AnnotateSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)
         {
             DJV_PRIVATE_PTR();
-            const auto i = p.actions.find(value);
-            if (i != p.actions.end())
+            ToolWidgetData out;
+            if (auto context = getContext().lock())
             {
-                i->second->setChecked(false);
+                if (value == p.actions["Annotate"])
+                {
+                    auto widget = AnnotateWidget::create(p.actions, context);
+                    p.widget = widget;
+                    out.widget = widget;
+                }
             }
-            p.widget.reset();
-            IToolSystem::_closeWidget(value);
+            return out;
+        }
+        
+        void AnnotateSystem::deleteToolWidget(const std::shared_ptr<UI::Action>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.actions["Annotate"])
+            {
+                if (p.widget)
+                {
+                    p.widget.reset();
+                }
+            }
         }
 
         void AnnotateSystem::_textUpdate()

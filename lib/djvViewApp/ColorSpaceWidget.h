@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the color space widget.
-        class ColorSpaceWidget : public MDIWidget
+        class ColorSpaceWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorSpaceWidget);
 
@@ -30,6 +30,8 @@ namespace djv
 
         protected:
             void _initLayoutEvent(System::Event::InitLayout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
             void _initEvent(System::Event::Init &) override;
 

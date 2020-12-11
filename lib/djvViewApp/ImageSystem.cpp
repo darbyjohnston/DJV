@@ -52,8 +52,8 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::weak_ptr<ImageControlsWidget> imageControlsWidget;
-            std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
+            std::shared_ptr<ImageControlsWidget> imageControlsWidget;
+            std::shared_ptr<ColorSpaceWidget> colorSpaceWidget;
 
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > currentImageObserver;
@@ -63,22 +63,23 @@ namespace djv
 
         void ImageSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::ImageSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::ImageSystem", context);
 
             DJV_PRIVATE_PTR();
 
             p.settings = ImageSettings::create(context);
             p.controlsBellowsState = p.settings->getControlsBellowsState();
             p.colorSpaceBellowsState = p.settings->getColorSpaceBellowsState();
-            _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = Observer::ValueSubject<bool>::create();
             p.frameStore = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
 
             p.actions["ImageControls"] = UI::Action::create();
             p.actions["ImageControls"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ImageControls"]->setIcon("djvIconImageControls");
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ColorSpace"]->setIcon("djvIconColor");
             p.actions["RedChannel"] = UI::Action::create();
             p.actions["GreenChannel"] = UI::Action::create();
             p.actions["BlueChannel"] = UI::Action::create();
@@ -111,9 +112,6 @@ namespace djv
             _addShortcut("shortcut_image_load_frame_store", GLFW_KEY_F, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["ImageControls"]);
-            p.menu->addAction(p.actions["ColorSpace"]);
-            p.menu->addSeparator();
             p.menu->addAction(p.actions["RedChannel"]);
             p.menu->addAction(p.actions["GreenChannel"]);
             p.menu->addAction(p.actions["BlueChannel"]);
@@ -131,51 +129,6 @@ namespace djv
             _shortcutsUpdate();
 
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.actions["ImageControls"]->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto widget = ImageControlsWidget::create(context);
-                                widget->setBellowsState(system->_p->controlsBellowsState);
-                                system->_p->imageControlsWidget = widget;
-                                system->_openWidget("ImageControls", widget);
-                            }
-                            else
-                            {
-                                system->_closeWidget("ImageControls");
-                            }
-                        }
-                    }
-                });
-
-            p.actions["ColorSpace"]->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto widget = ColorSpaceWidget::create(context);
-                                widget->setBellowsState(system->_p->colorSpaceBellowsState);
-                                system->_p->colorSpaceWidget = widget;
-                                system->_openWidget("ColorSpace", widget);
-                            }
-                            else
-                            {
-                                system->_closeWidget("ColorSpace");
-                            }
-                        }
-                    }
-                });
-
             p.actions["MirrorH"]->setCheckedCallback(
                 [weak](bool value)
                 {
@@ -283,11 +236,8 @@ namespace djv
         ImageSystem::~ImageSystem()
         {
             DJV_PRIVATE_PTR();
-            _closeWidget("ColorSpace");
-            _closeWidget("ImageControls");
             p.settings->setControlsBellowsState(p.controlsBellowsState);
             p.settings->setColorSpaceBellowsState(p.colorSpaceBellowsState);
-            p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
         std::shared_ptr<ImageSystem> ImageSystem::create(const std::shared_ptr<System::Context>& context)
@@ -336,40 +286,66 @@ namespace djv
             return _p->actions;
         }
 
-        MenuData ImageSystem::getMenu() const
+        std::vector<MenuData> ImageSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "E"
+                { _p->menu, "E" }
             };
         }
 
-        void ImageSystem::_closeWidget(const std::string& value)
+        std::vector<ActionData> ImageSystem::getToolActionData() const
+        {
+            return
+            {
+                { _p->actions["ImageControls"], "YYY" },
+                { _p->actions["ColorSpace"], "YYYY" }
+            };
+        }
+
+        ToolWidgetData ImageSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)
         {
             DJV_PRIVATE_PTR();
-            if ("ImageControls" == value)
+            ToolWidgetData out;
+            if (auto context = getContext().lock())
             {
-                if (auto imageControlsWidget = p.imageControlsWidget.lock())
+                if (value == p.actions["ImageControls"])
                 {
-                    p.controlsBellowsState = imageControlsWidget->getBellowsState();
+                    auto widget = ImageControlsWidget::create(context);
+                    widget->setBellowsState(p.controlsBellowsState);
+                    p.imageControlsWidget = widget;
+                    out.widget = widget;
                 }
-                p.imageControlsWidget.reset();
-            }
-            else if ("ColorSpace" == value)
-            {
-                if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
+                else if (value == p.actions["ColorSpace"])
                 {
-                    p.colorSpaceBellowsState = colorSpaceWidget->getBellowsState();
+                    auto widget = ColorSpaceWidget::create(context);
+                    widget->setBellowsState(p.colorSpaceBellowsState);
+                    p.colorSpaceWidget = widget;
+                    out.widget = widget;
                 }
-                p.colorSpaceWidget.reset();
             }
-            const auto i = p.actions.find(value);
-            if (i != p.actions.end())
+            return out;
+        }
+
+        void ImageSystem::deleteToolWidget(const std::shared_ptr<UI::Action>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.actions["ImageControls"])
             {
-                i->second->setChecked(false);
+                if (p.imageControlsWidget)
+                {
+                    p.controlsBellowsState = p.imageControlsWidget->getBellowsState();
+                    p.imageControlsWidget.reset();
+                }
             }
-            IViewSystem::_closeWidget(value);
+            else if (value == p.actions["ColorSpace"])
+            {
+                if (p.colorSpaceWidget)
+                {
+                    p.colorSpaceBellowsState = p.colorSpaceWidget->getBellowsState();
+                    p.colorSpaceWidget.reset();
+                }
+            }
         }
 
         void ImageSystem::_textUpdate()

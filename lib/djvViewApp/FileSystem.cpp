@@ -14,6 +14,7 @@
 
 #include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/IOSettings.h>
+#include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
@@ -83,12 +84,11 @@ namespace djv
 
         void FileSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::FileSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::FileSystem", context);
 
             DJV_PRIVATE_PTR();
 
             p.settings = FileSettings::create(context);
-            _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.opened = Observer::ValueSubject<std::shared_ptr<Media> >::create();
             p.closed = Observer::ValueSubject<std::shared_ptr<Media> >::create();
@@ -109,6 +109,7 @@ namespace djv
             p.actions["Next"] = UI::Action::create();
             p.actions["Prev"] = UI::Action::create();
             p.actions["Layers"] = UI::Action::create();
+            p.actions["Layers"]->setIcon("djvIconLayers");
             p.actions["Layers"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["NextLayer"] = UI::Action::create();
             p.actions["PrevLayer"] = UI::Action::create();
@@ -143,7 +144,6 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["NextLayer"]);
             p.menu->addAction(p.actions["PrevLayer"]);
-            p.menu->addAction(p.actions["Layers"]);
             p.menu->addSeparator();
             //p.menu->addAction(p.actions["8BitConversion"]);
             //p.menu->addSeparator();
@@ -294,25 +294,6 @@ namespace djv
                     }
                 });
 
-            p.actions["Layers"]->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                system->_openWidget("Layers", LayersWidget::create(context));
-                            }
-                            else
-                            {
-                                system->_closeWidget("Layers");
-                            }
-                        }
-                    }
-                });
-
             p.actions["Exit"]->setClickedCallback(
                 [weak, contextWeak]
                 {
@@ -412,8 +393,6 @@ namespace djv
         FileSystem::~FileSystem()
         {
             DJV_PRIVATE_PTR();
-            _closeWidget("Layers");
-            p.settings->setWidgetGeom(_getWidgetGeom());
             if (p.fileBrowserDialog)
             {
                 p.fileBrowserDialog->close();
@@ -624,13 +603,41 @@ namespace djv
             return _p->actions;
         }
 
-        MenuData FileSystem::getMenu() const
+        std::vector<MenuData> FileSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "A"
+                { _p->menu, "A" }
             };
+        }
+
+        std::vector<ActionData> FileSystem::getToolActionData() const
+        {
+            return
+            {
+                { _p->actions["Layers"], "A" }
+            };
+        }
+
+        ToolWidgetData FileSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)
+        {
+            ToolWidgetData out;
+            if (auto context = getContext().lock())
+            {
+                if (value == _p->actions["Layers"])
+                {
+                    auto layersWidget = LayersWidget::create(context);
+                    auto searchWidget = UIComponents::SearchBox::create(context);
+                    searchWidget->setFilterCallback(
+                        [layersWidget](const std::string& value)
+                        {
+                            layersWidget->setFilter(value);
+                        });
+                    out.widget = layersWidget;
+                    out.footer = searchWidget;
+                }
+            }
+            return out;
         }
 
         void FileSystem::_actionsUpdate()
@@ -809,17 +816,6 @@ namespace djv
                     });
                 p.activeFilesDialog->show();
             }
-        }
-
-        void FileSystem::_closeWidget(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            const auto i = p.actions.find(value);
-            if (i != p.actions.end())
-            {
-                i->second->setChecked(false);
-            }
-            IViewSystem::_closeWidget(value);
         }
 
         void FileSystem::_textUpdate()

@@ -2,9 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/ToolSettings.h>
-
-#include <djvMath/BBoxFunc.h>
+#include <djvViewApp/MiscToolsSettings.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -16,83 +14,70 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ToolSettings::Private
+        struct MiscToolsSettings::Private
         {
             std::shared_ptr<Observer::ValueSubject<bool> > messagesPopup;
             std::map<std::string, bool> debugBellowsState;
-            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void ToolSettings::_init(const std::shared_ptr<System::Context>& context)
+        void MiscToolsSettings::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISettings::_init("djv::ViewApp::ToolSettings", context);
+            ISettings::_init("djv::ViewApp::MiscToolsSettings", context);
             DJV_PRIVATE_PTR();
             p.messagesPopup = Observer::ValueSubject<bool>::create(true);
             _load();
         }
 
-        ToolSettings::ToolSettings() :
+        MiscToolsSettings::MiscToolsSettings() :
             _p(new Private)
         {}
 
-        ToolSettings::~ToolSettings()
+        MiscToolsSettings::~MiscToolsSettings()
         {}
 
-        std::shared_ptr<ToolSettings> ToolSettings::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<MiscToolsSettings> MiscToolsSettings::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ToolSettings>(new ToolSettings);
+            auto out = std::shared_ptr<MiscToolsSettings>(new MiscToolsSettings);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Observer::IValueSubject<bool> > ToolSettings::observeMessagesPopup() const
+        std::shared_ptr<Observer::IValueSubject<bool> > MiscToolsSettings::observeMessagesPopup() const
         {
             return _p->messagesPopup;
         }
 
-        void ToolSettings::setMessagesPopup(bool value)
+        void MiscToolsSettings::setMessagesPopup(bool value)
         {
             _p->messagesPopup->setIfChanged(value);
         }
 
-        std::map<std::string, bool> ToolSettings::getDebugBellowsState() const
+        std::map<std::string, bool> MiscToolsSettings::getDebugBellowsState() const
         {
             return _p->debugBellowsState;
         }
 
-        void ToolSettings::setDebugBellowsState(const std::map<std::string, bool>& value)
+        void MiscToolsSettings::setDebugBellowsState(const std::map<std::string, bool>& value)
         {
             _p->debugBellowsState = value;
         }
 
-        const std::map<std::string, Math::BBox2f>& ToolSettings::getWidgetGeom() const
-        {
-            return _p->widgetGeom;
-        }
-
-        void ToolSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
-        {
-            _p->widgetGeom = value;
-        }
-
-        void ToolSettings::load(const rapidjson::Value & value)
+        void MiscToolsSettings::load(const rapidjson::Value & value)
         {
             if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
                 UI::Settings::read("MessagesPopup", value, p.messagesPopup);
                 UI::Settings::read("DebugBellowsState", value, p.debugBellowsState);
-                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        rapidjson::Value ToolSettings::save(rapidjson::Document::AllocatorType& allocator)
+        rapidjson::Value MiscToolsSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
             rapidjson::Value out(rapidjson::kObjectType);
             UI::Settings::write("MessagesPopup", p.messagesPopup->get(), out, allocator);
             UI::Settings::write("DebugBellowsState", p.debugBellowsState, out, allocator);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

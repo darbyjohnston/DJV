@@ -66,20 +66,20 @@ namespace djv
 
         void ViewSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IToolSystem::_init("djv::ViewApp::ViewSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::ViewSystem", context);
 
             DJV_PRIVATE_PTR();
 
             p.settings = ViewSettings::create(context);
             p.bellowsState = p.settings->getBellowsState();
-            _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.lock = Observer::ValueSubject<ViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
             p.actions["ViewControls"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Tool"] = UI::Action::create();
-            p.actions["Tool"]->setIcon("djvIconMove");
+            p.actions["ViewControls"]->setIcon("djvIconVisible");
+            p.actions["Pan"] = UI::Action::create();
+            p.actions["Pan"]->setIcon("djvIconMove");
             p.actions["Left"] = UI::Action::create();
             p.actions["Right"] = UI::Action::create();
             p.actions["Up"] = UI::Action::create();
@@ -146,8 +146,6 @@ namespace djv
             _addShortcut("shortcut_view_hud", GLFW_KEY_U, UI::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["ViewControls"]);
-            p.menu->addSeparator();
             p.menu->addAction(p.actions["Left"]);
             p.menu->addAction(p.actions["Right"]);
             p.menu->addAction(p.actions["Up"]);
@@ -182,29 +180,6 @@ namespace djv
                         case 1: lock = ViewLock::Center; break;
                         }
                         system->_p->settings->setLock(lock);
-                    }
-                });
-
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.actions["ViewControls"]->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto widget = ViewControlsWidget::create(context);
-                                widget->setBellowsState(system->_p->bellowsState);
-                                system->_p->viewControlsWidget = widget;
-                                system->_openWidget("ViewControls", widget);
-                            }
-                            else
-                            {
-                                system->_closeWidget("ViewControls");
-                            }
-                        }
                     }
                 });
 
@@ -463,9 +438,7 @@ namespace djv
         ViewSystem::~ViewSystem()
         {
             DJV_PRIVATE_PTR();
-            _closeWidget("ViewControls");
             p.settings->setBellowsState(p.bellowsState);
-            p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
         std::shared_ptr<ViewSystem> ViewSystem::create(const std::shared_ptr<System::Context>& context)
@@ -479,51 +452,56 @@ namespace djv
             return out;
         }
 
-        ToolActionData ViewSystem::getToolAction() const
-        {
-            return
-            {
-                _p->actions["Tool"],
-                "A"
-            };
-        }
-
-        void ViewSystem::setCurrentTool(bool value, int)
-        {
-            _p->currentTool = value;
-        }
-
         std::map<std::string, std::shared_ptr<UI::Action> > ViewSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData ViewSystem::getMenu() const
+        std::vector<MenuData> ViewSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "D"
+                { _p->menu, "D" }
             };
         }
 
-        void ViewSystem::_closeWidget(const std::string& value)
+        std::vector<ActionData> ViewSystem::getToolActionData() const
+        {
+            return
+            {
+                { _p->actions["ViewControls"], "A0" },
+                { _p->actions["Pan"], "A1" }
+            };
+        }
+
+        ToolWidgetData ViewSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)
         {
             DJV_PRIVATE_PTR();
-            if ("ViewControls" == value)
+            ToolWidgetData out;
+            if (auto context = getContext().lock())
+            {
+                if (value == p.actions["ViewControls"])
+                {
+                    auto widget = ViewControlsWidget::create(context);
+                    widget->setBellowsState(p.bellowsState);
+                    p.viewControlsWidget = widget;
+                    out.widget = widget;
+                }
+            }
+            return out;
+        }
+
+        void ViewSystem::deleteToolWidget(const std::shared_ptr<UI::Action>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.actions["ViewControls"])
             {
                 if (auto widget = p.viewControlsWidget.lock())
                 {
                     p.bellowsState = widget->getBellowsState();
+                    p.viewControlsWidget.reset();
                 }
-                p.viewControlsWidget.reset();
             }
-            const auto i = p.actions.find(value);
-            if (i != p.actions.end())
-            {
-                i->second->setChecked(false);
-            }
-            IViewSystem::_closeWidget(value);
         }
 
         void ViewSystem::_textUpdate()
@@ -532,9 +510,9 @@ namespace djv
             if (p.actions.size())
             {
                 p.actions["ViewControls"]->setText(_getText(DJV_TEXT("menu_view_controls")));
-                p.actions["ViewControls"]->setTooltip(_getText(DJV_TEXT("menu_view_controls_widget_tooltip")));
-                p.actions["Tool"]->setText(_getText(DJV_TEXT("menu_tools_pan_view")));
-                p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("menu_tools_pan_view_tooltip")));
+                p.actions["ViewControls"]->setTooltip(_getText(DJV_TEXT("menu_view_controls_tooltip")));
+                p.actions["Pan"]->setText(_getText(DJV_TEXT("menu_view_pan")));
+                p.actions["Pan"]->setTooltip(_getText(DJV_TEXT("menu_view_pan_tooltip")));
                 p.actions["Left"]->setText(_getText(DJV_TEXT("menu_view_left")));
                 p.actions["Left"]->setTooltip(_getText(DJV_TEXT("menu_view_left_tooltip")));
                 p.actions["Right"]->setText(_getText(DJV_TEXT("menu_view_right")));
@@ -580,7 +558,7 @@ namespace djv
             if (p.actions.size())
             {
                 p.actions["ViewControls"]->setShortcuts(_getShortcuts("shortcut_view_controls"));
-                p.actions["Tool"]->setShortcuts(_getShortcuts("shortcut_view_pan"));
+                p.actions["Pan"]->setShortcuts(_getShortcuts("shortcut_view_pan"));
                 p.actions["Left"]->setShortcuts(_getShortcuts("shortcut_view_left"));
                 p.actions["Right"]->setShortcuts(_getShortcuts("shortcut_view_right"));
                 p.actions["Up"]->setShortcuts(_getShortcuts("shortcut_view_up"));

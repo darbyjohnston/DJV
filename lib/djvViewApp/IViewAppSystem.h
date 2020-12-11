@@ -17,13 +17,10 @@ namespace djv
     {
         class Action;
         class Menu;
-        struct ShortcutDataPair;
-    
-        namespace MDI
-        {
-            class Canvas;
+        class Widget;
 
-        } // namespace MDI
+        struct ShortcutDataPair;
+
     } // namespace UI
 
     namespace UIComponents
@@ -37,7 +34,12 @@ namespace djv
 
     namespace ViewApp
     {
-        class MDIWidget;
+        //! This struct provides action data.
+        struct ActionData
+        {
+            std::shared_ptr<UI::Action> action;
+            std::string sortKey;
+        };
 
         //! This struct provides menu data.
         struct MenuData
@@ -46,32 +48,35 @@ namespace djv
             std::string sortKey;
         };
 
-        //! This class provides the base functionality for systems.
-        class IViewSystem : public System::ISystem
+        //! This struct provides tool widget data.
+        struct ToolWidgetData
         {
-            DJV_NON_COPYABLE(IViewSystem);
+            std::shared_ptr<UI::Widget> widget;
+            std::shared_ptr<UI::Widget> footer;
+        };
+
+        //! This class provides the base functionality for systems.
+        class IViewAppSystem : public System::ISystem
+        {
+            DJV_NON_COPYABLE(IViewAppSystem);
 
         protected:
-            void _init(const std::string & name, const std::shared_ptr<System::Context>&);
-            IViewSystem();
+            void _init(const std::string& name, const std::shared_ptr<System::Context>&);
+            IViewAppSystem();
 
         public:
-            ~IViewSystem() override;
+            ~IViewAppSystem() override;
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions() const;
-            virtual MenuData getMenu() const;
+            virtual std::vector<MenuData> getMenuData() const;
+
+            virtual std::vector<ActionData> getToolActionData() const;
+            virtual ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&);
+            virtual void deleteToolWidget(const std::shared_ptr<UI::Action>&);
+
             virtual std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > createSettingsWidgets() const;
 
-            void setCanvas(const std::shared_ptr<UI::MDI::Canvas>&);
-
         protected:
-            virtual void _openWidget(const std::string&, const std::shared_ptr<MDIWidget>&);
-            virtual void _closeWidget(const std::string&);
-
-            const std::map<std::string, std::shared_ptr<MDIWidget> >& _getWidgets() const;
-            const std::map<std::string, Math::BBox2f>& _getWidgetGeom() const;
-            void _setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
-
             UI::ShortcutDataPair _getShortcuts(const std::string&) const;
             void _addShortcut(const std::string&, const UI::ShortcutDataPair&);
             void _addShortcut(const std::string&, int key);

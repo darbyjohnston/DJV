@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 namespace djv
 {
@@ -17,7 +17,7 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the edit system.
-        class EditSystem : public IViewSystem
+        class EditSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(EditSystem);
 
@@ -31,7 +31,7 @@ namespace djv
             static std::shared_ptr<EditSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            std::vector<MenuData> getMenuData() const override;
 
         protected:
             void _textUpdate() override;

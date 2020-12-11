@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the audio system.
-        class AudioSystem : public IViewSystem
+        class AudioSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(AudioSystem);
 
@@ -25,7 +25,7 @@ namespace djv
             static std::shared_ptr<AudioSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            std::vector<MenuData> getMenuData() const override;
 
         protected:
             void _actionsUpdate();

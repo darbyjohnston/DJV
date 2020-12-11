@@ -22,7 +22,7 @@ namespace djv
 
         void NUXSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::NUXSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::NUXSystem", context);
 
             DJV_PRIVATE_PTR();
             p.settings = NUXSettings::create(context);

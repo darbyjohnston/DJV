@@ -5,14 +5,15 @@
 #pragma once
 
 #include <djvViewApp/ColorPickerData.h>
-#include <djvViewApp/MDIWidget.h>
+
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the color picker widget.
-        class ColorPickerWidget : public MDIWidget
+        class ColorPickerWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorPickerWidget);
 
@@ -25,13 +26,14 @@ namespace djv
 
             static std::shared_ptr<ColorPickerWidget> create(const std::shared_ptr<System::Context>&);
             
-            void setCurrentTool(bool);
-
             const glm::vec2& getPickerPos() const;
 
             void setPickerPos(const glm::vec2&);
 
         protected:
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+
             void _initEvent(System::Event::Init &) override;
 
         private:

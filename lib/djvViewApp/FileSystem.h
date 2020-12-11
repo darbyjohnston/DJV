@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 #include <djvMath/FrameNumber.h>
 #include <djvMath/Rational.h>
@@ -40,7 +40,7 @@ namespace djv
         };
 
         //! This class provides the file system.
-        class FileSystem : public IViewSystem
+        class FileSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(FileSystem);
 
@@ -78,7 +78,9 @@ namespace djv
             ///@}
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            std::vector<MenuData> getMenuData() const override;
+            std::vector<ActionData> getToolActionData() const override;
+            ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
 
         protected:
             void _actionsUpdate();
@@ -87,7 +89,6 @@ namespace djv
             void _showRecentFilesDialog();
             void _showActiveFilesDialog();
 
-            void _closeWidget(const std::string&) override;
             void _textUpdate() override;
             void _shortcutsUpdate() override;
 

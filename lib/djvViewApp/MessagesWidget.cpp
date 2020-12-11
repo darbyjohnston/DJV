@@ -6,7 +6,6 @@
 
 #include <djvUI/CheckBox.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/ToolButton.h>
 
@@ -25,17 +24,11 @@ namespace djv
         struct MessagesWidget::Private
         {
             std::shared_ptr<UI::Text::Block> textBlock;
-            std::shared_ptr<UI::CheckBox> popupCheckBox;
-            std::shared_ptr<UI::ToolButton> copyButton;
-            std::shared_ptr<UI::ToolButton> clearButton;
-            std::function<void(bool)> popupCallback;
-            std::function<void(void)> copyCallback;
-            std::function<void(void)> clearCallback;
         };
 
         void MessagesWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::MessagesWidget");
@@ -44,11 +37,55 @@ namespace djv
             p.textBlock->setFontFamily(Render2D::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.textBlock->setMargin(UI::MetricsRole::Margin);
+            addChild(p.textBlock);
+        }
 
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(p.textBlock);
+        MessagesWidget::MessagesWidget() :
+            _p(new Private)
+        {}
+
+        MessagesWidget::~MessagesWidget()
+        {}
+
+        std::shared_ptr<MessagesWidget> MessagesWidget::create(const std::shared_ptr<System::Context>& context)
+        {
+            auto out = std::shared_ptr<MessagesWidget>(new MessagesWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void MessagesWidget::setText(const std::string& value)
+        {
+            _p->textBlock->setText(value);
+        }
+
+        void MessagesWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->textBlock->getMinimumSize());
+        }
+
+        void MessagesWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->textBlock->setGeometry(getGeometry());
+        }
+
+        struct MessagesFooterWidget::Private
+        {
+            std::shared_ptr<UI::CheckBox> popupCheckBox;
+            std::shared_ptr<UI::ToolButton> copyButton;
+            std::shared_ptr<UI::ToolButton> clearButton;
+            std::shared_ptr<UI::HorizontalLayout> layout;
+            std::function<void(bool)> popupCallback;
+            std::function<void(void)> copyCallback;
+            std::function<void(void)> clearCallback;
+        };
+
+        void MessagesFooterWidget::_init(const std::shared_ptr<System::Context>& context)
+        {
+            Widget::_init(context);
+            DJV_PRIVATE_PTR();
+
+            setClassName("djv::ViewApp::MessagesFooterWidget");
 
             p.popupCheckBox = UI::CheckBox::create(context);
             p.copyButton = UI::ToolButton::create(context);
@@ -56,22 +93,15 @@ namespace djv
             p.clearButton = UI::ToolButton::create(context);
             p.clearButton->setIcon("djvIconClear");
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
-            layout->setBackgroundRole(UI::ColorRole::Background);
-            layout->addChild(scrollWidget);
-            layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            layout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.popupCheckBox);
-            hLayout->addExpander();
-            hLayout->addChild(p.copyButton);
-            hLayout->addChild(p.clearButton);
-            layout->addChild(hLayout);
-            addChild(layout);
+            p.layout = UI::HorizontalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.popupCheckBox);
+            p.layout->addExpander();
+            p.layout->addChild(p.copyButton);
+            p.layout->addChild(p.clearButton);
+            addChild(p.layout);
 
-            auto weak = std::weak_ptr<MessagesWidget>(std::dynamic_pointer_cast<MessagesWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<MessagesFooterWidget>(std::dynamic_pointer_cast<MessagesFooterWidget>(shared_from_this()));
             p.popupCheckBox->setCheckedCallback(
                 [weak](bool value)
                 {
@@ -109,57 +139,61 @@ namespace djv
                 });
         }
 
-        MessagesWidget::MessagesWidget() :
+        MessagesFooterWidget::MessagesFooterWidget() :
             _p(new Private)
         {}
 
-        MessagesWidget::~MessagesWidget()
+        MessagesFooterWidget::~MessagesFooterWidget()
         {}
 
-        std::shared_ptr<MessagesWidget> MessagesWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<MessagesFooterWidget> MessagesFooterWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<MessagesWidget>(new MessagesWidget);
+            auto out = std::shared_ptr<MessagesFooterWidget>(new MessagesFooterWidget);
             out->_init(context);
             return out;
         }
 
-        void MessagesWidget::_initEvent(System::Event::Init & event)
+        void MessagesFooterWidget::setPopup(bool value)
         {
-            MDIWidget::_initEvent(event);
+            _p->popupCheckBox->setChecked(value);
+        }
+
+        void MessagesFooterWidget::setPopupCallback(const std::function<void(bool)>& value)
+        {
+            _p->popupCallback = value;
+        }
+
+        void MessagesFooterWidget::setCopyCallback(const std::function<void(void)>& value)
+        {
+            _p->copyCallback = value;
+        }
+
+        void MessagesFooterWidget::setClearCallback(const std::function<void(void)>& value)
+        {
+            _p->clearCallback = value;
+        }
+
+        void MessagesFooterWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void MessagesFooterWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void MessagesFooterWidget::_initEvent(System::Event::Init& event)
+        {
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("widget_messages")));
                 p.popupCheckBox->setText(_getText(DJV_TEXT("widget_messages_popup")));
                 p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_messages_popup_tooltip")));
                 p.copyButton->setTooltip(_getText(DJV_TEXT("widget_messages_copy_tooltip")));
                 p.clearButton->setTooltip(_getText(DJV_TEXT("widget_messages_clear_tooltip")));
             }
-        }
-
-        void MessagesWidget::setText(const std::string& value)
-        {
-            _p->textBlock->setText(value);
-        }
-
-        void MessagesWidget::setPopup(bool value)
-        {
-            _p->popupCheckBox->setChecked(value);
-        }
-
-        void MessagesWidget::setPopupCallback(const std::function<void(bool)>& value)
-        {
-            _p->popupCallback = value;
-        }
-
-        void MessagesWidget::setCopyCallback(const std::function<void(void)>& value)
-        {
-            _p->copyCallback = value;
-        }
-
-        void MessagesWidget::setClearCallback(const std::function<void(void)>& value)
-        {
-            _p->clearCallback = value;
         }
 
     } // namespace ViewApp

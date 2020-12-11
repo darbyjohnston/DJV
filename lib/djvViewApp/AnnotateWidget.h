@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -17,7 +17,7 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the annotation widget.
-        class AnnotateWidget : public MDIWidget
+        class AnnotateWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(AnnotateWidget);
 

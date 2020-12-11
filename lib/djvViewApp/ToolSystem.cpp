@@ -4,29 +4,13 @@
 
 #include <djvViewApp/ToolSystem.h>
 
-#include <djvViewApp/DebugWidget.h>
-#include <djvViewApp/IToolSystem.h>
-#include <djvViewApp/InfoWidget.h>
-#include <djvViewApp/MessagesWidget.h>
-#include <djvViewApp/SettingsSystem.h>
-#include <djvViewApp/SystemLogWidget.h>
-#include <djvViewApp/ToolSettings.h>
+#include <djvViewApp/ToolDrawerWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/ShortcutDataFunc.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/IEventSystem.h>
-#include <djvSystem/LogSystem.h>
-#include <djvSystem/TextSystem.h>
-
-#include <djvCore/StringFunc.h>
-
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -40,270 +24,67 @@ namespace djv
             const size_t messagesMax = 100;
             
         } // namespace
+
+        bool CurrentTool::operator == (const CurrentTool& other) const
+        {
+            return system == other.system &&
+                action == other.action;
+        }
         
         struct ToolSystem::Private
         {
-            std::shared_ptr<ToolSettings> settings;
-            int currentToolSystem = -1;
-            std::list<std::string> messages;
-            bool messagesPopup = false;
-            std::map<std::string, bool> debugBellowsState;
-            std::vector<std::shared_ptr<IToolSystem> > toolSystems;
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::ActionGroup> toolActionGroup;
+            std::vector<std::shared_ptr<IViewAppSystem> > toolSystems;
+            std::vector<std::shared_ptr<UI::Action> > toolActions;
+            std::shared_ptr<Observer::ValueSubject<CurrentTool> > currentTool;
+            std::shared_ptr<UI::ActionGroup> actionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::weak_ptr<InfoWidget> infoWidget;
-            std::weak_ptr<MessagesWidget> messagesWidget;
-            std::weak_ptr<DebugWidget> debugWidget;
-            std::map<std::string, std::shared_ptr<Observer::Value<bool> > > actionObservers;
-            std::shared_ptr<Observer::List<std::string> > warningsObserver;
-            std::shared_ptr<Observer::List<std::string> > errorsObserver;
-            std::shared_ptr<Observer::Value<bool> > messagesPopupObserver;
         };
 
         void ToolSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::ToolSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::ToolSystem", context);
             DJV_PRIVATE_PTR();
 
-            p.settings = ToolSettings::create(context);
-            p.debugBellowsState = p.settings->getDebugBellowsState();
-            _setWidgetGeom(p.settings->getWidgetGeom());
+            p.currentTool = Observer::ValueSubject<CurrentTool>::create();
 
-            std::map<std::string, std::shared_ptr<IToolSystem> > toolSystems;
+            std::map<std::string, std::shared_ptr<IViewAppSystem> > toolSystems;
             std::map<std::string, std::shared_ptr<UI::Action> > toolActions;
-            auto systems = context->getSystemsT<IToolSystem>();
+            auto systems = context->getSystemsT<IViewAppSystem>();
             for (const auto& i : systems)
             {
-                auto data = i->getToolAction();
-                toolSystems[data.sortKey] = i;
-                toolActions[data.sortKey] = data.action;
+                for (const auto& j : i->getToolActionData())
+                {
+                    toolSystems[j.sortKey] = i;
+                    toolActions[j.sortKey] = j.action;
+                }
             }
             for (const auto& i : toolSystems)
             {
                 p.toolSystems.push_back(i.second);
             }
-
-            p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            std::vector<std::shared_ptr<UI::Action> > actions;
             for (const auto& i : toolActions)
             {
-                actions.push_back(i.second);
+                p.toolActions.push_back(i.second);
             }
-            p.toolActionGroup->setActions(actions);
-            p.actions["Info"] = UI::Action::create();
-            p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Messages"] = UI::Action::create();
-            p.actions["Messages"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["SystemLog"] = UI::Action::create();
-            p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Debug"] = UI::Action::create();
-            p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Settings"] = UI::Action::create();
-            p.actions["Settings"]->setIcon("djvIconSettings");
-            p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("shortcut_tool_info", GLFW_KEY_I, UI::getSystemModifier());
-            _addShortcut("shortcut_tool_messages", GLFW_KEY_S, UI::getSystemModifier());
-            _addShortcut("shortcut_tool_debug", GLFW_KEY_D, UI::getSystemModifier());
+            p.actionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+            p.actionGroup->setActions(p.toolActions);
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)
             {
                 p.menu->addAction(i.second);
             }
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["Info"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["Messages"]);
-            p.menu->addAction(p.actions["SystemLog"]);
-            p.menu->addAction(p.actions["Debug"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["Settings"]);
 
             _textUpdate();
-            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-            p.toolActionGroup->setExclusiveCallback(
+            p.actionGroup->setExclusiveCallback(
                 [weak](int value)
                 {
                     if (auto system = weak.lock())
                     {
-                        if (system->_p->currentToolSystem >= 0 &&
-                            system->_p->currentToolSystem < system->_p->toolSystems.size())
-                        {
-                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(
-                                false,
-                                value);
-                        }
-                        system->_p->currentToolSystem = value;
-                        if (system->_p->currentToolSystem >= 0 &&
-                            system->_p->currentToolSystem < system->_p->toolSystems.size())
-                        {
-                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(
-                                true,
-                                system->_p->currentToolSystem);
-                        }
-                    }
-                });
-
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.actionObservers["Info"] = Observer::Value<bool>::create(
-                p.actions["Info"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto widget = InfoWidget::create(context);
-                                system->_p->infoWidget = widget;
-                                system->_openWidget("Info", widget);
-                            }
-                            else
-                            {
-                                system->_closeWidget("Info");
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Messages"] = Observer::Value<bool>::create(
-                p.actions["Messages"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                system->_messagesPopup();
-                            }
-                            else
-                            {
-                                system->_closeWidget("Messages");
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["SystemLog"] = Observer::Value<bool>::create(
-                p.actions["SystemLog"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto widget = SystemLogWidget::create(context);
-                                widget->reloadLog();
-                                system->_openWidget("SystemLog", widget);
-                            }
-                            else
-                            {
-                                system->_closeWidget("SystemLog");
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Debug"] = Observer::Value<bool>::create(
-                p.actions["Debug"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto widget = DebugWidget::create(context);
-                                widget->setBellowsState(system->_p->debugBellowsState);
-                                system->_p->debugWidget = widget;
-                                system->_openWidget("Debug", widget);
-                            }
-                            else
-                            {
-                                system->_closeWidget("Debug");
-                            }
-                        }
-                    }
-                });
-
-            auto logSystem = context->getSystemT<System::LogSystem>();
-            p.warningsObserver = Observer::List<std::string>::create(
-                logSystem->observeWarnings(),
-                [weak](const std::vector<std::string>& value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        for (const auto& i : value)
-                        {
-                            std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("warning")) << ": ";
-                            ss << i;
-                            system->_p->messages.push_back(ss.str());
-                            while (system->_p->messages.size() > messagesMax)
-                            {
-                                system->_p->messages.pop_front();
-                            }
-                        }
-                        if (auto messagesWidget = system->_p->messagesWidget.lock())
-                        {
-                            messagesWidget->setText(system->_getMessagesString());
-                        }
-                        if (system->_p->messagesPopup)
-                        {
-                            system->_messagesPopup();
-                        }
-                    }
-                });
-
-            p.errorsObserver = Observer::List<std::string>::create(
-                logSystem->observeErrors(),
-                [weak](const std::vector<std::string>& value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        for (const auto& i : value)
-                        {
-                            std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("error")) << ": ";
-                            ss << i;
-                            system->_p->messages.push_back(ss.str());
-                            while (system->_p->messages.size() > messagesMax)
-                            {
-                                system->_p->messages.pop_front();
-                            }
-                        }
-                        if (auto messagesWidget = system->_p->messagesWidget.lock())
-                        {
-                            messagesWidget->setText(system->_getMessagesString());
-                        }
-                        if (system->_p->messagesPopup)
-                        {
-                            system->_messagesPopup();
-                        }
-                    }
-                });
-
-            p.messagesPopupObserver = Observer::Value<bool>::create(
-                p.settings->observeMessagesPopup(),
-                [weak](bool value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->messagesPopup = value;
-                        if (auto messagesWidget = system->_p->messagesWidget.lock())
-                        {
-                            messagesWidget->setPopup(value);
-                        }
+                        system->setCurrentTool(value);
                     }
                 });
         }
@@ -313,15 +94,7 @@ namespace djv
         {}
 
         ToolSystem::~ToolSystem()
-        {
-            DJV_PRIVATE_PTR();
-            _closeWidget("Info");
-            _closeWidget("Messages");
-            _closeWidget("SystemLog");
-            _closeWidget("Debug");
-            p.settings->setDebugBellowsState(p.debugBellowsState);
-            p.settings->setWidgetGeom(_getWidgetGeom());
-        }
+        {}
 
         std::shared_ptr<ToolSystem> ToolSystem::create(const std::shared_ptr<System::Context>& context)
         {
@@ -334,131 +107,65 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ToolSystem::getActions() const
+        const std::vector<std::shared_ptr<IViewAppSystem> >& ToolSystem::getToolSystems() const
         {
-            return _p->actions;
+            return _p->toolSystems;
         }
 
-        MenuData ToolSystem::getMenu() const
+        const std::vector<std::shared_ptr<UI::Action> >& ToolSystem::getToolActions() const
+        {
+            return _p->toolActions;
+        }
+
+        std::shared_ptr<Core::Observer::IValueSubject<CurrentTool> > ToolSystem::observeCurrentTool() const
+        {
+            return _p->currentTool;
+        }
+
+        void ToolSystem::setCurrentTool(int value)
+        {
+            DJV_PRIVATE_PTR();
+            auto currentTool = p.currentTool->get();
+            if (currentTool.system)
+            {
+                currentTool.system.reset();
+                currentTool.action.reset();
+            }
+            auto& systems = p.toolSystems;
+            auto& actions = p.toolActions;
+            if (value >= 0 && value < systems.size() && value < actions.size())
+            {
+                currentTool.system = systems[value];
+                currentTool.action = actions[value];
+            }
+            p.currentTool->setIfChanged(currentTool);
+            p.actionGroup->setChecked(value);
+        }
+
+        std::shared_ptr<UI::Widget> ToolSystem::createToolDrawerWidget()
+        {
+            std::shared_ptr<UI::Widget> out;
+            if (auto context = getContext().lock())
+            {
+                out = ToolDrawerWidget::create(context);
+            }
+            return out;
+        }
+
+        std::vector<MenuData> ToolSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "H"
+                { _p->menu, "H" }
             };
-        }
-
-        void ToolSystem::_closeWidget(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            if ("Info" == value)
-            {
-                p.infoWidget.reset();
-            }
-            else if ("Messages" == value)
-            {
-                p.messagesWidget.reset();
-            }
-            else if ("Debug" == value)
-            {
-                if (auto debugWidget = p.debugWidget.lock())
-                {
-                    p.debugBellowsState = debugWidget->getBellowsState();
-                }
-                p.debugWidget.reset();
-            }
-            const auto i = p.actions.find(value);
-            if (i != p.actions.end())
-            {
-                i->second->setChecked(false);
-            }
-            IViewSystem::_closeWidget(value);
         }
 
         void ToolSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (p.actions.size())
+            if (p.toolActions.size())
             {
-                p.actions["Info"]->setText(_getText(DJV_TEXT("menu_tools_information")));
-                p.actions["Info"]->setTooltip(_getText(DJV_TEXT("menu_tools_information_widget_tooltip")));
-                p.actions["Messages"]->setText(_getText(DJV_TEXT("menu_tools_messages")));
-                p.actions["Messages"]->setTooltip(_getText(DJV_TEXT("menu_tools_messages_widget_tooltip")));
-                p.actions["SystemLog"]->setText(_getText(DJV_TEXT("menu_tools_system_log")));
-                p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("menu_tools_system_log_widget_tooltip")));
-                p.actions["Debug"]->setText(_getText(DJV_TEXT("menu_tools_debugging")));
-                p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("menu_tools_debugging_widget_tooltip")));
-                p.actions["Settings"]->setText(_getText(DJV_TEXT("menu_tools_settings")));
-                p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("menu_tools_settings_tooltip")));
-
                 p.menu->setText(_getText(DJV_TEXT("menu_tools")));
-            }
-        }
-
-        void ToolSystem::_shortcutsUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.actions.size())
-            {
-                p.actions["Info"]->setShortcuts(_getShortcuts("shortcut_tool_info"));
-                p.actions["Messages"]->setShortcuts(_getShortcuts("shortcut_tool_messages"));
-                p.actions["Debug"]->setShortcuts(_getShortcuts("shortcut_tool_debug"));
-            }
-        }
-
-        std::string ToolSystem::_getMessagesString() const
-        {
-            return String::joinList(_p->messages, '\n');
-        }
-
-        void ToolSystem::_messagesPopup()
-        {
-            DJV_PRIVATE_PTR();
-            auto contextWeak = getContext();
-            if (auto context = contextWeak.lock())
-            {
-                if (!p.messagesWidget.lock())
-                {
-                    auto widget = MessagesWidget::create(context);
-                    widget->setPopup(p.messagesPopup);
-                    widget->setText(_getMessagesString());
-                    auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-                    widget->setPopupCallback(
-                        [weak](bool value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                system->_p->settings->setMessagesPopup(value);
-                            }
-                        });
-                    widget->setCopyCallback(
-                        [weak, contextWeak]
-                        {
-                            if (auto context = contextWeak.lock())
-                            {
-                                if (auto system = weak.lock())
-                                {
-                                    auto eventSystem = context->getSystemT<System::Event::IEventSystem>();
-                                    eventSystem->setClipboard(system->_getMessagesString().c_str());
-                                }
-                            }
-                        });
-                    widget->setClearCallback(
-                        [weak]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                system->_p->messages.clear();
-                                if (auto messagesWidget = system->_p->messagesWidget.lock())
-                                {
-                                    messagesWidget->setText(std::string());
-                                }
-                            }
-                        });
-                    p.messagesWidget = widget;
-                    p.actions["Messages"]->setChecked(true);
-                    _openWidget("Messages", widget);
-                }
             }
         }
 

@@ -17,6 +17,7 @@
 #include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MiscToolsSystem.h>
 #include <djvViewApp/NUXWidget.h>
 #include <djvViewApp/NUXSystem.h>
 #include <djvViewApp/PlaybackSystem.h>
@@ -128,6 +129,7 @@ namespace djv
             ColorPickerSystem::create(shared_from_this());
             MagnifySystem::create(shared_from_this());
             //AnnotateSystem::create(shared_from_this());
+            MiscToolsSystem::create(shared_from_this());
             ToolSystem::create(shared_from_this());
             HelpSystem::create(shared_from_this());
             NUXSystem::create(shared_from_this());

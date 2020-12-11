@@ -53,8 +53,6 @@ namespace djv
 
                 static std::shared_ptr<ImageWidget> create(const std::shared_ptr<System::Context>&);
 
-                void setCurrentTool(bool);
-
                 const glm::vec2& getMagnifyPos() const;
 
                 void setMagnifyPos(const glm::vec2&);
@@ -64,7 +62,6 @@ namespace djv
                 void _paintEvent(System::Event::Paint&) override;
 
             private:
-                bool _currentTool = false;
                 std::shared_ptr<Image::Data> _image;
                 glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
                 float _imageZoom = 0.F;
@@ -140,10 +137,7 @@ namespace djv
                                         {
                                             if (auto widget = weak.lock())
                                             {
-                                                if (widget->_currentTool)
-                                                {
-                                                    widget->_magnifyPos = value.pos;
-                                                }
+                                                widget->_magnifyPos = value.pos;
                                             }
                                         });
                                 }
@@ -225,11 +219,6 @@ namespace djv
                 auto out = std::shared_ptr<ImageWidget>(new ImageWidget);
                 out->_init(context);
                 return out;
-            }
-
-            void ImageWidget::setCurrentTool(bool value)
-            {
-                _currentTool = value;
             }
 
             const glm::vec2& ImageWidget::getMagnifyPos() const
@@ -326,30 +315,30 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<ImageWidget> imageWidget;
             std::shared_ptr<UI::Numeric::IntSlider> magnifySlider;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<Observer::Value<size_t> > magnifyObserver;
         };
 
         void MagnifyWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MagnifyWidget");
 
             p.imageWidget = ImageWidget::create(context);
-            p.imageWidget->setShadowOverlay({ UI::Side::Top });
             
             p.magnifySlider = UI::Numeric::IntSlider::create(context);
             p.magnifySlider->setRange(Math::IntRange(1, 10));
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
-            layout->setBackgroundRole(UI::ColorRole::Background);
-            layout->addChild(p.imageWidget);
-            layout->setStretch(p.imageWidget, UI::RowStretch::Expand);
-            layout->addChild(p.magnifySlider);
-            addChild(layout);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->setBackgroundRole(UI::ColorRole::Background);
+            p.layout->addChild(p.imageWidget);
+            p.layout->setStretch(p.imageWidget, UI::RowStretch::Expand);
+            p.layout->addChild(p.magnifySlider);
+            addChild(p.layout);
 
             _widgetUpdate();
 
@@ -394,11 +383,6 @@ namespace djv
             return out;
         }
 
-        void MagnifyWidget::setCurrentTool(bool value)
-        {
-            _p->imageWidget->setCurrentTool(value);
-        }
-
         const glm::vec2& MagnifyWidget::getMagnifyPos() const
         {
             return _p->imageWidget->getMagnifyPos();
@@ -409,14 +393,22 @@ namespace djv
             _p->imageWidget->setMagnifyPos(value);
         }
 
+        void MagnifyWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void MagnifyWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void MagnifyWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("widget_magnify_title")));
-
                 p.magnifySlider->setTooltip(_getText(DJV_TEXT("widget_magnify_slider_tooltip")));
             }
         }

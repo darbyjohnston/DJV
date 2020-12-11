@@ -91,9 +91,10 @@ namespace djv
         void TimelineWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
+
             setClassName("djv::ViewApp::TimelineWidget");
+            setBackgroundRole(UI::ColorRole::BackgroundToolBar);
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");

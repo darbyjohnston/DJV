@@ -10,22 +10,20 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the annotation system.
-        class AnnotateSystem : public IViewAppSystem
+        //! This class provides the miscellaneous tools system.
+        class MiscToolsSystem : public IViewAppSystem
         {
-            DJV_NON_COPYABLE(AnnotateSystem);
+            DJV_NON_COPYABLE(MiscToolsSystem);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            AnnotateSystem();
+            MiscToolsSystem();
 
         public:
-            ~AnnotateSystem() override;
+            ~MiscToolsSystem() override;
 
-            static std::shared_ptr<AnnotateSystem> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<MiscToolsSystem> create(const std::shared_ptr<System::Context>&);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            std::vector<MenuData> getMenuData() const override;
             std::vector<ActionData> getToolActionData() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
             void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
@@ -35,11 +33,9 @@ namespace djv
             void _shortcutsUpdate() override;
 
         private:
-            glm::vec2 _xformDrag(const glm::vec2&) const;
-            void _dragStart(const glm::vec2&);
-            void _dragMove(const glm::vec2&);
-            void _dragEnd(const glm::vec2&);
-            
+            void _messagesPopup();
+            std::string _getMessagesString() const;
+
             DJV_PRIVATE();
         };
 

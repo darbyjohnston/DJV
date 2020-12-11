@@ -4,14 +4,25 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewApp
     {
+        //! This structure provides the current tool data.
+        struct CurrentTool
+        {
+            std::shared_ptr<IViewAppSystem> system;
+            std::shared_ptr<UI::Action> action;
+
+            bool operator == (const CurrentTool&) const;
+        };
+
         //! This class provides the tool system.
-        class ToolSystem : public IViewSystem
+        class ToolSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(ToolSystem);
 
@@ -24,19 +35,21 @@ namespace djv
 
             static std::shared_ptr<ToolSystem> create(const std::shared_ptr<System::Context>&);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            const std::vector<std::shared_ptr<IViewAppSystem> >& getToolSystems() const;
+            const std::vector<std::shared_ptr<UI::Action> >& getToolActions() const;
+
+            std::shared_ptr<Core::Observer::IValueSubject<CurrentTool> > observeCurrentTool() const;
+
+            void setCurrentTool(int);
+
+            std::shared_ptr<UI::Widget> createToolDrawerWidget();
+
+            std::vector<MenuData> getMenuData() const override;
 
         protected:
-            void _closeWidget(const std::string&) override;
-
             void _textUpdate() override;
-            void _shortcutsUpdate() override;
 
         private:
-            std::string _getMessagesString() const;
-            void _messagesPopup();
-
             DJV_PRIVATE();
         };
 

@@ -21,7 +21,6 @@
 #include <djvUI/Label.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
@@ -68,6 +67,7 @@ namespace djv
             std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<Observer::Value<ImageData> > dataObserver;
             std::shared_ptr<Observer::Value<bool> > frameStoreEnabledObserver;
@@ -76,7 +76,7 @@ namespace djv
 
         void ImageControlsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ImageControlsWidget");
@@ -248,21 +248,16 @@ namespace djv
                 i.second->setLabelSizeGroup(p.sizeGroup);
             }
 
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(p.bellows["Channels"]);
-            vLayout->addChild(p.bellows["Transform"]);
-            vLayout->addChild(p.bellows["Color"]);
-            vLayout->addChild(p.bellows["Levels"]);
-            vLayout->addChild(p.bellows["Exposure"]);
-            vLayout->addChild(p.bellows["SoftClip"]);
-            vLayout->addChild(p.bellows["FrameStore"]);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(vLayout);
-            addChild(scrollWidget);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.bellows["Channels"]);
+            p.layout->addChild(p.bellows["Transform"]);
+            p.layout->addChild(p.bellows["Color"]);
+            p.layout->addChild(p.bellows["Levels"]);
+            p.layout->addChild(p.bellows["Exposure"]);
+            p.layout->addChild(p.bellows["SoftClip"]);
+            p.layout->addChild(p.bellows["FrameStore"]);
+            addChild(p.layout);
 
             _widgetUpdate();
 
@@ -745,15 +740,23 @@ namespace djv
         {
             _p->sizeGroup->calcMinimumSize();
         }
-        
+
+        void ImageControlsWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void ImageControlsWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void ImageControlsWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("image_controls_title")));
-
                 p.formLayouts["Channels"]->setText(p.channelDisplayComboBox, _getText(DJV_TEXT("image_controls_channels_display")) + ":");
                 p.formLayouts["Channels"]->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
 

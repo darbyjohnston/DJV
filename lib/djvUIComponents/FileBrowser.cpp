@@ -416,14 +416,7 @@ namespace djv
                                     widget->_p->recentPathsModel,
                                     widget->_p->drivesModel,
                                     context);
-                                auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                                scrollWidget->setBorder(false);
-                                scrollWidget->addChild(drawerWidget);
-                                auto hLayout = UI::HorizontalLayout::create(context);
-                                hLayout->setSpacing(UI::MetricsRole::None);
-                                hLayout->addChild(scrollWidget);
-                                hLayout->addSeparator();
-                                out = hLayout;
+                                out = drawerWidget;
 
                                 auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();

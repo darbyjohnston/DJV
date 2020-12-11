@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the histogram widget.
-        class HistogramWidget : public MDIWidget
+        class HistogramWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(HistogramWidget);
 

@@ -35,7 +35,7 @@ namespace djv
 
         void EditSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::EditSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::EditSystem", context);
             DJV_PRIVATE_PTR();
 
             p.actions["Undo"] = UI::Action::create();
@@ -143,12 +143,11 @@ namespace djv
             return _p->actions;
         }
 
-        MenuData EditSystem::getMenu() const
+        std::vector<MenuData> EditSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "B"
+                { _p->menu, "B" }
             };
         }
 

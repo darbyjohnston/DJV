@@ -7,13 +7,10 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 
-#include <djvUIComponents/SearchBox.h>
-
 #include <djvUI/FormLayout.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
 
 #include <djvAV/AVSystem.h>
@@ -33,10 +30,9 @@ namespace djv
         {
             AV::IO::Info info;
             std::string filter;
-            std::shared_ptr<UIComponents::SearchBox> searchBox;
             std::vector<std::shared_ptr<UI::GroupBox> > groupBoxes;
             std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
-            std::shared_ptr<UI::VerticalLayout> infoLayout;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<AV::IO::Info> > infoObserver;
 
@@ -61,46 +57,19 @@ namespace djv
 
         void InfoWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::InfoWidget");
 
-            p.searchBox = UIComponents::SearchBox::create(context);
-
             p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->setBackgroundRole(UI::ColorRole::Background);
-            p.infoLayout = UI::VerticalLayout::create(context);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(p.infoLayout);
-            vLayout->addChild(scrollWidget);
-            vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            vLayout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.searchBox);
-            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
-            vLayout->addChild(hLayout);
-            addChild(vLayout);
+            p.layout = UI::VerticalLayout::create(context);
+            addChild(p.layout);
 
             _widgetUpdate();
 
             auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
-            p.searchBox->setFilterCallback(
-                [weak](const std::string& value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->filter = value;
-                    widget->_widgetUpdate();
-                }
-            });
-
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
                 p.currentMediaObserver = Observer::Value<std::shared_ptr<Media> >::create(
@@ -147,18 +116,36 @@ namespace djv
             return out;
         }
 
+        void InfoWidget::setFilter(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.filter)
+                return;
+            p.filter = value;
+            _widgetUpdate();
+        }
+
         void InfoWidget::_initLayoutEvent(System::Event::InitLayout&)
         {
             _p->sizeGroup->calcMinimumSize();
         }
 
+        void InfoWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void InfoWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void InfoWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("widget_info_title")));
                 _widgetUpdate();
             }
         }
@@ -241,7 +228,7 @@ namespace djv
             {
                 p.groupBoxes.clear();
                 p.sizeGroup->clearLabels();
-                p.infoLayout->clearChildren();
+                p.layout->clearChildren();
 
                 const std::string fileNameLabel = _getText(DJV_TEXT("widget_info_file_name"));
                 std::string speedLabel;
@@ -296,7 +283,7 @@ namespace djv
                     groupBox->setText(general);
                     groupBox->addChild(formLayout);
                     p.groupBoxes.push_back(groupBox);
-                    p.infoLayout->addChild(groupBox);
+                    p.layout->addChild(groupBox);
                 }
 
                 size_t j = 0;
@@ -341,7 +328,7 @@ namespace djv
                         groupBox->setText(i.name);
                         groupBox->addChild(formLayout);
                         p.groupBoxes.push_back(groupBox);
-                        p.infoLayout->addChild(groupBox);
+                        p.layout->addChild(groupBox);
                     }
 
                     ++j;
@@ -408,7 +395,7 @@ namespace djv
                         groupBox->setText(p.info.audio.name);
                         groupBox->addChild(formLayout);
                         p.groupBoxes.push_back(groupBox);
-                        p.infoLayout->addChild(groupBox);
+                        p.layout->addChild(groupBox);
                     }
                 }
 
@@ -443,7 +430,7 @@ namespace djv
                         }
                         groupBox->addChild(formLayout);
                         p.groupBoxes.push_back(groupBox);
-                        p.infoLayout->addChild(groupBox);
+                        p.layout->addChild(groupBox);
                     }
                 }
             }

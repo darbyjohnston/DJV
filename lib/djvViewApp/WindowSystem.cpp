@@ -80,7 +80,7 @@ namespace djv
 
         void WindowSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::WindowSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
 
@@ -344,12 +344,11 @@ namespace djv
             return _p->actions;
         }
 
-        MenuData WindowSystem::getMenu() const
+        std::vector<MenuData> WindowSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "C"
+                { _p->menu, "C" }
             };
         }
 

@@ -15,7 +15,6 @@
 #include <djvUI/IconSystem.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #include <djvRender2D/FontSystem.h>
 #include <djvRender2D/Render.h>
@@ -784,40 +783,36 @@ namespace djv
         struct DebugWidget::Private
         {
             std::map < std::string, std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::VerticalLayout> layout;
         };
 
         void DebugWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::DebugWidget");
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
 
             auto generalDebugWidget = GeneralDebugWidget::create(context);
             p.bellows["General"] = UI::Bellows::create(context);
             p.bellows["General"]->addChild(generalDebugWidget);
             p.bellows["General"]->setOpen(true, false);
-            layout->addChild(p.bellows["General"]);
+            p.layout->addChild(p.bellows["General"]);
 
             auto renderDebugWidget = RenderDebugWidget::create(context);
             p.bellows["Render"] = UI::Bellows::create(context);
             p.bellows["Render"]->addChild(renderDebugWidget);
-            layout->addChild(p.bellows["Render"]);
+            p.layout->addChild(p.bellows["Render"]);
 
             auto mediaDebugWidget = MediaDebugWidget::create(context);
             p.bellows["Media"] = UI::Bellows::create(context);
             p.bellows["Media"]->addChild(mediaDebugWidget);
-            layout->addChild(p.bellows["Media"]);
+            p.layout->addChild(p.bellows["Media"]);
 
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(layout);
-            addChild(scrollWidget);
+            addChild(p.layout);
         }
 
         DebugWidget::DebugWidget() :
@@ -858,13 +853,22 @@ namespace djv
             }
         }
 
+        void DebugWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void DebugWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void DebugWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("debug_title")));
                 p.bellows["General"]->setText(_getText(DJV_TEXT("debug_section_general")));
                 p.bellows["Render"]->setText(_getText(DJV_TEXT("debug_section_render")));
                 p.bellows["Media"]->setText(_getText(DJV_TEXT("debug_section_media")));

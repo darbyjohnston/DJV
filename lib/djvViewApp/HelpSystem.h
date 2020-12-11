@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the help system.
-        class HelpSystem : public IViewSystem
+        class HelpSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(HelpSystem);
 
@@ -25,11 +25,9 @@ namespace djv
             static std::shared_ptr<HelpSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            std::vector<MenuData> getMenuData() const override;
 
         protected:
-            void _closeWidget(const std::string&) override;
-
             void _textUpdate() override;
 
         private:

@@ -52,7 +52,7 @@ namespace djv
 
         void SettingsSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::SettingsSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::SettingsSystem", context);
         }
 
         SettingsSystem::SettingsSystem() :

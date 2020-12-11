@@ -68,7 +68,7 @@ namespace djv
 
         void PlaybackSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::PlaybackSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::PlaybackSystem", context);
 
             DJV_PRIVATE_PTR();
             p.settings = PlaybackSettings::create(context);
@@ -606,12 +606,11 @@ namespace djv
             return _p->actions;
         }
 
-        MenuData PlaybackSystem::getMenu() const
+        std::vector<MenuData> PlaybackSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "F"
+                { _p->menu, "F" }
             };
         }
 

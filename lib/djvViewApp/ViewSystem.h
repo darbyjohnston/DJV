@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/IToolSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 #include <djvUI/Enum.h>
 
@@ -17,7 +17,7 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the view system.
-        class ViewSystem : public IToolSystem
+        class ViewSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(ViewSystem);
 
@@ -30,15 +30,13 @@ namespace djv
 
             static std::shared_ptr<ViewSystem> create(const std::shared_ptr<System::Context>&);
 
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool, int) override;
-
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            std::vector<MenuData> getMenuData() const override;
+            std::vector<ActionData> getToolActionData() const override;
+            ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
+            void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
 
         protected:
-            void _closeWidget(const std::string&) override;
-
             void _textUpdate() override;
             void _shortcutsUpdate() override;
 

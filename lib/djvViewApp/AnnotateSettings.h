@@ -61,15 +61,6 @@ namespace djv
 
             /// @}
 
-            //! \name Geometry
-            ///@{
-
-            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
-
-            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
-
-            /// @}
-
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 

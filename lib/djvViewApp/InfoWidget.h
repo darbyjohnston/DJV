@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/Widget.h>
 
 #include <djvImage/Type.h>
 
@@ -24,7 +24,7 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the information widget.
-        class InfoWidget : public MDIWidget
+        class InfoWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(InfoWidget);
 
@@ -37,8 +37,12 @@ namespace djv
 
             static std::shared_ptr<InfoWidget> create(const std::shared_ptr<System::Context>&);
 
+            void setFilter(const std::string&);
+
         protected:
             void _initLayoutEvent(djv::System::Event::InitLayout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
             void _initEvent(System::Event::Init &) override;
 

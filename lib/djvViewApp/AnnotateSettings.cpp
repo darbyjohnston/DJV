@@ -28,7 +28,6 @@ namespace djv
             std::shared_ptr<Observer::ValueSubject<AnnotateLineSize> > lineSize;
             std::shared_ptr<Observer::ListSubject<Image::Color> > colors;
             std::shared_ptr<Observer::ValueSubject<int> > currentColor;
-            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
         void AnnotateSettings::_init(const std::shared_ptr<System::Context>& context)
@@ -104,16 +103,6 @@ namespace djv
             _p->currentColor->setIfChanged(value);
         }
 
-        const std::map<std::string, Math::BBox2f>& AnnotateSettings::getWidgetGeom() const
-        {
-            return _p->widgetGeom;
-        }
-
-        void AnnotateSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
-        {
-            _p->widgetGeom = value;
-        }
-
         void AnnotateSettings::load(const rapidjson::Value & value)
         {
             if (value.IsObject())
@@ -123,7 +112,6 @@ namespace djv
                 UI::Settings::read("LineSize", value, p.lineSize);
                 UI::Settings::read("Colors", value, p.colors);
                 UI::Settings::read("CurrentColor", value, p.currentColor);
-                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
@@ -135,7 +123,6 @@ namespace djv
             UI::Settings::write("LineSize", p.lineSize->get(), out, allocator);
             UI::Settings::write("Colors", p.colors->get(), out, allocator);
             UI::Settings::write("CurrentColor", p.currentColor->get(), out, allocator);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

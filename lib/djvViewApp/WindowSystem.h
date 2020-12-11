@@ -5,7 +5,7 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -17,7 +17,7 @@ namespace djv
         class MediaWidget;
 
         //! This class provides the window system.
-        class WindowSystem : public IViewSystem
+        class WindowSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(WindowSystem);
 
@@ -74,7 +74,7 @@ namespace djv
             ///@}
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            std::vector<MenuData> getMenuData() const override;
 
         protected:
             void _textUpdate() override;

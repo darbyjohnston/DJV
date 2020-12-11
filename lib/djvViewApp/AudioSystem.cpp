@@ -40,7 +40,7 @@ namespace djv
 
         void AudioSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IViewSystem::_init("djv::ViewApp::AudioSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::AudioSystem", context);
 
             DJV_PRIVATE_PTR();
 
@@ -178,12 +178,11 @@ namespace djv
             return _p->actions;
         }
 
-        MenuData AudioSystem::getMenu() const
+        std::vector<MenuData> AudioSystem::getMenuData() const
         {
             return
             {
-                _p->menu,
-                "G"
+                { _p->menu, "G" }
             };
         }
 

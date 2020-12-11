@@ -7,11 +7,8 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 
-#include <djvUIComponents/SearchBox.h>
-
 #include <djvUI/ListWidget.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #include <djvSystem/Context.h>
 
@@ -27,39 +24,19 @@ namespace djv
             std::vector<Image::Info> layers;
             int currentLayer = -1;
             std::shared_ptr<UI::ListWidget> listWidget;
-            std::shared_ptr<UIComponents::SearchBox> searchBox;
-            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<std::pair<std::vector<Image::Info>, int> > > layersObserver;
         };
 
         void LayersWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::LayersWidget");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
             p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(p.listWidget);
-
-            p.searchBox = UIComponents::SearchBox::create(context);
-
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->setBackgroundRole(UI::ColorRole::Background);
-            p.layout->addChild(scrollWidget);
-            p.layout->setStretch(scrollWidget, UI::Layout::RowStretch::Expand);
-            p.layout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.searchBox);
-            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
-            p.layout->addChild(hLayout);
-            addChild(p.layout);
+            addChild(p.listWidget);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));
             p.listWidget->setRadioCallback(
@@ -76,15 +53,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.searchBox->setFilterCallback(
-                [weak](const std::string& value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->listWidget->setFilter(value);
-                }
-            });
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
@@ -135,12 +103,26 @@ namespace djv
             return out;
         }
 
+        void LayersWidget::setFilter(const std::string& value)
+        {
+            _p->listWidget->setFilter(value);
+        }
+
+        void LayersWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->listWidget->getMinimumSize());
+        }
+
+        void LayersWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->listWidget->setGeometry(getGeometry());
+        }
+
         void LayersWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("layers_title")));
                 _layersUpdate();
             }
         }

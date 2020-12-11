@@ -28,16 +28,15 @@ namespace djv
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<ColorPickerSettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::weak_ptr<ColorPickerWidget> widget;
+            std::shared_ptr<ColorPickerWidget> widget;
         };
 
         void ColorPickerSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            IToolSystem::_init("djv::ViewApp::ColorPickerSystem", context);
+            IViewAppSystem::_init("djv::ViewApp::ColorPickerSystem", context);
             DJV_PRIVATE_PTR();
 
             p.settings = ColorPickerSettings::create(context);
-            _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
@@ -53,11 +52,7 @@ namespace djv
         {}
 
         ColorPickerSystem::~ColorPickerSystem()
-        {
-            DJV_PRIVATE_PTR();
-            _closeWidget("ColorPicker");
-            p.settings->setWidgetGeom(_getWidgetGeom());
-        }
+        {}
 
         std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(const std::shared_ptr<System::Context>& context)
         {
@@ -70,61 +65,47 @@ namespace djv
             return out;
         }
 
-        ToolActionData ColorPickerSystem::getToolAction() const
-        {
-            return
-            {
-                _p->actions["ColorPicker"],
-                "B"
-            };
-        }
-
-        void ColorPickerSystem::setCurrentTool(bool value, int index)
-        {
-            DJV_PRIVATE_PTR();
-            if (value)
-            {
-                if (p.widget.expired())
-                {
-                    if (auto context = getContext().lock())
-                    {
-                        auto widget = ColorPickerWidget::create(context);
-                        widget->setPickerPos(p.pickerPos);
-                        auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
-                        p.widget = widget;
-                        _openWidget("ColorPicker", widget);
-                    }
-                }
-            }
-            else if (-1 == index)
-            {
-                _closeWidget("ColorPicker");
-            }
-            if (auto widget = p.widget.lock())
-            {
-                widget->setCurrentTool(value);
-            }
-        }
-
         std::map<std::string, std::shared_ptr<UI::Action> > ColorPickerSystem::getActions() const
         {
             return _p->actions;
         }
 
-        void ColorPickerSystem::_closeWidget(const std::string& value)
+        std::vector<ActionData> ColorPickerSystem::getToolActionData() const
+        {
+            return
+            {
+                { _p->actions["ColorPicker"], "B" }
+            };
+        }
+
+        ToolWidgetData ColorPickerSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)
         {
             DJV_PRIVATE_PTR();
-            const auto i = p.actions.find(value);
-            if (i != p.actions.end())
+            ToolWidgetData out;
+            if (auto context = getContext().lock())
             {
-                i->second->setChecked(false);
+                if (value == p.actions["ColorPicker"])
+                {
+                    auto widget = ColorPickerWidget::create(context);
+                    widget->setPickerPos(p.pickerPos);
+                    p.widget = widget;
+                    out.widget = widget;
+                }
             }
-            if (auto widget = p.widget.lock())
+            return out;
+        }
+
+        void ColorPickerSystem::deleteToolWidget(const std::shared_ptr<UI::Action>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.actions["ColorPicker"])
             {
-                p.pickerPos = widget->getPickerPos();
-                p.widget.reset();
+                if (p.widget)
+                {
+                    p.pickerPos = p.widget->getPickerPos();
+                    p.widget.reset();
+                }
             }
-            IToolSystem::_closeWidget(value);
         }
 
         void ColorPickerSystem::_textUpdate()

@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvViewApp/IToolSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the magnify system.
-        class MagnifySystem : public IToolSystem
+        class MagnifySystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(MagnifySystem);
 
@@ -24,13 +24,12 @@ namespace djv
 
             static std::shared_ptr<MagnifySystem> create(const std::shared_ptr<System::Context>&);
 
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool, int) override;
-
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
+            std::vector<ActionData> getToolActionData() const override;
+            ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
+            void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
 
         protected:
-            void _closeWidget(const std::string&) override;
             void _textUpdate() override;
             void _shortcutsUpdate() override;
 

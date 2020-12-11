@@ -31,7 +31,6 @@ namespace djv
             std::shared_ptr<Observer::ValueSubject<bool> > sequencesFirstFrame;
             std::shared_ptr<Observer::ValueSubject<bool> > cacheEnabled;
             std::shared_ptr<Observer::ValueSubject<int> > cacheSize;
-            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
         void FileSettings::_init(const std::shared_ptr<System::Context>& context)
@@ -146,16 +145,6 @@ namespace djv
             _p->cacheSize->setIfChanged(value);
         }
 
-        const std::map<std::string, Math::BBox2f>& FileSettings::getWidgetGeom() const
-        {
-            return _p->widgetGeom;
-        }
-
-        void FileSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
-        {
-            _p->widgetGeom = value;
-        }
-
         void FileSettings::load(const rapidjson::Value & value)
         {
             if (value.IsObject())
@@ -182,7 +171,6 @@ namespace djv
                 UI::Settings::read("SequencesFirstFrame", value, p.sequencesFirstFrame);
                 UI::Settings::read("CacheEnabled", value, p.cacheEnabled);
                 UI::Settings::read("CacheSize", value, p.cacheSize);
-                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
@@ -197,7 +185,6 @@ namespace djv
             UI::Settings::write("SequencesFirstFrame", p.sequencesFirstFrame->get(), out, allocator);
             UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), out, allocator);
             UI::Settings::write("CacheSize", p.cacheSize->get(), out, allocator);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

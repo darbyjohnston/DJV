@@ -5,14 +5,13 @@
 #include <djvViewApp/SettingsWidget.h>
 
 #include <djvViewApp/ApplicationSettings.h>
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 #include <djvUIComponents/SettingsIWidget.h>
 
 #include <djvUI/Bellows.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 
 #include <djvSystem/Context.h>
@@ -30,7 +29,6 @@ namespace djv
             std::map<std::shared_ptr<UIComponents::Settings::IWidget>, std::shared_ptr<UI::Text::Label> > labels;
             std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
-            std::shared_ptr<UI::ScrollWidget> scrollWidget;
         };
 
         void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -42,7 +40,7 @@ namespace djv
 
             p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
-            for (auto system : context->getSystemsT<IViewSystem>())
+            for (auto system : context->getSystemsT<IViewAppSystem>())
             {
                 for (auto widget : system->createSettingsWidgets())
                 {
@@ -117,11 +115,7 @@ namespace djv
                 }
             }
 
-            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-            p.scrollWidget->addChild(p.layout);
-            addChild(p.scrollWidget);
+            addChild(p.layout);
 
             _textUpdate();
         }
@@ -148,12 +142,12 @@ namespace djv
 
         void SettingsWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
-            _setMinimumSize(_p->scrollWidget->getMinimumSize());
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void SettingsWidget::_layoutEvent(System::Event::Layout& event)
         {
-            _p->scrollWidget->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
         }
 
         void SettingsWidget::_initEvent(System::Event::Init& event)

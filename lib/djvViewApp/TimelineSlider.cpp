@@ -87,9 +87,10 @@ namespace djv
         void TimelineSlider::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
+
             setClassName("djv::ViewApp::TimelineSlider");
+            setBackgroundRole(UI::ColorRole::Trough);
 
             p.fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
 

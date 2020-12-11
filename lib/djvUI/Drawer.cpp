@@ -198,19 +198,21 @@ namespace djv
             void Drawer::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                const float tc = style->getMetric(MetricsRole::TextColumn);
                 const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
                 glm::vec2 size(0.F, 0.F);
                 switch (p.side)
                 {
                 case Side::Left:
                 case Side::Right:
-                    size.x = minimumSize.x * p.openAmount;
+                    size.x = tc * p.openAmount;
                     size.y = minimumSize.y;
                     break;
                 case Side::Top:
                 case Side::Bottom:
                     size.x = minimumSize.x;
-                    size.y = minimumSize.y * p.openAmount;
+                    size.y = tc * p.openAmount;
                     break;
                 default: break;
                 }
@@ -220,35 +222,36 @@ namespace djv
             void Drawer::_layoutEvent(System::Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                const float tc = style->getMetric(MetricsRole::TextColumn);
                 const Math::BBox2f& g = getGeometry();
-                const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
                 Math::BBox2f childGeometry(0.F, 0.F, 0.F, 0.F);
                 const float inverseOpenAmount = 1.F - p.openAmount;
                 switch (p.side)
                 {
                 case Side::Left:
-                    childGeometry.min.x = g.min.x - (minimumSize.x * inverseOpenAmount);
+                    childGeometry.min.x = g.min.x - (tc * inverseOpenAmount);
                     childGeometry.min.y = g.min.y;
-                    childGeometry.max.x = g.min.x + (minimumSize.x * p.openAmount);
+                    childGeometry.max.x = g.min.x + (tc * p.openAmount);
                     childGeometry.max.y = g.max.y;
                     break;
                 case Side::Top:
                     childGeometry.min.x = g.min.x;
-                    childGeometry.min.y = g.min.y - (minimumSize.y * inverseOpenAmount);
+                    childGeometry.min.y = g.min.y - (tc * inverseOpenAmount);
                     childGeometry.max.x = g.max.x;
-                    childGeometry.max.y = g.min.y + (minimumSize.y * p.openAmount);
+                    childGeometry.max.y = g.min.y + (tc * p.openAmount);
                     break;
                 case Side::Right:
-                    childGeometry.min.x = g.max.x - (minimumSize.x * p.openAmount);
+                    childGeometry.min.x = g.max.x - (tc * p.openAmount);
                     childGeometry.min.y = g.min.y;
-                    childGeometry.max.x = g.max.x + (minimumSize.x * inverseOpenAmount);
+                    childGeometry.max.x = g.max.x + (tc * inverseOpenAmount);
                     childGeometry.max.y = g.max.y;
                     break;
                 case Side::Bottom:
                     childGeometry.min.x = g.min.x;
-                    childGeometry.min.y = g.max.y - (minimumSize.x * p.openAmount);
+                    childGeometry.min.y = g.max.y - (tc * p.openAmount);
                     childGeometry.max.x = g.max.x;
-                    childGeometry.max.y = g.max.y + (minimumSize.x * inverseOpenAmount);
+                    childGeometry.max.y = g.max.y + (tc * inverseOpenAmount);
                     break;
                 default: break;
                 }

@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the magnify widget.
-        class MagnifyWidget : public MDIWidget
+        class MagnifyWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(MagnifyWidget);
 
@@ -24,13 +24,14 @@ namespace djv
 
             static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setCurrentTool(bool);
-
             const glm::vec2& getMagnifyPos() const;
             
             void setMagnifyPos(const glm::vec2&);
 
         protected:
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+
             void _initEvent(System::Event::Init &) override;
 
         private:

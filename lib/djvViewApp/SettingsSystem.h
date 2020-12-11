@@ -5,7 +5,7 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IViewAppSystem.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -14,7 +14,7 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the settings system.
-        class SettingsSystem : public IViewSystem
+        class SettingsSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(SettingsSystem);
 

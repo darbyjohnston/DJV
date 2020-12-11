@@ -13,7 +13,6 @@
 #include <djvUI/Label.h>
 #include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #include <djvOCIO/OCIOSystemFunc.h>
 
@@ -41,7 +40,7 @@ namespace djv
             std::shared_ptr<ColorSpaceImageWidget> imageWidget;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
-            std::shared_ptr<UI::ScrollWidget> scrollWidget;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<Observer::Value<OCIO::ConfigMode> > configModeObserver;
             std::shared_ptr<Observer::Value<OCIO::Config> > envConfigObserver;
@@ -52,7 +51,7 @@ namespace djv
 
         void ColorSpaceWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
@@ -78,8 +77,8 @@ namespace djv
             p.bellows["Image"] = UI::Bellows::create(context);
             p.bellows["Image"]->addChild(p.imageWidget);
 
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
             p.formLayout->setLabelSizeGroup(p.sizeGroup);
@@ -87,15 +86,9 @@ namespace djv
             p.formLayout->addChild(p.configPopupButton);
             p.formLayout->addChild(p.displayPopupButton);
             p.formLayout->addChild(p.viewPopupButton);
-            vLayout->addChild(p.formLayout);
-            vLayout->addChild(p.bellows["Image"]);
-            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::ScrollAreaSmall);
-            p.scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-            p.scrollWidget->setShadowOverlay({ UI::Side::Top });
-            p.scrollWidget->addChild(vLayout);
-            addChild(p.scrollWidget);
+            p.layout->addChild(p.formLayout);
+            p.layout->addChild(p.bellows["Image"]);
+            addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.configModeComboBox->setCallback(
@@ -242,13 +235,22 @@ namespace djv
             _p->sizeGroup->calcMinimumSize();
         }
 
+        void ColorSpaceWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void ColorSpaceWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void ColorSpaceWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("widget_color_space")));
                 p.formLayout->setText(p.configModeComboBox, _getText(DJV_TEXT("widget_color_space_mode")) + ":");
                 p.formLayout->setText(p.configPopupButton, _getText(DJV_TEXT("widget_color_space_config")) + ":");
                 p.formLayout->setText(p.displayPopupButton, _getText(DJV_TEXT("widget_color_space_display")) + ":");

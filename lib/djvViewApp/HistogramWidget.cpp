@@ -17,7 +17,7 @@ namespace djv
 
         void HistogramWidget::_init(const std::shared_ptr<System::Context>& context)
         {
-            MDIWidget::_init(context);
+            Widget::_init(context);
             setClassName("djv::ViewApp::HistogramWidget");
         }
 
@@ -37,10 +37,9 @@ namespace djv
 
         void HistogramWidget::_initEvent(System::Event::Init & event)
         {
-            MDIWidget::_initEvent(event);
+            Widget::_initEvent(event);
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("Histogram")));
             }
         }
 
