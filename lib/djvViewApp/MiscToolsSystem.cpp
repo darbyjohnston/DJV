@@ -9,9 +9,8 @@
 #include <djvViewApp/MiscToolsSettings.h>
 #include <djvViewApp/MessagesWidget.h>
 #include <djvViewApp/SettingsSystem.h>
-#include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SystemLogWidget.h>
-#include <djvViewApp/ToolDrawerWidget.h>
+#include <djvViewApp/ToolTitleBar.h>
 
 #include <djvUIComponents/SearchBox.h>
 
@@ -20,6 +19,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/IEventSystem.h>
@@ -51,8 +51,8 @@ namespace djv
             bool messagesPopup = false;
             std::map<std::string, bool> debugBellowsState;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::weak_ptr<MessagesToolBar> messagesToolBar;
             std::weak_ptr<MessagesWidget> messagesWidget;
-            std::weak_ptr<MessagesFooterWidget> messagesFooterWidget;
             std::weak_ptr<DebugWidget> debugWidget;
             std::shared_ptr<Observer::List<std::string> > warningsObserver;
             std::shared_ptr<Observer::List<std::string> > errorsObserver;
@@ -79,9 +79,6 @@ namespace djv
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"]->setIcon("djvIconDebug");
-            p.actions["Settings"] = UI::Action::create();
-            p.actions["Settings"]->setIcon("djvIconSettings");
-            p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
 
             _addShortcut("shortcut_tool_info", GLFW_KEY_I, UI::getSystemModifier());
             _addShortcut("shortcut_tool_messages", GLFW_KEY_S, UI::getSystemModifier());
@@ -155,9 +152,9 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->messagesPopup = value;
-                        if (auto messagesFooterWidget = system->_p->messagesFooterWidget.lock())
+                        if (auto messagesToolBar = system->_p->messagesToolBar.lock())
                         {
-                            messagesFooterWidget->setPopup(value);
+                            messagesToolBar->setPopup(value);
                         }
                     }
                 });
@@ -191,8 +188,7 @@ namespace djv
                 { _p->actions["Info"], "ZZZ" },
                 { _p->actions["Messages"], "ZZZZ" },
                 { _p->actions["SystemLog"], "ZZZZZ" },
-                { _p->actions["Debug"], "ZZZZZZ" },
-                { _p->actions["Settings"], "ZZZZZZZ" }
+                { _p->actions["Debug"], "ZZZZZZ" }
             };
         }
 
@@ -205,24 +201,39 @@ namespace djv
             {
                 if (value == _p->actions["Info"])
                 {
-                    auto widget = InfoWidget::create(context);
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_info_title"), context);
+
                     auto searchBox = UIComponents::SearchBox::create(context);
+                    auto toolBar = UI::ToolBar::create(context);
+                    toolBar->addChild(searchBox);
+                    toolBar->setStretch(searchBox, UI::RowStretch::Expand);
+
+                    auto widget = InfoWidget::create(context);
+
                     searchBox->setFilterCallback(
                         [widget](const std::string& value)
                         {
                             widget->setFilter(value);
                         });
+
+                    out.titleBar = titleBar;
+                    out.toolBar = toolBar;
                     out.widget = widget;
-                    out.footer = searchBox;
                 }
                 else if (value == _p->actions["Messages"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_messages"), context);
+
+                    auto toolBar = MessagesToolBar::create(context);
+                    toolBar->setPopup(p.messagesPopup);
+                    p.messagesToolBar = toolBar;
+
                     auto widget = MessagesWidget::create(context);
                     widget->setText(_getMessagesString());
-                    auto footer = MessagesFooterWidget::create(context);
-                    footer->setPopup(p.messagesPopup);
+                    p.messagesWidget = widget;
+
                     auto weak = std::weak_ptr<MiscToolsSystem>(std::dynamic_pointer_cast<MiscToolsSystem>(shared_from_this()));
-                    footer->setPopupCallback(
+                    toolBar->setPopupCallback(
                         [weak](bool value)
                         {
                             if (auto system = weak.lock())
@@ -230,7 +241,7 @@ namespace djv
                                 system->_p->settings->setMessagesPopup(value);
                             }
                         });
-                    footer->setCopyCallback(
+                    toolBar->setCopyCallback(
                         [weak, contextWeak]
                         {
                             if (auto context = contextWeak.lock())
@@ -242,7 +253,7 @@ namespace djv
                                 }
                             }
                         });
-                    footer->setClearCallback(
+                    toolBar->setClearCallback(
                         [weak]
                         {
                             if (auto system = weak.lock())
@@ -254,49 +265,55 @@ namespace djv
                                 }
                             }
                         });
-                    p.messagesWidget = widget;
-                    p.messagesFooterWidget = footer;
+
+                    out.titleBar = titleBar;
+                    out.toolBar = toolBar;
                     out.widget = widget;
-                    out.footer = footer;
                 }
                 else if (value == _p->actions["SystemLog"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_log"), context);
+
+                    auto toolBar = SystemLogToolBar::create(context);
+
                     auto widget = SystemLogWidget::create(context);
                     widget->reloadLog();
-                    auto footer = SystemLogFooterWidget::create(context);
-                    footer->setCopyCallback(
+
+                    toolBar->setCopyCallback(
                         [widget]
                         {
                             widget->copyLog();
                         });
-                    footer->setReloadCallback(
+                    toolBar->setReloadCallback(
                         [widget]
                         {
                             widget->reloadLog();
                         });
-                    footer->setClearCallback(
+                    toolBar->setClearCallback(
                         [widget]
                         {
                             widget->clearLog();
                         });
-                    footer->setFilterCallback(
+                    toolBar->setFilterCallback(
                         [widget](const std::string& value)
                         {
                             widget->setFilter(value);
                         });
+
+                    out.titleBar = titleBar;
+                    out.toolBar = toolBar;
                     out.widget = widget;
-                    out.footer = footer;
                 }
                 else if (value == _p->actions["Debug"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("debug_title"), context);
+
                     auto widget = DebugWidget::create(context);
                     widget->setBellowsState(p.debugBellowsState);
                     p.debugWidget = widget;
+
+                    out.titleBar = titleBar;
                     out.widget = widget;
-                }
-                else if (value == _p->actions["Settings"])
-                {
-                    out.widget = SettingsWidget::create(context);
                 }
             }
             return out;
@@ -327,8 +344,6 @@ namespace djv
                 p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("menu_tools_system_log_widget_tooltip")));
                 p.actions["Debug"]->setText(_getText(DJV_TEXT("menu_tools_debugging")));
                 p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("menu_tools_debugging_widget_tooltip")));
-                p.actions["Settings"]->setText(_getText(DJV_TEXT("menu_tools_settings")));
-                p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("menu_tools_settings_tooltip")));
             }
         }
 

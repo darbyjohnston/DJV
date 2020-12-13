@@ -10,6 +10,7 @@
 #include <djvViewApp/EditSystem.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ToolTitleBar.h>
 #include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -335,8 +336,12 @@ namespace djv
             {
                 if (value == p.actions["Annotate"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_annotate"), context);
+
                     auto widget = AnnotateWidget::create(p.actions, context);
                     p.widget = widget;
+                    
+                    out.titleBar = titleBar;
                     out.widget = widget;
                 }
             }

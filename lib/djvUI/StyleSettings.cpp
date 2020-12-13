@@ -52,7 +52,7 @@ namespace djv
                 palette.setColor(ColorRole::BackgroundBellows, Image::Color(.83F, .83F, .83F, 1.F));
                 palette.setColor(ColorRole::BackgroundHeader, Image::Color(.89F, .89F, .89F, 1.F));
                 palette.setColor(ColorRole::BackgroundToolBar, Image::Color(.86F, .86F, .86F, 1.F));
-                palette.setColor(ColorRole::Border, Image::Color(.65F, .65F, .65F, 1.F));
+                palette.setColor(ColorRole::Border, Image::Color(.78F, .78F, .78F, 1.F));
                 palette.setColor(ColorRole::Button, Image::Color(1.F, 1.F, 1.F, 1.F));
                 palette.setColor(ColorRole::Checked, Image::Color(.69F, .76F, .89F, 1.F));
                 palette.setColor(ColorRole::TextFocus, Image::Color(.49F, .66F, .89F, 1.F));

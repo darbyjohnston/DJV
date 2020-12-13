@@ -11,6 +11,7 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/RecentFilesDialog.h>
+#include <djvViewApp/ToolTitleBar.h>
 
 #include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/IOSettings.h>
@@ -20,6 +21,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
@@ -626,15 +628,24 @@ namespace djv
             {
                 if (value == _p->actions["Layers"])
                 {
-                    auto layersWidget = LayersWidget::create(context);
-                    auto searchWidget = UIComponents::SearchBox::create(context);
-                    searchWidget->setFilterCallback(
-                        [layersWidget](const std::string& value)
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("layers_title"), context);
+
+                    auto searchBox = UIComponents::SearchBox::create(context);
+                    auto toolBar = UI::ToolBar::create(context);
+                    toolBar->addChild(searchBox);
+                    toolBar->setStretch(searchBox, UI::RowStretch::Expand);
+
+                    auto widget = LayersWidget::create(context);
+
+                    searchBox->setFilterCallback(
+                        [widget](const std::string& value)
                         {
-                            layersWidget->setFilter(value);
+                            widget->setFilter(value);
                         });
-                    out.widget = layersWidget;
-                    out.footer = searchWidget;
+
+                    out.titleBar = titleBar;
+                    out.toolBar = toolBar;
+                    out.widget = widget;
                 }
             }
             return out;

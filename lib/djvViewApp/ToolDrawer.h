@@ -11,18 +11,18 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the tool drawer widget.
-        class ToolDrawerWidget : public UI::Widget
+        class ToolDrawer : public UI::Widget
         {
-            DJV_NON_COPYABLE(ToolDrawerWidget);
+            DJV_NON_COPYABLE(ToolDrawer);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            ToolDrawerWidget();
+            ToolDrawer();
 
         public:
-            ~ToolDrawerWidget() override;
+            ~ToolDrawer() override;
 
-            static std::shared_ptr<ToolDrawerWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<ToolDrawer> create(const std::shared_ptr<System::Context>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

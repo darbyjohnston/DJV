@@ -6,6 +6,7 @@
 
 #include <djvViewApp/MagnifyWidget.h>
 #include <djvViewApp/MagnifySettings.h>
+#include <djvViewApp/ToolTitleBar.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ShortcutDataFunc.h>
@@ -85,9 +86,13 @@ namespace djv
             {
                 if (value == p.actions["Magnify"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_magnify_title"), context);
+
                     auto widget = MagnifyWidget::create(context);
                     widget->setMagnifyPos(p.magnifyPos);
                     p.widget = widget;
+
+                    out.titleBar = titleBar;
                     out.widget = widget;
                 }
             }

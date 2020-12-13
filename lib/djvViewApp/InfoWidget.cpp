@@ -288,8 +288,7 @@ namespace djv
                     const bool nameMatch = String::match(i.name, p.filter);
                     const bool sizeMatch = String::match(sizeLabel, p.filter) || String::match(sizeText, p.filter);
                     const bool typeMatch = String::match(typeLabel, p.filter) || String::match(typeText, p.filter);
-                    const bool codecMatch = !i.codec.empty() &&
-                        (String::match(codecLabel, p.filter) || String::match(i.codec, p.filter));
+                    const bool codecMatch = String::match(codecLabel, p.filter) || String::match(i.codec, p.filter);
                     if (nameMatch || sizeMatch || typeMatch || codecMatch)
                     {
                         auto formLayout = p.createFormLayout(context);
@@ -341,8 +340,7 @@ namespace djv
                     const bool typeMatch = String::match(typeLabel, p.filter) || String::match(typeText, p.filter);
                     const bool sampleRateMatch = String::match(sampleRateLabel, p.filter) || String::match(sampleRateText, p.filter);
                     const bool durationMatch = String::match(durationLabel, p.filter) || String::match(durationText, p.filter);
-                    const bool codecMatch = !p.info.audio.codec.empty() &&
-                        (String::match(codecLabel, p.filter) || String::match(p.info.audio.codec, p.filter));
+                    const bool codecMatch = String::match(codecLabel, p.filter) || String::match(p.info.audio.codec, p.filter);
                     if (nameMatch || channelMatch || typeMatch || sampleRateMatch || durationMatch || codecMatch)
                     {
                         auto formLayout = p.createFormLayout(context);

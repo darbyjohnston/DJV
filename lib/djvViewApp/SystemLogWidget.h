@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/ToolBar.h>
 
 namespace djv
 {
@@ -41,19 +41,19 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a foorter for the system log widget.
-        class SystemLogFooterWidget : public UI::Widget
+        //! This class provides a tool bar for the system log widget.
+        class SystemLogToolBar : public UI::ToolBar
         {
-            DJV_NON_COPYABLE(SystemLogFooterWidget);
+            DJV_NON_COPYABLE(SystemLogToolBar);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            SystemLogFooterWidget();
+            SystemLogToolBar();
 
         public:
-            ~SystemLogFooterWidget() override;
+            ~SystemLogToolBar() override;
 
-            static std::shared_ptr<SystemLogFooterWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<SystemLogToolBar> create(const std::shared_ptr<System::Context>&);
 
             //! \name Callbacks
             ///@{
@@ -66,9 +66,6 @@ namespace djv
             ///@}
 
         protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-
             void _initEvent(System::Event::Init&) override;
 
         private:

@@ -130,10 +130,10 @@ namespace djv
             MagnifySystem::create(shared_from_this());
             //AnnotateSystem::create(shared_from_this());
             MiscToolsSystem::create(shared_from_this());
-            ToolSystem::create(shared_from_this());
             HelpSystem::create(shared_from_this());
             NUXSystem::create(shared_from_this());
             SettingsSystem::create(shared_from_this());
+            ToolSystem::create(shared_from_this());
 
             // Parse the command-line.
             auto arg = args.begin();

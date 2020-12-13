@@ -189,8 +189,8 @@ namespace djv
                         {
                             if (value)
                             {
-                                auto toolDrawerWidget = context->getSystemT<ToolSystem>()->createToolDrawerWidget();
-                                widget->_p->drawerLayout->addChild(toolDrawerWidget);
+                                auto toolDrawer = context->getSystemT<ToolSystem>()->createToolDrawer();
+                                widget->_p->drawerLayout->addChild(toolDrawer);
                                 widget->_p->drawerLayout->show();
                             }
                             else

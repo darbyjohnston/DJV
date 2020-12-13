@@ -103,19 +103,19 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the color space image widget.
-        class ColorSpaceImageWidget : public UI::Widget
+        //! This class provides the color space images widget.
+        class ColorSpaceImagesWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ColorSpaceImageWidget);
+            DJV_NON_COPYABLE(ColorSpaceImagesWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            ColorSpaceImageWidget();
+            ColorSpaceImagesWidget();
 
         public:
-            ~ColorSpaceImageWidget() override;
+            ~ColorSpaceImagesWidget() override;
 
-            static std::shared_ptr<ColorSpaceImageWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<ColorSpaceImagesWidget> create(const std::shared_ptr<System::Context>&);
 
             void setSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
 

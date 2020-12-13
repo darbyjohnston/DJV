@@ -5,6 +5,7 @@
 #include <djvViewApp/ViewSystem.h>
 
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ToolTitleBar.h>
 #include <djvViewApp/ViewData.h>
 #include <djvViewApp/ViewControlsWidget.h>
 #include <djvViewApp/ViewSettings.h>
@@ -482,9 +483,13 @@ namespace djv
             {
                 if (value == p.actions["ViewControls"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("view_controls"), context);
+
                     auto widget = ViewControlsWidget::create(context);
                     widget->setBellowsState(p.bellowsState);
                     p.viewControlsWidget = widget;
+
+                    out.titleBar = titleBar;
                     out.widget = widget;
                 }
             }

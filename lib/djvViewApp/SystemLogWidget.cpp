@@ -141,25 +141,24 @@ namespace djv
             p.textBlock->setText(String::join(log, '\n'));
         }
 
-        struct SystemLogFooterWidget::Private
+        struct SystemLogToolBar::Private
         {
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::ToolButton> reloadButton;
             std::shared_ptr<UI::ToolButton> clearButton;
             std::shared_ptr<UIComponents::SearchBox> searchBox;
-            std::shared_ptr<UI::HorizontalLayout> layout;
             std::function<void(void)> copyCallback;
             std::function<void(void)> reloadCallback;
             std::function<void(void)> clearCallback;
             std::function<void(const std::string&)> filterCallback;
         };
 
-        void SystemLogFooterWidget::_init(const std::shared_ptr<System::Context>& context)
+        void SystemLogToolBar::_init(const std::shared_ptr<System::Context>& context)
         {
-            Widget::_init(context);
+            ToolBar::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::SystemLogFooterWidget");
+            setClassName("djv::ViewApp::SystemLogToolBar");
 
             p.copyButton = UI::ToolButton::create(context);
             p.copyButton->setIcon("djvIconShare");
@@ -169,15 +168,13 @@ namespace djv
             p.clearButton->setIcon("djvIconClear");
             p.searchBox = UIComponents::SearchBox::create(context);
 
-            p.layout = UI::HorizontalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.copyButton);
-            p.layout->addChild(p.reloadButton);
-            p.layout->addChild(p.clearButton);
-            p.layout->addChild(p.searchBox);
-            addChild(p.layout);
+            addExpander();
+            addChild(p.copyButton);
+            addChild(p.reloadButton);
+            addChild(p.clearButton);
+            addChild(p.searchBox);
 
-            auto weak = std::weak_ptr<SystemLogFooterWidget>(std::dynamic_pointer_cast<SystemLogFooterWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<SystemLogToolBar>(std::dynamic_pointer_cast<SystemLogToolBar>(shared_from_this()));
             p.copyButton->setClickedCallback(
                 [weak]
                 {
@@ -227,53 +224,43 @@ namespace djv
                 });
         }
 
-        SystemLogFooterWidget::SystemLogFooterWidget() :
+        SystemLogToolBar::SystemLogToolBar() :
             _p(new Private)
         {}
 
-        SystemLogFooterWidget::~SystemLogFooterWidget()
+        SystemLogToolBar::~SystemLogToolBar()
         {}
 
-        std::shared_ptr<SystemLogFooterWidget> SystemLogFooterWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<SystemLogToolBar> SystemLogToolBar::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<SystemLogFooterWidget>(new SystemLogFooterWidget);
+            auto out = std::shared_ptr<SystemLogToolBar>(new SystemLogToolBar);
             out->_init(context);
             return out;
         }
 
-        void SystemLogFooterWidget::setCopyCallback(const std::function<void(void)>& value)
+        void SystemLogToolBar::setCopyCallback(const std::function<void(void)>& value)
         {
             _p->copyCallback = value;
         }
 
-        void SystemLogFooterWidget::setReloadCallback(const std::function<void(void)>& value)
+        void SystemLogToolBar::setReloadCallback(const std::function<void(void)>& value)
         {
             _p->reloadCallback = value;
         }
 
-        void SystemLogFooterWidget::setClearCallback(const std::function<void(void)>& value)
+        void SystemLogToolBar::setClearCallback(const std::function<void(void)>& value)
         {
             _p->clearCallback = value;
         }
 
-        void SystemLogFooterWidget::setFilterCallback(const std::function<void(const std::string&)>& value)
+        void SystemLogToolBar::setFilterCallback(const std::function<void(const std::string&)>& value)
         {
             _p->filterCallback = value;
         }
 
-        void SystemLogFooterWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void SystemLogToolBar::_initEvent(System::Event::Init& event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void SystemLogFooterWidget::_layoutEvent(System::Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void SystemLogFooterWidget::_initEvent(System::Event::Init& event)
-        {
-            Widget::_initEvent(event);
+            ToolBar::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {

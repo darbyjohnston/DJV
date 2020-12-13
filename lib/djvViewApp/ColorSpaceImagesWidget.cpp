@@ -87,17 +87,16 @@ namespace djv
 
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setSpacing(UI::MetricsRole::None);
-                _layout->setBackgroundRole(UI::ColorRole::Background);
+                auto toolBar = UI::ToolBar::create(context);
+                toolBar->addChild(_searchBox);
+                toolBar->setStretch(_searchBox, UI::RowStretch::Expand);
+                _layout->addChild(toolBar);
+                _layout->addSeparator();
                 auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
                 scrollWidget->setBorder(false);
                 scrollWidget->addChild(_listWidget);
                 _layout->addChild(scrollWidget);
                 _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-                _layout->addSeparator();
-                auto toolBar = UI::ToolBar::create(context);
-                toolBar->addExpander();
-                toolBar->addChild(_searchBox);
-                _layout->addChild(toolBar);
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<ColorSpacesWidget>(std::dynamic_pointer_cast<ColorSpacesWidget>(shared_from_this()));
@@ -222,7 +221,7 @@ namespace djv
 
         } // namespace
 
-        struct ColorSpaceImageWidget::Private
+        struct ColorSpaceImagesWidget::Private
         {
             OCIO::ImageColorSpaces imageColorSpaces;
             std::vector<std::string> images;
@@ -242,7 +241,7 @@ namespace djv
             std::shared_ptr<Observer::Map<std::string, std::string> > imageColorSpacesObserver;
         };
 
-        void ColorSpaceImageWidget::_init(const std::shared_ptr<System::Context>& context)
+        void ColorSpaceImagesWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -278,7 +277,7 @@ namespace djv
             _valueUpdate();
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ColorSpaceImagesWidget>(std::dynamic_pointer_cast<ColorSpaceImagesWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.deleteButtonGroup->setPushCallback(
                 [weak, contextWeak](int value)
@@ -339,31 +338,31 @@ namespace djv
                 });
         }
 
-        ColorSpaceImageWidget::ColorSpaceImageWidget() :
+        ColorSpaceImagesWidget::ColorSpaceImagesWidget() :
             _p(new Private)
         {}
 
-        ColorSpaceImageWidget::~ColorSpaceImageWidget()
+        ColorSpaceImagesWidget::~ColorSpaceImagesWidget()
         {}
 
-        std::shared_ptr<ColorSpaceImageWidget> ColorSpaceImageWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<ColorSpaceImagesWidget> ColorSpaceImagesWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ColorSpaceImageWidget>(new ColorSpaceImageWidget);
+            auto out = std::shared_ptr<ColorSpaceImagesWidget>(new ColorSpaceImagesWidget);
             out->_init(context);
             return out;
         }
 
-        void ColorSpaceImageWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void ColorSpaceImagesWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ColorSpaceImageWidget::_layoutEvent(System::Event::Layout&)
+        void ColorSpaceImagesWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ColorSpaceImageWidget::_initEvent(System::Event::Init& event)
+        void ColorSpaceImagesWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -373,7 +372,7 @@ namespace djv
             }
         }
 
-        void ColorSpaceImageWidget::_valueUpdate()
+        void ColorSpaceImagesWidget::_valueUpdate()
         {
             DJV_PRIVATE_PTR();
             DJV_ASSERT(p.imageColorSpaces.size() == p.images.size());
@@ -390,7 +389,7 @@ namespace djv
             }
         }
 
-        void ColorSpaceImageWidget::_widgetUpdate()
+        void ColorSpaceImagesWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -464,7 +463,7 @@ namespace djv
                     }
                 }
                 p.addActionGroup->setActions(actions);
-                auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
+                auto weak = std::weak_ptr<ColorSpaceImagesWidget>(std::dynamic_pointer_cast<ColorSpaceImagesWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.addActionGroup->setPushCallback(
                     [pluginNamesList, weak, contextWeak](int value)

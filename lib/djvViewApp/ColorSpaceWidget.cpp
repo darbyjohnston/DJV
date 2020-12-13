@@ -36,7 +36,7 @@ namespace djv
             std::shared_ptr<UI::PopupButton> configPopupButton;
             std::shared_ptr<UI::PopupButton> displayPopupButton;
             std::shared_ptr<UI::PopupButton> viewPopupButton;
-            std::shared_ptr<ColorSpaceImageWidget> imageWidget;
+            std::shared_ptr<ColorSpaceImagesWidget> imagesWidget;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -69,9 +69,7 @@ namespace djv
             p.viewPopupButton->setPopupIcon("djvIconPopupMenu");
             p.viewPopupButton->setTextElide(textElide);
 
-            p.imageWidget = ColorSpaceImageWidget::create(context);
-            p.bellows["Image"] = UI::Bellows::create(context);
-            p.bellows["Image"]->addChild(p.imageWidget);
+            p.imagesWidget = ColorSpaceImagesWidget::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -81,9 +79,12 @@ namespace djv
             p.formLayout->addChild(p.configPopupButton);
             p.formLayout->addChild(p.displayPopupButton);
             p.formLayout->addChild(p.viewPopupButton);
-            p.layout->addChild(p.formLayout);
-            p.layout->addSeparator();
-            p.layout->addChild(p.bellows["Image"]);
+            p.bellows["Config"] = UI::Bellows::create(context);
+            p.bellows["Config"]->addChild(p.formLayout);
+            p.layout->addChild(p.bellows["Config"]);
+            p.bellows["Images"] = UI::Bellows::create(context);
+            p.bellows["Images"]->addChild(p.imagesWidget);
+            p.layout->addChild(p.bellows["Images"]);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
@@ -243,10 +244,11 @@ namespace djv
             if (event.getData().text)
             {
                 p.formLayout->setText(p.configModeComboBox, _getText(DJV_TEXT("widget_color_space_mode")) + ":");
-                p.formLayout->setText(p.configPopupButton, _getText(DJV_TEXT("widget_color_space_config")) + ":");
+                p.formLayout->setText(p.configPopupButton, _getText(DJV_TEXT("widget_color_space_name")) + ":");
                 p.formLayout->setText(p.displayPopupButton, _getText(DJV_TEXT("widget_color_space_display")) + ":");
                 p.formLayout->setText(p.viewPopupButton, _getText(DJV_TEXT("widget_color_space_view")) + ":");
-                p.bellows["Image"]->setText(_getText(DJV_TEXT("widget_color_space_image")));
+                p.bellows["Config"]->setText(_getText(DJV_TEXT("widget_color_space_config")));
+                p.bellows["Images"]->setText(_getText(DJV_TEXT("widget_color_space_images")));
                 _widgetUpdate();
             }
         }

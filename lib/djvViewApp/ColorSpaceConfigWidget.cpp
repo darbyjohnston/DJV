@@ -63,6 +63,12 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addExpander();
+            toolBar->addChild(p.userConfigAddButton);
+            toolBar->addChild(p.userConfigDeleteButton);
+            p.layout->addChild(toolBar);
+            p.layout->addSeparator();
             p.userConfigButtonLayout = UI::VerticalLayout::create(context);
             p.userConfigButtonLayout->setSpacing(UI::MetricsRole::None);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
@@ -70,12 +76,6 @@ namespace djv
             scrollWidget->addChild(p.userConfigButtonLayout);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            p.layout->addSeparator();
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addExpander();
-            toolBar->addChild(p.userConfigAddButton);
-            toolBar->addChild(p.userConfigDeleteButton);
-            p.layout->addChild(toolBar);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);

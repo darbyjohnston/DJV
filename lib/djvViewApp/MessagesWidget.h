@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/ToolBar.h>
 
 namespace djv
 {
@@ -41,19 +41,19 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a footer for the messages widget.
-        class MessagesFooterWidget : public UI::Widget
+        //! This class provides a tool bar for the messages widget.
+        class MessagesToolBar : public UI::ToolBar
         {
-            DJV_NON_COPYABLE(MessagesFooterWidget);
+            DJV_NON_COPYABLE(MessagesToolBar);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            MessagesFooterWidget();
+            MessagesToolBar();
 
         public:
-            ~MessagesFooterWidget() override;
+            ~MessagesToolBar() override;
 
-            static std::shared_ptr<MessagesFooterWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<MessagesToolBar> create(const std::shared_ptr<System::Context>&);
 
             //! \name Options
             ///@{
@@ -72,9 +72,6 @@ namespace djv
             ///@}
 
         protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-
             void _initEvent(System::Event::Init&) override;
 
         private:

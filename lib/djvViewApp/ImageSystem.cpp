@@ -11,6 +11,7 @@
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ToolTitleBar.h>
 #include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -311,16 +312,24 @@ namespace djv
             {
                 if (value == p.actions["ImageControls"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("image_controls_title"), context);
+
                     auto widget = ImageControlsWidget::create(context);
                     widget->setBellowsState(p.controlsBellowsState);
                     p.imageControlsWidget = widget;
+
+                    out.titleBar = titleBar;
                     out.widget = widget;
                 }
                 else if (value == p.actions["ColorSpace"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_color_space"), context);
+
                     auto widget = ColorSpaceWidget::create(context);
                     widget->setBellowsState(p.colorSpaceBellowsState);
                     p.colorSpaceWidget = widget;
+
+                    out.titleBar = titleBar;
                     out.widget = widget;
                 }
             }

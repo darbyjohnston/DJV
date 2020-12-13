@@ -51,16 +51,16 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addChild(p.searchBox);
+            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
+            p.layout->addChild(toolBar);
+            p.layout->addSeparator();
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.listWidget);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            p.layout->addSeparator();
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->addExpander();
-            toolBar->addChild(p.searchBox);
-            p.layout->addChild(toolBar);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);

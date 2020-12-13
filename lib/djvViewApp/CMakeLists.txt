@@ -64,8 +64,9 @@ set(header
     TimelineSlider.h
     TimelineWidget.h
     TimelineWidgetPrivate.h
-    ToolDrawerWidget.h
+    ToolDrawer.h
     ToolSystem.h
+    ToolTitleBar.h
     ViewControlsWidget.h
     ViewControlsWidgetPrivate.h
 	ViewData.h
@@ -97,7 +98,7 @@ set(source
     ColorPickerWidget.cpp
 	ColorSpaceConfigWidget.cpp
 	ColorSpaceDisplayWidget.cpp
-	ColorSpaceImageWidget.cpp
+	ColorSpaceImagesWidget.cpp
 	ColorSpaceViewWidget.cpp
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
@@ -147,8 +148,9 @@ set(source
     TimelineSlider.cpp
     TimelineSpeedWidget.cpp
     TimelineWidget.cpp
-    ToolDrawerWidget.cpp
+    ToolDrawer.cpp
     ToolSystem.cpp
+    ToolTitleBar.cpp
     ViewControlsWidget.cpp
     ViewControlsWidgetPrivate.cpp
 	ViewData.cpp

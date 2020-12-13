@@ -6,6 +6,7 @@
 
 #include <djvViewApp/ColorPickerSettings.h>
 #include <djvViewApp/ColorPickerWidget.h>
+#include <djvViewApp/ToolTitleBar.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/SettingsSystem.h>
@@ -86,9 +87,13 @@ namespace djv
             {
                 if (value == p.actions["ColorPicker"])
                 {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_color_picker"), context);
+
                     auto widget = ColorPickerWidget::create(context);
                     widget->setPickerPos(p.pickerPos);
                     p.widget = widget;
+
+                    out.titleBar = titleBar;
                     out.widget = widget;
                 }
             }

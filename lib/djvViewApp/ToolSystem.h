@@ -42,7 +42,7 @@ namespace djv
 
             void setCurrentTool(int);
 
-            std::shared_ptr<UI::Widget> createToolDrawerWidget();
+            std::shared_ptr<UI::Widget> createToolDrawer();
 
             std::vector<MenuData> getMenuData() const override;
 

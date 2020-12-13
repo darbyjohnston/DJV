@@ -4,7 +4,7 @@
 
 #include <djvViewApp/ToolSystem.h>
 
-#include <djvViewApp/ToolDrawerWidget.h>
+#include <djvViewApp/ToolDrawer.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -142,12 +142,12 @@ namespace djv
             p.actionGroup->setChecked(value);
         }
 
-        std::shared_ptr<UI::Widget> ToolSystem::createToolDrawerWidget()
+        std::shared_ptr<UI::Widget> ToolSystem::createToolDrawer()
         {
             std::shared_ptr<UI::Widget> out;
             if (auto context = getContext().lock())
             {
-                out = ToolDrawerWidget::create(context);
+                out = ToolDrawer::create(context);
             }
             return out;
         }

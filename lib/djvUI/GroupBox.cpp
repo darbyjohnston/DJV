@@ -35,8 +35,8 @@ namespace djv
 
                 p.titleLabel = Text::Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setFontFace("Bold");
                 p.titleLabel->setMargin(MetricsRole::MarginSmall);
+                p.titleLabel->setBackgroundRole(ColorRole::BackgroundBellows);
 
                 p.childLayout = StackLayout::create(context);
                 p.childLayout->setMargin(MetricsRole::None);

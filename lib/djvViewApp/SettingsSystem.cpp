@@ -9,6 +9,8 @@
 #include <djvViewApp/MemorySettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
+#include <djvViewApp/SettingsWidget.h>
+#include <djvViewApp/ToolTitleBar.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/FileBrowserSettingsWidget.h>
@@ -53,6 +55,11 @@ namespace djv
         void SettingsSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewAppSystem::_init("djv::ViewApp::SettingsSystem", context);
+            DJV_PRIVATE_PTR();
+
+            p.actions["Settings"] = UI::Action::create();
+            p.actions["Settings"]->setIcon("djvIconSettings");
+            p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
         }
 
         SettingsSystem::SettingsSystem() :
@@ -76,6 +83,34 @@ namespace djv
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions() const
         {
             return _p->actions;
+        }
+        
+        std::vector<ActionData> SettingsSystem::getToolActionData() const
+        {
+            return
+            {
+                { _p->actions["Settings"], "ZZZZZZZ" }
+            };
+        }
+
+        ToolWidgetData SettingsSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)
+        {
+            DJV_PRIVATE_PTR();
+            ToolWidgetData out;
+            auto contextWeak = getContext();
+            if (auto context = contextWeak.lock())
+            {
+                if (value == _p->actions["Settings"])
+                {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("settings_title"), context);
+
+                    auto widget = SettingsWidget::create(context);
+
+                    out.titleBar = titleBar;
+                    out.widget = widget;
+                }
+            }
+            return out;
         }
 
         std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > SettingsSystem::createSettingsWidgets() const
@@ -127,6 +162,16 @@ namespace djv
                 };
             }
             return out;
+        }
+
+        void SettingsSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Settings"]->setText(_getText(DJV_TEXT("menu_tools_settings")));
+                p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("menu_tools_settings_tooltip")));
+            }
         }
         
     } // namespace ViewApp

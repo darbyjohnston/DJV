@@ -51,6 +51,8 @@ namespace djv
         //! This struct provides tool widget data.
         struct ToolWidgetData
         {
+            std::shared_ptr<UI::Widget> titleBar;
+            std::shared_ptr<UI::Widget> toolBar;
             std::shared_ptr<UI::Widget> widget;
             std::shared_ptr<UI::Widget> footer;
         };

@@ -74,23 +74,22 @@ namespace djv
             _p->textBlock->setGeometry(getGeometry());
         }
 
-        struct MessagesFooterWidget::Private
+        struct MessagesToolBar::Private
         {
             std::shared_ptr<UI::CheckBox> popupCheckBox;
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::ToolButton> clearButton;
-            std::shared_ptr<UI::HorizontalLayout> layout;
             std::function<void(bool)> popupCallback;
             std::function<void(void)> copyCallback;
             std::function<void(void)> clearCallback;
         };
 
-        void MessagesFooterWidget::_init(const std::shared_ptr<System::Context>& context)
+        void MessagesToolBar::_init(const std::shared_ptr<System::Context>& context)
         {
-            Widget::_init(context);
+            ToolBar::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::MessagesFooterWidget");
+            setClassName("djv::ViewApp::MessagesToolBar");
 
             p.popupCheckBox = UI::CheckBox::create(context);
             p.copyButton = UI::ToolButton::create(context);
@@ -98,14 +97,12 @@ namespace djv
             p.clearButton = UI::ToolButton::create(context);
             p.clearButton->setIcon("djvIconClear");
 
-            p.layout = UI::HorizontalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.popupCheckBox);
-            p.layout->addChild(p.copyButton);
-            p.layout->addChild(p.clearButton);
-            addChild(p.layout);
+            addExpander();
+            addChild(p.popupCheckBox);
+            addChild(p.copyButton);
+            addChild(p.clearButton);
 
-            auto weak = std::weak_ptr<MessagesFooterWidget>(std::dynamic_pointer_cast<MessagesFooterWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<MessagesToolBar>(std::dynamic_pointer_cast<MessagesToolBar>(shared_from_this()));
             p.popupCheckBox->setCheckedCallback(
                 [weak](bool value)
                 {
@@ -143,53 +140,43 @@ namespace djv
                 });
         }
 
-        MessagesFooterWidget::MessagesFooterWidget() :
+        MessagesToolBar::MessagesToolBar() :
             _p(new Private)
         {}
 
-        MessagesFooterWidget::~MessagesFooterWidget()
+        MessagesToolBar::~MessagesToolBar()
         {}
 
-        std::shared_ptr<MessagesFooterWidget> MessagesFooterWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<MessagesToolBar> MessagesToolBar::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<MessagesFooterWidget>(new MessagesFooterWidget);
+            auto out = std::shared_ptr<MessagesToolBar>(new MessagesToolBar);
             out->_init(context);
             return out;
         }
 
-        void MessagesFooterWidget::setPopup(bool value)
+        void MessagesToolBar::setPopup(bool value)
         {
             _p->popupCheckBox->setChecked(value);
         }
 
-        void MessagesFooterWidget::setPopupCallback(const std::function<void(bool)>& value)
+        void MessagesToolBar::setPopupCallback(const std::function<void(bool)>& value)
         {
             _p->popupCallback = value;
         }
 
-        void MessagesFooterWidget::setCopyCallback(const std::function<void(void)>& value)
+        void MessagesToolBar::setCopyCallback(const std::function<void(void)>& value)
         {
             _p->copyCallback = value;
         }
 
-        void MessagesFooterWidget::setClearCallback(const std::function<void(void)>& value)
+        void MessagesToolBar::setClearCallback(const std::function<void(void)>& value)
         {
             _p->clearCallback = value;
         }
 
-        void MessagesFooterWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void MessagesToolBar::_initEvent(System::Event::Init& event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void MessagesFooterWidget::_layoutEvent(System::Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void MessagesFooterWidget::_initEvent(System::Event::Init& event)
-        {
-            Widget::_initEvent(event);
+            ToolBar::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
