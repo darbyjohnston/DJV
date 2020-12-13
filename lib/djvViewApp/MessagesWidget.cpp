@@ -59,6 +59,11 @@ namespace djv
             _p->textBlock->setText(value);
         }
 
+        float MessagesWidget::getHeightForWidth(float value) const
+        {
+            return _p->textBlock->getHeightForWidth(value);
+        }
+
         void MessagesWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->textBlock->getMinimumSize());

@@ -284,7 +284,7 @@ namespace djv
                             switch (p.stretch[child])
                             {
                             case RowStretch::None:
-                                minimumSize.y += child->getMinimumSize().y;
+                                minimumSize.y += child->getHeightForWidth(gw);
                                 break;
                             case RowStretch::Expand:
                                 ++expandCount;

@@ -29,6 +29,8 @@ namespace djv
             void clearLog();
             void setFilter(const std::string&);
 
+            float getHeightForWidth(float) const override;
+
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
             void _layoutEvent(System::Event::Layout&) override;

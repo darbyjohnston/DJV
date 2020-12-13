@@ -105,6 +105,11 @@ namespace djv
             _widgetUpdate();
         }
 
+        float SystemLogWidget::getHeightForWidth(float value) const
+        {
+            return _p->textBlock->getHeightForWidth(value);
+        }
+
         void SystemLogWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->textBlock->getMinimumSize());
