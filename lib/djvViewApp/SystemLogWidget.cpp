@@ -171,7 +171,6 @@ namespace djv
 
             p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addExpander();
             p.layout->addChild(p.copyButton);
             p.layout->addChild(p.reloadButton);
             p.layout->addChild(p.clearButton);

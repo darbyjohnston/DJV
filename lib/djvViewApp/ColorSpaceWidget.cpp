@@ -82,6 +82,7 @@ namespace djv
             p.formLayout->addChild(p.displayPopupButton);
             p.formLayout->addChild(p.viewPopupButton);
             p.layout->addChild(p.formLayout);
+            p.layout->addSeparator();
             p.layout->addChild(p.bellows["Image"]);
             addChild(p.layout);
 

@@ -9,6 +9,7 @@
 #include <djvUI/FlowLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvSystem/Context.h>
@@ -25,6 +26,7 @@ namespace djv
 
             std::shared_ptr<UI::FlowLayout> buttonLayout;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
+            std::shared_ptr<UI::ToolBar> footerToolBar;
             std::shared_ptr<UI::VerticalLayout> footerLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
@@ -65,8 +67,12 @@ namespace djv
             p.scrollWidget->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.scrollWidget);
             p.layout->setStretch(p.scrollWidget, UI::RowStretch::Expand);
+            p.footerToolBar = UI::ToolBar::create(context);
+            p.footerToolBar->addExpander();
             p.footerLayout = UI::VerticalLayout::create(context);
             p.footerLayout->setSpacing(UI::MetricsRole::None);
+            p.footerLayout->addSeparator();
+            p.footerLayout->addChild(p.footerToolBar);
             p.footerLayout->hide();
             p.layout->addChild(p.footerLayout);
             addChild(p.layout);
@@ -88,7 +94,7 @@ namespace djv
                                 widget->_p->currentTool.system->deleteToolWidget(widget->_p->currentTool.action);
                                 widget->_p->scrollWidget->clearChildren();
                                 widget->_p->footerLayout->hide();
-                                widget->_p->footerLayout->clearChildren();
+                                widget->_p->footerToolBar->clearChildren();
                             }
                             widget->_p->currentTool = value;
                             if (widget->_p->currentTool.system)
@@ -100,8 +106,8 @@ namespace djv
                                 }
                                 if (toolWidgetData.footer)
                                 {
-                                    widget->_p->footerLayout->addSeparator();
-                                    widget->_p->footerLayout->addChild(toolWidgetData.footer);
+                                    widget->_p->footerToolBar->addExpander();
+                                    widget->_p->footerToolBar->addChild(toolWidgetData.footer);
                                     widget->_p->footerLayout->show();
                                 }
                             }
