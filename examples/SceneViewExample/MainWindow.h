@@ -9,8 +9,9 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
+#include <djvUI/Splitter.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
 #include <djvSystem/FileInfo.h>
@@ -54,7 +55,8 @@ private:
 
     std::shared_ptr<djv::UI::Text::Label> _fileInfoLabel;
     std::shared_ptr<djv::UIComponents::SceneWidget> _sceneWidget;
-    std::shared_ptr<djv::UI::Drawer> _settingsDrawer;
+    std::shared_ptr<djv::UI::StackLayout> _settingsLayout;
+    std::shared_ptr<djv::UI::Layout::Splitter> _splitter;
 
     std::shared_ptr<djv::UIComponents::FileBrowser::Dialog> _fileBrowserDialog;
     djv::System::File::Path _fileBrowserPath = djv::System::File::Path(".");

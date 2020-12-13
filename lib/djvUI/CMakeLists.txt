@@ -12,7 +12,6 @@ set(header
     ComboBox.h
     DialogSystem.h
     DrawUtil.h
-    Drawer.h
     Enum.h
     EnumFunc.h
     EventSystem.h
@@ -118,7 +117,6 @@ set(source
     ComboBox.cpp
     DialogSystem.cpp
     DrawUtil.cpp
-    Drawer.cpp
     EnumFunc.cpp
     EventSystem.cpp
     FloatEdit.cpp

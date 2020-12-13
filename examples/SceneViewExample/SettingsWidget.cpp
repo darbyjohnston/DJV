@@ -20,7 +20,7 @@ void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
 
     _childLayout = UI::VerticalLayout::create(context);
     _childLayout->setSpacing(UI::MetricsRole::None);
-    _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+    _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
     _scrollWidget->setBorder(false);
     _scrollWidget->addChild(_childLayout);
     Widget::addChild(_scrollWidget);
