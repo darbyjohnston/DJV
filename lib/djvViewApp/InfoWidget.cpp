@@ -31,7 +31,6 @@ namespace djv
             AV::IO::Info info;
             std::string filter;
             std::vector<std::shared_ptr<UI::GroupBox> > groupBoxes;
-            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<AV::IO::Info> > infoObserver;
@@ -49,7 +48,6 @@ namespace djv
                 auto formLayout = UI::FormLayout::create(context);
                 formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
                 formLayout->setLabelVAlign(UI::VAlign::Top);
-                formLayout->setLabelSizeGroup(sizeGroup);
                 formLayout->setSpacing(UI::MetricsRole::None);
                 return formLayout;
             }
@@ -61,8 +59,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::InfoWidget");
-
-            p.sizeGroup = UI::Text::LabelSizeGroup::create();
 
             p.layout = UI::VerticalLayout::create(context);
             addChild(p.layout);
@@ -123,11 +119,6 @@ namespace djv
                 return;
             p.filter = value;
             _widgetUpdate();
-        }
-
-        void InfoWidget::_initLayoutEvent(System::Event::InitLayout&)
-        {
-            _p->sizeGroup->calcMinimumSize();
         }
 
         void InfoWidget::_preLayoutEvent(System::Event::PreLayout&)
@@ -227,7 +218,6 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 p.groupBoxes.clear();
-                p.sizeGroup->clearLabels();
                 p.layout->clearChildren();
 
                 const std::string fileNameLabel = _getText(DJV_TEXT("widget_info_file_name"));

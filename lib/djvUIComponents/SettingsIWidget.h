@@ -10,15 +10,6 @@
 
 namespace djv
 {
-    namespace UI
-    {
-        namespace Text
-        {
-            class LabelSizeGroup;
-
-        } // namespace Text
-    } // namespace UI
-
     namespace UIComponents
     {
         //! This namespace provides settings functionality.
@@ -39,8 +30,6 @@ namespace djv
                 virtual std::string getSettingsName() const;
                 virtual std::string getSettingsSortKey() const = 0;
                 virtual std::string getSettingsGroup() const = 0;
-
-                virtual void setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>&) {}
 
                 float getHeightForWidth(float) const override;
 

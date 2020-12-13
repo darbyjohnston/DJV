@@ -8,15 +8,6 @@
 
 namespace djv
 {
-    namespace UI
-    {
-        namespace Text
-        {
-            class LabelSizeGroup;
-
-        } // namespace Text
-    } // namespace UI
-
     namespace ViewApp
     {
         class ViewControlsViewWidget : public UI::Widget
@@ -31,8 +22,6 @@ namespace djv
             ~ViewControlsViewWidget() override;
 
             static std::shared_ptr<ViewControlsViewWidget> create(const std::shared_ptr<System::Context>&);
-
-            void setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -63,8 +52,6 @@ namespace djv
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
-            void setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
-
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
             void _layoutEvent(System::Event::Layout&) override;
@@ -92,8 +79,6 @@ namespace djv
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
-            void setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
-
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
             void _layoutEvent(System::Event::Layout&) override;
@@ -118,8 +103,6 @@ namespace djv
             ~ViewControlsBackgroundWidget() override;
 
             static std::shared_ptr<ViewControlsBackgroundWidget> create(const std::shared_ptr<System::Context>&);
-
-            void setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -147,8 +130,6 @@ namespace djv
             static std::shared_ptr<ViewControlsBorderWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
-
-            void setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;

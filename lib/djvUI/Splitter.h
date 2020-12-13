@@ -41,7 +41,6 @@ namespace djv
                 void setHandleColorRole(ColorRole);
 
                 float getHeightForWidth(float) const override;
-
                 void addChild(const std::shared_ptr<IObject>&) override;
                 void removeChild(const std::shared_ptr<IObject>&) override;
 

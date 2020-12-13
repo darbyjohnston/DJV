@@ -28,8 +28,6 @@ public:
     void setPointCount(size_t);
     void setFPS(float);
 
-    void setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>&) override;
-
 protected:
     void _initEvent(djv::System::Event::Init&) override;
 

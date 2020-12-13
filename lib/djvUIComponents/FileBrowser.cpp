@@ -12,7 +12,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/PopupButton.h>
@@ -22,6 +21,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
@@ -65,7 +65,7 @@ namespace djv
                 std::map<std::string, std::shared_ptr<UI::Action> > actions;
                 std::shared_ptr<UI::ActionGroup> viewTypeActionGroup;
                 std::shared_ptr<UI::ActionGroup> sortActionGroup;
-                std::shared_ptr<UI::Drawer> pathsDrawer;
+                std::shared_ptr<UI::StackLayout> pathsLayout;
                 std::shared_ptr<UI::PopupButton> thumbnailPopupButton;
                 std::shared_ptr<SearchBox> searchBox;
                 std::shared_ptr<UI::Menu> menu;
@@ -172,7 +172,7 @@ namespace djv
                     addAction(action.second);
                 }
 
-                p.pathsDrawer = UI::Drawer::create(UI::Side::Left, context);
+                p.pathsLayout = UI::StackLayout::create(context);
 
                 auto pathWidget = PathWidget::create(context);
 
@@ -243,9 +243,8 @@ namespace djv
                 p.layout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(toolBar);
                 p.layout->addSeparator();
-                auto hLayout = UI::HorizontalLayout::create(context);
-                hLayout->setSpacing(UI::MetricsRole::None);
-                hLayout->addChild(p.pathsDrawer);
+                auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
+                splitter->addChild(p.pathsLayout);
                 p.itemViewLayout = UI::VerticalLayout::create(context);
                 p.itemViewLayout->setSpacing(UI::MetricsRole::None);
                 p.itemViewLayout->addChild(p.listViewHeader);
@@ -254,14 +253,14 @@ namespace djv
                 stackLayout->addChild(p.itemCountLabel);
                 p.itemViewLayout->addChild(stackLayout);
                 p.itemViewLayout->setStretch(stackLayout, UI::RowStretch::Expand);
-                hLayout->addChild(p.itemViewLayout);
-                hLayout->setStretch(p.itemViewLayout, UI::RowStretch::Expand);
-                p.layout->addChild(hLayout);
-                p.layout->setStretch(hLayout, UI::RowStretch::Expand);
+                splitter->addChild(p.itemViewLayout);
+                p.layout->addChild(splitter);
+                p.layout->setStretch(splitter, UI::RowStretch::Expand);
                 p.layout->addSeparator();
-                hLayout = UI::HorizontalLayout::create(context);
+                auto hLayout = UI::HorizontalLayout::create(context);
                 hLayout->setMargin(UI::MetricsRole::MarginSmall);
                 hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+                hLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
                 hLayout->addExpander();
                 hLayout->addChild(p.acceptButton);
                 hLayout->addChild(p.cancelButton);
@@ -272,12 +271,13 @@ namespace djv
                 _selectedUpdate();
 
                 auto weak = std::weak_ptr<FileBrowser>(std::dynamic_pointer_cast<FileBrowser>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.actions["Paths"]->setCheckedCallback(
-                    [weak](bool value)
+                    [weak, contextWeak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->pathsDrawer->setOpen(value);
+                            widget->_setDrawerOpen(value);
                         }
                     });
 
@@ -331,7 +331,6 @@ namespace djv
                         }
                     });
 
-                auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.actions["IncreaseThumbnailSize"]->setClickedCallback(
                     [contextWeak]
                     {
@@ -399,41 +398,6 @@ namespace djv
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
                             fileBrowserSettings->setSortDirectoriesFirst(value);
-                        }
-                    });
-
-                p.pathsDrawer->setOpenCallback(
-                    [weak, contextWeak]() -> std::shared_ptr<Widget>
-                    {
-                        std::shared_ptr<Widget> out;
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                auto drawerWidget = DrawerWidget::create(
-                                    widget->_p->directoryModel,
-                                    widget->_p->shortcutsModel,
-                                    widget->_p->recentPathsModel,
-                                    widget->_p->drivesModel,
-                                    context);
-                                out = drawerWidget;
-
-                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                                auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                                fileBrowserSettings->setPathsOpen(true);
-                            }
-                        }
-                        return out;
-                    });
-
-                p.pathsDrawer->setCloseCallback(
-                    [contextWeak](const std::shared_ptr<Widget>& widget)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                            auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                            fileBrowserSettings->setPathsOpen(false);
                         }
                     });
 
@@ -623,7 +587,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->pathsDrawer->setOpen(value, false);
+                            widget->_setDrawerOpen(value);
                             widget->_p->actions["Paths"]->setChecked(value);
                         }
                     });
@@ -1059,6 +1023,34 @@ namespace djv
 
                     p.acceptButton->setText(_getText(DJV_TEXT("file_browser_accept")));
                     p.cancelButton->setText(_getText(DJV_TEXT("file_browser_cancel")));
+                }
+            }
+
+            void FileBrowser::_setDrawerOpen(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (auto context = getContext().lock())
+                {
+                    if (value)
+                    {
+                        auto drawerWidget = DrawerWidget::create(
+                            p.directoryModel,
+                            p.shortcutsModel,
+                            p.recentPathsModel,
+                            p.drivesModel,
+                            context);
+                        p.pathsLayout->addChild(drawerWidget);
+                        p.pathsLayout->show();
+                    }
+                    else
+                    {
+                        p.pathsLayout->hide();
+                        p.pathsLayout->clearChildren();
+                    }
+
+                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                    auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
+                    fileBrowserSettings->setPathsOpen(value);
                 }
             }
 

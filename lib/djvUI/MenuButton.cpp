@@ -277,6 +277,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(p.insideMargin);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 if (p.icon)
@@ -300,8 +301,8 @@ namespace djv
                 switch (p.buttonStyle)
                 {
                 case MenuButtonStyle::Flat:     size.x += m * 2.F; break;
-                case MenuButtonStyle::Tool:     size += m * 2.F;   break;
-                case MenuButtonStyle::ComboBox: size += btf * 2.F; break;
+                case MenuButtonStyle::Tool:     size += m * 2.F; break;
+                case MenuButtonStyle::ComboBox: size += b * 2.F + btf * 2.F; break;
                 default: break;
                 }
                 _setMinimumSize(size + getMargin().getSize(style));
@@ -313,13 +314,14 @@ namespace djv
                 const auto& style = _getStyle();
                 const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 Math::BBox2f g2;
                 switch (p.buttonStyle)
                 {
                 case MenuButtonStyle::Flat:     g2 = g.margin(-m, 0, -m, 0); break;
                 case MenuButtonStyle::Tool:     g2 = g.margin(-m);           break;
-                case MenuButtonStyle::ComboBox: g2 = g.margin(-btf);         break;
+                case MenuButtonStyle::ComboBox: g2 = g.margin(-b - btf);     break;
                 default: break;
                 }
                 float x = g2.min.x;
@@ -349,6 +351,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
@@ -357,12 +360,16 @@ namespace djv
                 switch (p.buttonStyle)
                 {
                 case MenuButtonStyle::ComboBox:
-                    g2 = g.margin(-btf);
                     if (hasTextFocus())
                     {
                         render->setFillColor(style->getColor(ColorRole::TextFocus));
                         drawBorder(render, g, btf);
                     }
+                    g2 = g.margin(-btf);
+
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    drawBorder(render, g2, b);
+                    g2 = g2.margin(-b);
                     break;
                 default:
                     g2 = g;

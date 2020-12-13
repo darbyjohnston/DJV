@@ -160,18 +160,20 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
+                const float b = style->getMetric(UI::MetricsRole::Border);
                 const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
                 glm::vec2 size = p.lineEditBase->getMinimumSize();
-                _setMinimumSize(size + btf * 2.F + getMargin().getSize(style));
+                _setMinimumSize(size + b * 2.F + btf * 2.F + getMargin().getSize(style));
             }
 
             void LineEdit::_layoutEvent(System::Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
+                const float b = style->getMetric(UI::MetricsRole::Border);
                 const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
                 const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
-                p.lineEditBase->setGeometry(g.margin(-btf));
+                p.lineEditBase->setGeometry(g.margin(-b - btf));
             }
 
             void LineEdit::_paintEvent(System::Event::Paint& event)
@@ -181,18 +183,16 @@ namespace djv
                 const auto& style = _getStyle();
                 const float b = style->getMetric(UI::MetricsRole::Border);
                 const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
-                const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
                 if (p.lineEditBase->hasTextFocus())
                 {
                     render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
-                else
-                {
-                    render->setFillColor(style->getColor(UI::ColorRole::Border));
-                    drawBorder(render, g.margin(-b), b);
-                }
+                Math::BBox2f g2 = g.margin(-btf);
+                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                drawBorder(render, g2, b);
             }
 
         } // namespace Text

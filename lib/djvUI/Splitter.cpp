@@ -21,7 +21,7 @@ namespace djv
                 Orientation orientation = Orientation::Horizontal;
                 std::vector<float> split;
                 float splitterWidth = 0.F;
-                ColorRole handleColorRole = ColorRole::Background;
+                ColorRole handleColorRole = ColorRole::Button;
                 std::map<System::Event::PointerID, size_t> hover;
                 std::pair<System::Event::PointerID, size_t> pressedID;
                 std::function<void(const std::vector<float>&)> splitCallback;
@@ -219,19 +219,28 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
+                const float b = style->getMetric(MetricsRole::Border);
                 const auto hg = _getHandleGeometry();
 
                 const auto& render = _getRender();
                 size_t i = 0;
                 for (const auto& g : hg)
                 {
-                    render->setFillColor(style->getColor(p.handleColorRole));
+                    render->setFillColor(style->getColor(ColorRole::Border));
                     render->drawRect(g);
+
+                    const Math::BBox2f g2 = g.margin(
+                        Orientation::Horizontal == p.orientation ? -b : 0.F,
+                        Orientation::Vertical == p.orientation ? -b : 0.F,
+                        Orientation::Horizontal == p.orientation ? -b : 0.F,
+                        Orientation::Vertical == p.orientation ? -b : 0.F);
+                    render->setFillColor(style->getColor(p.handleColorRole));
+                    render->drawRect(g2);
 
                     if (p.pressedID.first && p.pressedID.second == i)
                     {
                         render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawRect(g);
+                        render->drawRect(g2);
                     }
                     else
                     {
@@ -240,7 +249,7 @@ namespace djv
                             if (j.second == i)
                             {
                                 render->setFillColor(style->getColor(ColorRole::Hovered));
-                                render->drawRect(g);
+                                render->drawRect(g2);
                                 break;
                             }
                         }

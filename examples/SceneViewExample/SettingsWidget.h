@@ -34,12 +34,10 @@ public:
     void clearChildren() override;
 
 protected:
-    void _initLayoutEvent(djv::System::Event::InitLayout&) override;
     void _preLayoutEvent(djv::System::Event::PreLayout&) override;
     void _layoutEvent(djv::System::Event::Layout&) override;
 
 private:
-    std::shared_ptr<djv::UI::Text::LabelSizeGroup> _sizeGroup;
     std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
     std::shared_ptr<djv::UI::ScrollWidget> _scrollWidget;
 };

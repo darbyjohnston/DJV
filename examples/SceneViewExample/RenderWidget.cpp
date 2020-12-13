@@ -129,14 +129,6 @@ void RenderWidget::setRenderOptionsCallback(const std::function<void(const UICom
     _renderOptionsCallback = value;
 }
 
-void RenderWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>& value)
-{
-    for (auto i : _layouts)
-    {
-        i.second->setLabelSizeGroup(value);
-    }
-}
-
 void RenderWidget::_initEvent(System::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("widget_render")));

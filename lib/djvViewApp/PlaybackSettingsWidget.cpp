@@ -6,8 +6,8 @@
 
 #include <djvViewApp/PlaybackSettings.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/FormLayout.h>
-#include <djvUI/ToggleButton.h>
 #include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
@@ -23,7 +23,7 @@ namespace djv
     {
         struct PlaybackSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> startPlaybackButton;
+            std::shared_ptr<UI::CheckBox> startPlaybackCheckBox;
             std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<Observer::Value<bool> > startPlaybackObserver;
         };
@@ -35,15 +35,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::PlaybackSettingsWidget");
 
-            p.startPlaybackButton = UI::ToggleButton::create(context);
+            p.startPlaybackCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::FormLayout::create(context);
-            p.layout->addChild(p.startPlaybackButton);
+            p.layout->addChild(p.startPlaybackCheckBox);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<PlaybackSettingsWidget>(std::dynamic_pointer_cast<PlaybackSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.startPlaybackButton->setCheckedCallback(
+            p.startPlaybackCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -68,7 +68,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->startPlaybackButton->setChecked(value);
+                            widget->_p->startPlaybackCheckBox->setChecked(value);
                         }
                     });
             }
@@ -95,24 +95,19 @@ namespace djv
             return "G";
         }
 
-        void PlaybackSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
         void PlaybackSettingsWidget::_initEvent(System::Event::Init& event)
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.layout->setText(p.startPlaybackButton, _getText(DJV_TEXT("settings_playback_start_playback")) + ":");
+                p.layout->setText(p.startPlaybackCheckBox, _getText(DJV_TEXT("settings_playback_start_playback")) + ":");
             }
         }
 
         struct TimelineSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> pipEnabledButton;
+            std::shared_ptr<UI::CheckBox> pipEnabledCheckBox;
             std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<Observer::Value<bool> > pipEnabledObserver;
         };
@@ -124,15 +119,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::TimelineSettingsWidget");
 
-            p.pipEnabledButton = UI::ToggleButton::create(context);
+            p.pipEnabledCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::FormLayout::create(context);
-            p.layout->addChild(p.pipEnabledButton);
+            p.layout->addChild(p.pipEnabledCheckBox);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TimelineSettingsWidget>(std::dynamic_pointer_cast<TimelineSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.pipEnabledButton->setCheckedCallback(
+            p.pipEnabledCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -157,7 +152,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->pipEnabledButton->setChecked(value);
+                            widget->_p->pipEnabledCheckBox->setChecked(value);
                         }
                     });
             }
@@ -184,18 +179,13 @@ namespace djv
             return "G";
         }
 
-        void TimelineSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
         void TimelineSettingsWidget::_initEvent(System::Event::Init& event)
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.layout->setText(p.pipEnabledButton, _getText(DJV_TEXT("settings_timeline_pip")) + ":");
+                p.layout->setText(p.pipEnabledCheckBox, _getText(DJV_TEXT("settings_timeline_pip")) + ":");
             }
         }
 

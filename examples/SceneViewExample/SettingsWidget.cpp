@@ -18,8 +18,6 @@ void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
 
     setBackgroundRole(UI::ColorRole::Background);
 
-    _sizeGroup = UI::Text::LabelSizeGroup::create();
-
     _childLayout = UI::VerticalLayout::create(context);
     _childLayout->setSpacing(UI::MetricsRole::None);
     _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -48,37 +46,17 @@ float SettingsWidget::getHeightForWidth(float value) const
 
 void SettingsWidget::addChild(const std::shared_ptr<IObject>& value)
 {
-    if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
-    {
-        widget->setLabelSizeGroup(_sizeGroup);
-    }
     _childLayout->addChild(value);
 }
 
 void SettingsWidget::removeChild(const std::shared_ptr<IObject>& value)
 {
-    if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
-    {
-        widget->setLabelSizeGroup(std::weak_ptr<UI::Text::LabelSizeGroup>());
-    }
     _childLayout->removeChild(value);
 }
 
 void SettingsWidget::clearChildren()
 {
-    for (auto i : getChildWidgets())
-    {
-        if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(i))
-        {
-            widget->setLabelSizeGroup(std::weak_ptr<UI::Text::LabelSizeGroup>());
-        }
-    }
     _childLayout->clearChildren();
-}
-
-void SettingsWidget::_initLayoutEvent(System::Event::InitLayout& event)
-{
-    _sizeGroup->calcMinimumSize();
 }
 
 void SettingsWidget::_preLayoutEvent(System::Event::PreLayout& event)

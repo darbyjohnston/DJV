@@ -170,14 +170,20 @@ namespace djv
 
                 private:
                     float _open = 1.F;
-                    std::shared_ptr<StackLayout> _layout;
+                    std::shared_ptr<StackLayout> _childLayout;
+                    std::shared_ptr<VerticalLayout> _layout;
                 };
 
                 void ChildLayout::_init(const std::shared_ptr<System::Context>& context)
                 {
                     Widget::_init(context);
-                    
-                    _layout = StackLayout::create(context);
+
+                    _layout = VerticalLayout::create(context);
+                    _layout->setSpacing(MetricsRole::None);
+                    _childLayout = StackLayout::create(context);
+                    _layout->addChild(_childLayout);
+                    _layout->setStretch(_childLayout, RowStretch::Expand);
+                    _layout->addSeparator();
                     Widget::addChild(_layout);
                 }
 
@@ -207,17 +213,17 @@ namespace djv
 
                 void ChildLayout::addChild(const std::shared_ptr<IObject>& value)
                 {
-                    _layout->addChild(value);
+                    _childLayout->addChild(value);
                 }
 
                 void ChildLayout::removeChild(const std::shared_ptr<IObject>& value)
                 {
-                    _layout->removeChild(value);
+                    _childLayout->removeChild(value);
                 }
 
                 void ChildLayout::clearChildren()
                 {
-                    _layout->clearChildren();
+                    _childLayout->clearChildren();
                 }
 
                 void ChildLayout::_preLayoutEvent(System::Event::PreLayout& event)

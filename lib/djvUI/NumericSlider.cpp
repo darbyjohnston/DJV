@@ -96,6 +96,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const auto& render = _getRender();
 
@@ -119,11 +120,14 @@ namespace djv
                 case Orientation::Horizontal:
                 {
                     troughHeight = g3.h() / 3.F;
-                    const Math::BBox2f g4 = Math::BBox2f(
+                    Math::BBox2f g4 = Math::BBox2f(
                         g3.min.x,
                         floorf(g3.min.y + g3.h() / 2.F - troughHeight / 2.F),
                         g3.w(),
                         troughHeight);
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    render->drawRect(g4);
+                    g4 = g4.margin(-b);
                     render->setFillColor(style->getColor(ColorRole::Trough));
                     render->drawRect(g4);
                     render->setFillColor(style->getColor(ColorRole::Checked));
@@ -137,11 +141,14 @@ namespace djv
                 case Orientation::Vertical:
                 {
                     troughHeight = g3.w() / 3.F;
-                    const Math::BBox2f g4 = Math::BBox2f(
+                    Math::BBox2f g4 = Math::BBox2f(
                         floorf(g3.min.x + g3.w() / 2.F - troughHeight / 2.F),
                         g3.min.y,
                         troughHeight,
                         g3.h());
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    render->drawRect(g4);
+                    g4 = g4.margin(-b);
                     render->setFillColor(style->getColor(ColorRole::Trough));
                     render->drawRect(g4);
                     render->setFillColor(style->getColor(ColorRole::Checked));
@@ -174,16 +181,14 @@ namespace djv
                     break;
                 default: break;
                 }
+                render->setFillColor(style->getColor(ColorRole::Border));
+                render->drawRect(handleBBox);
+                handleBBox = handleBBox.margin(-b);
                 render->setFillColor(style->getColor(ColorRole::Button));
                 render->drawRect(handleBBox);
                 if (p.pressedID != System::Event::invalidID)
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(handleBBox);
-                }
-                else if (_getPointerHover().size())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(handleBBox);
                 }
             }

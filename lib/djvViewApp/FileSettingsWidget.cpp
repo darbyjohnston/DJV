@@ -8,10 +8,10 @@
 
 #include <djvUIComponents/ShortcutsWidget.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TimerFunc.h>
@@ -24,8 +24,8 @@ namespace djv
     {
         struct SequenceSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> autoDetectButton;
-            std::shared_ptr<UI::ToggleButton> firstFrameButton;
+            std::shared_ptr<UI::CheckBox> autoDetectCheckBox;
+            std::shared_ptr<UI::CheckBox> firstFrameCheckBox;
             std::shared_ptr<UI::FormLayout> layout;
 
             std::shared_ptr<Observer::Value<bool> > autoDetectObserver;
@@ -39,17 +39,17 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::SequenceSettingsWidget");
 
-            p.autoDetectButton = UI::ToggleButton::create(context);
-            p.firstFrameButton = UI::ToggleButton::create(context);
+            p.autoDetectCheckBox = UI::CheckBox::create(context);
+            p.firstFrameCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::FormLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.autoDetectButton);
-            p.layout->addChild(p.firstFrameButton);
+            p.layout->addChild(p.autoDetectCheckBox);
+            p.layout->addChild(p.firstFrameCheckBox);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.autoDetectButton->setCheckedCallback(
+            p.autoDetectCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -62,7 +62,7 @@ namespace djv
                     }
                 });
 
-            p.firstFrameButton->setCheckedCallback(
+            p.firstFrameCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -85,7 +85,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->autoDetectButton->setChecked(value);
+                            widget->_p->autoDetectCheckBox->setChecked(value);
                         }
                     });
 
@@ -95,7 +95,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->firstFrameButton->setChecked(value);
+                            widget->_p->firstFrameCheckBox->setChecked(value);
                         }
                     });
             }
@@ -127,19 +127,14 @@ namespace djv
             return "A";
         }
 
-        void SequenceSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
         void SequenceSettingsWidget::_initEvent(System::Event::Init& event)
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.layout->setText(p.autoDetectButton, _getText(DJV_TEXT("settings_file_sequences_auto-detect")) + ":");
-                p.layout->setText(p.firstFrameButton, _getText(DJV_TEXT("settings_file_sequences_start_first_frame")) + ":");
+                p.layout->setText(p.autoDetectCheckBox, _getText(DJV_TEXT("settings_file_sequences_auto-detect")) + ":");
+                p.layout->setText(p.firstFrameCheckBox, _getText(DJV_TEXT("settings_file_sequences_start_first_frame")) + ":");
             }
         }
 

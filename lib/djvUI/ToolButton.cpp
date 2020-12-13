@@ -47,7 +47,7 @@ namespace djv
                 std::shared_ptr<Icon> iconWidget;
                 TextHAlign textHAlign = TextHAlign::Left;
                 size_t textElide = 0;
-                MetricsRole insideMargin = MetricsRole::MarginInside;
+                Layout::Margin insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Action> action;
                 bool textFocusEnabled = false;
                 bool autoRepeat = false;
@@ -197,7 +197,7 @@ namespace djv
                 return _p->textElide;
             }
 
-            MetricsRole Tool::getInsideMargin() const
+            const Layout::Margin& Tool::getInsideMargin() const
             {
                 return _p->insideMargin;
             }
@@ -231,7 +231,7 @@ namespace djv
                 }
             }
 
-            void Tool::setInsideMargin(MetricsRole value)
+            void Tool::setInsideMargin(const Layout::Margin& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.insideMargin)
@@ -331,7 +331,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(p.insideMargin);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 if (p.iconWidget)
@@ -346,7 +345,7 @@ namespace djv
                     size.x += tmp.x;
                     size.y = std::max(size.y, tmp.y);
                 }
-                size += m * 2.F;
+                size += p.insideMargin.getSize(style);
                 if (p.textFocusEnabled)
                 {
                     size += btf * 2.F;
@@ -359,14 +358,17 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const float m = style->getMetric(p.insideMargin);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 Math::BBox2f g2 = g;
                 if (p.textFocusEnabled)
                 {
                     g2 = g2.margin(-btf);
                 }
-                g2 = g2.margin(-m);
+                g2 = g2.margin(
+                    -p.insideMargin.get(Side::Left, style),
+                    -p.insideMargin.get(Side::Top, style),
+                    -p.insideMargin.get(Side::Right, style),
+                    -p.insideMargin.get(Side::Bottom, style));
                 float x = g2.min.x;
                 float y = g2.min.y + g2.h() / 2.F;
                 float w = g2.w();

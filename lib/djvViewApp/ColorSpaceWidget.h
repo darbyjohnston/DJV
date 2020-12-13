@@ -29,7 +29,6 @@ namespace djv
             void setBellowsState(const std::map<std::string, bool>&);
 
         protected:
-            void _initLayoutEvent(System::Event::InitLayout&) override;
             void _preLayoutEvent(System::Event::PreLayout&) override;
             void _layoutEvent(System::Event::Layout&) override;
 

@@ -247,14 +247,6 @@ void CameraWidget::setCameraDataCallback(const std::function<void(const Scene3D:
     _cameraDataCallback = value;
 }
 
-void CameraWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>& value)
-{
-    for (auto i : _layouts)
-    {
-        i.second->setLabelSizeGroup(value);
-    }
-}
-
 void CameraWidget::_initEvent(System::Event::Init& event)
 {
     ISettingsWidget::_initEvent(event);

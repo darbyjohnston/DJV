@@ -159,11 +159,6 @@ namespace djv
                 return "d";
             }
 
-            void OpenEXRWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-            {
-                _p->layout->setLabelSizeGroup(value);
-            }
-
             void OpenEXRWidget::_initEvent(System::Event::Init& event)
             {
                 IWidget::_initEvent(event);

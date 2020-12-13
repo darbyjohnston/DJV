@@ -10,13 +10,13 @@
 
 #include <djvUIComponents/FileBrowserDialog.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/LineEdit.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvRender2D/Render.h>
@@ -36,8 +36,8 @@ namespace djv
     {
         struct WindowGeometrySettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> restorePosButton;
-            std::shared_ptr<UI::ToggleButton> restoreSizeButton;
+            std::shared_ptr<UI::CheckBox> restorePosCheckBox;
+            std::shared_ptr<UI::CheckBox> restoreSizeCheckBox;
             std::shared_ptr<Observer::Value<bool> > restorePosObserver;
             std::shared_ptr<Observer::Value<bool> > restoreSizeObserver;
             std::shared_ptr<UI::FormLayout> layout;
@@ -50,18 +50,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::WindowGeometrySettingsWidget");
 
-            p.restorePosButton = UI::ToggleButton::create(context);
-            p.restoreSizeButton = UI::ToggleButton::create(context);
+            p.restorePosCheckBox = UI::CheckBox::create(context);
+            p.restoreSizeCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::FormLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.restorePosButton);
-            p.layout->addChild(p.restoreSizeButton);
+            p.layout->addChild(p.restorePosCheckBox);
+            p.layout->addChild(p.restoreSizeCheckBox);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<WindowGeometrySettingsWidget>(std::dynamic_pointer_cast<WindowGeometrySettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.restorePosButton->setCheckedCallback(
+            p.restorePosCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -77,7 +77,7 @@ namespace djv
                 }
             });
 
-            p.restoreSizeButton->setCheckedCallback(
+            p.restoreSizeCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -102,7 +102,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->restorePosButton->setChecked(value);
+                        widget->_p->restorePosCheckBox->setChecked(value);
                     }
                 });
 
@@ -112,7 +112,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->restoreSizeButton->setChecked(value);
+                        widget->_p->restoreSizeCheckBox->setChecked(value);
                     }
                 });
             }
@@ -142,19 +142,14 @@ namespace djv
             return "B";
         }
 
-        void WindowGeometrySettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
         void WindowGeometrySettingsWidget::_initEvent(System::Event::Init& event)
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.layout->setText(p.restorePosButton, _getText(DJV_TEXT("settings_window_restore_pos")) + ":");
-                p.layout->setText(p.restoreSizeButton, _getText(DJV_TEXT("settings_window_restore_size")) + ":");
+                p.layout->setText(p.restorePosCheckBox, _getText(DJV_TEXT("settings_window_restore_pos")) + ":");
+                p.layout->setText(p.restoreSizeCheckBox, _getText(DJV_TEXT("settings_window_restore_size")) + ":");
             }
         }
 
@@ -255,11 +250,6 @@ namespace djv
             return "B";
         }
 
-        void FullscreenMonitorSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
         void FullscreenMonitorSettingsWidget::_initEvent(System::Event::Init& event)
         {
             IWidget::_initEvent(event);
@@ -290,8 +280,8 @@ namespace djv
             std::shared_ptr<UI::Text::LineEdit> lineEdit;
             std::shared_ptr<UI::ToolButton> openButton;
             std::shared_ptr<UI::ToolButton> closeButton;
-            std::shared_ptr<UI::ToggleButton> scaleButton;
-            std::shared_ptr<UI::ToggleButton> colorizeButton;
+            std::shared_ptr<UI::CheckBox> scaleCheckBox;
+            std::shared_ptr<UI::CheckBox> colorizeCheckBox;
             std::shared_ptr<UIComponents::FileBrowser::Dialog> fileBrowserDialog;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -324,8 +314,8 @@ namespace djv
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
 
-            p.scaleButton = UI::ToggleButton::create(context);
-            p.colorizeButton = UI::ToggleButton::create(context);
+            p.scaleCheckBox = UI::CheckBox::create(context);
+            p.colorizeCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
@@ -338,8 +328,8 @@ namespace djv
             hLayout->addChild(p.closeButton);
             p.layout->addChild(hLayout);
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.scaleButton);
-            p.formLayout->addChild(p.colorizeButton);
+            p.formLayout->addChild(p.scaleCheckBox);
+            p.formLayout->addChild(p.colorizeCheckBox);
             p.layout->addChild(p.formLayout);
             addChild(p.layout);
 
@@ -435,7 +425,7 @@ namespace djv
                     }
                 });
 
-            p.scaleButton->setCheckedCallback(
+            p.scaleCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -448,7 +438,7 @@ namespace djv
                     }
                 });
 
-            p.colorizeButton->setCheckedCallback(
+            p.colorizeCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -535,11 +525,6 @@ namespace djv
             return "B";
         }
 
-        void BackgroundImageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->formLayout->setLabelSizeGroup(value);
-        }
-
         void BackgroundImageSettingsWidget::_initEvent(System::Event::Init& event)
         {
             IWidget::_initEvent(event);
@@ -548,8 +533,8 @@ namespace djv
             {
                 p.openButton->setTooltip(_getText(DJV_TEXT("settings_window_open_file_browser")));
                 p.closeButton->setTooltip(_getText(DJV_TEXT("settings_window_clear_background_image")));
-                p.formLayout->setText(p.scaleButton, _getText(DJV_TEXT("settings_window_scale_to_fit")) + ":");
-                p.formLayout->setText(p.colorizeButton, _getText(DJV_TEXT("settings_window_colorize")) + ":");
+                p.formLayout->setText(p.scaleCheckBox, _getText(DJV_TEXT("settings_window_scale_to_fit")) + ":");
+                p.formLayout->setText(p.colorizeCheckBox, _getText(DJV_TEXT("settings_window_colorize")) + ":");
             }
             _imageUpdate();
         }
@@ -578,8 +563,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.imageWidget->setImageColorRole(p.colorize ? UI::ColorRole::Button : UI::ColorRole::None);
             p.lineEdit->setText(p.fileName);
-            p.scaleButton->setChecked(p.scale);
-            p.colorizeButton->setChecked(p.colorize);
+            p.scaleCheckBox->setChecked(p.scale);
+            p.colorizeCheckBox->setChecked(p.colorize);
         }
 
         void BackgroundImageSettingsWidget::_imageUpdate()

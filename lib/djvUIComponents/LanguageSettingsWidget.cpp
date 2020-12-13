@@ -212,11 +212,6 @@ namespace djv
                 return "0";
             }
 
-            void LanguageWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-            {
-                _p->layout->setLabelSizeGroup(value);
-            }
-
             void LanguageWidget::_initEvent(System::Event::Init& event)
             {
                 IWidget::_initEvent(event);

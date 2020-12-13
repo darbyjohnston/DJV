@@ -105,9 +105,10 @@ namespace djv
             void Toggle::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const float is = style->getMetric(MetricsRole::IconSmall);
-                _setMinimumSize(glm::vec2(is * 2.F, is) + btf * 2.F + getMargin().getSize(style));
+                _setMinimumSize(glm::vec2(is * 2.F, is) + b * 2.F + btf * 2.F + getMargin().getSize(style));
             }
 
             void Toggle::_paintEvent(System::Event::Paint& event)
@@ -126,13 +127,12 @@ namespace djv
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
-                else
-                {
-                    render->setFillColor(style->getColor(ColorRole::Border));
-                    drawBorder(render, g.margin(-b), b);
-                }
+                Math::BBox2f g2 = g.margin(-btf);
 
-                const Math::BBox2f& g2 = g.margin(-btf);
+                render->setFillColor(style->getColor(ColorRole::Border));
+                drawBorder(render, g2, b);
+                g2 = g2.margin(-b);
+
                 render->setFillColor(style->getColor(ColorRole::Trough));
                 render->drawRect(g2);
 
@@ -144,7 +144,10 @@ namespace djv
 
                 const float r = g2.h() / 2.F;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
-                const Math::BBox2f handleBBox = Math::BBox2f(x - r, g2.min.y, r * 2.F, r * 2.F).margin(-b);
+                Math::BBox2f handleBBox = Math::BBox2f(x - r, g2.min.y, r * 2.F, r * 2.F).margin(-b);
+                render->setFillColor(style->getColor(ColorRole::Border));
+                drawBorder(render, handleBBox, b);
+                handleBBox = handleBBox.margin(-b);
                 if (isChecked())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));

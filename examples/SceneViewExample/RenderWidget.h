@@ -28,8 +28,6 @@ public:
     void setRenderOptions(const djv::UIComponents::SceneRenderOptions&);
     void setRenderOptionsCallback(const std::function<void(const djv::UIComponents::SceneRenderOptions&)>&);
 
-    void setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>&) override;
-
 protected:
     void _initEvent(djv::System::Event::Init&) override;
 

@@ -25,7 +25,6 @@ namespace djv
             std::shared_ptr<ViewControlsHUDWidget> hudWidget;
             std::shared_ptr<ViewControlsBackgroundWidget> backgroundWidget;
             std::shared_ptr<ViewControlsBorderWidget> borderWidget;
-            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::VerticalLayout> layout;
         };
@@ -37,18 +36,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ViewControlsWidget");
 
-            p.sizeGroup = UI::Text::LabelSizeGroup::create();
-
             p.viewWidget = ViewControlsViewWidget::create(context);
-            p.viewWidget->setLabelSizeGroup(p.sizeGroup);
             p.gridWidget = ViewControlsGridWidget::create(context);
-            p.gridWidget->setLabelSizeGroup(p.sizeGroup);
             p.hudWidget = ViewControlsHUDWidget::create(context);
-            p.hudWidget->setLabelSizeGroup(p.sizeGroup);
             p.backgroundWidget = ViewControlsBackgroundWidget::create(context);
-            p.backgroundWidget->setLabelSizeGroup(p.sizeGroup);
             p.borderWidget = ViewControlsBorderWidget::create(context);
-            p.borderWidget->setLabelSizeGroup(p.sizeGroup);
 
             p.bellows["View"] = UI::Bellows::create(context);
             p.bellows["View"]->addChild(p.viewWidget);
@@ -110,11 +102,6 @@ namespace djv
                     j->second->setOpen(i.second, false);
                 }
             }
-        }
-
-        void ViewControlsWidget::_initLayoutEvent(System::Event::InitLayout&)
-        {
-            _p->sizeGroup->calcMinimumSize();
         }
 
         void ViewControlsWidget::_preLayoutEvent(System::Event::PreLayout&)

@@ -64,6 +64,7 @@ namespace djv
                 toolBar->addChild(p.addButton);
                 toolBar->addChild(p.editButton);
                 p.layout->addChild(toolBar);
+                p.layout->addSeparator();
                 p.itemLayout = UI::GridLayout::create(context);
                 p.itemLayout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(p.itemLayout);

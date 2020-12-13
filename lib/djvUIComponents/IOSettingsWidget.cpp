@@ -97,11 +97,6 @@ namespace djv
                 return "d";
             }
 
-            void IOThreadsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-            {
-                _p->layout->setLabelSizeGroup(value);
-            }
-
             void IOThreadsWidget::_initEvent(System::Event::Init& event)
             {
                 IWidget::_initEvent(event);

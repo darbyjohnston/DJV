@@ -26,7 +26,7 @@ namespace djv
             std::shared_ptr<UI::FlowLayout> buttonLayout;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
             std::shared_ptr<UI::VerticalLayout> footerLayout;
-            std::shared_ptr<UI::HorizontalLayout> layout;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<Observer::Value<CurrentTool> > currentToolObserver;
         };
@@ -47,12 +47,9 @@ namespace djv
                 buttons.push_back(button);
             }
 
-            p.layout = UI::HorizontalLayout::create(context);
+            p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addSeparator();
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->setShadowOverlay({ UI::Side::Top });
+            p.layout->setShadowOverlay({ UI::Side::Top });
             p.buttonLayout = UI::FlowLayout::create(context);
             p.buttonLayout->setSpacing(UI::MetricsRole::None);
             p.buttonLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
@@ -60,17 +57,18 @@ namespace djv
             {
                 p.buttonLayout->addChild(i);
             }
-            vLayout->addChild(p.buttonLayout);
+            p.layout->addChild(p.buttonLayout);
+            p.layout->addSeparator();
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             p.scrollWidget->setBorder(false);
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Icon);
             p.scrollWidget->setShadowOverlay({ UI::Side::Top });
-            vLayout->addChild(p.scrollWidget);
-            vLayout->setStretch(p.scrollWidget, UI::RowStretch::Expand);
+            p.layout->addChild(p.scrollWidget);
+            p.layout->setStretch(p.scrollWidget, UI::RowStretch::Expand);
             p.footerLayout = UI::VerticalLayout::create(context);
             p.footerLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(p.footerLayout);
-            p.layout->addChild(vLayout);
+            p.footerLayout->hide();
+            p.layout->addChild(p.footerLayout);
             addChild(p.layout);
 
             _widgetUpdate();
@@ -89,6 +87,7 @@ namespace djv
                             {
                                 widget->_p->currentTool.system->deleteToolWidget(widget->_p->currentTool.action);
                                 widget->_p->scrollWidget->clearChildren();
+                                widget->_p->footerLayout->hide();
                                 widget->_p->footerLayout->clearChildren();
                             }
                             widget->_p->currentTool = value;
@@ -101,7 +100,9 @@ namespace djv
                                 }
                                 if (toolWidgetData.footer)
                                 {
+                                    widget->_p->footerLayout->addSeparator();
                                     widget->_p->footerLayout->addChild(toolWidgetData.footer);
+                                    widget->_p->footerLayout->show();
                                 }
                             }
                         }

@@ -214,11 +214,6 @@ namespace djv
             return out;
         }
 
-        void ViewControlsViewWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
         void ViewControlsViewWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
@@ -447,11 +442,6 @@ namespace djv
             return _p->gridEnabledButton;
         }
 
-        void ViewControlsGridWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
-        }
-
         void ViewControlsGridWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
@@ -608,11 +598,6 @@ namespace djv
         const std::shared_ptr<UI::ToolButton>& ViewControlsHUDWidget::getEnabledButton() const
         {
             return _p->hudEnabledButton;
-        }
-
-        void ViewControlsHUDWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
         }
 
         void ViewControlsHUDWidget::_preLayoutEvent(System::Event::PreLayout&)
@@ -818,14 +803,6 @@ namespace djv
             return out;
         }
 
-        void ViewControlsBackgroundWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            DJV_PRIVATE_PTR();
-            p.backgroundLayout->setLabelSizeGroup(value);
-            p.solidLayout->setLabelSizeGroup(value);
-            p.checkersLayout->setLabelSizeGroup(value);
-        }
-
         void ViewControlsBackgroundWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
@@ -995,11 +972,6 @@ namespace djv
         const std::shared_ptr<UI::ToolButton>& ViewControlsBorderWidget::getEnabledButton() const
         {
             return _p->borderEnabledButton;
-        }
-
-        void ViewControlsBorderWidget::setLabelSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
         }
 
         void ViewControlsBorderWidget::_preLayoutEvent(System::Event::PreLayout&)

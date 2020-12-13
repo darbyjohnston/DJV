@@ -4,13 +4,13 @@
 
 #include <djvUIComponents/MouseSettingsWidget.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/EnumFunc.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvSystem/Context.h>
 
@@ -25,7 +25,7 @@ namespace djv
             struct MouseWidget::Private
             {
                 std::shared_ptr<UI::ComboBox> scrollWheelSpeedComboBox;
-                std::shared_ptr<UI::ToggleButton> reverseScrollingButton;
+                std::shared_ptr<UI::CheckBox> reverseScrollingCheckBox;
                 std::shared_ptr<UI::FormLayout> layout;
 
                 std::shared_ptr<Observer::Value<float> > doubleClickTimeObserver;
@@ -41,11 +41,11 @@ namespace djv
                 setClassName("djv::UIComponents::Settings::MouseWidget");
 
                 p.scrollWheelSpeedComboBox = UI::ComboBox::create(context);
-                p.reverseScrollingButton = UI::ToggleButton::create(context);
+                p.reverseScrollingCheckBox = UI::CheckBox::create(context);
 
                 p.layout = UI::FormLayout::create(context);
                 p.layout->addChild(p.scrollWheelSpeedComboBox);
-                p.layout->addChild(p.reverseScrollingButton);
+                p.layout->addChild(p.reverseScrollingCheckBox);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<MouseWidget>(std::dynamic_pointer_cast<MouseWidget>(shared_from_this()));
@@ -65,7 +65,7 @@ namespace djv
                             }
                         }
                     });
-                p.reverseScrollingButton->setCheckedCallback(
+                p.reverseScrollingCheckBox->setCheckedCallback(
                     [weak, contextWeak](bool value)
                     {
                         if (auto context = contextWeak.lock())
@@ -96,7 +96,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->reverseScrollingButton->setChecked(value);
+                            widget->_p->reverseScrollingCheckBox->setChecked(value);
                         }
                     });
             }
@@ -122,11 +122,6 @@ namespace djv
                 return "a";
             }
 
-            void MouseWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-            {
-                _p->layout->setLabelSizeGroup(value);
-            }
-
             void MouseWidget::_initEvent(System::Event::Init& event)
             {
                 IWidget::_initEvent(event);
@@ -134,7 +129,7 @@ namespace djv
                 if (event.getData().text)
                 {
                     p.layout->setText(p.scrollWheelSpeedComboBox, _getText(DJV_TEXT("settings_mouse_scroll_wheel_speed")) + ":");
-                    p.layout->setText(p.reverseScrollingButton, _getText(DJV_TEXT("settings_mouse_reverse_scrolling")) + ":");
+                    p.layout->setText(p.reverseScrollingCheckBox, _getText(DJV_TEXT("settings_mouse_reverse_scrolling")) + ":");
                     _widgetUpdate();
                 }
             }

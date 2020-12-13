@@ -4,9 +4,9 @@
 
 #include <djvUIComponents/UISettingsWidget.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 #include <djvUI/UISettings.h>
 
 #include <djvSystem/Context.h>
@@ -21,7 +21,7 @@ namespace djv
         {
             struct TooltipsWidget::Private
             {
-                std::shared_ptr<UI::ToggleButton> tooltipsButton;
+                std::shared_ptr<UI::CheckBox> tooltipsCheckBox;
                 std::shared_ptr<UI::FormLayout> layout;
                 std::shared_ptr<Observer::Value<bool> > tooltipsObserver;
             };
@@ -33,15 +33,15 @@ namespace djv
 
                 setClassName("djv::UIComponents::Settings::TooltipsWidget");
 
-                p.tooltipsButton = UI::ToggleButton::create(context);
+                p.tooltipsCheckBox = UI::CheckBox::create(context);
 
                 p.layout = UI::FormLayout::create(context);
-                p.layout->addChild(p.tooltipsButton);
+                p.layout->addChild(p.tooltipsCheckBox);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<TooltipsWidget>(std::dynamic_pointer_cast<TooltipsWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<System::Context>(context);
-                p.tooltipsButton->setCheckedCallback(
+                p.tooltipsCheckBox->setCheckedCallback(
                     [weak, contextWeak](bool value)
                     {
                         if (auto context = contextWeak.lock())
@@ -63,7 +63,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->tooltipsButton->setChecked(value);
+                            widget->_p->tooltipsCheckBox->setChecked(value);
                         }
                     });
             }
@@ -89,18 +89,13 @@ namespace djv
                 return "0";
             }
 
-            void TooltipsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-            {
-                _p->layout->setLabelSizeGroup(value);
-            }
-
             void TooltipsWidget::_initEvent(System::Event::Init& event)
             {
                 IWidget::_initEvent(event);
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
                 {
-                    p.layout->setText(p.tooltipsButton, _getText(DJV_TEXT("settings_general_tooltips")) + ":");
+                    p.layout->setText(p.tooltipsCheckBox, _getText(DJV_TEXT("settings_general_tooltips")) + ":");
                 }
             }
 

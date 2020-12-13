@@ -132,14 +132,6 @@ void InfoWidget::setFPS(float value)
     _textUpdate();
 }
 
-void InfoWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>& value)
-{
-    for (auto i : _layouts)
-    {
-        i.second->setLabelSizeGroup(value);
-    }
-}
-
 void InfoWidget::_initEvent(System::Event::Init&)
 {
     _textUpdate();

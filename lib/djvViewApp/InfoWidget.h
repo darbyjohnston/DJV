@@ -40,7 +40,6 @@ namespace djv
             void setFilter(const std::string&);
 
         protected:
-            void _initLayoutEvent(djv::System::Event::InitLayout&) override;
             void _preLayoutEvent(System::Event::PreLayout&) override;
             void _layoutEvent(System::Event::Layout&) override;
 

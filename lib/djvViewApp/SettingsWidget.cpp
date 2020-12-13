@@ -27,7 +27,6 @@ namespace djv
             std::map<std::string, std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > > widgets;
             std::map<std::shared_ptr<UIComponents::Settings::IWidget>, std::shared_ptr<UI::Bellows> > bellows;
             std::map<std::shared_ptr<UIComponents::Settings::IWidget>, std::shared_ptr<UI::Text::Label> > labels;
-            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
         };
 
@@ -38,13 +37,10 @@ namespace djv
 
             setClassName("djv::ViewApp::SettingsWidget");
 
-            p.sizeGroup = UI::Text::LabelSizeGroup::create();
-
             for (auto system : context->getSystemsT<IViewAppSystem>())
             {
                 for (auto widget : system->createSettingsWidgets())
                 {
-                    widget->setLabelSizeGroup(p.sizeGroup);
                     p.widgets[widget->getSettingsSortKey()].push_back(widget);
                 }
             };
@@ -132,12 +128,6 @@ namespace djv
             auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
             out->_init(context);
             return out;
-        }
-
-        void SettingsWidget::_initLayoutEvent(System::Event::InitLayout& event)
-        {
-            Widget::_initLayoutEvent(event);
-            _p->sizeGroup->calcMinimumSize();
         }
 
         void SettingsWidget::_preLayoutEvent(System::Event::PreLayout& event)

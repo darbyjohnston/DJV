@@ -19,7 +19,6 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
@@ -27,6 +26,7 @@
 #include <djvUI/Separator.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
+#include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
@@ -60,7 +60,10 @@ namespace djv
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<TimelineWidget> timelineWidget;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaWidget> > mediaWidgets;
+            std::shared_ptr<UI::VerticalLayout> menuBarLayout;
             std::shared_ptr<UI::SoloLayout> mediaLayout;
+            std::shared_ptr<UI::StackLayout> drawerLayout;
+            std::shared_ptr<UI::VerticalLayout> timelineLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
@@ -99,6 +102,11 @@ namespace djv
 
             p.activeButton = UI::ToolButton::create(context);
             p.activeButton->setTextElide(textElide);
+            p.activeButton->setInsideMargin(UI::Layout::Margin(
+                UI::MetricsRole::Margin,
+                UI::MetricsRole::Margin,
+                UI::MetricsRole::MarginInside,
+                UI::MetricsRole::MarginInside));
 
             auto viewFrameButton = UI::ToolButton::create(context);
             auto viewCenterButton = UI::ToolButton::create(context);
@@ -112,7 +120,6 @@ namespace djv
             p.drawerButton = UI::ToolButton::create(context);
             p.drawerButton->setButtonType(UI::ButtonType::Toggle);
             p.drawerButton->setIcon("djvIconDrawerRight");
-            auto drawer = UI::Drawer::create(UI::Side::Right, context);
 
             p.menuBar = UI::MenuBar::create(context);
             for (auto i : menus)
@@ -137,19 +144,26 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.menuBar);
+            p.menuBarLayout = UI::VerticalLayout::create(context);
+            p.menuBarLayout->setSpacing(UI::MetricsRole::None);
+            p.menuBarLayout->addChild(p.menuBar);
+            p.menuBarLayout->addSeparator();
+            p.layout->addChild(p.menuBarLayout);
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(backgroundWidget);
             p.mediaLayout = UI::SoloLayout::create(context);
             stackLayout->addChild(p.mediaLayout);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(stackLayout);
-            hLayout->setStretch(stackLayout, UI::RowStretch::Expand);
-            hLayout->addChild(drawer);
-            p.layout->addChild(hLayout);
-            p.layout->setStretch(hLayout, UI::Layout::RowStretch::Expand);
-            p.layout->addChild(p.timelineWidget);
+            auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
+            splitter->addChild(stackLayout);
+            p.drawerLayout = UI::StackLayout::create(context);
+            splitter->addChild(p.drawerLayout);
+            p.layout->addChild(splitter);
+            p.layout->setStretch(splitter, UI::Layout::RowStretch::Expand);
+            p.timelineLayout = UI::VerticalLayout::create(context);
+            p.timelineLayout->setSpacing(UI::MetricsRole::None);
+            p.timelineLayout->addSeparator();
+            p.timelineLayout->addChild(p.timelineWidget);
+            p.layout->addChild(p.timelineLayout);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
@@ -167,20 +181,25 @@ namespace djv
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.drawerButton->setCheckedCallback(
-                [drawer](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    drawer->setOpen(value);
-                });
-
-            drawer->setOpenCallback(
-                [contextWeak]() -> std::shared_ptr<UI::Widget>
-                {
-                    std::shared_ptr<UI::Widget> out;
                     if (auto context = contextWeak.lock())
                     {
-                        out = context->getSystemT<ToolSystem>()->createToolDrawerWidget();
+                        if (auto widget = weak.lock())
+                        {
+                            if (value)
+                            {
+                                auto toolDrawerWidget = context->getSystemT<ToolSystem>()->createToolDrawerWidget();
+                                widget->_p->drawerLayout->addChild(toolDrawerWidget);
+                                widget->_p->drawerLayout->show();
+                            }
+                            else
+                            {
+                                widget->_p->drawerLayout->hide();
+                                widget->_p->drawerLayout->clearChildren();
+                            }
+                        }
                     }
-                    return out;
                 });
 
             p.actions["Escape"]->setClickedCallback(
@@ -275,8 +294,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->menuBar->setVisible(!value);
-                            widget->_p->timelineWidget->setVisible(!value);
+                            widget->_p->menuBarLayout->setVisible(!value);
+                            widget->_p->timelineLayout->setVisible(!value);
                         }
                     });
             }

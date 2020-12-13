@@ -127,11 +127,12 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(toolBar);
             for (auto action : p.actions)
             {
                 p.layout->addAction(action.second);
             }
+            p.layout->addChild(toolBar);
+            p.layout->addSeparator();
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(scrollWidget);
             stackLayout->addChild(p.itemCountLabel);
@@ -141,6 +142,7 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            hLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
             hLayout->addExpander();
             hLayout->addChild(p.acceptButton);
             hLayout->addChild(p.cancelButton);

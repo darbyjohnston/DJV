@@ -36,7 +36,6 @@ namespace djv
             std::shared_ptr<UI::PopupButton> configPopupButton;
             std::shared_ptr<UI::PopupButton> displayPopupButton;
             std::shared_ptr<UI::PopupButton> viewPopupButton;
-            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::shared_ptr<ColorSpaceImageWidget> imageWidget;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
@@ -70,10 +69,7 @@ namespace djv
             p.viewPopupButton->setPopupIcon("djvIconPopupMenu");
             p.viewPopupButton->setTextElide(textElide);
 
-            p.sizeGroup = UI::Text::LabelSizeGroup::create();
-
             p.imageWidget = ColorSpaceImageWidget::create(context);
-            p.imageWidget->setSizeGroup(p.sizeGroup);
             p.bellows["Image"] = UI::Bellows::create(context);
             p.bellows["Image"]->addChild(p.imageWidget);
 
@@ -81,7 +77,6 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.formLayout->setLabelSizeGroup(p.sizeGroup);
             p.formLayout->addChild(p.configModeComboBox);
             p.formLayout->addChild(p.configPopupButton);
             p.formLayout->addChild(p.displayPopupButton);
@@ -228,11 +223,6 @@ namespace djv
                     j->second->setOpen(i.second, false);
                 }
             }
-        }
-
-        void ColorSpaceWidget::_initLayoutEvent(System::Event::InitLayout&)
-        {
-            _p->sizeGroup->calcMinimumSize();
         }
 
         void ColorSpaceWidget::_preLayoutEvent(System::Event::PreLayout&)

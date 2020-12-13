@@ -119,12 +119,12 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float m = 0.F;// style->getMetric(MetricsRole::MarginInside);
-                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const glm::vec2 checkBoxSize = getCheckBoxSize(style);
                 const glm::vec2 labelSize = _p->label->getMinimumSize();
                 const glm::vec2 size(
-                    checkBoxSize.x + labelSize.x + (m + bt) * 2.F,
-                    std::max(checkBoxSize.y, labelSize.y) + (m + bt) * 2.F);
+                    checkBoxSize.x + labelSize.x + (m + btf) * 2.F,
+                    std::max(checkBoxSize.y, labelSize.y) + (m + btf) * 2.F);
                 _setMinimumSize(size);
             }
 
@@ -137,17 +137,17 @@ namespace djv
             {
                 IButton::_paintEvent(event);
                 const auto& style = _getStyle();
-                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const Math::BBox2f& g = getGeometry();
 
                 const auto& render = _getRender();
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, bt);
+                    drawBorder(render, g, btf);
                 }
 
-                const Math::BBox2f g2 = g.margin(-bt);
+                const Math::BBox2f g2 = g.margin(-btf);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

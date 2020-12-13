@@ -227,33 +227,41 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = _p->layout->getMinimumSize();
                 size.x += m * 2.F;
-                _setMinimumSize(size + btf * 2.F);
+                _setMinimumSize(size + b * 2.F + btf * 2.F);
             }
 
             void Push::_layoutEvent(System::Event::Layout&)
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-                const Math::BBox2f& g = getGeometry().margin(-btf);
+                const Math::BBox2f& g = getGeometry().margin(-b - btf);
                 _p->layout->setGeometry(Math::BBox2f(g.min.x + m, g.min.y, g.w() - m * 2.F, g.h()));
             }
 
             void Push::_paintEvent(System::Event::Paint& event)
             {
                 const auto& style = _getStyle();
+                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const Math::BBox2f& g2 = g.margin(-btf);
                 const auto& render = _getRender();
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
+                Math::BBox2f g2 = g.margin(-btf);
+
+                render->setFillColor(style->getColor(ColorRole::Border));
+                drawBorder(render, g2, b);
+                g2 = g2.margin(-b);
+
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));

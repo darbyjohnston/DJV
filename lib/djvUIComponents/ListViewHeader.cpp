@@ -58,7 +58,6 @@ namespace djv
 
                 setClassName("djv::UIComponents::ListViewHeader::HeaderButton");
                 setButtonType(UI::ButtonType::Toggle);
-                setBackgroundRole(UI::ColorRole::Button);
 
                 _label = UI::Text::Label::create(context);
                 _label->setTextHAlign(UI::TextHAlign::Left);
@@ -151,12 +150,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UIComponents::ListViewHeader");
-            setBackgroundRole(UI::ColorRole::Button);
+            setBackgroundRole(UI::ColorRole::BackgroundBellows);
             
             p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
 
             p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
-            p.splitter->setHandleColorRole(UI::ColorRole::Button);
+            p.splitter->setHandleColorRole(UI::ColorRole::BackgroundBellows);
             addChild(p.splitter);
 
             _sortUpdate();

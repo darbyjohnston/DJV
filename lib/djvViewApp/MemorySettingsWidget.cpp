@@ -6,13 +6,13 @@
 
 #include <djvViewApp/FileSettings.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/LayoutUtil.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvSystem/Context.h>
 
@@ -26,7 +26,7 @@ namespace djv
     {
         struct MemoryCacheEnabledWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> button;
+            std::shared_ptr<UI::CheckBox> checkBox;
 
             std::shared_ptr<Observer::Value<bool> > enabledObserver;
         };
@@ -37,12 +37,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MemoryCacheEnabledWidget");
 
-            p.button = UI::ToggleButton::create(context);
+            p.checkBox = UI::CheckBox::create(context);
 
-            addChild(p.button);
+            addChild(p.checkBox);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.button->setCheckedCallback(
+            p.checkBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -66,7 +66,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->button->setChecked(value);
+                            widget->_p->checkBox->setChecked(value);
                         }
                     });
             }
@@ -89,7 +89,7 @@ namespace djv
         void MemoryCacheEnabledWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             const auto& style = _getStyle();
-            _setMinimumSize(_p->button->getMinimumSize() + getMargin().getSize(style));
+            _setMinimumSize(_p->checkBox->getMinimumSize() + getMargin().getSize(style));
         }
 
         void MemoryCacheEnabledWidget::_layoutEvent(System::Event::Layout&)
@@ -99,10 +99,10 @@ namespace djv
             const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
             const Math::BBox2f g2 = UI::Layout::getAlign(
                 g,
-                p.button->getMinimumSize(),
-                p.button->getHAlign(),
-                p.button->getVAlign());
-            _p->button->setGeometry(g2);
+                p.checkBox->getMinimumSize(),
+                p.checkBox->getHAlign(),
+                p.checkBox->getVAlign());
+            _p->checkBox->setGeometry(g2);
         }
 
         struct MemoryCacheSizeWidget::Private
@@ -243,11 +243,6 @@ namespace djv
         std::string MemorySettingsWidget::getSettingsSortKey() const
         {
             return "H";
-        }
-
-        void MemorySettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->layout->setLabelSizeGroup(value);
         }
 
         void MemorySettingsWidget::_initEvent(System::Event::Init& event)

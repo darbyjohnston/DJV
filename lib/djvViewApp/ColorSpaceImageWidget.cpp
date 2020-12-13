@@ -354,11 +354,6 @@ namespace djv
             return out;
         }
 
-        void ColorSpaceImageWidget::setSizeGroup(const std::shared_ptr<UI::Text::LabelSizeGroup>& value)
-        {
-            _p->formLayout->setLabelSizeGroup(value);
-        }
-
         void ColorSpaceImageWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());

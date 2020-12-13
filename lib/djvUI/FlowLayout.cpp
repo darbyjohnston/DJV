@@ -18,15 +18,7 @@ namespace djv
         {
             struct Flow::Private
             {
-                Private(Flow& p) :
-                    p(p)
-                {}
-
-                Flow& p;
-
                 Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
-
-                float getHeightForWidth(float width, const glm::vec2& spacing) const;
             };
 
             void Flow::_init(const std::shared_ptr<System::Context>& context)
@@ -36,7 +28,7 @@ namespace djv
             }
 
             Flow::Flow() :
-                _p(new Private(*this))
+                _p(new Private)
             {}
 
             Flow::~Flow()
@@ -67,16 +59,49 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const auto& m = getMargin();
-                return _p->getHeightForWidth(width - m.getWidth(style), _p->spacing.get(style)) +
-                    m.getHeight(style);
+                const glm::vec2& spacing = _p->spacing.get(style);
+                glm::vec2 pos = glm::vec2(0.F, 0.F);
+                float h = 0.F;
+                const auto& children = getChildWidgets();
+                const int childrenSize = static_cast<int>(children.size());
+                for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
+                {
+                    const auto& ms = children[i]->getMinimumSize();
+                    if (j && pos.x + ms.x > width - m.getWidth(style))
+                    {
+                        pos.x = 0.F;
+                        pos.y += h + spacing.y;
+                        h = ms.y;
+                        j = 0;
+                    }
+                    else
+                    {
+                        h = std::max(h, ms.y);
+                    }
+                    pos.x += ms.x + spacing.x;
+                }
+                return pos.y + h + m.getHeight(style);
             }
 
             void Flow::_preLayoutEvent(System::Event::PreLayout&)
             {
+                DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float tc = style->getMetric(MetricsRole::TextColumn);
-                _setMinimumSize(glm::vec2(tc, _p->getHeightForWidth(tc, _p->spacing.get(style))) +
-                    getMargin().getSize(style));
+                const glm::vec2& spacing = _p->spacing.get(style);
+                glm::vec2 size(0.F, 0.F);
+                const auto& children = getChildWidgets();
+                const int childrenSize = static_cast<int>(children.size());
+                for (int i = 0; i < childrenSize; ++i)
+                {
+                    const auto& ms = children[i]->getMinimumSize();
+                    size.x += ms.x;
+                    if (i < childrenSize - 1)
+                    {
+                        size.x += spacing.x;
+                    }
+                    size.y = std::max(size.y, ms.y);
+                }
+                _setMinimumSize(size + getMargin().getSize(style));
             }
 
             void Flow::_layoutEvent(System::Event::Layout&)
@@ -121,32 +146,6 @@ namespace djv
                     }
                     pos.y += h + s.y;
                 }
-            }
-
-            float Flow::Private::getHeightForWidth(float width, const glm::vec2& spacing) const
-            {
-                glm::vec2 pos = glm::vec2(0.F, 0.F);
-                float h = 0.F;
-                const auto& children = p.getChildWidgets();
-                const int childrenSize = static_cast<int>(children.size());
-                for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
-                {
-                    const auto& ms = children[i]->getMinimumSize();
-                    if (j && pos.x + ms.x > width)
-                    {
-                        pos.x = 0.F;
-                        pos.y += h + spacing.y;
-                        h = ms.y;
-                        j = 0;
-                    }
-                    else
-                    {
-                        h = std::max(h, ms.y);
-                    }
-                    pos.x += ms.x + spacing.x;
-                }
-                float out = pos.y + h;
-                return out;
             }
 
         } // namespace Layout

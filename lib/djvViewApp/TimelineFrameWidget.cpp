@@ -216,15 +216,17 @@ namespace djv
         void FrameWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
-            _setMinimumSize(_p->layout->getMinimumSize() + btf * 2.F);
+            _setMinimumSize(_p->layout->getMinimumSize() + b * 2.F + btf * 2.F);
         }
 
         void FrameWidget::_layoutEvent(System::Event::Layout&)
         {
             const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
-            _p->layout->setGeometry(getGeometry().margin(-btf));
+            _p->layout->setGeometry(getGeometry().margin(-b - btf));
         }
 
         void FrameWidget::_paintEvent(System::Event::Paint& event)
@@ -241,11 +243,9 @@ namespace djv
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                 UI::drawBorder(render, g, btf);
             }
-            else
-            {
-                render->setFillColor(style->getColor(UI::ColorRole::Border));
-                UI::drawBorder(render, g.margin(-b), b);
-            }
+            Math::BBox2f g2 = g.margin(-btf);
+            render->setFillColor(style->getColor(UI::ColorRole::Border));
+            UI::drawBorder(render, g2, b);
         }
 
         void FrameWidget::_setFrame(Math::Frame::Index value)

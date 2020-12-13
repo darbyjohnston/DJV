@@ -134,29 +134,31 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
+            const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             float size = value - m.x - btf * 2.F;
             float out = p.layout->getHeightForWidth(size);
-            return out + btf * 2.F + m.y;
+            return out + b * 2.F + btf * 2.F + m.y;
         }
 
         void SearchBox::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             glm::vec2 size = p.layout->getMinimumSize();
-            size += btf * 2.F;
-            _setMinimumSize(size + getMargin().getSize(style));
+            _setMinimumSize(size + b * 2.F + btf * 2.F + getMargin().getSize(style));
         }
 
         void SearchBox::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
-            const Math::BBox2f g2 = g.margin(-btf);
+            const Math::BBox2f g2 = g.margin(-b - btf);
             _p->layout->setGeometry(g2);
         }
 
@@ -174,11 +176,9 @@ namespace djv
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                 UI::drawBorder(render, g, btf);
             }
-            else
-            {
-                render->setFillColor(style->getColor(UI::ColorRole::Border));
-                UI::drawBorder(render, g.margin(-b), b);
-            }
+            Math::BBox2f g2 = g.margin(-btf);
+            render->setFillColor(style->getColor(UI::ColorRole::Border));
+            UI::drawBorder(render, g2, b);
         }
 
         void SearchBox::_doFilterCallback()

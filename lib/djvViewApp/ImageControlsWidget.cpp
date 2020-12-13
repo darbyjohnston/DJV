@@ -13,6 +13,7 @@
 
 #include <djvUI/Bellows.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/EnumFunc.h>
 #include <djvUI/FloatSlider.h>
@@ -22,7 +23,6 @@
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvRender2D/EnumFunc.h>
@@ -45,13 +45,13 @@ namespace djv
             std::shared_ptr<UI::ComboBox> channelDisplayComboBox;
             std::shared_ptr<UI::ComboBox> alphaComboBox;
 
-            std::shared_ptr<UI::ToggleButton> mirrorButtons[2];
+            std::shared_ptr<UI::CheckBox> mirrorCheckBoxes[2];
             std::shared_ptr<UI::ComboBox> rotateComboBox;
             std::shared_ptr<UI::ComboBox> aspectRatioComboBox;
 
             std::shared_ptr<UI::ToolButton> colorEnabledButton;
             std::map<std::string, std::shared_ptr<UI::Numeric::FloatSlider> > colorSliders;
-            std::shared_ptr<UI::ToggleButton> colorInvertButton;
+            std::shared_ptr<UI::CheckBox> colorInvertCheckBox;
             std::shared_ptr<UI::ToolButton> levelsEnabledButton;
             std::map<std::string, std::shared_ptr<UI::Numeric::FloatSlider> > levelsSliders;
             std::shared_ptr<UI::ToolButton> exposureEnabledButton;
@@ -64,7 +64,6 @@ namespace djv
             std::shared_ptr<UI::PushButton> clearFrameStoreButton;
             std::shared_ptr<UI::ImageWidget> frameStoreWidget;
 
-            std::shared_ptr<UI::Text::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -86,7 +85,7 @@ namespace djv
 
             for (size_t i = 0; i < 2; ++i)
             {
-                p.mirrorButtons[i] = UI::ToggleButton::create(context);
+                p.mirrorCheckBoxes[i] = UI::CheckBox::create(context);
             }
             p.rotateComboBox = UI::ComboBox::create(context);
             p.aspectRatioComboBox = UI::ComboBox::create(context);
@@ -110,7 +109,7 @@ namespace djv
             {
                 slider.second->setDefaultVisible(true);
             }
-            p.colorInvertButton = UI::ToggleButton::create(context);
+            p.colorInvertCheckBox = UI::CheckBox::create(context);
 
             p.levelsEnabledButton = UI::ToolButton::create(context);
             p.levelsEnabledButton->setButtonType(UI::ButtonType::Toggle);
@@ -177,8 +176,6 @@ namespace djv
             p.frameStoreWidget->setHAlign(UI::HAlign::Center);
             p.frameStoreWidget->setVAlign(UI::VAlign::Center);
 
-            p.sizeGroup = UI::Text::LabelSizeGroup::create();
-
             p.formLayouts["Channels"] = UI::FormLayout::create(context);
             p.formLayouts["Channels"]->addChild(p.channelDisplayComboBox);
             p.formLayouts["Channels"]->addChild(p.alphaComboBox);
@@ -188,7 +185,7 @@ namespace djv
             p.formLayouts["Transform"] = UI::FormLayout::create(context);
             for (size_t i = 0; i < 2; ++i)
             {
-                p.formLayouts["Transform"]->addChild(p.mirrorButtons[i]);
+                p.formLayouts["Transform"]->addChild(p.mirrorCheckBoxes[i]);
             }
             p.formLayouts["Transform"]->addChild(p.rotateComboBox);
             p.formLayouts["Transform"]->addChild(p.aspectRatioComboBox);
@@ -200,7 +197,7 @@ namespace djv
             {
                 p.formLayouts["Color"]->addChild(p.colorSliders[i]);
             }
-            p.formLayouts["Color"]->addChild(p.colorInvertButton);
+            p.formLayouts["Color"]->addChild(p.colorInvertCheckBox);
             p.bellows["Color"] = UI::Bellows::create(context);
             p.bellows["Color"]->addButtonWidget(p.colorEnabledButton);
             p.bellows["Color"]->addChild(p.formLayouts["Color"]);
@@ -245,7 +242,6 @@ namespace djv
             for (const auto& i : p.formLayouts)
             {
                 i.second->setMargin(UI::MetricsRole::MarginSmall);
-                i.second->setLabelSizeGroup(p.sizeGroup);
             }
 
             p.layout = UI::VerticalLayout::create(context);
@@ -295,7 +291,7 @@ namespace djv
                     }
                 });
 
-            p.mirrorButtons[0]->setCheckedCallback(
+            p.mirrorCheckBoxes[0]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -310,7 +306,7 @@ namespace djv
                         }
                     }
                 });
-            p.mirrorButtons[1]->setCheckedCallback(
+            p.mirrorCheckBoxes[1]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -418,7 +414,7 @@ namespace djv
                         }
                     }
                 });
-            p.colorInvertButton->setCheckedCallback(
+            p.colorInvertCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -736,11 +732,6 @@ namespace djv
             }
         }
 
-        void ImageControlsWidget::_initLayoutEvent(System::Event::InitLayout&)
-        {
-            _p->sizeGroup->calcMinimumSize();
-        }
-
         void ImageControlsWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
@@ -760,8 +751,8 @@ namespace djv
                 p.formLayouts["Channels"]->setText(p.channelDisplayComboBox, _getText(DJV_TEXT("image_controls_channels_display")) + ":");
                 p.formLayouts["Channels"]->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
 
-                p.formLayouts["Transform"]->setText(p.mirrorButtons[0], _getText(DJV_TEXT("image_controls_transform_mirror_h")) + ":");
-                p.formLayouts["Transform"]->setText(p.mirrorButtons[1], _getText(DJV_TEXT("image_controls_transform_mirror_v")) + ":");
+                p.formLayouts["Transform"]->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("image_controls_transform_mirror_h")) + ":");
+                p.formLayouts["Transform"]->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("image_controls_transform_mirror_v")) + ":");
                 p.formLayouts["Transform"]->setText(p.rotateComboBox, _getText(DJV_TEXT("image_controls_transform_rotate")) + ":");
                 p.formLayouts["Transform"]->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("image_controls_transform_aspect_ratio")) + ":");
 
@@ -773,7 +764,7 @@ namespace djv
                 p.formLayouts["Color"]->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("image_controls_color_brightness")) + ":");
                 p.formLayouts["Color"]->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("image_controls_color_contrast")) + ":");
                 p.formLayouts["Color"]->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("image_controls_color_saturation")) + ":");
-                p.formLayouts["Color"]->setText(p.colorInvertButton, _getText(DJV_TEXT("image_controls_color_invert")) + ":");
+                p.formLayouts["Color"]->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("image_controls_color_invert")) + ":");
 
                 p.formLayouts["Levels"]->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("image_controls_levels_in_low")) + ":");
                 p.formLayouts["Levels"]->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("image_controls_levels_in_high")) + ":");
@@ -826,8 +817,8 @@ namespace djv
             p.alphaComboBox->setItems(items);
             p.alphaComboBox->setCurrentItem(static_cast<int>(p.data.alphaBlend));
 
-            p.mirrorButtons[0]->setChecked(p.data.mirror.x);
-            p.mirrorButtons[1]->setChecked(p.data.mirror.y);
+            p.mirrorCheckBoxes[0]->setChecked(p.data.mirror.x);
+            p.mirrorCheckBoxes[1]->setChecked(p.data.mirror.y);
 
             items.clear();
             for (auto i : UI::getImageRotateEnums())
@@ -853,7 +844,7 @@ namespace djv
             p.colorSliders["Brightness"]->setValue(p.data.color.brightness);
             p.colorSliders["Contrast"]->setValue(p.data.color.contrast);
             p.colorSliders["Saturation"]->setValue(p.data.color.saturation);
-            p.colorInvertButton->setChecked(p.data.color.invert);
+            p.colorInvertCheckBox->setChecked(p.data.color.invert);
 
             p.levelsEnabledButton->setChecked(p.data.levelsEnabled);
             p.levelsSliders["InLow"]->setValue(p.data.levels.inLow);

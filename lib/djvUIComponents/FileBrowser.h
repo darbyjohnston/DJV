@@ -57,6 +57,8 @@ namespace djv
                 void _initEvent(System::Event::Init &) override;
 
             private:
+                void _setDrawerOpen(bool);
+
                 std::string _getItemCountLabel(size_t) const;
 
                 void _optionsUpdate();

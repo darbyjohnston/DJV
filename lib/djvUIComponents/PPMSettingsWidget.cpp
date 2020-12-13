@@ -86,11 +86,6 @@ namespace djv
                 return "d";
             }
 
-            void PPMWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-            {
-                _p->layout->setLabelSizeGroup(value);
-            }
-
             void PPMWidget::_initEvent(System::Event::Init& event)
             {
                 IWidget::_initEvent(event);

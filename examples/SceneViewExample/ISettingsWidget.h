@@ -24,8 +24,6 @@ public:
     std::shared_ptr<djv::Core::Observer::IValueSubject<std::string> > observeTitle() const;
     void setTitle(const std::string&);
 
-    virtual void setLabelSizeGroup(const std::weak_ptr<djv::UI::Text::LabelSizeGroup>&) {}
-
     float getHeightForWidth(float) const override;
 
     void addChild(const std::shared_ptr<IObject>&) override;

@@ -61,12 +61,12 @@ namespace djv
 
                 TextHAlign getTextHAlign() const;
                 size_t getTextElide() const;
-                MetricsRole getInsideMargin() const;
+                const Layout::Margin& getInsideMargin() const;
 
                 void setIconSizeRole(MetricsRole);
                 void setTextHAlign(TextHAlign);
                 void setTextElide(size_t);
-                void setInsideMargin(MetricsRole);
+                void setInsideMargin(const Layout::Margin&);
                 void setTextFocusEnabled(bool);
                 void setAutoRepeat(bool);
 

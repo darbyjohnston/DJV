@@ -92,11 +92,6 @@ namespace djv
                 return "c";
             }
 
-            void GLFWWidget::setLabelSizeGroup(const std::weak_ptr<UI::Text::LabelSizeGroup>& value)
-            {
-                _p->layout->setLabelSizeGroup(value);
-            }
-
             void GLFWWidget::_initEvent(System::Event::Init& event)
             {
                 IWidget::_initEvent(event);

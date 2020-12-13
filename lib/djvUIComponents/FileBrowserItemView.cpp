@@ -4,6 +4,7 @@
 
 #include <djvUIComponents/FileBrowserItemView.h>
 
+#include <djvUI/DrawUtil.h>
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/IconSystem.h>
 #include <djvUI/SelectionModel.h>
@@ -269,13 +270,14 @@ namespace djv
                     const auto& style = _getStyle();
                     const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                     const float s = style->getMetric(UI::MetricsRole::Spacing);
+                    const float b = style->getMetric(UI::MetricsRole::Border);
                     const float sh = style->getMetric(UI::MetricsRole::Shadow);
                     switch (p.viewType)
                     {
                     case UI::ViewType::Tiles:
                     {
                         size_t columns = 1;
-                        const float itemWidth = p.thumbnailSize.w + sh * 2.F;
+                        const float itemWidth = p.thumbnailSize.w + b * 2.F + sh * 2.F;
                         float x = s + itemWidth;
                         while (x < value - itemWidth)
                         {
@@ -283,7 +285,7 @@ namespace djv
                             x += itemWidth + s;
                         }
                         const size_t rows = itemsSize / columns + (itemsSize % columns ? 1 : 0);
-                        out = (p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + sh * 2.F) * rows;
+                        out = (p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + b * 2.F + sh * 2.F) * rows;
                         out += s * (rows + 1);
                         break;
                     }
@@ -303,6 +305,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                 const float s = style->getMetric(UI::MetricsRole::Spacing);
+                const float b = style->getMetric(UI::MetricsRole::Border);
                 const float sh = style->getMetric(UI::MetricsRole::Shadow);
                 glm::vec2 pos = g.min;
                 const size_t itemsSize = p.items.size();
@@ -312,8 +315,8 @@ namespace djv
                     pos += s;
                     for (size_t i = 0; i < itemsSize; ++i)
                     {
-                        const float itemHeight = p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + sh * 2.F;
-                        const float itemWidth = p.thumbnailSize.w + sh * 2.F;
+                        const float itemHeight = p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + b * 2.F + sh * 2.F;
+                        const float itemWidth = p.thumbnailSize.w + b * 2.F + sh * 2.F;
                         p.items[i].geometry = Math::BBox2f(pos.x, pos.y, itemWidth, itemHeight);
                         pos.x += itemWidth;
                         if (pos.x > g.max.x - itemWidth)
@@ -463,6 +466,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                 const float s = style->getMetric(UI::MetricsRole::Spacing);
+                const float b = style->getMetric(UI::MetricsRole::Border);
                 const float sh = style->getMetric(UI::MetricsRole::Shadow);
 
                 const auto& render = _getRender();
@@ -480,6 +484,9 @@ namespace djv
                         render->setFillColor(style->getColor(UI::ColorRole::Shadow));
                         render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
                         itemGeometry = itemGeometry.margin(-sh);
+                        render->setFillColor(style->getColor(UI::ColorRole::Border));
+                        UI::drawBorder(render, itemGeometry, b);
+                        itemGeometry = itemGeometry.margin(-b);
                         render->setFillColor(style->getColor(selected ? UI::ColorRole::Checked : UI::ColorRole::BackgroundBellows));
                         render->drawRect(itemGeometry);
                         break;

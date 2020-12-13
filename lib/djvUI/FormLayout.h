@@ -11,12 +11,6 @@ namespace djv
 {
     namespace UI
     {
-        namespace Text
-        {
-            class LabelSizeGroup;
-
-        } // namespace Text
-
         namespace Layout
         {
             //! This class provides a form layout.
@@ -58,7 +52,6 @@ namespace djv
 
                 void setSpacing(const Spacing&);
                 void setLabelVAlign(VAlign);
-                void setLabelSizeGroup(const std::weak_ptr<Text::LabelSizeGroup>&);
 
                 ///@}
 

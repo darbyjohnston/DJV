@@ -40,7 +40,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Numeric::IncrementButtons");
-                setBackgroundRole(ColorRole::Button);
 
                 const std::vector<std::string> icons =
                 {
@@ -158,6 +157,7 @@ namespace djv
 
                 p.lineEditBase = Text::LineEditBase::create(context);
                 p.lineEditBase->setFont(Render2D::Font::familyMono);
+                p.lineEditBase->setBackgroundRole(UI::ColorRole::None);
                 p.lineEditBase->installEventFilter(shared_from_this());
                 addChild(p.lineEditBase);
 
@@ -207,39 +207,6 @@ namespace djv
             Edit::~Edit()
             {}
 
-            void Edit::_preLayoutEvent(System::Event::PreLayout& event)
-            {
-                DJV_PRIVATE_PTR();
-                glm::vec2 size = glm::vec2(0.F, 0.F);
-                glm::vec2 tmp = p.lineEditBase->getMinimumSize();
-                size.x += tmp.x;
-                size.y = std::max(size.y, tmp.y);
-                tmp = p.buttons->getMinimumSize();
-                size.x += tmp.x;
-                size.y = std::max(size.y, tmp.y);
-                const auto& style = _getStyle();
-                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-                _setMinimumSize(size + btf * 2.F + getMargin().getSize(style));
-            }
-
-            void Edit::_layoutEvent(System::Event::Layout& event)
-            {
-                DJV_PRIVATE_PTR();
-                const auto& style = _getStyle();
-                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-                glm::vec2 tmp = p.buttons->getMinimumSize();
-                Math::BBox2f g2 = g.margin(-btf);
-                float x = g2.max.x - tmp.x;
-                float y = g2.min.y;
-                float w = tmp.x;
-                float h = g2.h();
-                p.buttons->setGeometry(Math::BBox2f(x, y, w, h));
-                x = g2.min.x;
-                w = g2.w() - tmp.x;
-                p.lineEditBase->setGeometry(Math::BBox2f(x, y, w, h));
-            }
-
             void Edit::_textUpdate(const std::string& text, const std::string& sizeString)
             {
                 DJV_PRIVATE_PTR();
@@ -259,6 +226,41 @@ namespace djv
                 p.buttons->setIncrementEnabled(!value);
             }
 
+            void Edit::_preLayoutEvent(System::Event::PreLayout& event)
+            {
+                DJV_PRIVATE_PTR();
+                glm::vec2 size = glm::vec2(0.F, 0.F);
+                glm::vec2 tmp = p.lineEditBase->getMinimumSize();
+                size.x += tmp.x;
+                size.y = std::max(size.y, tmp.y);
+                tmp = p.buttons->getMinimumSize();
+                size.x += tmp.x;
+                size.y = std::max(size.y, tmp.y);
+                const auto& style = _getStyle();
+                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+                _setMinimumSize(size + b * 2.F + btf * 2.F + getMargin().getSize(style));
+            }
+
+            void Edit::_layoutEvent(System::Event::Layout& event)
+            {
+                DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+                glm::vec2 tmp = p.buttons->getMinimumSize();
+                Math::BBox2f g2 = g.margin(-b - btf);
+                float x = g2.max.x - tmp.x;
+                float y = g2.min.y;
+                float w = tmp.x;
+                float h = g2.h();
+                p.buttons->setGeometry(Math::BBox2f(x, y, w, h));
+                x = g2.min.x;
+                w = g2.w() - tmp.x;
+                p.lineEditBase->setGeometry(Math::BBox2f(x, y, w, h));
+            }
+
             void Edit::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
@@ -273,11 +275,12 @@ namespace djv
                     render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
-                else
-                {
-                    render->setFillColor(style->getColor(UI::ColorRole::Border));
-                    drawBorder(render, g.margin(-b), b);
-                }
+                Math::BBox2f g2 = g.margin(-btf);
+                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                drawBorder(render, g2, b);
+                g2 = g2.margin(-b);
+                render->setFillColor(style->getColor(UI::ColorRole::Trough));
+                render->drawRect(g2);
             }
 
             bool Edit::_eventFilter(const std::shared_ptr<IObject>& object, System::Event::Event& event)
