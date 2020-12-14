@@ -6,7 +6,12 @@
 
 #include "IO.h"
 
-enum AVSampleFormat;
+extern "C"
+{
+#include <libavutil/samplefmt.h>
+
+} // extern "C"
+
 struct AVRational;
 
 namespace IO

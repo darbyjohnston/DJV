@@ -13,7 +13,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
