@@ -1,13 +1,14 @@
 {
-    "error_glad_init": "Cannot initialize GLAD.",
-    "error_glfw_init": "Cannot initialize GLFW.",
-    "error_glfw_window_creation": "Cannot create GLFW window.",
+    "error_cannot_parse_the_value": "Cannot parse the argument.",
     "error_gl_color_texture_creation": "Cannot create OpenGL color texture.",
     "error_gl_depth_texture_creation": "Cannot create OpenGL depth texture.",
     "error_gl_fragment_shader_creation": "Cannot create OpenGL fragment shader.",
     "error_gl_frame_buffer_creation": "Cannot create OpenGL frame buffer.",
     "error_gl_frame_buffer_init": "Cannot initialize OpenGL frame buffer.",
     "error_gl_vertex_shader_creation": "Cannot create OpenGL vertex shader.",
+    "error_glad_init": "Cannot initialize GLAD.",
+    "error_glfw_init": "Cannot initialize GLFW.",
+    "error_glfw_window_creation": "Cannot create GLFW window.",
     "glfw_swap_interval_0": "0",
     "glfw_swap_interval_1": "1",
     "glfw_swap_interval_default": "Default",
@@ -28,4 +29,3 @@
     "vbo_type_pos3_f32_uv_u16_normal_u10": "Pos3_F32_UV_U16_Normal_U10",
     "vbo_type_pos3_f32_uv_u16_normal_u10_color_u8": "Pos3_F32_UV_U16_Normal_U10_Color_U8"
 }
-

@@ -17,4 +17,3 @@
     "error_rtaudio_init": "Cannot initialize RtAudio.",
     "error_unknown": "Unknown"
 }
-

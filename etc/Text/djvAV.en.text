@@ -7,7 +7,7 @@
     "av_sample_format_s16": "S16",
     "av_sample_format_s16_planar": "S16 Planar",
     "av_sample_format_s32": "S32",
-    "av_sample_format_s32_planar": "S32 Planar",    
+    "av_sample_format_s32_planar": "S32 Planar",
     "dpx_endian_auto": "Auto",
     "dpx_endian_lsb": "LSB",
     "dpx_endian_msb": "MSB",
@@ -21,6 +21,8 @@
     "error_file_open": "Cannot open file.",
     "error_file_read": "Cannot read file.",
     "error_file_write": "Cannot write file.",
+    "error_glad_init": "Cannot initialize GLAD.",
+    "error_glfw_window_creation": "Cannot create GLFW window.",
     "error_image_channels_same_size_and_bit_depth": "Image channels must have the same size and bit depth.",
     "error_incomplete_file": "Incomplete file.",
     "error_line_padding_unsupported": "Unsupported line padding.",
@@ -71,4 +73,3 @@
     "time_units_frames": "Frames",
     "time_units_timecode": "Timecode"
 }
-
