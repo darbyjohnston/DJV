@@ -57,6 +57,6 @@
     "timer_fast": "Rychle",
     "timer_medium": "Střední",
     "timer_slow": "Zpomalit",
-    "timer_very_fast": "Velmi rychle"
+    "timer_very_fast": "Velmi rychle",
+    "timer_very_slow": "Velmi pomalý"
 }
-

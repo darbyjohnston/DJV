@@ -1,13 +1,8 @@
 {
+    "error_cannot_parse_the_value": "Ekki hægt að greina gildi.",
     "render2d_alpha_none": "Enginn",
     "render2d_alpha_premultiplied": "Fyrirfram",
     "render2d_alpha_straight": "Beint",
-    "render2d_side_bottom": "Neðst",
-    "render2d_side_left": "Vinstri",
-    "render2d_side_none": "Enginn",
-    "render2d_side_right": "Rétt",
-    "render2d_side_top": "Efst",
-    "error_cannot_parse_the_value": "Ekki hægt að greina gildi.",
     "render2d_filter_linear": "Línuleg",
     "render2d_filter_nearest": "Næst",
     "render2d_image_cache_atlas": "Atlas",
@@ -21,6 +16,10 @@
     "render2d_image_channel_display_red": "Rauður",
     "render2d_image_channel_green": "Grænt",
     "render2d_image_channel_none": "Alfa",
-    "render2d_image_channel_red": "Rauður"
+    "render2d_image_channel_red": "Rauður",
+    "render2d_side_bottom": "Neðst",
+    "render2d_side_left": "Vinstri",
+    "render2d_side_none": "Enginn",
+    "render2d_side_right": "Rétt",
+    "render2d_side_top": "Efst"
 }
-

@@ -7,5 +7,6 @@
     "cli_option_time_units": "-time_units",
     "cli_option_time_units_description": "设置时间单位。选项：{0}。当前值：{1}。",
     "cli_option_version": "-版",
-    "cli_option_version_description": "打印版本并退出。"
+    "cli_option_version_description": "打印版本并退出。",
+    "error_cannot_parse_argument": "无法解析参数。"
 }

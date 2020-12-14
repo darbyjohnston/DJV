@@ -57,5 +57,6 @@
     "timer_fast": "빠른",
     "timer_medium": "매질",
     "timer_slow": "느린",
-    "timer_very_fast": "매우 빠름"
+    "timer_very_fast": "매우 빠름",
+    "timer_very_slow": "아주 느린"
 }

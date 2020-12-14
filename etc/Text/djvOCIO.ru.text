@@ -1,3 +1,7 @@
 {
-    "error_cannot_parse_the_value": "Невозможно проанализировать значение."
+    "error_cannot_parse_the_value": "Невозможно проанализировать значение.",
+    "ocio_config_mode_cmd_line": "Командная строка",
+    "ocio_config_mode_env": "Окружающая обстановка",
+    "ocio_config_mode_none": "Никто",
+    "ocio_config_mode_user": "Пользователь"
 }

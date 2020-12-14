@@ -57,5 +57,6 @@
     "timer_fast": "Snabb",
     "timer_medium": "Medium",
     "timer_slow": "Långsam",
-    "timer_very_fast": "Väldigt snabbt"
+    "timer_very_fast": "Väldigt snabbt",
+    "timer_very_slow": "Väldigt långsam"
 }

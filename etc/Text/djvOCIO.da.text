@@ -1,3 +1,7 @@
 {
-    "error_cannot_parse_the_value": "Værdien kan ikke analyseres."
+    "error_cannot_parse_the_value": "Værdien kan ikke analyseres.",
+    "ocio_config_mode_cmd_line": "Kommandolinje",
+    "ocio_config_mode_env": "Miljø",
+    "ocio_config_mode_none": "Ingen",
+    "ocio_config_mode_user": "Bruger"
 }

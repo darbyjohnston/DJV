@@ -14,5 +14,6 @@
     "djv_test_pattern_cli_test_1_dpx": "> djv_test_pattern test.1.dpx",
     "djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16": "> djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
     "djv_test_pattern_cli_usage": "Verwendung",
-    "djv_test_pattern_output_error": "Die Ausgabedatei kann nicht analysiert werden."
+    "djv_test_pattern_output_error": "Die Ausgabedatei kann nicht analysiert werden.",
+    "error_cannot_parse_argument": "Das Argument kann nicht analysiert werden."
 }

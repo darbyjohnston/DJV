@@ -57,5 +57,6 @@
     "timer_fast": "快速",
     "timer_medium": "介质",
     "timer_slow": "慢",
-    "timer_very_fast": "非常快"
+    "timer_very_fast": "非常快",
+    "timer_very_slow": "非常慢"
 }

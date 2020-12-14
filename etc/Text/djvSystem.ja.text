@@ -57,5 +57,6 @@
     "timer_fast": "高速",
     "timer_medium": "中速",
     "timer_slow": "スロー",
-    "timer_very_fast": "超高速"
+    "timer_very_fast": "超高速",
+    "timer_very_slow": "非常に遅い"
 }

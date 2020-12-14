@@ -57,5 +57,6 @@
     "timer_fast": "Rapide",
     "timer_medium": "Moyen",
     "timer_slow": "Lent",
-    "timer_very_fast": "Très rapide"
+    "timer_very_fast": "Très rapide",
+    "timer_very_slow": "Très lent"
 }

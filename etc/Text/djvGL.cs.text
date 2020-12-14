@@ -1,4 +1,5 @@
 {
+    "error_cannot_parse_the_value": "Argument nelze analyzovat.",
     "error_gl_color_texture_creation": "Nelze vytvořit barevnou texturu OpenGL.",
     "error_gl_depth_texture_creation": "Nelze vytvořit hloubku textury OpenGL.",
     "error_gl_fragment_shader_creation": "Nelze vytvořit shader fragmentů OpenGL.",
@@ -22,9 +23,9 @@
     "vbo_type_pos2_f32_uv_u16": "Pos2_F32_UV_U16",
     "vbo_type_pos3_f32": "Pos3_F32",
     "vbo_type_pos3_f32_u8": "Pos3_F32_Color_U8",
+    "vbo_type_pos3_f32_uv_f32_normal_f32": "Pos3_F32_UV_F32_Normal_F32",
     "vbo_type_pos3_f32_uv_f32_normal_f32_color_f32": "Pos3_F32_UV_F32_Normal_F32_Color_F32",
     "vbo_type_pos3_f32_uv_u16": "Pos3_F32_UV_U16",
     "vbo_type_pos3_f32_uv_u16_normal_u10": "Pos3_F32_UV_U16_Normal_U10",
     "vbo_type_pos3_f32_uv_u16_normal_u10_color_u8": "Pos3_F32_UV_U16_Normal_U10_Color_U8"
 }
-

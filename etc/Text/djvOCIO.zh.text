@@ -1,3 +1,7 @@
 {
-    "error_cannot_parse_the_value": "无法解析该值。"
+    "error_cannot_parse_the_value": "无法解析该值。",
+    "ocio_config_mode_cmd_line": "命令行",
+    "ocio_config_mode_env": "环境",
+    "ocio_config_mode_none": "没有",
+    "ocio_config_mode_user": "用户"
 }

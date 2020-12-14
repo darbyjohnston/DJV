@@ -7,5 +7,6 @@
     "cli_option_time_units": "- ώρα_μονάδες",
     "cli_option_time_units_description": "Ρυθμίστε τις μονάδες ώρας. Επιλογές: {0}. Τρέχουσα τιμή: {1}.",
     "cli_option_version": "-εκδοχή",
-    "cli_option_version_description": "Εκτυπώστε την έκδοση και βγείτε."
+    "cli_option_version_description": "Εκτυπώστε την έκδοση και βγείτε.",
+    "error_cannot_parse_argument": "Δεν είναι δυνατή η ανάλυση του επιχειρήματος."
 }

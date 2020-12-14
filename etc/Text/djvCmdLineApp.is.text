@@ -7,5 +7,6 @@
     "cli_option_time_units": "-tíma_einingar",
     "cli_option_time_units_description": "Stilltu tímaeiningar. Valkostir: {0}. Núverandi gildi: {1}.",
     "cli_option_version": "-version",
-    "cli_option_version_description": "Prentaðu útgáfuna og lokaðu."
+    "cli_option_version_description": "Prentaðu útgáfuna og lokaðu.",
+    "error_cannot_parse_argument": "Get ekki greint rökin."
 }

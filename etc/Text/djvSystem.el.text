@@ -57,5 +57,6 @@
     "timer_fast": "Γρήγορα",
     "timer_medium": "Μεσαίο",
     "timer_slow": "Αργός",
-    "timer_very_fast": "Πολύ γρήγορα"
+    "timer_very_fast": "Πολύ γρήγορα",
+    "timer_very_slow": "Πολύ αργή"
 }

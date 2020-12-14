@@ -1,3 +1,7 @@
 {
-    "error_cannot_parse_the_value": "Nelze analyzovat hodnotu."
+    "error_cannot_parse_the_value": "Nelze analyzovat hodnotu.",
+    "ocio_config_mode_cmd_line": "Příkazový řádek",
+    "ocio_config_mode_env": "životní prostředí",
+    "ocio_config_mode_none": "Žádný",
+    "ocio_config_mode_user": "Uživatel"
 }

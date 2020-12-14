@@ -7,5 +7,6 @@
     "cli_option_time_units": "-time_units",
     "cli_option_time_units_description": "Defina as unidades de tempo. Opções: {0}. Valor atual: {1}.",
     "cli_option_version": "-versão",
-    "cli_option_version_description": "Imprima a versão e saia."
+    "cli_option_version_description": "Imprima a versão e saia.",
+    "error_cannot_parse_argument": "Não é possível analisar o argumento."
 }

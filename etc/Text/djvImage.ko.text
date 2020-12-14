@@ -1,4 +1,5 @@
 {
+    "error_cannot_parse_the_value": "값을 구문 분석 할 수 없습니다.",
     "image_channel_type_l": "",
     "image_channel_type_la": "LA",
     "image_channel_type_none": "없음",
@@ -32,6 +33,5 @@
     "image_type_rgba_f32": "RGBA F32",
     "image_type_rgba_u16": "RGBA U16",
     "image_type_rgba_u32": "RGBA U32",
-    "image_type_rgba_u8": "RGBA U8",
-    "error_cannot_parse_the_value": "값을 구문 분석 할 수 없습니다."
+    "image_type_rgba_u8": "RGBA U8"
 }

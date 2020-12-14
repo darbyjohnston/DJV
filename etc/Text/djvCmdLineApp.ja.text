@@ -7,5 +7,6 @@
     "cli_option_time_units": "-time_units",
     "cli_option_time_units_description": "時間単位を設定します。オプション：{0}。現在の値：{1}。",
     "cli_option_version": "-バージョン",
-    "cli_option_version_description": "バージョンを表示して終了します。"
+    "cli_option_version_description": "バージョンを表示して終了します。",
+    "error_cannot_parse_argument": "引数を解析できません。"
 }

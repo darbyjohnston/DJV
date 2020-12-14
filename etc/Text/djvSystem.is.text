@@ -57,5 +57,6 @@
     "timer_fast": "Hratt",
     "timer_medium": "Miðlungs",
     "timer_slow": "Hæg",
-    "timer_very_fast": "Mjög hratt"
+    "timer_very_fast": "Mjög hratt",
+    "timer_very_slow": "Mjög hægt"
 }

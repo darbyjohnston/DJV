@@ -1,3 +1,7 @@
 {
-    "error_cannot_parse_the_value": "Nie można przeanalizować wartości."
+    "error_cannot_parse_the_value": "Nie można przeanalizować wartości.",
+    "ocio_config_mode_cmd_line": "Wiersz poleceń",
+    "ocio_config_mode_env": "Środowisko",
+    "ocio_config_mode_none": "Żaden",
+    "ocio_config_mode_user": "Użytkownik"
 }

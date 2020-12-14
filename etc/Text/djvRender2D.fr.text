@@ -1,13 +1,8 @@
 {
+    "error_cannot_parse_the_value": "Impossible d&#39;analyser la valeur.",
     "render2d_alpha_none": "Aucun",
     "render2d_alpha_premultiplied": "Prémultiplié",
     "render2d_alpha_straight": "Direct",
-    "render2d_side_bottom": "Bas",
-    "render2d_side_left": "Gauche",
-    "render2d_side_none": "Aucun",
-    "render2d_side_right": "Droite",
-    "render2d_side_top": "Haut",
-    "error_cannot_parse_the_value": "Impossible d&#39;analyser la valeur.",
     "render2d_filter_linear": "Linéaire",
     "render2d_filter_nearest": "Plus proche voisin",
     "render2d_image_cache_atlas": "Atlas",
@@ -21,6 +16,10 @@
     "render2d_image_channel_display_red": "rouge",
     "render2d_image_channel_green": "Vert",
     "render2d_image_channel_none": "Aucun",
-    "render2d_image_channel_red": "Rouge"
+    "render2d_image_channel_red": "Rouge",
+    "render2d_side_bottom": "Bas",
+    "render2d_side_left": "Gauche",
+    "render2d_side_none": "Aucun",
+    "render2d_side_right": "Droite",
+    "render2d_side_top": "Haut"
 }
-

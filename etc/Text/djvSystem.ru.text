@@ -57,5 +57,6 @@
     "timer_fast": "Быстро",
     "timer_medium": "средний",
     "timer_slow": "Медленный",
-    "timer_very_fast": "Очень быстро"
+    "timer_very_fast": "Очень быстро",
+    "timer_very_slow": "Очень медленно"
 }

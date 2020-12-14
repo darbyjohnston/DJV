@@ -1,13 +1,14 @@
 {
-    "error_glad_init": "Не удается инициализировать GLAD.",
-    "error_glfw_init": "Не удается инициализировать GLFW.",
-    "error_glfw_window_creation": "Невозможно создать окно GLFW.",
+    "error_cannot_parse_the_value": "Невозможно проанализировать аргумент.",
     "error_gl_color_texture_creation": "Невозможно создать цветную текстуру OpenGL.",
     "error_gl_depth_texture_creation": "Невозможно создать текстуру глубины OpenGL.",
     "error_gl_fragment_shader_creation": "Невозможно создать фрагментный шейдер OpenGL.",
     "error_gl_frame_buffer_creation": "Невозможно создать буфер кадров OpenGL.",
     "error_gl_frame_buffer_init": "Невозможно инициализировать буфер кадров OpenGL.",
     "error_gl_vertex_shader_creation": "Невозможно создать вершинный шейдер OpenGL.",
+    "error_glad_init": "Не удается инициализировать GLAD.",
+    "error_glfw_init": "Не удается инициализировать GLFW.",
+    "error_glfw_window_creation": "Невозможно создать окно GLFW.",
     "glfw_swap_interval_0": "0",
     "glfw_swap_interval_1": "1",
     "glfw_swap_interval_default": "По умолчанию",
@@ -22,9 +23,9 @@
     "vbo_type_pos2_f32_uv_u16": "Pos2_F32_UV_U16",
     "vbo_type_pos3_f32": "Pos3_F32",
     "vbo_type_pos3_f32_u8": "Pos3_F32_Color_U8",
+    "vbo_type_pos3_f32_uv_f32_normal_f32": "Pos3_F32_UV_F32_Normal_F32",
     "vbo_type_pos3_f32_uv_f32_normal_f32_color_f32": "Pos3_F32_UV_F32_Normal_F32_Color_F32",
     "vbo_type_pos3_f32_uv_u16": "Pos3_F32_UV_U16",
     "vbo_type_pos3_f32_uv_u16_normal_u10": "Pos3_F32_UV_U16_Normal_U10",
     "vbo_type_pos3_f32_uv_u16_normal_u10_color_u8": "Pos3_F32_UV_U16_Normal_U10_Color_U8"
 }
-

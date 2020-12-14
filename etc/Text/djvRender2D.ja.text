@@ -1,13 +1,8 @@
 {
+    "error_cannot_parse_the_value": "値を解析できません。",
     "render2d_alpha_none": "None",
     "render2d_alpha_premultiplied": "プリマルチプライドα",
     "render2d_alpha_straight": "ストレートα",
-    "render2d_side_bottom": "下",
-    "render2d_side_left": "左",
-    "render2d_side_none": "None",
-    "render2d_side_right": "右",
-    "render2d_side_top": "上",
-    "error_cannot_parse_the_value": "値を解析できません。",
     "render2d_filter_linear": "リニア",
     "render2d_filter_nearest": "ニアレスト",
     "render2d_image_cache_atlas": "アトラス",
@@ -17,6 +12,10 @@
     "render2d_image_channel_display_blue": "青い",
     "render2d_image_channel_display_color": "色",
     "render2d_image_channel_display_green": "緑",
-    "render2d_image_channel_display_red": "赤"
+    "render2d_image_channel_display_red": "赤",
+    "render2d_side_bottom": "下",
+    "render2d_side_left": "左",
+    "render2d_side_none": "None",
+    "render2d_side_right": "右",
+    "render2d_side_top": "上"
 }
-
