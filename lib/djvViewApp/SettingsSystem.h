@@ -34,6 +34,7 @@ namespace djv
 
         protected:
             void _textUpdate() override;
+            void _shortcutsUpdate() override;
 
         private:
             DJV_PRIVATE();

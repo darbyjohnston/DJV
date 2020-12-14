@@ -66,13 +66,12 @@ namespace djv
                         if (!widget->getSettingsName().empty())
                         {
                             auto label = UI::Text::Label::create(context);
-                            label->setFontFace("Bold");
+                            label->setTextHAlign(UI::TextHAlign::Left);
                             label->setMargin(UI::MetricsRole::MarginSmall);
-                            label->setHAlign(UI::HAlign::Left);
                             p.labels[widget] = label;
 
                             auto vLayout = UI::VerticalLayout::create(context);
-                            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+                            vLayout->setSpacing(UI::MetricsRole::None);
                             vLayout->addChild(label);
                             vLayout->addChild(widget);
                             layout->addChild(vLayout);

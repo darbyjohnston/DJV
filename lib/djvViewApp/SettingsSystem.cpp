@@ -37,6 +37,7 @@
 #endif
 
 #include <djvUI/Action.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvSystem/Context.h>
 
@@ -60,6 +61,10 @@ namespace djv
             p.actions["Settings"] = UI::Action::create();
             p.actions["Settings"]->setIcon("djvIconSettings");
             p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
+
+            _addShortcut("shortcut_settings", 0);
+
+            _shortcutsUpdate();
         }
 
         SettingsSystem::SettingsSystem() :
@@ -89,7 +94,7 @@ namespace djv
         {
             return
             {
-                { _p->actions["Settings"], "ZZZZZZZ" }
+                { _p->actions["Settings"], "Z" }
             };
         }
 
@@ -171,6 +176,15 @@ namespace djv
             {
                 p.actions["Settings"]->setText(_getText(DJV_TEXT("menu_tools_settings")));
                 p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("menu_tools_settings_tooltip")));
+            }
+        }
+
+        void SettingsSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Settings"]->setShortcuts(_getShortcuts("shortcut_settings"));
             }
         }
         

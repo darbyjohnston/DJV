@@ -41,7 +41,6 @@ namespace djv
             std::map<std::string, bool> bellowsState;
             GridOptions gridOptions;
             HUDOptions hudOptions;
-            bool currentTool = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             glm::vec2 dragImagePos = glm::vec2(0.F, 0.F);
@@ -77,7 +76,6 @@ namespace djv
             p.lock = Observer::ValueSubject<ViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
-            p.actions["ViewControls"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ViewControls"]->setIcon("djvIconVisible");
             p.actions["Pan"] = UI::Action::create();
             p.actions["Pan"]->setIcon("djvIconMove");
@@ -470,8 +468,8 @@ namespace djv
         {
             return
             {
-                { _p->actions["ViewControls"], "A0" },
-                { _p->actions["Pan"], "A1" }
+                { _p->actions["ViewControls"], "B0" },
+                { _p->actions["Pan"], "B1" }
             };
         }
 
@@ -672,7 +670,7 @@ namespace djv
                 pan |=
                     1 == value.buttons.size() &&
                     i != value.buttons.end() &&
-                    currentTool;
+                    actions["Pan"]->observeChecked()->get();
                 i = value.buttons.find(2);
                 pan |=
                     1 == value.buttons.size() &&

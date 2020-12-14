@@ -36,6 +36,7 @@ namespace djv
         {
             struct FileBrowser::Private
             {
+                std::shared_ptr<Observer::ListSubject<float> > split;
                 std::shared_ptr<Observer::ValueSubject<bool> > pathsOpen;
                 std::shared_ptr<Observer::MapSubject<std::string, bool> > pathsBellowsState;
                 std::shared_ptr<Observer::ListSubject<System::File::Path> > shortcuts;
@@ -56,6 +57,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
+                p.split = Observer::ListSubject<float>::create({ .2F, 1.F });
                 p.pathsOpen = Observer::ValueSubject<bool>::create();
                 p.pathsBellowsState = Observer::MapSubject<std::string, bool>::create();
                 p.shortcuts = Observer::ListSubject<System::File::Path>::create();
@@ -108,6 +110,16 @@ namespace djv
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);
                 return out;
+            }
+
+            std::shared_ptr<Observer::IListSubject<float> > FileBrowser::observeSplit() const
+            {
+                return _p->split;
+            }
+
+            void FileBrowser::setSplit(const std::vector<float>& value)
+            {
+                _p->split->setIfChanged(value);
             }
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > FileBrowser::observePathsOpen() const
@@ -245,6 +257,7 @@ namespace djv
                 if (value.IsObject())
                 {
                     DJV_PRIVATE_PTR();
+                    UI::Settings::read("Split", value, p.split);
                     UI::Settings::read("PathsOpen", value, p.pathsOpen);
                     UI::Settings::read("PathsBellowsState", value, p.pathsBellowsState);
                     UI::Settings::read("Shortcuts", value, p.shortcuts);
@@ -265,6 +278,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
+                UI::Settings::write("Split", p.split->get(), out, allocator);
                 UI::Settings::write("PathsOpen", p.pathsOpen->get(), out, allocator);
                 UI::Settings::write("PathsBellowsState", p.pathsBellowsState->get(), out, allocator);
                 UI::Settings::write("Shortcuts", p.shortcuts->get(), out, allocator);

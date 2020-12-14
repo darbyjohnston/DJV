@@ -68,20 +68,17 @@ namespace djv
             p.debugBellowsState = p.settings->getDebugBellowsState();
 
             p.actions["Info"] = UI::Action::create();
-            p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Info"]->setIcon("djvIconInfo");
             p.actions["Messages"] = UI::Action::create();
-            p.actions["Messages"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Messages"]->setIcon("djvIconMessages");
             p.actions["SystemLog"] = UI::Action::create();
-            p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["SystemLog"]->setIcon("djvIconFile");
             p.actions["Debug"] = UI::Action::create();
-            p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"]->setIcon("djvIconDebug");
 
             _addShortcut("shortcut_tool_info", GLFW_KEY_I, UI::getSystemModifier());
             _addShortcut("shortcut_tool_messages", GLFW_KEY_S, UI::getSystemModifier());
+            _addShortcut("shortcut_tool_system_log", 0);
             _addShortcut("shortcut_tool_debug", GLFW_KEY_D, UI::getSystemModifier());
 
             _textUpdate();
@@ -181,14 +178,19 @@ namespace djv
             return out;
         }
 
+        std::map<std::string, std::shared_ptr<UI::Action> > MiscToolsSystem::getActions() const
+        {
+            return _p->actions;
+        }
+
         std::vector<ActionData> MiscToolsSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["Info"], "ZZZ" },
-                { _p->actions["Messages"], "ZZZZ" },
-                { _p->actions["SystemLog"], "ZZZZZ" },
-                { _p->actions["Debug"], "ZZZZZZ" }
+                { _p->actions["Info"], "F0" },
+                { _p->actions["Messages"], "F1" },
+                { _p->actions["SystemLog"], "F2" },
+                { _p->actions["Debug"], "F3" }
             };
         }
 
@@ -354,6 +356,7 @@ namespace djv
             {
                 p.actions["Info"]->setShortcuts(_getShortcuts("shortcut_tool_info"));
                 p.actions["Messages"]->setShortcuts(_getShortcuts("shortcut_tool_messages"));
+                p.actions["SystemLog"]->setShortcuts(_getShortcuts("shortcut_tool_system_log"));
                 p.actions["Debug"]->setShortcuts(_getShortcuts("shortcut_tool_debug"));
             }
         }

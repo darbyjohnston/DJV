@@ -12,6 +12,7 @@
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
 #include <djvViewApp/WindowBackgroundWidget.h>
+#include <djvViewApp/WindowSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/ThermometerWidget.h>
@@ -24,6 +25,7 @@
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Separator.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/Splitter.h>
@@ -56,13 +58,14 @@ namespace djv
             
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ToolButton> activeButton;
-            std::shared_ptr<UI::ToolButton> drawerButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<TimelineWidget> timelineWidget;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaWidget> > mediaWidgets;
+            std::shared_ptr<UI::Widget> toolDrawer;
+            std::shared_ptr<UI::Layout::Splitter> splitter;
+            std::vector<float> splitterSplit;
             std::shared_ptr<UI::VerticalLayout> menuBarLayout;
             std::shared_ptr<UI::SoloLayout> mediaLayout;
-            std::shared_ptr<UI::StackLayout> drawerLayout;
             std::shared_ptr<UI::VerticalLayout> timelineLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
@@ -70,6 +73,9 @@ namespace djv
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > openedObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > closedObserver;
             std::shared_ptr<Observer::Value<bool> > presentationObserver;
+            std::shared_ptr<Observer::Value<bool> > toolsObserver;
+            std::shared_ptr<Observer::List<float> > splitSettingsObserver;
+            std::shared_ptr<Observer::Value<bool> > showToolsSettingsObserver;
         };
         
         void MainWindow::_init(const std::shared_ptr<System::Context>& context)
@@ -117,9 +123,12 @@ namespace djv
                 viewCenterButton->addAction(viewSystem->getActions()["CenterLock"]);
             }
 
-            p.drawerButton = UI::ToolButton::create(context);
-            p.drawerButton->setButtonType(UI::ButtonType::Toggle);
-            p.drawerButton->setIcon("djvIconDrawerRight");
+            auto toolsButton = UI::ToolButton::create(context);
+            auto toolSystem = context->getSystemT<ToolSystem>();
+            if (toolSystem)
+            {
+                toolsButton->addAction(toolSystem->getActions()["Show"]);
+            }
 
             p.menuBar = UI::MenuBar::create(context);
             for (auto i : menus)
@@ -136,7 +145,7 @@ namespace djv
             hLayout->addChild(viewCenterButton);
             p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.drawerButton);
+            p.menuBar->addChild(toolsButton);
 
             auto backgroundWidget = WindowBackgroundWidget::create(context);
 
@@ -153,12 +162,10 @@ namespace djv
             stackLayout->addChild(backgroundWidget);
             p.mediaLayout = UI::SoloLayout::create(context);
             stackLayout->addChild(p.mediaLayout);
-            auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
-            splitter->addChild(stackLayout);
-            p.drawerLayout = UI::StackLayout::create(context);
-            splitter->addChild(p.drawerLayout);
-            p.layout->addChild(splitter);
-            p.layout->setStretch(splitter, UI::Layout::RowStretch::Expand);
+            p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
+            p.splitter->addChild(stackLayout);
+            p.layout->addChild(p.splitter);
+            p.layout->setStretch(p.splitter, UI::Layout::RowStretch::Expand);
             p.timelineLayout = UI::VerticalLayout::create(context);
             p.timelineLayout->setSpacing(UI::MetricsRole::None);
             p.timelineLayout->addSeparator();
@@ -180,25 +187,14 @@ namespace djv
                 });
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            p.drawerButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
+            p.splitter->setSplitCallback(
+                [contextWeak](const std::vector<float>& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto toolDrawer = context->getSystemT<ToolSystem>()->createToolDrawer();
-                                widget->_p->drawerLayout->addChild(toolDrawer);
-                                widget->_p->drawerLayout->show();
-                            }
-                            else
-                            {
-                                widget->_p->drawerLayout->hide();
-                                widget->_p->drawerLayout->clearChildren();
-                            }
-                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                        auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+                        windowSettings->setSplit(value);
                     }
                 });
 
@@ -286,6 +282,32 @@ namespace djv
                     });
             }
 
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+            p.splitSettingsObserver = Observer::List<float>::create(
+                windowSettings->observeSplit(),
+                [weak](const std::vector<float>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->splitterSplit = value;
+                        if (widget->_p->toolDrawer)
+                        {
+                            widget->_p->splitter->setSplit(value);
+                        }
+                    }
+                });
+
+            p.showToolsSettingsObserver = Observer::Value<bool>::create(
+                windowSettings->observeShowTools(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_showTools(value);
+                    }
+                });
+
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.presentationObserver = Observer::Value<bool>::create(
@@ -331,6 +353,26 @@ namespace djv
             if (event.getData().text)
             {
                 _textUpdate();
+            }
+        }
+
+        void MainWindow::_showTools(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (value)
+                {
+                    p.toolDrawer = context->getSystemT<ToolSystem>()->createToolDrawer();
+                    p.splitter->addChild(p.toolDrawer);
+                    p.splitter->setSplit(p.splitterSplit);
+                }
+                else if (p.toolDrawer)
+                {
+                    p.splitterSplit = p.splitter->getSplit();
+                    p.splitter->removeChild(p.toolDrawer);
+                    p.toolDrawer.reset();
+                }
             }
         }
 

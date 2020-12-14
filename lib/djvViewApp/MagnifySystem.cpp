@@ -74,7 +74,7 @@ namespace djv
         {
             return
             {
-                { _p->actions["Magnify"], "C" }
+                { _p->actions["Magnify"], "E" }
             };
         }
 

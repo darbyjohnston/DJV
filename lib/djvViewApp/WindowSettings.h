@@ -9,7 +9,9 @@
 #include <djvUI/ISettings.h>
 
 #include <djvMath/BBox.h>
+
 #include <djvCore/ValueObserver.h>
+#include <djvCore/ListObserver.h>
 
 #include <glm/vec2.hpp>
 
@@ -46,6 +48,17 @@ namespace djv
             void setRestoreSize(bool);
             void setWindowPos(const glm::ivec2&);
             void setWindowSize(const glm::ivec2&);
+
+            ///@}
+
+            //! \name Splitter
+            ///@{
+
+            std::shared_ptr<Core::Observer::IListSubject<float> > observeSplit() const;
+            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeShowTools() const;
+
+            void setSplit(const std::vector<float>&);
+            void setShowTools(bool);
 
             ///@}
 

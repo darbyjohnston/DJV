@@ -75,7 +75,7 @@ namespace djv
         {
             return
             {
-                { _p->actions["ColorPicker"], "B" }
+                { _p->actions["ColorPicker"], "D" }
             };
         }
 

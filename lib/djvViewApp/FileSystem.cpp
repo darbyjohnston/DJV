@@ -112,7 +112,6 @@ namespace djv
             p.actions["Prev"] = UI::Action::create();
             p.actions["Layers"] = UI::Action::create();
             p.actions["Layers"]->setIcon("djvIconLayers");
-            p.actions["Layers"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["NextLayer"] = UI::Action::create();
             p.actions["PrevLayer"] = UI::Action::create();
             //! \todo Implement me!

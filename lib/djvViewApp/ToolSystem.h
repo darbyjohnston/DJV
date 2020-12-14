@@ -40,16 +40,18 @@ namespace djv
 
             std::shared_ptr<Core::Observer::IValueSubject<CurrentTool> > observeCurrentTool() const;
 
-            void setCurrentTool(int);
-
             std::shared_ptr<UI::Widget> createToolDrawer();
 
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             std::vector<MenuData> getMenuData() const override;
 
         protected:
             void _textUpdate() override;
+            void _shortcutsUpdate() override;
 
         private:
+            void _setCurrentTool(int);
+
             DJV_PRIVATE();
         };
 

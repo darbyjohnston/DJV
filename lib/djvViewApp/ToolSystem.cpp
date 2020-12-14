@@ -5,12 +5,18 @@
 #include <djvViewApp/ToolSystem.h>
 
 #include <djvViewApp/ToolDrawer.h>
+#include <djvViewApp/WindowSettings.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
+#include <djvUI/SettingsSystem.h>
+#include <djvUI/ShortcutDataFunc.h>
 
 #include <djvSystem/Context.h>
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -36,8 +42,10 @@ namespace djv
             std::vector<std::shared_ptr<IViewAppSystem> > toolSystems;
             std::vector<std::shared_ptr<UI::Action> > toolActions;
             std::shared_ptr<Observer::ValueSubject<CurrentTool> > currentTool;
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> actionGroup;
             std::shared_ptr<UI::Menu> menu;
+            std::shared_ptr<Observer::Value<bool> > showToolsObserver;
         };
 
         void ToolSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -67,16 +75,37 @@ namespace djv
                 p.toolActions.push_back(i.second);
             }
 
+            p.actions["Show"] = UI::Action::create();
+            p.actions["Show"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Show"]->setIcon("djvIconDrawerRight");
+
             p.actionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.actionGroup->setActions(p.toolActions);
 
+            _addShortcut("shortcut_tools", GLFW_KEY_T);
+
             p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["Show"]);
+            p.menu->addSeparator();
             for (const auto& i : toolActions)
             {
                 p.menu->addAction(i.second);
             }
 
             _textUpdate();
+            _shortcutsUpdate();
+
+            auto contextWeak = std::weak_ptr<System::Context>(context);
+            p.actions["Show"]->setCheckedCallback(
+                [contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                        auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+                        windowSettings->setShowTools(value);
+                    }
+                });
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             p.actionGroup->setExclusiveCallback(
@@ -84,7 +113,19 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->setCurrentTool(value);
+                        system->_setCurrentTool(value);
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+            p.showToolsObserver = Observer::Value<bool>::create(
+                windowSettings->observeShowTools(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->actions["Show"]->setChecked(value);
                     }
                 });
         }
@@ -122,26 +163,6 @@ namespace djv
             return _p->currentTool;
         }
 
-        void ToolSystem::setCurrentTool(int value)
-        {
-            DJV_PRIVATE_PTR();
-            auto currentTool = p.currentTool->get();
-            if (currentTool.system)
-            {
-                currentTool.system.reset();
-                currentTool.action.reset();
-            }
-            auto& systems = p.toolSystems;
-            auto& actions = p.toolActions;
-            if (value >= 0 && value < systems.size() && value < actions.size())
-            {
-                currentTool.system = systems[value];
-                currentTool.action = actions[value];
-            }
-            p.currentTool->setIfChanged(currentTool);
-            p.actionGroup->setChecked(value);
-        }
-
         std::shared_ptr<UI::Widget> ToolSystem::createToolDrawer()
         {
             std::shared_ptr<UI::Widget> out;
@@ -150,6 +171,11 @@ namespace djv
                 out = ToolDrawer::create(context);
             }
             return out;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > ToolSystem::getActions() const
+        {
+            return _p->actions;
         }
 
         std::vector<MenuData> ToolSystem::getMenuData() const
@@ -165,7 +191,43 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.toolActions.size())
             {
+                p.actions["Show"]->setText(_getText(DJV_TEXT("menu_tools_show")));
+                p.actions["Show"]->setTooltip(_getText(DJV_TEXT("menu_tools_show_tooltip")));
+
                 p.menu->setText(_getText(DJV_TEXT("menu_tools")));
+            }
+        }
+
+        void ToolSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Show"]->setShortcuts(_getShortcuts("shortcut_tools"));
+            }
+        }
+        
+        void ToolSystem::_setCurrentTool(int value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                CurrentTool currentTool;
+                auto& systems = p.toolSystems;
+                auto& actions = p.toolActions;
+                if (value >= 0 && value < systems.size() && value < actions.size())
+                {
+                    currentTool.system = systems[value];
+                    currentTool.action = actions[value];
+                }
+                if (p.currentTool->setIfChanged(currentTool))
+                {
+                    p.actionGroup->setChecked(value);
+
+                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                    auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+                    windowSettings->setShowTools(value != -1);
+                }
             }
         }
 

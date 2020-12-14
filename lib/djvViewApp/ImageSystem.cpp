@@ -76,7 +76,6 @@ namespace djv
             p.frameStore = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
 
             p.actions["ImageControls"] = UI::Action::create();
-            p.actions["ImageControls"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ImageControls"]->setIcon("djvIconImageControls");
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
@@ -299,8 +298,8 @@ namespace djv
         {
             return
             {
-                { _p->actions["ImageControls"], "YYY" },
-                { _p->actions["ColorSpace"], "YYYY" }
+                { _p->actions["ImageControls"], "C0" },
+                { _p->actions["ColorSpace"], "C1" }
             };
         }
 

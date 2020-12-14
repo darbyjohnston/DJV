@@ -41,6 +41,15 @@ namespace djv
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<System::Context>&);
 
+                //! \name Splitter
+                ///@{
+
+                std::shared_ptr<Core::Observer::IListSubject<float> > observeSplit() const;
+
+                void setSplit(const std::vector<float>&);
+
+                ///@}
+
                 //! \name Paths
                 ///@{
 
