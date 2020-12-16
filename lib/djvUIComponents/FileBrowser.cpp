@@ -219,7 +219,7 @@ namespace djv
                 toolBar->addAction(p.actions["Forward"]);
                 toolBar->addAction(p.actions["Up"]);
                 toolBar->addChild(pathWidget);
-                toolBar->setStretch(pathWidget, UI::RowStretch::Expand);
+                toolBar->setStretch(pathWidget);
                 toolBar->addChild(p.thumbnailPopupButton);
                 toolBar->addChild(p.searchBox);
                 toolBar->addChild(p.popupMenu);
@@ -251,11 +251,11 @@ namespace djv
                 stackLayout->addChild(p.scrollWidget);
                 stackLayout->addChild(p.itemCountLabel);
                 p.itemViewLayout->addChild(stackLayout);
-                p.itemViewLayout->setStretch(stackLayout, UI::RowStretch::Expand);
+                p.itemViewLayout->setStretch(stackLayout);
                 p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
                 p.splitter->addChild(p.itemViewLayout);
                 p.layout->addChild(p.splitter);
-                p.layout->setStretch(p.splitter, UI::RowStretch::Expand);
+                p.layout->setStretch(p.splitter);
                 p.layout->addSeparator();
                 auto hLayout = UI::HorizontalLayout::create(context);
                 hLayout->setMargin(UI::MetricsRole::MarginSmall);

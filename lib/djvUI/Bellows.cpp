@@ -81,9 +81,9 @@ namespace djv
                     hLayout->setSpacing(Spacing(MetricsRole::SpacingSmall));
                     hLayout->addChild(_icon);
                     hLayout->addChild(_label);
-                    hLayout->setStretch(_label, RowStretch::Expand);
+                    hLayout->setStretch(_label);
                     _layout->addChild(hLayout);
-                    _layout->setStretch(hLayout, RowStretch::Expand);
+                    _layout->setStretch(hLayout);
                     addChild(_layout);
                 }
 
@@ -182,7 +182,7 @@ namespace djv
                     _layout->setSpacing(MetricsRole::None);
                     _childLayout = StackLayout::create(context);
                     _layout->addChild(_childLayout);
-                    _layout->setStretch(_childLayout, RowStretch::Expand);
+                    _layout->setStretch(_childLayout);
                     _layout->addSeparator();
                     Widget::addChild(_layout);
                 }
@@ -271,7 +271,7 @@ namespace djv
                 p.buttonLayout->setSpacing(MetricsRole::None);
                 p.buttonLayout->setBackgroundRole(ColorRole::BackgroundBellows);
                 p.buttonLayout->addChild(p.button);
-                p.buttonLayout->setStretch(p.button, RowStretch::Expand);
+                p.buttonLayout->setStretch(p.button);
 
                 p.childLayout = ChildLayout::create(context);
                 p.childLayout->setOpen(p.open);
@@ -283,7 +283,7 @@ namespace djv
                 p.layout->addChild(p.buttonLayout);
                 p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);
-                p.layout->setStretch(p.childLayout, RowStretch::Expand);
+                p.layout->setStretch(p.childLayout);
                 Widget::addChild(p.layout);
 
                 _widgetUpdate();

@@ -80,7 +80,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<System::C
     layout->setBackgroundRole(UI::ColorRole::Background);
     layout->addChild(titleBar);
     layout->addChild(scrollWidget);
-    layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+    layout->setStretch(scrollWidget);
 
     _border = UI::Border::create(context);
     _border->setMargin(UI::MetricsRole::Shadow);

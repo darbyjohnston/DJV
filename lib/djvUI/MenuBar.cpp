@@ -57,7 +57,7 @@ namespace djv
             p.layout->addChild(p.widgetLayout[Side::Left]);
             p.layout->addChild(p.menuLayout);
             p.layout->addChild(p.widgetLayout[Side::Right]);
-            p.layout->setStretch(p.widgetLayout[Side::Right], RowStretch::Expand);
+            p.layout->setStretch(p.widgetLayout[Side::Right]);
             Widget::addChild(p.layout);
         }
 
@@ -84,7 +84,7 @@ namespace djv
             }
         }
 
-        void MenuBar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value, Side side)
+        void MenuBar::setStretch(const std::shared_ptr<Widget>& widget, Side side, RowStretch value)
         {
             const auto i = _p->widgetLayout.find(side);
             if (i != _p->widgetLayout.end())

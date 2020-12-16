@@ -135,7 +135,7 @@ namespace djv
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);
                 p.layout->addChild(p.textLabel);
-                p.layout->setStretch(p.textLabel, RowStretch::Expand);
+                p.layout->setStretch(p.textLabel);
                 p.layout->addChild(p.shortcutsLabel);
                 addChild(p.layout);
 

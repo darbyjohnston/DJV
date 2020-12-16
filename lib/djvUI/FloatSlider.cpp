@@ -204,7 +204,7 @@ namespace djv
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.edit);
                 p.layout->addChild(p.slider);
-                p.layout->setStretch(p.slider, RowStretch::Expand);
+                p.layout->setStretch(p.slider);
                 p.layout->addChild(p.resetButton);
                 addChild(p.layout);
 

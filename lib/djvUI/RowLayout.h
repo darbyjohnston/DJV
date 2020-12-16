@@ -14,7 +14,8 @@ namespace djv
     {
         namespace Layout
         {
-            //! This enumeration provides how widgets use space in a layout.
+            //! This enumeration provides how widgets are stretched to fill
+            //! space in a layout.
             enum class RowStretch
             {
                 None,
@@ -50,7 +51,7 @@ namespace djv
                 RowStretch getStretch(const std::shared_ptr<Widget>&) const;
 
                 void setSpacing(const Spacing&);
-                void setStretch(const std::shared_ptr<Widget>&, RowStretch);
+                void setStretch(const std::shared_ptr<Widget>&, RowStretch = RowStretch::Expand);
 
                 float getHeightForWidth(float) const override;
 

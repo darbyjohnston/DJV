@@ -68,7 +68,7 @@ namespace djv
                 p.itemLayout = UI::GridLayout::create(context);
                 p.itemLayout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(p.itemLayout);
-                p.layout->setStretch(p.itemLayout, UI::RowStretch::Expand);
+                p.layout->setStretch(p.itemLayout);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));

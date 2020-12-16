@@ -72,7 +72,7 @@ namespace djv
             p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->addChild(p.lineEditBase);
-            p.layout->setStretch(p.lineEditBase, UI::RowStretch::Expand);
+            p.layout->setStretch(p.lineEditBase);
             p.layout->addChild(p.buttons);
             addChild(p.layout);
             

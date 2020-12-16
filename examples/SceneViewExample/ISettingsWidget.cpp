@@ -51,7 +51,7 @@ void ISettingsWidget::addChild(const std::shared_ptr<IObject>& value)
     _childLayout->addChild(value);
     if (auto widget = std::dynamic_pointer_cast<Widget>(value))
     {
-        _childLayout->setStretch(widget, UI::RowStretch::Expand);
+        _childLayout->setStretch(widget);
     }
 }
 

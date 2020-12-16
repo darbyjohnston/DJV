@@ -47,7 +47,7 @@ namespace djv
                 p.layout->addSeparator();
                 p.layout->addSpacer(MetricsRole::SpacingSmall);
                 p.layout->addChild(p.childLayout);
-                p.layout->setStretch(p.childLayout, RowStretch::Expand);
+                p.layout->setStretch(p.childLayout);
                 Widget::addChild(p.layout);
             }
 

@@ -75,7 +75,7 @@ namespace djv
                 p.soloLayout->addChild(p.buttonLayout);
                 p.soloLayout->addChild(p.lineEdit);
                 p.layout->addChild(p.soloLayout);
-                p.layout->setStretch(p.soloLayout, UI::RowStretch::Expand);
+                p.layout->setStretch(p.soloLayout);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));

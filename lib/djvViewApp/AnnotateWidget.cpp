@@ -178,10 +178,10 @@ namespace djv
             p.colorToolBar = UI::ToolBar::create(context);
             p.notesLayout->addChild(p.colorToolBar);
             p.notesLayout->addChild(p.noteTextEdit);
-            p.notesLayout->setStretch(p.noteTextEdit, UI::RowStretch::Expand);
+            p.notesLayout->setStretch(p.noteTextEdit);
             p.notesLayout->addSeparator();
             p.notesLayout->addChild(p.listWidget);
-            p.notesLayout->setStretch(p.listWidget, UI::RowStretch::Expand);
+            p.notesLayout->setStretch(p.listWidget);
             p.notesLayout->addSeparator();
             toolBar = UI::ToolBar::create(context);
             toolBar->setBackgroundRole(UI::ColorRole::Background);

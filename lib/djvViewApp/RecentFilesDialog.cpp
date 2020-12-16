@@ -137,7 +137,7 @@ namespace djv
             stackLayout->addChild(scrollWidget);
             stackLayout->addChild(p.itemCountLabel);
             p.layout->addChild(stackLayout);
-            p.layout->setStretch(stackLayout, UI::RowStretch::Expand);
+            p.layout->setStretch(stackLayout);
             p.layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
@@ -148,7 +148,7 @@ namespace djv
             hLayout->addChild(p.cancelButton);
             p.layout->addChild(hLayout);
             addChild(p.layout);
-            setStretch(p.layout, UI::RowStretch::Expand);
+            setStretch(p.layout);
 
             _itemsUpdate();
             _selectedUpdate();

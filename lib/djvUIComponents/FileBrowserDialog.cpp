@@ -32,7 +32,7 @@ namespace djv
                 p.fileBrowser = FileBrowser::create(selectionType, context);
                 p.fileBrowser->setPath(System::File::Path("."));
                 addChild(p.fileBrowser);
-                setStretch(p.fileBrowser, UI::RowStretch::Expand);
+                setStretch(p.fileBrowser);
 
                 auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
                 p.fileBrowser->setCallback(

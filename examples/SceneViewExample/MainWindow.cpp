@@ -122,7 +122,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     _fileInfoLabel->setTextElide(40);
     _fileInfoLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
     menuBar->addChild(_fileInfoLabel);
-    menuBar->setStretch(_fileInfoLabel, UI::RowStretch::Expand, UI::Side::Right);
+    menuBar->setStretch(_fileInfoLabel, UI::Side::Right);
     menuBar->addSeparator(UI::Side::Right);
     menuBar->addChild(openButton);
     menuBar->addChild(closeButton);
@@ -142,7 +142,7 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     _settingsLayout = UI::StackLayout::create(context);
     _splitter->addChild(_settingsLayout);
     vLayout->addChild(_splitter);
-    vLayout->setStretch(_splitter, UI::RowStretch::Expand);
+    vLayout->setStretch(_splitter);
     addChild(vLayout);
 
     auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));

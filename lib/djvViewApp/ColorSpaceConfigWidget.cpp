@@ -75,7 +75,7 @@ namespace djv
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.userConfigButtonLayout);
             p.layout->addChild(scrollWidget);
-            p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            p.layout->setStretch(scrollWidget);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
@@ -259,7 +259,7 @@ namespace djv
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(button);
-                    hLayout->setStretch(button, UI::RowStretch::Expand);
+                    hLayout->setStretch(button);
                     hLayout->addChild(deleteButton);
                     p.userConfigButtonLayout->addChild(hLayout);
                 }

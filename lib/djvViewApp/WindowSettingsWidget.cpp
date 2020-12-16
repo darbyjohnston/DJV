@@ -323,7 +323,7 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout ->addChild(p.lineEdit);
-            hLayout->setStretch(p.lineEdit, UI::RowStretch::Expand);
+            hLayout->setStretch(p.lineEdit);
             hLayout->addChild(p.openButton);
             hLayout->addChild(p.closeButton);
             p.layout->addChild(hLayout);

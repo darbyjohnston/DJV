@@ -332,17 +332,17 @@ namespace djv
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.layout->addChild(scrollWidget);
-            p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            p.layout->setStretch(scrollWidget);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.keyPressWidgets[0]);
-            hLayout->setStretch(p.keyPressWidgets[0], UI::RowStretch::Expand);
+            hLayout->setStretch(p.keyPressWidgets[0]);
             hLayout->addChild(p.clearButtons[0]);
             hLayout->addChild(p.keyPressWidgets[1]);
-            hLayout->setStretch(p.keyPressWidgets[1], UI::RowStretch::Expand);
+            hLayout->setStretch(p.keyPressWidgets[1]);
             hLayout->addChild(p.clearButtons[1]);
             hLayout->addChild(p.searchBox);
-            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
+            hLayout->setStretch(p.searchBox);
             p.layout->addChild(hLayout);
             addChild(p.layout);
 

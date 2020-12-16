@@ -159,7 +159,7 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(p.colorSwatch);
-            p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
+            p.layout->setStretch(p.colorSwatch);
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->addChild(p.colorLabel);
             p.formLayout->addChild(p.pixelLabel);

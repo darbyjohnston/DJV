@@ -37,7 +37,7 @@ namespace djv
             //! \name Layout
             ///@{
 
-            void setStretch(const std::shared_ptr<Widget>&, RowStretch = RowStretch::None);
+            void setStretch(const std::shared_ptr<Widget>&, RowStretch = RowStretch::Expand);
 
             void setFillLayout(bool);
 

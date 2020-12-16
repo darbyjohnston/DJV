@@ -116,7 +116,7 @@ namespace djv
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
                             p.layout->addChild(p.label);
-                            p.layout->setStretch(p.label, RowStretch::Expand);
+                            p.layout->setStretch(p.label);
                             p.label->moveToBack();
                         }
                         p.label->setText(value);

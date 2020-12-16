@@ -53,14 +53,14 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
             auto toolBar = UI::ToolBar::create(context);
             toolBar->addChild(p.searchBox);
-            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
+            toolBar->setStretch(p.searchBox);
             p.layout->addChild(toolBar);
             p.layout->addSeparator();
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.listWidget);
             p.layout->addChild(scrollWidget);
-            p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            p.layout->setStretch(scrollWidget);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);

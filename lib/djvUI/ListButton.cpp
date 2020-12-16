@@ -314,7 +314,7 @@ namespace djv
                     p.label->setTextElide(p.textElide);
                     p.label->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.label);
-                    p.layout->setStretch(p.label, RowStretch::Expand);
+                    p.layout->setStretch(p.label);
                 }
                 if (p.rightLabel)
                 {

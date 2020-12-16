@@ -275,7 +275,7 @@ namespace djv
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(textLayout);
             addChild(scrollWidget);
-            setStretch(scrollWidget, UI::RowStretch::Expand);
+            setStretch(scrollWidget);
         }
 
         AboutDialog::AboutDialog() :

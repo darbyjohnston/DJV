@@ -41,7 +41,7 @@ namespace djv
             p.layout->addChild(p.tabBar);
             p.layout->addSeparator();
             p.layout->addChild(p.soloLayout);
-            p.layout->setStretch(p.soloLayout, RowStretch::Expand);
+            p.layout->setStretch(p.soloLayout);
             Widget::addChild(p.layout);
 
             auto weak = std::weak_ptr<TabWidget>(std::dynamic_pointer_cast<TabWidget>(shared_from_this()));

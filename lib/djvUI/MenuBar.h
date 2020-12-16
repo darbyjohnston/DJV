@@ -28,7 +28,7 @@ namespace djv
 
             void setSide(const std::shared_ptr<Widget>&, Side);
 
-            void setStretch(const std::shared_ptr<Widget>&, Layout::RowStretch, Side);
+            void setStretch(const std::shared_ptr<Widget>&, Side, RowStretch = RowStretch::Expand);
 
             void addSeparator(Side);
             void addSpacer(Side, MetricsRole = MetricsRole::Spacing);

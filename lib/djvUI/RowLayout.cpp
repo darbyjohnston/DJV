@@ -89,7 +89,7 @@ namespace djv
                 {
                     auto widget = Widget::create(context);
                     addChild(widget);
-                    setStretch(widget, RowStretch::Expand);
+                    setStretch(widget);
                 }
             }
 

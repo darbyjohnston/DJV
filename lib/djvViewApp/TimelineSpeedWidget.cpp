@@ -97,7 +97,7 @@ namespace djv
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(checkBox);
-                    hLayout->setStretch(checkBox, UI::RowStretch::Expand);
+                    hLayout->setStretch(checkBox);
                     hLayout->addChild(p.defaultSpeedLabel);
                     widgets.push_back(hLayout);
                     break;
@@ -107,7 +107,7 @@ namespace djv
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(checkBox);
-                    hLayout->setStretch(checkBox, UI::RowStretch::Expand);
+                    hLayout->setStretch(checkBox);
                     hLayout->addChild(p.customSpeedFloatEdit);
                     widgets.push_back(hLayout);
                     break;

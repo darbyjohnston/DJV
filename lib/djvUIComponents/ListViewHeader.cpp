@@ -70,7 +70,7 @@ namespace djv
                 _layout->setMargin(UI::MetricsRole::MarginSmall);
                 _layout->setSpacing(UI::MetricsRole::SpacingSmall);
                 _layout->addChild(_label);
-                _layout->setStretch(_label, UI::RowStretch::Expand);
+                _layout->setStretch(_label);
                 _layout->addChild(_icon);
                 addChild(_layout);
             }

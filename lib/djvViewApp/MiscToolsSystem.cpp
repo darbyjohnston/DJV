@@ -208,7 +208,7 @@ namespace djv
                     auto searchBox = UIComponents::SearchBox::create(context);
                     auto toolBar = UI::ToolBar::create(context);
                     toolBar->addChild(searchBox);
-                    toolBar->setStretch(searchBox, UI::RowStretch::Expand);
+                    toolBar->setStretch(searchBox);
 
                     auto widget = InfoWidget::create(context);
 

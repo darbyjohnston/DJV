@@ -105,9 +105,9 @@ namespace djv
             layout->addChild(hLayout);
             layout->addSeparator();
             layout->addChild(p.childLayout);
-            layout->setStretch(p.childLayout, RowStretch::Expand);
+            layout->setStretch(p.childLayout);
             p.layout->addChild(layout);
-            p.layout->setStretch(layout, RowStretch::Expand);
+            p.layout->setStretch(layout);
 
             p.overlay = Layout::Overlay::create(context);
             p.overlay->addChild(p.layout);

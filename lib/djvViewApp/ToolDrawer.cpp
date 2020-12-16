@@ -75,7 +75,7 @@ namespace djv
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Icon);
             p.scrollWidget->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.scrollWidget);
-            p.layout->setStretch(p.scrollWidget, UI::RowStretch::Expand);
+            p.layout->setStretch(p.scrollWidget);
             p.footerLayout = UI::VerticalLayout::create(context);
             p.footerLayout->setSpacing(UI::MetricsRole::None);
             p.footerLayout->hide();

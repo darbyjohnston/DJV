@@ -54,7 +54,7 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Trough);
             p.layout->addChild(p.lineEditBase);
-            p.layout->setStretch(p.lineEditBase, UI::RowStretch::Expand);
+            p.layout->setStretch(p.lineEditBase);
             p.soloLayout = UI::SoloLayout::create(context);
             p.soloLayout->addChild(p.searchIcon);
             p.soloLayout->addChild(p.clearButton);

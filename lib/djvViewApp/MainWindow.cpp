@@ -137,7 +137,7 @@ namespace djv
             }
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.activeButton);
-            p.menuBar->setStretch(p.activeButton, UI::RowStretch::Expand, UI::Side::Right);
+            p.menuBar->setStretch(p.activeButton, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
@@ -165,7 +165,7 @@ namespace djv
             p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
             p.splitter->addChild(stackLayout);
             p.layout->addChild(p.splitter);
-            p.layout->setStretch(p.splitter, UI::Layout::RowStretch::Expand);
+            p.layout->setStretch(p.splitter);
             p.timelineLayout = UI::VerticalLayout::create(context);
             p.timelineLayout->setSpacing(UI::MetricsRole::None);
             p.timelineLayout->addSeparator();

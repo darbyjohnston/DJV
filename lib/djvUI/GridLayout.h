@@ -14,7 +14,8 @@ namespace djv
     {
         namespace Layout
         {
-            //! This enumeration provides how widgets use space in a layout.
+            //! This enumeration provides how widgets are stretched to fill
+            //! space in a layout.
             enum class GridStretch
             {
                 None,
@@ -26,7 +27,7 @@ namespace djv
                 First = None
             };
 
-            //! This class provides layout that arranges it's children in a grid.
+            //! This class provides a layout that arranges it's children in a grid.
             //!
             //! \todo Add the ability for child widgets to span multiple rows and columns.
             class Grid : public Widget

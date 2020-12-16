@@ -126,9 +126,9 @@ namespace djv
             stackLayout->addChild(scrollWidget);
             stackLayout->addChild(p.itemCountLabel);
             p.layout->addChild(stackLayout);
-            p.layout->setStretch(stackLayout, UI::RowStretch::Expand);
+            p.layout->setStretch(stackLayout);
             addChild(p.layout);
-            setStretch(p.layout, UI::RowStretch::Expand);
+            setStretch(p.layout);
 
             _itemsUpdate();
 

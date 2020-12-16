@@ -87,14 +87,14 @@ namespace djv
                 p.viewPosLayout[i] = UI::HorizontalLayout::create(context);
                 p.viewPosLayout[i]->setSpacing(UI::MetricsRole::None);
                 p.viewPosLayout[i]->addChild(p.viewPosEdit[i]);
-                p.viewPosLayout[i]->setStretch(p.viewPosEdit[i], UI::RowStretch::Expand);
+                p.viewPosLayout[i]->setStretch(p.viewPosEdit[i]);
                 p.viewPosLayout[i]->addChild(p.viewPosResetButton[i]);
                 p.layout->addChild(p.viewPosLayout[i]);
             }
             p.viewZoomLayout = UI::HorizontalLayout::create(context);
             p.viewZoomLayout->setSpacing(UI::MetricsRole::None);
             p.viewZoomLayout->addChild(p.viewZoomEdit);
-            p.viewZoomLayout->setStretch(p.viewZoomEdit, UI::RowStretch::Expand);
+            p.viewZoomLayout->setStretch(p.viewZoomEdit);
             p.viewZoomLayout->addChild(p.viewZoomResetButton);
             p.layout->addChild(p.viewZoomLayout);
             addChild(p.layout);
@@ -688,9 +688,9 @@ namespace djv
             p.checkersColorsLayout = UI::HorizontalLayout::create(context);
             p.checkersColorsLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[0]);
-            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[0], UI::RowStretch::Expand);
+            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[0]);
             p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[1]);
-            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[1], UI::RowStretch::Expand);
+            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[1]);
             p.checkersLayout->addChild(p.checkersColorsLayout);
             p.layout->addChild(p.checkersLayout);
             addChild(p.layout);

@@ -128,7 +128,7 @@ namespace djv
             p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.layout->addChild(p.slider);
-            p.layout->setStretch(p.slider, UI::RowStretch::Expand);
+            p.layout->setStretch(p.slider);
             p.layout->addChild(p.label);
             addChild(p.layout);
 

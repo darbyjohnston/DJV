@@ -80,7 +80,7 @@ void Application::_init(std::list<std::string>& args)
     hLayout->setMargin(UI::MetricsRole::MarginSmall);
     hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
     hLayout->addChild(_countSlider);
-    hLayout->setStretch(_countSlider, UI::Layout::RowStretch::Expand);
+    hLayout->setStretch(_countSlider);
     hLayout->addChild(newButton);
     hLayout->addSeparator();
     hLayout->addChild(typeComboBox);
@@ -90,7 +90,7 @@ void Application::_init(std::list<std::string>& args)
     layout->addChild(hLayout);
     layout->addSeparator();
     layout->addChild(_scrollWidget);
-    layout->setStretch(_scrollWidget, UI::Layout::RowStretch::Expand);
+    layout->setStretch(_scrollWidget);
 
     // Create a window.
     _window = UI::Window::create(shared_from_this());

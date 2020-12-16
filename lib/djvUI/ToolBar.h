@@ -24,7 +24,7 @@ namespace djv
 
             static std::shared_ptr<ToolBar> create(const std::shared_ptr<System::Context>&);
 
-            void setStretch(const std::shared_ptr<Widget>&, RowStretch);
+            void setStretch(const std::shared_ptr<Widget>&, RowStretch = RowStretch::Expand);
 
             void addSeparator();
             void addSpacer(MetricsRole = MetricsRole::Spacing);

@@ -336,7 +336,7 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(p.imageWidget);
-            p.layout->setStretch(p.imageWidget, UI::RowStretch::Expand);
+            p.layout->setStretch(p.imageWidget);
             p.layout->addChild(p.magnifySlider);
             addChild(p.layout);
 

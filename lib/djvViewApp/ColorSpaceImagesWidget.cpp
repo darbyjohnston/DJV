@@ -89,14 +89,14 @@ namespace djv
                 _layout->setSpacing(UI::MetricsRole::None);
                 auto toolBar = UI::ToolBar::create(context);
                 toolBar->addChild(_searchBox);
-                toolBar->setStretch(_searchBox, UI::RowStretch::Expand);
+                toolBar->setStretch(_searchBox);
                 _layout->addChild(toolBar);
                 _layout->addSeparator();
                 auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
                 scrollWidget->setBorder(false);
                 scrollWidget->addChild(_listWidget);
                 _layout->addChild(scrollWidget);
-                _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+                _layout->setStretch(scrollWidget);
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<ColorSpacesWidget>(std::dynamic_pointer_cast<ColorSpacesWidget>(shared_from_this()));
@@ -434,7 +434,7 @@ namespace djv
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(button);
-                    hLayout->setStretch(button, UI::RowStretch::Expand);
+                    hLayout->setStretch(button);
                     hLayout->addChild(deleteButton);
                     p.formLayout->addChild(hLayout);
                     p.formLayout->setText(

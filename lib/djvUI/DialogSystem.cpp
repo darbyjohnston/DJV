@@ -45,7 +45,7 @@ namespace djv
                     layout->addChild(_textBlock);
                     layout->addChild(_closeButton);
                     addChild(layout);
-                    setStretch(layout, RowStretch::Expand);
+                    setStretch(layout);
 
                     auto weak = std::weak_ptr<MessageDialog>(std::dynamic_pointer_cast<MessageDialog>(shared_from_this()));
                     _closeButton->setClickedCallback(
@@ -106,15 +106,15 @@ namespace djv
                     auto layout = VerticalLayout::create(context);
                     layout->setMargin(MetricsRole::Margin);
                     layout->addChild(_textBlock);
-                    layout->setStretch(_textBlock, RowStretch::Expand);
+                    layout->setStretch(_textBlock);
                     auto hLayout = HorizontalLayout::create(context);
                     hLayout->addChild(_acceptButton);
-                    hLayout->setStretch(_acceptButton, RowStretch::Expand);
+                    hLayout->setStretch(_acceptButton);
                     hLayout->addChild(_cancelButton);
-                    hLayout->setStretch(_cancelButton, RowStretch::Expand);
+                    hLayout->setStretch(_cancelButton);
                     layout->addChild(hLayout);
                     addChild(layout);
-                    setStretch(layout, RowStretch::Expand);
+                    setStretch(layout);
 
                     auto weak = std::weak_ptr<ConfirmationDialog>(std::dynamic_pointer_cast<ConfirmationDialog>(shared_from_this()));
                     _acceptButton->setClickedCallback(
