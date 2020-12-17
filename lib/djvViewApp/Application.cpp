@@ -8,16 +8,19 @@
 #include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
 #include <djvViewApp/ColorPickerSystem.h>
+#include <djvViewApp/DebugSystem.h>
 #include <djvViewApp/EditSystem.h>
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
+#include <djvViewApp/InfoSystem.h>
 #include <djvViewApp/KeyboardSettings.h>
+#include <djvViewApp/LogSystem.h>
 #include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
-#include <djvViewApp/MiscToolsSystem.h>
+#include <djvViewApp/MessagesSystem.h>
 #include <djvViewApp/NUXWidget.h>
 #include <djvViewApp/NUXSystem.h>
 #include <djvViewApp/PlaybackSystem.h>
@@ -129,7 +132,10 @@ namespace djv
             ColorPickerSystem::create(shared_from_this());
             MagnifySystem::create(shared_from_this());
             //AnnotateSystem::create(shared_from_this());
-            MiscToolsSystem::create(shared_from_this());
+            InfoSystem::create(shared_from_this());
+            MessagesSystem::create(shared_from_this());
+            LogSystem::create(shared_from_this());
+            DebugSystem::create(shared_from_this());
             HelpSystem::create(shared_from_this());
             NUXSystem::create(shared_from_this());
             SettingsSystem::create(shared_from_this());

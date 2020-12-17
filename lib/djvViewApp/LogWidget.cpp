@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/SystemLogWidget.h>
+#include <djvViewApp/LogWidget.h>
 
 #include <djvUIComponents/SearchBox.h>
 
@@ -25,19 +25,19 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct SystemLogWidget::Private
+        struct LogWidget::Private
         {
             std::vector<std::string> log;
             std::string filter;
             std::shared_ptr<UI::Text::Block> textBlock;
         };
 
-        void SystemLogWidget::_init(const std::shared_ptr<System::Context>& context)
+        void LogWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::SystemLogWidget");
+            setClassName("djv::ViewApp::LogWidget");
 
             p.textBlock = UI::Text::Block::create(context);
             p.textBlock->setFontFamily(Render2D::Font::familyMono);
@@ -47,21 +47,21 @@ namespace djv
             addChild(p.textBlock);
         }
 
-        SystemLogWidget::SystemLogWidget() :
+        LogWidget::LogWidget() :
             _p(new Private)
         {}
 
-        SystemLogWidget::~SystemLogWidget()
+        LogWidget::~LogWidget()
         {}
 
-        std::shared_ptr<SystemLogWidget> SystemLogWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<LogWidget> LogWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<SystemLogWidget>(new SystemLogWidget);
+            auto out = std::shared_ptr<LogWidget>(new LogWidget);
             out->_init(context);
             return out;
         }
 
-        void SystemLogWidget::copyLog()
+        void LogWidget::copyLog()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -71,7 +71,7 @@ namespace djv
             }
         }
 
-        void SystemLogWidget::reloadLog()
+        void LogWidget::reloadLog()
         {
             DJV_PRIVATE_PTR();
             try
@@ -86,7 +86,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void SystemLogWidget::clearLog()
+        void LogWidget::clearLog()
         {
             DJV_PRIVATE_PTR();
             if (!p.log.empty())
@@ -96,7 +96,7 @@ namespace djv
             }
         }
 
-        void SystemLogWidget::setFilter(const std::string& value)
+        void LogWidget::setFilter(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.filter)
@@ -105,22 +105,22 @@ namespace djv
             _widgetUpdate();
         }
 
-        float SystemLogWidget::getHeightForWidth(float value) const
+        float LogWidget::getHeightForWidth(float value) const
         {
             return _p->textBlock->getHeightForWidth(value);
         }
 
-        void SystemLogWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void LogWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->textBlock->getMinimumSize());
         }
 
-        void SystemLogWidget::_layoutEvent(System::Event::Layout&)
+        void LogWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->textBlock->setGeometry(getGeometry());
         }
 
-        void SystemLogWidget::_widgetUpdate()
+        void LogWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             std::vector<std::string> log;
@@ -141,7 +141,7 @@ namespace djv
             p.textBlock->setText(String::join(log, '\n'));
         }
 
-        struct SystemLogToolBar::Private
+        struct LogToolBar::Private
         {
             std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::ToolButton> reloadButton;
@@ -153,12 +153,12 @@ namespace djv
             std::function<void(const std::string&)> filterCallback;
         };
 
-        void SystemLogToolBar::_init(const std::shared_ptr<System::Context>& context)
+        void LogToolBar::_init(const std::shared_ptr<System::Context>& context)
         {
             ToolBar::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::SystemLogToolBar");
+            setClassName("djv::ViewApp::LogToolBar");
 
             p.copyButton = UI::ToolButton::create(context);
             p.copyButton->setIcon("djvIconShare");
@@ -174,7 +174,7 @@ namespace djv
             addChild(p.clearButton);
             addChild(p.searchBox);
 
-            auto weak = std::weak_ptr<SystemLogToolBar>(std::dynamic_pointer_cast<SystemLogToolBar>(shared_from_this()));
+            auto weak = std::weak_ptr<LogToolBar>(std::dynamic_pointer_cast<LogToolBar>(shared_from_this()));
             p.copyButton->setClickedCallback(
                 [weak]
                 {
@@ -224,41 +224,41 @@ namespace djv
                 });
         }
 
-        SystemLogToolBar::SystemLogToolBar() :
+        LogToolBar::LogToolBar() :
             _p(new Private)
         {}
 
-        SystemLogToolBar::~SystemLogToolBar()
+        LogToolBar::~LogToolBar()
         {}
 
-        std::shared_ptr<SystemLogToolBar> SystemLogToolBar::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<LogToolBar> LogToolBar::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<SystemLogToolBar>(new SystemLogToolBar);
+            auto out = std::shared_ptr<LogToolBar>(new LogToolBar);
             out->_init(context);
             return out;
         }
 
-        void SystemLogToolBar::setCopyCallback(const std::function<void(void)>& value)
+        void LogToolBar::setCopyCallback(const std::function<void(void)>& value)
         {
             _p->copyCallback = value;
         }
 
-        void SystemLogToolBar::setReloadCallback(const std::function<void(void)>& value)
+        void LogToolBar::setReloadCallback(const std::function<void(void)>& value)
         {
             _p->reloadCallback = value;
         }
 
-        void SystemLogToolBar::setClearCallback(const std::function<void(void)>& value)
+        void LogToolBar::setClearCallback(const std::function<void(void)>& value)
         {
             _p->clearCallback = value;
         }
 
-        void SystemLogToolBar::setFilterCallback(const std::function<void(const std::string&)>& value)
+        void LogToolBar::setFilterCallback(const std::function<void(const std::string&)>& value)
         {
             _p->filterCallback = value;
         }
 
-        void SystemLogToolBar::_initEvent(System::Event::Init& event)
+        void LogToolBar::_initEvent(System::Event::Init& event)
         {
             ToolBar::_initEvent(event);
             DJV_PRIVATE_PTR();

@@ -10,19 +10,19 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the system log widget.
-        class SystemLogWidget : public UI::Widget
+        //! This class provides the log widget.
+        class LogWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(SystemLogWidget);
+            DJV_NON_COPYABLE(LogWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            SystemLogWidget();
+            LogWidget();
 
         public:
-            ~SystemLogWidget() override;
+            ~LogWidget() override;
 
-            static std::shared_ptr<SystemLogWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<LogWidget> create(const std::shared_ptr<System::Context>&);
             
             void copyLog();
             void reloadLog();
@@ -41,19 +41,19 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a tool bar for the system log widget.
-        class SystemLogToolBar : public UI::ToolBar
+        //! This class provides a tool bar for the log widget.
+        class LogToolBar : public UI::ToolBar
         {
-            DJV_NON_COPYABLE(SystemLogToolBar);
+            DJV_NON_COPYABLE(LogToolBar);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            SystemLogToolBar();
+            LogToolBar();
 
         public:
-            ~SystemLogToolBar() override;
+            ~LogToolBar() override;
 
-            static std::shared_ptr<SystemLogToolBar> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<LogToolBar> create(const std::shared_ptr<System::Context>&);
 
             //! \name Callbacks
             ///@{

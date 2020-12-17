@@ -94,7 +94,7 @@ namespace djv
         {
             return
             {
-                { _p->actions["Settings"], "Z" }
+                { _p->actions["Settings"], "Z4" }
             };
         }
 

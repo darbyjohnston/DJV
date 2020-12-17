@@ -17,6 +17,8 @@ set(header
     ColorPickerWidget.h
 	ColorSpaceWidget.h
 	ColorSpaceWidgetPrivate.h
+    DebugSettings.h
+    DebugSystem.h
     DebugWidget.h
     EditSystem.h
     Enum.h
@@ -32,10 +34,13 @@ set(header
     ImageDataFunc.h
 	ImageSettings.h
     ImageSystem.h
+    InfoSystem.h
     InfoWidget.h
 	KeyboardSettings.h
 	KeyboardSettingsWidget.h
 	LayersWidget.h
+    LogSystem.h
+    LogWidget.h
     MagnifySettings.h
     MagnifySystem.h
     MagnifyWidget.h
@@ -44,9 +49,9 @@ set(header
 	MediaWidget.h
 	MediaWidgetPrivate.h
 	MemorySettingsWidget.h
+    MessagesSettings.h
+    MessagesSystem.h
     MessagesWidget.h
-    MiscToolsSettings.h
-    MiscToolsSystem.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -59,7 +64,6 @@ set(header
     RecentFilesPrivate.h
     SettingsSystem.h
     SettingsWidget.h
-    SystemLogWidget.h
     TimelinePIPWidget.h
     TimelineSlider.h
     TimelineWidget.h
@@ -101,6 +105,8 @@ set(source
 	ColorSpaceImagesWidget.cpp
 	ColorSpaceViewWidget.cpp
 	ColorSpaceWidget.cpp
+    DebugSettings.cpp
+    DebugSystem.cpp
     DebugWidget.cpp
     EditSystem.cpp
     EnumFunc.cpp
@@ -115,10 +121,13 @@ set(source
     ImageDataFunc.cpp
 	ImageSettings.cpp
     ImageSystem.cpp
+    InfoSystem.cpp
     InfoWidget.cpp
 	KeyboardSettings.cpp
 	KeyboardSettingsWidget.cpp
 	LayersWidget.cpp
+    LogSystem.cpp
+    LogWidget.cpp
     MagnifySettings.cpp
     MagnifySystem.cpp
     MagnifyWidget.cpp
@@ -127,9 +136,9 @@ set(source
 	MediaPointerWidget.cpp
 	MediaWidget.cpp
 	MemorySettingsWidget.cpp
+    MessagesSettings.cpp
+    MessagesSystem.cpp
     MessagesWidget.cpp
-    MiscToolsSettings.cpp
-    MiscToolsSystem.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp
@@ -141,7 +150,6 @@ set(source
     RecentFilesThumbnailWidget.cpp
     SettingsSystem.cpp
     SettingsWidget.cpp
-    SystemLogWidget.cpp
   	TimelineAudioWidget.cpp
 	TimelineFrameWidget.cpp
     TimelinePIPWidget.cpp

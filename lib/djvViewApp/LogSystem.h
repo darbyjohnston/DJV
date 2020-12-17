@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
 #pragma once
@@ -10,33 +10,29 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the miscellaneous tools system.
-        class MiscToolsSystem : public IViewAppSystem
+        //! This class provides the log system.
+        class LogSystem : public IViewAppSystem
         {
-            DJV_NON_COPYABLE(MiscToolsSystem);
+            DJV_NON_COPYABLE(LogSystem);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            MiscToolsSystem();
+            LogSystem();
 
         public:
-            ~MiscToolsSystem() override;
+            ~LogSystem() override;
 
-            static std::shared_ptr<MiscToolsSystem> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<LogSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             std::vector<ActionData> getToolActionData() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
-            void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
 
         protected:
             void _textUpdate() override;
             void _shortcutsUpdate() override;
 
         private:
-            void _messagesPopup();
-            std::string _getMessagesString() const;
-
             DJV_PRIVATE();
         };
 
