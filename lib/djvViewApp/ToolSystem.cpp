@@ -113,7 +113,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_setCurrentTool(value);
+                        system->_setCurrentTool(value, true);
                     }
                 });
 
@@ -163,6 +163,23 @@ namespace djv
             return _p->currentTool;
         }
 
+        void ToolSystem::setCurrentTool(const CurrentTool& value)
+        {
+            DJV_PRIVATE_PTR();
+            int index = -1;
+            const size_t systemsSize = p.toolSystems.size();
+            const size_t actionsSize = p.toolActions.size();
+            for (size_t i = 0; i < systemsSize && i < actionsSize; ++i)
+            {
+                if (CurrentTool({ p.toolSystems[i], p.toolActions[i] }) == value)
+                {
+                    index = static_cast<int>(i);
+                    break;
+                }
+            }
+            _setCurrentTool(index, false);
+        }
+
         std::shared_ptr<UI::Widget> ToolSystem::createToolDrawer()
         {
             std::shared_ptr<UI::Widget> out;
@@ -207,7 +224,7 @@ namespace djv
             }
         }
         
-        void ToolSystem::_setCurrentTool(int value)
+        void ToolSystem::_setCurrentTool(int value, bool autoHide)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -220,14 +237,11 @@ namespace djv
                     currentTool.system = systems[value];
                     currentTool.action = actions[value];
                 }
-                if (p.currentTool->setIfChanged(currentTool))
-                {
-                    p.actionGroup->setChecked(value);
-
-                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                    auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-                    windowSettings->setShowTools(value != -1);
-                }
+                p.currentTool->setIfChanged(currentTool);
+                p.actionGroup->setChecked(value);
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+                windowSettings->setShowTools(autoHide ? value != -1 : true);
             }
         }
 

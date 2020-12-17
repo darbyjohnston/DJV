@@ -6,6 +6,7 @@
 
 #include <djvViewApp/MessagesSettings.h>
 #include <djvViewApp/MessagesWidget.h>
+#include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ToolTitleBar.h>
 
 #include <djvUI/Action.h>
@@ -248,6 +249,13 @@ namespace djv
         void MessagesSystem::_popup()
         {
             DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                auto toolSystem = context->getSystemT<ToolSystem>();
+                toolSystem->setCurrentTool(CurrentTool({
+                    std::dynamic_pointer_cast<MessagesSystem>(shared_from_this()),
+                    p.actions["Messages"] }));
+            }
         }
 
         std::string MessagesSystem::_getString() const
