@@ -508,6 +508,7 @@ namespace djv
                     {
                         tmp.display = ocioConfig->getDefaultDisplay();
                         tmp.view = ocioConfig->getDefaultView(tmp.display.c_str());
+                        tmp.imageColorSpaces[std::string()] = std::string();
                     }
                     userConfigs.push_back(std::make_pair(ocioConfig, tmp));
 
