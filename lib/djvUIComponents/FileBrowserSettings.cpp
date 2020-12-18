@@ -76,24 +76,24 @@ namespace djv
                 p.reverseSort = Observer::ValueSubject<bool>::create(false);
                 p.sortDirectoriesFirst = Observer::ValueSubject<bool>::create(true);
                 p.keyShortcuts = Observer::MapSubject<std::string, UI::ShortcutDataPair>::create({
-                    { "file_browser_shortcut_paths", { UI::ShortcutData(GLFW_KEY_P) } },
-                    { "file_browser_shortcut_back", { UI::ShortcutData(GLFW_KEY_LEFT, UI::getSystemModifier()) } },
-                    { "file_browser_shortcut_forward", { UI::ShortcutData(GLFW_KEY_RIGHT, UI::getSystemModifier()) } },
-                    { "file_browser_shortcut_up", { UI::ShortcutData(GLFW_KEY_UP, UI::getSystemModifier()) } },
-                    { "file_browser_shortcut_select_all", { UI::ShortcutData(GLFW_KEY_A, UI::getSystemModifier()) } },
-                    { "file_browser_shortcut_select_none", { UI::ShortcutData(GLFW_KEY_N, UI::getSystemModifier()) } },
-                    { "file_browser_shortcut_invert_selection", { UI::ShortcutData(GLFW_KEY_I, UI::getSystemModifier()) } },
-                    { "file_browser_shortcut_tiles", { UI::ShortcutData(GLFW_KEY_T) } },
-                    { "file_browser_shortcut_list", { UI::ShortcutData(GLFW_KEY_L) } },
-                    { "file_browser_shortcut_increase_thumbnail_size", { UI::ShortcutData(GLFW_KEY_EQUAL) } },
-                    { "file_browser_shortcut_decrease_thumbnail_size", { UI::ShortcutData(GLFW_KEY_MINUS) } },
-                    { "file_browser_shortcut_file_sequences", { UI::ShortcutData(GLFW_KEY_S) } },
-                    { "file_browser_shortcut_show_hidden", { UI::ShortcutData(GLFW_KEY_N) } },
-                    { "file_browser_shortcut_sort_by_name", { UI::ShortcutData(GLFW_KEY_3) } },
-                    { "file_browser_shortcut_sort_by_size", { UI::ShortcutData(GLFW_KEY_4) } },
-                    { "file_browser_shortcut_sort_by_time", { UI::ShortcutData(GLFW_KEY_5) } },
-                    { "file_browser_shortcut_reverse_sort", { UI::ShortcutData(GLFW_KEY_R) } },
-                    { "file_browser_shortcut_sort_directories_first", { UI::ShortcutData(GLFW_KEY_D) } } });
+                    { DJV_TEXT("file_browser_shortcut_paths"), { UI::ShortcutData(GLFW_KEY_P) } },
+                    { DJV_TEXT("file_browser_shortcut_back"), { UI::ShortcutData(GLFW_KEY_LEFT, UI::getSystemModifier()) } },
+                    { DJV_TEXT("file_browser_shortcut_forward"), { UI::ShortcutData(GLFW_KEY_RIGHT, UI::getSystemModifier()) } },
+                    { DJV_TEXT("file_browser_shortcut_up"), { UI::ShortcutData(GLFW_KEY_UP, UI::getSystemModifier()) } },
+                    { DJV_TEXT("file_browser_shortcut_select_all"), { UI::ShortcutData(GLFW_KEY_A, UI::getSystemModifier()) } },
+                    { DJV_TEXT("file_browser_shortcut_select_none"), { UI::ShortcutData(GLFW_KEY_N, UI::getSystemModifier()) } },
+                    { DJV_TEXT("file_browser_shortcut_invert_selection"), { UI::ShortcutData(GLFW_KEY_I, UI::getSystemModifier()) } },
+                    { DJV_TEXT("file_browser_shortcut_tiles"), { UI::ShortcutData(GLFW_KEY_T) } },
+                    { DJV_TEXT("file_browser_shortcut_list"), { UI::ShortcutData(GLFW_KEY_L) } },
+                    { DJV_TEXT("file_browser_shortcut_increase_thumbnail_size"), { UI::ShortcutData(GLFW_KEY_EQUAL) } },
+                    { DJV_TEXT("file_browser_shortcut_decrease_thumbnail_size"), { UI::ShortcutData(GLFW_KEY_MINUS) } },
+                    { DJV_TEXT("file_browser_shortcut_file_sequences"), { UI::ShortcutData(GLFW_KEY_S) } },
+                    { DJV_TEXT("file_browser_shortcut_show_hidden"), { UI::ShortcutData(GLFW_KEY_N) } },
+                    { DJV_TEXT("file_browser_shortcut_sort_by_name"), { UI::ShortcutData(GLFW_KEY_3) } },
+                    { DJV_TEXT("file_browser_shortcut_sort_by_size"), { UI::ShortcutData(GLFW_KEY_4) } },
+                    { DJV_TEXT("file_browser_shortcut_sort_by_time"), { UI::ShortcutData(GLFW_KEY_5) } },
+                    { DJV_TEXT("file_browser_shortcut_reverse_sort"), { UI::ShortcutData(GLFW_KEY_R) } },
+                    { DJV_TEXT("file_browser_shortcut_sort_directories_first"), { UI::ShortcutData(GLFW_KEY_D) } } });
 
                 _load();
             }

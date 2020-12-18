@@ -45,7 +45,7 @@ namespace djv
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setIcon("djvIconInfo");
 
-            _addShortcut("shortcut_tool_info", GLFW_KEY_I, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_tool_info"), GLFW_KEY_I, UI::getSystemModifier());
 
             _textUpdate();
             _shortcutsUpdate();

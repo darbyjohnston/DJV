@@ -100,16 +100,16 @@ namespace djv
             p.actions["LoadFrameStore"] = UI::Action::create();
             p.actions["ClearFrameStore"] = UI::Action::create();
 
-            _addShortcut("shortcut_image_controls", GLFW_KEY_B, UI::getSystemModifier());
-            _addShortcut("shortcut_image_color_space", GLFW_KEY_P, UI::getSystemModifier());
-            _addShortcut("shortcut_image_red_channel", GLFW_KEY_R);
-            _addShortcut("shortcut_image_green_channel", GLFW_KEY_G);
-            _addShortcut("shortcut_image_blue_channel", GLFW_KEY_B);
-            _addShortcut("shortcut_image_alpha_channel", GLFW_KEY_A);
-            _addShortcut("shortcut_image_mirror_h", GLFW_KEY_H);
-            _addShortcut("shortcut_image_mirror_v", GLFW_KEY_V);
-            _addShortcut("shortcut_image_frame_store_enabled", GLFW_KEY_F);
-            _addShortcut("shortcut_image_load_frame_store", GLFW_KEY_F, GLFW_MOD_SHIFT);
+            _addShortcut(DJV_TEXT("shortcut_image_controls"), GLFW_KEY_B, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_image_color_space"), GLFW_KEY_P, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_image_red_channel"), GLFW_KEY_R);
+            _addShortcut(DJV_TEXT("shortcut_image_green_channel"), GLFW_KEY_G);
+            _addShortcut(DJV_TEXT("shortcut_image_blue_channel"), GLFW_KEY_B);
+            _addShortcut(DJV_TEXT("shortcut_image_alpha_channel"), GLFW_KEY_A);
+            _addShortcut(DJV_TEXT("shortcut_image_mirror_h"), GLFW_KEY_H);
+            _addShortcut(DJV_TEXT("shortcut_image_mirror_v"), GLFW_KEY_V);
+            _addShortcut(DJV_TEXT("shortcut_image_frame_store_enabled"), GLFW_KEY_F);
+            _addShortcut(DJV_TEXT("shortcut_image_load_frame_store"), GLFW_KEY_F, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["RedChannel"]);

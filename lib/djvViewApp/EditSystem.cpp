@@ -41,8 +41,8 @@ namespace djv
             p.actions["Undo"] = UI::Action::create();
             p.actions["Redo"] = UI::Action::create();
 
-            _addShortcut("shortcut_undo", GLFW_KEY_Z, UI::getSystemModifier());
-            _addShortcut("shortcut_redo", GLFW_KEY_Z, UI::getSystemModifier() | GLFW_MOD_SHIFT);
+            _addShortcut(DJV_TEXT("shortcut_undo"), GLFW_KEY_Z, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_redo"), GLFW_KEY_Z, UI::getSystemModifier() | GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Undo"]);

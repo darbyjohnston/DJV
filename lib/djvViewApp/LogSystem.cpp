@@ -38,7 +38,7 @@ namespace djv
             p.actions["SystemLog"] = UI::Action::create();
             p.actions["SystemLog"]->setIcon("djvIconFile");
 
-            _addShortcut("shortcut_tool_system_log", 0);
+            _addShortcut(DJV_TEXT("shortcut_tool_system_log"), 0);
 
             _textUpdate();
             _shortcutsUpdate();

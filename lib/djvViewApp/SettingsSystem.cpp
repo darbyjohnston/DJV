@@ -62,7 +62,7 @@ namespace djv
             p.actions["Settings"]->setIcon("djvIconSettings");
             p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("shortcut_settings", 0);
+            _addShortcut(DJV_TEXT("shortcut_settings"), 0);
 
             _shortcutsUpdate();
         }

@@ -82,7 +82,7 @@ namespace djv
             p.actionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.actionGroup->setActions(p.toolActions);
 
-            _addShortcut("shortcut_tools", GLFW_KEY_T);
+            _addShortcut(DJV_TEXT("shortcut_tools"), GLFW_KEY_T);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Show"]);

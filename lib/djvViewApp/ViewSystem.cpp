@@ -110,39 +110,39 @@ namespace djv
             p.actions["HUD"] = UI::Action::create();
             p.actions["HUD"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("shortcut_view_controls", GLFW_KEY_W, UI::getSystemModifier());
-            _addShortcut("shortcut_view_pan", GLFW_KEY_N, UI::getSystemModifier());
-            _addShortcut("shortcut_view_left", GLFW_KEY_KP_4);
-            _addShortcut("shortcut_view_right", GLFW_KEY_KP_6);
-            _addShortcut("shortcut_view_up", GLFW_KEY_KP_8);
-            _addShortcut("shortcut_view_down", GLFW_KEY_KP_2);
-            _addShortcut("shortcut_view_nw", GLFW_KEY_KP_7);
-            _addShortcut("shortcut_view_ne", GLFW_KEY_KP_9);
-            _addShortcut("shortcut_view_sw", GLFW_KEY_KP_3);
-            _addShortcut("shortcut_view_sw", GLFW_KEY_KP_1);
-            _addShortcut("shortcut_view_zoom_in", {
+            _addShortcut(DJV_TEXT("shortcut_view_controls"), GLFW_KEY_W, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_view_pan"), GLFW_KEY_N, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_view_left"), GLFW_KEY_KP_4);
+            _addShortcut(DJV_TEXT("shortcut_view_right"), GLFW_KEY_KP_6);
+            _addShortcut(DJV_TEXT("shortcut_view_up"), GLFW_KEY_KP_8);
+            _addShortcut(DJV_TEXT("shortcut_view_down"), GLFW_KEY_KP_2);
+            _addShortcut(DJV_TEXT("shortcut_view_nw"), GLFW_KEY_KP_7);
+            _addShortcut(DJV_TEXT("shortcut_view_ne"), GLFW_KEY_KP_9);
+            _addShortcut(DJV_TEXT("shortcut_view_se"), GLFW_KEY_KP_3);
+            _addShortcut(DJV_TEXT("shortcut_view_sw"), GLFW_KEY_KP_1);
+            _addShortcut(DJV_TEXT("shortcut_view_zoom_in"), {
                 UI::ShortcutData(GLFW_KEY_EQUAL),
                 UI::ShortcutData(GLFW_KEY_KP_ADD) });
-            _addShortcut("shortcut_view_zoom_out", {
+            _addShortcut(DJV_TEXT("shortcut_view_zoom_out"), {
                 UI::ShortcutData(GLFW_KEY_MINUS),
                 UI::ShortcutData(GLFW_KEY_KP_SUBTRACT) });
-            _addShortcut("shortcut_view_zoom_reset", {
+            _addShortcut(DJV_TEXT("shortcut_view_zoom_reset"), {
                 UI::ShortcutData(GLFW_KEY_0),
                 UI::ShortcutData(GLFW_KEY_KP_0) });
-            _addShortcut("shortcut_view_frame", {
+            _addShortcut(DJV_TEXT("shortcut_view_frame"), {
                 UI::ShortcutData(GLFW_KEY_BACKSPACE),
                 UI::ShortcutData(GLFW_KEY_KP_DECIMAL) });
-            _addShortcut("shortcut_view_frame_lock", {
+            _addShortcut(DJV_TEXT("shortcut_view_frame_lock"), {
                 UI::ShortcutData(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_KP_DECIMAL, GLFW_MOD_SHIFT) });
-            _addShortcut("shortcut_view_center", {
+            _addShortcut(DJV_TEXT("shortcut_view_center"), {
                 UI::ShortcutData(GLFW_KEY_BACKSLASH),
                 UI::ShortcutData(GLFW_KEY_KP_5) });
-            _addShortcut("shortcut_view_center_lock", {
+            _addShortcut(DJV_TEXT("shortcut_view_center_lock"), {
                 UI::ShortcutData(GLFW_KEY_BACKSLASH, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_KP_5, GLFW_MOD_SHIFT) });
-            _addShortcut("shortcut_view_grid", GLFW_KEY_G, UI::getSystemModifier());
-            _addShortcut("shortcut_view_hud", GLFW_KEY_U, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_view_grid"), GLFW_KEY_G, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_view_hud"), GLFW_KEY_U, UI::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Left"]);

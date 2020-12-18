@@ -128,8 +128,8 @@ namespace djv
             p.actions["FloatOnTop"] = UI::Action::create();
             p.actions["FloatOnTop"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("shortcut_window_full_screen", GLFW_KEY_U);
-            _addShortcut("shortcut_window_presentation", GLFW_KEY_E);
+            _addShortcut(DJV_TEXT("shortcut_window_full_screen"), GLFW_KEY_U);
+            _addShortcut(DJV_TEXT("shortcut_window_presentation"), GLFW_KEY_E);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);

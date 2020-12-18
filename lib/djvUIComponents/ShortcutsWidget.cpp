@@ -290,8 +290,8 @@ namespace djv
             std::map<std::string, bool> shortcutsCollisions;
             int currentShortcut = -1;
 
-            std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<SearchBox> searchBox;
+            std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<KeyPressWidget> keyPressWidgets[2];
             std::shared_ptr<UI::ToolButton> clearButtons[2];
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -314,11 +314,11 @@ namespace djv
 
             setClassName("djv::UIComponents::ShortcutsWidget");
 
+            p.searchBox = SearchBox::create(context);
+
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->addChild(p.listWidget);
-
-            p.searchBox = SearchBox::create(context);
 
             for (size_t i = 0; i < 2; ++i)
             {
@@ -331,6 +331,7 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.layout->addChild(p.searchBox);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget);
             auto hLayout = UI::HorizontalLayout::create(context);
@@ -341,12 +342,19 @@ namespace djv
             hLayout->addChild(p.keyPressWidgets[1]);
             hLayout->setStretch(p.keyPressWidgets[1]);
             hLayout->addChild(p.clearButtons[1]);
-            hLayout->addChild(p.searchBox);
-            hLayout->setStretch(p.searchBox);
             p.layout->addChild(hLayout);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
+            p.searchBox->setFilterCallback(
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->listWidget->setFilter(value);
+                    }
+                });
+
             p.listWidget->setPushCallback(
                 [weak](int value)
                 {
@@ -355,7 +363,6 @@ namespace djv
                         widget->_p->keyPressWidgets[0]->takeTextFocus();
                     }
                 });
-
             p.listWidget->setRadioCallback(
                 [weak](int value)
                 {
@@ -397,15 +404,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->setCurrentSecondary(UI::ShortcutData());
-                    }
-                });
-
-            p.searchBox->setFilterCallback(
-                [weak](const std::string& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->listWidget->setFilter(value);
                     }
                 });
         }
@@ -456,11 +454,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.searchBox->setTooltip(_getText("shortcut_search"));
-                p.keyPressWidgets[0]->setTooltip(_getText("shortcut_primary_tooltip"));
-                p.keyPressWidgets[1]->setTooltip(_getText("shortcut_secondary_tooltip"));
-                p.clearButtons[0]->setTooltip(_getText("shortcut_primary_clear_tooltip"));
-                p.clearButtons[1]->setTooltip(_getText("shortcut_secondary_clear_tooltip"));
+                p.searchBox->setTooltip(_getText(DJV_TEXT("shortcut_search")));
+                p.keyPressWidgets[0]->setTooltip(_getText(DJV_TEXT("shortcut_primary_tooltip")));
+                p.keyPressWidgets[1]->setTooltip(_getText(DJV_TEXT("shortcut_secondary_tooltip")));
+                p.clearButtons[0]->setTooltip(_getText(DJV_TEXT("shortcut_primary_clear_tooltip")));
+                p.clearButtons[1]->setTooltip(_getText(DJV_TEXT("shortcut_secondary_clear_tooltip")));
                 p.itemsUpdate();
             }
         }

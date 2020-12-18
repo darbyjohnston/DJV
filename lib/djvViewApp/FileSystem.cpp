@@ -120,18 +120,18 @@ namespace djv
             //p.actions["8BitConversion"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
 
-            _addShortcut("shortcut_file_open", GLFW_KEY_O, UI::getSystemModifier());
-            _addShortcut("shortcut_file_recent", GLFW_KEY_T, UI::getSystemModifier());
-            _addShortcut("shortcut_file_active", GLFW_KEY_F, UI::getSystemModifier());
-            _addShortcut("shortcut_file_reload", GLFW_KEY_R, UI::getSystemModifier());
-            _addShortcut("shortcut_file_close", GLFW_KEY_E, UI::getSystemModifier());
-            _addShortcut("shortcut_file_close_all", GLFW_KEY_E, GLFW_MOD_SHIFT | UI::getSystemModifier());
-            _addShortcut("shortcut_file_next", GLFW_KEY_PAGE_DOWN);
-            _addShortcut("shortcut_file_prev", GLFW_KEY_PAGE_UP);
-            _addShortcut("shortcut_file_layers", GLFW_KEY_L, UI::getSystemModifier());
-            _addShortcut("shortcut_file_next_layer", GLFW_KEY_EQUAL, UI::getSystemModifier());
-            _addShortcut("shortcut_file_prev_layer", GLFW_KEY_MINUS, UI::getSystemModifier());
-            _addShortcut("shortcut_file_exit", GLFW_KEY_Q, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_open"), GLFW_KEY_O, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_recent"), GLFW_KEY_T, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_active"), GLFW_KEY_F, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_reload"), GLFW_KEY_R, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_close"), GLFW_KEY_E, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_close_all"), GLFW_KEY_E, GLFW_MOD_SHIFT | UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_next"), GLFW_KEY_PAGE_DOWN);
+            _addShortcut(DJV_TEXT("shortcut_file_prev"), GLFW_KEY_PAGE_UP);
+            _addShortcut(DJV_TEXT("shortcut_file_layers"), GLFW_KEY_L, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_next_layer"), GLFW_KEY_EQUAL, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_prev_layer"), GLFW_KEY_MINUS, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_file_exit"), GLFW_KEY_Q, UI::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);

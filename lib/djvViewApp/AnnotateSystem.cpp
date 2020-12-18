@@ -121,7 +121,7 @@ namespace djv
             p.actions["Prev"] = UI::Action::create();
             p.actions["Prev"]->setIcon("djvIconArrowLeft");
 
-            _addShortcut("shortcut_annotate", GLFW_KEY_A, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_annotate"), GLFW_KEY_A, UI::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Polyline"]);

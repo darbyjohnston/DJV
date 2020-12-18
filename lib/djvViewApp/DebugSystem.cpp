@@ -48,7 +48,7 @@ namespace djv
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setIcon("djvIconDebug");
 
-            _addShortcut("shortcut_tool_debug", GLFW_KEY_D, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_tool_debug"), GLFW_KEY_D, UI::getSystemModifier());
 
             _textUpdate();
             _shortcutsUpdate();

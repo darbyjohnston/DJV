@@ -126,6 +126,7 @@
     "key_y": "Y",
     "key_z": "Z",
     "keyboard_shortcut": "Keyboard shortcut",
+    "keyboard_shortcut_none": "None",
     "keyboard_shortcuts": "Keyboard shortcuts",
     "layout_grid_stretch_both": "Both",
     "layout_grid_stretch_horizontal": "Horizontal",

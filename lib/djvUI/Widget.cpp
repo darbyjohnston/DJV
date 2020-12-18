@@ -894,12 +894,6 @@ namespace djv
                 const size_t shortcutsSize = shortcuts.size();
                 if (shortcutsSize)
                 {
-                    out << "\n\n";
-                    out << "(";
-                    out << _getText(1 == shortcutsSize ?
-                        DJV_TEXT("keyboard_shortcut") :
-                        DJV_TEXT("keyboard_shortcuts"));
-                    out << ": ";
                     std::vector<std::string> shortcutsText;
                     const auto& textSystem = _getTextSystem();
                     for (const auto& i : action->observeShortcuts()->get())
@@ -909,6 +903,16 @@ namespace djv
                         {
                             shortcutsText.push_back(getText(shortcut, textSystem));
                         }
+                    }
+                    out << "\n\n";
+                    out << "(";
+                    out << _getText(shortcutsText.size() > 1 ?
+                        DJV_TEXT("keyboard_shortcuts") :
+                        DJV_TEXT("keyboard_shortcut"));
+                    out << ": ";
+                    if (shortcutsText.empty())
+                    {
+                        shortcutsText.push_back(_getText("keyboard_shortcut_none"));
                     }
                     out << String::join(shortcutsText, ", ");
                     out << ")";

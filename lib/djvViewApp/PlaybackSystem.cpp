@@ -120,42 +120,42 @@ namespace djv
             p.actions["ResetInPoint"] = UI::Action::create();
             p.actions["ResetOutPoint"] = UI::Action::create();
 
-            _addShortcut("shortcut_playback_forward", {
+            _addShortcut(DJV_TEXT("shortcut_playback_forward"), {
                 UI::ShortcutData(GLFW_KEY_UP),
                 UI::ShortcutData(GLFW_KEY_L) });
-            _addShortcut("shortcut_playback_reverse", {
+            _addShortcut(DJV_TEXT("shortcut_playback_reverse"), {
                 UI::ShortcutData(GLFW_KEY_DOWN),
                 UI::ShortcutData(GLFW_KEY_J) });
-            _addShortcut("shortcut_playback_playback", {
+            _addShortcut(DJV_TEXT("shortcut_playback_playback"), {
                 UI::ShortcutData(GLFW_KEY_SPACE),
                 UI::ShortcutData(GLFW_KEY_K) });
-            _addShortcut("shortcut_playback_in_point", GLFW_KEY_HOME);
-            _addShortcut("shortcut_playback_out_point", GLFW_KEY_END);
-            _addShortcut("shortcut_playback_start_frame", GLFW_KEY_HOME, GLFW_MOD_SHIFT);
-            _addShortcut("shortcut_playback_end_frame", GLFW_KEY_END, GLFW_MOD_SHIFT);
-            _addShortcut("shortcut_playback_next_frame", {
+            _addShortcut(DJV_TEXT("shortcut_playback_in_point"), GLFW_KEY_HOME);
+            _addShortcut(DJV_TEXT("shortcut_playback_out_point"), GLFW_KEY_END);
+            _addShortcut(DJV_TEXT("shortcut_playback_start_frame"), GLFW_KEY_HOME, GLFW_MOD_SHIFT);
+            _addShortcut(DJV_TEXT("shortcut_playback_end_frame"), GLFW_KEY_END, GLFW_MOD_SHIFT);
+            _addShortcut(DJV_TEXT("shortcut_playback_next_frame"), {
                 UI::ShortcutData(GLFW_KEY_RIGHT),
                 UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET) });
-            _addShortcut("shortcut_playback_next_frame_10", {
+            _addShortcut(DJV_TEXT("shortcut_playback_next_frame_10"), {
                 UI::ShortcutData(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT) });
-            _addShortcut("shortcut_playback_next_frame_100", {
+            _addShortcut(DJV_TEXT("shortcut_playback_next_frame_100"), {
                 UI::ShortcutData(GLFW_KEY_RIGHT, UI::getSystemModifier()),
                 UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, UI::getSystemModifier()) });
-            _addShortcut("shortcut_playback_prev_frame", {
+            _addShortcut(DJV_TEXT("shortcut_playback_prev_frame"), {
                 UI::ShortcutData(GLFW_KEY_LEFT),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET) });
-            _addShortcut("shortcut_playback_prev_frame_10", {
+            _addShortcut(DJV_TEXT("shortcut_playback_prev_frame_10"), {
                 UI::ShortcutData(GLFW_KEY_LEFT, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT) });
-            _addShortcut("shortcut_playback_prev_frame_100", {
+            _addShortcut(DJV_TEXT("shortcut_playback_prev_frame_100"), {
                 UI::ShortcutData(GLFW_KEY_LEFT, UI::getSystemModifier()),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, UI::getSystemModifier()) });
-            _addShortcut("shortcut_playback_in_out_points", GLFW_KEY_P);
-            _addShortcut("shortcut_playback_set_in_point", GLFW_KEY_I);
-            _addShortcut("shortcut_playback_set_out_point", GLFW_KEY_O);
-            _addShortcut("shortcut_playback_reset_in_point", GLFW_KEY_I, GLFW_MOD_SHIFT);
-            _addShortcut("shortcut_playback_reset_out_point", GLFW_KEY_O, GLFW_MOD_SHIFT);
+            _addShortcut(DJV_TEXT("shortcut_playback_in_out_points"), GLFW_KEY_P);
+            _addShortcut(DJV_TEXT("shortcut_playback_set_in_point"), GLFW_KEY_I);
+            _addShortcut(DJV_TEXT("shortcut_playback_set_out_point"), GLFW_KEY_O);
+            _addShortcut(DJV_TEXT("shortcut_playback_reset_in_point"), GLFW_KEY_I, GLFW_MOD_SHIFT);
+            _addShortcut(DJV_TEXT("shortcut_playback_reset_out_point"), GLFW_KEY_O, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Forward"]);

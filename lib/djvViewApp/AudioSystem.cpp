@@ -49,9 +49,9 @@ namespace djv
             p.actions["Mute"] = UI::Action::create();
             p.actions["Mute"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("shortcut_audio_decrease_volume", GLFW_KEY_8, UI::getSystemModifier());
-            _addShortcut("shortcut_audio_increase_volume", GLFW_KEY_7, UI::getSystemModifier());
-            _addShortcut("shortcut_audio_mute", GLFW_KEY_9, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_audio_decrease_volume"), GLFW_KEY_8, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_audio_increase_volume"), GLFW_KEY_7, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_audio_mute"), GLFW_KEY_9, UI::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["IncreaseVolume"]);

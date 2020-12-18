@@ -42,7 +42,7 @@ namespace djv
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
 
-            _addShortcut("shortcut_color_picker", GLFW_KEY_K, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_color_picker"), GLFW_KEY_K, UI::getSystemModifier());
 
             _textUpdate();
             _shortcutsUpdate();
