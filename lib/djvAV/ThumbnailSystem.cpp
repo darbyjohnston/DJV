@@ -314,6 +314,8 @@ namespace djv
                         }
                     }
                 });
+
+            _logInitTime();
         }
 
         ThumbnailSystem::ThumbnailSystem() :

@@ -118,6 +118,8 @@ namespace djv
                         }
                     });
             }
+
+            _logInitTime();
         }
 
         EditSystem::EditSystem() :

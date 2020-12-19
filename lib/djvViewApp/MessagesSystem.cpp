@@ -133,6 +133,8 @@ namespace djv
                         }
                     }
                 });
+
+            _logInitTime();
         }
 
         MessagesSystem::MessagesSystem() :

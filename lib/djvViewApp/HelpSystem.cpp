@@ -100,6 +100,8 @@ namespace djv
                     }
                 }
             });
+
+            _logInitTime();
         }
 
         HelpSystem::HelpSystem() :

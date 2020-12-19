@@ -128,6 +128,8 @@ namespace djv
                         widget->_p->actions["Show"]->setChecked(value);
                     }
                 });
+
+            _logInitTime();
         }
 
         ToolSystem::ToolSystem() :

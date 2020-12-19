@@ -22,6 +22,8 @@ namespace djv
 
             auto animationSystem = Animation::AnimationSystem::create(context);
             addDependency(animationSystem);
+
+            _logInitTime();
         }
 
         CoreSystem::CoreSystem() :

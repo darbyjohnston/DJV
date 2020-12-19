@@ -376,6 +376,8 @@ namespace djv
                     }
                     _delFreeType();
                 });
+
+                _logInitTime();
             }
 
             FontSystem::FontSystem() :

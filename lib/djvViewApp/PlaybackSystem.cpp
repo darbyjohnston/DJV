@@ -581,6 +581,8 @@ namespace djv
                         }
                     });
             }
+
+            _logInitTime();
         }
 
         PlaybackSystem::PlaybackSystem() :

@@ -117,6 +117,8 @@ namespace djv
                     p.configUpdate();
                 }
             }
+
+            _logInitTime();
         }
 
         OCIOSystem::OCIOSystem() :

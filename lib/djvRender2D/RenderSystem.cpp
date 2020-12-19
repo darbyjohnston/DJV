@@ -35,6 +35,8 @@ namespace djv
             p.render = Render2D::Render::create(context);
             addDependency(p.fontSystem);
             addDependency(p.render);
+
+            _logInitTime();
         }
 
         RenderSystem::RenderSystem() :

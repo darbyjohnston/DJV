@@ -127,6 +127,8 @@ namespace djv
                     }
                     _log(ss.str());
                 });
+
+            _logInitTime();
         }
 
         Render::Render() :

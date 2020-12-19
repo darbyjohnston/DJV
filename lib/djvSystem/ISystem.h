@@ -6,9 +6,8 @@
 
 #include <djvSystem/Enum.h>
 
-#include <djvCore/Core.h>
+#include <djvCore/Time.h>
 
-#include <chrono>
 #include <memory>
 #include <string>
 #include <vector>
@@ -99,11 +98,15 @@ namespace djv
             
             //! Get the resource system.
             std::shared_ptr<ResourceSystem> _getResourceSystem() const;
+
+            //! Log initialization time.
+            void _logInitTime();
             
         private:
             std::shared_ptr<TextSystem> _textSystem;
             std::shared_ptr<ResourceSystem> _resourceSystem;
             std::shared_ptr<LogSystem> _logSystem;
+            Core::Time::TimePoint _initStartTime = std::chrono::steady_clock::now();
         };
 
     } // namespace System

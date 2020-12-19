@@ -237,6 +237,8 @@ namespace djv
                         system->_actionsUpdate();
                     }
                 });
+
+            _logInitTime();
         }
 
         ImageSystem::ImageSystem() :

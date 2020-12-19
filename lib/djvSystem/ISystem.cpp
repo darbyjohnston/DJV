@@ -86,6 +86,15 @@ namespace djv
             return _textSystem->getText(id);
         }
 
+        void ISystem::_logInitTime()
+        {
+            Core::Time::TimePoint time = std::chrono::steady_clock::now();
+            const auto diff = std::chrono::duration_cast<Core::Time::Duration>(time - _initStartTime);
+            std::stringstream ss;
+            ss << "Init time: " << diff.count();
+            _log(ss.str());
+        }
+
     } // namespace System
 } // namespace djv
 

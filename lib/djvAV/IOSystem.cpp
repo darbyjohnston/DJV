@@ -110,6 +110,8 @@ namespace djv
                     ss << "    File extensions: " << String::joinSet(i.second->getFileExtensions(), ", ") << '\n';
                     _log(ss.str());
                 }
+
+                _logInitTime();
             }
 
             IOSystem::IOSystem() :

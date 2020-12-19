@@ -6,7 +6,6 @@
 
 #include <djvCore/Time.h>
 
-#include <chrono>
 #include <list>
 #include <memory>
 #include <string>

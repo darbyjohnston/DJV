@@ -27,6 +27,8 @@ namespace djv
             addDependency(context->getSystemT<UI::UISystem>());
             Settings::IO::create(context);
             Settings::FileBrowser::create(context);
+
+            _logInitTime();
         }
 
         UIComponentsSystem::UIComponentsSystem() :

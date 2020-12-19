@@ -26,6 +26,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.settings = NUXSettings::create(context);
+
+            _logInitTime();
         }
 
         NUXSystem::NUXSystem() :

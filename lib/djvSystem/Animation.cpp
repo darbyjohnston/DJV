@@ -112,6 +112,8 @@ namespace djv
                 ISystem::_init("djv::System::Animation::AnimationSystem", context);
 
                 addDependency(TextSystem::create(context));
+
+                _logInitTime();
             }
 
             AnimationSystem::AnimationSystem() :

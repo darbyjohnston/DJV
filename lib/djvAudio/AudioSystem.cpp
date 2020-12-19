@@ -160,6 +160,8 @@ namespace djv
                 messages.push_back(e.what());
                 _log(String::join(messages, ' '), System::LogLevel::Error);
             }
+
+            _logInitTime();
         }
 
         AudioSystem::AudioSystem() :

@@ -428,6 +428,8 @@ namespace djv
                         system->_actionsUpdate();
                     }
                 });
+
+            _logInitTime();
         }
 
         ViewSystem::ViewSystem() :

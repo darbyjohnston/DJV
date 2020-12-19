@@ -65,6 +65,8 @@ namespace djv
             _addShortcut(DJV_TEXT("shortcut_settings"), 0);
 
             _shortcutsUpdate();
+
+            _logInitTime();
         }
 
         SettingsSystem::SettingsSystem() :

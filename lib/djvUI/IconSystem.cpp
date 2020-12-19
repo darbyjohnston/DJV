@@ -186,6 +186,8 @@ namespace djv
                     _log(e.what(), System::LogLevel::Error);
                 }
             });
+
+            _logInitTime();
         }
 
         IconSystem::IconSystem() :

@@ -213,6 +213,8 @@ namespace djv
                 }
 
                 p.swapInterval = Observer::ValueSubject<SwapInterval>::create(SwapInterval::Default);
+
+                _logInitTime();
             }
 
             GLFWSystem::GLFWSystem() :

@@ -166,6 +166,8 @@ namespace djv
                     ss << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
                     _log(ss.str());
                 });
+
+            _logInitTime();
         }
 
         Render::Render() :

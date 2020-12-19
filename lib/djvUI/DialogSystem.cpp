@@ -200,6 +200,8 @@ namespace djv
             ISystem::_init("djv::UI::DialogSystem", context);
 
             addDependency(IconSystem::create(context));
+
+            _logInitTime();
         }
 
         DialogSystem::DialogSystem() :

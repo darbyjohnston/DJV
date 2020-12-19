@@ -25,6 +25,8 @@ namespace djv
 
             auto render = Render3D::Render::create(context);
             addDependency(render);
+
+            _logInitTime();
         }
 
         RenderSystem::RenderSystem() :

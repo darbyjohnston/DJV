@@ -57,6 +57,8 @@ namespace djv
                 {
                     _readSettingsFile();
                 }
+
+                _logInitTime();
             }
 
             SettingsSystem::SettingsSystem()

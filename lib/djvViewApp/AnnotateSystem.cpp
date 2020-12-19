@@ -287,6 +287,8 @@ namespace djv
                         }
                     });
             }
+
+            _logInitTime();
         }
 
         AnnotateSystem::AnnotateSystem() :

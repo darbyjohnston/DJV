@@ -144,6 +144,8 @@ namespace djv
         {
             ISystemBase::_init("djv::System::TextSystem", context);
 
+            const Core::Time::TimePoint initStartTime = std::chrono::steady_clock::now();
+
             auto resourceSystem = context->getSystemT<ResourceSystem>();
             auto logSystem = LogSystem::create(context);
             addDependency(resourceSystem);
@@ -262,6 +264,14 @@ namespace djv
             // Create a timer to wait for text files to be read.
             p.timer = Timer::create(context);
             p.timer->setRepeating(true);
+
+            {
+                Core::Time::TimePoint time = std::chrono::steady_clock::now();
+                const auto diff = std::chrono::duration_cast<Core::Time::Duration>(time - initStartTime);
+                std::stringstream ss;
+                ss << "Init time: " << diff.count();
+                p.logSystem->log(getSystemName(), ss.str());
+            }
         }
 
         TextSystem::TextSystem() :

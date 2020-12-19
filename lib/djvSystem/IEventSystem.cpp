@@ -88,6 +88,8 @@ namespace djv
                         system->_log(ss.str());
                     }
                 });
+
+                _logInitTime();
             }
 
             IEventSystem::IEventSystem() :

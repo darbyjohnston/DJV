@@ -247,6 +247,8 @@ namespace djv
                         }
                     }
                 });
+
+            _logInitTime();
         }
 
         WindowSystem::WindowSystem() :

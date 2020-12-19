@@ -153,6 +153,8 @@ namespace djv
                     }
                 });
             }
+
+            _logInitTime();
         }
 
         AudioSystem::AudioSystem() :

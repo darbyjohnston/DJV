@@ -31,6 +31,8 @@ namespace djv
             addDependency(AV::AVSystem::create(context));
             addDependency(Render3D::Render::create(context));
             addDependency(IO::IOSystem::create(context));
+
+            _logInitTime();
         }
 
         SceneSystem::SceneSystem() :

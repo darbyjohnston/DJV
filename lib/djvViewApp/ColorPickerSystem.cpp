@@ -46,6 +46,8 @@ namespace djv
 
             _textUpdate();
             _shortcutsUpdate();
+
+            _logInitTime();
         }
 
         ColorPickerSystem::ColorPickerSystem() :

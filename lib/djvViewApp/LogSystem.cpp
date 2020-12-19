@@ -42,6 +42,8 @@ namespace djv
 
             _textUpdate();
             _shortcutsUpdate();
+
+            _logInitTime();
         }
 
         LogSystem::LogSystem() :

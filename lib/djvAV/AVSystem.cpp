@@ -52,6 +52,8 @@ namespace djv
             addDependency(ocioSystem);
             addDependency(ioSystem);
             addDependency(p.thumbnailSystem);
+
+            _logInitTime();
         }
 
         AVSystem::AVSystem() :

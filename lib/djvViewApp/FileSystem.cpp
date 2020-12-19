@@ -385,6 +385,8 @@ namespace djv
                         system->_p->cachePercentage->setIfChanged(percentage);
                     }
                 });
+
+            _logInitTime();
         }
 
         FileSystem::FileSystem() :

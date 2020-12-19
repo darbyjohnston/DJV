@@ -31,6 +31,8 @@ namespace djv
             ISystem::_init("djv::GL::Render::ShaderSystem", context);
             
             addDependency(context->getSystemT<System::CoreSystem>());
+
+            _logInitTime();
         }
 
         ShaderSystem::ShaderSystem() :

@@ -59,6 +59,8 @@ namespace djv
             addDependency(IconSystem::create(context));
             p.style = Style::Style::create(context);
             addDependency(DialogSystem::create(context));
+
+            _logInitTime();
         }
 
         UISystem::UISystem() :
