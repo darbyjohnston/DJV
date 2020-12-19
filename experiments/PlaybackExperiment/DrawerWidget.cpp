@@ -34,7 +34,7 @@ void DrawerWidget::_init(
     p.audioQueueGraphWidget = UIComponents::LineGraphWidget::create(context);
 
     p.layout = UI::VerticalLayout::create(context);
-    p.layout->setMargin(UI::MetricsRole::Margin);
+    p.layout->setMargin(UI::MetricsRole::MarginSmall);
     auto label = UI::Text::Label::create(context);
     label->setText("Video Queue");
     label->setTextHAlign(UI::TextHAlign::Left);

@@ -18,7 +18,9 @@
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ShortcutData.h>
+#include <djvUI/Splitter.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvAV/TimeFunc.h>
 
@@ -42,7 +44,9 @@ struct MainWindow::Private
     std::shared_ptr<UI::Text::Label> speedLabel;
     std::shared_ptr<UI::Text::Label> currentTimeLabel;
     std::shared_ptr<TimelineWidget> timelineWidget;
-    std::shared_ptr<UI::Drawer> drawer;
+    std::shared_ptr<DrawerWidget> drawerWidget;
+    std::shared_ptr<UI::Layout::Splitter> splitter;
+    std::vector<float> splitterSplit = { .8F, 1.F };
 
     std::shared_ptr<Core::Observer::Value<std::shared_ptr<Image::Data> > > imageObserver;
     std::shared_ptr<Core::Observer::Value<Playback> > playbackObserver;
@@ -123,6 +127,9 @@ void MainWindow::_init(
     toolsMenu->setText("Tools");
     toolsMenu->addAction(p.actions["Tools/Drawer"]);
 
+    auto drawerButton = UI::ToolButton::create(context);
+    drawerButton->addAction(p.actions["Tools/Drawer"]);
+
     auto menuBar = UI::MenuBar::create(context);;
     menuBar->addChild(playbackMenu);
     menuBar->addChild(toolsMenu);
@@ -133,23 +140,13 @@ void MainWindow::_init(
     fileInfoLabel->setTextElide(40);
     fileInfoLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
 
-    auto toolBar = UI::ToolBar::create(context);
-    toolBar->setBackgroundRole(UI::ColorRole::Background);
-    toolBar->addChild(fileInfoLabel);
-    toolBar->setStretch(fileInfoLabel, UI::RowStretch::Expand);
-    toolBar->addSeparator();
-    toolBar->addAction(p.actions["Tools/Drawer"]);
+    menuBar->addSeparator(UI::Side::Right);
+    menuBar->addChild(fileInfoLabel);
+    menuBar->setStretch(fileInfoLabel, UI::Side::Right);
+    menuBar->addSeparator(UI::Side::Right);
+    menuBar->addChild(drawerButton);
 
     p.imageWidget = ImageWidget::create(context);
-
-    auto playbackToolBar = UI::ToolBar::create(context);
-    playbackToolBar->setBackgroundRole(UI::ColorRole::Background);
-    playbackToolBar->addAction(p.actions["Playback/StartFrame"]);
-    playbackToolBar->addAction(p.actions["Playback/PrevFrame"]);
-    playbackToolBar->addAction(p.actions["Playback/Reverse"]);
-    playbackToolBar->addAction(p.actions["Playback/Forward"]);
-    playbackToolBar->addAction(p.actions["Playback/NextFrame"]);
-    playbackToolBar->addAction(p.actions["Playback/EndFrame"]);
 
     p.speedLabel = UI::Text::Label::create(context);
     p.speedLabel->setSizeString("00.00");
@@ -159,34 +156,29 @@ void MainWindow::_init(
 
     p.timelineWidget = TimelineWidget::create(context);
 
-    p.drawer = UI::Drawer::create(UI::Side::Right, context);
+    auto playbackToolBar = UI::ToolBar::create(context);
+    playbackToolBar->addAction(p.actions["Playback/StartFrame"]);
+    playbackToolBar->addAction(p.actions["Playback/PrevFrame"]);
+    playbackToolBar->addAction(p.actions["Playback/Reverse"]);
+    playbackToolBar->addAction(p.actions["Playback/Forward"]);
+    playbackToolBar->addAction(p.actions["Playback/NextFrame"]);
+    playbackToolBar->addAction(p.actions["Playback/EndFrame"]);
+    playbackToolBar->addChild(p.speedLabel);
+    playbackToolBar->addChild(p.currentTimeLabel);
+    playbackToolBar->addChild(p.timelineWidget);
+    playbackToolBar->setStretch(p.timelineWidget);
+
+    p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
 
     auto layout = UI::VerticalLayout::create(context);
     layout->setSpacing(UI::MetricsRole::None);
-    auto hLayout = UI::HorizontalLayout::create(context);
-    hLayout->setSpacing(UI::MetricsRole::None);
-    hLayout->addChild(menuBar);
-    hLayout->addSeparator();
-    hLayout->addChild(toolBar);
-    hLayout->setStretch(toolBar, UI::RowStretch::Expand);
-    layout->addChild(hLayout);
+    layout->addChild(menuBar);
     layout->addSeparator();
-    hLayout = UI::HorizontalLayout::create(context);
-    hLayout->setSpacing(UI::MetricsRole::None);
-    hLayout->addChild(p.imageWidget);
-    hLayout->setStretch(p.imageWidget, UI::RowStretch::Expand);
-    hLayout->addChild(p.drawer);
-    layout->addChild(hLayout);
-    layout->setStretch(hLayout, UI::RowStretch::Expand);
+    p.splitter->addChild(p.imageWidget);
+    layout->addChild(p.splitter);
+    layout->setStretch(p.splitter, UI::RowStretch::Expand);
     layout->addSeparator();
-    hLayout = UI::HorizontalLayout::create(context);
-    hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-    hLayout->addChild(playbackToolBar);
-    hLayout->addChild(p.speedLabel);
-    hLayout->addChild(p.currentTimeLabel);
-    hLayout->addChild(p.timelineWidget);
-    hLayout->setStretch(p.timelineWidget, UI::RowStretch::Expand);
-    layout->addChild(hLayout);
+    layout->addChild(playbackToolBar);
     addChild(layout);
 
     _widgetUpdate();
@@ -252,12 +244,27 @@ void MainWindow::_init(
             }
         });
 
+    auto contextWeak = std::weak_ptr<System::Context>(context);
     p.actions["Tools/Drawer"]->setCheckedCallback(
-        [weak](bool value)
+        [weak, contextWeak](bool value)
         {
-            if (auto widget = weak.lock())
+            if (auto context = contextWeak.lock())
             {
-                widget->_p->drawer->setOpen(value);
+                if (auto widget = weak.lock())
+                {
+                    if (value)
+                    {
+                        widget->_p->drawerWidget = DrawerWidget::create(widget->_p->media, context);
+                        widget->_p->splitter->addChild(widget->_p->drawerWidget);
+                        widget->_p->splitter->setSplit(widget->_p->splitterSplit);
+                    }
+                    else
+                    {
+                        widget->_p->splitterSplit = widget->_p->splitter->getSplit();
+                        widget->_p->splitter->removeChild(widget->_p->drawerWidget);
+                        widget->_p->drawerWidget.reset();
+                    }
+                }
             }
         });
 
@@ -283,21 +290,6 @@ void MainWindow::_init(
             {
                 widget->_p->media->seek(value.timestamp);
             }
-        });
-
-    auto contextWeak = std::weak_ptr<System::Context>(context);
-    p.drawer->setOpenCallback(
-        [weak, contextWeak]()->std::shared_ptr<Widget>
-        {
-            std::shared_ptr<Widget> out;
-            if (auto context = contextWeak.lock())
-            {
-                if (auto widget = weak.lock())
-                {
-                    out = DrawerWidget::create(widget->_p->media, context);
-                }
-            }
-            return out;
         });
 
     p.imageObserver = Core::Observer::Value<std::shared_ptr<Image::Data> >::create(
@@ -384,15 +376,18 @@ void MainWindow::_widgetUpdate()
     const auto& info = p.media->getIOInfo();
     Math::Rational speed;
     std::vector<IO::FrameInfo> frameInfo;
-    if (info->video.size())
+    if (info)
     {
-        speed = info->videoSpeed;
-        frameInfo = info->videoFrameInfo;
-    }
-    else if (info->audio.isValid())
-    {
-        speed = Math::Rational(info->audio.sampleRate, 1);
-        frameInfo = info->audioFrameInfo;
+        if (info->video.size())
+        {
+            speed = info->videoSpeed;
+            frameInfo = info->videoFrameInfo;
+        }
+        else if (info->audio.isValid())
+        {
+            speed = Math::Rational(info->audio.sampleRate, 1);
+            frameInfo = info->audioFrameInfo;
+        }
     }
 
     {

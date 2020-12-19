@@ -98,35 +98,38 @@ void Media::_init(
     if (p.read)
     {
         p.ioInfo = p.read->getInfo().get();
-        if (p.ioInfo->video.size())
+        if (p.ioInfo)
         {
-            p.hasVideo = true;
-        }
-        if (p.ioInfo->audio.isValid())
-        {
-            try
+            if (p.ioInfo->video.size())
             {
-                p.rtAudio.reset(new RtAudio);
-                RtAudio::StreamParameters rtParameters;
-                auto audioSystem = context->getSystemT<Audio::AudioSystem>();
-                rtParameters.deviceId = audioSystem->getDefaultOutputDevice();
-                rtParameters.nChannels = p.ioInfo->audio.channelCount;
-                unsigned int rtBufferFrames = bufferFramesCount;
-                p.rtAudio->openStream(
-                    &rtParameters,
-                    nullptr,
-                    Audio::toRtAudio(p.ioInfo->audio.type),
-                    p.ioInfo->audio.sampleRate,
-                    &rtBufferFrames,
-                    _rtAudioCallback,
-                    this,
-                    nullptr,
-                    _rtAudioErrorCallback);
-                p.hasAudio = true;
+                p.hasVideo = true;
             }
-            catch (const std::exception& e)
+            if (p.ioInfo->audio.isValid())
             {
-                _error(DJV_TEXT("Audio cannot be initialized"), e.what());
+                try
+                {
+                    p.rtAudio.reset(new RtAudio);
+                    RtAudio::StreamParameters rtParameters;
+                    auto audioSystem = context->getSystemT<Audio::AudioSystem>();
+                    rtParameters.deviceId = audioSystem->getDefaultOutputDevice();
+                    rtParameters.nChannels = p.ioInfo->audio.channelCount;
+                    unsigned int rtBufferFrames = bufferFramesCount;
+                    p.rtAudio->openStream(
+                        &rtParameters,
+                        nullptr,
+                        Audio::toRtAudio(p.ioInfo->audio.type),
+                        p.ioInfo->audio.sampleRate,
+                        &rtBufferFrames,
+                        _rtAudioCallback,
+                        this,
+                        nullptr,
+                        _rtAudioErrorCallback);
+                    p.hasAudio = true;
+                }
+                catch (const std::exception& e)
+                {
+                    _error(DJV_TEXT("Audio cannot be initialized"), e.what());
+                }
             }
         }
     }
