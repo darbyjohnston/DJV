@@ -130,6 +130,7 @@ namespace djv
 
             _addShortcut(DJV_TEXT("shortcut_window_full_screen"), GLFW_KEY_U);
             _addShortcut(DJV_TEXT("shortcut_window_presentation"), GLFW_KEY_E);
+            _addShortcut(DJV_TEXT("shortcut_window_float_on_top"), 0);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
@@ -375,6 +376,7 @@ namespace djv
             {
                 p.actions["FullScreen"]->setShortcuts(_getShortcuts("shortcut_window_full_screen"));
                 p.actions["Presentation"]->setShortcuts(_getShortcuts("shortcut_window_presentation"));
+                p.actions["FloatOnTop"]->setShortcuts(_getShortcuts("shortcut_window_float_on_top"));
             }
         }
 

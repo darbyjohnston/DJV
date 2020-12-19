@@ -113,7 +113,7 @@ namespace djv
             _addShortcut(DJV_TEXT("shortcut_image_alpha_channel"), GLFW_KEY_A);
             _addShortcut(DJV_TEXT("shortcut_image_mirror_h"), GLFW_KEY_H);
             _addShortcut(DJV_TEXT("shortcut_image_mirror_v"), GLFW_KEY_V);
-            _addShortcut(DJV_TEXT("shortcut_image_frame_store"), GLFW_KEY_F);
+            _addShortcut(DJV_TEXT("shortcut_image_frame_store_enabled"), GLFW_KEY_F);
             _addShortcut(DJV_TEXT("shortcut_image_load_frame_store"), GLFW_KEY_F, GLFW_MOD_SHIFT);
             _addShortcut(DJV_TEXT("shortcut_image_clear_frame_store"), 0);
 
