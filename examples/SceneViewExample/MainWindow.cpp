@@ -139,8 +139,6 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
     vLayout->addSeparator();
     _splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
     _splitter->addChild(_sceneWidget);
-    _settingsLayout = UI::StackLayout::create(context);
-    _splitter->addChild(_settingsLayout);
     vLayout->addChild(_splitter);
     vLayout->setStretch(_splitter);
     addChild(vLayout);
@@ -213,10 +211,10 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                         auto cameraWidget = CameraWidget::create(context);
                         auto renderWidget = RenderWidget::create(context);
                         auto infoWidget = InfoWidget::create(context);
-                        auto settingsWidget = SettingsWidget::create(context);
-                        settingsWidget->addChild(cameraWidget);
-                        settingsWidget->addChild(renderWidget);
-                        settingsWidget->addChild(infoWidget);
+                        widget->_settingsWidget = SettingsWidget::create(context);
+                        widget->_settingsWidget->addChild(cameraWidget);
+                        widget->_settingsWidget->addChild(renderWidget);
+                        widget->_settingsWidget->addChild(infoWidget);
 
                         cameraWidget->setCameraDataCallback(
                             [weak](const Scene3D::PolarCameraData& value)
@@ -301,13 +299,14 @@ void MainWindow::_init(const std::shared_ptr<System::Context>& context)
                                 }
                             });
 
-                        widget->_settingsLayout->addChild(settingsWidget);
-                        widget->_settingsLayout->show();
+                        widget->_splitter->addChild(widget->_settingsWidget);
+                        widget->_splitter->setSplit(widget->_splitterSplit);
                     }
                     else
                     {
-                        widget->_settingsLayout->hide();
-                        widget->_settingsLayout->clearChildren();
+                        widget->_splitterSplit = widget->_splitter->getSplit();
+                        widget->_splitter->removeChild(widget->_settingsWidget);
+                        widget->_settingsWidget.reset();
                     }
                 }
             }

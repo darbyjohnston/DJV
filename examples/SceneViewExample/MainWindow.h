@@ -22,6 +22,7 @@
 class CameraWidget;
 class InfoWidget;
 class RenderWidget;
+class SettingsWidget;
 
 class MainWindow : public djv::UI::Window
 {
@@ -55,8 +56,9 @@ private:
 
     std::shared_ptr<djv::UI::Text::Label> _fileInfoLabel;
     std::shared_ptr<djv::UIComponents::SceneWidget> _sceneWidget;
-    std::shared_ptr<djv::UI::StackLayout> _settingsLayout;
+    std::shared_ptr<SettingsWidget> _settingsWidget;
     std::shared_ptr<djv::UI::Layout::Splitter> _splitter;
+    std::vector<float> _splitterSplit = { .8F, 1.F };
 
     std::shared_ptr<djv::UIComponents::FileBrowser::Dialog> _fileBrowserDialog;
     djv::System::File::Path _fileBrowserPath = djv::System::File::Path(".");

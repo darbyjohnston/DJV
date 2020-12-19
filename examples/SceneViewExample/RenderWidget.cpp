@@ -21,7 +21,7 @@ void RenderWidget::_init(const std::shared_ptr<System::Context>& context)
 
     _shaderModeComboBox = UI::ComboBox::create(context);
     _layouts["Shader"] = UI::FormLayout::create(context);
-    _layouts["Shader"]->setSpacing(UI::MetricsRole::SpacingSmall);
+    _layouts["Shader"]->setSpacing(UI::MetricsRole::None);
     _layouts["Shader"]->addChild(_shaderModeComboBox);
     _groupBoxes["Shader"] = UI::GroupBox::create(context);
     _groupBoxes["Shader"]->addChild(_layouts["Shader"]);
@@ -29,7 +29,7 @@ void RenderWidget::_init(const std::shared_ptr<System::Context>& context)
     _depthBufferModeComboBox = UI::ComboBox::create(context);
     _depthBufferTypeComboBox = UI::ComboBox::create(context);
     _layouts["DepthBuffer"] = UI::FormLayout::create(context);
-    _layouts["DepthBuffer"]->setSpacing(UI::MetricsRole::SpacingSmall);
+    _layouts["DepthBuffer"]->setSpacing(UI::MetricsRole::None);
     _layouts["DepthBuffer"]->addChild(_depthBufferModeComboBox);
     _layouts["DepthBuffer"]->addChild(_depthBufferTypeComboBox);
     _groupBoxes["DepthBuffer"] = UI::GroupBox::create(context);
@@ -37,13 +37,13 @@ void RenderWidget::_init(const std::shared_ptr<System::Context>& context)
 
     _multiSamplingComboBox = UI::ComboBox::create(context);
     _layouts["Multisampling"] = UI::FormLayout::create(context);
-    _layouts["Multisampling"]->setSpacing(UI::MetricsRole::SpacingSmall);
+    _layouts["Multisampling"]->setSpacing(UI::MetricsRole::None);
     _layouts["Multisampling"]->addChild(_multiSamplingComboBox);
     _groupBoxes["Multisampling"] = UI::GroupBox::create(context);
     _groupBoxes["Multisampling"]->addChild(_layouts["Multisampling"]);
 
     auto layout = UI::VerticalLayout::create(context);
-    layout->setMargin(UI::MetricsRole::Margin);
+    layout->setSpacing(UI::MetricsRole::None);
     layout->addChild(_groupBoxes["Shader"]);
     layout->addChild(_groupBoxes["DepthBuffer"]);
     layout->addChild(_groupBoxes["Multisampling"]);

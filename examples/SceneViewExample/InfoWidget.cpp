@@ -23,7 +23,7 @@ void InfoWidget::_init(const std::shared_ptr<System::Context>& context)
     _labels["SceneSizeD"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneSizeD"]->setMargin(UI::MetricsRole::MarginSmall);
     _layouts["SceneSize"] = UI::FormLayout::create(context);
-    _layouts["SceneSize"]->setSpacing(UI::MetricsRole::SpacingSmall);
+    _layouts["SceneSize"]->setSpacing(UI::MetricsRole::None);
     _layouts["SceneSize"]->addChild(_labels["SceneSizeW"]);
     _layouts["SceneSize"]->addChild(_labels["SceneSizeH"]);
     _layouts["SceneSize"]->addChild(_labels["SceneSizeD"]);
@@ -55,7 +55,7 @@ void InfoWidget::_init(const std::shared_ptr<System::Context>& context)
     _labels["SceneRangeMaxZ"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMaxZ"]->setMargin(UI::MetricsRole::MarginSmall);
     _layouts["SceneRange"] = UI::FormLayout::create(context);
-    _layouts["SceneRange"]->setSpacing(UI::MetricsRole::SpacingSmall);
+    _layouts["SceneRange"]->setSpacing(UI::MetricsRole::None);
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMinX"]);
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMaxX"]);
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMinY"]);
@@ -78,7 +78,7 @@ void InfoWidget::_init(const std::shared_ptr<System::Context>& context)
     _labels["FPS"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["FPS"]->setMargin(UI::MetricsRole::MarginSmall);
     _layouts["Stats"] = UI::FormLayout::create(context);
-    _layouts["Stats"]->setSpacing(UI::MetricsRole::SpacingSmall);
+    _layouts["Stats"]->setSpacing(UI::MetricsRole::None);
     _layouts["Stats"]->addChild(_labels["Primitives"]);
     _layouts["Stats"]->addChild(_labels["PointCount"]);
     _layouts["Stats"]->addChild(_labels["FPS"]);
@@ -86,7 +86,7 @@ void InfoWidget::_init(const std::shared_ptr<System::Context>& context)
     _groupBoxes["Stats"]->addChild(_layouts["Stats"]);
 
     auto layout = UI::VerticalLayout::create(context);
-    layout->setMargin(UI::MetricsRole::Margin);
+    layout->setSpacing(UI::MetricsRole::None);
     layout->addChild(_groupBoxes["SceneSize"]);
     layout->addChild(_groupBoxes["SceneRange"]);
     layout->addChild(_groupBoxes["Stats"]);
