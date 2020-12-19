@@ -78,7 +78,7 @@ namespace djv
             std::shared_ptr<Image::Data> image;
             ViewLock viewLock = ViewLock::First;
             bool frameStoreEnabled = false;
-            std::shared_ptr<Image::Data> frameStore;
+            std::shared_ptr<Image::Data> frameStoreImage;
             std::shared_ptr<Observer::ValueSubject<PointerData> > hover;
             std::shared_ptr<Observer::ValueSubject<PointerData> > drag;
             std::shared_ptr<Observer::ValueSubject<ScrollData> > scroll;
@@ -90,7 +90,7 @@ namespace djv
             std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > imageObserver;
             std::shared_ptr<Observer::Value<ViewLock> > viewLockObserver;
             std::shared_ptr<Observer::Value<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > frameStoreObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > frameStoreImageObserver;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
@@ -184,13 +184,13 @@ namespace djv
                             widget->_imageUpdate();
                         }
                     });
-                p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
-                    imageSystem->observeFrameStore(),
+                p.frameStoreImageObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
+                    imageSystem->observeFrameStoreImage(),
                     [weak](const std::shared_ptr<Image::Data>& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->frameStore = value;
+                            widget->_p->frameStoreImage = value;
                             widget->_imageUpdate();
                         }
                     });
@@ -268,7 +268,7 @@ namespace djv
         void MediaWidget::_imageUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.viewWidget->setImage(p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
+            p.viewWidget->setImage(p.frameStoreEnabled && p.frameStoreImage ? p.frameStoreImage : p.image);
         }
 
     } // namespace ViewApp

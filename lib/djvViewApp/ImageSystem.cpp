@@ -46,7 +46,10 @@ namespace djv
             std::map<std::string, bool> colorSpaceBellowsState;
             ImageData data;
             std::shared_ptr<Observer::ValueSubject<bool> > frameStoreEnabled;
-            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Data> > > frameStore;
+            std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Data> > > frameStoreImage;
+            std::shared_ptr<Observer::ValueSubject<bool> > frameStoreActionEnabled;
+            std::shared_ptr<Observer::ValueSubject<bool> > loadFrameStoreActionEnabled;
+            std::shared_ptr<Observer::ValueSubject<bool> > clearFrameStoreActionEnabled;
             std::shared_ptr<Image::Data> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
 
@@ -73,7 +76,10 @@ namespace djv
             p.colorSpaceBellowsState = p.settings->getColorSpaceBellowsState();
 
             p.frameStoreEnabled = Observer::ValueSubject<bool>::create();
-            p.frameStore = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
+            p.frameStoreImage = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
+            p.frameStoreActionEnabled = Observer::ValueSubject<bool>::create();
+            p.loadFrameStoreActionEnabled = Observer::ValueSubject<bool>::create();
+            p.clearFrameStoreActionEnabled = Observer::ValueSubject<bool>::create();
 
             p.actions["ImageControls"] = UI::Action::create();
             p.actions["ImageControls"]->setIcon("djvIconImageControls");
@@ -96,7 +102,6 @@ namespace djv
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FrameStoreEnabled"] = UI::Action::create();
             p.actions["FrameStoreEnabled"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["FrameStoreEnabled"]->setEnabled(false);
             p.actions["LoadFrameStore"] = UI::Action::create();
             p.actions["ClearFrameStore"] = UI::Action::create();
 
@@ -108,8 +113,9 @@ namespace djv
             _addShortcut(DJV_TEXT("shortcut_image_alpha_channel"), GLFW_KEY_A);
             _addShortcut(DJV_TEXT("shortcut_image_mirror_h"), GLFW_KEY_H);
             _addShortcut(DJV_TEXT("shortcut_image_mirror_v"), GLFW_KEY_V);
-            _addShortcut(DJV_TEXT("shortcut_image_frame_store_enabled"), GLFW_KEY_F);
+            _addShortcut(DJV_TEXT("shortcut_image_frame_store"), GLFW_KEY_F);
             _addShortcut(DJV_TEXT("shortcut_image_load_frame_store"), GLFW_KEY_F, GLFW_MOD_SHIFT);
+            _addShortcut(DJV_TEXT("shortcut_image_clear_frame_store"), 0);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["RedChannel"]);
@@ -203,6 +209,8 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->currentImage = value;
+                                            system->_p->frameStoreActionEnabled->setIfChanged(value.get());
+                                            system->_p->loadFrameStoreActionEnabled->setIfChanged(value.get());
                                             system->_actionsUpdate();
                                         }
                                     });
@@ -210,6 +218,8 @@ namespace djv
                             else
                             {
                                 system->_p->currentImage.reset();
+                                system->_p->frameStoreActionEnabled->setIfChanged(false);
+                                system->_p->loadFrameStoreActionEnabled->setIfChanged(false);
                                 system->_p->currentImageObserver.reset();
                                 system->_actionsUpdate();
                             }
@@ -256,29 +266,53 @@ namespace djv
             return _p->frameStoreEnabled;
         }
 
-        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Data> > > ImageSystem::observeFrameStore() const
+        std::shared_ptr<Observer::IValueSubject<std::shared_ptr<Image::Data> > > ImageSystem::observeFrameStoreImage() const
         {
-            return _p->frameStore;
+            return _p->frameStoreImage;
+        }
+
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > ImageSystem::observeFrameStoreActionEnabled() const
+        {
+            return _p->frameStoreActionEnabled;
+        }
+
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > ImageSystem::observeLoadFrameStoreActionEnabled() const
+        {
+            return _p->loadFrameStoreActionEnabled;
+        }
+
+        std::shared_ptr<Core::Observer::IValueSubject<bool> > ImageSystem::observeClearFrameStoreActionEnabled() const
+        {
+            return _p->clearFrameStoreActionEnabled;
         }
 
         void ImageSystem::setFrameStoreEnabled(bool value)
         {
             DJV_PRIVATE_PTR();
-            p.frameStoreEnabled->setIfChanged(value);
+            if (p.frameStoreEnabled->setIfChanged(value))
+            {
+                _actionsUpdate();
+            }
         }
 
         void ImageSystem::loadFrameStore()
         {
             DJV_PRIVATE_PTR();
-            p.actions["FrameStoreEnabled"]->setEnabled(p.currentImage ? true : false);
-            p.frameStore->setIfChanged(p.currentImage);
+            if (p.frameStoreImage->setIfChanged(p.currentImage))
+            {
+                p.clearFrameStoreActionEnabled->setIfChanged(p.currentImage.get());
+                _actionsUpdate();
+            }
         }
 
         void ImageSystem::clearFrameStore()
         {
             DJV_PRIVATE_PTR();
-            p.actions["FrameStoreEnabled"]->setEnabled(p.currentImage ? true : false);
-            p.frameStore->setIfChanged(nullptr);
+            if (p.frameStoreImage->setIfChanged(nullptr))
+            {
+                p.clearFrameStoreActionEnabled->setIfChanged(false);
+                _actionsUpdate();
+            }
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions() const
@@ -403,6 +437,7 @@ namespace djv
                 p.actions["MirrorV"]->setShortcuts(_getShortcuts("shortcut_image_mirror_v"));
                 p.actions["FrameStoreEnabled"]->setShortcuts(_getShortcuts("shortcut_image_frame_store_enabled"));
                 p.actions["LoadFrameStore"]->setShortcuts(_getShortcuts("shortcut_image_load_frame_store"));
+                p.actions["ClearFrameStore"]->setShortcuts(_getShortcuts("shortcut_image_clear_frame_store"));
             }
         }
 
@@ -413,6 +448,11 @@ namespace djv
             p.actions["MirrorV"]->setChecked(p.data.mirror.y);
 
             p.channelActionGroup->setChecked(static_cast<int>(p.data.channelDisplay) - 1);
+
+            p.actions["FrameStoreEnabled"]->setChecked(p.frameStoreEnabled->get());
+            p.actions["FrameStoreEnabled"]->setEnabled(p.frameStoreActionEnabled->get());
+            p.actions["LoadFrameStore"]->setEnabled(p.loadFrameStoreActionEnabled->get());
+            p.actions["ClearFrameStore"]->setEnabled(p.clearFrameStoreActionEnabled->get());
         }
 
     } // namespace ViewApp

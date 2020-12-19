@@ -7,7 +7,6 @@
 #include <djvViewApp/ImageData.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -40,7 +39,10 @@ namespace djv
         {
             ImageData data;
             bool frameStoreEnabled = false;
-            std::shared_ptr<Image::Data> frameStore;
+            std::shared_ptr<Image::Data> frameStoreImage;
+            bool frameStoreActionEnabled = false;
+            bool loadFrameStoreActionEnabled = false;
+            bool clearFrameStoreActionEnabled = false;
 
             std::shared_ptr<UI::ComboBox> channelDisplayComboBox;
             std::shared_ptr<UI::ComboBox> alphaComboBox;
@@ -62,7 +64,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> frameStoreEnabledButton;
             std::shared_ptr<UI::PushButton> loadFrameStoreButton;
             std::shared_ptr<UI::PushButton> clearFrameStoreButton;
-            std::shared_ptr<UI::ImageWidget> frameStoreWidget;
+            std::shared_ptr<UI::ImageWidget> frameStoreImageWidget;
 
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
@@ -70,7 +72,10 @@ namespace djv
 
             std::shared_ptr<Observer::Value<ImageData> > dataObserver;
             std::shared_ptr<Observer::Value<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > frameStoreObserver;
+            std::shared_ptr<Observer::Value<std::shared_ptr<Image::Data> > > frameStoreImageObserver;
+            std::shared_ptr<Observer::Value<bool> > frameStoreActionEnabledObserver;
+            std::shared_ptr<Observer::Value<bool> > loadFrameStoreActionEnabledObserver;
+            std::shared_ptr<Observer::Value<bool> > clearFrameStoreActionEnabledObserver;
         };
 
         void ImageControlsWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -171,10 +176,10 @@ namespace djv
             p.frameStoreEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.loadFrameStoreButton = UI::PushButton::create(context);
             p.clearFrameStoreButton = UI::PushButton::create(context);
-            p.frameStoreWidget = UI::ImageWidget::create(context);
-            p.frameStoreWidget->setImageSizeRole(UI::MetricsRole::TextColumn);
-            p.frameStoreWidget->setHAlign(UI::HAlign::Center);
-            p.frameStoreWidget->setVAlign(UI::VAlign::Center);
+            p.frameStoreImageWidget = UI::ImageWidget::create(context);
+            p.frameStoreImageWidget->setImageSizeRole(UI::MetricsRole::TextColumn);
+            p.frameStoreImageWidget->setHAlign(UI::HAlign::Center);
+            p.frameStoreImageWidget->setVAlign(UI::VAlign::Center);
 
             p.formLayouts["Channels"] = UI::FormLayout::create(context);
             p.formLayouts["Channels"]->addChild(p.channelDisplayComboBox);
@@ -234,7 +239,7 @@ namespace djv
             hLayout->addChild(p.loadFrameStoreButton);
             hLayout->addChild(p.clearFrameStoreButton);
             vLayout->addChild(hLayout);
-            vLayout->addChild(p.frameStoreWidget);
+            vLayout->addChild(p.frameStoreImageWidget);
             p.bellows["FrameStore"] = UI::Bellows::create(context);
             p.bellows["FrameStore"]->addButtonWidget(p.frameStoreEnabledButton);
             p.bellows["FrameStore"]->addChild(vLayout);
@@ -682,13 +687,43 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
-            p.frameStoreObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
-                imageSystem->observeFrameStore(),
+            p.frameStoreImageObserver = Observer::Value<std::shared_ptr<Image::Data> >::create(
+                imageSystem->observeFrameStoreImage(),
                 [weak](const std::shared_ptr<Image::Data>& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->frameStore = value;
+                        widget->_p->frameStoreImage = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+            p.frameStoreActionEnabledObserver = Observer::Value<bool>::create(
+                imageSystem->observeFrameStoreActionEnabled(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->frameStoreActionEnabled = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+            p.loadFrameStoreActionEnabledObserver = Observer::Value<bool>::create(
+                imageSystem->observeLoadFrameStoreActionEnabled(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->loadFrameStoreActionEnabled = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+            p.clearFrameStoreActionEnabledObserver = Observer::Value<bool>::create(
+                imageSystem->observeClearFrameStoreActionEnabled(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->clearFrameStoreActionEnabled = value;
                         widget->_widgetUpdate();
                     }
                 });
@@ -863,7 +898,10 @@ namespace djv
             p.softClipSlider->setValue(p.data.softClip);
 
             p.frameStoreEnabledButton->setChecked(p.frameStoreEnabled);
-            p.frameStoreWidget->setImage(p.frameStore);
+            p.frameStoreEnabledButton->setEnabled(p.frameStoreActionEnabled);
+            p.loadFrameStoreButton->setEnabled(p.loadFrameStoreActionEnabled);
+            p.clearFrameStoreButton->setEnabled(p.clearFrameStoreActionEnabled);
+            p.frameStoreImageWidget->setImage(p.frameStoreImage);
         }
 
     } // namespace ViewApp
