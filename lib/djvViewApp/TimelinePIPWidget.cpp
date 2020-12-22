@@ -44,7 +44,7 @@ namespace djv
             std::shared_ptr<AV::IO::IRead> read;
             AV::IO::Info info;
             Math::Frame::Sequence sequence;
-            Math::Rational speed;
+            Math::IntRational speed;
             AV::Time::Units timeUnits = AV::Time::Units::First;
             glm::vec2 pipPos = glm::vec2(0.F, 0.F);
             Math::BBox2f timelineGeometry;

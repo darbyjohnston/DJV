@@ -25,7 +25,7 @@ namespace djv
             std::shared_ptr<Observer::ValueSubject<bool> > startPlayback;
             std::shared_ptr<Observer::ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<Observer::ValueSubject<PlaybackSpeed> > playbackSpeed;
-            std::shared_ptr<Observer::ValueSubject<Math::Rational> > customSpeed;
+            std::shared_ptr<Observer::ValueSubject<Math::IntRational> > customSpeed;
             std::shared_ptr<Observer::ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<Observer::ValueSubject<bool> > pipEnabled;
         };
@@ -37,7 +37,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.startPlayback = Observer::ValueSubject<bool>::create(false);
             p.playbackSpeed = Observer::ValueSubject<PlaybackSpeed>::create(PlaybackSpeed::Default);
-            p.customSpeed = Observer::ValueSubject<Math::Rational>::create(Math::Rational(1));
+            p.customSpeed = Observer::ValueSubject<Math::IntRational>::create(Math::IntRational(1));
             p.playEveryFrame = Observer::ValueSubject<bool>::create(false);
             p.playbackMode = Observer::ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
             p.pipEnabled = Observer::ValueSubject<bool>::create(true);
@@ -80,7 +80,7 @@ namespace djv
             return _p->playbackSpeed;
         }
 
-        std::shared_ptr<Observer::IValueSubject<Math::Rational> > PlaybackSettings::observeCustomSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::IntRational> > PlaybackSettings::observeCustomSpeed() const
         {
             return _p->customSpeed;
         }
@@ -95,7 +95,7 @@ namespace djv
             _p->playbackSpeed->setIfChanged(value);
         }
 
-        void PlaybackSettings::setCustomSpeed(const Math::Rational& value)
+        void PlaybackSettings::setCustomSpeed(const Math::IntRational& value)
         {
             _p->customSpeed->setIfChanged(value);
         }

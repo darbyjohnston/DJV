@@ -203,7 +203,7 @@ namespace djv
                                         av_get_time_base_q(),
                                         r);
                                 }
-                                p.info.videoSpeed = Math::Rational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+                                p.info.videoSpeed = Math::IntRational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
                                 p.info.videoSequence = Math::Frame::Sequence(Math::Frame::Range(1, sequenceSize));
                                 p.info.video.push_back(imageInfo);
                                 /*{

@@ -32,7 +32,7 @@ namespace djv
         {
             AV::Time::Units timeUnits = AV::Time::Units::First;
             Math::Frame::Sequence sequence;
-            Math::Rational speed;
+            Math::IntRational speed;
             Math::Frame::Index index = 0;
             std::shared_ptr<UI::Text::LineEditBase> lineEditBase;
             std::shared_ptr<UI::Numeric::IncrementButtons> buttons;
@@ -190,7 +190,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void FrameWidget::setSpeed(const Math::Rational& value)
+        void FrameWidget::setSpeed(const Math::IntRational& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.speed)

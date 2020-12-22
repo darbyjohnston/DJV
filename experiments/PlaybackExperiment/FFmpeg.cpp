@@ -216,7 +216,7 @@ namespace IO
             imageInfo.type = Image::Type::RGBA_U8;
             imageInfo.codec = avVideoCodec->long_name;
             p.info->video.push_back(imageInfo);
-            p.info->videoSpeed = Math::Rational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+            p.info->videoSpeed = Math::IntRational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
         }
 
         if (p.avAudioStream != -1)

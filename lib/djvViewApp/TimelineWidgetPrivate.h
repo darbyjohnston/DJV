@@ -55,7 +55,7 @@ namespace djv
             static std::shared_ptr<FrameWidget> create(const std::shared_ptr<System::Context>&);
 
             void setSequence(const Math::Frame::Sequence&);
-            void setSpeed(const Math::Rational&);
+            void setSpeed(const Math::IntRational&);
             void setFrame(const Math::Frame::Index);
             void setCallback(const std::function<void(Math::Frame::Index)>&);
 

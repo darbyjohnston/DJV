@@ -30,7 +30,7 @@ namespace djv
             defaultSpeed = value;
         }
 
-        Math::Rational fromSpeed(FPS fps)
+        Math::IntRational fromSpeed(FPS fps)
         {
             const std::array<int, static_cast<size_t>(FPS::Count)> scale =
             {
@@ -72,27 +72,27 @@ namespace djv
                 1,
                 1
             };
-            return Math::Rational(scale[static_cast<size_t>(fps)], duration[static_cast<size_t>(fps)]);
+            return Math::IntRational(scale[static_cast<size_t>(fps)], duration[static_cast<size_t>(fps)]);
         }
 
-        Math::Rational fromSpeed(float value)
+        Math::IntRational fromSpeed(float value)
         {
             //! \bug Implement a proper floating-point to rational number conversion.
             //! Check-out: OpenEXR\IlmImf\ImfRational.h
             for (size_t i = 0; i < static_cast<size_t>(FPS::Count); ++i)
             {
                 const FPS fps = static_cast<FPS>(i);
-                const Math::Rational r = fromSpeed(fps);
+                const Math::IntRational r = fromSpeed(fps);
                 const float diff = fabs(value - r.toFloat());
                 if (diff < .01F)
                 {
                     return r;
                 }
             }
-            return Math::Rational::fromFloat(value);
+            return Math::IntRational::fromFloat(value);
         }
 
-        bool toSpeed(const Math::Rational& value, FPS& out)
+        bool toSpeed(const Math::IntRational& value, FPS& out)
         {
             for (const auto i : getFPSEnums())
             {

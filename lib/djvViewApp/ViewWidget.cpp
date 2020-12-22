@@ -60,7 +60,7 @@ namespace djv
             ImageData imageData;
             OCIO::Config ocioConfig;
             std::string outputColorSpace;
-            Math::Rational speed;
+            Math::IntRational speed;
             float realSpeed = 0.F;
             Math::Frame::Sequence sequence;
             Math::Frame::Index currentFrame = Math::Frame::invalidIndex;
@@ -80,7 +80,7 @@ namespace djv
             std::shared_ptr<Observer::Value<ImageData> > imageDataObserver;
             std::shared_ptr<Observer::Value<OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<Observer::Value<std::pair<std::vector<Image::Info>, int> > > layersObserver;
-            std::shared_ptr<Observer::Value<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::Value<Math::IntRational> > speedObserver;
             std::shared_ptr<Observer::Value<float> > realSpeedObserver;
             std::shared_ptr<Observer::Value<Math::Frame::Sequence> > sequenceObserver;
             std::shared_ptr<Observer::Value<Math::Frame::Index> > currentFrameObserver;
@@ -214,9 +214,9 @@ namespace djv
                         widget->_hudUpdate();
                     }
                 });
-            p.speedObserver = Observer::Value<Math::Rational>::create(
+            p.speedObserver = Observer::Value<Math::IntRational>::create(
                 p.media->observeSpeed(),
-                [weak](const Math::Rational& value)
+                [weak](const Math::IntRational& value)
                 {
                     if (auto widget = weak.lock())
                     {

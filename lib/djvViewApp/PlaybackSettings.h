@@ -44,11 +44,11 @@ namespace djv
             ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
-            std::shared_ptr<Core::Observer::IValueSubject<Math::Rational> > observeCustomSpeed() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Math::IntRational> > observeCustomSpeed() const;
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observePlayEveryFrame() const;
 
             void setPlaybackSpeed(PlaybackSpeed);
-            void setCustomSpeed(const Math::Rational&);
+            void setCustomSpeed(const Math::IntRational&);
             void setPlayEveryFrame(bool);
 
             ///@}

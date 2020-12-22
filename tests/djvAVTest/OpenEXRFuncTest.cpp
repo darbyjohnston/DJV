@@ -271,7 +271,7 @@ namespace djv
                     IMATH_NAMESPACE::V2i(3, 4));
                 header.insert("box2i", Imf::Box2iAttribute(box2i));
                 
-                Math::Rational speed;
+                Math::IntRational speed;
                 Image::Tags tags;
                 OpenEXR::readTags(header, tags, speed);
                 

@@ -6,7 +6,6 @@
 
 #include <djvMath/Math.h>
 #include <djvMath/MathFunc.h>
-#include <djvMath/RationalFunc.h>
 
 #include <sstream>
 
@@ -26,7 +25,6 @@ namespace djv
         void MathFuncTest::run()
         {
             _misc();
-            _rational();
             _conversion();
             _comparison();
         }
@@ -59,65 +57,6 @@ namespace djv
             }
         }
         
-        void MathFuncTest::_rational()
-        {
-            {
-                const Math::Rational r;
-                DJV_ASSERT(0 == r.getNum());
-                DJV_ASSERT(0 == r.getDen());
-                DJV_ASSERT(!r.isValid());
-            }
-            
-            {
-                const Math::Rational r(1, 2);
-                DJV_ASSERT(1 == r.getNum());
-                DJV_ASSERT(2 == r.getDen());
-                DJV_ASSERT(r.isValid());
-            }
-            
-            {
-                const Math::Rational r(2, 2);
-                const float f = r.toFloat();
-                DJV_ASSERT(1.f == f);
-                DJV_ASSERT(Math::Rational(1, 1) == Math::Rational::fromFloat(f));
-            }
-            
-            {
-                const Math::Rational r(1, 2);
-                DJV_ASSERT(r == r);
-                DJV_ASSERT(r != Math::Rational());
-            }
-            
-            {
-                const Math::Rational r(1, 2);
-                std::stringstream ss;
-                ss << r;
-                Math::Rational r2;
-                ss >> r2;
-                DJV_ASSERT(r == r2);
-            }
-            
-            try
-            {
-                std::stringstream ss;
-                Math::Rational r;
-                ss >> r;
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
-            
-            try
-            {
-                std::stringstream ss("1/2/3");
-                Math::Rational r;
-                ss >> r;
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
-        }
-
         void MathFuncTest::_conversion()
         {
             {

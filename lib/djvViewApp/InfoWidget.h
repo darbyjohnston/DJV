@@ -47,8 +47,8 @@ namespace djv
 
         private:
             std::string _text(int) const;
-            std::string _text(const Math::Rational&) const;
-            std::string _text(const Math::Frame::Sequence&, const Math::Rational&) const;
+            std::string _text(const Math::IntRational&) const;
+            std::string _text(const Math::Frame::Sequence&, const Math::IntRational&) const;
             std::string _text(Image::Type) const;
             std::string _text(const Image::Size&) const;
             std::string _text(Audio::Type) const;

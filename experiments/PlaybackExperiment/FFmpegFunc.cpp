@@ -17,14 +17,14 @@ using namespace djv;
 
 namespace IO
 {
-    AVRational toFFmpeg(const Math::Rational& value)
+    AVRational toFFmpeg(const Math::IntRational& value)
     {
         return av_make_q(value.getNum(), value.getDen());
     }
 
-    Math::Rational fromFFmpeg(const AVRational& value)
+    Math::IntRational fromFFmpeg(const AVRational& value)
     {
-        return Math::Rational(value.num, value.den);
+        return Math::IntRational(value.num, value.den);
     }
 
     Audio::Type fromFFmpeg(AVSampleFormat value)

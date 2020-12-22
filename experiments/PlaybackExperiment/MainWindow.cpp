@@ -374,7 +374,7 @@ void MainWindow::_widgetUpdate()
     DJV_PRIVATE_PTR();
 
     const auto& info = p.media->getIOInfo();
-    Math::Rational speed;
+    Math::IntRational speed;
     std::vector<IO::FrameInfo> frameInfo;
     if (info)
     {
@@ -385,7 +385,7 @@ void MainWindow::_widgetUpdate()
         }
         else if (info->audio.isValid())
         {
-            speed = Math::Rational(info->audio.sampleRate, 1);
+            speed = Math::IntRational(info->audio.sampleRate, 1);
             frameInfo = info->audioFrameInfo;
         }
     }

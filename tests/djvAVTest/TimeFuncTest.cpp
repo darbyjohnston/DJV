@@ -36,7 +36,7 @@ namespace djv
         {
             {
                 int64_t t = 1;
-                int64_t t2 = Time::scale(t, Math::Rational(2, 1), Math::Rational(1, 1));
+                int64_t t2 = Time::scale(t, Math::IntRational(2, 1), Math::IntRational(1, 1));
                 DJV_ASSERT(2 == t2);
             }
             
@@ -119,7 +119,7 @@ namespace djv
             }
             
             {
-                uint32_t f = Time::frameToTimecode(100, Math::Rational(0, 0));
+                uint32_t f = Time::frameToTimecode(100, Math::IntRational(0, 0));
                 DJV_ASSERT(0 == f);
             }
             
@@ -144,7 +144,7 @@ namespace djv
             {}
             
             {
-                int64_t f = Time::timecodeToFrame(0, Math::Rational(0, 0));
+                int64_t f = Time::timecodeToFrame(0, Math::IntRational(0, 0));
                 DJV_ASSERT(0 == f);
             }
 

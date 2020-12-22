@@ -14,8 +14,9 @@ namespace djv
     {
         //! This class provides a range of numbers.
         template<typename T>
-        struct Range
+        class Range
         {
+        public:
             constexpr Range() noexcept;
             explicit constexpr Range(T minMax) noexcept;
             constexpr Range(T min, T max);

@@ -16,9 +16,9 @@ struct AVRational;
 
 namespace IO
 {
-    AVRational toFFmpeg(const djv::Math::Rational& value);
+    AVRational toFFmpeg(const djv::Math::IntRational& value);
 
-    djv::Math::Rational fromFFmpeg(const AVRational& value);
+    djv::Math::IntRational fromFFmpeg(const AVRational& value);
 
     djv::Audio::Type fromFFmpeg(AVSampleFormat value);
 

@@ -21,7 +21,7 @@ namespace djv
     {
         namespace Time
         {
-            int64_t scale(int64_t value, const Math::Rational& br, const Math::Rational& cr) noexcept
+            int64_t scale(int64_t value, const Math::IntRational& br, const Math::IntRational& cr) noexcept
             {
                 int64_t out = 0;
                 const int64_t b = br.getNum() * static_cast<int64_t>(cr.getDen());
@@ -119,7 +119,7 @@ namespace djv
                     (frame   / 10 & 0x0f) <<  4 | (frame   % 10 & 0x0f) <<  0;
             }
 
-            Math::Frame::Number timecodeToFrame(uint32_t in, const Math::Rational& r)
+            Math::Frame::Number timecodeToFrame(uint32_t in, const Math::IntRational& r)
             {
                 if (!r.isValid())
                     return 0;
@@ -137,7 +137,7 @@ namespace djv
                     static_cast<int64_t>(frame);
             }
 
-            uint32_t frameToTimecode(Math::Frame::Number frame, const Math::Rational& r)
+            uint32_t frameToTimecode(Math::Frame::Number frame, const Math::IntRational& r)
             {
                 if (!r.isValid())
                     return 0;
@@ -216,7 +216,7 @@ namespace djv
                 out = timeToTimecode(hour, minute, second, frame);
             }
 
-            std::string toString(Math::Frame::Number value, const Math::Rational& speed, Units units)
+            std::string toString(Math::Frame::Number value, const Math::IntRational& speed, Units units)
             {
                 std::string out;
                 switch (units)
@@ -239,7 +239,7 @@ namespace djv
                 return out;
             }
 
-            Math::Frame::Number fromString(const std::string& value, const Math::Rational& speed, Units units)
+            Math::Frame::Number fromString(const std::string& value, const Math::IntRational& speed, Units units)
             {
                 Math::Frame::Number out = Math::Frame::invalid;
                 switch (units)

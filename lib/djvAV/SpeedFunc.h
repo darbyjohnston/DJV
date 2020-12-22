@@ -30,10 +30,10 @@ namespace djv
         //! \name Utility
         ///@{
 
-        Math::Rational fromSpeed(FPS);
-        Math::Rational fromSpeed(float);
+        Math::IntRational fromSpeed(FPS);
+        Math::IntRational fromSpeed(float);
         
-        bool toSpeed(const Math::Rational&, FPS&);
+        bool toSpeed(const Math::IntRational&, FPS&);
 
         ///@}
 

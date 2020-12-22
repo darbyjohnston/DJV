@@ -51,10 +51,10 @@ namespace djv
             Audio::Info audioInfo;
             std::shared_ptr<Observer::ValueSubject<bool> > reload;
             std::shared_ptr<Observer::ValueSubject<std::pair<std::vector<Image::Info>, int> > > layers;
-            std::shared_ptr<Observer::ValueSubject<Math::Rational> > speed;
+            std::shared_ptr<Observer::ValueSubject<Math::IntRational> > speed;
             std::shared_ptr<Observer::ValueSubject<PlaybackSpeed> > playbackSpeed;
-            std::shared_ptr<Observer::ValueSubject<Math::Rational> > defaultSpeed;
-            std::shared_ptr<Observer::ValueSubject<Math::Rational> > customSpeed;
+            std::shared_ptr<Observer::ValueSubject<Math::IntRational> > defaultSpeed;
+            std::shared_ptr<Observer::ValueSubject<Math::IntRational> > customSpeed;
             float realSpeed = 0.F;
             std::shared_ptr<Observer::ValueSubject<float> > realSpeedSubject;
             std::shared_ptr<Observer::ValueSubject<bool> > playEveryFrame;
@@ -111,10 +111,10 @@ namespace djv
             p.reload = Observer::ValueSubject<bool>::create(false);
             p.layers = Observer::ValueSubject<std::pair<std::vector<Image::Info>, int> >::create(
                 std::make_pair(std::vector<Image::Info>(), 0));
-            p.speed = Observer::ValueSubject<Math::Rational>::create();
+            p.speed = Observer::ValueSubject<Math::IntRational>::create();
             p.playbackSpeed = Observer::ValueSubject<PlaybackSpeed>::create();
-            p.defaultSpeed = Observer::ValueSubject<Math::Rational>::create();
-            p.customSpeed = Observer::ValueSubject<Math::Rational>::create();
+            p.defaultSpeed = Observer::ValueSubject<Math::IntRational>::create();
+            p.customSpeed = Observer::ValueSubject<Math::IntRational>::create();
             p.realSpeedSubject = Observer::ValueSubject<float>::create(p.realSpeed);
             p.playEveryFrame = Observer::ValueSubject<bool>::create(false);
             p.sequence = Observer::ValueSubject<Math::Frame::Sequence>::create();
@@ -280,7 +280,7 @@ namespace djv
             return _p->currentImage;
         }
 
-        std::shared_ptr<Observer::IValueSubject<Math::Rational> > Media::observeSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::IntRational> > Media::observeSpeed() const
         {
             return _p->speed;
         }
@@ -290,12 +290,12 @@ namespace djv
             return _p->playbackSpeed;
         }
 
-        std::shared_ptr<Observer::IValueSubject<Math::Rational> > Media::observeCustomSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::IntRational> > Media::observeCustomSpeed() const
         {
             return _p->customSpeed;
         }
 
-        std::shared_ptr<Observer::IValueSubject<Math::Rational> > Media::observeDefaultSpeed() const
+        std::shared_ptr<Observer::IValueSubject<Math::IntRational> > Media::observeDefaultSpeed() const
         {
             return _p->defaultSpeed;
         }
@@ -340,7 +340,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.playbackSpeed->setIfChanged(value))
             {
-                Math::Rational speed;
+                Math::IntRational speed;
                 switch (value)
                 {
                 case PlaybackSpeed::Default: speed = p.defaultSpeed->get(); break;
@@ -351,7 +351,7 @@ namespace djv
             }
         }
 
-        void Media::setCustomSpeed(const Math::Rational& value)
+        void Media::setCustomSpeed(const Math::IntRational& value)
         {
             DJV_PRIVATE_PTR();
             if (p.customSpeed->setIfChanged(value))
@@ -791,7 +791,7 @@ namespace djv
                     p.info->setIfChanged(info);
                     const int currentLayer = Math::clamp(p.layers->get().second, 0, static_cast<int>(info.video.size()) - 1);
                     p.layers->setIfChanged(std::make_pair(info.video, currentLayer));
-                    Math::Rational speed = info.videoSpeed;
+                    Math::IntRational speed = info.videoSpeed;
                     Math::Frame::Sequence sequence = info.videoSequence;
                     p.audioInfo = info.audio;
                     {
@@ -925,7 +925,7 @@ namespace djv
             }
         }
 
-        void Media::_setSpeed(const Math::Rational& value)
+        void Media::_setSpeed(const Math::IntRational& value)
         {
             DJV_PRIVATE_PTR();
             if (p.speed->setIfChanged(value))
@@ -1102,7 +1102,7 @@ namespace djv
                         Math::Frame::Index frame = p.frameOffset +
                             AV::Time::scale(
                                 p.audioDataSamplesCount,
-                                Math::Rational(1, static_cast<int>(p.audioInfo.sampleRate)),
+                                Math::IntRational(1, static_cast<int>(p.audioInfo.sampleRate)),
                                 speed.swap());
                         _setCurrentFrame(frame);
                     }

@@ -14,7 +14,7 @@ using namespace djv;
 
 struct TimelineWidget::Private
 {
-    Math::Rational speed;
+    Math::IntRational speed;
     std::vector<IO::FrameInfo> frameInfo;
     IO::FrameInfo currentFrame;
     std::function<void(const IO::FrameInfo&)> callback;
@@ -43,7 +43,7 @@ std::shared_ptr<TimelineWidget> TimelineWidget::create(const std::shared_ptr<Sys
     return out;
 }
 
-void TimelineWidget::setSpeed(const Math::Rational& value)
+void TimelineWidget::setSpeed(const Math::IntRational& value)
 {
     DJV_PRIVATE_PTR();
     if (value == p.speed)

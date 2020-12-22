@@ -24,7 +24,7 @@ namespace djv
             //! \name Conversion
             ///@{
 
-            int64_t scale(int64_t, const Math::Rational&, const Math::Rational&) noexcept;
+            int64_t scale(int64_t, const Math::IntRational&, const Math::IntRational&) noexcept;
 
             void secondsToTime(
                 double,
@@ -79,9 +79,9 @@ namespace djv
                 int second,
                 int frame);
 
-            Math::Frame::Number timecodeToFrame(uint32_t timecode, const Math::Rational&);
+            Math::Frame::Number timecodeToFrame(uint32_t timecode, const Math::IntRational&);
 
-            uint32_t frameToTimecode(Math::Frame::Number, const Math::Rational&);
+            uint32_t frameToTimecode(Math::Frame::Number, const Math::IntRational&);
 
             std::string timecodeToString(uint32_t);
 
@@ -94,11 +94,11 @@ namespace djv
             //! \name Units
             ///@{
 
-            std::string toString(Math::Frame::Number, const Math::Rational&, Units);
+            std::string toString(Math::Frame::Number, const Math::IntRational&, Units);
 
             //! Throws:
             //! - std::exception
-            Math::Frame::Number fromString(const std::string&, const Math::Rational&, Units);
+            Math::Frame::Number fromString(const std::string&, const Math::IntRational&, Units);
 
             ///@}
 

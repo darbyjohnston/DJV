@@ -284,7 +284,7 @@ void Media::seek(Math::Frame::Index value)
 void Media::frame(Frame value)
 {
     DJV_PRIVATE_PTR();
-    Math::Rational speed;
+    Math::IntRational speed;
     int64_t frameIndex = -1;
     const auto& videoFrameInfo = p.ioInfo->videoFrameInfo;
     const auto& audioFrameInfo = p.ioInfo->audioFrameInfo;
@@ -318,7 +318,7 @@ void Media::frame(Frame value)
     }
     else if (p.ioInfo->audio.isValid() && !audioFrameInfo.empty())
     {
-        speed = Math::Rational(p.ioInfo->audio.sampleRate, 1);
+        speed = Math::IntRational(p.ioInfo->audio.sampleRate, 1);
     }
 }
 

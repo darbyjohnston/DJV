@@ -38,7 +38,7 @@ namespace djv
         {
             std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
             std::shared_ptr<Media> media;
-            Math::Rational speed;
+            Math::IntRational speed;
             Math::Frame::Sequence sequence;
             Math::Frame::Index currentFrame = 0;
             bool inOutPointsEnabled = false;
@@ -66,7 +66,7 @@ namespace djv
             std::function<void(Math::Frame::Index)> currentFrameCallback;
             std::function<void(bool)> currentFrameDragCallback;
             std::shared_ptr<Observer::Value<AV::IO::Info> > infoObserver;
-            std::shared_ptr<Observer::Value<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::Value<Math::IntRational> > speedObserver;
             std::shared_ptr<Observer::Value<Math::Frame::Sequence> > sequenceObserver;
             std::shared_ptr<Observer::Value<Math::Frame::Index> > currentFrameObserver;
             std::shared_ptr<Observer::Value<bool> > pipEnabledObserver;
@@ -166,9 +166,9 @@ namespace djv
                     }
                 });
 
-                p.speedObserver = Observer::Value<Math::Rational>::create(
+                p.speedObserver = Observer::Value<Math::IntRational>::create(
                     p.media->observeDefaultSpeed(),
-                    [weak](const Math::Rational& value)
+                    [weak](const Math::IntRational& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -205,7 +205,7 @@ namespace djv
             {
                 p.sequence = Math::Frame::Sequence();
                 p.currentFrame = 0;
-                p.speed = Math::Rational();
+                p.speed = Math::IntRational();
 
                 p.pipWidget->setFileInfo(System::File::Info());
 

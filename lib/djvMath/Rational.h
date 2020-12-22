@@ -11,17 +11,18 @@ namespace djv
     namespace Math
     {
         //! This class provides a rational number.
+        template<typename T>
         class Rational
         {
         public:
             Rational() noexcept;
-            explicit Rational(int num, int den = 1) noexcept;
+            explicit Rational(T num, T den = 1) noexcept;
 
             //! \name Information
             ///@{
 
-            int getNum() const noexcept;
-            int getDen() const noexcept;
+            T getNum() const noexcept;
+            T getDen() const noexcept;
             bool isValid() const noexcept;
 
             ///@}
@@ -31,9 +32,9 @@ namespace djv
 
             float toFloat() const noexcept;
 
-            static Rational fromFloat(float);
+            static Rational<T> fromFloat(float);
 
-            Rational swap() const noexcept;
+            Rational<T> swap() const noexcept;
 
             ///@}
 
@@ -41,9 +42,12 @@ namespace djv
             bool operator != (const Rational&) const noexcept;
 
         private:
-            int _num = 0;
-            int _den = 0;
+            T _num = static_cast<T>(0);
+            T _den = static_cast<T>(0);
         };
+
+        //! This typedef provides an integer rational.
+        typedef Rational<int> IntRational;
 
     } // namespace Math
 } // namespace djv

@@ -12,19 +12,22 @@
 
 namespace djv
 {
-    Math::Rational operator * (const Math::Rational, const Math::Rational);
+    template<typename T>
+    Math::Rational<T> operator * (const Math::Rational<T>&, const Math::Rational<T>&);
 
-    std::ostream& operator << (std::ostream&, const Math::Rational&);
-
-    //! Throws:
-    //! - std::exception
-    std::istream& operator >> (std::istream&, Math::Rational&);
-
-    rapidjson::Value toJSON(const Math::Rational&, rapidjson::Document::AllocatorType&);
+    std::ostream& operator << (std::ostream&, const Math::IntRational&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const rapidjson::Value&, Math::Rational&);
+    std::istream& operator >> (std::istream&, Math::IntRational&);
+
+    rapidjson::Value toJSON(const Math::IntRational&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Math::IntRational&);
 
 } // namespace djv
 
+
+#include <djvMath/RationalFuncInline.h>

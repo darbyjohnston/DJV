@@ -40,8 +40,8 @@ namespace djv
             AV::Time::Units timeUnits = AV::Time::Units::First;
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
-            Math::Rational speed;
-            Math::Rational defaultSpeed;
+            Math::IntRational speed;
+            Math::IntRational defaultSpeed;
             float realSpeed = 0.F;
             PlaybackMode playbackMode = PlaybackMode::First;
             Math::Frame::Sequence sequence;
@@ -72,8 +72,8 @@ namespace djv
             std::shared_ptr<Observer::Value<AV::Time::Units> > timeUnitsObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<Observer::Value<Math::Rational> > speedObserver;
-            std::shared_ptr<Observer::Value<Math::Rational> > defaultSpeedObserver;
+            std::shared_ptr<Observer::Value<Math::IntRational> > speedObserver;
+            std::shared_ptr<Observer::Value<Math::IntRational> > defaultSpeedObserver;
             std::shared_ptr<Observer::Value<float> > realSpeedObserver;
             std::shared_ptr<Observer::Value<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<Observer::Value<Math::Frame::Sequence> > sequenceObserver;
@@ -522,9 +522,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->speedObserver = Observer::Value<Math::Rational>::create(
+                                widget->_p->speedObserver = Observer::Value<Math::IntRational>::create(
                                     widget->_p->media->observeSpeed(),
-                                    [weak](const Math::Rational& value)
+                                    [weak](const Math::IntRational& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -534,9 +534,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->defaultSpeedObserver = Observer::Value<Math::Rational>::create(
+                                widget->_p->defaultSpeedObserver = Observer::Value<Math::IntRational>::create(
                                     widget->_p->media->observeDefaultSpeed(),
-                                    [weak](const Math::Rational& value)
+                                    [weak](const Math::IntRational& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -675,8 +675,8 @@ namespace djv
                             else
                             {
                                 widget->_p->ioInfo = AV::IO::Info();
-                                widget->_p->speed = Math::Rational();
-                                widget->_p->defaultSpeed = Math::Rational();
+                                widget->_p->speed = Math::IntRational();
+                                widget->_p->defaultSpeed = Math::IntRational();
                                 widget->_p->realSpeed = 0.F;
                                 widget->_p->playbackMode = PlaybackMode::First;
                                 widget->_p->sequence = Math::Frame::Sequence();

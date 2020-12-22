@@ -27,12 +27,12 @@ namespace djv
                 std::vector<Layer> getLayers(const Imf::ChannelList&, Channels);
 
                 //! Read the tags from an Imf header.
-                void readTags(const Imf::Header&, Image::Tags&, Math::Rational&);
+                void readTags(const Imf::Header&, Image::Tags&, Math::IntRational&);
 
                 //! Write tags to an Imf header.
                 //!
                 //! \todo Write all the tags that are handled by readTags().
-                void writeTags(const Image::Tags&, const Math::Rational& speed, Imf::Header&);
+                void writeTags(const Image::Tags&, const Math::IntRational& speed, Imf::Header&);
 
                 //! Convert an Imath box type.
                 Math::BBox2i fromImath(const Imath::Box2i&);

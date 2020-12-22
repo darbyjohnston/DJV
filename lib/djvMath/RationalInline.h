@@ -8,44 +8,62 @@ namespace djv
 {
     namespace Math
     {
-        inline int Rational::getNum() const noexcept
+        template<typename T>
+        inline Rational<T>::Rational() noexcept
+        {}
+
+        template<typename T>
+        inline Rational<T>::Rational(T num, T den) noexcept :
+            _num(num),
+            _den(den)
+        {}
+
+        template<typename T>
+        inline T Rational<T>::getNum() const noexcept
         {
             return _num;
         }
 
-        inline int Rational::getDen() const noexcept
+        template<typename T>
+        inline T Rational<T>::getDen() const noexcept
         {
             return _den;
         }
 
-        inline bool Rational::isValid() const noexcept
+        template<typename T>
+        inline bool Rational<T>::isValid() const noexcept
         {
             return _num != 0 && _den != 0;
         }
 
-        inline float Rational::toFloat() const noexcept
+        template<typename T>
+        inline float Rational<T>::toFloat() const noexcept
         {
             return _den > 0 ? static_cast<float>(_num) / static_cast<float>(_den) : 0.F;
         }
-        
-        inline Rational Rational::fromFloat(float value)
+
+        template<typename T>
+        inline Rational<T> Rational<T>::fromFloat(float value)
         {
             //! \bug Implement a proper floating-point to rational number conversion.
             //! Check-out: OpenEXR\IlmImf\ImfRational.h
-            return Rational(static_cast<int>(round(value)), 1);
+            return Rational<T>(static_cast<T>(roundf(value)), 1);
         }
 
-        inline Rational Rational::swap() const noexcept
+        template<typename T>
+        inline Rational<T> Rational<T>::swap() const noexcept
         {
-            return Rational(_den, _num);
+            return Rational<T>(_den, _num);
         }
 
-        inline bool Rational::operator == (const Rational& other) const noexcept
+        template<typename T>
+        inline bool Rational<T>::operator == (const Rational& other) const noexcept
         {
             return _num == other._num && _den == other._den;
         }
 
-        inline bool Rational::operator != (const Rational& other) const noexcept
+        template<typename T>
+        inline bool Rational<T>::operator != (const Rational& other) const noexcept
         {
             return !(*this == other);
         }

@@ -29,17 +29,17 @@ namespace djv
         void RationalFuncTest::_serialize()
         {
             {
-                const Math::Rational r(24);
+                const Math::IntRational r(24);
                 std::stringstream ss;
                 ss << r;
-                Math::Rational r2;
+                Math::IntRational r2;
                 ss >> r2;
                 DJV_ASSERT(r == r2);
             }
 
             try
             {
-                Math::Rational r;
+                Math::IntRational r;
                 std::stringstream ss;
                 ss >> r;
                 DJV_ASSERT(false);
@@ -48,11 +48,11 @@ namespace djv
             {}
 
             {
-                const Math::Rational r(24);
+                const Math::IntRational r(24);
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 auto json = toJSON(r, allocator);
-                Math::Rational r2;
+                Math::IntRational r2;
                 fromJSON(json, r2);
                 DJV_ASSERT(r == r2);
             }
@@ -60,7 +60,7 @@ namespace djv
             try
             {
                 auto json = rapidjson::Value(rapidjson::kObjectType);
-                Math::Rational value;
+                Math::IntRational value;
                 fromJSON(json, value);
                 DJV_ASSERT(false);
             }

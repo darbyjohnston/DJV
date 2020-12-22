@@ -8,18 +8,13 @@
 
 namespace djv
 {
-    Math::Rational operator * (const Math::Rational a, const Math::Rational b)
-    {
-        return Math::Rational(a.getNum() * b.getNum(), a.getDen() * b.getDen());
-    }
-
-    std::ostream& operator << (std::ostream& os, const Math::Rational& value)
+    std::ostream& operator << (std::ostream& os, const Math::IntRational& value)
     {
         os << value.getNum() << '/' << value.getDen();
         return os;
     }
 
-    std::istream& operator >> (std::istream& is, Math::Rational& value)
+    std::istream& operator >> (std::istream& is, Math::IntRational& value)
     {
         try
         {
@@ -29,7 +24,7 @@ namespace djv
             const auto split = Core::String::split(s, '/');
             if (2 == split.size())
             {
-                value = Math::Rational(std::stoi(split[0]), std::stoi(split[1]));
+                value = Math::IntRational(std::stoi(split[0]), std::stoi(split[1]));
             }
             else
             {
@@ -44,7 +39,7 @@ namespace djv
         return is;
     }
 
-    rapidjson::Value toJSON(const Math::Rational& value, rapidjson::Document::AllocatorType& allocator)
+    rapidjson::Value toJSON(const Math::IntRational& value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
@@ -52,7 +47,7 @@ namespace djv
         return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const rapidjson::Value& value, Math::Rational& out)
+    void fromJSON(const rapidjson::Value& value, Math::IntRational& out)
     {
         if (value.IsString())
         {

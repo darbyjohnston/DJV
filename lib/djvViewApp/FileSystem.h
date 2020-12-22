@@ -32,7 +32,7 @@ namespace djv
         //! This struct provides options for opening files.
         struct OpenOptions
         {
-            std::shared_ptr<Math::Rational>     speed;
+            std::shared_ptr<Math::IntRational>  speed;
             std::shared_ptr<Math::Frame::Range> startEnd;
             std::shared_ptr<std::string>        inPoint;
             std::shared_ptr<std::string>        outPoint;

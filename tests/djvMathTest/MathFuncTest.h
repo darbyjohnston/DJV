@@ -21,7 +21,6 @@ namespace djv
             
         private:
             void _misc();
-            void _rational();
             void _conversion();
             void _comparison();
         };

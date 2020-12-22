@@ -20,6 +20,7 @@ set(header
     RangeInline.h
     RationalFunc.h
     Rational.h
+    RationalFuncInline.h
     RationalInline.h
     RayFunc.h
     RayFuncInline.h
@@ -32,7 +33,6 @@ set(source
     FrameNumber.cpp
     FrameNumberFunc.cpp
     NumericValueModels.cpp
-    Rational.cpp
     RationalFunc.cpp
     VectorFunc.cpp)
 

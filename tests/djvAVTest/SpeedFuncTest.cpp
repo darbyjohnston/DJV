@@ -40,20 +40,20 @@ namespace djv
         void SpeedFuncTest::_serialize()
         {        
             {
-                DJV_ASSERT(fromSpeed(FPS::_24) == Math::Rational(24, 1));
+                DJV_ASSERT(fromSpeed(FPS::_24) == Math::IntRational(24, 1));
                 FPS fps = FPS::First;
-                DJV_ASSERT(toSpeed(Math::Rational(24, 1), fps));
+                DJV_ASSERT(toSpeed(Math::IntRational(24, 1), fps));
                 DJV_ASSERT(FPS::_24 == fps);
-                DJV_ASSERT(!toSpeed(Math::Rational(2, 1), fps));
+                DJV_ASSERT(!toSpeed(Math::IntRational(2, 1), fps));
             }
             
             {
-                const Math::Rational r = fromSpeed(FPS::_29_97);
-                DJV_ASSERT(r == Math::Rational(30000, 1001));
+                const Math::IntRational r = fromSpeed(FPS::_29_97);
+                DJV_ASSERT(r == Math::IntRational(30000, 1001));
             }
 
             {
-                const Math::Rational speed(30000, 1001);
+                const Math::IntRational speed(30000, 1001);
                 DJV_ASSERT(fromSpeed(FPS::_29_97) == speed);
             }
 

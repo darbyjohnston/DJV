@@ -23,7 +23,7 @@
 
 namespace IO
 {
-    const djv::Math::Rational timebase(1, 90000);
+    const djv::Math::IntRational timebase(1, 90000);
     typedef int64_t Timestamp;
     const Timestamp timestampInvalid = std::numeric_limits<int64_t>::min();
     const Timestamp seekNone = -1;
@@ -88,7 +88,7 @@ namespace IO
 
         djv::System::File::Info       fileInfo;
         std::vector<djv::Image::Info> video;
-        djv::Math::Rational           videoSpeed;
+        djv::Math::IntRational        videoSpeed;
         std::vector<FrameInfo>        videoFrameInfo;
         djv::Audio::Info              audio;
         std::vector<FrameInfo>        audioFrameInfo;

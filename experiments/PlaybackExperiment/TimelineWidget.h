@@ -26,7 +26,7 @@ public:
 
     static std::shared_ptr<TimelineWidget> create(const std::shared_ptr<djv::System::Context>&);
 
-    void setSpeed(const djv::Math::Rational&);
+    void setSpeed(const djv::Math::IntRational&);
     void setFrameInfo(const std::vector<IO::FrameInfo>&);
     void setCurrentFrame(const IO::FrameInfo&);
 

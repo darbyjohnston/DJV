@@ -39,7 +39,7 @@ namespace djv
                 virtual std::shared_ptr<Image::Data> _readImage(const std::string& fileName) = 0;
                 void _finish();
 
-                Math::Rational _speed;
+                Math::IntRational _speed;
                 Math::Frame::Sequence _sequence;
 
             private:

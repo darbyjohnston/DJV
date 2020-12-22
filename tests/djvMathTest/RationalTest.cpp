@@ -30,21 +30,21 @@ namespace djv
         void RationalTest::_ctor()
         {
             {
-                const Math::Rational r;
+                const Math::IntRational r;
                 DJV_ASSERT(0 == r.getNum());
                 DJV_ASSERT(0 == r.getDen());
                 DJV_ASSERT(!r.isValid());
             }
             
             {
-                const Math::Rational r(24);
+                const Math::IntRational r(24);
                 DJV_ASSERT(24 == r.getNum());
                 DJV_ASSERT(1 == r.getDen());
                 DJV_ASSERT(r.isValid());
             }
             
             {
-                const Math::Rational r(24, 1001);
+                const Math::IntRational r(24, 1001);
                 DJV_ASSERT(24 == r.getNum());
                 DJV_ASSERT(1001 == r.getDen());
             }
@@ -53,26 +53,26 @@ namespace djv
         void RationalTest::_conversion()
         {
             {
-                const Math::Rational r(24);
+                const Math::IntRational r(24);
                 DJV_ASSERT(24.F == r.toFloat());
-                DJV_ASSERT(Math::Rational::fromFloat(24.F) == r);
+                DJV_ASSERT(Math::IntRational::fromFloat(24.F) == r);
             }
         }
         
         void RationalTest::_util()
         {
             {
-                const Math::Rational r(24);
-                DJV_ASSERT(r.swap() == Math::Rational(1, 24));
+                const Math::IntRational r(24);
+                DJV_ASSERT(r.swap() == Math::IntRational(1, 24));
             }
         }
         
         void RationalTest::_operators()
         {
             {
-                const Math::Rational r(24);
+                const Math::IntRational r(24);
                 DJV_ASSERT(r == r);
-                DJV_ASSERT(Math::Rational() != r);
+                DJV_ASSERT(Math::IntRational() != r);
             }
         }
         

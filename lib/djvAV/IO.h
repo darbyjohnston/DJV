@@ -29,7 +29,7 @@ namespace djv
                 Info();
 
                 std::string              fileName;
-                Math::Rational           videoSpeed;
+                Math::IntRational        videoSpeed;
                 Math::Frame::Sequence    videoSequence;
                 std::vector<Image::Info> video;
                 Audio::Info              audio;

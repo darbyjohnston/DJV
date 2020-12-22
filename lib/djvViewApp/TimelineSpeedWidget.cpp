@@ -39,9 +39,9 @@ namespace djv
 
             std::shared_ptr<Media> media;
             PlaybackSpeed playbackSpeed = PlaybackSpeed::First;
-            Math::Rational defaultSpeed;
-            Math::Rational customSpeed = Math::Rational(1);
-            Math::Rational speed;
+            Math::IntRational defaultSpeed;
+            Math::IntRational customSpeed = Math::IntRational(1);
+            Math::IntRational speed;
             bool playEveryFrame = false;
 
             std::map<PlaybackSpeed, std::shared_ptr<UI::CheckBox> > speedCheckBoxes;
@@ -54,14 +54,14 @@ namespace djv
             std::shared_ptr<UI::CheckBox> playEveryFrameCheckBox;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
 
-            std::shared_ptr<Observer::Value<Math::Rational> > speedObserver;
+            std::shared_ptr<Observer::Value<Math::IntRational> > speedObserver;
             std::shared_ptr<Observer::Value<PlaybackSpeed> > playbackSpeedObserver;
-            std::shared_ptr<Observer::Value<Math::Rational> > defaultSpeedObserver;
-            std::shared_ptr<Observer::Value<Math::Rational> > customSpeedObserver;
+            std::shared_ptr<Observer::Value<Math::IntRational> > defaultSpeedObserver;
+            std::shared_ptr<Observer::Value<Math::IntRational> > customSpeedObserver;
             std::shared_ptr<Observer::Value<bool> > playEveryFrameObserver;
 
             void setPlaybackSpeed(PlaybackSpeed);
-            void setCustomSpeed(const Math::Rational&);
+            void setCustomSpeed(const Math::IntRational&);
         };
 
         void SpeedWidget::_init(
@@ -202,22 +202,22 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        Math::Rational customSpeed;
+                        Math::IntRational customSpeed;
                         if (value >= 1.F)
                         {
                             customSpeed = AV::fromSpeed(value);
                         }
                         else if (value > 0.F && value < 1.F)
                         {
-                            customSpeed = Math::Rational(static_cast<int>(std::floor(value * 1000.F)), 1000);
+                            customSpeed = Math::IntRational(static_cast<int>(std::floor(value * 1000.F)), 1000);
                         }
                         widget->_p->setCustomSpeed(customSpeed);
                     }
                 });
 
-            p.speedObserver = Observer::Value<Math::Rational>::create(
+            p.speedObserver = Observer::Value<Math::IntRational>::create(
                 media->observeSpeed(),
-                [weak](const Math::Rational& value)
+                [weak](const Math::IntRational& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -237,9 +237,9 @@ namespace djv
                     }
                 });
 
-            p.customSpeedObserver = Observer::Value<Math::Rational>::create(
+            p.customSpeedObserver = Observer::Value<Math::IntRational>::create(
                 media->observeCustomSpeed(),
-                [weak](const Math::Rational& value)
+                [weak](const Math::IntRational& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -248,9 +248,9 @@ namespace djv
                     }
                 });
 
-            p.defaultSpeedObserver = Observer::Value<Math::Rational>::create(
+            p.defaultSpeedObserver = Observer::Value<Math::IntRational>::create(
                 media->observeDefaultSpeed(),
-                [weak](const Math::Rational& value)
+                [weak](const Math::IntRational& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -366,7 +366,7 @@ namespace djv
             }
         }
 
-        void SpeedWidget::Private::setCustomSpeed(const Math::Rational& value)
+        void SpeedWidget::Private::setCustomSpeed(const Math::IntRational& value)
         {
             if (media)
             {
