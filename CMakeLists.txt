@@ -35,6 +35,7 @@ set(DJV_BUILD_MINIMAL FALSE CACHE BOOL "Enable a minimal build (libraries + test
 if(DJV_BUILD_MINIMAL)
     add_definitions(-DDJV_BUILD_MINIMAL)
 endif()
+set(DJV_BUILD_EXPERIMENTS FALSE CACHE BOOL "Build experiments")
 set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Build optional third party dependencies")
 
 # Test options.
@@ -321,7 +322,9 @@ else()
     add_subdirectory(bin)
     add_subdirectory(docs)
     add_subdirectory(examples)
-    #add_subdirectory(experiments)
+endif()
+if(DJV_BUILD_EXPERIMENTS)
+    add_subdirectory(experiments)
 endif()
 
 include(CPack)
