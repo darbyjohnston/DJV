@@ -29,5 +29,4 @@ namespace djv
 
 } // namespace djv
 
-
 #include <djvMath/RationalFuncInline.h>
