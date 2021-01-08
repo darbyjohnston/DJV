@@ -73,9 +73,9 @@ namespace IO
         return fileInfo == other.fileInfo &&
             video == other.video &&
             videoSpeed == other.videoSpeed &&
-            videoFrameInfo == other.videoFrameInfo &&
+            videoDuration == other.videoDuration &&
             audio == other.audio &&
-            audioFrameInfo == other.audioFrameInfo;
+            audioDuration == other.audioDuration;
     }
 
     void IIO::_init(

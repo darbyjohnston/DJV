@@ -286,9 +286,8 @@ void Media::frame(Frame value)
     DJV_PRIVATE_PTR();
     Math::IntRational speed;
     int64_t frameIndex = -1;
-    const auto& videoFrameInfo = p.ioInfo->videoFrameInfo;
-    const auto& audioFrameInfo = p.ioInfo->audioFrameInfo;
-    if (!p.ioInfo->video.empty() && !videoFrameInfo.empty())
+    const int64_t frame = AV::Time::scale(1, speed.swap(), IO::timebase);
+    if (!p.ioInfo->video.empty())
     {
         speed = p.ioInfo->videoSpeed;
         switch (value)
@@ -297,11 +296,11 @@ void Media::frame(Frame value)
             frameIndex = 0;
             break;
         case Frame::End:
-            frameIndex = videoFrameInfo.size() - 1;
+            frameIndex = p.ioInfo->videoDuration - frame;
             break;
         case Frame::Next:
             ++frameIndex;
-            if (frameIndex >= videoFrameInfo.size())
+            if (frameIndex >= p.ioInfo->videoDuration - frame)
             {
                 frameIndex = 0;
             }
@@ -310,13 +309,13 @@ void Media::frame(Frame value)
             --frameIndex;
             if (frameIndex < 0)
             {
-                frameIndex = videoFrameInfo.size() - 1;
+                frameIndex = p.ioInfo->videoDuration - frame;
             }
             break;
         default: break;
         }
     }
-    else if (p.ioInfo->audio.isValid() && !audioFrameInfo.empty())
+    else if (p.ioInfo->audio.isValid())
     {
         speed = Math::IntRational(p.ioInfo->audio.sampleRate, 1);
     }

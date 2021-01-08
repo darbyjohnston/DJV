@@ -15,11 +15,11 @@ using namespace djv;
 struct TimelineWidget::Private
 {
     Math::IntRational speed;
-    std::vector<IO::FrameInfo> frameInfo;
+    int64_t duration = 0;
     IO::FrameInfo currentFrame;
-    std::function<void(const IO::FrameInfo&)> callback;
+    std::function<void(const IO::Timestamp&)> callback;
     System::Event::PointerID pressedID = System::Event::invalidID;
-    IO::FrameInfo pointerFrameInfo;
+    IO::Timestamp pointerTimestamp = IO::timestampInvalid;
 };
 
 void TimelineWidget::_init(const std::shared_ptr<System::Context>& context)
@@ -52,12 +52,12 @@ void TimelineWidget::setSpeed(const Math::IntRational& value)
     _redraw();
 }
 
-void TimelineWidget::setFrameInfo(const std::vector<IO::FrameInfo>& value)
+void TimelineWidget::setDuration(int64_t value)
 {
     DJV_PRIVATE_PTR();
-    if (value == p.frameInfo)
+    if (value == p.duration)
         return;
-    p.frameInfo = value;
+    p.duration = value;
     _redraw();
 }
 
@@ -70,7 +70,7 @@ void TimelineWidget::setCurrentFrame(const IO::FrameInfo& value)
     _redraw();
 }
 
-void TimelineWidget::setCallback(const std::function<void(const IO::FrameInfo&)>& value)
+void TimelineWidget::setCallback(const std::function<void(const IO::Timestamp&)>& value)
 {
    _p->callback = value;
 }
@@ -89,8 +89,8 @@ void TimelineWidget::_paintEvent(System::Event::Paint&)
     const float b = style->getMetric(UI::MetricsRole::Border);
     const Math::BBox2f& g = getGeometry();
 
-    const float size0 = floorf(_frameToPos(IO::FrameInfo()));
-    const float size1 = ceilf(_frameToPos(IO::FrameInfo(AV::Time::scale(1, p.speed.swap(), IO::timebase))));
+    const float size0 = floorf(_timestampToPos(0));
+    const float size1 = ceilf(_timestampToPos(AV::Time::scale(1, p.speed.swap(), IO::timebase)));
     if (size1 > size0)
     {
         const auto& render = _getRender();
@@ -105,13 +105,9 @@ void TimelineWidget::_paintEvent(System::Event::Paint&)
             }
         }*/
 
-        const auto i = std::find(p.frameInfo.begin(), p.frameInfo.end(), p.currentFrame);
-        if (i != p.frameInfo.end())
-        {
-            float x = floorf(_frameToPos(*i));
-            render->setFillColor(style->getColor(UI::ColorRole::Foreground));
-            render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
-        }
+        float x = floorf(_timestampToPos(p.currentFrame.timestamp));
+        render->setFillColor(style->getColor(UI::ColorRole::Foreground));
+        render->drawRect(Math::BBox2f(x, g.min.y, size1 - size0, g.h()));
     }
 }
 
@@ -167,37 +163,35 @@ void TimelineWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
     {
         event.accept();
         p.pressedID = System::Event::invalidID;
-        p.pointerFrameInfo.timestamp = IO::timestampInvalid;
+        p.pointerTimestamp = IO::timestampInvalid;
         _redraw();
     }
 }
 
-float TimelineWidget::_frameToPos(const IO::FrameInfo& value) const
+float TimelineWidget::_timestampToPos(IO::Timestamp value) const
 {
+    DJV_PRIVATE_PTR();
     float out = 0.F;
-    const size_t size = _p->frameInfo.size();
-    if (size > 0)
+    if (p.duration > 0)
     {
+        const int64_t frame = AV::Time::scale(1, p.speed.swap(), IO::timebase);
+        const float n = value / static_cast<float>(p.duration - frame);
         const Math::BBox2f& g = getGeometry();
-        const auto i = std::find(_p->frameInfo.begin(), _p->frameInfo.end(), value);
-        const float n = (i - _p->frameInfo.begin()) / static_cast<float>(size - 1);
         out = g.min.x + n * g.w();
     }
     return out;
 }
 
-IO::FrameInfo TimelineWidget::_posToFrame(float value) const
+IO::Timestamp TimelineWidget::_posToTimestamp(float value) const
 {
-    IO::FrameInfo out;
-    const size_t size = _p->frameInfo.size();
-    if (size > 0)
+    DJV_PRIVATE_PTR();
+    IO::Timestamp out;
+    if (p.duration > 0)
     {
         const Math::BBox2f& g = getGeometry();
         const float n = (value - g.min.x) / g.w();
-        if (n >= 0.F && n <= 1.F)
-        {
-            out = _p->frameInfo[n * (size - 1)];
-        }
+        const int64_t frame = AV::Time::scale(1, p.speed.swap(), IO::timebase);
+        out = static_cast<IO::Timestamp>(n * (p.duration - frame));
     }
     return out;
 }
@@ -205,13 +199,13 @@ IO::FrameInfo TimelineWidget::_posToFrame(float value) const
 void TimelineWidget::_pointerAction(const djv::System::Event::PointerInfo& pointerInfo)
 {
     DJV_PRIVATE_PTR();
-    const IO::FrameInfo frameInfo = _posToFrame(pointerInfo.projectedPos.x);
-    if (frameInfo != p.pointerFrameInfo)
+    const IO::Timestamp timestamp = _posToTimestamp(pointerInfo.projectedPos.x);
+    if (timestamp != p.pointerTimestamp)
     {
-        p.pointerFrameInfo = frameInfo;
+        p.pointerTimestamp = timestamp;
         if (p.callback)
         {
-            p.callback(p.pointerFrameInfo);
+            p.callback(p.pointerTimestamp);
         }
         _redraw();
     }

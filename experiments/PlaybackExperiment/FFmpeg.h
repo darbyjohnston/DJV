@@ -36,10 +36,6 @@ namespace IO
         void _work();
         void _cleanup();
 
-        void _scan();
-        int _scanVideo(AVPacket*);
-        int _scanAudio(AVPacket*);
-
         void _seek(
             AVPacket*,
             Timestamp seekTimestamp,

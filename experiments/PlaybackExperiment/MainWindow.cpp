@@ -150,9 +150,11 @@ void MainWindow::_init(
 
     p.speedLabel = UI::Text::Label::create(context);
     p.speedLabel->setSizeString("00.00");
+    p.speedLabel->setFontFamily(Render2D::Font::familyMono);
 
     p.currentTimeLabel = UI::Text::Label::create(context);
     p.currentTimeLabel->setSizeString("000000");
+    p.currentTimeLabel->setFontFamily(Render2D::Font::familyMono);
 
     p.timelineWidget = TimelineWidget::create(context);
 
@@ -284,11 +286,11 @@ void MainWindow::_init(
         });
 
     p.timelineWidget->setCallback(
-        [weak](const IO::FrameInfo& value)
+        [weak](const IO::Timestamp& value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_p->media->seek(value.timestamp);
+                widget->_p->media->seek(value);
             }
         });
 
@@ -375,18 +377,18 @@ void MainWindow::_widgetUpdate()
 
     const auto& info = p.media->getIOInfo();
     Math::IntRational speed;
-    std::vector<IO::FrameInfo> frameInfo;
+    int64_t duration = 0;
     if (info)
     {
         if (info->video.size())
         {
             speed = info->videoSpeed;
-            frameInfo = info->videoFrameInfo;
+            duration = info->videoDuration;
         }
         else if (info->audio.isValid())
         {
             speed = Math::IntRational(info->audio.sampleRate, 1);
-            frameInfo = info->audioFrameInfo;
+            duration = info->audioDuration;
         }
     }
 
@@ -398,11 +400,12 @@ void MainWindow::_widgetUpdate()
     }
     {
         std::stringstream ss;
-        ss << p.currentFrame.timestamp;
+        ss.precision(2);
+        ss << AV::Time::scale(p.currentFrame.timestamp, IO::timebase, speed.swap());
         p.currentTimeLabel->setText(ss.str());
     }
 
     p.timelineWidget->setSpeed(speed);
-    p.timelineWidget->setFrameInfo(frameInfo);
+    p.timelineWidget->setDuration(duration);
     p.timelineWidget->setCurrentFrame(p.currentFrame);
 }

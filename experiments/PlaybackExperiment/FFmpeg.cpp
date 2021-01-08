@@ -217,6 +217,26 @@ namespace IO
             imageInfo.codec = avVideoCodec->long_name;
             p.info->video.push_back(imageInfo);
             p.info->videoSpeed = Math::IntRational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+            if (avVideoStream->duration != AV_NOPTS_VALUE)
+            {
+                AVRational r;
+                r.num = IO::timebase.getNum();
+                r.den = IO::timebase.getDen();
+                p.info->videoDuration = av_rescale_q(
+                    avVideoStream->duration,
+                    avVideoStream->time_base,
+                    r);
+            }
+            else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
+            {
+                AVRational r;
+                r.num = IO::timebase.getNum();
+                r.den = IO::timebase.getDen();
+                p.info->videoDuration = av_rescale_q(
+                    p.avFormatContext->duration,
+                    av_get_time_base_q(),
+                    r);
+            }
         }
 
         if (p.avAudioStream != -1)
@@ -275,9 +295,27 @@ namespace IO
             p.info->audio.type = audioType;
             p.info->audio.sampleRate = p.avCodecParameters[p.avAudioStream]->sample_rate;
             p.info->audio.codec = std::string(avAudioCodec->long_name);
+            if (avAudioStream->duration != AV_NOPTS_VALUE)
+            {
+                AVRational r;
+                r.num = IO::timebase.getNum();
+                r.den = IO::timebase.getDen();
+                p.info->audioDuration = av_rescale_q(
+                    avAudioStream->duration,
+                    avAudioStream->time_base,
+                    toFFmpeg(IO::timebase));
+            }
+            else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
+            {
+                AVRational r;
+                r.num = IO::timebase.getNum();
+                r.den = IO::timebase.getDen();
+                p.info->audioDuration = av_rescale_q(
+                    p.avFormatContext->duration,
+                    av_get_time_base_q(),
+                    toFFmpeg(IO::timebase));
+            }
         }
-
-        _scan();
 
         p.infoPromise.set_value(p.info);
     }
@@ -285,10 +323,6 @@ namespace IO
     void FFmpegRead::_work()
     {
         DJV_PRIVATE_PTR();
-        if (p.running)
-        {
-
-        }
         while (p.running)
         {
             bool read = false;
@@ -390,133 +424,6 @@ namespace IO
         {
             avformat_close_input(&p.avFormatContext);
         }
-    }
-
-    void FFmpegRead::_scan()
-    {
-        DJV_PRIVATE_PTR();
-        AVPacket packet;
-        while (1)
-        {
-            if (av_read_frame(p.avFormatContext, &packet) < 0)
-            {
-                if (p.avVideoStream != -1)
-                {
-                    _scanVideo(nullptr);
-                    avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
-                }
-                if (p.avAudioStream != -1)
-                {
-                    _scanAudio(nullptr);
-                    avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
-                }
-                break;
-            }
-            if (p.avVideoStream == packet.stream_index)
-            {
-                if (_scanVideo(&packet) < 0)
-                {
-                    break;
-                }
-            }
-            else if (p.avAudioStream == packet.stream_index)
-            {
-                if (_scanAudio(&packet) < 0)
-                {
-                    break;
-                }
-            }
-        }
-        if (p.avVideoStream != -1)
-        {
-            avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
-        }
-        if (p.avAudioStream != -1)
-        {
-            avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
-        }
-        if (!p.info->videoFrameInfo.empty())
-        {
-            if (av_seek_frame(
-                p.avFormatContext,
-                p.avVideoStream,
-                av_rescale_q(
-                    p.info->videoFrameInfo.begin()->timestamp,
-                    toFFmpeg(timebase),
-                    p.avFormatContext->streams[p.avVideoStream]->time_base),
-                AVSEEK_FLAG_BACKWARD) < 0)
-            {
-                std::stringstream ss;
-                ss << "Cannot open " << p.info->fileInfo.getFileName();
-                throw std::runtime_error(ss.str());
-            }
-        }
-        else if (!p.info->audioFrameInfo.empty())
-        {
-            if (av_seek_frame(
-                p.avFormatContext,
-                p.avAudioStream,
-                av_rescale_q(
-                    p.info->audioFrameInfo.begin()->timestamp,
-                    toFFmpeg(timebase),
-                    p.avFormatContext->streams[p.avAudioStream]->time_base),
-                AVSEEK_FLAG_BACKWARD) < 0)
-            {
-                std::stringstream ss;
-                ss << "Cannot open " << p.info->fileInfo.getFileName();
-                throw std::runtime_error(ss.str());
-            }
-        }
-        std::cout << "FFmpeg video timestamps: " << p.info->videoFrameInfo.size() << std::endl;
-        std::cout << "FFmpeg audio timestamps: " << p.info->audioFrameInfo.size() << std::endl;
-    }
-
-    int FFmpegRead::_scanVideo(AVPacket* packet)
-    {
-        DJV_PRIVATE_PTR();
-        int r = avcodec_send_packet(p.avCodecContext[p.avVideoStream], packet);
-        while (r >= 0)
-        {
-            r = avcodec_receive_frame(p.avCodecContext[p.avVideoStream], p.avFrame);
-            if (AVERROR(EAGAIN) == r)
-            {
-                r = 0;
-                break;
-            }
-            else if (r < 0)
-            {
-                break;
-            }
-            p.info->videoFrameInfo.push_back(FrameInfo(av_rescale_q(
-                p.avFrame->pts,
-                p.avFormatContext->streams[p.avVideoStream]->time_base,
-                toFFmpeg(timebase))));
-        }
-        return r;
-    }
-
-    int FFmpegRead::_scanAudio(AVPacket* packet)
-    {
-        DJV_PRIVATE_PTR();
-        int r = avcodec_send_packet(p.avCodecContext[p.avAudioStream], packet);
-        while (r >= 0)
-        {
-            r = avcodec_receive_frame(p.avCodecContext[p.avAudioStream], p.avFrame);
-            if (AVERROR(EAGAIN) == r)
-            {
-                r = 0;
-                break;
-            }
-            else if (r < 0)
-            {
-                break;
-            }
-            p.info->audioFrameInfo.push_back(FrameInfo(av_rescale_q(
-                p.avFrame->pts,
-                p.avFormatContext->streams[p.avAudioStream]->time_base,
-                toFFmpeg(timebase))));
-        }
-        return r;
     }
 
     void FFmpegRead::_seek(
