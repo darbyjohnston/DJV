@@ -1,6 +1,6 @@
 extern "C"
 {
-#include <FSeq.h>
+#include <fseq.h>
 }
 
 #include <iostream>

@@ -20,8 +20,6 @@ project(
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
-
 #-------------------------------------------------------------------------------
 # Options
 #-------------------------------------------------------------------------------

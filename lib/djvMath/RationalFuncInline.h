@@ -9,7 +9,7 @@ namespace djv
         template<typename T>
         inline Math::Rational<T> operator * (const Math::Rational<T>& a, const Math::Rational<T>& b)
         {
-            return Math::Rational(a.getNum() * b.getNum(), a.getDen() * b.getDen());
+            return Math::Rational<T>(a.getNum() * b.getNum(), a.getDen() * b.getDen());
         }
 
     } // namespace Math

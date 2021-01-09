@@ -1,8 +1,7 @@
 include(ExternalProject)
 
 set(JPEG_DEPS ZLIB)
-if(WIN32)
-else()
+if(NOT WIN32)
     set(JPEG_DEPS ${JPEG_DEPS} NASM)
 endif()
 

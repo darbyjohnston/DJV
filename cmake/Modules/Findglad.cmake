@@ -18,7 +18,7 @@ find_path(glad_INCLUDE_DIR NAMES glad.h)
 set(glad_INCLUDE_DIRS ${glad_INCLUDE_DIR})
 
 find_library(glad_LIBRARY NAMES glad)
-set(glad_LIBRARIES ${glad_LIBRARY})
+set(glad_LIBRARIES ${glad_LIBRARY} ${CMAKE_DL_LIBS})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
@@ -30,7 +30,8 @@ if(glad_FOUND AND NOT TARGET glad::glad)
     add_library(glad::glad UNKNOWN IMPORTED)
     set_target_properties(glad::glad PROPERTIES
         IMPORTED_LOCATION "${glad_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${glad_INCLUDE_DIR}")
+        INTERFACE_INCLUDE_DIRECTORIES "${glad_INCLUDE_DIR}"
+        INTERFACE_LINK_LIBRARIES "${CMAKE_DL_LIBS}")
 endif()
 if(glad_FOUND AND NOT TARGET glad)
     add_library(glad INTERFACE)
