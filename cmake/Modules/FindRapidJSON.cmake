@@ -3,12 +3,14 @@
 # This module defines the following variables:
 #
 # * RapidJSON_FOUND
+# * RapidJSON_INCLUDE_DIRS
 #
 # This module defines the following interfaces:
 #
 # * RapidJSON
 
 find_path(RapidJSON_INCLUDE_DIR rapidjson/rapidjson.h)
+set(RapidJSON_INCLUDE_DIRS ${RapidJSON_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(

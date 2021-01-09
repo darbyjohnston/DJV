@@ -3,12 +3,14 @@
 # This module defines the following variables:
 #
 # * GLM_FOUND
+# * GLM_INCLUDE_DIRS
 #
 # This module defines the following interfaces:
 #
 # * GLM
 
 find_path(GLM_INCLUDE_DIR "glm/glm.hpp")
+set(GLM_INCLUDE_DIRS ${GLM_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
