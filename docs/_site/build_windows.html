@@ -16,23 +16,27 @@
     </div>
     <div class="block">
 	<p class="header">Building on Microsoft Windows</p>
+    <p class="list"><a class="text" href="#Prerequisites">Prerequisites</a></p>
     <p class="list"><a class="text" href="#Preparation">Preparation</a></p>
     <p class="list"><a class="text" href="#BuildingFFmpeg">Building FFmpeg</a></p>
-    <p class="list"><a class="text" href="#BuildingThirdParty">Building third party dependencies</a></p>
-    <p class="list"><a class="text" href="#Building">Building</a></p>
+    <p class="list"><a class="text" href="#SuperBuild">Super Build</a></p>
 </div>
 
 <div class="block">
-	<p class="header"><a name="Preparation">Preparation</a></p>
-	<p>Check that you have the following requirements:</p>
+	<p class="header"><a name="Prerequisites">Prerequisites</a></p>
+	<p>Check that you have the following prerequisites:</p>
 	<ul>
 	    <li><a class="text" href="https://www.microsoft.com/en-us/windows/get-windows-10">Windows 10</a></li>
 		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
 		<li><a class="text" href="https://visualstudio.microsoft.com">Visual Studio</a> (version 2017 or later)</li>
-		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.12 or later)</li>
+		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.18 or later)</li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
 		<li><a class="text" href="https://www.nasm.us">NASM</a></li>
 	</ul>
+</div>
+
+<div class="block">
+	<p class="header"><a name="Preparation">Preparation</a></p>
     <p>Choose a directory to work in, this is where the code will be
     checked out and built. This directory will be referred to as DJV_BUILD
     in the rest of the documentation.</p>
@@ -43,8 +47,16 @@
 </pre>
 	<p>Setup environment variables:</p>
 	<pre>
+[Debug]
+
 > set DJV_BUILD=%CD%
 > set PATH=%DJV_BUILD%\DJV-install-Debug\bin;%PATH%
+</pre>
+	<pre>
+[Release]
+
+> set DJV_BUILD=%CD%
+> set PATH=%DJV_BUILD%\DJV-install-Release\bin;%PATH%
 </pre>
 </div>
 
@@ -90,41 +102,36 @@ $ make install
 </div>
 
 <div class="block">
-	<p class="header"><a name="BuildingThirdParty">Building third party dependencies</a></p>
-	<p>Create a directory for the build, run CMake, and start the build:</p>
+	<p class="header"><a name="SuperBuild">Super Build</a></p>
+	<p>This builds both DJV and the neccessary third party dependencies.</p>
+	<p>Create a directory for the build and run CMake:</p>
 	<pre>
+[Debug]
+
 > mkdir DJV-third-party-Debug
 > cd DJV-third-party-Debug
 > cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug
+</pre>
+	<pre>
+[Release]
+
+> mkdir DJV-third-party-Release
+> cd DJV-third-party-Release
+> cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
+</pre>
+<p>Start the build:</p>
+	<pre>
+[Debug]
+
 > cmake --build . --config Debug -j
-> cmake --build . --config Debug -j --target install
-> cd ..
+</pre>
+	<pre>
+[Release]
+
+> cmake --build . --config Release -j
 </pre>
 </div>
 
-<div class="block">
-	<p class="header"><a name="Building">Building</a></p>
-	<p>Create a directory for the build, run CMake, and start the build:</p>
-	<pre>
-> mkdir DJV-Debug
-> cd DJV-Debug
-> cmake ..\DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug
-> cmake --build . --config Debug -j
-</pre>
-    <p>If you get an error like:</p>
-    <pre>
-LINK : fatal error LNK1104: cannot open file 'djv.ilk' [djv..vcxproj]
-</pre>
-    <p>Run the build command a second time and the error should go away.</p>
-    <p>Try running the confidence tests to make sure everything is working OK:</p>
-    <pre>
-> cmake --build . --config Debug -j --target RUN_TESTS
-</pre>
-    <p>Run the djv player application:</p>
-    <pre>
-> build\bin\Debug\djv
-</pre>
-</div>
 
 
 

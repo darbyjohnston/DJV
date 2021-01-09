@@ -16,19 +16,20 @@
     </div>
     <div class="block">
 	<p class="header">Building on Apple macOS</p>
+    <p class="list"><a class="text" href="#Prerequisites">Prerequisites</a></p>
     <p class="list"><a class="text" href="#Preparation">Preparation</a></p>
-    <p class="list"><a class="text" href="#BuildingThirdParty">Building third party dependencies</a></p>
-    <p class="list"><a class="text" href="#Building">Building</a></p>
+    <p class="list"><a class="text" href="#SuperBuild">Super Build</a></p>
+    <p class="list"><a class="text" href="#SystemBuild">System Build</a></p>
 </div>
 
 <div class="block">
-	<p class="header"><a name="Preparation">Preparation</a></p>
-	<p>Check that you have the following requirements:</p>
+	<p class="header"><a name="Prerequisites">Prerequisites</a></p>
+	<p>Check that you have the following prerequisites:</p>
 	<ul>
 	    <li><a class="text" href="https://www.apple.com/macos">macOS</a> (version 10.11 or later)</li>
 		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
 		<li><a class="text" href="https://developer.apple.com/xcode">Xcode</a></li>
-		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.12 or later)</li>
+		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.18 or later)</li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
 	</ul>
 	<p>CMake and git can be installed using
@@ -38,6 +39,10 @@
 $ brew install git
 $ brew install cmake
 </pre>
+</div>
+
+<div class="block">
+	<p class="header"><a name="Preparation">Preparation</a></p>
     <p>Choose a directory to work in, this is where the code will be
     checked out and built. This directory will be referred to as DJV_BUILD
     in the rest of the documentation.</p>
@@ -48,6 +53,15 @@ $ git clone https://github.com/darbyjohnston/DJV.git
 </pre>
 	<p>Setup environment variables:</p>
 	<pre>
+[Debug]
+
+$ export DJV_BUILD=$PWD
+$ export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
+$ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
+</pre>
+	<pre>
+[Release]
+
 $ export DJV_BUILD=$PWD
 $ export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
 $ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
@@ -55,32 +69,68 @@ $ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
 </div>
 
 <div class="block">
-	<p class="header"><a name="BuildingThirdParty">Building third party dependencies</a></p>
-	<p>Create a directory for the build, run CMake, and start the build:</p>
+	<p class="header"><a name="SuperBuild">Super Build</a></p>
+	<p>This is the recommended way to build DJV, this builds both DJV and the
+	neccessary third party dependencies.</p>
+	<p>Create a directory for the build and run CMake:</p>
 	<pre>
+[Debug]
+
 $ mkdir DJV-third-party-Debug
 $ cd DJV-third-party-Debug
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
+</pre>
+	<pre>
+[Release]
+
+$ mkdir DJV-third-party-Release
+$ cd DJV-third-party-Release
+$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
+</pre>
+	<p>Start the build using 8 cores:</p>
+	<pre>
 $ cmake --build . -j 8
-$ cmake --build . -j 8 --target install
-$ cd ..
+</pre>
+	<p>Try running the DJV player application:</p>
+	<pre>
+$ ./DJV/src/DJV-build/build/bin/djv
+</pre>
+    <p>When developing DJV with a super build you can speed up build times
+    by skipping the third party dependencies. Note that you must have
+    built the thirty party dependencies first:</p>
+    <pre>
+$ cd ./DJV/src/DJV-build
+$ cmake --build . -j 8
 </pre>
 </div>
 
 <div class="block">
-	<p class="header"><a name="Building">Building</a></p>
-	<p>Create a directory for the build, run CMake, and start the build:</p>
+	<p class="header"><a name="SystemBuild">System Build</a></p>
+	<p>This builds DJV using the system provided third party dependencies.</p>
+	<p>Create a directory for the build and run CMake:</p>
 	<pre>
+[Debug]
+
 $ mkdir DJV-Debug
 $ cd DJV-Debug
 $ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
+</pre>
+	<pre>
+[Release]
+
+$ mkdir DJV-Release
+$ cd DJV-Release
+$ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
+</pre>
+	<p>Start the build using 8 cores:</p>
+	<pre>
 $ cmake --build . -j 8
 </pre>
 	<p>Try running the confidence tests to make sure everything is working OK:</p>
 	<pre>
 $ cmake --build . -j 8 --target test
 </pre>
-	<p>Run the djv player application:</p>
+	<p>Try running the DJV player application:</p>
 	<pre>
 $ ./build/bin/djv
 </pre>
