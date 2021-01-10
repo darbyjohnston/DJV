@@ -76,16 +76,16 @@ $ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
 	<pre>
 [Debug]
 
-$ mkdir DJV-third-party-Debug
-$ cd DJV-third-party-Debug
-$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
+$ mkdir DJV-Debug
+$ cd DJV-Debug
+$ cmake ../DJV/etc/SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
 </pre>
 	<pre>
 [Release]
 
-$ mkdir DJV-third-party-Release
-$ cd DJV-third-party-Release
-$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
+$ mkdir DJV-Release
+$ cd DJV-Release
+$ cmake ../DJV/etc/SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
 </pre>
 	<p>Start the build using 8 cores:</p>
 	<pre>
