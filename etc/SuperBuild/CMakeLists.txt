@@ -31,6 +31,8 @@ set(DJV_THIRD_PARTY_ospray FALSE CACHE BOOL "Build ospray")
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
+
 enable_testing()
 
 if(APPLE)
