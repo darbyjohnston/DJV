@@ -4,10 +4,7 @@
 
 int main(int argc, char* argv[])
 {
-    if (!gladLoadGL())
-    {
-        std::cout << "Could not load glad" << std::endl;
-        return 0;
-    }
+    std::cout << "major: " << GLVersion.major << std::endl;
+    std::cout << "minor: " << GLVersion.minor << std::endl;
     return 0;
 }

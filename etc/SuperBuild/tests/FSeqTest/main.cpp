@@ -1,7 +1,8 @@
 extern "C"
 {
 #include <fseq.h>
-}
+
+} // extern "C"
 
 #include <iostream>
 

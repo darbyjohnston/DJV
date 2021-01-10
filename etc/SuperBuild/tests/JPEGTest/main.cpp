@@ -1,6 +1,10 @@
 #include <stdio.h>
 
+extern "C"
+{
 #include <jpeglib.h>
+
+} // extern "C"
 
 #include <iostream>
 

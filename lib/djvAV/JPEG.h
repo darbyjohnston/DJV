@@ -10,7 +10,11 @@
 #include <basetsd.h>
 #endif // DJV_PLATFORM_WINDOWS
 
+extern "C"
+{
 #include <jpeglib.h>
+
+} // extern "C"
 
 #include <setjmp.h>
 
