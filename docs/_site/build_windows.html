@@ -99,6 +99,11 @@ $ ./configure \
 $ make
 $ make install
 </pre>
+    <p>Currently there is a bug where the .lib files are installed in the "DJV_BUILD/bin"
+    directory instead of the "DJV_BUILD/lib" directory. To fix this use the Windows File
+    Explorer to manually move the files "avcodec.lib", "avdevice.lib", "avfilter.lib",
+    "avformat.lib", "avutil.lib", "swresample.lib", and "swscale.lib" from
+    "DJV_BUILD/bin" to "DJV_BUILD/lib".</p>
 </div>
 
 <div class="block">
@@ -108,16 +113,16 @@ $ make install
 	<pre>
 [Debug]
 
-> mkdir DJV-third-party-Debug
-> cd DJV-third-party-Debug
-> cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug
+> mkdir DJV-Debug
+> cd DJV-Debug
+> cmake ..\DJV\etc\SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug
 </pre>
 	<pre>
 [Release]
 
-> mkdir DJV-third-party-Release
-> cd DJV-third-party-Release
-> cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
+> mkdir DJV-Release
+> cd DJV-Release
+> cmake ..\DJV\etc\SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
 </pre>
 <p>Start the build:</p>
 	<pre>
@@ -130,6 +135,39 @@ $ make install
 
 > cmake --build . --config Release -j
 </pre>
+    <p>Note that if you are using Visual Studio solutions and get the error:</p>
+    <pre>
+LINK : fatal error LNK1104: cannot open file 'djv.ilk' [djv..vcxproj]
+</pre>
+    <p>Run the build a second time and the error should go away.</p>
+	<p>Try running the DJV player application:</p>
+	<pre>
+[Debug]
+
+> DJV\src\DJV-build\build\bin\Debug\djv
+</pre>
+	<pre>
+[Release]
+
+> DJV\src\DJV-build\build\bin\Release\djv
+</pre>
+    <p>When developing DJV with a super build you can speed up build times
+    by skipping the third party dependencies. Note that you must have
+    built the thirty party dependencies first:</p>
+    <pre>
+[Debug]
+
+> cd DJV\src\DJV-build
+> cmake --build . --config Debug -j
+</pre>
+    <pre>
+[Release]
+
+> cd DJV\src\DJV-build
+> cmake --build . --config Release -j
+</pre>
+    <p>Note that this also works when using Visual Studio solutions;
+    just open the Visual Studio solution in the folder shown above.</p>
 </div>
 
 
