@@ -33,8 +33,9 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 enable_testing()
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
+if(APPLE)
+    set(CMAKE_CXX_STANDARD 11)
+endif()
 
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)

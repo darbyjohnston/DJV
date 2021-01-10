@@ -131,8 +131,9 @@ if(UNIX)
 endif()
 
 # Compiler settings.
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
+if(APPLE)
+    set(CMAKE_CXX_STANDARD 11)
+endif()
 
 #-------------------------------------------------------------------------------
 # Third Party Dependencies
