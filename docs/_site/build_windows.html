@@ -20,6 +20,7 @@
     <p class="list"><a class="text" href="#Preparation">Preparation</a></p>
     <p class="list"><a class="text" href="#BuildingFFmpeg">Building FFmpeg</a></p>
     <p class="list"><a class="text" href="#SuperBuild">Super Build</a></p>
+    <p class="list"><a class="text" href="#VisualStudio">Visual Studio</a></p>
 </div>
 
 <div class="block">
@@ -135,11 +136,6 @@ $ make install
 
 > cmake --build . --config Release -j
 </pre>
-    <p>Note that if you are using Visual Studio solutions and get the error:</p>
-    <pre>
-LINK : fatal error LNK1104: cannot open file 'djv.ilk' [djv..vcxproj]
-</pre>
-    <p>Run the build a second time and the error should go away.</p>
 	<p>Try running the DJV player application:</p>
 	<pre>
 [Debug]
@@ -166,8 +162,17 @@ LINK : fatal error LNK1104: cannot open file 'djv.ilk' [djv..vcxproj]
 > cd DJV\src\DJV-build
 > cmake --build . --config Release -j
 </pre>
-    <p>Note that this also works when using Visual Studio solutions;
-    just open the Visual Studio solution in the folder shown above.</p>
+</div>
+
+<div class="block">
+	<p class="header"><a name="VisualStudio">Visual Studio</a></p>
+	<p>DJV can also be built with Visual Studio solutions using the appropriate
+	CMake generator, for example "Visual Studio 16 2019".</p>
+    <p>Note that if you are using Visual Studio solutions and get the error:</p>
+    <pre>
+LINK : fatal error LNK1104: cannot open file 'djv.ilk' [djv..vcxproj]
+</pre>
+    <p>Run the build a second time and the error should go away.</p>
 </div>
 
 
