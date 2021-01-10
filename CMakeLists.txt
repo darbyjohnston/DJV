@@ -18,7 +18,7 @@ project(
     HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES C CXX)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 #-------------------------------------------------------------------------------
 # Options
@@ -34,7 +34,7 @@ if(DJV_BUILD_MINIMAL)
     add_definitions(-DDJV_BUILD_MINIMAL)
 endif()
 set(DJV_BUILD_EXPERIMENTS FALSE CACHE BOOL "Build experiments")
-set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Build optional third party dependencies")
+set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Use optional third party dependencies")
 
 # Test options.
 enable_testing()
@@ -132,6 +132,7 @@ endif()
 
 # Compiler settings.
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
 
 #-------------------------------------------------------------------------------
 # Third Party Dependencies

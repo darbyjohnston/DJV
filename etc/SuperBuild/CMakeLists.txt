@@ -4,7 +4,7 @@ cmake_policy(SET CMP0097 NEW)
 
 project(DJV-SuperBuild)
 
-set(CMAKE_MODULE_PATH
+list(PREPEND CMAKE_MODULE_PATH
     ${PROJECT_SOURCE_DIR}/../../cmake/Modules
     ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
@@ -34,6 +34,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
 
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
