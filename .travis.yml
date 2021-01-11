@@ -44,10 +44,15 @@ before_script:
 - export wrapperdir=`dirname $wrapperscript`
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
 - build-wrapper-linux-x86-64 --out-dir ../bw-output cmake --build . -j 4
-#- cat Testing/Temporary/LastTest.log
-#- cppcheck --enable=all --xml-version=2 -I${PWD}/lib -UDJV_ASSERT -UDJV_ENDIAN_MSB -UDJV_MMAP -UDJV_GL_ES2 -UDJV_PLATFORM_WINDOWS -UGLM_PRECISION_LOWP_FLOAT -UGLM_PRECISION_LOWP_INT -UGLM_PRECISION_MEDIUMP_FLOAT -UGLM_PRECISION_MEDIUMP_INT -UDJV_GL_PBO -Umax -Umin lib bin examples 2> report.xml
-- sh ../../etc/Util/gcov.sh ../..
-- cd ../..
+- cd ..
+- echo "Running DJV tests..."
+- cd DJV-Debug/DJV/src/DJV-build
+# - build/bin/djvTest
+- cmake --build . --target test
+- cat Testing/Temporary/LastTest.log
+- sh ../../../../../etc/Util/gcov.sh ../../../../..
+- cd ../../../..
+- cd ..
 script:
 - sonar-scanner
 
