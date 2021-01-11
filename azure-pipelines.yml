@@ -130,7 +130,7 @@ jobs:
       mkdir DJV-Release
       cd DJV-Release
       cmake ..\..\etc\SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
-      cmake --build . --config Release-j
+      cmake --build . --config Release -j
       cd ..
       echo "Packaging DJV..."
       cd DJV-Debug\DJV\src\DJV-build

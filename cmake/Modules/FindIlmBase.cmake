@@ -35,7 +35,7 @@ else()
     find_library(IlmBase_Iex_LIBRARY NAMES Iex-2_5)
     find_library(IlmBase_IexMath_LIBRARY NAMES IexMath-2_5)
     find_library(IlmBase_Imath_LIBRARY NAMES Imath-2_5)
-    find_library(IlmBase_IlmBase_LIBRARY NAMES IlmBase-2_5)
+    find_library(IlmBase_IlmThread_LIBRARY NAMES IlmThread-2_5)
 endif()
 set(IlmBase_LIBRARIES
     ${IlmBase_Half_LIBRARY}
