@@ -9,42 +9,56 @@ jobs:
     image: aswftesting/ci-base:2020.1
   steps:
   - script: |
+      # Create a build directory
       mkdir build
       cd build
+
       # ASWF container doesn't have lcov or nasm
       sudo yum install -y epel-release
       sudo yum install -y lcov nasm
+
       # This seems to be sufficient to make OpenGL / GLX software rasterization work
       sudo yum install -y mesa-dri-drivers
+
       # OTIO build needs a git user
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
+
+      # Setup environment variables
       export DJV_BUILD=$PWD
-      export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
-      export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
-      export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
+      export PATH=$DJV_BUILD/install/bin:$PATH
+      export LD_LIBRARY_PATH=$DJV_BUILD/install/lib:$LD_LIBRARY_PATH
+      export PYTHONPATH=$DJV_BUILD/install/lib:$PYTHONPATH
+      
+      # Build CMake 3.18
       echo "Building CMake..."
       wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
       tar zxvf cmake-3.18.4.tar.gz
       cd cmake-3.18.4
-      ./configure --prefix=$DJV_BUILD/DJV-install-Debug --parallel=4
+      ./configure --prefix=$DJV_BUILD/install --parallel=4
       make -j 4
       make install
       cd ..
+      
+      # Build DJV
       echo "Building DJV..."
-      mkdir DJV-Debug
-      cd DJV-Debug
-      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_GL_ES2=TRUE
+      mkdir SuperBuild
+      cd SuperBuild
+      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/install -DCMAKE_PREFIX_PATH=$DJV_BUILD/install -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_GL_ES2=TRUE
       # ASWF ci-base image already contains the SonarCloud tools in /usr/bin
       build-wrapper-linux-x86-64 --out-dir ../bw-output cmake --build . -j 4
       cd ..
+      
+      # Run tests
       echo "Running DJV tests..."
-      cd DJV-Debug/DJV/src/DJV-build
+      cd SuperBuild/DJV/src/DJV-build
       # Need to request 24bit visual to get OpenGL
       xvfb-run --server-args "-screen 0 640x480x24" cmake --build . --target test
       cat Testing/Temporary/LastTest.log
       sh ../../../../../etc/Util/gcov.sh ../../../../..
       cd ../../../..
+      
+      # Return to the original directory
       cd ..
 
 - job: Linux_Packaging
@@ -52,32 +66,44 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - script: |
+      # Create a build directory
       mkdir build
       cd build
+
+      # Install software
       sudo apt-get install libgl1-mesa-dev xorg-dev libasound2-dev
+
       # OTIO build needs a git user
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
+
+      # Setup environment variables
       export DJV_BUILD=$PWD
-      export PATH=$DJV_BUILD/DJV-install-Release/bin:$PATH
-      export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$LD_LIBRARY_PATH
-      export PYTHONPATH=$DJV_BUILD/DJV-install-Release/lib:$PYTHONPATH
+      export PATH=$DJV_BUILD/install/bin:$PATH
+      export LD_LIBRARY_PATH=$DJV_BUILD/install/lib:$LD_LIBRARY_PATH
+      export PYTHONPATH=$DJV_BUILD/install/lib:$PYTHONPATH
+      
+      # Build CMake 3.18
       echo "Building CMake..."
       wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
       tar zxvf cmake-3.18.4.tar.gz
       cd cmake-3.18.4
-      ./configure --prefix=$DJV_BUILD/DJV-install-Release --parallel=4
+      ./configure --prefix=$DJV_BUILD/install --parallel=4
       make -j 4
       make install
       cd ..
+      
+      # Build DJV
       echo "Building DJV..."
-      mkdir DJV-Release
-      cd DJV-Release
-      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release
+      mkdir SuperBuild
+      cd SuperBuild
+      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/install -DCMAKE_PREFIX_PATH=$DJV_BUILD/install
       cmake --build . -j 4
       cd ..
+      
+      # Package DJV
       echo "Packaging DJV..."
-      cd DJV-Release/DJV/src/DJV-build
+      cd SuperBuild/DJV/src/DJV-build
       sudo apt-get install rpm-build
       cmake ../../../../.. -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY=TRUE
       cmake --build . -j 4
@@ -89,6 +115,8 @@ jobs:
       cmake --build . -j 4
       cmake --build . --target package
       cd ../../../..
+
+      # Return to the original directory
       cd ..
 
 - job: Windows
@@ -96,17 +124,24 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - script: |
+      # Create a build directory
       mkdir build
       cd build
+
+      # Setup environment variables
       set DJV_BUILD=%CD%
-      set PATH=%DJV_BUILD%\DJV-install-Debug\bin;%PATH%
-      set PYTHONPATH=%DJV_BUILD%\DJV-install-Debug\lib;%PYTHONPATH%
+      set PATH=%DJV_BUILD%\install\bin;%PATH%
+      set PYTHONPATH=%DJV_BUILD%\install\lib;%PYTHONPATH%
+
+      # Build DJV
       echo "Building DJV..."
-      mkdir DJV-Debug
-      cd DJV-Debug
-      cmake ..\..\etc\SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GL_ES2=TRUE
+      mkdir SuperBuild
+      cd SuperBuild
+      cmake ..\..\etc\SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/install -DCMAKE_PREFIX_PATH=%DJV_BUILD%/install -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GL_ES2=TRUE
       cmake --build . --config Debug -j
       cd ..
+
+      # Return to the original directory
       cd ..
 
 - job: Windows_Packaging
@@ -117,27 +152,37 @@ jobs:
       $ErrorActionPreference = "Stop"
       $url = "https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/win64/nasm-2.14.02-win64.zip"
       Invoke-WebRequest -Uri $url -OutFile nasm-2.14.02-win64.zip -UserAgent "NativeClient"
-      Expand-Archive nasm-2.14.02-win64.zip -DestinationPath .
+      mkdir build
+      Expand-Archive nasm-2.14.02-win64.zip -DestinationPath build
     displayName: 'Download NASM'
   - script: |
-      set PATH=%CD%\nasm-2.14.02;%PATH%
+      # Create a build directory
       mkdir build
       cd build
+
+      # Setup environment variables
       set DJV_BUILD=%CD%
-      set PATH=%DJV_BUILD%\DJV-install-Release\bin;%DJV_DIR%\nasm-2.14.02;%PATH%
-      set PYTHONPATH=%DJV_BUILD%\DJV-install-Release\lib;%PYTHONPATH%
+      set PATH=%DJV_BUILD%\nasm-2.14.02;%PATH%
+      set PATH=%DJV_BUILD%\install\bin;%DJV_DIR%\nasm-2.14.02;%PATH%
+      set PYTHONPATH=%DJV_BUILD%\install\lib;%PYTHONPATH%
+      
+      # Build DJV
       echo "Building DJV..."
-      mkdir DJV-Release
-      cd DJV-Release
-      cmake ..\..\etc\SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
+      mkdir SuperBuild
+      cd SuperBuild
+      cmake ..\..\etc\SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/install -DCMAKE_PREFIX_PATH=%DJV_BUILD%/install
       cmake --build . --config Release -j
       cd ..
+      
+      # Package DJV
       echo "Packaging DJV..."
-      cd DJV-Release\DJV\src\DJV-build
+      cd SuperBuild\DJV\src\DJV-build
       cmake ..\..\..\..\.. -DDJV_THIRD_PARTY=TRUE
       cmake --build . --config Release -j
       cmake --build . --config Release --target package
       cd ..\..\..\..
+
+      # Return to the original directory
       cd ..
 
 - job: macOS
@@ -145,28 +190,37 @@ jobs:
     vmImage: 'macOS-latest'
   steps:
   - script: |
+      # Create a build directory
       mkdir build
       cd build
+
+      # Setup environment variables
       export DJV_BUILD=$PWD
-      export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
-      export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
-      export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
+      export PATH=$DJV_BUILD/install/bin:$PATH
+      export DYLD_LIBRARY_PATH=$DJV_BUILD/install/lib:$DYLD_LIBRARY_PATH
+      export PYTHONPATH=$DJV_BUILD/install/lib:$PYTHONPATH
+
+      # Build CMake 3.18
       echo "Building CMake..."
       wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
       tar zxvf cmake-3.18.4.tar.gz
       cd cmake-3.18.4
-      ./configure --prefix=$DJV_BUILD/DJV-install-Debug --parallel=4
+      ./configure --prefix=$DJV_BUILD/install --parallel=4
       make -j 4
       make install
       cd ..
+
+      # Build DJV
       echo "Building DJV..."
-      mkdir DJV-Debug
-      cd DJV-Debug
-      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
+      mkdir SuperBuild
+      cd SuperBuild
+      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/install -DCMAKE_PREFIX_PATH=$DJV_BUILD/install -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       cd ..
+
+      # Run tests
       echo "Running DJV tests..."
-      cd DJV-Debug/DJV/src/DJV-build
+      cd SuperBuild/DJV/src/DJV-build
       # Fails with:
       # Unable to create basic Accelerated OpenGL renderer.
       # Core Image is now using the software OpenGL renderer. This will be slow.
@@ -174,6 +228,8 @@ jobs:
       #cmake --build . --target test
       #cat Testing/Temporary/LastTest.log
       cd ../../../..
+
+      # Return to the original directory
       cd ..
 
 - job: macOS_Packaging
@@ -181,30 +237,41 @@ jobs:
     vmImage: 'macOS-latest'
   steps:
   - script: |
+      # Create a build directory
       mkdir build
       cd build
+
+      # Setup environment variables
       export DJV_BUILD=$PWD
-      export PATH=$DJV_BUILD/DJV-install-Release/bin:$PATH
-      export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$DYLD_LIBRARY_PATH
-      export PYTHONPATH=$DJV_BUILD/DJV-install-Release/lib:$PYTHONPATH
+      export PATH=$DJV_BUILD/install/bin:$PATH
+      export DYLD_LIBRARY_PATH=$DJV_BUILD/install/lib:$DYLD_LIBRARY_PATH
+      export PYTHONPATH=$DJV_BUILD/install/lib:$PYTHONPATH
+
+      # Build CMake 3.18
       echo "Building CMake..."
       wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4.tar.gz
       tar zxvf cmake-3.18.4.tar.gz
       cd cmake-3.18.4
-      ./configure --prefix=$DJV_BUILD/DJV-install-Release --parallel=4
+      ./configure --prefix=$DJV_BUILD/install --parallel=4
       make -j 4
       make install
       cd ..
+
+      # Build DJV
       echo "Building DJV..."
-      mkdir DJV-Release
-      cd DJV-Release
-      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
+      mkdir SuperBuild
+      cd SuperBuild
+      cmake ../../etc/SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/install -DCMAKE_PREFIX_PATH=$DJV_BUILD/install -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       cd ..
+
+      # Packaging DJV
       echo "Packaging DJV..."
-      cd DJV-Release/DJV/src/DJV-build
+      cd SuperBuild/DJV/src/DJV-build
       cmake ../../../../.. -DDJV_THIRD_PARTY=TRUE
       cmake --build . -j 4
       cmake --build . --target package
       cd ../../../..
+
+      # Return to the original directory
       cd ..
