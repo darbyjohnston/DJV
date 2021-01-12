@@ -124,16 +124,16 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - script: |
-      # Create a build directory
+      REM Create a build directory
       mkdir build
       cd build
 
-      # Setup environment variables
+      REM Setup environment variables
       set DJV_BUILD=%CD%
       set PATH=%DJV_BUILD%\install\bin;%PATH%
       set PYTHONPATH=%DJV_BUILD%\install\lib;%PYTHONPATH%
 
-      # Build DJV
+      REM Build DJV
       echo "Building DJV..."
       mkdir SuperBuild
       cd SuperBuild
@@ -141,7 +141,7 @@ jobs:
       cmake --build . --config Debug -j
       cd ..
 
-      # Return to the original directory
+      REM Return to the original directory
       cd ..
 
 - job: Windows_Packaging
@@ -156,17 +156,17 @@ jobs:
       Expand-Archive nasm-2.14.02-win64.zip -DestinationPath build
     displayName: 'Download NASM'
   - script: |
-      # Create a build directory
+      REM Create a build directory
       mkdir build
       cd build
 
-      # Setup environment variables
+      REM Setup environment variables
       set DJV_BUILD=%CD%
       set PATH=%DJV_BUILD%\nasm-2.14.02;%PATH%
       set PATH=%DJV_BUILD%\install\bin;%DJV_DIR%\nasm-2.14.02;%PATH%
       set PYTHONPATH=%DJV_BUILD%\install\lib;%PYTHONPATH%
       
-      # Build DJV
+      REM Build DJV
       echo "Building DJV..."
       mkdir SuperBuild
       cd SuperBuild
@@ -174,7 +174,7 @@ jobs:
       cmake --build . --config Release -j
       cd ..
       
-      # Package DJV
+      REM Package DJV
       echo "Packaging DJV..."
       cd SuperBuild\DJV\src\DJV-build
       cmake ..\..\..\..\.. -DDJV_THIRD_PARTY=TRUE
@@ -182,7 +182,7 @@ jobs:
       cmake --build . --config Release --target package
       cd ..\..\..\..
 
-      # Return to the original directory
+      REM Return to the original directory
       cd ..
 
 - job: macOS
