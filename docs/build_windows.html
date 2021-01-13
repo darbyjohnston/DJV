@@ -8,18 +8,18 @@ title: Building on Microsoft Windows
     <p class="list"><a class="text" href="#Prerequisites">Prerequisites</a></p>
     <p class="list"><a class="text" href="#Preparation">Preparation</a></p>
     <p class="list"><a class="text" href="#BuildingFFmpeg">Building FFmpeg</a></p>
-    <p class="list"><a class="text" href="#VisualStudio">Super Build</a></p>
-    <p class="list"><a class="text" href="#SuperBuild">Super Build - Console</a></p>
+    <p class="list"><a class="text" href="#VisualStudio">Building with Visual Studio</a></p>
+    <p class="list"><a class="text" href="#CommandPrompt">Building from a command prompt</a></p>
 </div>
 
 <div class="block">
 	<p class="header"><a name="Prerequisites">Prerequisites</a></p>
-	<p>Check that you have the following software versions installed:</p>
+	<p>The following software is required to build DJV on Windows:</p>
 	<ul>
 	    <li><a class="text" href="https://www.microsoft.com/en-us/windows/get-windows-10">Windows 10</a></li>
-		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
-		<li><a class="text" href="https://visualstudio.microsoft.com">Visual Studio</a> (version 2017 or later)</li>
-		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.18 or later)</li>
+		<li><a class="text" href="http://www.opengl.org">OpenGL 4.1</a></li>
+		<li><a class="text" href="https://visualstudio.microsoft.com">Visual Studio 2019</a></li>
+		<li><a class="text" href="https://cmake.org">CMake 3.18</a></li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
 		<li><a class="text" href="https://www.nasm.us">NASM</a></li>
 	</ul>
@@ -27,11 +27,11 @@ title: Building on Microsoft Windows
 
 <div class="block">
 	<p class="header"><a name="Preparation">Preparation</a></p>
-    <p>Choose a directory to work in, this is where the code will be
-    checked out and built. This directory will be referred to as DJV_BUILD
-    in the rest of the documentation.</p>
-	<p>Go to the build directory and clone the DJV git repository using the
-    command prompt:</p>
+    <p>Choose a directory to work in, this is where the code will be checked out
+    and built. This directory will be referred to as DJV_BUILD in the rest of the
+    documentation.</p>
+	<p>Open a command prompt and clone the DJV repository in the DJV_BUILD
+	directory:</p>
 	<pre>
 > cd DJV_BUILD
 > git clone https://github.com/darbyjohnston/DJV.git
@@ -41,24 +41,26 @@ title: Building on Microsoft Windows
 <div class="block">
 	<p class="header"><a name="FFmpeg">Building FFmpeg</a></p>
     <p>Most of the third party software that DJV depends upon is built as part
-    of the CMake super build, except for FFmpeg on Windows. To build FFmpeg on
-    Windows the Windows Subsystem for Linux is used as a separate build step
-    before the CMake super build. The following steps describe how to setup and
-    use the Windows Subsystem for Linux.</p>
+    of the CMake build, except for FFmpeg on Windows. Instead the Windows Subsystem
+    for Linux (WSL) is used to compile FFmpeg as a separate step before the CMake
+    build. Note that FFmpeg is an optional dependency for DJV so this step may be
+    skipped if necessary.</p>
 	<p>Enable the Windows Subsystem for Linux:</p>
 	<ul>
 		<li>Open the Windows control panel and click on "Programs and Features"</li>
 		<li>Click on "Turn Windows features on or off" on the left side of the "Programs and Features" window</li>
 		<li>Check the "Windows Subsystem for Linux" item in the "Windows Features" window</li>
 		<li>Restart your computer</li>
-		<li>Install Ubuntu from the Windows app store</li>
 	</ul>
-	<p>Start an Ubuntu shell and install some neccessary software:</p>
+	<p>Install Ubuntu from the Windows app store, then open a shell and
+	install necessary software:</p>
 	<pre>
 $ sudo apt update
 $ sudo apt install mingw-w64 yasm make unzip
 </pre>
-	<p>Build FFmpeg:</p>
+	<p>Build FFmpeg; note that the DJV_BUILD path will be different in WSL, forward
+	slashes are used for path separators and drive letters are replaced with mount
+	points (for example "/mnt/c" instead of "C:\"):
 	<pre>
 [Debug]
 
@@ -72,10 +74,51 @@ $ DJV_BUILD/DJV/etc/Windows/build_ffmpeg_wsl.sh DJV_BUILD/DJV-install-Release
 </div>
 
 <div class="block">
-	<p class="header"><a name="SuperBuild">Super Build</a></p>
-	<p>The CMake super build builds both DJV and the third party software that
-    DJV depends upon.</p>
-	<p>Setup environment variables:</p>
+	<p class="header"><a name="VisualStudio">Building with Visual Studio</a></p>
+	<p>Setup the environment:</p>
+	<ul>
+		<li>Open the Windows control panel and click on "System"</li>
+		<li>Click on "Advanced system settings"</li>
+		<li>Click on "Environment Variables..."</li>
+		<li>Add "DJV_BUILD\DJV-install-Debug\bin" to the PATH environment variable
+		for debug builds, or "DJV_BUILD\DJV-install-Release\bin" for release builds</li>
+    </ul>
+    <p>Configure CMake:</p>
+    <ul>
+        <li>Start the CMake GUI program</li>
+        <li>Set the source code path to "DJV_BUILD\DJV\etc\SuperBuild"</li>
+        <li>Set the build path to "DJV_BUILD\DJV-Debug" for debug builds, or
+        "DJV_BUILD\DJV-Release" for release builds</li>
+        <li>Add the CMake variable CMAKE_BUILD_TYPE to specify the build type,
+        for example "Debug" or "Release"</li>
+        <li>Add the CMake variables "CMAKE_INSTALL_PREFIX" and "CMAKE_PREFIX_PATH",
+        and set them to "DJV_BUILD/DJV-install-Debug" for debug builds or
+        "DJV_BUILD/DJV-install-Release" for release builds</li>
+        <li>Click on "Configure"</li>
+        <li>Click on "Generate"</li>
+    </ul>
+	<p>Start the build:</p>
+    <ul>
+	    <li>Start Visual Studio and open the solution file "DJV_BUILD\DJV-Debug\DJV-SuperBuild.sln"
+	    for debug builds or "DJV_BUILD\DJV-Release\DJV-SuperBuild.sln" for release builds</li>
+	    <li>Make sure that the Visual Studio build configuration is set the same
+	    as the CMAKE_BUILD_TYPE variable</li>
+	    <li>Build the solution</li>
+    </ul>
+	<p>Try running the DJV application:</p>
+    <ul>
+	    <li>Right click the "bin/djv" project and set it as the startup project</li>
+	    <li>Start debugging</li>
+    </ul>
+    <p>After the third party dependencies are built you can speed up build
+    times by using the DJV specific solution,
+    "DJV_BUILD\DJV-Debug\DJV\src\DJV-build\DJV.sln" for debug builds or
+    "DJV_BUILD\DJV-Release\DJV\src\DJV-build\DJV.sln" for release builds.</p>
+</div>
+	
+<div class="block">
+	<p class="header"><a name="CommandPrompt">Building from a command prompt</a></p>
+	<p>Open a Visual Studio x64 command prompt and setup the environment:</p>
 	<pre>
 [Debug]
 
@@ -88,7 +131,7 @@ $ DJV_BUILD/DJV/etc/Windows/build_ffmpeg_wsl.sh DJV_BUILD/DJV-install-Release
 > set DJV_BUILD=%CD%
 > set PATH=%DJV_BUILD%\DJV-install-Release\bin;%PATH%
 </pre>
-	<p>Create a directory for the build and run CMake:</p>
+	<p>Create a directory for the build and configure CMake:</p>
 	<pre>
 [Debug]
 
@@ -114,7 +157,7 @@ $ DJV_BUILD/DJV/etc/Windows/build_ffmpeg_wsl.sh DJV_BUILD/DJV-install-Release
 
 > cmake --build . --config Release -j
 </pre>
-	<p>Try running the DJV player application:</p>
+	<p>Try running the DJV application:</p>
 	<pre>
 [Debug]
 
@@ -125,9 +168,8 @@ $ DJV_BUILD/DJV/etc/Windows/build_ffmpeg_wsl.sh DJV_BUILD/DJV-install-Release
 
 > DJV\src\DJV-build\build\bin\Release\djv
 </pre>
-    <p>When developing DJV with a super build you can speed up build times
-    by skipping the third party dependencies. Note that you must have
-    built the thirty party dependencies first:</p>
+    <p>After the third party dependencies are built you can speed up build
+    times using the DJV specific project:</p>
     <pre>
 [Debug]
 
@@ -140,18 +182,5 @@ $ DJV_BUILD/DJV/etc/Windows/build_ffmpeg_wsl.sh DJV_BUILD/DJV-install-Release
 > cd DJV\src\DJV-build
 > cmake --build . --config Release -j
 </pre>
-</div>
-
-<div class="block">
-	<p class="header"><a name="VisualStudio">Visual Studio</a></p>
-	<p>DJV can also be built with Visual Studio solutions using the appropriate
-	CMake generator, for example "Visual Studio 16 2019".</p>
-    <p>Make sure the solution configuration is set to the same value as configured
-    with CMake ("Debug", "Release", etc.).</p>
-    <p>Note that if you are using Visual Studio solutions and get the error:</p>
-    <pre>
-LINK : fatal error LNK1104: cannot open file 'djv.ilk' [djv..vcxproj]
-</pre>
-    <p>Run the build a second time and the error should go away.</p>
 </div>
 

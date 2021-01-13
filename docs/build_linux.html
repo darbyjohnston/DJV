@@ -13,14 +13,14 @@ title: Building on Linux
 
 <div class="block">
 	<p class="header"><a name="Prerequisites">Prerequisites</a></p>
-	<p>Check that you have the following prerequisites:</p>
+	<p>The following software is required to build DJV on Linux:</p>
 	<ul>
-		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
+		<li><a class="text" href="http://www.opengl.org">OpenGL 4.1</a></li>
 		<li>C++11 compiler</li>
-		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.18 or later)</li>
+		<li><a class="text" href="https://cmake.org">CMake 3.18</a></li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
 	</ul>
-	<p>To install the requirements use the following commands:</p>
+	<p>You can install the requirements with the following commands:</p>
 	<pre>
 [Debian]
 
@@ -33,20 +33,20 @@ $ sudo yum install centos-release-scl install devtoolset-7-gcc* rpm-build git me
 $ scl enable devtoolset-7 bash
 </pre>
     <p>Note that the version of CMake available from your package manager
-    may be too old (i.e., Ubuntu 18.04 and CentOS 7); if so download and
-    manually build CMake 3.18 or later.</p>
+    may be too old (i.e., Ubuntu 18.04 and CentOS 7); if so,
+    <a class="text" href="https://cmake.org/download">download</a> the CMake 3.18 source
+    (or later version ) and build it manually.</p>
 </div>
 
 <div class="block">
 	<p class="header"><a name="Preparation">Preparation</a></p>
-    <p>Choose a directory to work in, this is where the code will be
-    checked out and built. This directory will be referred to as DJV_BUILD
-    in the rest of the documentation.</p>
-	<p>Open a shell, go to the build directory, and clone the DJV repository:</p>
+    <p>Choose a directory to work in, this is where the code will be checked out and built.
+    This directory will be referred to as DJV_BUILD in the rest of the documentation.</p>
+	<p>Open a shell and clone the DJV repository in the DJV_BUILD directory:</p>
 	<pre>
 $ git clone https://github.com/darbyjohnston/DJV.git
 </pre>
-	<p>Setup environment variables:</p>
+	<p>Setup the environment:</p>
 	<pre>
 [Debug]
 
@@ -66,8 +66,8 @@ $ export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$LD_LIBRARY_PATH
 <div class="block">
 	<p class="header"><a name="SuperBuild">Super Build</a></p>
 	<p>This is the recommended way to build DJV, this builds both DJV and the
-	neccessary third party dependencies.</p>
-	<p>Create a directory for the build and run CMake:</p>
+	third party software that DJV depends upon.</p>
+	<p>Create a directory for the build and configure CMake:</p>
 	<pre>
 [Debug]
 
@@ -82,17 +82,16 @@ $ mkdir DJV-Release
 $ cd DJV-Release
 $ cmake ../DJV/etc/SuperBuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release
 </pre>
-	<p>Start the build using 8 cores:</p>
+	<p>Start a parallel build using 8 cores:</p>
 	<pre>
 $ cmake --build . -j 8
 </pre>
-	<p>Try running the DJV player application:</p>
+	<p>Try running the DJV application:</p>
 	<pre>
 $ ./DJV/src/DJV-build/build/bin/djv
 </pre>
-    <p>When developing DJV with a super build you can speed up build times
-    by skipping the third party dependencies. Note that you must have
-    built the thirty party dependencies first:</p>
+    <p>After the third party dependencies are built you can speed up build
+    times using the DJV specific project:</p>
     <pre>
 $ cd ./DJV/src/DJV-build
 $ cmake --build . -j 8
@@ -101,8 +100,8 @@ $ cmake --build . -j 8
 
 <div class="block">
 	<p class="header"><a name="SystemBuild">System Build</a></p>
-	<p>This builds DJV using the system provided third party dependencies.</p>
-	<p>Create a directory for the build and run CMake:</p>
+	<p>This builds DJV using the third party software provided by the system.</p>
+	<p>Create a directory for the build and configure CMake:</p>
 	<pre>
 [Debug]
 
@@ -117,7 +116,7 @@ $ mkdir DJV-Release
 $ cd DJV-Release
 $ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release
 </pre>
-	<p>Start the build using 8 cores:</p>
+	<p>Start a parallel build using 8 cores:</p>
 	<pre>
 $ cmake --build . -j 8
 </pre>
@@ -125,7 +124,7 @@ $ cmake --build . -j 8
 	<pre>
 $ cmake --build . --target test
 </pre>
-	<p>Try running the DJV player application:</p>
+	<p>Try running the DJV application:</p>
 	<pre>
 $ ./build/bin/djv
 </pre>
