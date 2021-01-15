@@ -76,7 +76,7 @@ namespace djv
                 //! \name Range
                 ///@{
 
-                Math::IntRange getRange() const;
+                const Math::IntRange& getRange() const;
 
                 void setRange(const Math::IntRange&);
 

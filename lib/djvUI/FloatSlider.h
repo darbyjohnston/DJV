@@ -74,7 +74,7 @@ namespace djv
                 //! \name Range
                 ///@{
 
-                Math::FloatRange getRange() const;
+                const Math::FloatRange& getRange() const;
 
                 void setRange(const Math::FloatRange&);
 

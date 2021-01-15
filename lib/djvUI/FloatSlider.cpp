@@ -248,7 +248,7 @@ namespace djv
                 _modelUpdate();
             }
 
-            Math::FloatRange FloatSlider::getRange() const
+            const Math::FloatRange& FloatSlider::getRange() const
             {
                 return _p->slider->getRange();
             }

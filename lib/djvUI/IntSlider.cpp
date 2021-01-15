@@ -249,7 +249,7 @@ namespace djv
                 _modelUpdate();
             }
 
-            Math::IntRange IntSlider::getRange() const
+            const Math::IntRange& IntSlider::getRange() const
             {
                 return _p->slider->getRange();
             }
