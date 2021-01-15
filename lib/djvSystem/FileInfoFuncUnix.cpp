@@ -38,23 +38,41 @@ namespace djv
                         const std::string fileName = info.getFileName(-1, false);
                         
                         bool filter = false;
-                        if (fileName.size() > 0 && '.' == fileName[0])
+                        
+                        // Filter hidden items.
+                        if (!filter && fileName.size() > 0 &&
+                            '.' == fileName[0])
                         {
                             filter = !options.showHidden;
                         }
-                        if (fileName.size() == 1 && '.' == fileName[0])
+                        
+                        // Filter "." and ".." items.
+                        if (!filter &&
+                            fileName.size() == 1 &&
+                            '.' == fileName[0])
                         {
                             filter = true;
                         }
-                        if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
+                        if (!filter &&
+                            fileName.size() == 2 &&
+                            '.' == fileName[0] &&
+                            '.' == fileName[1])
                         {
                             filter = true;
                         }
-                        if (options.filter.size() && !String::match(fileName, options.filter))
+                        
+                        // Filter string matches.
+                        if (!filter &&
+                            options.filter.size() &&
+                            !String::match(fileName, options.filter))
                         {
                             filter = true;
                         }
-                        if (!filter && !(de->d_type & DT_DIR) && options.extensions.size())
+                        
+                        // Filter file extensions.
+                        if (!filter &&
+                            info.getType() != System::File::Type::Directory &&
+                            options.extensions.size())
                         {
                             bool match = false;
                             for (const auto& i : options.extensions)
