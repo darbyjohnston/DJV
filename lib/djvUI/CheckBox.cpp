@@ -39,7 +39,6 @@ namespace djv
                 p.label = Text::Label::create(context);
                 p.label->setTextHAlign(TextHAlign::Left);
                 p.label->setTextColorRole(getForegroundColorRole());
-                p.label->setMargin(MetricsRole::MarginSmall);
                 addChild(p.label);
 
                 _widgetUpdate();
@@ -118,12 +117,13 @@ namespace djv
             void CheckBox::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
-                const float m = 0.F;// style->getMetric(MetricsRole::MarginInside);
+                const float m = style->getMetric(MetricsRole::MarginInside);
+                const float s = style->getMetric(MetricsRole::SpacingSmall);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const glm::vec2 checkBoxSize = getCheckBoxSize(style);
                 const glm::vec2 labelSize = _p->label->getMinimumSize();
                 const glm::vec2 size(
-                    checkBoxSize.x + labelSize.x + (m + btf) * 2.F,
+                    checkBoxSize.x + (labelSize.x > 0.F ? s : 0.F) + labelSize.x + (m + btf) * 2.F,
                     std::max(checkBoxSize.y, labelSize.y) + (m + btf) * 2.F);
                 _setMinimumSize(size);
             }
@@ -233,10 +233,11 @@ namespace djv
                 const auto& style = _getStyle();
                 const glm::vec2 size = getCheckBoxSize(style);
                 const float m = style->getMetric(MetricsRole::MarginInside);
+                const float s = style->getMetric(MetricsRole::SpacingSmall);
                 const float bt = style->getMetric(MetricsRole::BorderTextFocus);
                 const Math::BBox2f& g = getGeometry();
                 const Math::BBox2f g2 = g.margin(-(m + bt));
-                return Math::BBox2f(g2.min.x + size.x, g2.min.y, g2.w() - size.y, g2.h());
+                return Math::BBox2f(g2.min.x + size.x + s, g2.min.y, g2.w() - (size.y + s), g2.h());
             }
 
             void CheckBox::_widgetUpdate()
