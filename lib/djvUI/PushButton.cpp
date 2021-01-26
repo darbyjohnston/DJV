@@ -4,6 +4,7 @@
 
 #include <djvUI/PushButton.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
@@ -33,7 +34,10 @@ namespace djv
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 TextHAlign textHAlign = TextHAlign::Center;
                 ColorRole textColorRole = ColorRole::Foreground;
+                std::shared_ptr<Action> action;
                 std::shared_ptr<HorizontalLayout> layout;
+                std::shared_ptr<Observer::Value<std::string> > iconObserver;
+                std::shared_ptr<Observer::Value<std::string> > textObserver;
             };
 
             void Push::_init(const std::shared_ptr<System::Context>& context)
@@ -212,6 +216,24 @@ namespace djv
                 }
             }
 
+            void Push::addAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::addAction(value);
+                _actionUpdate();
+            }
+
+            void Push::removeAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::removeAction(value);
+                _actionUpdate();
+            }
+
+            void Push::clearActions()
+            {
+                IButton::clearActions();
+                _actionUpdate();
+            }
+
             bool Push::acceptFocus(TextFocusDirection)
             {
                 bool out = false;
@@ -221,6 +243,28 @@ namespace djv
                     out = true;
                 }
                 return out;
+            }
+
+            void Push::_doClick()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.action)
+                {
+                    p.action->doClick();
+                }
+                else
+                {
+                    IButton::_doClick();
+                }
+            }
+
+            void Push::_doCheck(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (!p.action)
+                {
+                    IButton::_doCheck(value);
+                }
             }
 
             void Push::_preLayoutEvent(System::Event::PreLayout& event)
@@ -333,6 +377,41 @@ namespace djv
             void Push::_textFocusLostEvent(System::Event::TextFocusLost&)
             {
                 _redraw();
+            }
+
+            void Push::_actionUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const auto& actions = getActions();
+                if (actions.size())
+                {
+                    p.action = actions.front();
+                    auto weak = std::weak_ptr<Push>(std::dynamic_pointer_cast<Push>(shared_from_this()));
+                    p.iconObserver = Observer::Value<std::string>::create(
+                        p.action->observeIcon(),
+                        [weak](const std::string& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setIcon(value);
+                            }
+                        });
+                    p.textObserver = Observer::Value<std::string>::create(
+                        p.action->observeTextBrief(),
+                        [weak](const std::string& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setText(value);
+                            }
+                        });
+                }
+                else
+                {
+                    p.action.reset();
+                    p.iconObserver.reset();
+                    p.textObserver.reset();
+                }
             }
 
         } // namespace Button

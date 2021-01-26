@@ -54,6 +54,7 @@ namespace djv
                 std::shared_ptr<System::Timer> autoRepeatStartTimer;
                 std::shared_ptr<System::Timer> autoRepeatTimer;
                 std::shared_ptr<Observer::Value<std::string> > iconObserver;
+                std::shared_ptr<Observer::Value<std::string> > textObserver;
             };
 
             void Tool::_init(const std::shared_ptr<System::Context>& context)
@@ -121,7 +122,7 @@ namespace djv
                         {
                             p.label = Text::Label::create(context);
                             p.label->setTextHAlign(p.textHAlign);
-                            p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                            p.label->setTextColorRole(getForegroundColorRole());
                             p.label->setFontFamily(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
@@ -521,11 +522,21 @@ namespace djv
                                 widget->setIcon(value);
                             }
                         });
+                    p.textObserver = Observer::Value<std::string>::create(
+                        p.action->observeTextBrief(),
+                        [weak](const std::string& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setText(value);
+                            }
+                        });
                 }
                 else
                 {
                     p.action.reset();
                     p.iconObserver.reset();
+                    p.textObserver.reset();
                 }
             }
 

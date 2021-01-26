@@ -4,6 +4,7 @@
 
 #include <djvUI/CheckBox.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Label.h>
 #include <djvUI/Style.h>
@@ -26,6 +27,8 @@ namespace djv
             struct CheckBox::Private
             {
                 std::shared_ptr<Text::Label> label;
+                std::shared_ptr<Action> action;
+                std::shared_ptr<Observer::Value<std::string> > textObserver;
             };
 
             void CheckBox::_init(const std::shared_ptr<System::Context>& context)
@@ -103,6 +106,24 @@ namespace djv
                 _p->label->setFontSizeRole(value);
             }
 
+            void CheckBox::addAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::addAction(value);
+                _actionUpdate();
+            }
+
+            void CheckBox::removeAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::removeAction(value);
+                _actionUpdate();
+            }
+
+            void CheckBox::clearActions()
+            {
+                IButton::clearActions();
+                _actionUpdate();
+            }
+
             bool CheckBox::acceptFocus(TextFocusDirection)
             {
                 bool out = false;
@@ -112,6 +133,28 @@ namespace djv
                     out = true;
                 }
                 return out;
+            }
+
+            void CheckBox::_doClick()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.action)
+                {
+                    p.action->doClick();
+                }
+                else
+                {
+                    IButton::_doClick();
+                }
+            }
+
+            void CheckBox::_doCheck(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (!p.action)
+                {
+                    IButton::_doCheck(value);
+                }
             }
 
             void CheckBox::_preLayoutEvent(System::Event::PreLayout& event)
@@ -238,6 +281,31 @@ namespace djv
                 const Math::BBox2f& g = getGeometry();
                 const Math::BBox2f g2 = g.margin(-(m + bt));
                 return Math::BBox2f(g2.min.x + size.x + s, g2.min.y, g2.w() - (size.y + s), g2.h());
+            }
+
+            void CheckBox::_actionUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const auto& actions = getActions();
+                if (actions.size())
+                {
+                    p.action = actions.front();
+                    auto weak = std::weak_ptr<CheckBox>(std::dynamic_pointer_cast<CheckBox>(shared_from_this()));
+                    p.textObserver = Observer::Value<std::string>::create(
+                        p.action->observeTextBrief(),
+                        [weak](const std::string& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setText(value);
+                            }
+                        });
+                }
+                else
+                {
+                    p.action.reset();
+                    p.textObserver.reset();
+                }
             }
 
             void CheckBox::_widgetUpdate()

@@ -47,9 +47,6 @@ namespace djv
             ImageData data;
             std::shared_ptr<Observer::ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<Observer::ValueSubject<std::shared_ptr<Image::Data> > > frameStoreImage;
-            std::shared_ptr<Observer::ValueSubject<bool> > frameStoreActionEnabled;
-            std::shared_ptr<Observer::ValueSubject<bool> > loadFrameStoreActionEnabled;
-            std::shared_ptr<Observer::ValueSubject<bool> > clearFrameStoreActionEnabled;
             std::shared_ptr<Image::Data> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
 
@@ -77,9 +74,6 @@ namespace djv
 
             p.frameStoreEnabled = Observer::ValueSubject<bool>::create();
             p.frameStoreImage = Observer::ValueSubject<std::shared_ptr<Image::Data> >::create();
-            p.frameStoreActionEnabled = Observer::ValueSubject<bool>::create();
-            p.loadFrameStoreActionEnabled = Observer::ValueSubject<bool>::create();
-            p.clearFrameStoreActionEnabled = Observer::ValueSubject<bool>::create();
 
             p.actions["ImageControls"] = UI::Action::create();
             p.actions["ImageControls"]->setIcon("djvIconImageControls");
@@ -100,8 +94,26 @@ namespace djv
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorV"] = UI::Action::create();
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ColorEnabled"] = UI::Action::create();
+            p.actions["ColorEnabled"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ColorEnabled"]->setIcon("djvIconHidden");
+            p.actions["ColorEnabled"]->setCheckedIcon("djvIconVisible");
+            p.actions["LevelsEnabled"] = UI::Action::create();
+            p.actions["LevelsEnabled"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["LevelsEnabled"]->setIcon("djvIconHidden");
+            p.actions["LevelsEnabled"]->setCheckedIcon("djvIconVisible");
+            p.actions["ExposureEnabled"] = UI::Action::create();
+            p.actions["ExposureEnabled"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ExposureEnabled"]->setIcon("djvIconHidden");
+            p.actions["ExposureEnabled"]->setCheckedIcon("djvIconVisible");
+            p.actions["SoftClipEnabled"] = UI::Action::create();
+            p.actions["SoftClipEnabled"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["SoftClipEnabled"]->setIcon("djvIconHidden");
+            p.actions["SoftClipEnabled"]->setCheckedIcon("djvIconVisible");
             p.actions["FrameStoreEnabled"] = UI::Action::create();
             p.actions["FrameStoreEnabled"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["FrameStoreEnabled"]->setIcon("djvIconHidden");
+            p.actions["FrameStoreEnabled"]->setCheckedIcon("djvIconVisible");
             p.actions["LoadFrameStore"] = UI::Action::create();
             p.actions["ClearFrameStore"] = UI::Action::create();
 
@@ -156,6 +168,47 @@ namespace djv
                     }
                 });
 
+            p.actions["ColorEnabled"]->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        auto data = system->_p->data;
+                        data.colorEnabled = value;
+                        system->_p->settings->setData(data);
+                    }
+                });
+            p.actions["LevelsEnabled"]->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        auto data = system->_p->data;
+                        data.levelsEnabled = value;
+                        system->_p->settings->setData(data);
+                    }
+                });
+            p.actions["ExposureEnabled"]->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        auto data = system->_p->data;
+                        data.exposureEnabled = value;
+                        system->_p->settings->setData(data);
+                    }
+                });
+            p.actions["SoftClipEnabled"]->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        auto data = system->_p->data;
+                        data.softClipEnabled = value;
+                        system->_p->settings->setData(data);
+                    }
+                });
+
             p.actions["FrameStoreEnabled"]->setCheckedCallback(
                 [weak](bool value)
                 {
@@ -187,7 +240,7 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         auto data = system->_p->data;
-                        data.channelDisplay = static_cast<Render2D::ImageChannelDisplay>(value + 1);
+                        data.channelsDisplay = static_cast<Render2D::ImageChannelsDisplay>(value + 1);
                         system->_p->settings->setData(data);
                     }
                 });
@@ -209,8 +262,8 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->currentImage = value;
-                                            system->_p->frameStoreActionEnabled->setIfChanged(value.get());
-                                            system->_p->loadFrameStoreActionEnabled->setIfChanged(value.get());
+                                            system->_p->actions["FrameStoreEnabled"]->setEnabled(value.get());
+                                            system->_p->actions["LoadFrameStore"]->setEnabled(value.get());
                                             system->_actionsUpdate();
                                         }
                                     });
@@ -218,8 +271,8 @@ namespace djv
                             else
                             {
                                 system->_p->currentImage.reset();
-                                system->_p->frameStoreActionEnabled->setIfChanged(false);
-                                system->_p->loadFrameStoreActionEnabled->setIfChanged(false);
+                                system->_p->actions["FrameStoreEnabled"]->setEnabled(false);
+                                system->_p->actions["LoadFrameStore"]->setEnabled(false);
                                 system->_p->currentImageObserver.reset();
                                 system->_actionsUpdate();
                             }
@@ -273,21 +326,6 @@ namespace djv
             return _p->frameStoreImage;
         }
 
-        std::shared_ptr<Core::Observer::IValueSubject<bool> > ImageSystem::observeFrameStoreActionEnabled() const
-        {
-            return _p->frameStoreActionEnabled;
-        }
-
-        std::shared_ptr<Core::Observer::IValueSubject<bool> > ImageSystem::observeLoadFrameStoreActionEnabled() const
-        {
-            return _p->loadFrameStoreActionEnabled;
-        }
-
-        std::shared_ptr<Core::Observer::IValueSubject<bool> > ImageSystem::observeClearFrameStoreActionEnabled() const
-        {
-            return _p->clearFrameStoreActionEnabled;
-        }
-
         void ImageSystem::setFrameStoreEnabled(bool value)
         {
             DJV_PRIVATE_PTR();
@@ -302,7 +340,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.frameStoreImage->setIfChanged(p.currentImage))
             {
-                p.clearFrameStoreActionEnabled->setIfChanged(p.currentImage.get());
+                p.actions["ClearFrameStore"]->setEnabled(p.currentImage.get());
                 _actionsUpdate();
             }
         }
@@ -312,7 +350,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.frameStoreImage->setIfChanged(nullptr))
             {
-                p.clearFrameStoreActionEnabled->setIfChanged(false);
+                p.actions["ClearFrameStore"]->setEnabled(false);
                 _actionsUpdate();
             }
         }
@@ -402,22 +440,34 @@ namespace djv
                 p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("menu_image_color_space")));
                 p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("menu_image_color_space_widget_tooltip")));
                 p.actions["RedChannel"]->setText(_getText(DJV_TEXT("menu_image_red_channel")));
+                p.actions["RedChannel"]->setTextBrief(_getText(DJV_TEXT("button_image_red_channel")));
                 p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("menu_image_red_channel_tooltip")));
                 p.actions["GreenChannel"]->setText(_getText(DJV_TEXT("menu_image_green_channel")));
+                p.actions["GreenChannel"]->setTextBrief(_getText(DJV_TEXT("button_image_green_channel")));
                 p.actions["GreenChannel"]->setTooltip(_getText(DJV_TEXT("menu_image_green_channel_tooltip")));
                 p.actions["BlueChannel"]->setText(_getText(DJV_TEXT("menu_image_blue_channel")));
+                p.actions["BlueChannel"]->setTextBrief(_getText(DJV_TEXT("button_image_blue_channel")));
                 p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("menu_image_blue_channel_tooltip")));
                 p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("menu_image_alpha_channel")));
+                p.actions["AlphaChannel"]->setTextBrief(_getText(DJV_TEXT("button_image_alpha_channel")));
                 p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("menu_image_alpha_channel_tooltip")));
                 p.actions["MirrorH"]->setText(_getText(DJV_TEXT("menu_image_mirror_horizontal")));
+                p.actions["MirrorH"]->setTextBrief(_getText(DJV_TEXT("button_image_mirror_horizontal")));
                 p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("menu_image_mirror_horizontal_tooltip")));
                 p.actions["MirrorV"]->setText(_getText(DJV_TEXT("menu_image_mirror_vertical")));
+                p.actions["MirrorV"]->setTextBrief(_getText(DJV_TEXT("button_image_mirror_vertical")));
                 p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("menu_image_mirror_vertical_tooltip")));
+                p.actions["ColorEnabled"]->setTooltip(_getText(DJV_TEXT("image_controls_color_enabled_tooltip")));
+                p.actions["LevelsEnabled"]->setTooltip(_getText(DJV_TEXT("image_controls_levels_enabled_tooltip")));
+                p.actions["ExposureEnabled"]->setTooltip(_getText(DJV_TEXT("image_controls_exposure_enabled_tooltip")));
+                p.actions["SoftClipEnabled"]->setTooltip(_getText(DJV_TEXT("image_controls_soft_clip_enabled_tooltip")));
                 p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("menu_image_frame_store")));
                 p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("menu_image_frame_store_tooltip")));
                 p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("menu_image_load_frame_store")));
+                p.actions["LoadFrameStore"]->setTextBrief(_getText(DJV_TEXT("button_image_load_frame_store")));
                 p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("menu_image_load_frame_store_tooltip")));
                 p.actions["ClearFrameStore"]->setText(_getText(DJV_TEXT("menu_image_clear_frame_store")));
+                p.actions["ClearFrameStore"]->setTextBrief(_getText(DJV_TEXT("button_image_clear_frame_store")));
                 p.actions["ClearFrameStore"]->setTooltip(_getText(DJV_TEXT("menu_image_clear_frame_store_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_image")));
@@ -449,12 +499,14 @@ namespace djv
             p.actions["MirrorH"]->setChecked(p.data.mirror.x);
             p.actions["MirrorV"]->setChecked(p.data.mirror.y);
 
-            p.channelActionGroup->setChecked(static_cast<int>(p.data.channelDisplay) - 1);
+            p.channelActionGroup->setChecked(static_cast<int>(p.data.channelsDisplay) - 1);
+
+            p.actions["ColorEnabled"]->setChecked(p.data.colorEnabled);
+            p.actions["LevelsEnabled"]->setChecked(p.data.levelsEnabled);
+            p.actions["ExposureEnabled"]->setChecked(p.data.exposureEnabled);
+            p.actions["SoftClipEnabled"]->setChecked(p.data.softClipEnabled);
 
             p.actions["FrameStoreEnabled"]->setChecked(p.frameStoreEnabled->get());
-            p.actions["FrameStoreEnabled"]->setEnabled(p.frameStoreActionEnabled->get());
-            p.actions["LoadFrameStore"]->setEnabled(p.loadFrameStoreActionEnabled->get());
-            p.actions["ClearFrameStore"]->setEnabled(p.clearFrameStoreActionEnabled->get());
         }
 
     } // namespace ViewApp

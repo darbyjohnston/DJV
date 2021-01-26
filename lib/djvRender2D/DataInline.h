@@ -54,19 +54,19 @@ namespace djv
         inline bool ImageOptions::operator == (const ImageOptions& other) const
         {
             return
-                channelDisplay  == other.channelDisplay  &&
-                alphaBlend      == other.alphaBlend      &&
-                mirror          == other.mirror          &&
-                colorSpace      == other.colorSpace      &&
-                colorEnabled    == other.colorEnabled    &&
-                color           == other.color           &&
-                levelsEnabled   == other.levelsEnabled   &&
-                levels          == other.levels          &&
-                exposureEnabled == other.exposureEnabled &&
-                exposure        == other.exposure        &&
-                softClipEnabled == other.softClipEnabled &&
-                softClip        == other.softClip        &&
-                cache           == other.cache;
+                channelsDisplay  == other.channelsDisplay  &&
+                alphaBlend       == other.alphaBlend      &&
+                mirror           == other.mirror          &&
+                colorSpace       == other.colorSpace      &&
+                colorEnabled     == other.colorEnabled    &&
+                color            == other.color           &&
+                levelsEnabled    == other.levelsEnabled   &&
+                levels           == other.levels          &&
+                exposureEnabled  == other.exposureEnabled &&
+                exposure         == other.exposure        &&
+                softClipEnabled  == other.softClipEnabled &&
+                softClip         == other.softClip        &&
+                cache            == other.cache;
         }
 
         inline bool ImageOptions::operator != (const ImageOptions& other) const

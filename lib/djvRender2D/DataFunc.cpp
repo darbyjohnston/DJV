@@ -13,7 +13,7 @@ namespace djv
 {
     namespace Render2D
     {
-        DJV_ENUM_HELPERS_IMPLEMENTATION(ImageChannelDisplay);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ImageChannelsDisplay);
         DJV_ENUM_HELPERS_IMPLEMENTATION(ImageCache);
         DJV_ENUM_HELPERS_IMPLEMENTATION(ImageFilter);
 
@@ -21,12 +21,12 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Render2D,
-        ImageChannelDisplay,
-        DJV_TEXT("render2d_image_channel_display_color"),
-        DJV_TEXT("render2d_image_channel_display_red"),
-        DJV_TEXT("render2d_image_channel_display_green"),
-        DJV_TEXT("render2d_image_channel_display_blue"),
-        DJV_TEXT("render2d_image_channel_display_alpha"));
+        ImageChannelsDisplay,
+        DJV_TEXT("render2d_image_channels_display_color"),
+        DJV_TEXT("render2d_image_channels_display_red"),
+        DJV_TEXT("render2d_image_channels_display_green"),
+        DJV_TEXT("render2d_image_channels_display_blue"),
+        DJV_TEXT("render2d_image_channels_display_alpha"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Render2D,
@@ -40,7 +40,7 @@ namespace djv
         DJV_TEXT("render2d_filter_nearest"),
         DJV_TEXT("render2d_filter_linear"));
 
-    rapidjson::Value toJSON(Render2D::ImageChannelDisplay value, rapidjson::Document::AllocatorType& allocator)
+    rapidjson::Value toJSON(Render2D::ImageChannelsDisplay value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
@@ -103,7 +103,7 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const rapidjson::Value& value, Render2D::ImageChannelDisplay& out)
+    void fromJSON(const rapidjson::Value& value, Render2D::ImageChannelsDisplay& out)
     {
         if (value.IsString())
         {

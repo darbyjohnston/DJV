@@ -521,7 +521,7 @@ namespace djv
                     render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);
                     Render2D::ImageOptions options;
-                    options.channelDisplay = p.imageData.channelDisplay;
+                    options.channelsDisplay = p.imageData.channelsDisplay;
                     options.alphaBlend = p.imageData.alphaBlend;
                     options.mirror = p.imageData.mirror;
                     if (p.data.applyColorSpace)

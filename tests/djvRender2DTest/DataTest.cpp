@@ -23,7 +23,7 @@ namespace djv
         {
             {
                 ImageOptions options;
-                options.channelDisplay = ImageChannelDisplay::Red;
+                options.channelsDisplay = ImageChannelsDisplay::Red;
                 DJV_ASSERT(options == options);
                 DJV_ASSERT(options != ImageOptions());
             }

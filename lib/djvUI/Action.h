@@ -33,6 +33,9 @@ namespace djv
 
             static std::shared_ptr<Action> create();
             static std::shared_ptr<Action> create(const std::string& text);
+            static std::shared_ptr<Action> create(
+                const std::string& text,
+                const std::string& textBrief);
 
             //! \name Button Type
             ///@{
@@ -66,8 +69,10 @@ namespace djv
             ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeText() const;
+            std::shared_ptr<Core::Observer::IValueSubject<std::string> > observeTextBrief() const;
             
             void setText(const std::string&);
+            void setTextBrief(const std::string&);
 
             ///@}
 

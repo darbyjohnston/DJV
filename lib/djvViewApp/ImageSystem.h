@@ -34,9 +34,6 @@ namespace djv
 
             std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFrameStoreEnabled() const;
             std::shared_ptr<Core::Observer::IValueSubject<std::shared_ptr<Image::Data> > > observeFrameStoreImage() const;
-            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeFrameStoreActionEnabled() const;
-            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeLoadFrameStoreActionEnabled() const;
-            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeClearFrameStoreActionEnabled() const;
 
             void setFrameStoreEnabled(bool);
             void loadFrameStore();

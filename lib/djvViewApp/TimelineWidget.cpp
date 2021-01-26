@@ -9,6 +9,7 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
+#include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/TimelineSlider.h>
 #include <djvViewApp/TimelineWidgetPrivate.h>
 #include <djvViewApp/ViewWidget.h>
@@ -52,18 +53,12 @@ namespace djv
             float audioVolume = 0.F;
             bool audioMute = false;
 
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::PopupButton> speedPopupButton;
             std::shared_ptr<UI::Text::Label> realSpeedLabel;
             std::shared_ptr<UI::MultiStateButton> playbackModeButton;
             std::shared_ptr<FrameWidget> currentFrameWidget;
             std::shared_ptr<FrameWidget> inPointWidget;
-            std::shared_ptr<UI::ToolButton> inPointSetButton;
-            std::shared_ptr<UI::ToolButton> inPointResetButton;
             std::shared_ptr<FrameWidget> outPointWidget;
-            std::shared_ptr<UI::ToolButton> outPointSetButton;
-            std::shared_ptr<UI::ToolButton> outPointResetButton;
             std::shared_ptr<UI::Text::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::PopupButton> audioPopupButton;
@@ -79,7 +74,6 @@ namespace djv
             std::shared_ptr<Observer::Value<Math::Frame::Sequence> > sequenceObserver;
             std::shared_ptr<Observer::Value<Math::Frame::Index> > currentFrameObserver;
             std::shared_ptr<Observer::Value<AV::IO::InOutPoints> > inOutPointsObserver;
-            std::shared_ptr<Observer::Value<Playback> > playbackObserver;
             std::shared_ptr<Observer::Value<bool> > audioEnabledObserver;
             std::shared_ptr<Observer::Value<float> > volumeObserver;
             std::shared_ptr<Observer::Value<bool> > muteObserver;
@@ -95,28 +89,6 @@ namespace djv
 
             setClassName("djv::ViewApp::TimelineWidget");
             setBackgroundRole(UI::ColorRole::BackgroundToolBar);
-
-            p.actions["Forward"] = UI::Action::create();
-            p.actions["Forward"]->setIcon("djvIconPlaybackForward");
-            p.actions["Forward"]->setCheckedIcon("djvIconPlaybackStop");
-            p.actions["Reverse"] = UI::Action::create();
-            p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
-            p.actions["Reverse"]->setCheckedIcon("djvIconPlaybackStop");
-            p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.playbackActionGroup->setActions({
-                p.actions["Forward"],
-                p.actions["Reverse"] });
-
-            p.actions["InPoint"] = UI::Action::create();
-            p.actions["InPoint"]->setIcon("djvIconFrameStart");
-            p.actions["PrevFrame"] = UI::Action::create();
-            p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
-            p.actions["PrevFrame"]->setAutoRepeat(true);
-            p.actions["NextFrame"] = UI::Action::create();
-            p.actions["NextFrame"]->setIcon("djvIconFrameNext");
-            p.actions["NextFrame"]->setAutoRepeat(true);
-            p.actions["OutPoint"] = UI::Action::create();
-            p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
 
             p.speedPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.speedPopupButton->setPopupIcon("djvIconPopupMenu");
@@ -135,23 +107,25 @@ namespace djv
 
             p.currentFrameWidget = FrameWidget::create(context);
             p.inPointWidget = FrameWidget::create(context);
-            p.inPointSetButton = UI::ToolButton::create(context);
-            p.inPointSetButton->setIcon("djvIconFrameSetStartSmall");
-            p.inPointSetButton->setInsideMargin(UI::MetricsRole::None);
-            p.inPointSetButton->setVAlign(UI::VAlign::Center);
-            p.inPointResetButton = UI::ToolButton::create(context);
-            p.inPointResetButton->setIcon("djvIconClearSmall");
-            p.inPointResetButton->setInsideMargin(UI::MetricsRole::None);
-            p.inPointResetButton->setVAlign(UI::VAlign::Center);
+            auto inPointSetButton = UI::ToolButton::create(context);
+            auto playbackSystem = context->getSystemT<PlaybackSystem>();
+            auto playbackActions = playbackSystem->getActions();
+            inPointSetButton->addAction(playbackActions["SetInPoint"]);
+            inPointSetButton->setInsideMargin(UI::MetricsRole::None);
+            inPointSetButton->setVAlign(UI::VAlign::Center);
+            auto inPointResetButton = UI::ToolButton::create(context);
+            inPointResetButton->addAction(playbackActions["ResetInPoint"]);
+            inPointResetButton->setInsideMargin(UI::MetricsRole::None);
+            inPointResetButton->setVAlign(UI::VAlign::Center);
             p.outPointWidget = FrameWidget::create(context);
-            p.outPointSetButton = UI::ToolButton::create(context);
-            p.outPointSetButton->setIcon("djvIconFrameSetEndSmall");
-            p.outPointSetButton->setInsideMargin(UI::MetricsRole::None);
-            p.outPointSetButton->setVAlign(UI::VAlign::Center);
-            p.outPointResetButton = UI::ToolButton::create(context);
-            p.outPointResetButton->setIcon("djvIconClearSmall");
-            p.outPointResetButton->setInsideMargin(UI::MetricsRole::None);
-            p.outPointResetButton->setVAlign(UI::VAlign::Center);
+            auto outPointSetButton = UI::ToolButton::create(context);
+            outPointSetButton->addAction(playbackActions["SetOutPoint"]);
+            outPointSetButton->setInsideMargin(UI::MetricsRole::None);
+            outPointSetButton->setVAlign(UI::VAlign::Center);
+            auto outPointResetButton = UI::ToolButton::create(context);
+            outPointResetButton->addAction(playbackActions["ResetOutPoint"]);
+            outPointResetButton->setInsideMargin(UI::MetricsRole::None);
+            outPointResetButton->setVAlign(UI::VAlign::Center);
 
             p.durationLabel = UI::Text::Label::create(context);
             p.durationLabel->setFontFamily(Render2D::Font::familyMono);
@@ -169,12 +143,12 @@ namespace djv
             auto toolBar = UI::ToolBar::create(context);
             toolBar->setVAlign(UI::VAlign::Center);
             toolBar->setBackgroundRole(UI::ColorRole::None);
-            toolBar->addAction(p.actions["InPoint"]);
-            toolBar->addAction(p.actions["PrevFrame"]);
-            toolBar->addAction(p.actions["Reverse"]);
-            toolBar->addAction(p.actions["Forward"]);
-            toolBar->addAction(p.actions["NextFrame"]);
-            toolBar->addAction(p.actions["OutPoint"]);
+            toolBar->addAction(playbackActions["InPoint"]);
+            toolBar->addAction(playbackActions["PrevFrame"]);
+            toolBar->addAction(playbackActions["Reverse"]);
+            toolBar->addAction(playbackActions["Forward"]);
+            toolBar->addAction(playbackActions["NextFrame"]);
+            toolBar->addAction(playbackActions["OutPoint"]);
 
             p.layout = UI::GridLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -198,14 +172,14 @@ namespace djv
             auto hLayout2 = UI::HorizontalLayout::create(context);
             hLayout2->setSpacing(UI::MetricsRole::None);
             hLayout2->addChild(p.inPointWidget);
-            hLayout2->addChild(p.inPointSetButton);
-            hLayout2->addChild(p.inPointResetButton);
+            hLayout2->addChild(inPointSetButton);
+            hLayout2->addChild(inPointResetButton);
             hLayout->addChild(hLayout2);
             hLayout->addExpander();
             hLayout2 = UI::HorizontalLayout::create(context);
             hLayout2->setSpacing(UI::MetricsRole::None);
-            hLayout2->addChild(p.outPointResetButton);
-            hLayout2->addChild(p.outPointSetButton);
+            hLayout2->addChild(outPointResetButton);
+            hLayout2->addChild(outPointSetButton);
             hLayout2->addChild(p.outPointWidget);
             hLayout->addChild(hLayout2);
             hLayout->addChild(p.durationLabel);
@@ -219,72 +193,6 @@ namespace djv
             _audioUpdate();
 
             auto weak = std::weak_ptr<TimelineWidget>(std::dynamic_pointer_cast<TimelineWidget>(shared_from_this()));
-            p.actions["InPoint"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->inPoint();
-                        }
-                    }
-                });
-
-            p.actions["PrevFrame"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->prevFrame();
-                        }
-                    }
-                });
-
-            p.actions["NextFrame"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->nextFrame();
-                        }
-                    }
-                });
-
-            p.actions["OutPoint"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->outPoint();
-                        }
-                    }
-                });
-
-            p.playbackActionGroup->setExclusiveCallback(
-                [weak](int index)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            Playback playback = Playback::Stop;
-                            switch (index)
-                            {
-                            case 0: playback = Playback::Forward; break;
-                            case 1: playback = Playback::Reverse; break;
-                            }
-                            media->setPlayback(playback);
-                        }
-                    }
-                });
-
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.speedPopupButton->setOpenCallback(
                 [weak, contextWeak]() -> std::shared_ptr<UI::Widget>
@@ -347,37 +255,12 @@ namespace djv
                     {
                         if (auto media = widget->_p->media)
                         {
-                            const auto& inOutPoints = media->observeInOutPoints()->get();
                             const size_t sequenceFrameCount = widget->_p->sequence.getFrameCount();
                             media->setInOutPoints(AV::IO::InOutPoints(
-                                inOutPoints.isEnabled(),
+                                widget->_p->inOutPoints.isEnabled(),
                                 Math::clamp(value, static_cast<Math::Frame::Index>(0), static_cast<Math::Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0)),
-                                inOutPoints.getOut()));
+                                widget->_p->inOutPoints.getOut()));
                             widget->_widgetUpdate();
-                        }
-                    }
-                });
-
-            p.inPointSetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setInPoint();
-                        }
-                    }
-                });
-
-            p.inPointResetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->resetInPoint();
                         }
                     }
                 });
@@ -389,37 +272,12 @@ namespace djv
                     {
                         if (auto media = widget->_p->media)
                         {
-                            const auto& inOutPoints = media->observeInOutPoints()->get();
                             const size_t sequenceFrameCount = widget->_p->sequence.getFrameCount();
                             media->setInOutPoints(AV::IO::InOutPoints(
-                                inOutPoints.isEnabled(),
-                                inOutPoints.getIn(),
+                                widget->_p->inOutPoints.isEnabled(),
+                                widget->_p->inOutPoints.getIn(),
                                 Math::clamp(value, static_cast<Math::Frame::Index>(0), static_cast<Math::Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0))));
                             widget->_widgetUpdate();
-                        }
-                    }
-                });
-
-            p.outPointSetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setOutPoint();
-                        }
-                    }
-                });
-
-            p.outPointResetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->resetOutPoint();
                         }
                     }
                 });
@@ -602,23 +460,6 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->playbackObserver = Observer::Value<Playback>::create(
-                                    widget->_p->media->observePlayback(),
-                                    [weak](Playback value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            int index = -1;
-                                            switch (value)
-                                            {
-                                            case Playback::Forward: index = 0; break;
-                                            case Playback::Reverse: index = 1; break;
-                                            default: break;
-                                            }
-                                            widget->_p->playbackActionGroup->setChecked(index);
-                                        }
-                                    });
-
                                 widget->_p->audioEnabledObserver = Observer::Value<bool>::create(
                                     widget->_p->media->observeAudioEnabled(),
                                     [weak](bool value)
@@ -695,7 +536,6 @@ namespace djv
                                 widget->_p->sequenceObserver.reset();
                                 widget->_p->currentFrameObserver.reset();
                                 widget->_p->inOutPointsObserver.reset();
-                                widget->_p->playbackObserver.reset();
                                 widget->_p->audioEnabledObserver.reset();
                                 widget->_p->volumeObserver.reset();
                                 widget->_p->muteObserver.reset();
@@ -742,22 +582,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("playback_forward_tooltip")));
-                p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("playback_reverse_tooltip")));
-                p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_in_point_tooltip")));
-                p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("playback_next_frame_tooltip")));
-                p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("playback_previous_frame_tooltip")));
-                p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_out_point_tooltip")));
-
                 p.speedPopupButton->setTooltip(_getText(DJV_TEXT("playback_speed_popup_tooltip")));
                 p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("playback_real_speed_tooltip")));
                 p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("playback_current_frame_tooltip")));
                 p.inPointWidget->setTooltip(_getText(DJV_TEXT("playback_in_point_tooltip")));
-                p.inPointSetButton->setTooltip(_getText(DJV_TEXT("playback_set_in_point_tooltip")));
-                p.inPointResetButton->setTooltip(_getText(DJV_TEXT("playback_reset_in_point_tooltip")));
                 p.outPointWidget->setTooltip(_getText(DJV_TEXT("playback_out_point_tooltip")));
-                p.outPointSetButton->setTooltip(_getText(DJV_TEXT("playback_set_out_point_tooltip")));
-                p.outPointResetButton->setTooltip(_getText(DJV_TEXT("playback_reset_out_point_tooltip")));
                 p.durationLabel->setTooltip(_getText(DJV_TEXT("playback_duration_tooltip")));
 
                 p.audioPopupButton->setTooltip(_getText(DJV_TEXT("audio_popup_tooltip")));
@@ -773,19 +602,6 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 setEnabled(p.media.get() && p.sequence.getFrameCount() > 1);
-
-                auto playback = Playback::Stop;
-                if (p.media)
-                {
-                    playback = p.media->observePlayback()->get();
-                }
-                switch (playback)
-                {
-                case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
-                case Playback::Forward: p.playbackActionGroup->setChecked(0); break;
-                case Playback::Reverse: p.playbackActionGroup->setChecked(1); break;
-                default: break;
-                }
 
                 p.playbackModeButton->setCurrentIndex(static_cast<int>(p.playbackMode));
                 switch (p.playbackMode)
@@ -811,18 +627,10 @@ namespace djv
                 p.inPointWidget->setFrame(p.inOutPoints.getIn());
                 p.inPointWidget->setEnabled(p.inOutPoints.isEnabled());
 
-                p.inPointResetButton->setEnabled(
-                    p.inOutPoints.isEnabled() &&
-                    p.inOutPoints.getIn() != 0);
-
                 p.outPointWidget->setSequence(p.sequence);
                 p.outPointWidget->setSpeed(p.defaultSpeed);
                 p.outPointWidget->setFrame(p.inOutPoints.getOut());
                 p.outPointWidget->setEnabled(p.inOutPoints.isEnabled());
-
-                p.outPointResetButton->setEnabled(
-                    p.inOutPoints.isEnabled() &&
-                    p.inOutPoints.getOut() != p.sequence.getLastIndex());
 
                 std::string text;
                 if (p.sequence.getFrameCount() > 1)
@@ -844,7 +652,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss.precision(2);
-                ss << _getText(DJV_TEXT("playback_fps")) << ": " << std::fixed << p.speed.toFloat();
+                ss << std::fixed << p.speed.toFloat();
                 p.speedPopupButton->setText(ss.str());
             }
         }

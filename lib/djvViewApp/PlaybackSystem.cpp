@@ -41,7 +41,7 @@ namespace djv
             Math::Frame::Sequence sequence;
             bool playEveryFrame = false;
             Playback playback = Playback::Forward;
-            bool inOutPointsEnabled = false;
+            AV::IO::InOutPoints inOutPoints;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             Math::Frame::Index dragStartFrame = Math::Frame::invalidIndex;
@@ -56,7 +56,7 @@ namespace djv
             std::shared_ptr<Observer::Value<Math::Frame::Sequence> > sequenceObserver;
             std::shared_ptr<Observer::Value<Playback> > playbackObserver;
             std::shared_ptr<Observer::Value<PlaybackMode> > playbackModeObserver;
-            std::shared_ptr<Observer::Value<AV::IO::InOutPoints> > inOutPointsEnabledObserver;
+            std::shared_ptr<Observer::Value<AV::IO::InOutPoints> > inOutPointsObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<Observer::Value<PointerData> > hoverObserver;
             std::shared_ptr<Observer::Value<PointerData> > dragObserver;
@@ -75,8 +75,10 @@ namespace djv
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
+            p.actions["Forward"]->setCheckedIcon("djvIconPlaybackStop");
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
+            p.actions["Reverse"]->setCheckedIcon("djvIconPlaybackStop");
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.playbackActionGroup->setActions({
                 p.actions["Forward"],
@@ -106,19 +108,29 @@ namespace djv
             p.actions["EndFrame"] = UI::Action::create();
             p.actions["NextFrame"] = UI::Action::create();
             p.actions["NextFrame"]->setIcon("djvIconFrameNext");
+            p.actions["NextFrame"]->setAutoRepeat(true);
             p.actions["NextFrame10"] = UI::Action::create();
+            p.actions["NextFrame10"]->setAutoRepeat(true);
             p.actions["NextFrame100"] = UI::Action::create();
+            p.actions["NextFrame100"]->setAutoRepeat(true);
             p.actions["PrevFrame"] = UI::Action::create();
             p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
+            p.actions["PrevFrame"]->setAutoRepeat(true);
             p.actions["PrevFrame10"] = UI::Action::create();
+            p.actions["PrevFrame10"]->setAutoRepeat(true);
             p.actions["PrevFrame100"] = UI::Action::create();
+            p.actions["PrevFrame100"]->setAutoRepeat(true);
 
             p.actions["InOutPoints"] = UI::Action::create();
             p.actions["InOutPoints"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["SetInPoint"] = UI::Action::create();
+            p.actions["SetInPoint"]->setIcon("djvIconFrameSetStart");
             p.actions["SetOutPoint"] = UI::Action::create();
+            p.actions["SetOutPoint"]->setIcon("djvIconFrameSetEnd");
             p.actions["ResetInPoint"] = UI::Action::create();
+            p.actions["ResetInPoint"]->setIcon("djvIconClear");
             p.actions["ResetOutPoint"] = UI::Action::create();
+            p.actions["ResetOutPoint"]->setIcon("djvIconClear");
 
             _addShortcut(DJV_TEXT("shortcut_playback_forward"), {
                 UI::ShortcutData(GLFW_KEY_UP),
@@ -500,13 +512,13 @@ namespace djv
                                 }
                             });
 
-                            system->_p->inOutPointsEnabledObserver = Observer::Value<AV::IO::InOutPoints>::create(
+                            system->_p->inOutPointsObserver = Observer::Value<AV::IO::InOutPoints>::create(
                                 value->observeInOutPoints(),
                                 [weak](const AV::IO::InOutPoints& value)
                                 {
                                     if (auto system = weak.lock())
                                     {
-                                        system->_p->inOutPointsEnabled = value.isEnabled();
+                                        system->_p->inOutPoints = value;
                                         system->_actionsUpdate();
                                     }
                                 });
@@ -517,7 +529,7 @@ namespace djv
                             system->_p->sequence = Math::Frame::Sequence();
                             system->_p->playEveryFrame = false;
                             system->_p->playback = Playback::Stop;
-                            system->_p->inOutPointsEnabled = false;
+                            system->_p->inOutPoints = AV::IO::InOutPoints();
 
                             system->_p->playbackActionGroup->setChecked(0, false);
                             system->_p->playbackActionGroup->setChecked(1, false);
@@ -527,7 +539,7 @@ namespace djv
                             system->_p->playEveryFrameObserver.reset();
                             system->_p->playbackObserver.reset();
                             system->_p->playbackModeObserver.reset();
-                            system->_p->inOutPointsEnabledObserver.reset();
+                            system->_p->inOutPointsObserver.reset();
 
                             system->_actionsUpdate();
                         }
@@ -640,11 +652,11 @@ namespace djv
             p.actions["PrevFrame10"]->setEnabled(playable);
             p.actions["PrevFrame100"]->setEnabled(playable);
             p.actions["InOutPoints"]->setEnabled(playable);
-            p.actions["InOutPoints"]->setChecked(p.inOutPointsEnabled);
+            p.actions["InOutPoints"]->setChecked(p.inOutPoints.isEnabled());
             p.actions["SetInPoint"]->setEnabled(playable);
             p.actions["SetOutPoint"]->setEnabled(playable);
-            p.actions["ResetInPoint"]->setEnabled(playable);
-            p.actions["ResetOutPoint"]->setEnabled(playable);
+            p.actions["ResetInPoint"]->setEnabled(playable && p.inOutPoints.getIn() != 0);
+            p.actions["ResetOutPoint"]->setEnabled(playable && p.inOutPoints.getOut() != p.sequence.getLastIndex());
         }
 
         void PlaybackSystem::_textUpdate()

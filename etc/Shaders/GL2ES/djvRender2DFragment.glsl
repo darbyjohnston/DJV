@@ -37,7 +37,7 @@ uniform bool        levelsEnabled;
 uniform Exposure    exposure;
 uniform bool        exposureEnabled;
 uniform float       softClip;
-uniform int         imageChannelDisplay;
+uniform int         imageChannelsDisplay;
 uniform sampler2D   textureSampler;
 
 // djv::AV::Image::Channels
@@ -46,12 +46,12 @@ uniform sampler2D   textureSampler;
 #define IMAGE_CHANNELS_RGB  3
 #define IMAGE_CHANNELS_RGBA 4
 
-// djv::AV::Render::ImageChannelDisplay
-#define IMAGE_CHANNEL_DISPLAY_COLOR 0
-#define IMAGE_CHANNEL_DISPLAY_RED   1
-#define IMAGE_CHANNEL_DISPLAY_GREEN 2
-#define IMAGE_CHANNEL_DISPLAY_BLUE  3
-#define IMAGE_CHANNEL_DISPLAY_ALPHA 4
+// djv::AV::Render::ImageChannelsDisplay
+#define IMAGE_CHANNELS_DISPLAY_COLOR 0
+#define IMAGE_CHANNELS_DISPLAY_RED   1
+#define IMAGE_CHANNELS_DISPLAY_GREEN 2
+#define IMAGE_CHANNELS_DISPLAY_BLUE  3
+#define IMAGE_CHANNELS_DISPLAY_ALPHA 4
 
 // djv::AV::Render::ColorMode
 #define COLOR_MODE_SOLID_COLOR                0
@@ -209,23 +209,23 @@ void main()
             t = softClipFunc(t, softClip);
         }
         
-        // Swizzle the channels for the given image channel display.
-        if (IMAGE_CHANNEL_DISPLAY_RED == imageChannelDisplay)
+        // Swizzle the channels for the given image channels display.
+        if (IMAGE_CHANNELS_DISPLAY_RED == imageChannelsDisplay)
         {
             t.g = t.r;
             t.b = t.r;
         }
-		else if (IMAGE_CHANNEL_DISPLAY_GREEN == imageChannelDisplay)
+		else if (IMAGE_CHANNELS_DISPLAY_GREEN == imageChannelsDisplay)
 		{
 			t.r = t.g;
 			t.b = t.g;
 		}
-		else if (IMAGE_CHANNEL_DISPLAY_BLUE == imageChannelDisplay)
+		else if (IMAGE_CHANNELS_DISPLAY_BLUE == imageChannelsDisplay)
 		{
 			t.r = t.b;
 			t.g = t.b;
 		}
-		else if (IMAGE_CHANNEL_DISPLAY_ALPHA == imageChannelDisplay)
+		else if (IMAGE_CHANNELS_DISPLAY_ALPHA == imageChannelsDisplay)
 		{
 			t.r = t.a;
 			t.g = t.a;

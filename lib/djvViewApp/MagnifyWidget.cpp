@@ -275,7 +275,7 @@ namespace djv
                     m *= UI::ImageWidget::getXForm(_image, _imageData.rotate, glm::vec2(_imageZoom * magnify, _imageZoom * magnify), _imageData.aspectRatio);
                     render->pushTransform(m);
                     Render2D::ImageOptions options;
-                    options.channelDisplay = _imageData.channelDisplay;
+                    options.channelsDisplay = _imageData.channelsDisplay;
                     options.alphaBlend = _imageData.alphaBlend;
                     options.mirror = _imageData.mirror;
                     auto i = _ocioConfig.imageColorSpaces.find(_image->getPluginName());

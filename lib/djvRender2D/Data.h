@@ -20,7 +20,7 @@ namespace djv
         const float dpiDefault = 96.F;
         
         //! This enumeration provides which image channels are displayed.
-        enum class ImageChannelDisplay
+        enum class ImageChannelsDisplay
         {
             Color,
             Red,
@@ -32,7 +32,7 @@ namespace djv
             First = Color
         };
 
-        //! This eumeration provides the image cache options.
+        //! This eumeration provides the image caching options.
         enum class ImageCache
         {
             Atlas,
@@ -94,19 +94,19 @@ namespace djv
         public:
             ImageOptions();
             
-            ImageChannelDisplay channelDisplay  = ImageChannelDisplay::Color;
-            AlphaBlend          alphaBlend      = AlphaBlend::Straight;
-            Image::Mirror       mirror;
-            OCIO::Convert       colorSpace;
-            bool                colorEnabled    = false;
-            ImageColor          color;
-            bool                levelsEnabled   = false;
-            ImageLevels         levels;
-            bool                exposureEnabled = false;
-            ImageExposure       exposure;
-            bool                softClipEnabled = false;
-            float               softClip        = 0.F;
-            ImageCache          cache           = ImageCache::Atlas;
+            ImageChannelsDisplay channelsDisplay = ImageChannelsDisplay::Color;
+            AlphaBlend           alphaBlend      = AlphaBlend::Straight;
+            Image::Mirror        mirror;
+            OCIO::Convert        colorSpace;
+            bool                 colorEnabled    = false;
+            ImageColor           color;
+            bool                 levelsEnabled   = false;
+            ImageLevels          levels;
+            bool                 exposureEnabled = false;
+            ImageExposure        exposure;
+            bool                 softClipEnabled = false;
+            float                softClip        = 0.F;
+            ImageCache           cache           = ImageCache::Atlas;
 
             bool operator == (const ImageOptions&) const;
             bool operator != (const ImageOptions&) const;

@@ -23,7 +23,7 @@ namespace djv
     {
         rapidjson::Value out(rapidjson::kObjectType);
         {
-            out.AddMember("ChannelDisplay", toJSON(value.channelDisplay, allocator), allocator);
+            out.AddMember("ChannelsDisplay", toJSON(value.channelsDisplay, allocator), allocator);
             out.AddMember("AlphaBlend", toJSON(value.alphaBlend, allocator), allocator);
 
             out.AddMember("Mirror", toJSON(value.mirror, allocator), allocator);
@@ -51,9 +51,9 @@ namespace djv
         {
             for (const auto& i : value.GetObject())
             {
-                if (0 == strcmp("ChannelDisplay", i.name.GetString()))
+                if (0 == strcmp("ChannelsDisplay", i.name.GetString()))
                 {
-                    fromJSON(i.value, out.channelDisplay);
+                    fromJSON(i.value, out.channelsDisplay);
                 }
                 else if (0 == strcmp("AlphaBlend", i.name.GetString()))
                 {

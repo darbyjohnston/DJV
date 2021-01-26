@@ -266,7 +266,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             Render2D::ImageOptions options;
-            options.channelDisplay = p.imageData.channelDisplay;
+            options.channelsDisplay = p.imageData.channelsDisplay;
             options.alphaBlend = Render2D::AlphaBlend::Straight;
             options.mirror = p.imageData.mirror;
             if (p.image)

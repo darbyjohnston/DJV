@@ -72,9 +72,15 @@ namespace djv
 
                 void setForegroundColorRole(ColorRole) override;
 
+                void addAction(const std::shared_ptr<Action>&) override;
+                void removeAction(const std::shared_ptr<Action>&) override;
+                void clearActions() override;
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
+                void _doClick() override;
+                void _doCheck(bool) override;
+
                 void _preLayoutEvent(System::Event::PreLayout&) override;
                 void _layoutEvent(System::Event::Layout&) override;
                 void _paintEvent(System::Event::Paint&) override;
@@ -84,6 +90,8 @@ namespace djv
                 void _textFocusLostEvent(System::Event::TextFocusLost&) override;
 
             private:
+                void _actionUpdate();
+
                 DJV_PRIVATE();
             };
 

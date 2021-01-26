@@ -23,6 +23,7 @@ namespace djv
             std::string checkedIcon;
             std::shared_ptr<Observer::ValueSubject<std::string> > iconSubject;
             std::shared_ptr<Observer::ValueSubject<std::string> > textSubject;
+            std::shared_ptr<Observer::ValueSubject<std::string> > textBriefSubject;
             std::shared_ptr<Observer::ValueSubject<std::string> > fontSubject;
             std::shared_ptr<Observer::ListSubject<std::shared_ptr<Shortcut> > > shortcutsSubject;
             std::shared_ptr<Observer::ValueSubject<bool> > enabledSubject;
@@ -39,6 +40,7 @@ namespace djv
             p.checkedSubject = Observer::ValueSubject<bool>::create(false);
             p.iconSubject = Observer::ValueSubject<std::string>::create();
             p.textSubject = Observer::ValueSubject<std::string>::create();
+            p.textBriefSubject = Observer::ValueSubject<std::string>::create();
             p.fontSubject = Observer::ValueSubject<std::string>::create();
             p.shortcutsSubject = Observer::ListSubject<std::shared_ptr<Shortcut> >::create();
             p.enabledSubject = Observer::ValueSubject<bool>::create(true);
@@ -64,6 +66,16 @@ namespace djv
         {
             auto out = create();
             out->setText(text);
+            return out;
+        }
+
+        std::shared_ptr<Action> Action::create(
+            const std::string& text,
+            const std::string& textBrief)
+        {
+            auto out = create();
+            out->setText(text);
+            out->setTextBrief(textBrief);
             return out;
         }
 
@@ -116,9 +128,19 @@ namespace djv
             return _p->textSubject;
         }
 
+        std::shared_ptr<Observer::IValueSubject<std::string> > Action::observeTextBrief() const
+        {
+            return _p->textBriefSubject;
+        }
+
         void Action::setText(const std::string& value)
         {
             _p->textSubject->setIfChanged(value);
+        }
+
+        void Action::setTextBrief(const std::string& value)
+        {
+            _p->textBriefSubject->setIfChanged(value);
         }
 
         std::shared_ptr<Observer::IValueSubject<std::string> > Action::observeFont() const

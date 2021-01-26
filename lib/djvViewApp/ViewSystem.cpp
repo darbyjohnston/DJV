@@ -41,6 +41,7 @@ namespace djv
             std::map<std::string, bool> bellowsState;
             GridOptions gridOptions;
             HUDOptions hudOptions;
+            ViewBackgroundOptions backgroundOptions;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             glm::vec2 dragImagePos = glm::vec2(0.F, 0.F);
@@ -56,6 +57,7 @@ namespace djv
             std::shared_ptr<Observer::Value<ViewLock> > lockObserver;
             std::shared_ptr<Observer::Value<GridOptions> > gridOptionsObserver;
             std::shared_ptr<Observer::Value<HUDOptions> > hudOptionsObserver;
+            std::shared_ptr<Observer::Value<ViewBackgroundOptions> > backgroundOptionsObserver;
             std::shared_ptr<Observer::Value<PointerData> > hoverObserver;
             std::shared_ptr<Observer::Value<PointerData> > dragObserver;
             std::shared_ptr<Observer::Value<ScrollData> > scrollObserver;
@@ -107,8 +109,16 @@ namespace djv
                 p.actions["CenterLock"] });
             p.actions["Grid"] = UI::Action::create();
             p.actions["Grid"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Grid"]->setIcon("djvIconHidden");
+            p.actions["Grid"]->setCheckedIcon("djvIconVisible");
             p.actions["HUD"] = UI::Action::create();
             p.actions["HUD"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["HUD"]->setIcon("djvIconHidden");
+            p.actions["HUD"]->setCheckedIcon("djvIconVisible");
+            p.actions["Border"] = UI::Action::create();
+            p.actions["Border"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Border"]->setIcon("djvIconHidden");
+            p.actions["Border"]->setCheckedIcon("djvIconVisible");
 
             _addShortcut(DJV_TEXT("shortcut_view_controls"), GLFW_KEY_W, UI::getSystemModifier());
             _addShortcut(DJV_TEXT("shortcut_view_pan"), GLFW_KEY_N, UI::getSystemModifier());
@@ -143,6 +153,7 @@ namespace djv
                 UI::ShortcutData(GLFW_KEY_KP_5, GLFW_MOD_SHIFT) });
             _addShortcut(DJV_TEXT("shortcut_view_grid"), GLFW_KEY_G, UI::getSystemModifier());
             _addShortcut(DJV_TEXT("shortcut_view_hud"), GLFW_KEY_U, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_view_border"), 0);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Left"]);
@@ -161,6 +172,7 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Grid"]);
             p.menu->addAction(p.actions["HUD"]);
+            p.menu->addAction(p.actions["Border"]);
 
             _actionsUpdate();
             _textUpdate();
@@ -335,6 +347,17 @@ namespace djv
                     }
                 });
 
+            p.actions["Border"]->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        ViewBackgroundOptions options = system->_p->backgroundOptions;
+                        options.border = value;
+                        system->_p->settings->setBackgroundOptions(options);
+                    }
+                });
+
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.activeWidgetObserver = Observer::Value<std::shared_ptr<MediaWidget> >::create(
@@ -425,6 +448,16 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->hudOptions = value;
+                        system->_actionsUpdate();
+                    }
+                });
+            p.backgroundOptionsObserver = Observer::Value<ViewBackgroundOptions>::create(
+                p.settings->observeBackgroundOptions(),
+                [weak](const ViewBackgroundOptions& value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->backgroundOptions = value;
                         system->_actionsUpdate();
                     }
                 });
@@ -552,6 +585,8 @@ namespace djv
                 p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("menu_view_grid_tooltip")));
                 p.actions["HUD"]->setText(_getText(DJV_TEXT("menu_view_hud")));
                 p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("menu_view_hud_tooltip")));
+                p.actions["Border"]->setText(_getText(DJV_TEXT("menu_view_border")));
+                p.actions["Border"]->setTooltip(_getText(DJV_TEXT("menu_view_border_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_view")));
             }
@@ -581,6 +616,7 @@ namespace djv
                 p.actions["CenterLock"]->setShortcuts(_getShortcuts("shortcut_view_center_lock"));
                 p.actions["Grid"]->setShortcuts(_getShortcuts("shortcut_view_grid"));
                 p.actions["HUD"]->setShortcuts(_getShortcuts("shortcut_view_hud"));
+                p.actions["Border"]->setShortcuts(_getShortcuts("shortcut_view_border"));
             }
         }
 

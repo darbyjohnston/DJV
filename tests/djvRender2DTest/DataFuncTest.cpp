@@ -27,7 +27,7 @@ namespace djv
         
         void DataFuncTest::_enum()
         {
-            for (const auto& i : getImageChannelDisplayEnums())
+            for (const auto& i : getImageChannelsDisplayEnums())
             {
                 std::stringstream ss;
                 ss << i;

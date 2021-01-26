@@ -98,7 +98,7 @@ namespace djv
                 render->drawImage(image, glm::vec2(0.f, 100.f));
                 std::vector<ImageOptions> imageOptionsList;
                 ImageOptions imageOptions;
-                imageOptions.channelDisplay = ImageChannelDisplay::Red;
+                imageOptions.channelsDisplay = ImageChannelsDisplay::Red;
                 imageOptions.alphaBlend = AlphaBlend::Premultiplied;
                 imageOptions.mirror.x = true;
                 imageOptions.mirror.y = true;

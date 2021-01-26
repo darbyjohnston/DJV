@@ -9,6 +9,7 @@
 #include <djvViewApp/ViewData.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/ViewWidget.h>
+#include <djvViewApp/ViewSystem.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/ColorPicker.h>
@@ -304,10 +305,10 @@ namespace djv
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
+            auto viewSystem = context->getSystemT<ViewSystem>();
+            auto viewActions = viewSystem->getActions();
             p.gridEnabledButton = UI::ToolButton::create(context);
-            p.gridEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.gridEnabledButton->setIcon("djvIconHidden");
-            p.gridEnabledButton->setCheckedIcon("djvIconVisible");
+            p.gridEnabledButton->addAction(viewActions["Grid"]);
             p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.gridSizeSlider = UI::Numeric::IntSlider::create(context);
             p.gridSizeSlider->setRange(Math::IntRange(1, 500));
@@ -333,21 +334,6 @@ namespace djv
 
             auto weak = std::weak_ptr<ViewControlsGridWidget>(std::dynamic_pointer_cast<ViewControlsGridWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.gridEnabledButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            auto options = widget->_p->gridOptions;
-                            options.enabled = value;
-                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(options);
-                        }
-                    }
-                });
             p.gridSizeSlider->setValueCallback(
                 [weak, contextWeak](int value)
                 {
@@ -457,7 +443,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.gridEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_grid_enabled_tooltip")));
                 p.layout->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
                 p.layout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
                 p.layout->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
@@ -468,7 +453,6 @@ namespace djv
         void ViewControlsGridWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.gridEnabledButton->setChecked(p.gridOptions.enabled);
             p.gridSizeSlider->setValue(p.gridOptions.size);
             p.gridColorPickerSwatch->setColor(p.gridOptions.color);
             std::vector<std::string> items;
@@ -501,10 +485,10 @@ namespace djv
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
+            auto viewSystem = context->getSystemT<ViewSystem>();
+            auto viewActions = viewSystem->getActions();
             p.hudEnabledButton = UI::ToolButton::create(context);
-            p.hudEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.hudEnabledButton->setIcon("djvIconHidden");
-            p.hudEnabledButton->setCheckedIcon("djvIconVisible");
+            p.hudEnabledButton->addAction(viewActions["HUD"]);
             p.hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.hudColorPickerSwatch = UIComponents::ColorPickerSwatch::create(context);
             p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
@@ -521,21 +505,6 @@ namespace djv
 
             auto weak = std::weak_ptr<ViewControlsHUDWidget>(std::dynamic_pointer_cast<ViewControlsHUDWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.hudEnabledButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            HUDOptions options = widget->_p->hudOptions;
-                            options.enabled = value;
-                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setHUDOptions(options);
-                        }
-                    }
-                });
             p.hudColorPickerSwatch->setColorCallback(
                 [weak, contextWeak](const Image::Color& value)
                 {
@@ -615,7 +584,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.hudEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_hud_enabled_tooltip")));
                 p.layout->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
                 p.layout->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
             }
@@ -624,7 +592,6 @@ namespace djv
         void ViewControlsHUDWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.hudEnabledButton->setChecked(p.hudOptions.enabled);
             p.hudColorPickerSwatch->setColor(p.hudOptions.color);
             std::vector<std::string> items;
             for (auto i : getHUDBackgroundEnums())
@@ -872,10 +839,10 @@ namespace djv
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
+            auto viewSystem = context->getSystemT<ViewSystem>();
+            auto viewActions = viewSystem->getActions();
             p.borderEnabledButton = UI::ToolButton::create(context);
-            p.borderEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.borderEnabledButton->setIcon("djvIconHidden");
-            p.borderEnabledButton->setCheckedIcon("djvIconVisible");
+            p.borderEnabledButton->addAction(viewActions["Border"]);
             p.borderEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.borderWidthSlider = UI::Numeric::FloatSlider::create(context);
             p.borderWidthSlider->setRange(Math::FloatRange(1.F, 20.F));
@@ -895,21 +862,6 @@ namespace djv
 
             auto weak = std::weak_ptr<ViewControlsBorderWidget>(std::dynamic_pointer_cast<ViewControlsBorderWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.borderEnabledButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            ViewBackgroundOptions options = widget->_p->backgroundOptions;
-                            options.border = value;
-                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundOptions(options);
-                        }
-                    }
-                });
             p.borderWidthSlider->setValueCallback(
                 [weak, contextWeak](float value)
                 {

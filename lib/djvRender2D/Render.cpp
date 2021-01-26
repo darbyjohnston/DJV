@@ -212,7 +212,7 @@ namespace djv
                 p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
                 p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
 #endif // DJV_GL_ES2
-                p.primitiveData.imageChannelDisplayLoc = glGetUniformLocation(program, "imageChannelDisplay");
+                p.primitiveData.imageChannelsDisplayLoc = glGetUniformLocation(program, "imageChannelsDisplay");
                 p.primitiveData.colorMatrixLoc = glGetUniformLocation(program, "colorMatrix");
                 p.primitiveData.colorMatrixEnabledLoc = glGetUniformLocation(program, "colorMatrixEnabled");
                 p.primitiveData.colorInvertLoc = glGetUniformLocation(program, "colorInvert");
@@ -1193,7 +1193,7 @@ namespace djv
                 primitive->color[1] = finalColor[1];
                 primitive->color[2] = finalColor[2];
                 primitive->color[3] = finalColor[3];
-                primitive->imageChannelDisplay = options.channelDisplay;
+                primitive->imageChannelsDisplay = options.channelsDisplay;
                 primitive->alphaBlend = options.alphaBlend;
                 primitive->colorMatrixEnabled = options.colorEnabled && options.color != ImageColor();
                 if (primitive->colorMatrixEnabled)

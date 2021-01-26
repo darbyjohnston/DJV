@@ -161,7 +161,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->hudOptions = value;
-                        widget->_gridUpdate();
+                        widget->_hudUpdate();
                     }
                 });
             p.backgroundOptionsObserver = Observer::Value<ViewBackgroundOptions>::create(
@@ -474,7 +474,7 @@ namespace djv
                 render->pushTransform(m);
                 render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                 Render2D::ImageOptions options;
-                options.channelDisplay = p.imageData.channelDisplay;
+                options.channelsDisplay = p.imageData.channelsDisplay;
                 options.alphaBlend = p.imageData.alphaBlend;
                 options.mirror = p.imageData.mirror;
                 auto i = p.ocioConfig.imageColorSpaces.find(image->getPluginName());

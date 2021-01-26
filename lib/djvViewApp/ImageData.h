@@ -14,24 +14,24 @@ namespace djv
     {
         struct ImageData
         {
-            Render2D::ImageChannelDisplay channelDisplay  = Render2D::ImageChannelDisplay::Color;
-            Render2D::AlphaBlend          alphaBlend      = Render2D::AlphaBlend::Straight;
+            Render2D::ImageChannelsDisplay channelsDisplay = Render2D::ImageChannelsDisplay::Color;
+            Render2D::AlphaBlend           alphaBlend      = Render2D::AlphaBlend::Straight;
 
-            Image::Mirror                 mirror;
-            UI::ImageRotate               rotate          = UI::ImageRotate::_0;
-            UI::ImageAspectRatio          aspectRatio     = UI::ImageAspectRatio::FromSource;
+            Image::Mirror                  mirror;
+            UI::ImageRotate                rotate          = UI::ImageRotate::_0;
+            UI::ImageAspectRatio           aspectRatio     = UI::ImageAspectRatio::FromSource;
 
-            bool                          colorEnabled    = true;
-            Render2D::ImageColor          color;
+            bool                           colorEnabled    = true;
+            Render2D::ImageColor           color;
 
-            bool                          levelsEnabled   = true;
-            Render2D::ImageLevels         levels;
+            bool                           levelsEnabled   = true;
+            Render2D::ImageLevels          levels;
 
-            bool                          exposureEnabled = false;
-            Render2D::ImageExposure       exposure;
+            bool                           exposureEnabled = false;
+            Render2D::ImageExposure        exposure;
 
-            bool                          softClipEnabled = false;
-            float                         softClip        = 0.F;
+            bool                           softClipEnabled = false;
+            float                          softClip        = 0.F;
 
             bool operator == (const ImageData&) const;
             bool operator != (const ImageData&) const;

@@ -70,7 +70,7 @@ namespace djv
             GLint exposureFLoc              = 0;
             GLint exposureEnabledLoc        = 0;
             GLint softClipLoc               = 0;
-            GLint imageChannelDisplayLoc    = 0;
+            GLint imageChannelsDisplayLoc   = 0;
             GLint textureSamplerLoc         = 0;
         };
 
@@ -104,27 +104,27 @@ namespace djv
         class ImagePrimitive : public Primitive
         {
         public:
-            ColorMode           colorMode           = ColorMode::ColorAndTexture;
-            Image::Channels     imageChannels       = Image::Channels::RGBA;
+            ColorMode            colorMode            = ColorMode::ColorAndTexture;
+            Image::Channels      imageChannels        = Image::Channels::RGBA;
 #if !defined(DJV_GL_ES2)
-            uint8_t             colorSpace          = 0;
-            GLuint              colorSpaceTextureID = 0;
+            uint8_t              colorSpace           = 0;
+            GLuint               colorSpaceTextureID  = 0;
 #endif // DJV_GL_ES2
-            glm::mat4x4         colorMatrix;
-            bool                colorMatrixEnabled  = false;
-            bool                colorInvert         = false;
-            ImageLevels         levels;
-            bool                levelsEnabled       = false;
-            float               exposureV           = 0.F;
-            float               exposureD           = 0.F;
-            float               exposureK           = 0.F;
-            float               exposureF           = 0.F;
-            bool                exposureEnabled     = false;
-            float               softClip            = 0.F;
-            ImageChannelDisplay imageChannelDisplay = ImageChannelDisplay::Color;
-            ImageCache          imageCache          = ImageCache::Atlas;
-            uint8_t             atlasIndex          = 0;
-            GLuint              textureID           = 0;
+            glm::mat4x4          colorMatrix;
+            bool                 colorMatrixEnabled   = false;
+            bool                 colorInvert          = false;
+            ImageLevels          levels;
+            bool                 levelsEnabled        = false;
+            float                exposureV            = 0.F;
+            float                exposureD            = 0.F;
+            float                exposureK            = 0.F;
+            float                exposureF            = 0.F;
+            bool                 exposureEnabled      = false;
+            float                softClip             = 0.F;
+            ImageChannelsDisplay imageChannelsDisplay = ImageChannelsDisplay::Color;
+            ImageCache           imageCache           = ImageCache::Atlas;
+            uint8_t              atlasIndex           = 0;
+            GLuint               textureID            = 0;
 
             void bind(const PrimitiveData&, const std::shared_ptr<GL::Shader>&) override;
         };

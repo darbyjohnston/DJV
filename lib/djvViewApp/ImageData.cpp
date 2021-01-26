@@ -10,7 +10,7 @@ namespace djv
     {
         bool ImageData::operator == (const ImageData& other) const
         {
-            return channelDisplay == other.channelDisplay &&
+            return channelsDisplay == other.channelsDisplay &&
                 alphaBlend == other.alphaBlend &&mirror == other.mirror &&
                 rotate == other.rotate &&
                 aspectRatio == other.aspectRatio &&

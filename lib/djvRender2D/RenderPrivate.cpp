@@ -67,7 +67,7 @@ namespace djv
                 shader->setUniform(data.colorSpaceSamplerLoc, static_cast<int>(data.textureAtlasCount + 1));
             }
 #endif // DJV_GL_ES2
-            shader->setUniform(data.imageChannelDisplayLoc, static_cast<int>(imageChannelDisplay));
+            shader->setUniform(data.imageChannelsDisplayLoc, static_cast<int>(imageChannelsDisplay));
             switch (imageCache)
             {
             case ImageCache::Atlas:

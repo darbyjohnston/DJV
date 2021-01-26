@@ -20,17 +20,17 @@ namespace djv
 
         ///@}
 
-        DJV_ENUM_HELPERS(ImageChannelDisplay);
+        DJV_ENUM_HELPERS(ImageChannelsDisplay);
         DJV_ENUM_HELPERS(ImageCache);
         DJV_ENUM_HELPERS(ImageFilter);
 
     } // namespace Render2D
 
-    DJV_ENUM_SERIALIZE_HELPERS(Render2D::ImageChannelDisplay);
+    DJV_ENUM_SERIALIZE_HELPERS(Render2D::ImageChannelsDisplay);
     DJV_ENUM_SERIALIZE_HELPERS(Render2D::ImageCache);
     DJV_ENUM_SERIALIZE_HELPERS(Render2D::ImageFilter);
 
-    rapidjson::Value toJSON(Render2D::ImageChannelDisplay, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(Render2D::ImageChannelsDisplay, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(const Render2D::ImageColor&, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(const Render2D::ImageLevels&, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(const Render2D::ImageExposure&, rapidjson::Document::AllocatorType&);
@@ -39,7 +39,7 @@ namespace djv
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const rapidjson::Value&, Render2D::ImageChannelDisplay&);
+    void fromJSON(const rapidjson::Value&, Render2D::ImageChannelsDisplay&);
 
     //! Throws:
     //! - std::exception
