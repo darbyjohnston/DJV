@@ -6,10 +6,12 @@
 
 #include <djvViewApp/MessagesSettings.h>
 #include <djvViewApp/MessagesWidget.h>
+#include <djvViewApp/ToolSettings.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ToolTitleBar.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutDataFunc.h>
 
 #include <djvSystem/Context.h>
@@ -160,11 +162,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<ActionData> MessagesSystem::getToolActionData() const
+        ActionData MessagesSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["Messages"], "Z1" }
+                { _p->actions["Messages"] },
+                12
             };
         }
 
@@ -253,10 +256,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                auto toolSettings = settingsSystem->getSettingsT<ToolSettings>();
                 auto toolSystem = context->getSystemT<ToolSystem>();
-                toolSystem->setCurrentTool(CurrentTool({
-                    std::dynamic_pointer_cast<MessagesSystem>(shared_from_this()),
-                    p.actions["Messages"] }));
+                toolSettings->setCurrentTool(toolSystem->getToolIndex(p.actions["Messages"]));
             }
         }
 

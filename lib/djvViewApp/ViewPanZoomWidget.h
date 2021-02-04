@@ -10,25 +10,31 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the tool drawer widget.
-        class ToolDrawer : public UI::Widget
+        //! This class provides the view pan and zoom widget.
+        class ViewPanZoomWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ToolDrawer);
+            DJV_NON_COPYABLE(ViewPanZoomWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            ToolDrawer();
+            ViewPanZoomWidget();
 
         public:
-            ~ToolDrawer() override;
+            ~ViewPanZoomWidget() override;
 
-            static std::shared_ptr<ToolDrawer> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<ViewPanZoomWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
             void _layoutEvent(System::Event::Layout&) override;
 
+            void _initEvent(System::Event::Init&) override;
+
         private:
+            void _setPos(const glm::vec2&);
+            void _setZoom(float);
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

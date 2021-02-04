@@ -30,11 +30,11 @@ set(source
     ColorPicker.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
-    FileBrowserDrawerWidget.cpp
     FileBrowserDrivesWidget.cpp
     FileBrowserFunc.cpp
     FileBrowserItemView.cpp
     FileBrowserPathWidget.cpp
+    FileBrowserPathsWidget.cpp
     FileBrowserRecentPathsWidget.cpp
     FileBrowserSettings.cpp
     FileBrowserSettingsWidget.cpp

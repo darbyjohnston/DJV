@@ -92,11 +92,12 @@ namespace djv
             return _p->actions;
         }
         
-        std::vector<ActionData> SettingsSystem::getToolActionData() const
+        ActionData SettingsSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["Settings"], "Z4" }
+                { _p->actions["Settings"] },
+                17
             };
         }
 

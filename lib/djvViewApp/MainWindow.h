@@ -27,12 +27,8 @@ namespace djv
         protected:
             void _dropEvent(System::Event::Drop&) override;
 
-            void _initEvent(System::Event::Init &) override;
-
         private:
-            void _showTools(bool);
-
-            void _textUpdate();
+            void _presentationModeUpdate();
 
             DJV_PRIVATE();
         };

@@ -64,9 +64,9 @@ namespace djv
             void open();
             void open(const System::File::Info&, const OpenOptions& = OpenOptions());
             void open(const std::vector<std::string>&, OpenOptions = OpenOptions());
-            void close(const std::shared_ptr<Media> &);
+            void close(const std::shared_ptr<Media>&);
             void closeAll();
-            void setCurrentMedia(const std::shared_ptr<Media> &);
+            void setCurrentMedia(const std::shared_ptr<Media>&);
 
             ///@}
 
@@ -78,8 +78,8 @@ namespace djv
             ///@}
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            std::vector<MenuData> getMenuData() const override;
-            std::vector<ActionData> getToolActionData() const override;
+            MenuData getMenuData() const override;
+            ActionData getToolActionData() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
 
         protected:
@@ -87,7 +87,6 @@ namespace djv
             void _cacheUpdate();
             void _showFileBrowserDialog();
             void _showRecentFilesDialog();
-            void _showActiveFilesDialog();
 
             void _textUpdate() override;
             void _shortcutsUpdate() override;

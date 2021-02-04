@@ -145,11 +145,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> EditSystem::getMenuData() const
+        MenuData EditSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "B" }
+                { _p->menu },
+                2
             };
         }
 

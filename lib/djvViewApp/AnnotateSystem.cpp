@@ -314,19 +314,21 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> AnnotateSystem::getMenuData() const
+        MenuData AnnotateSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "I" }
+                { _p->menu },
+                10
             };
         }
 
-        std::vector<ActionData> AnnotateSystem::getToolActionData() const
+        ActionData AnnotateSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["Annotate"], "G" }
+                { _p->actions["Annotate"] },
+                10
             };
         }
 

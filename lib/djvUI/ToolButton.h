@@ -29,6 +29,9 @@ namespace djv
                 //! \name Icon
                 ///@{
 
+                const std::string& getIcon() const;
+                const std::string& getCheckedIcon() const;
+
                 void setIcon(const std::string&);
                 void setCheckedIcon(const std::string&);
 

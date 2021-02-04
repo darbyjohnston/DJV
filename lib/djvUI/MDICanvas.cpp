@@ -4,7 +4,6 @@
 
 #include <djvUI/MDICanvas.h>
 
-#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDIWidget.h>
 #include <djvUI/RowLayout.h>

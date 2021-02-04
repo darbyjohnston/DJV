@@ -5,7 +5,7 @@
 #include <djvUI/Bellows.h>
 
 #include <djvUI/IButton.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Spacer.h>
@@ -54,7 +54,7 @@ namespace djv
                     void _paintEvent(System::Event::Paint&) override;
 
                 private:
-                    std::shared_ptr<Icon> _icon;
+                    std::shared_ptr<IconWidget> _iconWidget;
                     std::shared_ptr<Text::Label> _label;
                     std::shared_ptr<HorizontalLayout> _layout;
                 };
@@ -66,10 +66,10 @@ namespace djv
                     setClassName("djv::UI::Layout::Bellows::Button");
                     setButtonType(ButtonType::Toggle);
 
-                    _icon = Icon::create(context);
-                    _icon->setIcon("djvIconArrowSmallRight");
-                    _icon->setIconSizeRole(MetricsRole::IconSmall);
-                    _icon->setVAlign(VAlign::Center);
+                    _iconWidget = IconWidget::create(context);
+                    _iconWidget->setIcon("djvIconArrowSmallRight");
+                    _iconWidget->setIconSizeRole(MetricsRole::IconSmall);
+                    _iconWidget->setVAlign(VAlign::Center);
 
                     _label = Text::Label::create(context);
                     _label->setTextHAlign(TextHAlign::Left);
@@ -79,7 +79,7 @@ namespace djv
                     auto hLayout = HorizontalLayout::create(context);
                     hLayout->setMargin(Margin(MetricsRole::MarginSmall));
                     hLayout->setSpacing(Spacing(MetricsRole::SpacingSmall));
-                    hLayout->addChild(_icon);
+                    hLayout->addChild(_iconWidget);
                     hLayout->addChild(_label);
                     hLayout->setStretch(_label);
                     _layout->addChild(hLayout);
@@ -102,7 +102,7 @@ namespace djv
 
                 void Button::setIcon(const std::string& value)
                 {
-                    _icon->setIcon(value);
+                    _iconWidget->setIcon(value);
                 }
 
                 void Button::setText(const std::string& value)

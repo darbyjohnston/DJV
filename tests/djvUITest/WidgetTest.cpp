@@ -11,7 +11,7 @@
 #include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/GridLayout.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/LineEdit.h>
 #include <djvUI/ListButton.h>
@@ -213,9 +213,9 @@ namespace djv
                 auto label = Text::Label::create(context);
                 label->setText("Hello world!");
                 rowLayout->addChild(label);
-                auto icon = Icon::create(context);
-                icon->setIcon("djvIconFileOpen");
-                rowLayout->addChild(icon);
+                auto iconWidget = IconWidget::create(context);
+                iconWidget->setIcon("djvIconFileOpen");
+                rowLayout->addChild(iconWidget);
 
                 auto formLayout = FormLayout::create(context);
                 formLayout->addChild(CheckBox::create(context));

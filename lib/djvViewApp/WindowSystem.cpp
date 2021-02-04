@@ -347,11 +347,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> WindowSystem::getMenuData() const
+        MenuData WindowSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "C" }
+                { _p->menu },
+                3
             };
         }
 

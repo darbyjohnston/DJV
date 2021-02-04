@@ -6,7 +6,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/DrawUtil.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
@@ -106,7 +106,7 @@ namespace djv
             {
                 std::shared_ptr<Action> action;
                 std::shared_ptr<CheckBox> checkBox;
-                std::shared_ptr<Icon> icon;
+                std::shared_ptr<IconWidget> iconWidget;
                 std::shared_ptr<Text::Label> textLabel;
                 std::shared_ptr<Text::Label> shortcutsLabel;
                 std::shared_ptr<HorizontalLayout> layout;
@@ -123,7 +123,7 @@ namespace djv
                 setClassName("djv::UI::Button::ActionButton");
 
                 p.checkBox = CheckBox::create(context);
-                p.icon = Icon::create(context);
+                p.iconWidget = IconWidget::create(context);
                 p.textLabel = Text::Label::create(context);
                 p.textLabel->setTextHAlign(TextHAlign::Left);
                 p.textLabel->setMargin(MetricsRole::MarginSmall);
@@ -133,7 +133,7 @@ namespace djv
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.checkBox);
-                p.layout->addChild(p.icon);
+                p.layout->addChild(p.iconWidget);
                 p.layout->addChild(p.textLabel);
                 p.layout->setStretch(p.textLabel);
                 p.layout->addChild(p.shortcutsLabel);
@@ -331,7 +331,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->icon->setIcon(value);
+                            widget->_p->iconWidget->setIcon(value);
                         }
                     });
                     p.textObserver = Observer::Value<std::string>::create(

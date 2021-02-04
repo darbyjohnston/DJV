@@ -12,6 +12,7 @@ set(header
     ComboBox.h
     DialogSystem.h
     DrawUtil.h
+    DrawerLayout.h
     Enum.h
     EnumFunc.h
     EventSystem.h
@@ -35,8 +36,8 @@ set(header
     ISettingsTemplates.h
     ISettingsTemplatesInline.h
     ITooltipWidget.h
-    Icon.h
     IconSystem.h
+    IconWidget.h
     ImageWidget.h
     IntEdit.h
     IntLabel.h
@@ -117,6 +118,7 @@ set(source
     ComboBox.cpp
     DialogSystem.cpp
     DrawUtil.cpp
+    DrawerLayout.cpp
     EnumFunc.cpp
     EventSystem.cpp
     FloatEdit.cpp
@@ -135,8 +137,8 @@ set(source
     INumericWidgetFunc.cpp
     ISettings.cpp
     ITooltipWidget.cpp
-    Icon.cpp
     IconSystem.cpp
+    IconWidget.cpp
     ImageWidget.cpp
     IntEdit.cpp
     IntLabel.cpp

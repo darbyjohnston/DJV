@@ -41,12 +41,12 @@ namespace djv
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<System::Context>&);
 
-                //! \name Splitter
+                //! \name Drawer
                 ///@{
 
-                std::shared_ptr<Core::Observer::IListSubject<float> > observeSplit() const;
+                std::shared_ptr<Core::Observer::IValueSubject<float> > observeDrawerSplit() const;
 
-                void setSplit(const std::vector<float>&);
+                void setDrawerSplit(float);
 
                 ///@}
 

@@ -17,7 +17,6 @@ namespace djv
         struct TabWidget::Private
         {
             std::vector<std::shared_ptr<Widget> > widgets;
-            std::map<std::shared_ptr<Widget>, int> widgetToIndex;
             std::map<std::shared_ptr<Widget>, std::string> widgetToText;
             std::shared_ptr<TabBar> tabBar;
             std::shared_ptr<VerticalLayout> layout;
@@ -39,7 +38,6 @@ namespace djv
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
             p.layout->addChild(p.tabBar);
-            p.layout->addSeparator();
             p.layout->addChild(p.soloLayout);
             p.layout->setStretch(p.soloLayout);
             Widget::addChild(p.layout);
@@ -76,14 +74,19 @@ namespace djv
             return out;
         }
 
+        const std::shared_ptr<TabBar>& TabWidget::getTabBar() const
+        {
+            return _p->tabBar;
+        }
+
         void TabWidget::setText(const std::shared_ptr<Widget>& widget, const std::string& text)
         {
             DJV_PRIVATE_PTR();
-            p.widgetToText[widget] = text;
-            const auto i = p.widgetToIndex.find(widget);
-            if (i != p.widgetToIndex.end())
+            const auto i = std::find(p.widgets.begin(), p.widgets.end(), widget);
+            if (i != p.widgets.end())
             {
-                _p->tabBar->setText(i->second, text);
+                p.widgetToText[widget] = text;
+                p.tabBar->setText(i - p.widgets.begin(), text);
             }
         }
 
@@ -118,6 +121,7 @@ namespace djv
             if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
                 p.widgets.push_back(widget);
+                p.widgetToText[widget] = std::string();
                 p.soloLayout->addChild(widget);
                 _widgetUpdate();
             }
@@ -133,15 +137,10 @@ namespace djv
                 {
                     p.widgets.erase(i);
                 }
-                const auto j = p.widgetToIndex.find(widget);
-                if (j != p.widgetToIndex.end())
+                const auto j = p.widgetToText.find(widget);
+                if (j != p.widgetToText.end())
                 {
-                    p.widgetToIndex.erase(j);
-                }
-                const auto k = p.widgetToText.find(widget);
-                if (k != p.widgetToText.end())
-                {
-                    p.widgetToText.erase(k);
+                    p.widgetToText.erase(j);
                 }
                 p.soloLayout->removeChild(value);
                 _widgetUpdate();
@@ -151,7 +150,7 @@ namespace djv
         void TabWidget::clearChildren()
         {
             DJV_PRIVATE_PTR();
-            p.widgetToIndex.clear();
+            p.widgets.clear();
             p.widgetToText.clear();
             p.soloLayout->clearChildren();
             _widgetUpdate();
@@ -180,12 +179,13 @@ namespace djv
             std::vector<std::string> tabs;
             for (const auto& i : p.widgets)
             {
-                const auto j = p.widgetToIndex.find(i);
-                const auto k = p.widgetToText.find(i);
-                if (j != p.widgetToIndex.end() && k != p.widgetToText.end())
+                std::string text;
+                const auto j = p.widgetToText.find(i);
+                if (j != p.widgetToText.end())
                 {
-                    p.tabBar->setText(j->second, k->second);
+                    text = j->second;
                 }
+                tabs.push_back(text);
             }
             p.tabBar->setTabs(tabs);
         }

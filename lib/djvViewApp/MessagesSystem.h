@@ -25,7 +25,7 @@ namespace djv
             static std::shared_ptr<MessagesSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            std::vector<ActionData> getToolActionData() const override;
+            ActionData getToolActionData() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
 
         protected:

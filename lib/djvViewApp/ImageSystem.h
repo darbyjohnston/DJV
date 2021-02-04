@@ -40,8 +40,8 @@ namespace djv
             void clearFrameStore();
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            std::vector<MenuData> getMenuData() const override;
-            std::vector<ActionData> getToolActionData() const override;
+            MenuData getMenuData() const override;
+            ActionData getToolActionData() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
             void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
 

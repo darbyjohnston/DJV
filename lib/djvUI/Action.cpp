@@ -109,17 +109,19 @@ namespace djv
 
         void Action::setIcon(const std::string& value)
         {
-            if (value == _p->icon)
+            DJV_PRIVATE_PTR();
+            if (value == p.icon)
                 return;
-            _p->icon = value;
+            p.icon = value;
             _iconUpdate();
         }
 
         void Action::setCheckedIcon(const std::string& value)
         {
-            if (value == _p->checkedIcon)
+            DJV_PRIVATE_PTR();
+            if (value == p.checkedIcon)
                 return;
-            _p->checkedIcon = value;
+            p.checkedIcon = value;
             _iconUpdate();
         }
 

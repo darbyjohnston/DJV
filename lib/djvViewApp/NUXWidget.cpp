@@ -14,7 +14,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
 #include <djvUI/FormLayout.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/Overlay.h>
@@ -205,7 +205,7 @@ namespace djv
 
         struct NUXWidget::Private
         {
-            std::shared_ptr<UI::Icon> logoIcon;
+            std::shared_ptr<UI::IconWidget> logoIconWidget;
             std::vector<std::shared_ptr<Widget> > navWidgets;
             size_t navIndex = 0;
             std::map<std::string, std::shared_ptr<UI::Widget> > formWidgets;
@@ -226,9 +226,9 @@ namespace djv
 
             setBackgroundRole(UI::ColorRole::None);
 
-            p.logoIcon = UI::Icon::create(context);
-            p.logoIcon->setIcon("djvLogoStartScreen");
-            p.logoIcon->setHAlign(UI::HAlign::Left);
+            p.logoIconWidget = UI::IconWidget::create(context);
+            p.logoIconWidget->setIcon("djvLogoStartScreen");
+            p.logoIconWidget->setHAlign(UI::HAlign::Left);
 
             p.formWidgets["Language"] = UIComponents::LanguageWidget::create(context);
             p.formLayouts["Language"] = UI::FormLayout::create(context);
@@ -275,7 +275,7 @@ namespace djv
             vLayout->setMargin(UI::MetricsRole::MarginDialog);
             vLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout->setHAlign(UI::HAlign::Center);
-            vLayout->addChild(p.logoIcon);
+            vLayout->addChild(p.logoIconWidget);
             auto soloLayout = UI::SoloLayout::create(context);
             soloLayout->addChild(p.formLayouts["Language"]);
             soloLayout->addChild(p.formLayouts["StyleSize"]);

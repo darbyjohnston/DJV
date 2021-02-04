@@ -12,6 +12,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/DrawerLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/PopupButton.h>
@@ -21,7 +22,6 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
@@ -61,6 +61,7 @@ namespace djv
                 std::shared_ptr<System::File::RecentFilesModel> recentPathsModel;
                 std::shared_ptr<System::File::DrivesModel> drivesModel;
                 std::vector<System::File::Info> selected;
+                bool pathsOpenInit = false;
 
                 std::map<std::string, std::shared_ptr<UI::Action> > actions;
                 std::shared_ptr<UI::ActionGroup> viewTypeActionGroup;
@@ -69,7 +70,8 @@ namespace djv
                 std::shared_ptr<SearchBox> searchBox;
                 std::shared_ptr<UI::Menu> menu;
                 std::shared_ptr<UI::PopupMenu> popupMenu;
-                std::shared_ptr<DrawerWidget> drawerWidget;
+                std::shared_ptr<UI::Layout::Drawer> drawerLayout;
+                float drawerSplit = 0.F;
                 std::shared_ptr<ListViewHeader> listViewHeader;
                 std::shared_ptr<UI::VerticalLayout> itemViewLayout;
                 std::shared_ptr<ItemView> itemView;
@@ -77,8 +79,6 @@ namespace djv
                 std::shared_ptr<UI::Text::Label> itemCountLabel;
                 std::shared_ptr<UI::PushButton> acceptButton;
                 std::shared_ptr<UI::PushButton> cancelButton;
-                std::shared_ptr<UI::Layout::Splitter> splitter;
-                std::vector<float> splitterSplit;
                 std::shared_ptr<UI::VerticalLayout> layout;
 
                 std::function<void(const std::vector<System::File::Info>&)> callback;
@@ -91,8 +91,8 @@ namespace djv
                 std::shared_ptr<Observer::Value<size_t> > historyIndexObserver;
                 std::shared_ptr<Observer::Value<bool> > hasBackObserver;
                 std::shared_ptr<Observer::Value<bool> > hasForwardObserver;
-                std::shared_ptr<Observer::List<float> > splitSettingsObserver;
                 std::shared_ptr<Observer::Value<bool> > pathsOpenSettingsObserver;
+                std::shared_ptr<Observer::Value<float> > drawerSplitSettingsObserver;
                 std::shared_ptr<Observer::List<System::File::Path> > shortcutsObserver;
                 std::shared_ptr<Observer::List<System::File::Path> > shortcutsSettingsObserver;
                 std::shared_ptr<Observer::List<System::File::Info> > recentPathsObserver;
@@ -244,6 +244,7 @@ namespace djv
                 p.layout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(toolBar);
                 p.layout->addSeparator();
+                p.drawerLayout = UI::Layout::Drawer::create(UI::Side::Left, context);
                 p.itemViewLayout = UI::VerticalLayout::create(context);
                 p.itemViewLayout->setSpacing(UI::MetricsRole::None);
                 p.itemViewLayout->addChild(p.listViewHeader);
@@ -252,10 +253,9 @@ namespace djv
                 stackLayout->addChild(p.itemCountLabel);
                 p.itemViewLayout->addChild(stackLayout);
                 p.itemViewLayout->setStretch(stackLayout);
-                p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
-                p.splitter->addChild(p.itemViewLayout);
-                p.layout->addChild(p.splitter);
-                p.layout->setStretch(p.splitter);
+                p.drawerLayout->addChild(p.itemViewLayout);
+                p.layout->addChild(p.drawerLayout);
+                p.layout->setStretch(p.drawerLayout);
                 p.layout->addSeparator();
                 auto hLayout = UI::HorizontalLayout::create(context);
                 hLayout->setMargin(UI::MetricsRole::MarginSmall);
@@ -456,6 +456,25 @@ namespace djv
                         }
                     });
 
+                p.drawerLayout->setOpenCallback(
+                    [weak, contextWeak]() -> std::shared_ptr<UI::Widget>
+                    {
+                        std::shared_ptr<UI::Widget> out;
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                out = PathsWidget::create(
+                                    widget->_p->directoryModel,
+                                    widget->_p->shortcutsModel,
+                                    widget->_p->recentPathsModel,
+                                    widget->_p->drivesModel,
+                                    context);
+                            }
+                        }
+                        return out;
+                    });
+
                 p.itemView->setSelectedCallback(
                     [weak](const std::vector<System::File::Info>& value)
                     {
@@ -583,28 +602,29 @@ namespace djv
 
                 auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                p.splitSettingsObserver = Observer::List<float>::create(
-                    fileBrowserSettings->observeSplit(),
-                    [weak](const std::vector<float>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->splitterSplit = value;
-                            if (widget->_p->drawerWidget)
-                            {
-                                widget->_p->splitter->setSplit(value);
-                            }
-                        }
-                    });
-
                 p.pathsOpenSettingsObserver = Observer::Value<bool>::create(
                     fileBrowserSettings->observePathsOpen(),
                     [weak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_setDrawerOpen(value);
+                            widget->_p->drawerLayout->setOpen(value, widget->_p->pathsOpenInit);
+                            widget->_p->pathsOpenInit = true;
                             widget->_p->actions["Paths"]->setChecked(value);
+                        }
+                    });
+
+                p.drawerSplitSettingsObserver = Observer::Value<float>::create(
+                    fileBrowserSettings->observeDrawerSplit(),
+                    [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->drawerSplit = value;
+                            if (widget->_p->drawerLayout)
+                            {
+                                widget->_p->drawerLayout->setSplit(value);
+                            }
                         }
                     });
 
@@ -901,14 +921,14 @@ namespace djv
                         }
                     });
 
-                p.splitter->setSplitCallback(
-                    [contextWeak](const std::vector<float>& value)
+                p.drawerLayout->setSplitCallback(
+                    [contextWeak](float value)
                     {
                         if (auto context = contextWeak.lock())
                         {
                             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                            fileBrowserSettings->setSplit(value);
+                            fileBrowserSettings->setDrawerSplit(value);
                         }
                     });
             }
@@ -1038,32 +1058,6 @@ namespace djv
 
                     p.acceptButton->setText(_getText(DJV_TEXT("file_browser_accept")));
                     p.cancelButton->setText(_getText(DJV_TEXT("file_browser_cancel")));
-                }
-            }
-
-            void FileBrowser::_setDrawerOpen(bool value)
-            {
-                DJV_PRIVATE_PTR();
-                if (auto context = getContext().lock())
-                {
-                    if (value)
-                    {
-                        p.drawerWidget = DrawerWidget::create(
-                            p.directoryModel,
-                            p.shortcutsModel,
-                            p.recentPathsModel,
-                            p.drivesModel,
-                            context);
-                        p.splitter->addChild(p.drawerWidget);
-                        p.drawerWidget->moveToBack();
-                        p.splitter->setSplit(p.splitterSplit);
-                    }
-                    else if (p.drawerWidget)
-                    {
-                        p.splitterSplit = p.splitter->getSplit();
-                        p.splitter->removeChild(p.drawerWidget);
-                        p.drawerWidget.reset();
-                    }
                 }
             }
 

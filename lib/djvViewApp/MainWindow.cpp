@@ -9,6 +9,7 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/TimelineWidget.h>
+#include <djvViewApp/ToolSettings.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
 #include <djvViewApp/WindowBackgroundWidget.h>
@@ -20,6 +21,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/DrawerLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
@@ -28,8 +30,9 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
-#include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/TabBar.h>
+#include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvSystem/FileInfo.h>
@@ -45,37 +48,30 @@ namespace djv
 {
     namespace ViewApp
     {
-        namespace
-        {
-            //! \todo Should this be configurable?
-            const size_t textElide = 40;
-
-        } // namespace
-
         struct MainWindow::Private
         {
+            std::vector<std::shared_ptr<Media> > media;
             std::shared_ptr<Media> currentMedia;
-            
+            bool presentationMode = false;
+            bool drawerOpenInit = false;
+
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::ToolButton> activeButton;
-            std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<TimelineWidget> timelineWidget;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaWidget> > mediaWidgets;
-            std::shared_ptr<UI::Widget> toolDrawer;
-            std::shared_ptr<UI::Layout::Splitter> splitter;
-            std::vector<float> splitterSplit;
             std::shared_ptr<UI::VerticalLayout> menuBarLayout;
-            std::shared_ptr<UI::SoloLayout> mediaLayout;
+            std::shared_ptr<UI::Widget> drawerWidget;
+            std::shared_ptr<UI::Layout::Drawer> drawerLayout;
+            std::shared_ptr<UI::TabWidget> mediaTabWidget;
             std::shared_ptr<UI::VerticalLayout> timelineLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
+            std::shared_ptr<Observer::List<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > openedObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<Media> > > closedObserver;
             std::shared_ptr<Observer::Value<bool> > presentationObserver;
-            std::shared_ptr<Observer::Value<bool> > toolsObserver;
-            std::shared_ptr<Observer::List<float> > splitSettingsObserver;
-            std::shared_ptr<Observer::Value<bool> > showToolsSettingsObserver;
+            std::shared_ptr<Observer::Value<float> > drawerSplitObserver;
+            std::shared_ptr<Observer::Value<int> > currentToolObserver;
         };
         
         void MainWindow::_init(const std::shared_ptr<System::Context>& context)
@@ -86,16 +82,17 @@ namespace djv
             setClassName("djv::ViewApp::MainWindow");
 
             auto viewSystems = context->getSystemsT<IViewAppSystem>();
-            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
+            std::map<int, std::vector<std::shared_ptr<UI::Menu> > > menus;
             for (auto system : viewSystems)
             {
                 for (auto action : system->getActions())
                 {
                     addAction(action.second);
                 }
-                for (const auto& menuData : system->getMenuData())
+                const auto menuData = system->getMenuData();
+                if (!menuData.menus.empty())
                 {
-                    menus[menuData.sortKey] = menuData.menu;
+                    menus[menuData.sortKey] = menuData.menus;
                 }
             }
 
@@ -106,48 +103,44 @@ namespace djv
                 addAction(i.second);
             }
 
-            p.activeButton = UI::ToolButton::create(context);
-            p.activeButton->setTextElide(textElide);
-            p.activeButton->setInsideMargin(UI::Layout::Margin(
-                UI::MetricsRole::Margin,
-                UI::MetricsRole::Margin,
-                UI::MetricsRole::MarginInside,
-                UI::MetricsRole::MarginInside));
-
-            auto viewFrameButton = UI::ToolButton::create(context);
-            auto viewCenterButton = UI::ToolButton::create(context);
-            auto viewSystem = context->getSystemT<ViewSystem>();
-            if (viewSystem)
+            auto menuBar = UI::MenuBar::create(context);
+            for (const auto& i : menus)
             {
-                viewFrameButton->addAction(viewSystem->getActions()["FrameLock"]);
-                viewCenterButton->addAction(viewSystem->getActions()["CenterLock"]);
+                for (const auto& j : i.second)
+                {
+                    menuBar->addChild(j);
+                }
             }
-
-            auto toolsButton = UI::ToolButton::create(context);
-            auto toolSystem = context->getSystemT<ToolSystem>();
-            if (toolSystem)
+            menuBar->addExpander(UI::Side::Right);
+            menuBar->addSeparator(UI::Side::Right);
+            std::map<int, std::vector<std::shared_ptr<UI::Action> > > toolBarActions;
+            for (const auto& i : viewSystems)
             {
-                toolsButton->addAction(toolSystem->getActions()["Show"]);
+                const auto actionData = i->getToolBarActionData();
+                if (!actionData.actions.empty())
+                {
+                    toolBarActions[actionData.sortKey] = actionData.actions;
+                }
             }
-
-            p.menuBar = UI::MenuBar::create(context);
-            for (auto i : menus)
+            size_t count = 0;
+            for (const auto& i : toolBarActions)
             {
-                p.menuBar->addChild(i.second);
+                for (const auto& k : i.second)
+                {
+                    auto button = UI::ToolButton::create(context);
+                    button->addAction(k);
+                    menuBar->addChild(button);
+                }
+                if (count < toolBarActions.size() - 1)
+                {
+                    menuBar->addSeparator(UI::Side::Right);
+                }
+                ++count;
             }
-            p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.activeButton);
-            p.menuBar->setStretch(p.activeButton, UI::Side::Right);
-            p.menuBar->addSeparator(UI::Side::Right);
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(viewFrameButton);
-            hLayout->addChild(viewCenterButton);
-            p.menuBar->addChild(hLayout);
-            p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(toolsButton);
 
             auto backgroundWidget = WindowBackgroundWidget::create(context);
+
+            p.mediaTabWidget = UI::TabWidget::create(context);
 
             p.timelineWidget = TimelineWidget::create(context);
 
@@ -155,17 +148,16 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
             p.menuBarLayout = UI::VerticalLayout::create(context);
             p.menuBarLayout->setSpacing(UI::MetricsRole::None);
-            p.menuBarLayout->addChild(p.menuBar);
+            p.menuBarLayout->addChild(menuBar);
             p.menuBarLayout->addSeparator();
             p.layout->addChild(p.menuBarLayout);
+            p.drawerLayout = UI::Layout::Drawer::create(UI::Side::Right, context);
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(backgroundWidget);
-            p.mediaLayout = UI::SoloLayout::create(context);
-            stackLayout->addChild(p.mediaLayout);
-            p.splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
-            p.splitter->addChild(stackLayout);
-            p.layout->addChild(p.splitter);
-            p.layout->setStretch(p.splitter);
+            stackLayout->addChild(p.mediaTabWidget);
+            p.drawerLayout->addChild(stackLayout);
+            p.layout->addChild(p.drawerLayout);
+            p.layout->setStretch(p.drawerLayout);
             p.timelineLayout = UI::VerticalLayout::create(context);
             p.timelineLayout->setSpacing(UI::MetricsRole::None);
             p.timelineLayout->addSeparator();
@@ -174,30 +166,6 @@ namespace djv
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.activeButton->setClickedCallback(
-                [contextWeak]
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto fileSystem = context->getSystemT<FileSystem>())
-                        {
-                            fileSystem->getActions()["Active"]->doClick();
-                        }
-                    }
-                });
-
-            auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            p.splitter->setSplitCallback(
-                [contextWeak](const std::vector<float>& value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                        auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-                        windowSettings->setSplit(value);
-                    }
-                });
-
             p.actions["Escape"]->setClickedCallback(
                 [contextWeak]
                 {
@@ -217,8 +185,89 @@ namespace djv
                     }
                 });
 
+            auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            p.mediaTabWidget->setCurrentTabCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            std::shared_ptr<Media> media;
+                            if (value >= 0 && value < widget->_p->media.size())
+                            {
+                                media = widget->_p->media[value];
+                            }
+                            if (auto fileSystem = context->getSystemT<FileSystem>())
+                            {
+                                fileSystem->setCurrentMedia(media);
+                            }
+                            std::shared_ptr<MediaWidget> mediaWidget;
+                            const auto i = widget->_p->mediaWidgets.find(media);
+                            if (i != widget->_p->mediaWidgets.end())
+                            {
+                                mediaWidget = i->second;
+                            }
+                            if (auto windowSystem = context->getSystemT<WindowSystem>())
+                            {
+                                windowSystem->setActiveWidget(mediaWidget);
+                            }
+                        }
+                    }
+                });
+
+            p.drawerLayout->setOpenCallback(
+                [weak, contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->drawerWidget = context->getSystemT<ToolSystem>()->createToolDrawer();
+                            if (widget->_p->drawerWidget)
+                            {
+                                widget->_p->drawerWidget->setVisible(!widget->_p->presentationMode);
+                            }
+                            out = widget->_p->drawerWidget;
+                        }
+                    }
+                    return out;
+                });
+            p.drawerLayout->setCloseCallback(
+                [weak](const std::shared_ptr<UI::Widget>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->drawerWidget.reset();
+                    }
+                });
+            p.drawerLayout->setSplitCallback(
+                [contextWeak](float value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                        auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+                        windowSettings->setDrawerSplit(value);
+                    }
+                });
+
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
+                p.mediaObserver = Observer::List<std::shared_ptr<Media>>::create(
+                    fileSystem->observeMedia(),
+                    [weak, contextWeak](const std::vector<std::shared_ptr<Media> >& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->media = value;
+                            }
+                        }
+                    });
+
                 p.currentMediaObserver = Observer::Value<std::shared_ptr<Media>>::create(
                     fileSystem->observeCurrentMedia(),
                     [weak, contextWeak](const std::shared_ptr<Media>& value)
@@ -228,19 +277,23 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->currentMedia = value;
-                                widget->_p->activeButton->setEnabled(value.get());
-                                std::shared_ptr<MediaWidget> mediaWidget;
-                                const auto i = widget->_p->mediaWidgets.find(value);
-                                if (i != widget->_p->mediaWidgets.end())
+                                int index = -1;
+                                const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
+                                if (i != widget->_p->media.end())
                                 {
-                                    mediaWidget = i->second;
+                                    index = i - widget->_p->media.begin();
+                                }
+                                widget->_p->mediaTabWidget->setCurrentTab(index);
+                                std::shared_ptr<MediaWidget> mediaWidget;
+                                const auto j = widget->_p->mediaWidgets.find(value);
+                                if (j != widget->_p->mediaWidgets.end())
+                                {
+                                    mediaWidget = j->second;
                                 }
                                 if (auto windowSystem = context->getSystemT<WindowSystem>())
                                 {
                                     windowSystem->setActiveWidget(mediaWidget);
                                 }
-                                widget->_p->mediaLayout->setCurrentWidget(mediaWidget);
-                                widget->_textUpdate();
                             }
                         }
                     });
@@ -256,7 +309,8 @@ namespace djv
                                 if (auto widget = weak.lock())
                                 {
                                     auto mediaWidget = MediaWidget::create(value, context);
-                                    widget->_p->mediaLayout->addChild(mediaWidget);
+                                    widget->_p->mediaTabWidget->addChild(mediaWidget);
+                                    widget->_p->mediaTabWidget->setText(mediaWidget, value->getFileInfo().getFileName(Math::Frame::invalid, false));
                                     widget->_p->mediaWidgets[value] = mediaWidget;
                                 }
                             }
@@ -274,7 +328,7 @@ namespace djv
                                 const auto i = widget->_p->mediaWidgets.find(value);
                                 if (i != widget->_p->mediaWidgets.end())
                                 {
-                                    widget->_p->mediaLayout->removeChild(i->second);
+                                    widget->_p->mediaTabWidget->removeChild(i->second);
                                     widget->_p->mediaWidgets.erase(i);
                                 }
                             }
@@ -284,27 +338,25 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-            p.splitSettingsObserver = Observer::List<float>::create(
-                windowSettings->observeSplit(),
-                [weak](const std::vector<float>& value)
+            p.drawerSplitObserver = Observer::Value<float>::create(
+                windowSettings->observeDrawerSplit(),
+                [weak](float value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->splitterSplit = value;
-                        if (widget->_p->toolDrawer)
-                        {
-                            widget->_p->splitter->setSplit(value);
-                        }
+                        widget->_p->drawerLayout->setSplit(value);
                     }
                 });
 
-            p.showToolsSettingsObserver = Observer::Value<bool>::create(
-                windowSettings->observeShowTools(),
-                [weak](bool value)
+            auto toolSettings = settingsSystem->getSettingsT<ToolSettings>();
+            p.currentToolObserver = Observer::Value<int>::create(
+                toolSettings->observeCurrentTool(),
+                [weak](int value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_showTools(value);
+                        widget->_p->drawerLayout->setOpen(value != -1, widget->_p->drawerOpenInit);
+                        widget->_p->drawerOpenInit = true;
                     }
                 });
 
@@ -316,8 +368,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->menuBarLayout->setVisible(!value);
-                            widget->_p->timelineLayout->setVisible(!value);
+                            widget->_p->presentationMode = value;
+                            widget->_presentationModeUpdate();
                         }
                     });
             }
@@ -337,7 +389,7 @@ namespace djv
             return out;
         }
 
-        void MainWindow::_dropEvent(System::Event::Drop & event)
+        void MainWindow::_dropEvent(System::Event::Drop& event)
         {
             if (auto context = getContext().lock())
             {
@@ -346,47 +398,19 @@ namespace djv
             }
         }
 
-        void MainWindow::_initEvent(System::Event::Init& event)
-        {
-            Window::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-                _textUpdate();
-            }
-        }
-
-        void MainWindow::_showTools(bool value)
+        void MainWindow::_presentationModeUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (value)
+                p.menuBarLayout->setVisible(!p.presentationMode);
+                if (p.drawerWidget)
                 {
-                    p.toolDrawer = context->getSystemT<ToolSystem>()->createToolDrawer();
-                    p.splitter->addChild(p.toolDrawer);
-                    p.splitter->setSplit(p.splitterSplit);
+                    p.drawerWidget->setVisible(!p.presentationMode);
                 }
-                else if (p.toolDrawer)
-                {
-                    p.splitterSplit = p.splitter->getSplit();
-                    p.splitter->removeChild(p.toolDrawer);
-                    p.toolDrawer.reset();
-                }
+                p.mediaTabWidget->getTabBar()->setVisible(!p.presentationMode);
+                p.timelineLayout->setVisible(!p.presentationMode);
             }
-        }
-
-        void MainWindow::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.activeButton->setText(
-                p.currentMedia ?
-                p.currentMedia->getFileInfo().getFileName(Math::Frame::invalid, false) :
-                "-");
-            p.activeButton->setTooltip(std::string(
-                p.currentMedia ?
-                p.currentMedia->getFileInfo() :
-                _getText(DJV_TEXT("menu_file_active_tooltip"))));
         }
 
     } // namespace ViewApp

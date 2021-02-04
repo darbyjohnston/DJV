@@ -80,14 +80,19 @@ namespace djv
             return std::map<std::string, std::shared_ptr<UI::Action> >();
         }
 
-        std::vector<MenuData> IViewAppSystem::getMenuData() const
+        MenuData IViewAppSystem::getMenuData() const
         {
-            return std::vector<MenuData>();
+            return MenuData();
         }
 
-        std::vector<ActionData> IViewAppSystem::getToolActionData() const
+        ActionData IViewAppSystem::getToolBarActionData() const
         {
-            return std::vector<ActionData>();
+            return ActionData();
+        }
+
+        ActionData IViewAppSystem::getToolActionData() const
+        {
+            return ActionData();
         }
 
         ToolWidgetData IViewAppSystem::createToolWidget(const std::shared_ptr<UI::Action>&)

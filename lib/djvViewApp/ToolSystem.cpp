@@ -5,7 +5,7 @@
 #include <djvViewApp/ToolSystem.h>
 
 #include <djvViewApp/ToolDrawer.h>
-#include <djvViewApp/WindowSettings.h>
+#include <djvViewApp/ToolSettings.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -33,19 +33,20 @@ namespace djv
 
         bool CurrentTool::operator == (const CurrentTool& other) const
         {
-            return system == other.system &&
-                action == other.action;
+            return action == other.action &&
+                system == other.system;
         }
         
         struct ToolSystem::Private
         {
-            std::vector<std::shared_ptr<IViewAppSystem> > toolSystems;
+            std::shared_ptr<ToolSettings> settings;
             std::vector<std::shared_ptr<UI::Action> > toolActions;
+            std::map<std::shared_ptr<UI::Action>, std::shared_ptr<IViewAppSystem> > toolSystems;
             std::shared_ptr<Observer::ValueSubject<CurrentTool> > currentTool;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> actionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<Observer::Value<bool> > showToolsObserver;
+            std::shared_ptr<Observer::Value<int> > currentToolObserver;
         };
 
         void ToolSystem::_init(const std::shared_ptr<System::Context>& context)
@@ -53,31 +54,29 @@ namespace djv
             IViewAppSystem::_init("djv::ViewApp::ToolSystem", context);
             DJV_PRIVATE_PTR();
 
+            p.settings = ToolSettings::create(context);
+
             p.currentTool = Observer::ValueSubject<CurrentTool>::create();
 
-            std::map<std::string, std::shared_ptr<IViewAppSystem> > toolSystems;
-            std::map<std::string, std::shared_ptr<UI::Action> > toolActions;
+            std::map<int, std::shared_ptr<IViewAppSystem> > toolSystems;
+            std::map<int, std::pair<std::shared_ptr<IViewAppSystem>, std::vector<std::shared_ptr<UI::Action> > > > toolActions;
             auto systems = context->getSystemsT<IViewAppSystem>();
             for (const auto& i : systems)
             {
-                for (const auto& j : i->getToolActionData())
+                const auto actionData = i->getToolActionData();
+                if (!actionData.actions.empty())
                 {
-                    toolSystems[j.sortKey] = i;
-                    toolActions[j.sortKey] = j.action;
+                    toolActions[actionData.sortKey] = std::make_pair(i, actionData.actions);
                 }
-            }
-            for (const auto& i : toolSystems)
-            {
-                p.toolSystems.push_back(i.second);
             }
             for (const auto& i : toolActions)
             {
-                p.toolActions.push_back(i.second);
+                for (const auto& j : i.second.second)
+                {
+                    p.toolActions.push_back(j);
+                    p.toolSystems[j] = i.second.first;
+                }
             }
-
-            p.actions["Show"] = UI::Action::create();
-            p.actions["Show"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Show"]->setIcon("djvIconDrawerRight");
 
             p.actionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.actionGroup->setActions(p.toolActions);
@@ -85,27 +84,16 @@ namespace djv
             _addShortcut(DJV_TEXT("shortcut_tools"), GLFW_KEY_T);
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["Show"]);
-            p.menu->addSeparator();
             for (const auto& i : toolActions)
             {
-                p.menu->addAction(i.second);
+                for (const auto& j : i.second.second)
+                {
+                    p.menu->addAction(j);
+                }
             }
 
             _textUpdate();
             _shortcutsUpdate();
-
-            auto contextWeak = std::weak_ptr<System::Context>(context);
-            p.actions["Show"]->setCheckedCallback(
-                [contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                        auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-                        windowSettings->setShowTools(value);
-                    }
-                });
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             p.actionGroup->setExclusiveCallback(
@@ -113,19 +101,17 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_setCurrentTool(value, true);
+                        system->_p->settings->setCurrentTool(value);
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-            p.showToolsObserver = Observer::Value<bool>::create(
-                windowSettings->observeShowTools(),
-                [weak](bool value)
+            p.currentToolObserver = Observer::Value<int>::create(
+                p.settings->observeCurrentTool(),
+                [weak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto system = weak.lock())
                     {
-                        widget->_p->actions["Show"]->setChecked(value);
+                        system->_setCurrentTool(value);
                     }
                 });
 
@@ -150,36 +136,21 @@ namespace djv
             return out;
         }
 
-        const std::vector<std::shared_ptr<IViewAppSystem> >& ToolSystem::getToolSystems() const
-        {
-            return _p->toolSystems;
-        }
-
-        const std::vector<std::shared_ptr<UI::Action> >& ToolSystem::getToolActions() const
-        {
-            return _p->toolActions;
-        }
-
         std::shared_ptr<Core::Observer::IValueSubject<CurrentTool> > ToolSystem::observeCurrentTool() const
         {
             return _p->currentTool;
         }
-
-        void ToolSystem::setCurrentTool(const CurrentTool& value)
+        
+        int ToolSystem::getToolIndex(const std::shared_ptr<UI::Action>& value) const
         {
             DJV_PRIVATE_PTR();
-            int index = -1;
-            const size_t systemsSize = p.toolSystems.size();
-            const size_t actionsSize = p.toolActions.size();
-            for (size_t i = 0; i < systemsSize && i < actionsSize; ++i)
+            int out = -1;
+            const auto i = std::find(p.toolActions.begin(), p.toolActions.end(), value);
+            if (i != p.toolActions.end())
             {
-                if (CurrentTool({ p.toolSystems[i], p.toolActions[i] }) == value)
-                {
-                    index = static_cast<int>(i);
-                    break;
-                }
+                out = i - p.toolActions.begin();
             }
-            _setCurrentTool(index, false);
+            return out;
         }
 
         std::shared_ptr<UI::Widget> ToolSystem::createToolDrawer()
@@ -197,11 +168,21 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> ToolSystem::getMenuData() const
+        MenuData ToolSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "H" }
+                { _p->menu },
+                18
+            };
+        }
+
+        ActionData ToolSystem::getToolBarActionData() const
+        {
+            return
+            {
+                _p->toolActions,
+                18
             };
         }
 
@@ -210,40 +191,28 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.toolActions.size())
             {
-                p.actions["Show"]->setText(_getText(DJV_TEXT("menu_tools_show")));
-                p.actions["Show"]->setTooltip(_getText(DJV_TEXT("menu_tools_show_tooltip")));
-
                 p.menu->setText(_getText(DJV_TEXT("menu_tools")));
             }
         }
-
-        void ToolSystem::_shortcutsUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.actions.size())
-            {
-                p.actions["Show"]->setShortcuts(_getShortcuts("shortcut_tools"));
-            }
-        }
         
-        void ToolSystem::_setCurrentTool(int value, bool autoHide)
+        void ToolSystem::_setCurrentTool(int value)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 CurrentTool currentTool;
-                auto& systems = p.toolSystems;
-                auto& actions = p.toolActions;
-                if (value >= 0 && value < systems.size() && value < actions.size())
+                if (value >= 0 && value < p.toolActions.size())
                 {
-                    currentTool.system = systems[value];
-                    currentTool.action = actions[value];
+                    const auto& action = p.toolActions[value];
+                    const auto i = p.toolSystems.find(action);
+                    if (i != p.toolSystems.end())
+                    {
+                        currentTool.action = action;
+                        currentTool.system = i->second;
+                    }
                 }
                 p.currentTool->setIfChanged(currentTool);
                 p.actionGroup->setChecked(value);
-                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-                windowSettings->setShowTools(autoHide ? value != -1 : true);
             }
         }
 

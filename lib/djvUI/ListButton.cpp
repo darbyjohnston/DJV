@@ -5,7 +5,7 @@
 #include <djvUI/ListButton.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 
@@ -23,8 +23,8 @@ namespace djv
         {
             struct List::Private
             {
-                std::shared_ptr<Icon> icon;
-                std::shared_ptr<Icon> rightIcon;
+                std::shared_ptr<IconWidget> iconWidget;
+                std::shared_ptr<IconWidget> rightIconWidget;
                 std::shared_ptr<Text::Label> label;
                 std::shared_ptr<Text::Label> rightLabel;
                 TextHAlign textHAlign = TextHAlign::Left;
@@ -64,13 +64,13 @@ namespace djv
             std::string List::getIcon() const
             {
                 DJV_PRIVATE_PTR();
-                return p.icon ? p.icon->getIcon() : std::string();
+                return p.iconWidget ? p.iconWidget->getIcon() : std::string();
             }
 
             std::string List::getRightIcon() const
             {
                 DJV_PRIVATE_PTR();
-                return p.rightIcon ? p.rightIcon->getIcon() : std::string();
+                return p.rightIconWidget ? p.rightIconWidget->getIcon() : std::string();
             }
 
             void List::setIcon(const std::string& value)
@@ -78,21 +78,21 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.icon)
+                    if (!p.iconWidget)
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.icon = Icon::create(context);
-                            p.icon->setVAlign(VAlign::Center);
+                            p.iconWidget = IconWidget::create(context);
+                            p.iconWidget->setVAlign(VAlign::Center);
                             _widgetUpdate();
                         }
                     }
-                    p.icon->setIcon(value);
+                    p.iconWidget->setIcon(value);
                 }
                 else
                 {
-                    p.layout->removeChild(p.icon);
-                    p.icon.reset();
+                    p.layout->removeChild(p.iconWidget);
+                    p.iconWidget.reset();
                 }
             }
 
@@ -101,21 +101,21 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.rightIcon)
+                    if (!p.rightIconWidget)
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.rightIcon = Icon::create(context);
-                            p.rightIcon->setVAlign(VAlign::Center);
+                            p.rightIconWidget = IconWidget::create(context);
+                            p.rightIconWidget->setVAlign(VAlign::Center);
                             _widgetUpdate();
                         }
                     }
-                    p.rightIcon->setIcon(value);
+                    p.rightIconWidget->setIcon(value);
                 }
                 else
                 {
-                    p.layout->removeChild(p.rightIcon);
-                    p.rightIcon.reset();
+                    p.layout->removeChild(p.rightIconWidget);
+                    p.rightIconWidget.reset();
                 }
             }
 
@@ -299,10 +299,10 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const ColorRole foregroundColorRole = getForegroundColorRole();
                 p.layout->clearChildren();
-                if (p.icon)
+                if (p.iconWidget)
                 {
-                    p.icon->setIconColorRole(foregroundColorRole);
-                    p.layout->addChild(p.icon);
+                    p.iconWidget->setIconColorRole(foregroundColorRole);
+                    p.layout->addChild(p.iconWidget);
                 }
                 if (p.label)
                 {
@@ -326,10 +326,10 @@ namespace djv
                     p.rightLabel->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.rightLabel);
                 }
-                if (p.rightIcon)
+                if (p.rightIconWidget)
                 {
-                    p.rightIcon->setIconColorRole(foregroundColorRole);
-                    p.layout->addChild(p.rightIcon);
+                    p.rightIconWidget->setIconColorRole(foregroundColorRole);
+                    p.layout->addChild(p.rightIconWidget);
                 }
             }
 

@@ -133,11 +133,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> HelpSystem::getMenuData() const
+        MenuData HelpSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "Z" }
+                { _p->menu },
+                15
             };
         }
 

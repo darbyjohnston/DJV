@@ -123,8 +123,8 @@ namespace djv
             // Create the systems.
             UIComponents::UIComponentsSystem::create(shared_from_this());
             FileSystem::create(shared_from_this());
-            WindowSystem::create(shared_from_this());
             //EditSystem::create(shared_from_this());
+            WindowSystem::create(shared_from_this());
             ViewSystem::create(shared_from_this());
             ImageSystem::create(shared_from_this());
             PlaybackSystem::create(shared_from_this());

@@ -4,7 +4,7 @@
 
 #include <djvUI/MultiStateButton.h>
 
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Style.h>
 
 #include <djvRender2D/Render.h>
@@ -20,7 +20,7 @@ namespace djv
             struct MultiState::Private
             {
                 std::vector<std::string> icons;
-                std::shared_ptr<Icon> icon;
+                std::shared_ptr<IconWidget> iconWidget;
                 int currentIndex = -1;
                 std::function<void(int)> currentCallback;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
@@ -38,8 +38,8 @@ namespace djv
                 setPointerEnabled(true);
                 setVAlign(VAlign::Center);
 
-                p.icon = Icon::create(context);
-                addChild(p.icon);
+                p.iconWidget = IconWidget::create(context);
+                addChild(p.iconWidget);
             }
 
             MultiState::MultiState() :
@@ -121,7 +121,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(p.insideMargin);
-                glm::vec2 size = p.icon->getMinimumSize();
+                glm::vec2 size = p.iconWidget->getMinimumSize();
                 size += m * 2.F;
                 _setMinimumSize(size + getMargin().getSize(style));
             }
@@ -132,7 +132,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
-                p.icon->setGeometry(g.margin(-m));
+                p.iconWidget->setGeometry(g.margin(-m));
             }
 
             void MultiState::_paintEvent(System::Event::Paint& event)
@@ -240,7 +240,7 @@ namespace djv
                 {
                     icon = p.icons[p.currentIndex];
                 }
-                p.icon->setIcon(icon);
+                p.iconWidget->setIcon(icon);
             }
 
         } // namespace Button

@@ -180,11 +180,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> AudioSystem::getMenuData() const
+        MenuData AudioSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "G" }
+                { _p->menu },
+                7
             };
         }
 

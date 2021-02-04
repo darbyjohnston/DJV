@@ -6,7 +6,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/DrawUtil.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/Style.h>
 
@@ -44,7 +44,7 @@ namespace djv
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 MetricsRole iconSizeRole = MetricsRole::Icon;
-                std::shared_ptr<Icon> iconWidget;
+                std::shared_ptr<IconWidget> iconWidget;
                 TextHAlign textHAlign = TextHAlign::Left;
                 size_t textElide = 0;
                 Layout::Margin insideMargin = MetricsRole::MarginInside;
@@ -85,6 +85,16 @@ namespace djv
                 auto out = std::shared_ptr<Tool>(new Tool);
                 out->_init(context);
                 return out;
+            }
+
+            const std::string& Tool::getIcon() const
+            {
+                return _p->icon;
+            }
+
+            const std::string& Tool::getCheckedIcon() const
+            {
+                return _p->checkedIcon;
             }
 
             void Tool::setIcon(const std::string& value)
@@ -550,7 +560,7 @@ namespace djv
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.iconWidget = Icon::create(context);
+                            p.iconWidget = IconWidget::create(context);
                             addChild(p.iconWidget);
                         }
                     }

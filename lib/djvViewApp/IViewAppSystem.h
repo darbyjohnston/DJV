@@ -37,15 +37,15 @@ namespace djv
         //! This struct provides action data.
         struct ActionData
         {
-            std::shared_ptr<UI::Action> action;
-            std::string sortKey;
+            std::vector<std::shared_ptr<UI::Action> > actions;
+            int sortKey = -1;
         };
 
         //! This struct provides menu data.
         struct MenuData
         {
-            std::shared_ptr<UI::Menu> menu;
-            std::string sortKey;
+            std::vector<std::shared_ptr<UI::Menu> > menus;
+            int sortKey = -1;
         };
 
         //! This struct provides tool widget data.
@@ -69,13 +69,25 @@ namespace djv
         public:
             ~IViewAppSystem() override;
 
+            //! Get the actions.
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions() const;
-            virtual std::vector<MenuData> getMenuData() const;
 
-            virtual std::vector<ActionData> getToolActionData() const;
+            //! Get the menus.
+            virtual MenuData getMenuData() const;
+
+            //! Get the actions shown on the tool bar.
+            virtual ActionData getToolBarActionData() const;
+
+            //! Get the tool actions.
+            virtual ActionData getToolActionData() const;
+
+            //! Create a tool widget.
             virtual ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&);
+
+            //! Delete a tool widget.
             virtual void deleteToolWidget(const std::shared_ptr<UI::Action>&);
 
+            //! Create settings widgets.
             virtual std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > createSettingsWidgets() const;
 
         protected:

@@ -1,7 +1,5 @@
 set(header
     AboutDialog.h
-    ActiveFilesDialog.h
-    ActiveFilesPrivate.h
 	Annotate.h
 	AnnotateFunc.h
 	AnnotateSettings.h
@@ -69,10 +67,11 @@ set(header
     TimelineWidget.h
     TimelineWidgetPrivate.h
     ToolDrawer.h
+    ToolSettings.h
     ToolSystem.h
     ToolTitleBar.h
-    ViewControlsWidget.h
-    ViewControlsWidgetPrivate.h
+    ViewOptionsWidget.h
+    ViewPanZoomWidget.h
 	ViewData.h
 	ViewDataFunc.h
 	ViewSettings.h
@@ -85,8 +84,6 @@ set(header
     WindowSystem.h)
 set(source
     AboutDialog.cpp
-    ActiveFilesDialog.cpp
-    ActiveFilesThumbnailWidget.cpp
 	Annotate.cpp
 	AnnotateFunc.cpp
 	AnnotateSettings.cpp
@@ -157,10 +154,11 @@ set(source
     TimelineSpeedWidget.cpp
     TimelineWidget.cpp
     ToolDrawer.cpp
+    ToolSettings.cpp
     ToolSystem.cpp
     ToolTitleBar.cpp
-    ViewControlsWidget.cpp
-    ViewControlsWidgetPrivate.cpp
+    ViewOptionsWidget.cpp
+    ViewPanZoomWidget.cpp
 	ViewData.cpp
 	ViewDataFunc.cpp
     ViewGridOverlay.cpp

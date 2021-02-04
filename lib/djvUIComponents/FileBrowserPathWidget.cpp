@@ -6,7 +6,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/LineEdit.h>
 #include <djvUI/ListButton.h>

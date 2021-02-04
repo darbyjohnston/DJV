@@ -5,7 +5,6 @@
 #include <djvViewApp/FileSystem.h>
 
 #include <djvViewApp/Application.h>
-#include <djvViewApp/ActiveFilesDialog.h>
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/LayersWidget.h>
 #include <djvViewApp/Media.h>
@@ -66,7 +65,6 @@ namespace djv
             std::shared_ptr<UIComponents::FileBrowser::Dialog> fileBrowserDialog;
             System::File::Path fileBrowserPath = System::File::Path(".");
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
-            std::shared_ptr<ActiveFilesDialog> activeFilesDialog;
             size_t threadCount = 4;
             std::shared_ptr<System::File::RecentFilesModel> recentFilesModel;
             std::shared_ptr<Observer::List<System::File::Info> > recentFilesObserver;
@@ -102,7 +100,6 @@ namespace djv
             p.actions["Open"]->setIcon("djvIconFileOpen");
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setIcon("djvIconFileRecent");
-            p.actions["Active"] = UI::Action::create();
             p.actions["Reload"] = UI::Action::create();
             p.actions["Reload"]->setIcon("djvIconReload");
             p.actions["Close"] = UI::Action::create();
@@ -122,7 +119,6 @@ namespace djv
 
             _addShortcut(DJV_TEXT("shortcut_file_open"), GLFW_KEY_O, UI::getSystemModifier());
             _addShortcut(DJV_TEXT("shortcut_file_recent"), GLFW_KEY_T, UI::getSystemModifier());
-            _addShortcut(DJV_TEXT("shortcut_file_active"), GLFW_KEY_F, UI::getSystemModifier());
             _addShortcut(DJV_TEXT("shortcut_file_reload"), GLFW_KEY_R, UI::getSystemModifier());
             _addShortcut(DJV_TEXT("shortcut_file_close"), GLFW_KEY_E, UI::getSystemModifier());
             _addShortcut(DJV_TEXT("shortcut_file_close_all"), GLFW_KEY_E, GLFW_MOD_SHIFT | UI::getSystemModifier());
@@ -136,7 +132,6 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);
             p.menu->addAction(p.actions["Recent"]);
-            p.menu->addAction(p.actions["Active"]);
             p.menu->addAction(p.actions["Reload"]);
             p.menu->addAction(p.actions["Close"]);
             p.menu->addAction(p.actions["CloseAll"]);
@@ -172,15 +167,6 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_showRecentFilesDialog();
-                    }
-                });
-
-            p.actions["Active"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_showActiveFilesDialog();
                     }
                 });
 
@@ -404,10 +390,6 @@ namespace djv
             {
                 p.recentFilesDialog->close();
             }
-            if (p.activeFilesDialog)
-            {
-                p.activeFilesDialog->close();
-            }
         }
 
         std::shared_ptr<FileSystem> FileSystem::create(const std::shared_ptr<System::Context>& context)
@@ -606,19 +588,21 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> FileSystem::getMenuData() const
+        MenuData FileSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "A" }
+                { _p->menu },
+                1
             };
         }
 
-        std::vector<ActionData> FileSystem::getToolActionData() const
+        ActionData FileSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["Layers"], "A" }
+                { _p->actions["Layers"] },
+                1
             };
         }
 
@@ -633,8 +617,8 @@ namespace djv
 
                     auto searchBox = UIComponents::SearchBox::create(context);
                     auto toolBar = UI::ToolBar::create(context);
+                    toolBar->addExpander();
                     toolBar->addChild(searchBox);
-                    toolBar->setStretch(searchBox);
 
                     auto widget = LayersWidget::create(context);
 
@@ -656,7 +640,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.media->getSize();
-            p.actions["Active"]->setEnabled(size > 0);
             p.actions["Reload"]->setEnabled(size > 0);
             p.actions["Close"]->setEnabled(size > 0);
             p.actions["CloseAll"]->setEnabled(size > 0);
@@ -790,46 +773,6 @@ namespace djv
             }
         }
 
-        void FileSystem::_showActiveFilesDialog()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                if (p.activeFilesDialog)
-                {
-                    p.activeFilesDialog->close();
-                }
-                p.activeFilesDialog = ActiveFilesDialog::create(context);
-                auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                p.activeFilesDialog->setCallback(
-                    [weak](const std::shared_ptr<Media>& value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (system->_p->activeFilesDialog)
-                            {
-                                system->_p->activeFilesDialog->close();
-                                system->_p->activeFilesDialog.reset();
-                                system->setCurrentMedia(value);
-                            }
-                        }
-                    });
-                p.activeFilesDialog->setCloseCallback(
-                    [weak]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (system->_p->activeFilesDialog)
-                            {
-                                system->_p->activeFilesDialog->close();
-                                system->_p->activeFilesDialog.reset();
-                            }
-                        }
-                    });
-                p.activeFilesDialog->show();
-            }
-        }
-
         void FileSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
@@ -839,8 +782,6 @@ namespace djv
                 p.actions["Open"]->setTooltip(_getText(DJV_TEXT("menu_file_open_tooltip")));
                 p.actions["Recent"]->setText(_getText(DJV_TEXT("menu_file_recent")));
                 p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("menu_file_recent_tooltip")));
-                p.actions["Active"]->setText(_getText(DJV_TEXT("menu_file_active")));
-                p.actions["Active"]->setTooltip(_getText(DJV_TEXT("menu_file_active_tooltip")));
                 p.actions["Reload"]->setText(_getText(DJV_TEXT("menu_file_reload")));
                 p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("menu_file_reload_tooltip")));
                 p.actions["Close"]->setText(_getText(DJV_TEXT("menu_file_close")));
@@ -873,7 +814,6 @@ namespace djv
             {
                 p.actions["Open"]->setShortcuts(_getShortcuts("shortcut_file_open"));
                 p.actions["Recent"]->setShortcuts(_getShortcuts("shortcut_file_recent"));
-                p.actions["Active"]->setShortcuts(_getShortcuts("shortcut_file_active"));
                 p.actions["Reload"]->setShortcuts(_getShortcuts("shortcut_file_reload"));
                 p.actions["Close"]->setShortcuts(_getShortcuts("shortcut_file_close"));
                 p.actions["CloseAll"]->setShortcuts(_getShortcuts("shortcut_file_close_all"));

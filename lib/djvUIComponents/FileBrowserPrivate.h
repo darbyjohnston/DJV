@@ -187,10 +187,10 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the file browser drawer widget.
-            class DrawerWidget : public UI::Widget
+            //! This class provides the file browser paths widget.
+            class PathsWidget : public UI::Widget
             {
-                DJV_NON_COPYABLE(DrawerWidget);
+                DJV_NON_COPYABLE(PathsWidget);
 
             protected:
                 void _init(
@@ -199,12 +199,12 @@ namespace djv
                     const std::shared_ptr<System::File::RecentFilesModel>&,
                     const std::shared_ptr<System::File::DrivesModel>&,
                     const std::shared_ptr<System::Context>&);
-                DrawerWidget();
+                PathsWidget();
 
             public:
-                ~DrawerWidget() override;
+                ~PathsWidget() override;
 
-                static std::shared_ptr<DrawerWidget> create(
+                static std::shared_ptr<PathsWidget> create(
                     const std::shared_ptr<System::File::DirectoryModel>&,
                     const std::shared_ptr<ShortcutsModel>&,
                     const std::shared_ptr<System::File::RecentFilesModel>&,

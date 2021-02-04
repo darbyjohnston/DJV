@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
 #pragma once
@@ -11,18 +11,18 @@ namespace djv
     namespace UI
     {
         //! This class provides a widget that displays an icon.
-        class Icon : public Widget
+        class IconWidget : public Widget
         {
-            DJV_NON_COPYABLE(Icon);
+            DJV_NON_COPYABLE(IconWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            Icon();
+            IconWidget();
 
         public:
-            ~Icon() override;
+            ~IconWidget() override;
 
-            static std::shared_ptr<Icon> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<IconWidget> create(const std::shared_ptr<System::Context>&);
 
             //! \name Icon
             ///@{
@@ -53,6 +53,8 @@ namespace djv
             void _updateEvent(System::Event::Update&) override;
 
         private:
+            void _iconUpdate();
+
             DJV_PRIVATE();
         };
 

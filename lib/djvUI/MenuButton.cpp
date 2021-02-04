@@ -5,7 +5,7 @@
 #include <djvUI/MenuButton.h>
 
 #include <djvUI/DrawUtil.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/Style.h>
 
@@ -34,9 +34,9 @@ namespace djv
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 size_t textElide = 0;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
-                std::shared_ptr<Icon> icon;
+                std::shared_ptr<IconWidget> iconWidget;
                 std::shared_ptr<Text::Label> label;
-                std::shared_ptr<Icon> popupIcon;
+                std::shared_ptr<IconWidget> popupIconWidget;
                 std::function<void(bool)> openCallback;
             };
 
@@ -83,14 +83,14 @@ namespace djv
                 _p->openCallback = callback;
             }
 
-            const std::string& Menu::getIcon() const
+            std::string Menu::getIcon() const
             {
-                return _p->icon->getIcon();
+                return _p->iconWidget ? _p->iconWidget->getIcon() : std::string();
             }
 
-            const std::string& Menu::getPopupIcon() const
+            std::string Menu::getPopupIcon() const
             {
-                return _p->popupIcon->getIcon();
+                return _p->popupIconWidget ? _p->popupIconWidget->getIcon() : std::string();
             }
 
             void Menu::setIcon(const std::string& value)
@@ -98,21 +98,21 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.icon)
+                    if (!p.iconWidget)
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.icon = Icon::create(context);
-                            p.icon->setVAlign(VAlign::Center);
-                            addChild(p.icon);
+                            p.iconWidget = IconWidget::create(context);
+                            p.iconWidget->setVAlign(VAlign::Center);
+                            addChild(p.iconWidget);
                         }
                     }
-                    p.icon->setIcon(value);
+                    p.iconWidget->setIcon(value);
                 }
                 else
                 {
-                    removeChild(p.icon);
-                    p.icon.reset();
+                    removeChild(p.iconWidget);
+                    p.iconWidget.reset();
                     _resize();
                 }
             }
@@ -122,21 +122,21 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.popupIcon)
+                    if (!p.popupIconWidget)
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.popupIcon = Icon::create(context);
-                            p.popupIcon->setVAlign(VAlign::Center);
-                            addChild(p.popupIcon);
+                            p.popupIconWidget = IconWidget::create(context);
+                            p.popupIconWidget->setVAlign(VAlign::Center);
+                            addChild(p.popupIconWidget);
                         }
                     }
-                    p.popupIcon->setIcon(value);
+                    p.popupIconWidget->setIcon(value);
                 }
                 else
                 {
-                    removeChild(p.popupIcon);
-                    p.popupIcon.reset();
+                    removeChild(p.popupIconWidget);
+                    p.popupIconWidget.reset();
                     _resize();
                 }
             }
@@ -280,9 +280,9 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
-                if (p.icon)
+                if (p.iconWidget)
                 {
-                    const auto& tmp = p.icon->getMinimumSize();
+                    const auto& tmp = p.iconWidget->getMinimumSize();
                     size.x += tmp.x;
                     size.y = std::max(size.y, tmp.y);
                 }
@@ -292,9 +292,9 @@ namespace djv
                     size.x += tmp.x;
                     size.y = std::max(size.y, tmp.y);
                 }
-                if (p.popupIcon)
+                if (p.popupIconWidget)
                 {
-                    const auto& tmp = p.popupIcon->getMinimumSize();
+                    const auto& tmp = p.popupIconWidget->getMinimumSize();
                     size.x += tmp.x;
                     size.y = std::max(size.y, tmp.y);
                 }                
@@ -327,17 +327,17 @@ namespace djv
                 float x = g2.min.x;
                 float y = g2.min.y + g2.h() / 2.F;
                 float w = g2.w();
-                if (p.icon)
+                if (p.iconWidget)
                 {
-                    const auto& tmp = p.icon->getMinimumSize();
-                    p.icon->setGeometry(Math::BBox2f(x, floorf(y - tmp.y / 2.F), tmp.x, tmp.y));
+                    const auto& tmp = p.iconWidget->getMinimumSize();
+                    p.iconWidget->setGeometry(Math::BBox2f(x, floorf(y - tmp.y / 2.F), tmp.x, tmp.y));
                     x += tmp.x;
                     w -= tmp.x;
                 }
-                if (p.popupIcon)
+                if (p.popupIconWidget)
                 {
-                    const auto& tmp = p.popupIcon->getMinimumSize();
-                    p.popupIcon->setGeometry(Math::BBox2f(g2.max.x - tmp.x, floorf(y - tmp.y / 2.F), tmp.x, tmp.y));
+                    const auto& tmp = p.popupIconWidget->getMinimumSize();
+                    p.popupIconWidget->setGeometry(Math::BBox2f(g2.max.x - tmp.x, floorf(y - tmp.y / 2.F), tmp.x, tmp.y));
                     w -= tmp.x;
                 }
                 if (p.label)

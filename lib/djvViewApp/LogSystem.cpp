@@ -69,11 +69,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<ActionData> LogSystem::getToolActionData() const
+        ActionData LogSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["SystemLog"], "Z2" }
+                { _p->actions["SystemLog"] },
+                13
             };
         }
 

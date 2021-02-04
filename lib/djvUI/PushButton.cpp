@@ -6,7 +6,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/DrawUtil.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 
@@ -27,7 +27,7 @@ namespace djv
         {
             struct Push::Private
             {
-                std::shared_ptr<Icon> icon;
+                std::shared_ptr<IconWidget> iconWidget;
                 std::shared_ptr<Text::Label> label;
                 std::string font;
                 std::string fontFace;
@@ -70,7 +70,7 @@ namespace djv
             std::string Push::getIcon() const
             {
                 DJV_PRIVATE_PTR();
-                return p.icon ? p.icon->getIcon() : std::string();
+                return p.iconWidget ? p.iconWidget->getIcon() : std::string();
             }
 
             void Push::setIcon(const std::string& value)
@@ -80,21 +80,21 @@ namespace djv
                 {
                     if (auto context = getContext().lock())
                     {
-                        if (!p.icon)
+                        if (!p.iconWidget)
                         {
-                            p.icon = Icon::create(context);
-                            p.icon->setVAlign(VAlign::Center);
-                            p.icon->setIconColorRole(getForegroundColorRole());
-                            p.layout->addChild(p.icon);
-                            p.icon->moveToFront();
+                            p.iconWidget = IconWidget::create(context);
+                            p.iconWidget->setVAlign(VAlign::Center);
+                            p.iconWidget->setIconColorRole(getForegroundColorRole());
+                            p.layout->addChild(p.iconWidget);
+                            p.iconWidget->moveToFront();
                         }
-                        p.icon->setIcon(value);
+                        p.iconWidget->setIcon(value);
                     }
                 }
                 else
                 {
-                    p.layout->removeChild(p.icon);
-                    p.icon.reset();
+                    p.layout->removeChild(p.iconWidget);
+                    p.iconWidget.reset();
                 }
             }
 
@@ -206,9 +206,9 @@ namespace djv
             void Push::setForegroundColorRole(ColorRole value)
             {
                 IButton::setForegroundColorRole(value);
-                if (_p->icon)
+                if (_p->iconWidget)
                 {
-                    _p->icon->setIconColorRole(isChecked() ? ColorRole::Checked : value);
+                    _p->iconWidget->setIconColorRole(isChecked() ? ColorRole::Checked : value);
                 }
                 if (_p->label)
                 {

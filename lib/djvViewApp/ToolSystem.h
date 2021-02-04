@@ -15,8 +15,8 @@ namespace djv
         //! This structure provides the current tool data.
         struct CurrentTool
         {
-            std::shared_ptr<IViewAppSystem> system;
             std::shared_ptr<UI::Action> action;
+            std::shared_ptr<IViewAppSystem> system;
 
             bool operator == (const CurrentTool&) const;
         };
@@ -35,24 +35,21 @@ namespace djv
 
             static std::shared_ptr<ToolSystem> create(const std::shared_ptr<System::Context>&);
 
-            const std::vector<std::shared_ptr<IViewAppSystem> >& getToolSystems() const;
-            const std::vector<std::shared_ptr<UI::Action> >& getToolActions() const;
-
             std::shared_ptr<Core::Observer::IValueSubject<CurrentTool> > observeCurrentTool() const;
 
-            void setCurrentTool(const CurrentTool&);
+            int getToolIndex(const std::shared_ptr<UI::Action>&) const;
 
             std::shared_ptr<UI::Widget> createToolDrawer();
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            std::vector<MenuData> getMenuData() const override;
+            MenuData getMenuData() const override;
+            ActionData getToolBarActionData() const override;
 
         protected:
             void _textUpdate() override;
-            void _shortcutsUpdate() override;
 
         private:
-            void _setCurrentTool(int, bool autoHide);
+            void _setCurrentTool(int);
 
             DJV_PRIVATE();
         };

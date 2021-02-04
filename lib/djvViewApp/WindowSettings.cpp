@@ -33,8 +33,7 @@ namespace djv
             std::shared_ptr<Observer::ValueSubject<bool> > restoreSize;
             glm::ivec2 windowPos = glm::ivec2(0, 0);
             glm::ivec2 windowSize = windowSizeDefault;
-            std::shared_ptr<Observer::ListSubject<float> > split;
-            std::shared_ptr<Observer::ValueSubject<bool> > showTools;
+            std::shared_ptr<Observer::ValueSubject<float> > drawerSplit;
             std::shared_ptr<Observer::ValueSubject<bool> > fullScreen;
             std::shared_ptr<Observer::ValueSubject<int> > fullScreenMonitor;
             std::shared_ptr<Observer::ValueSubject<bool> > floatOnTop;
@@ -51,8 +50,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.restorePos = Observer::ValueSubject<bool>::create(false);
             p.restoreSize = Observer::ValueSubject<bool>::create(true);
-            p.split = Observer::ListSubject<float>::create({ .8F, 1.F });
-            p.showTools = Observer::ValueSubject<bool>::create();
+            p.drawerSplit = Observer::ValueSubject<float>::create(.8F);
             p.fullScreen = Observer::ValueSubject<bool>::create(false);
             p.fullScreenMonitor = Observer::ValueSubject<int>::create(0);
             p.floatOnTop = Observer::ValueSubject<bool>::create(false);
@@ -125,24 +123,14 @@ namespace djv
             _p->windowSize = value;
         }
 
-        std::shared_ptr<Observer::IListSubject<float> > WindowSettings::observeSplit() const
+        std::shared_ptr<Observer::IValueSubject<float> > WindowSettings::observeDrawerSplit() const
         {
-            return _p->split;
+            return _p->drawerSplit;
         }
 
-        std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeShowTools() const
+        void WindowSettings::setDrawerSplit(float value)
         {
-            return _p->showTools;
-        }
-
-        void WindowSettings::setSplit(const std::vector<float>& value)
-        {
-            _p->split->setIfChanged(value);
-        }
-
-        void WindowSettings::setShowTools(bool value)
-        {
-            _p->showTools->setIfChanged(value);
+            _p->drawerSplit->setIfChanged(value);
         }
 
         std::shared_ptr<Observer::IValueSubject<bool> > WindowSettings::observeFullScreen() const
@@ -224,8 +212,7 @@ namespace djv
                 UI::Settings::read("RestoreSize", value, p.restoreSize);
                 UI::Settings::read("WindowPos", value, p.windowPos);
                 UI::Settings::read("WindowSize", value, p.windowSize);
-                UI::Settings::read("Split", value, p.split);
-                UI::Settings::read("ShowTools", value, p.showTools);
+                UI::Settings::read("DrawerSplit", value, p.drawerSplit);
                 UI::Settings::read("FullScreen", value, p.fullScreen);
                 UI::Settings::read("FullScreenMonitor", value, p.fullScreenMonitor);
                 UI::Settings::read("FloatOnTop", value, p.floatOnTop);
@@ -244,8 +231,7 @@ namespace djv
             UI::Settings::write("RestoreSize", p.restoreSize->get(), out, allocator);
             UI::Settings::write("WindowPos", p.windowPos, out, allocator);
             UI::Settings::write("WindowSize", p.windowSize, out, allocator);
-            UI::Settings::write("Split", p.split->get(), out, allocator);
-            UI::Settings::write("ShowTools", p.showTools->get(), out, allocator);
+            UI::Settings::write("DrawerSplit", p.drawerSplit->get(), out, allocator);
             UI::Settings::write("FullScreen", p.fullScreen->get(), out, allocator);
             UI::Settings::write("FullScreenMonitor", p.fullScreenMonitor->get(), out, allocator);
             UI::Settings::write("FloatOnTop", p.floatOnTop->get(), out, allocator);

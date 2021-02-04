@@ -10,6 +10,8 @@ namespace djv
 {
     namespace UI
     {
+        class TabBar;
+
         //! This class provides a tab widget.
         class TabWidget : public Widget
         {
@@ -26,6 +28,8 @@ namespace djv
 
             //! \name Tabs
             ///@{
+
+            const std::shared_ptr<TabBar>& getTabBar() const;
             
             void setText(const std::shared_ptr<Widget>&, const std::string&);
 

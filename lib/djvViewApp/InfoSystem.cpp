@@ -76,11 +76,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<ActionData> InfoSystem::getToolActionData() const
+        ActionData InfoSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["Info"], "Z0" }
+                { _p->actions["Info"] },
+                11
             };
         }
 
@@ -97,8 +98,8 @@ namespace djv
 
                     auto searchBox = UIComponents::SearchBox::create(context);
                     auto toolBar = UI::ToolBar::create(context);
+                    toolBar->addExpander();
                     toolBar->addChild(searchBox);
-                    toolBar->setStretch(searchBox);
 
                     auto widget = InfoWidget::create(context);
 

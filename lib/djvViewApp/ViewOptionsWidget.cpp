@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2020 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/ViewControlsWidgetPrivate.h>
+#include <djvViewApp/ViewOptionsWidget.h>
 
 #include <djvViewApp/EnumFunc.h>
 #include <djvViewApp/MediaWidget.h>
@@ -29,264 +29,13 @@
 
 #include <djvSystem/Context.h>
 
-#include <djvMath/NumericValueModels.h>
-
 using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
-        struct ViewControlsViewWidget::Private
-        {
-            std::shared_ptr<MediaWidget> activeWidget;
-            glm::vec2 viewPos = glm::vec2(0.F, 0.F);
-            float viewZoom = 1.F;
-
-            std::shared_ptr<UI::Numeric::FloatEdit> viewPosEdit[2];
-            std::shared_ptr<UI::ToolButton> viewPosResetButton[2];
-            std::shared_ptr<UI::Numeric::FloatEdit> viewZoomEdit;
-            std::shared_ptr<UI::ToolButton> viewZoomResetButton;
-            std::shared_ptr<UI::HorizontalLayout> viewPosLayout[2];
-            std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
-            std::shared_ptr<UI::FormLayout> layout;
-
-            std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<Observer::Value<glm::vec2> > viewPosObserver;
-            std::shared_ptr<Observer::Value<float> > viewZoomObserver;
-        };
-
-        void ViewControlsViewWidget::_init(const std::shared_ptr<System::Context>& context)
-        {
-            Widget::_init(context);
-            DJV_PRIVATE_PTR();
-
-            for (size_t i = 0; i < 2; ++i)
-            {
-                auto edit = UI::Numeric::FloatEdit::create(context);
-                edit->setRange(Math::FloatRange(-1000000.F, 1000000.F));
-                edit->setSmallIncrement(1.F);
-                edit->setLargeIncrement(10.F);
-                p.viewPosEdit[i] = edit;
-
-                p.viewPosResetButton[i] = UI::ToolButton::create(context);
-                p.viewPosResetButton[i]->setIcon("djvIconClearSmall");
-                p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
-            }
-            p.viewZoomEdit = UI::Numeric::FloatEdit::create(context);
-            p.viewZoomEdit->setRange(Math::FloatRange(.1F, 1000.F));
-            p.viewZoomEdit->setSmallIncrement(.1F);
-            p.viewZoomEdit->setLargeIncrement(1.F);
-            p.viewZoomResetButton = UI::ToolButton::create(context);
-            p.viewZoomResetButton->setIcon("djvIconClearSmall");
-            p.viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
-
-            p.layout = UI::FormLayout::create(context);
-            p.layout->setMargin(UI::MetricsRole::MarginSmall);
-            for (size_t i = 0; i < 2; ++i)
-            {
-                p.viewPosLayout[i] = UI::HorizontalLayout::create(context);
-                p.viewPosLayout[i]->setSpacing(UI::MetricsRole::None);
-                p.viewPosLayout[i]->addChild(p.viewPosEdit[i]);
-                p.viewPosLayout[i]->setStretch(p.viewPosEdit[i]);
-                p.viewPosLayout[i]->addChild(p.viewPosResetButton[i]);
-                p.layout->addChild(p.viewPosLayout[i]);
-            }
-            p.viewZoomLayout = UI::HorizontalLayout::create(context);
-            p.viewZoomLayout->setSpacing(UI::MetricsRole::None);
-            p.viewZoomLayout->addChild(p.viewZoomEdit);
-            p.viewZoomLayout->setStretch(p.viewZoomEdit);
-            p.viewZoomLayout->addChild(p.viewZoomResetButton);
-            p.layout->addChild(p.viewZoomLayout);
-            addChild(p.layout);
-
-            _widgetUpdate();
-
-            auto weak = std::weak_ptr<ViewControlsViewWidget>(std::dynamic_pointer_cast<ViewControlsViewWidget>(shared_from_this()));
-            p.viewPosEdit[0]->setValueCallback(
-                [weak](float value, UI::TextEditReason)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setPos(glm::vec2(value, widget->_p->viewPos.y));
-                    }
-                });
-            p.viewPosEdit[1]->setValueCallback(
-                [weak](float value, UI::TextEditReason)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setPos(glm::vec2(widget->_p->viewPos.x, value));
-                    }
-                });
-
-            p.viewPosResetButton[0]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        glm::vec2 pos = widget->_p->viewPos;
-                        pos.x = 0.F;
-                        widget->_setPos(pos);
-                    }
-                });
-            p.viewPosResetButton[1]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        glm::vec2 pos = widget->_p->viewPos;
-                        pos.y = 0.F;
-                        widget->_setPos(pos);
-                    }
-                });
-
-            p.viewZoomEdit->setValueCallback(
-                [weak](float value, UI::TextEditReason)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setZoom(value);
-                    }
-                });
-
-            p.viewZoomResetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setZoom(1.F);
-                    }
-                });
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = Observer::Value<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->viewPosObserver = Observer::Value<glm::vec2>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImagePos(),
-                                    [weak](const glm::vec2& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->viewPos = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                                widget->_p->viewZoomObserver = Observer::Value<float>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
-                                    [weak](float value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->viewZoom = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->viewPosObserver.reset();
-                                widget->_p->viewZoomObserver.reset();
-                            }
-                        }
-                    });
-            }
-        }
-
-        ViewControlsViewWidget::ViewControlsViewWidget() :
-            _p(new Private)
-        {}
-
-        ViewControlsViewWidget::~ViewControlsViewWidget()
-        {}
-
-        std::shared_ptr<ViewControlsViewWidget> ViewControlsViewWidget::create(const std::shared_ptr<System::Context>& context)
-        {
-            auto out = std::shared_ptr<ViewControlsViewWidget>(new ViewControlsViewWidget);
-            out->_init(context);
-            return out;
-        }
-
-        void ViewControlsViewWidget::_preLayoutEvent(System::Event::PreLayout&)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void ViewControlsViewWidget::_layoutEvent(System::Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void ViewControlsViewWidget::_initEvent(System::Event::Init& event)
-        {
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-                for (size_t i = 0; i < 2; ++i)
-                {
-                    p.viewPosResetButton[i]->setTooltip(_getText(DJV_TEXT("reset_the_value")));
-                }
-                p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
-                p.layout->setText(p.viewPosLayout[0], _getText(DJV_TEXT("position_x")) + ":");
-                p.layout->setText(p.viewPosLayout[1], _getText(DJV_TEXT("position_y")) + ":");
-                p.layout->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
-            }
-        }
-
-        void ViewControlsViewWidget::_setPos(const glm::vec2& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                viewSettings->setLock(ViewLock::None);
-                p.viewPos = value;
-                _widgetUpdate();
-                if (p.activeWidget)
-                {
-                    p.activeWidget->getViewWidget()->setImagePos(p.viewPos);
-                }
-            }
-        }
-
-        void ViewControlsViewWidget::_setZoom(float value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
-                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                viewSettings->setLock(ViewLock::None);
-                p.viewZoom = value;
-                _widgetUpdate();
-                if (p.activeWidget)
-                {
-                    p.activeWidget->getViewWidget()->setImageZoomFocus(value);
-                }
-            }
-        }
-
-        void ViewControlsViewWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.viewPosEdit[0]->setValue(p.viewPos.x);
-            p.viewPosEdit[1]->setValue(p.viewPos.y);
-            p.viewPosResetButton[0]->setEnabled(p.viewPos.x != 0.F);
-            p.viewPosResetButton[1]->setEnabled(p.viewPos.y != 0.F);
-            p.viewZoomEdit->setValue(p.viewZoom);
-            p.viewZoomResetButton->setEnabled(p.viewZoom != 1.F);
-        }
-
-        struct ViewControlsGridWidget::Private
+        struct ViewOptionsGridWidget::Private
         {
             GridOptions gridOptions;
 
@@ -300,7 +49,7 @@ namespace djv
             std::shared_ptr<Observer::Value<GridOptions> > gridOptionsObserver;
         };
 
-        void ViewControlsGridWidget::_init(const std::shared_ptr<System::Context>& context)
+        void ViewOptionsGridWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -332,7 +81,7 @@ namespace djv
 
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<ViewControlsGridWidget>(std::dynamic_pointer_cast<ViewControlsGridWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewOptionsGridWidget>(std::dynamic_pointer_cast<ViewOptionsGridWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.gridSizeSlider->setValueCallback(
                 [weak, contextWeak](int value)
@@ -409,36 +158,36 @@ namespace djv
                 });
         }
 
-        ViewControlsGridWidget::ViewControlsGridWidget() :
+        ViewOptionsGridWidget::ViewOptionsGridWidget() :
             _p(new Private)
         {}
 
-        ViewControlsGridWidget::~ViewControlsGridWidget()
+        ViewOptionsGridWidget::~ViewOptionsGridWidget()
         {}
 
-        std::shared_ptr<ViewControlsGridWidget> ViewControlsGridWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<ViewOptionsGridWidget> ViewOptionsGridWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ViewControlsGridWidget>(new ViewControlsGridWidget);
+            auto out = std::shared_ptr<ViewOptionsGridWidget>(new ViewOptionsGridWidget);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<UI::ToolButton>& ViewControlsGridWidget::getEnabledButton() const
+        const std::shared_ptr<UI::ToolButton>& ViewOptionsGridWidget::getEnabledButton() const
         {
             return _p->gridEnabledButton;
         }
 
-        void ViewControlsGridWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void ViewOptionsGridWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsGridWidget::_layoutEvent(System::Event::Layout&)
+        void ViewOptionsGridWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsGridWidget::_initEvent(System::Event::Init& event)
+        void ViewOptionsGridWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -450,7 +199,7 @@ namespace djv
             }
         }
 
-        void ViewControlsGridWidget::_widgetUpdate()
+        void ViewOptionsGridWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             p.gridSizeSlider->setValue(p.gridOptions.size);
@@ -467,7 +216,7 @@ namespace djv
             p.gridLabelsColorPickerSwatch->setColor(p.gridOptions.labelsColor);
         }
 
-        struct ViewControlsHUDWidget::Private
+        struct ViewOptionsHUDWidget::Private
         {
             HUDOptions hudOptions;
 
@@ -480,7 +229,7 @@ namespace djv
             std::shared_ptr<Observer::Value<HUDOptions> > hudOptionsObserver;
         };
 
-        void ViewControlsHUDWidget::_init(const std::shared_ptr<System::Context>& context)
+        void ViewOptionsHUDWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -503,7 +252,7 @@ namespace djv
 
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<ViewControlsHUDWidget>(std::dynamic_pointer_cast<ViewControlsHUDWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewOptionsHUDWidget>(std::dynamic_pointer_cast<ViewOptionsHUDWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.hudColorPickerSwatch->setColorCallback(
                 [weak, contextWeak](const Image::Color& value)
@@ -550,36 +299,36 @@ namespace djv
                 });
         }
 
-        ViewControlsHUDWidget::ViewControlsHUDWidget() :
+        ViewOptionsHUDWidget::ViewOptionsHUDWidget() :
             _p(new Private)
         {}
 
-        ViewControlsHUDWidget::~ViewControlsHUDWidget()
+        ViewOptionsHUDWidget::~ViewOptionsHUDWidget()
         {}
 
-        std::shared_ptr<ViewControlsHUDWidget> ViewControlsHUDWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<ViewOptionsHUDWidget> ViewOptionsHUDWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ViewControlsHUDWidget>(new ViewControlsHUDWidget);
+            auto out = std::shared_ptr<ViewOptionsHUDWidget>(new ViewOptionsHUDWidget);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<UI::ToolButton>& ViewControlsHUDWidget::getEnabledButton() const
+        const std::shared_ptr<UI::ToolButton>& ViewOptionsHUDWidget::getEnabledButton() const
         {
             return _p->hudEnabledButton;
         }
 
-        void ViewControlsHUDWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void ViewOptionsHUDWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsHUDWidget::_layoutEvent(System::Event::Layout&)
+        void ViewOptionsHUDWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsHUDWidget::_initEvent(System::Event::Init& event)
+        void ViewOptionsHUDWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -589,7 +338,7 @@ namespace djv
             }
         }
 
-        void ViewControlsHUDWidget::_widgetUpdate()
+        void ViewOptionsHUDWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             p.hudColorPickerSwatch->setColor(p.hudOptions.color);
@@ -604,7 +353,7 @@ namespace djv
             p.hudBackgroundComboBox->setCurrentItem(static_cast<int>(p.hudOptions.background));
         }
 
-        struct ViewControlsBackgroundWidget::Private
+        struct ViewOptionsBackgroundWidget::Private
         {
             ViewBackgroundOptions backgroundOptions;
 
@@ -621,7 +370,7 @@ namespace djv
             std::shared_ptr<Observer::Value<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
-        void ViewControlsBackgroundWidget::_init(const std::shared_ptr<System::Context>& context)
+        void ViewOptionsBackgroundWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -664,7 +413,7 @@ namespace djv
 
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<ViewControlsBackgroundWidget>(std::dynamic_pointer_cast<ViewControlsBackgroundWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewOptionsBackgroundWidget>(std::dynamic_pointer_cast<ViewOptionsBackgroundWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.backgroundComboBox->setCallback(
                 [weak, contextWeak](int value)
@@ -756,31 +505,31 @@ namespace djv
                 });
         }
 
-        ViewControlsBackgroundWidget::ViewControlsBackgroundWidget() :
+        ViewOptionsBackgroundWidget::ViewOptionsBackgroundWidget() :
             _p(new Private)
         {}
 
-        ViewControlsBackgroundWidget::~ViewControlsBackgroundWidget()
+        ViewOptionsBackgroundWidget::~ViewOptionsBackgroundWidget()
         {}
 
-        std::shared_ptr<ViewControlsBackgroundWidget> ViewControlsBackgroundWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<ViewOptionsBackgroundWidget> ViewOptionsBackgroundWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ViewControlsBackgroundWidget>(new ViewControlsBackgroundWidget);
+            auto out = std::shared_ptr<ViewOptionsBackgroundWidget>(new ViewOptionsBackgroundWidget);
             out->_init(context);
             return out;
         }
 
-        void ViewControlsBackgroundWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void ViewOptionsBackgroundWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsBackgroundWidget::_layoutEvent(System::Event::Layout&)
+        void ViewOptionsBackgroundWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsBackgroundWidget::_initEvent(System::Event::Init& event)
+        void ViewOptionsBackgroundWidget::_initEvent(System::Event::Init& event)
         {
             if (event.getData().text)
             {
@@ -792,7 +541,7 @@ namespace djv
             }
         }
 
-        void ViewControlsBackgroundWidget::_widgetUpdate()
+        void ViewOptionsBackgroundWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             switch (p.backgroundOptions.background)
@@ -822,7 +571,7 @@ namespace djv
             p.checkersColorPickerSwatches[1]->setColor(p.backgroundOptions.checkersColors[1]);
         }
 
-        struct ViewControlsBorderWidget::Private
+        struct ViewOptionsBorderWidget::Private
         {
             ViewBackgroundOptions backgroundOptions;
 
@@ -834,7 +583,7 @@ namespace djv
             std::shared_ptr<Observer::Value<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
-        void ViewControlsBorderWidget::_init(const std::shared_ptr<System::Context>& context)
+        void ViewOptionsBorderWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -860,7 +609,7 @@ namespace djv
 
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<ViewControlsBorderWidget>(std::dynamic_pointer_cast<ViewControlsBorderWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewOptionsBorderWidget>(std::dynamic_pointer_cast<ViewOptionsBorderWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.borderWidthSlider->setValueCallback(
                 [weak, contextWeak](float value)
@@ -907,36 +656,36 @@ namespace djv
                 });
         }
 
-        ViewControlsBorderWidget::ViewControlsBorderWidget() :
+        ViewOptionsBorderWidget::ViewOptionsBorderWidget() :
             _p(new Private)
         {}
 
-        ViewControlsBorderWidget::~ViewControlsBorderWidget()
+        ViewOptionsBorderWidget::~ViewOptionsBorderWidget()
         {}
 
-        std::shared_ptr<ViewControlsBorderWidget> ViewControlsBorderWidget::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<ViewOptionsBorderWidget> ViewOptionsBorderWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<ViewControlsBorderWidget>(new ViewControlsBorderWidget);
+            auto out = std::shared_ptr<ViewOptionsBorderWidget>(new ViewOptionsBorderWidget);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<UI::ToolButton>& ViewControlsBorderWidget::getEnabledButton() const
+        const std::shared_ptr<UI::ToolButton>& ViewOptionsBorderWidget::getEnabledButton() const
         {
             return _p->borderEnabledButton;
         }
 
-        void ViewControlsBorderWidget::_preLayoutEvent(System::Event::PreLayout&)
+        void ViewOptionsBorderWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ViewControlsBorderWidget::_layoutEvent(System::Event::Layout&)
+        void ViewOptionsBorderWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ViewControlsBorderWidget::_initEvent(System::Event::Init& event)
+        void ViewOptionsBorderWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -947,12 +696,116 @@ namespace djv
             }
         }
 
-        void ViewControlsBorderWidget::_widgetUpdate()
+        void ViewOptionsBorderWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             p.borderEnabledButton->setChecked(p.backgroundOptions.border);
             p.borderWidthSlider->setValue(p.backgroundOptions.borderWidth);
             p.borderColorPickerSwatch->setColor(p.backgroundOptions.borderColor);
+        }
+
+        struct ViewOptionsWidget::Private
+        {
+            std::shared_ptr<ViewOptionsGridWidget> gridWidget;
+            std::shared_ptr<ViewOptionsHUDWidget> hudWidget;
+            std::shared_ptr<ViewOptionsBackgroundWidget> backgroundWidget;
+            std::shared_ptr<ViewOptionsBorderWidget> borderWidget;
+            std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::VerticalLayout> layout;
+        };
+
+        void ViewOptionsWidget::_init(const std::shared_ptr<System::Context>& context)
+        {
+            Widget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::ViewOptionsWidget");
+
+            p.gridWidget = ViewOptionsGridWidget::create(context);
+            p.hudWidget = ViewOptionsHUDWidget::create(context);
+            p.backgroundWidget = ViewOptionsBackgroundWidget::create(context);
+            p.borderWidget = ViewOptionsBorderWidget::create(context);
+
+            p.bellows["Grid"] = UI::Bellows::create(context);
+            p.bellows["Grid"]->addButtonWidget(p.gridWidget->getEnabledButton());
+            p.bellows["Grid"]->addChild(p.gridWidget);
+            p.bellows["HUD"] = UI::Bellows::create(context);
+            p.bellows["HUD"]->addButtonWidget(p.hudWidget->getEnabledButton());
+            p.bellows["HUD"]->addChild(p.hudWidget);
+            p.bellows["Background"] = UI::Bellows::create(context);
+            p.bellows["Background"]->addChild(p.backgroundWidget);
+            p.bellows["Border"] = UI::Bellows::create(context);
+            p.bellows["Border"]->addButtonWidget(p.borderWidget->getEnabledButton());
+            p.bellows["Border"]->addChild(p.borderWidget);
+            
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.bellows["Grid"]);
+            p.layout->addChild(p.bellows["HUD"]);
+            p.layout->addChild(p.bellows["Background"]);
+            p.layout->addChild(p.bellows["Border"]);
+            addChild(p.layout);
+        }
+
+        ViewOptionsWidget::ViewOptionsWidget() :
+            _p(new Private)
+        {}
+
+        ViewOptionsWidget::~ViewOptionsWidget()
+        {}
+
+        std::shared_ptr<ViewOptionsWidget> ViewOptionsWidget::create(const std::shared_ptr<System::Context>& context)
+        {
+            auto out = std::shared_ptr<ViewOptionsWidget>(new ViewOptionsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::map<std::string, bool> ViewOptionsWidget::getBellowsState() const
+        {
+            DJV_PRIVATE_PTR();
+            std::map<std::string, bool> out;
+            for (const auto& i : p.bellows)
+            {
+                out[i.first] = i.second->isOpen();
+            }
+            return out;
+        }
+
+        void ViewOptionsWidget::setBellowsState(const std::map<std::string, bool>& value)
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : value)
+            {
+                const auto j = p.bellows.find(i.first);
+                if (j != p.bellows.end())
+                {
+                    j->second->setOpen(i.second, false);
+                }
+            }
+        }
+
+        void ViewOptionsWidget::_preLayoutEvent(System::Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void ViewOptionsWidget::_layoutEvent(System::Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void ViewOptionsWidget::_initEvent(System::Event::Init & event)
+        {
+            Widget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+            if (event.getData().text)
+            {
+                p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
+                p.bellows["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
+                p.bellows["Background"]->setText(_getText(DJV_TEXT("view_background")));
+                p.bellows["Border"]->setText(_getText(DJV_TEXT("view_border")));
+            }
         }
 
     } // namespace ViewApp

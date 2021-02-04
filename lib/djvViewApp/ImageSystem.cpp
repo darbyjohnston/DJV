@@ -360,20 +360,24 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> ImageSystem::getMenuData() const
+        MenuData ImageSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "E" }
+                { _p->menu },
+                5
             };
         }
 
-        std::vector<ActionData> ImageSystem::getToolActionData() const
+        ActionData ImageSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["ImageControls"], "C0" },
-                { _p->actions["ColorSpace"], "C1" }
+                {
+                    _p->actions["ImageControls"],
+                    _p->actions["ColorSpace"]
+                },
+                5
             };
         }
 

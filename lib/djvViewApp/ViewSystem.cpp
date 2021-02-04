@@ -7,7 +7,8 @@
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/ToolTitleBar.h>
 #include <djvViewApp/ViewData.h>
-#include <djvViewApp/ViewControlsWidget.h>
+#include <djvViewApp/ViewOptionsWidget.h>
+#include <djvViewApp/ViewPanZoomWidget.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
@@ -51,7 +52,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::weak_ptr<ViewControlsWidget> viewControlsWidget;
+            std::weak_ptr<ViewOptionsWidget> viewOptionsWidget;
             
             std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<Observer::Value<ViewLock> > lockObserver;
@@ -77,10 +78,10 @@ namespace djv
 
             p.lock = Observer::ValueSubject<ViewLock>::create();
 
-            p.actions["ViewControls"] = UI::Action::create();
-            p.actions["ViewControls"]->setIcon("djvIconVisible");
-            p.actions["Pan"] = UI::Action::create();
-            p.actions["Pan"]->setIcon("djvIconMove");
+            p.actions["PanZoom"] = UI::Action::create();
+            p.actions["PanZoom"]->setIcon("djvIconMove");
+            p.actions["ViewOptions"] = UI::Action::create();
+            p.actions["ViewOptions"]->setIcon("djvIconVisible");
             p.actions["Left"] = UI::Action::create();
             p.actions["Right"] = UI::Action::create();
             p.actions["Up"] = UI::Action::create();
@@ -120,8 +121,8 @@ namespace djv
             p.actions["Border"]->setIcon("djvIconHidden");
             p.actions["Border"]->setCheckedIcon("djvIconVisible");
 
-            _addShortcut(DJV_TEXT("shortcut_view_controls"), GLFW_KEY_W, UI::getSystemModifier());
-            _addShortcut(DJV_TEXT("shortcut_view_pan"), GLFW_KEY_N, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_view_pan_zoom"), GLFW_KEY_N, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_view_options"), GLFW_KEY_W, UI::getSystemModifier());
             _addShortcut(DJV_TEXT("shortcut_view_left"), GLFW_KEY_KP_4);
             _addShortcut(DJV_TEXT("shortcut_view_right"), GLFW_KEY_KP_6);
             _addShortcut(DJV_TEXT("shortcut_view_up"), GLFW_KEY_KP_8);
@@ -491,20 +492,36 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> ViewSystem::getMenuData() const
+        MenuData ViewSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "D" }
+                { _p->menu },
+                4
             };
         }
 
-        std::vector<ActionData> ViewSystem::getToolActionData() const
+        ActionData ViewSystem::getToolBarActionData() const
         {
             return
             {
-                { _p->actions["ViewControls"], "B0" },
-                { _p->actions["Pan"], "B1" }
+                {
+                    _p->actions["FrameLock"],
+                    _p->actions["CenterLock"]
+                },
+                4
+            };
+        }
+
+        ActionData ViewSystem::getToolActionData() const
+        {
+            return
+            {
+                {
+                    _p->actions["PanZoom"],
+                    _p->actions["ViewOptions"]
+                },
+                4
             };
         }
 
@@ -514,13 +531,22 @@ namespace djv
             ToolWidgetData out;
             if (auto context = getContext().lock())
             {
-                if (value == p.actions["ViewControls"])
+                if (value == p.actions["PanZoom"])
                 {
-                    auto titleBar = ToolTitleBar::create(DJV_TEXT("view_controls"), context);
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("view_pan_zoom"), context);
 
-                    auto widget = ViewControlsWidget::create(context);
+                    auto widget = ViewPanZoomWidget::create(context);
+
+                    out.titleBar = titleBar;
+                    out.widget = widget;
+                }
+                else if (value == p.actions["ViewOptions"])
+                {
+                    auto titleBar = ToolTitleBar::create(DJV_TEXT("view_options"), context);
+
+                    auto widget = ViewOptionsWidget::create(context);
                     widget->setBellowsState(p.bellowsState);
-                    p.viewControlsWidget = widget;
+                    p.viewOptionsWidget = widget;
 
                     out.titleBar = titleBar;
                     out.widget = widget;
@@ -532,12 +558,12 @@ namespace djv
         void ViewSystem::deleteToolWidget(const std::shared_ptr<UI::Action>& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.actions["ViewControls"])
+            if (value == p.actions["ViewOptions"])
             {
-                if (auto widget = p.viewControlsWidget.lock())
+                if (auto widget = p.viewOptionsWidget.lock())
                 {
                     p.bellowsState = widget->getBellowsState();
-                    p.viewControlsWidget.reset();
+                    p.viewOptionsWidget.reset();
                 }
             }
         }
@@ -547,10 +573,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["ViewControls"]->setText(_getText(DJV_TEXT("menu_view_controls")));
-                p.actions["ViewControls"]->setTooltip(_getText(DJV_TEXT("menu_view_controls_tooltip")));
-                p.actions["Pan"]->setText(_getText(DJV_TEXT("menu_view_pan")));
-                p.actions["Pan"]->setTooltip(_getText(DJV_TEXT("menu_view_pan_tooltip")));
+                p.actions["PanZoom"]->setText(_getText(DJV_TEXT("menu_view_pan_zoom")));
+                p.actions["PanZoom"]->setTooltip(_getText(DJV_TEXT("menu_view_pan_zoom_tooltip")));
+                p.actions["ViewOptions"]->setText(_getText(DJV_TEXT("menu_view_options")));
+                p.actions["ViewOptions"]->setTooltip(_getText(DJV_TEXT("menu_view_options_tooltip")));
                 p.actions["Left"]->setText(_getText(DJV_TEXT("menu_view_left")));
                 p.actions["Left"]->setTooltip(_getText(DJV_TEXT("menu_view_left_tooltip")));
                 p.actions["Right"]->setText(_getText(DJV_TEXT("menu_view_right")));
@@ -597,8 +623,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["ViewControls"]->setShortcuts(_getShortcuts("shortcut_view_controls"));
-                p.actions["Pan"]->setShortcuts(_getShortcuts("shortcut_view_pan"));
+                p.actions["PanZoom"]->setShortcuts(_getShortcuts("shortcut_view_pan_zoom"));
+                p.actions["ViewOptions"]->setShortcuts(_getShortcuts("shortcut_view_options"));
                 p.actions["Left"]->setShortcuts(_getShortcuts("shortcut_view_left"));
                 p.actions["Right"]->setShortcuts(_getShortcuts("shortcut_view_right"));
                 p.actions["Up"]->setShortcuts(_getShortcuts("shortcut_view_up"));
@@ -708,7 +734,7 @@ namespace djv
                 pan |=
                     1 == value.buttons.size() &&
                     i != value.buttons.end() &&
-                    actions["Pan"]->observeChecked()->get();
+                    actions["PanZoom"]->observeChecked()->get();
                 i = value.buttons.find(2);
                 pan |=
                     1 == value.buttons.size() &&

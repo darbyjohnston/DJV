@@ -51,14 +51,12 @@ namespace djv
 
             ///@}
 
-            //! \name Splitter
+            //! \name Drawer
             ///@{
 
-            std::shared_ptr<Core::Observer::IListSubject<float> > observeSplit() const;
-            std::shared_ptr<Core::Observer::IValueSubject<bool> > observeShowTools() const;
+            std::shared_ptr<Core::Observer::IValueSubject<float> > observeDrawerSplit() const;
 
-            void setSplit(const std::vector<float>&);
-            void setShowTools(bool);
+            void setDrawerSplit(float);
 
             ///@}
 

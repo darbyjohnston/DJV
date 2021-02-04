@@ -27,7 +27,7 @@ namespace djv
             static std::shared_ptr<PlaybackSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            std::vector<MenuData> getMenuData() const override;
+            MenuData getMenuData() const override;
 
         protected:
             void _actionsUpdate();

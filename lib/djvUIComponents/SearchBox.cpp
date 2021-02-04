@@ -5,7 +5,7 @@
 #include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/DrawUtil.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/LineEditBase.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
@@ -22,7 +22,7 @@ namespace djv
         struct SearchBox::Private
         {
             std::shared_ptr<UI::Text::LineEditBase> lineEditBase;
-            std::shared_ptr<UI::Icon> searchIcon;
+            std::shared_ptr<UI::IconWidget> searchIconWidget;
             std::shared_ptr<UI::ToolButton> clearButton;
             std::shared_ptr<UI::SoloLayout> soloLayout;
             std::shared_ptr<UI::HorizontalLayout> layout;
@@ -40,9 +40,9 @@ namespace djv
             p.lineEditBase = UI::Text::LineEditBase::create(context);
             p.lineEditBase->setTextSizeRole(UI::MetricsRole::SearchBox);
             
-            p.searchIcon = UI::Icon::create(context);
-            p.searchIcon->setIcon("djvIconSearch");
-            p.searchIcon->setIconColorRole(UI::ColorRole::Foreground);
+            p.searchIconWidget = UI::IconWidget::create(context);
+            p.searchIconWidget->setIcon("djvIconSearch");
+            p.searchIconWidget->setIconColorRole(UI::ColorRole::Foreground);
             
             p.clearButton = UI::ToolButton::create(context);
             p.clearButton->setIcon("djvIconClear");
@@ -56,7 +56,7 @@ namespace djv
             p.layout->addChild(p.lineEditBase);
             p.layout->setStretch(p.lineEditBase);
             p.soloLayout = UI::SoloLayout::create(context);
-            p.soloLayout->addChild(p.searchIcon);
+            p.soloLayout->addChild(p.searchIconWidget);
             p.soloLayout->addChild(p.clearButton);
             p.layout->addChild(p.soloLayout);
             addChild(p.layout);
@@ -193,7 +193,7 @@ namespace djv
         void SearchBox::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            std::shared_ptr<Widget> currentWidget = p.searchIcon;
+            std::shared_ptr<Widget> currentWidget = p.searchIconWidget;
             if (!p.lineEditBase->getText().empty())
             {
                 currentWidget = p.clearButton;

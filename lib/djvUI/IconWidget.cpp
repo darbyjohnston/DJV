@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 
 #include <djvUI/IconSystem.h>
 
@@ -20,7 +20,7 @@ namespace djv
 {
     namespace UI
     {
-        struct Icon::Private
+        struct IconWidget::Private
         {
             std::shared_ptr<IconSystem> iconSystem;
 
@@ -35,66 +35,53 @@ namespace djv
             glm::vec2 paintCenter = glm::vec2(0.F, 0.F);
         };
 
-        void Icon::_init(const std::shared_ptr<System::Context>& context)
+        void IconWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Icon");
             _p->iconSystem = context->getSystemT<IconSystem>();
         }
 
-        Icon::Icon() :
+        IconWidget::IconWidget() :
             _p(new Private)
         {}
 
-        Icon::~Icon()
+        IconWidget::~IconWidget()
         {}
 
-        std::shared_ptr<Icon> Icon::create(const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<IconWidget> IconWidget::create(const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<Icon>(new Icon);
+            auto out = std::shared_ptr<IconWidget>(new IconWidget);
             out->_init(context);
             return out;
         }
 
-        const std::string& Icon::getIcon() const
+        const std::string& IconWidget::getIcon() const
         {
             return _p->name;
         }
 
-        void Icon::setIcon(const std::string& value)
+        void IconWidget::setIcon(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                if (value == p.name)
-                    return;
-                p.imageFuture = std::future<std::shared_ptr<Image::Data> >();
-                p.name = value;
-                if (!p.name.empty())
-                {
-                    auto iconSystem = context->getSystemT<IconSystem>();
-                    const auto& style = _getStyle();
-                    p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
-                }
-                else
-                {
-                    p.image.reset();
-                }
-                _resize();
-            }
+            if (value == p.name)
+                return;
+            p.imageFuture = std::future<std::shared_ptr<Image::Data> >();
+            p.name = value;
+            _iconUpdate();
         }
 
-        ColorRole Icon::getIconColorRole() const
+        ColorRole IconWidget::getIconColorRole() const
         {
             return _p->iconColorRole;
         }
 
-        MetricsRole Icon::getIconSizeRole() const
+        MetricsRole IconWidget::getIconSizeRole() const
         {
             return _p->iconSizeRole;
         }
 
-        void Icon::setIconColorRole(ColorRole value)
+        void IconWidget::setIconColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.iconColorRole)
@@ -103,16 +90,16 @@ namespace djv
             _redraw();
         }
 
-        void Icon::setIconSizeRole(MetricsRole value)
+        void IconWidget::setIconSizeRole(MetricsRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.iconSizeRole)
                 return;
             p.iconSizeRole = value;
-            _resize();
+            _iconUpdate();
         }
 
-        void Icon::_preLayoutEvent(System::Event::PreLayout& event)
+        void IconWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -128,7 +115,7 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void Icon::_layoutEvent(System::Event::Layout& event)
+        void IconWidget::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -152,7 +139,7 @@ namespace djv
             }
         }
 
-        void Icon::_paintEvent(System::Event::Paint& event)
+        void IconWidget::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
@@ -196,7 +183,7 @@ namespace djv
             }
         }
 
-        void Icon::_initEvent(System::Event::Init& event)
+        void IconWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().resize)
@@ -213,7 +200,7 @@ namespace djv
             }
         }
 
-        void Icon::_updateEvent(System::Event::Update&)
+        void IconWidget::_updateEvent(System::Event::Update&)
         {
             DJV_PRIVATE_PTR();
             if (p.imageFuture.valid() &&
@@ -229,6 +216,24 @@ namespace djv
                     _log(e.what(), System::LogLevel::Error);
                 }
                 _resize();
+            }
+        }
+
+        void IconWidget::_iconUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (!p.name.empty())
+                {
+                    auto iconSystem = context->getSystemT<IconSystem>();
+                    const auto& style = _getStyle();
+                    p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(p.iconSizeRole));
+                }
+                else
+                {
+                    p.image.reset();
+                }
             }
         }
             

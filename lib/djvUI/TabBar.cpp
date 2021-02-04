@@ -194,6 +194,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                p.layout->clearChildren();
                 std::vector<std::shared_ptr<Button::IButton> > buttons;
                 for (const auto& i : text)
                 {
@@ -215,7 +216,7 @@ namespace djv
         void TabBar::setText(int index, const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (index < static_cast<int>(p.buttonGroup->getButtonCount()))
+            if (index >= 0 && index < static_cast<int>(p.buttonGroup->getButtonCount()))
             {
                 std::dynamic_pointer_cast<TabBarButton>(p.buttonGroup->getButtons()[index])->setText(value);
             }

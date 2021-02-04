@@ -6,7 +6,6 @@
 
 #include <djvViewApp/ToolSystem.h>
 
-#include <djvUI/FlowLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/ToolBar.h>
@@ -24,7 +23,6 @@ namespace djv
         {
             CurrentTool currentTool;
 
-            std::shared_ptr<UI::FlowLayout> buttonLayout;
             std::shared_ptr<UI::VerticalLayout> titleBarLayout;
             std::shared_ptr<UI::VerticalLayout> toolBarLayout;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
@@ -41,27 +39,9 @@ namespace djv
 
             setBackgroundRole(UI::ColorRole::Background);
 
-            std::vector<std::shared_ptr<UI::ToolButton> > buttons;
-            auto toolSystem = context->getSystemT<ToolSystem>();
-            for (const auto& i : toolSystem->getToolActions())
-            {
-                auto button = UI::ToolButton::create(context);
-                button->addAction(i);
-                buttons.push_back(button);
-            }
-
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setShadowOverlay({ UI::Side::Top });
-            p.buttonLayout = UI::FlowLayout::create(context);
-            p.buttonLayout->setSpacing(UI::MetricsRole::None);
-            p.buttonLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
-            for (const auto& i : buttons)
-            {
-                p.buttonLayout->addChild(i);
-            }
-            p.layout->addChild(p.buttonLayout);
-            p.layout->addSeparator();
             p.titleBarLayout = UI::VerticalLayout::create(context);
             p.titleBarLayout->setSpacing(UI::MetricsRole::None);
             p.titleBarLayout->hide();
@@ -72,7 +52,6 @@ namespace djv
             p.layout->addChild(p.toolBarLayout);
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             p.scrollWidget->setBorder(false);
-            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Icon);
             p.scrollWidget->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.scrollWidget);
             p.layout->setStretch(p.scrollWidget);
@@ -82,8 +61,7 @@ namespace djv
             p.layout->addChild(p.footerLayout);
             addChild(p.layout);
 
-            _widgetUpdate();
-
+            auto toolSystem = context->getSystemT<ToolSystem>();
             auto weak = std::weak_ptr<ToolDrawer>(std::dynamic_pointer_cast<ToolDrawer>(shared_from_this()));
             auto contextWeak = std::weak_ptr<System::Context>(context);
             p.currentToolObserver = Observer::Value<CurrentTool>::create(
@@ -94,19 +72,22 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (widget->_p->currentTool.system)
+                            if (widget->_p->currentTool.action && widget->_p->currentTool.system)
                             {
                                 widget->_p->currentTool.system->deleteToolWidget(widget->_p->currentTool.action);
-                                widget->_p->titleBarLayout->hide();
-                                widget->_p->titleBarLayout->clearChildren();
-                                widget->_p->toolBarLayout->hide();
-                                widget->_p->toolBarLayout->clearChildren();
-                                widget->_p->scrollWidget->clearChildren();
-                                widget->_p->footerLayout->hide();
-                                widget->_p->footerLayout->clearChildren();
+                                if (value.action && value.system)
+                                {
+                                    widget->_p->titleBarLayout->hide();
+                                    widget->_p->titleBarLayout->clearChildren();
+                                    widget->_p->toolBarLayout->hide();
+                                    widget->_p->toolBarLayout->clearChildren();
+                                    widget->_p->scrollWidget->clearChildren();
+                                    widget->_p->footerLayout->hide();
+                                    widget->_p->footerLayout->clearChildren();
+                                }
                             }
                             widget->_p->currentTool = value;
-                            if (widget->_p->currentTool.system)
+                            if (widget->_p->currentTool.action && widget->_p->currentTool.system)
                             {
                                 auto toolWidgetData = widget->_p->currentTool.system->createToolWidget(widget->_p->currentTool.action);
                                 if (toolWidgetData.titleBar)
@@ -159,20 +140,6 @@ namespace djv
         void ToolDrawer::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
-        }
-
-        void ToolDrawer::_initEvent(System::Event::Init& event)
-        {
-            Widget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-            }
-        }
-
-        void ToolDrawer::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
         }
 
     } // namespace ViewApp

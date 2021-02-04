@@ -72,11 +72,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<ActionData> MagnifySystem::getToolActionData() const
+        ActionData MagnifySystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["Magnify"], "E" }
+                { _p->actions["Magnify"] },
+                9
             };
         }
 

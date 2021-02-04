@@ -73,11 +73,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<ActionData> ColorPickerSystem::getToolActionData() const
+        ActionData ColorPickerSystem::getToolActionData() const
         {
             return
             {
-                { _p->actions["ColorPicker"], "D" }
+                { _p->actions["ColorPicker"] },
+                8
             };
         }
 

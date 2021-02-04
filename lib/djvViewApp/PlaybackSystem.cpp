@@ -620,11 +620,12 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<MenuData> PlaybackSystem::getMenuData() const
+        MenuData PlaybackSystem::getMenuData() const
         {
             return
             {
-                { _p->menu, "F" }
+                { _p->menu },
+                6
             };
         }
 

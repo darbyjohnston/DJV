@@ -8,6 +8,7 @@
 
 #include <djvUI/Bellows.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 
 #include <djvSystem/Context.h>
@@ -28,19 +29,19 @@ namespace djv
 
             } // namespace
 
-            struct DrawerWidget::Private
+            struct PathsWidget::Private
             {
                 std::shared_ptr<ShortcutsWidget> shortcutsWidget;
                 std::shared_ptr<RecentPathsWidget> recentPathsWidget;
                 std::shared_ptr<DrivesWidget> drivesWidget;
                 std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
-                std::shared_ptr<UI::VerticalLayout> layout;
+                std::shared_ptr<UI::ScrollWidget> scrollWidget;
 
                 std::shared_ptr<Observer::Value<System::File::Path> > pathObserver;
                 std::shared_ptr<Observer::Map<std::string, bool> > pathsBellowsStateObserver;
             };
 
-            void DrawerWidget::_init(
+            void PathsWidget::_init(
                 const std::shared_ptr<System::File::DirectoryModel>& directoryModel,
                 const std::shared_ptr<ShortcutsModel>& shortcutsModel,
                 const std::shared_ptr<System::File::RecentFilesModel>& recentFilesModel,
@@ -50,7 +51,7 @@ namespace djv
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
-                setClassName("djv::UIComponents::FileBrowser::DrawerWidget");
+                setClassName("djv::UIComponents::FileBrowser::PathsWidget");
 
                 p.shortcutsWidget = ShortcutsWidget::create(shortcutsModel, elide, context);
                 p.bellows["Shortcuts"] = UI::Bellows::create(context);
@@ -64,14 +65,17 @@ namespace djv
                 p.bellows["Drives"] = UI::Bellows::create(context);
                 p.bellows["Drives"]->addChild(drivesWidget);
 
-                p.layout = UI::VerticalLayout::create(context);
-                p.layout->setSpacing(UI::MetricsRole::None);
-                p.layout->addChild(p.bellows["Shortcuts"]);
-                p.layout->addChild(p.bellows["Recent"]);
-                p.layout->addChild(p.bellows["Drives"]);
-                addChild(p.layout);
+                auto layout = UI::VerticalLayout::create(context);
+                layout->setSpacing(UI::MetricsRole::None);
+                layout->addChild(p.bellows["Shortcuts"]);
+                layout->addChild(p.bellows["Recent"]);
+                layout->addChild(p.bellows["Drives"]);
+                p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                p.scrollWidget->setBorder(false);
+                p.scrollWidget->addChild(layout);
+                addChild(p.scrollWidget);
 
-                auto weak = std::weak_ptr<DrawerWidget>(std::dynamic_pointer_cast<DrawerWidget>(shared_from_this()));
+                auto weak = std::weak_ptr<PathsWidget>(std::dynamic_pointer_cast<PathsWidget>(shared_from_this()));
                 p.shortcutsWidget->setCallback(
                     [directoryModel](const System::File::Path& value)
                     {
@@ -132,36 +136,36 @@ namespace djv
                 }
             }
 
-            DrawerWidget::DrawerWidget() :
+            PathsWidget::PathsWidget() :
                 _p(new Private)
             {}
 
-            DrawerWidget::~DrawerWidget()
+            PathsWidget::~PathsWidget()
             {}
 
-            std::shared_ptr<DrawerWidget> DrawerWidget::create(
+            std::shared_ptr<PathsWidget> PathsWidget::create(
                 const std::shared_ptr<System::File::DirectoryModel>& directoryModel,
                 const std::shared_ptr<ShortcutsModel>& shortcutsModel,
                 const std::shared_ptr<System::File::RecentFilesModel>& recentFilesModel,
                 const std::shared_ptr<System::File::DrivesModel>& drivesModel,
                 const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<DrawerWidget>(new DrawerWidget);
+                auto out = std::shared_ptr<PathsWidget>(new PathsWidget);
                 out->_init(directoryModel, shortcutsModel, recentFilesModel, drivesModel, context);
                 return out;
             }
 
-            void DrawerWidget::_preLayoutEvent(System::Event::PreLayout& event)
+            void PathsWidget::_preLayoutEvent(System::Event::PreLayout& event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
-            void DrawerWidget::_layoutEvent(System::Event::Layout& event)
+            void PathsWidget::_layoutEvent(System::Event::Layout& event)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->scrollWidget->setGeometry(getGeometry());
             }
 
-            void DrawerWidget::_initEvent(System::Event::Init& event)
+            void PathsWidget::_initEvent(System::Event::Init& event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
@@ -172,7 +176,7 @@ namespace djv
                 }
             }
 
-            void DrawerWidget::_saveBellowsState()
+            void PathsWidget::_saveBellowsState()
             {
                 DJV_PRIVATE_PTR();
                 if (auto context = getContext().lock())

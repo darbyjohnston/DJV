@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2020 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
 #pragma once
@@ -10,45 +10,19 @@ namespace djv
 {
     namespace ViewApp
     {
-        class ViewControlsViewWidget : public UI::Widget
+        //! This class provides the view options grid widget.
+        class ViewOptionsGridWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ViewControlsViewWidget);
+            DJV_NON_COPYABLE(ViewOptionsGridWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            ViewControlsViewWidget();
+            ViewOptionsGridWidget();
 
         public:
-            ~ViewControlsViewWidget() override;
+            ~ViewOptionsGridWidget() override;
 
-            static std::shared_ptr<ViewControlsViewWidget> create(const std::shared_ptr<System::Context>&);
-
-        protected:
-            void _preLayoutEvent(System::Event::PreLayout&) override;
-            void _layoutEvent(System::Event::Layout&) override;
-
-            void _initEvent(System::Event::Init&) override;
-
-        private:
-            void _setPos(const glm::vec2&);
-            void _setZoom(float);
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
-        class ViewControlsGridWidget : public UI::Widget
-        {
-            DJV_NON_COPYABLE(ViewControlsGridWidget);
-
-        protected:
-            void _init(const std::shared_ptr<System::Context>&);
-            ViewControlsGridWidget();
-
-        public:
-            ~ViewControlsGridWidget() override;
-
-            static std::shared_ptr<ViewControlsGridWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<ViewOptionsGridWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
@@ -64,18 +38,19 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        class ViewControlsHUDWidget : public UI::Widget
+        //! This class provides the view options HUD widget.
+        class ViewOptionsHUDWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ViewControlsHUDWidget);
+            DJV_NON_COPYABLE(ViewOptionsHUDWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            ViewControlsHUDWidget();
+            ViewOptionsHUDWidget();
 
         public:
-            ~ViewControlsHUDWidget() override;
+            ~ViewOptionsHUDWidget() override;
 
-            static std::shared_ptr<ViewControlsHUDWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<ViewOptionsHUDWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
@@ -91,18 +66,19 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        class ViewControlsBackgroundWidget : public UI::Widget
+        //! This class provides the view options background widget.
+        class ViewOptionsBackgroundWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ViewControlsBackgroundWidget);
+            DJV_NON_COPYABLE(ViewOptionsBackgroundWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            ViewControlsBackgroundWidget();
+            ViewOptionsBackgroundWidget();
 
         public:
-            ~ViewControlsBackgroundWidget() override;
+            ~ViewOptionsBackgroundWidget() override;
 
-            static std::shared_ptr<ViewControlsBackgroundWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<ViewOptionsBackgroundWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
             void _preLayoutEvent(System::Event::PreLayout&) override;
@@ -116,18 +92,19 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        class ViewControlsBorderWidget : public UI::Widget
+        //! This class provides the view options border widget.
+        class ViewOptionsBorderWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ViewControlsBorderWidget);
+            DJV_NON_COPYABLE(ViewOptionsBorderWidget);
 
         protected:
             void _init(const std::shared_ptr<System::Context>&);
-            ViewControlsBorderWidget();
+            ViewOptionsBorderWidget();
 
         public:
-            ~ViewControlsBorderWidget() override;
+            ~ViewOptionsBorderWidget() override;
 
-            static std::shared_ptr<ViewControlsBorderWidget> create(const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<ViewOptionsBorderWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
@@ -140,6 +117,34 @@ namespace djv
         private:
             void _widgetUpdate();
 
+            DJV_PRIVATE();
+        };
+
+        //! This class provides the view options widget.
+        class ViewOptionsWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(ViewOptionsWidget);
+
+        protected:
+            void _init(const std::shared_ptr<System::Context>&);
+            ViewOptionsWidget();
+
+        public:
+            ~ViewOptionsWidget() override;
+
+            static std::shared_ptr<ViewOptionsWidget> create(const std::shared_ptr<System::Context>&);
+
+            std::map<std::string, bool> getBellowsState() const;
+
+            void setBellowsState(const std::map<std::string, bool>&);
+
+        protected:
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+
+            void _initEvent(System::Event::Init&) override;
+
+        private:
             DJV_PRIVATE();
         };
 

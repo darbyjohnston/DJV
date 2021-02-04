@@ -6,7 +6,7 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/IButton.h>
-#include <djvUI/Icon.h>
+#include <djvUI/IconWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Splitter.h>
@@ -48,7 +48,7 @@ namespace djv
 
             private:
                 std::shared_ptr<UI::Text::Label> _label;
-                std::shared_ptr<UI::Icon> _icon;
+                std::shared_ptr<UI::IconWidget> _iconWidget;
                 std::shared_ptr<UI::HorizontalLayout> _layout;
             };
 
@@ -62,16 +62,16 @@ namespace djv
                 _label = UI::Text::Label::create(context);
                 _label->setTextHAlign(UI::TextHAlign::Left);
 
-                _icon = UI::Icon::create(context);
-                _icon->setIconSizeRole(UI::MetricsRole::IconSmall);
-                _icon->setVAlign(UI::VAlign::Center);
+                _iconWidget = UI::IconWidget::create(context);
+                _iconWidget->setIconSizeRole(UI::MetricsRole::IconSmall);
+                _iconWidget->setVAlign(UI::VAlign::Center);
 
                 _layout = UI::HorizontalLayout::create(context);
                 _layout->setMargin(UI::MetricsRole::MarginSmall);
                 _layout->setSpacing(UI::MetricsRole::SpacingSmall);
                 _layout->addChild(_label);
                 _layout->setStretch(_label);
-                _layout->addChild(_icon);
+                _layout->addChild(_iconWidget);
                 addChild(_layout);
             }
 
@@ -90,8 +90,8 @@ namespace djv
 
             void HeaderButton::setIcon(const std::string & value)
             {
-                _icon->setIcon(value);
-                _icon->setVisible(!value.empty());
+                _iconWidget->setIcon(value);
+                _iconWidget->setVisible(!value.empty());
             }
 
             void HeaderButton::setText(const std::string & value)
