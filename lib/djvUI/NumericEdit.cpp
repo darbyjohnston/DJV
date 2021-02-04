@@ -50,7 +50,6 @@ namespace djv
                 {
                     p.incButtons[i] = ToolButton::create(context);
                     p.incButtons[i]->setIcon(icons[i]);
-                    p.incButtons[i]->setIconSizeRole(MetricsRole::IconMini);
                     p.incButtons[i]->setInsideMargin(MetricsRole::Border);
                     p.incButtons[i]->setAutoRepeat(true);
                     addChild(p.incButtons[i]);

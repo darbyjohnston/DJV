@@ -253,10 +253,11 @@ namespace djv
 
             void Tool::setTextFocusEnabled(bool value)
             {
-                if (_p->textFocusEnabled == value)
+                DJV_PRIVATE_PTR();
+                if (p.textFocusEnabled == value)
                     return;
-                _p->textFocusEnabled = value;
-                if (!_p->textFocusEnabled)
+                p.textFocusEnabled = value;
+                if (!p.textFocusEnabled)
                 {
                     releaseTextFocus();
                 }
@@ -565,6 +566,7 @@ namespace djv
                         }
                     }
                     p.iconWidget->setIcon(icon);
+                    p.iconWidget->setIconColorRole(getForegroundColorRole());
                     p.iconWidget->setIconSizeRole(p.iconSizeRole);
                 }
                 else

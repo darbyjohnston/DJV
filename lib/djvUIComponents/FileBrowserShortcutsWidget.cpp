@@ -48,12 +48,10 @@ namespace djv
 
                 p.addButton = UI::ToolButton::create(context);
                 p.addButton->setIcon("djvIconAddSmall");
-                p.addButton->setInsideMargin(UI::MetricsRole::None);
 
                 p.editButton = UI::ToolButton::create(context);
                 p.editButton->setButtonType(UI::ButtonType::Toggle);
                 p.editButton->setIcon("djvIconClearSmall");
-                p.editButton->setInsideMargin(UI::MetricsRole::None);
 
                 p.deleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
                 
@@ -121,7 +119,6 @@ namespace djv
 
                                     auto deleteButton = UI::ToolButton::create(context);
                                     deleteButton->setIcon("djvIconClearSmall");
-                                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                                     deleteButton->setVisible(widget->_p->edit);
                                     deleteButtons.push_back(deleteButton);
 

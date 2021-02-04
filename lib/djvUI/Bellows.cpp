@@ -68,7 +68,6 @@ namespace djv
 
                     _iconWidget = IconWidget::create(context);
                     _iconWidget->setIcon("djvIconArrowSmallRight");
-                    _iconWidget->setIconSizeRole(MetricsRole::IconSmall);
                     _iconWidget->setVAlign(VAlign::Center);
 
                     _label = Text::Label::create(context);

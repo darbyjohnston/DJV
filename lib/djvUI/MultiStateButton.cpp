@@ -97,6 +97,11 @@ namespace djv
                 _widgetUpdate();
             }
 
+            void MultiState::setIconSizeRole(MetricsRole value)
+            {
+                _p->iconWidget->setIconSizeRole(value);
+            }
+
             void MultiState::setCurrentCallback(const std::function<void(int)>& callback)
             {
                 _p->currentCallback = callback;

@@ -103,15 +103,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float i = style->getMetric(p.iconSizeRole);
             glm::vec2 size(0.F, 0.F);
             if (p.image)
             {
                 size.x = p.image->getWidth();
                 size.y = p.image->getHeight();
             }
-            size.x = std::max(size.x, i);
-            size.y = std::max(size.y, i);
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
@@ -194,7 +191,7 @@ namespace djv
                     {
                         auto iconSystem = context->getSystemT<IconSystem>();
                         const auto& style = _getStyle();
-                        p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
+                        p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(p.iconSizeRole));
                     }
                 }
             }

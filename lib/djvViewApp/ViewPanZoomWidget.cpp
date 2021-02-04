@@ -61,7 +61,6 @@ namespace djv
 
                 p.viewPosResetButton[i] = UI::ToolButton::create(context);
                 p.viewPosResetButton[i]->setIcon("djvIconClearSmall");
-                p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
             }
             p.viewZoomEdit = UI::Numeric::FloatEdit::create(context);
             p.viewZoomEdit->setRange(Math::FloatRange(.1F, 1000.F));
@@ -69,7 +68,6 @@ namespace djv
             p.viewZoomEdit->setLargeIncrement(1.F);
             p.viewZoomResetButton = UI::ToolButton::create(context);
             p.viewZoomResetButton->setIcon("djvIconClearSmall");
-            p.viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
 
             p.layout = UI::FormLayout::create(context);
             p.layout->setMargin(UI::MetricsRole::MarginSmall);

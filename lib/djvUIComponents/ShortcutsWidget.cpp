@@ -325,8 +325,6 @@ namespace djv
                 p.keyPressWidgets[i] = KeyPressWidget::create(context);
                 p.clearButtons[i] = UI::ToolButton::create(context);
                 p.clearButtons[i]->setIcon("djvIconClearSmall");
-                p.clearButtons[i]->setInsideMargin(UI::MetricsRole::None);
-                p.clearButtons[i]->setInsideMargin(UI::MetricsRole::None);
             }
 
             p.layout = UI::VerticalLayout::create(context);

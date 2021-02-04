@@ -54,12 +54,10 @@ namespace djv
             p.userConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
             p.userConfigAddButton = UI::ToolButton::create(context);
             p.userConfigAddButton->setIcon("djvIconAddSmall");
-            p.userConfigAddButton->setInsideMargin(UI::MetricsRole::None);
             p.userConfigDeleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.userConfigDeleteButton = UI::ToolButton::create(context);
             p.userConfigDeleteButton->setButtonType(UI::ButtonType::Toggle);
             p.userConfigDeleteButton->setIcon("djvIconClearSmall");
-            p.userConfigDeleteButton->setInsideMargin(UI::MetricsRole::None);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -251,7 +249,6 @@ namespace djv
 
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconClearSmall");
-                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVisible(p.deleteEnabled);
                     deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_config_tooltip")));
                     deleteButtons.push_back(deleteButton);

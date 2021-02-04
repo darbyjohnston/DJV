@@ -254,12 +254,10 @@ namespace djv
             p.addMenu->setMinimumSizeRole(UI::MetricsRole::None);
             p.addButton = UI::PopupMenu::create(context);
             p.addButton->setMenu(p.addMenu);
-            p.addButton->setInsideMargin(UI::MetricsRole::None);
 
             p.deleteButton = UI::ToolButton::create(context);
             p.deleteButton->setButtonType(UI::ButtonType::Toggle);
             p.deleteButton->setIcon("djvIconClearSmall");
-            p.deleteButton->setInsideMargin(UI::MetricsRole::None);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -426,7 +424,6 @@ namespace djv
 
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconClearSmall");
-                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVisible(p.deleteEnabled);
                     deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_image_tooltip")));
                     deleteButtons.push_back(deleteButton);

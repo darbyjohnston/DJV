@@ -63,7 +63,6 @@ namespace djv
                 _label->setTextHAlign(UI::TextHAlign::Left);
 
                 _iconWidget = UI::IconWidget::create(context);
-                _iconWidget->setIconSizeRole(UI::MetricsRole::IconSmall);
                 _iconWidget->setVAlign(UI::VAlign::Center);
 
                 _layout = UI::HorizontalLayout::create(context);

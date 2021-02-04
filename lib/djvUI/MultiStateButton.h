@@ -33,6 +33,8 @@ namespace djv
                 void addIcon(const std::string&);
                 void clearIcons();
 
+                void setIconSizeRole(MetricsRole);
+
                 ///@}
 
                 //! \name Current Index
