@@ -8,6 +8,7 @@ list(PREPEND CMAKE_MODULE_PATH
     ${PROJECT_SOURCE_DIR}/../../cmake/Modules
     ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
+set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Use optional third party dependencies")
 set(DJV_THIRD_PARTY_Blosc FALSE CACHE BOOL "Build Blosc")
 set(DJV_THIRD_PARTY_TBB FALSE CACHE BOOL "Build TBB")
 set(DJV_THIRD_PARTY_Ptex FALSE CACHE BOOL "Build Ptex")
