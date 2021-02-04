@@ -35,22 +35,38 @@ namespace djv
     namespace ViewApp
     {
         //! This struct provides action data.
-        struct ActionData
+        class ActionData
         {
+        public:
+            ActionData();
+            ActionData(const std::vector<std::shared_ptr<UI::Action> >&, int sortKey = -1);
+
             std::vector<std::shared_ptr<UI::Action> > actions;
             int sortKey = -1;
         };
 
         //! This struct provides menu data.
-        struct MenuData
+        class MenuData
         {
+        public:
+            MenuData();
+            MenuData(const std::vector<std::shared_ptr<UI::Menu> >&, int sortKey = -1);
+            
             std::vector<std::shared_ptr<UI::Menu> > menus;
             int sortKey = -1;
         };
 
         //! This struct provides tool widget data.
-        struct ToolWidgetData
+        class ToolWidgetData
         {
+        public:
+            ToolWidgetData();
+            ToolWidgetData(
+                const std::shared_ptr<UI::Widget>& titleBar,
+                const std::shared_ptr<UI::Widget>& toolBar  = nullptr,
+                const std::shared_ptr<UI::Widget>& widget   = nullptr,
+                const std::shared_ptr<UI::Widget>& footer   = nullptr);
+
             std::shared_ptr<UI::Widget> titleBar;
             std::shared_ptr<UI::Widget> toolBar;
             std::shared_ptr<UI::Widget> widget;

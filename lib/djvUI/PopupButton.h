@@ -39,8 +39,8 @@ namespace djv
                 //! \name Icon
                 ///@{
 
-                const std::string& getIcon() const;
-                const std::string& getPopupIcon() const;
+                std::string getIcon() const;
+                std::string getPopupIcon() const;
 
                 void setIcon(const std::string&);
                 void setPopupIcon(const std::string&);

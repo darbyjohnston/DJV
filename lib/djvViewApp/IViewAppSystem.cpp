@@ -21,6 +21,36 @@ namespace djv
 {
     namespace ViewApp
     {
+        ActionData::ActionData()
+        {}
+        
+        ActionData::ActionData(const std::vector<std::shared_ptr<UI::Action> >& actions, int sortKey) :
+            actions(actions),
+            sortKey(sortKey)
+        {}
+        
+        MenuData::MenuData()
+        {}
+        
+        MenuData::MenuData(const std::vector<std::shared_ptr<UI::Menu> >& menus, int sortKey) :
+            menus(menus),
+            sortKey(sortKey)
+        {}
+
+        ToolWidgetData::ToolWidgetData()
+        {}
+        
+        ToolWidgetData::ToolWidgetData(
+            const std::shared_ptr<UI::Widget>& titleBar,
+            const std::shared_ptr<UI::Widget>& toolBar,
+            const std::shared_ptr<UI::Widget>& widget,
+            const std::shared_ptr<UI::Widget>& footer) :
+            titleBar(titleBar),
+            toolBar(toolBar),
+            widget(widget),
+            footer(footer)
+        {}
+
         struct IViewAppSystem::Private
         {
             std::shared_ptr<UI::Settings::SettingsSystem> settingsSystem;

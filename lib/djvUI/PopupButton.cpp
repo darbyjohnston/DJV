@@ -168,12 +168,12 @@ namespace djv
                 _p->popupDefault = value;
             }
 
-            const std::string& Popup::getIcon() const
+            std::string Popup::getIcon() const
             {
                 return _p->button->getIcon();
             }
 
-            const std::string& Popup::getPopupIcon() const
+            std::string Popup::getPopupIcon() const
             {
                 return _p->button->getPopupIcon();
             }
