@@ -225,8 +225,8 @@ namespace djv
                 std::string speedText;
                 std::string durationLabel;
                 std::string durationText;
-                const bool frames = p.info.videoSequence.getFrameCount() > 1;
-                if (frames)
+                const bool hasFrames = p.info.videoSequence.getFrameCount() > 1;
+                if (hasFrames)
                 {
                     speedLabel = _getText(DJV_TEXT("widget_info_speed"));
                     speedText = _text(p.info.videoSpeed);
@@ -235,12 +235,12 @@ namespace djv
                 }
 
                 const std::string general = _getText(DJV_TEXT("widget_info_general"));
-                const bool generalMatch = String::match(general, p.filter);
+                const bool generalMatch = !p.info.fileName.empty() && String::match(general, p.filter);
                 const bool fileNameMatch = !p.info.fileName.empty() &&
                     (String::match(fileNameLabel, p.filter) || String::match(p.info.fileName, p.filter));
                 bool speedMatch = false;
                 bool durationMatch = false;
-                if (frames)
+                if (hasFrames)
                 {
                     speedMatch |= String::match(speedLabel, p.filter) || String::match(speedText, p.filter);
                     durationMatch |= String::match(durationLabel, p.filter) || String::match(durationText, p.filter);
@@ -255,14 +255,14 @@ namespace djv
                         formLayout->addChild(textBlock);
                         formLayout->setText(textBlock, fileNameLabel + ":");
                     }
-                    if (frames && (generalMatch || speedMatch))
+                    if (hasFrames && (generalMatch || speedMatch))
                     {
                         auto textBlock = p.createTextBlock(context);
                         textBlock->setText(speedText);
                         formLayout->addChild(textBlock);
                         formLayout->setText(textBlock, speedLabel + ":");
                     }
-                    if (frames && (generalMatch || durationMatch))
+                    if (hasFrames && (generalMatch || durationMatch))
                     {
                         auto textBlock = p.createTextBlock(context);
                         textBlock->setText(durationText);
