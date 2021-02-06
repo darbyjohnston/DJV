@@ -29,8 +29,8 @@ namespace djv
                 std::unordered_map<glm::ivec2, GridStretch> stretch;
                 std::unordered_map<int, std::pair<float, float> > rowPosAndHeight;
                 std::unordered_map<int, std::pair<float, float> > columnPosAndWidth;
-                std::map<int, ColorRole> rowBackgroundRoles;
-                std::map<int, ColorRole> columnBackgroundRoles;
+                std::map<int, ColorRole> rowColorRoles;
+                std::map<int, ColorRole> columnColorRoles;
                 Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
             };
 
@@ -152,40 +152,40 @@ namespace djv
                 }
             }
 
-            void Grid::setRowBackgroundRole(int value, ColorRole role)
+            void Grid::setRowColorRole(int value, ColorRole role)
             {
                 DJV_PRIVATE_PTR();
-                const auto i = p.rowBackgroundRoles.find(value);
-                if (i != p.rowBackgroundRoles.end())
+                const auto i = p.rowColorRoles.find(value);
+                if (i != p.rowColorRoles.end())
                 {
                     if (role != i->second)
                     {
-                        p.rowBackgroundRoles[value] = role;
+                        p.rowColorRoles[value] = role;
                         _redraw();
                     }
                 }
                 else
                 {
-                    p.rowBackgroundRoles[value] = role;
+                    p.rowColorRoles[value] = role;
                     _redraw();
                 }
             }
 
-            void Grid::setColumnBackgroundRole(int value, ColorRole role)
+            void Grid::setColumnColorRole(int value, ColorRole role)
             {
                 DJV_PRIVATE_PTR();
-                const auto i = p.columnBackgroundRoles.find(value);
-                if (i != p.columnBackgroundRoles.end())
+                const auto i = p.columnColorRoles.find(value);
+                if (i != p.columnColorRoles.end())
                 {
                     if (role != i->second)
                     {
-                        p.columnBackgroundRoles[value] = role;
+                        p.columnColorRoles[value] = role;
                         _redraw();
                     }
                 }
                 else
                 {
-                    p.columnBackgroundRoles[value] = role;
+                    p.columnColorRoles[value] = role;
                     _redraw();
                 }
             }
@@ -536,8 +536,8 @@ namespace djv
                 std::map<ColorRole, std::vector<Math::BBox2f> > rects;
                 for (const auto& i : p.rowPosAndHeight)
                 {
-                    const auto j = p.rowBackgroundRoles.find(i.first);
-                    if (j != p.rowBackgroundRoles.end())
+                    const auto j = p.rowColorRoles.find(i.first);
+                    if (j != p.rowColorRoles.end())
                     {
                         const auto& row = i.second;
                         rects[j->second].emplace_back(Math::BBox2f(g.min.x, row.first, g.w(), row.second));
@@ -545,8 +545,8 @@ namespace djv
                 }
                 for (const auto& i : p.columnPosAndWidth)
                 {
-                    const auto j = p.columnBackgroundRoles.find(i.first);
-                    if (j != p.columnBackgroundRoles.end())
+                    const auto j = p.columnColorRoles.find(i.first);
+                    if (j != p.columnColorRoles.end())
                     {
                         const auto& column = i.second;
                         rects[j->second].emplace_back(Math::BBox2f(column.first, g.min.y, column.second, g.h()));

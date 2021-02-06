@@ -46,7 +46,7 @@ namespace djv
             std::shared_ptr<UI::FormLayout> createFormLayout(const std::shared_ptr<System::Context>& context)
             {
                 auto formLayout = UI::FormLayout::create(context);
-                formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+                formLayout->setRowColorRoles(UI::ColorRole::None, UI::ColorRole::Trough);
                 formLayout->setLabelVAlign(UI::VAlign::Top);
                 formLayout->setSpacing(UI::MetricsRole::None);
                 return formLayout;

@@ -224,7 +224,7 @@ namespace djv
             Window::_init(context);
             DJV_PRIVATE_PTR();
 
-            setBackgroundRole(UI::ColorRole::None);
+            setBackgroundColorRole(UI::ColorRole::None);
 
             p.logoIconWidget = UI::IconWidget::create(context);
             p.logoIconWidget->setIcon("djvLogoStartScreen");
@@ -291,7 +291,7 @@ namespace djv
             hLayout->addChild(p.settingsPopupMenu);
             vLayout->addChild(hLayout);
             auto layout = UI::VerticalLayout::create(context);
-            layout->setBackgroundRole(UI::ColorRole::Hovered);
+            layout->setBackgroundColorRole(UI::ColorRole::Hovered);
             layout->setVAlign(UI::VAlign::Center);
             layout->addChild(vLayout);
 

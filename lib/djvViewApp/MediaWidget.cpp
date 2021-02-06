@@ -110,7 +110,7 @@ namespace djv
             p.viewWidget = ViewWidget::create(media, context);
 
             p.layout = UI::StackLayout::create(context);
-            p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
+            p.layout->setBackgroundColorRole(UI::ColorRole::OverlayLight);
             p.layout->addChild(p.viewWidget);
             p.layout->addChild(p.pointerWidget);
             addChild(p.layout);

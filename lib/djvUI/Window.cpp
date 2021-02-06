@@ -27,7 +27,7 @@ namespace djv
             Widget::_init(context);
             setClassName("djv::UI::Window");
             setVisible(false);
-            setBackgroundRole(ColorRole::Background);
+            setBackgroundColorRole(ColorRole::Background);
             setPointerEnabled(true);
             if (auto eventSystem = _getEventSystem().lock())
             {

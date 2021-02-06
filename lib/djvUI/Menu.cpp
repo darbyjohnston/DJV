@@ -977,7 +977,7 @@ namespace djv
             std::map<size_t, std::shared_ptr<Action> > actions;
             size_t count = 0;
             MetricsRole minimumSizeRole = MetricsRole::ScrollArea;
-            ColorRole backgroundRole = ColorRole::Background;
+            ColorRole backgroundColorRole = ColorRole::Background;
             std::shared_ptr<MenuPopupWidget> popupWidget;
             std::shared_ptr<MenuLayout> layout;
             std::shared_ptr<Layout::Overlay> overlay;
@@ -1076,9 +1076,9 @@ namespace djv
             return _p->minimumSizeRole;
         }
         
-        ColorRole Menu::getBackgroundRole() const
+        ColorRole Menu::getBackgroundColorRole() const
         {
-            return _p->backgroundRole;
+            return _p->backgroundColorRole;
         }
 
         void Menu::setMinimumSizeRole(MetricsRole value)
@@ -1086,15 +1086,15 @@ namespace djv
             _p->minimumSizeRole = value;
         }
 
-        void Menu::setBackgroundRole(ColorRole value)
+        void Menu::setBackgroundColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.backgroundRole)
+            if (value == p.backgroundColorRole)
                 return;
-            p.backgroundRole = value;
+            p.backgroundColorRole = value;
             if (p.popupWidget)
             {
-                p.popupWidget->setBackgroundRole(p.backgroundRole);
+                p.popupWidget->setBackgroundColorRole(p.backgroundColorRole);
             }
         }
 
@@ -1186,7 +1186,7 @@ namespace djv
                     p.popupWidget = MenuPopupWidget::create(context);
                     p.popupWidget->setActions(p.actions);
                     p.popupWidget->setMinimumSizeRole(p.minimumSizeRole);
-                    p.popupWidget->setBackgroundRole(p.backgroundRole);
+                    p.popupWidget->setBackgroundColorRole(p.backgroundColorRole);
                 }
                 
                 p.layout = MenuLayout::create(context);
@@ -1198,11 +1198,11 @@ namespace djv
 
                 p.overlay = Layout::Overlay::create(context);
                 p.overlay->setFadeIn(false);
-                p.overlay->setBackgroundRole(ColorRole::None);
+                p.overlay->setBackgroundColorRole(ColorRole::None);
                 p.overlay->addChild(p.layout);
 
                 p.window = Window::create(context);
-                p.window->setBackgroundRole(ColorRole::None);
+                p.window->setBackgroundColorRole(ColorRole::None);
                 p.window->addChild(p.overlay);
 
                 auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));

@@ -76,12 +76,12 @@ namespace djv
             p.timeLabel = UI::Text::Label::create(context);
             p.timeLabel->setFontFamily(Render2D::Font::familyMono);
             p.timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
+            p.timeLabel->setBackgroundColorRole(UI::ColorRole::OverlayLight);
             p.timeLabel->setVAlign(UI::VAlign::Bottom);
             p.timeLabel->setMargin(UI::MetricsRole::Border);
 
             p.layout = UI::StackLayout::create(context);
-            p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
+            p.layout->setBackgroundColorRole(UI::ColorRole::OverlayLight);
             p.layout->addChild(p.imageWidget);
             p.layout->addChild(p.timeLabel);
             addChild(p.layout);

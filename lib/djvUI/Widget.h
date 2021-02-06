@@ -103,9 +103,9 @@ namespace djv
             //! \name Style
             ///@{
 
-            ColorRole getBackgroundRole() const;
+            ColorRole getBackgroundColorRole() const;
 
-            virtual void setBackgroundRole(ColorRole);
+            virtual void setBackgroundColorRole(ColorRole);
 
             const std::set<Side>& getShadowOverlay() const;
 
@@ -217,21 +217,21 @@ namespace djv
 
             std::chrono::steady_clock::time_point _updateTime;
 
-            bool                _visible         = true;
-            bool                _visibleInit     = true;
-            bool                _parentsVisible  = true;
-            bool                _clipped         = false;
-            Math::BBox2f        _clipRect        = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
-            float               _opacity         = 1.F;
-            float               _parentsOpacity  = 1.F;
+            bool                _visible             = true;
+            bool                _visibleInit         = true;
+            bool                _parentsVisible      = true;
+            bool                _clipped             = false;
+            Math::BBox2f        _clipRect            = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
+            float               _opacity             = 1.F;
+            float               _parentsOpacity      = 1.F;
 
-            Math::BBox2f        _geometry        = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
-            glm::vec2           _minimumSize     = glm::vec2(0.F, 0.F);
+            Math::BBox2f        _geometry            = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
+            glm::vec2           _minimumSize         = glm::vec2(0.F, 0.F);
             Layout::Margin      _margin;
-            HAlign              _hAlign          = HAlign::Fill;
-            VAlign              _vAlign          = VAlign::Fill;
+            HAlign              _hAlign              = HAlign::Fill;
+            VAlign              _vAlign              = VAlign::Fill;
 
-            ColorRole           _backgroundRole  = ColorRole::None;
+            ColorRole           _backgroundColorRole = ColorRole::None;
             std::set<Side>      _shadowOverlay;
 
             bool _pointerEnabled = false;

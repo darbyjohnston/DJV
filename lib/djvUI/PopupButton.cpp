@@ -58,7 +58,7 @@ namespace djv
                 if (MenuButtonStyle::ComboBox == p.buttonStyle)
                 {
                     p.button->setTextFocusEnabled(true);
-                    p.button->setBackgroundRole(ColorRole::Button);
+                    p.button->setBackgroundColorRole(ColorRole::Button);
                 }
                 Widget::addChild(p.button);
 
@@ -121,11 +121,11 @@ namespace djv
                         overlay->setCapturePointer(p.capturePointer);
                         overlay->setCaptureKeyboard(p.captureKeyboard);
                         overlay->setFadeIn(false);
-                        overlay->setBackgroundRole(ColorRole::None);
+                        overlay->setBackgroundColorRole(ColorRole::None);
                         overlay->addChild(popupLayout);
                         
                         p.window = Window::create(context);
-                        p.window->setBackgroundRole(ColorRole::None);
+                        p.window->setBackgroundColorRole(ColorRole::None);
                         p.window->addChild(overlay);
                         p.window->show();
                         p.button->setOpen(true);
@@ -208,7 +208,7 @@ namespace djv
                 _p->button->setIconColor(value);
             }
 
-            const std::string& Popup::getText() const
+            std::string Popup::getText() const
             {
                 return _p->button->getText();
             }

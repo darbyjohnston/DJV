@@ -73,7 +73,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::IDialog");
-            setBackgroundRole(ColorRole::None);
+            setBackgroundColorRole(ColorRole::None);
 
             p.titleLabel = Text::Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
@@ -94,10 +94,10 @@ namespace djv
             p.layout->setMargin(MetricsRole::MarginDialog);
             auto layout = DialogLayout::create(context);
             layout->setSpacing(MetricsRole::None);
-            layout->setBackgroundRole(ColorRole::Background);
+            layout->setBackgroundColorRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
             hLayout->setSpacing(MetricsRole::None);
-            hLayout->setBackgroundRole(ColorRole::BackgroundHeader);
+            hLayout->setBackgroundColorRole(ColorRole::BackgroundHeader);
             hLayout->addChild(p.titleLabel);
             hLayout->addExpander();
             hLayout->addChild(p.titleBarLayout);

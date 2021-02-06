@@ -52,7 +52,7 @@ namespace djv
                     ITooltipWidget::_init(context);
                     _textBlock = Text::Block::create(context);
                     _textBlock->setTextColorRole(ColorRole::TooltipForeground);
-                    _textBlock->setBackgroundRole(ColorRole::TooltipBackground);
+                    _textBlock->setBackgroundColorRole(ColorRole::TooltipBackground);
                     _textBlock->setMargin(MetricsRole::Margin);
                     addChild(_textBlock);
                 }
@@ -191,11 +191,11 @@ namespace djv
             _resize();
         }
 
-        void Widget::setBackgroundRole(ColorRole value)
+        void Widget::setBackgroundColorRole(ColorRole value)
         {
-            if (value == _backgroundRole)
+            if (value == _backgroundColorRole)
                 return;
-            _backgroundRole = value;
+            _backgroundColorRole = value;
             _redraw();
         }
 
@@ -717,9 +717,9 @@ namespace djv
 
         void Widget::_paintEvent(System::Event::Paint& event)
         {
-            if (_backgroundRole != ColorRole::None)
+            if (_backgroundColorRole != ColorRole::None)
             {
-                _render->setFillColor(_style->getColor(_backgroundRole));
+                _render->setFillColor(_style->getColor(_backgroundColorRole));
                 _render->drawRect(getGeometry());
             }
         }

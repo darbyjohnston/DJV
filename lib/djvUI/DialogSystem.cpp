@@ -263,7 +263,7 @@ namespace djv
                         }
                     });
                 p.messageWindow = Window::create(context);
-                p.messageWindow->setBackgroundRole(ColorRole::None);
+                p.messageWindow->setBackgroundColorRole(ColorRole::None);
                 p.messageWindow->addChild(messageDialog);
                 p.messageWindow->show();
             }
@@ -313,7 +313,7 @@ namespace djv
                         }
                     });
                 p.confirmationWindow = Window::create(context);
-                p.confirmationWindow->setBackgroundRole(ColorRole::None);
+                p.confirmationWindow->setBackgroundColorRole(ColorRole::None);
                 p.confirmationWindow->addChild(confirmationDialog);
                 p.confirmationWindow->show();
             }

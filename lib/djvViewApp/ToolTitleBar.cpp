@@ -28,7 +28,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ToolTitleBar");
-            setBackgroundRole(UI::ColorRole::BackgroundHeader);
+            setBackgroundColorRole(UI::ColorRole::BackgroundHeader);
 
             p.text = text;
 

@@ -27,7 +27,7 @@ namespace djv
             Widget::_init(context);
 
             setClassName("djv::UIComponents::ThermometerWidget");
-            setBackgroundRole(UI::ColorRole::Trough);
+            setBackgroundColorRole(UI::ColorRole::Trough);
         }
 
         ThermometerWidget::ThermometerWidget() :

@@ -198,6 +198,11 @@ namespace djv
                 }
             }
 
+            MetricsRole Tool::getIconSizeRole() const
+            {
+                return _p->iconSizeRole;
+            }
+
             TextHAlign Tool::getTextHAlign() const
             {
                 return _p->textHAlign;
@@ -211,6 +216,16 @@ namespace djv
             const Layout::Margin& Tool::getInsideMargin() const
             {
                 return _p->insideMargin;
+            }
+
+            bool Tool::isTextFocusEnabled() const
+            {
+                return _p->textFocusEnabled;
+            }
+
+            bool Tool::hasAutoRepeat() const
+            {
+                return _p->autoRepeat;
             }
 
             void Tool::setIconSizeRole(MetricsRole value)

@@ -37,7 +37,7 @@ namespace djv
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setBackgroundRole(UI::ColorRole::Background);
+            setBackgroundColorRole(UI::ColorRole::Background);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);

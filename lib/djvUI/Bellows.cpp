@@ -268,7 +268,7 @@ namespace djv
                 
                 p.buttonLayout = HorizontalLayout::create(context);
                 p.buttonLayout->setSpacing(MetricsRole::None);
-                p.buttonLayout->setBackgroundRole(ColorRole::BackgroundBellows);
+                p.buttonLayout->setBackgroundColorRole(ColorRole::BackgroundBellows);
                 p.buttonLayout->addChild(p.button);
                 p.buttonLayout->setStretch(p.button);
 

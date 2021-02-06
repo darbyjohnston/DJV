@@ -90,7 +90,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::TimelineSlider");
-            setBackgroundRole(UI::ColorRole::Trough);
+            setBackgroundColorRole(UI::ColorRole::Trough);
 
             p.fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
 
@@ -98,7 +98,7 @@ namespace djv
             p.pipOverlay = UI::Layout::Overlay::create(context);
             p.pipOverlay->setCaptureKeyboard(false);
             p.pipOverlay->setCapturePointer(false);
-            p.pipOverlay->setBackgroundRole(UI::ColorRole::None);
+            p.pipOverlay->setBackgroundColorRole(UI::ColorRole::None);
             p.pipOverlay->addChild(p.pipWidget);
             p.pipOverlay->hide();
 

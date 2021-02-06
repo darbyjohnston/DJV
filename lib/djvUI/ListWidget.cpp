@@ -40,7 +40,7 @@ namespace djv
         {
             std::vector<ListItem> items;
             std::string filter;
-            std::vector<ColorRole> alternateRowsRoles = { ColorRole::None, ColorRole::None };
+            std::vector<ColorRole> rowColorRoles = { ColorRole::None, ColorRole::None };
             std::vector<std::shared_ptr<ListButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<VerticalLayout> layout;
@@ -150,12 +150,12 @@ namespace djv
             _filterUpdate();
         }
 
-        void ListWidget::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
+        void ListWidget::setRowColorRoles(ColorRole even, ColorRole odd)
         {
             DJV_PRIVATE_PTR();
-            if (value0 == p.alternateRowsRoles[0] && value1 == p.alternateRowsRoles[1])
+            if (even == p.rowColorRoles[0] && odd == p.rowColorRoles[1])
                 return;
-            p.alternateRowsRoles = { value0, value1 };
+            p.rowColorRoles = { even, odd };
             _filterUpdate();
         }
 
@@ -262,14 +262,14 @@ namespace djv
                 {
                     if (item.colorRole != ColorRole::None)
                     {
-                        buttons[i]->setBackgroundRole(item.colorRole);
+                        buttons[i]->setBackgroundColorRole(item.colorRole);
                     }
                     else
                     {
-                        buttons[i]->setBackgroundRole(
+                        buttons[i]->setBackgroundColorRole(
                             (0 == indices.size() % 2) ?
-                            p.alternateRowsRoles[0] :
-                            p.alternateRowsRoles[1]);
+                            p.rowColorRoles[0] :
+                            p.rowColorRoles[1]);
                     }
                     indices.push_back(i);
                 }
@@ -282,7 +282,7 @@ namespace djv
             button->setRightIcon(item.rightIcon);
             button->setText(item.text);
             button->setRightText(item.rightText);
-            button->setBackgroundRole(item.colorRole);
+            button->setBackgroundColorRole(item.colorRole);
             button->setTooltip(item.tooltip);
         }
 

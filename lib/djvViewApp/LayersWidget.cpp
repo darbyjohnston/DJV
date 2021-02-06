@@ -35,7 +35,7 @@ namespace djv
             setClassName("djv::ViewApp::LayersWidget");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
-            p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+            p.listWidget->setRowColorRoles(UI::ColorRole::None, UI::ColorRole::Trough);
             addChild(p.listWidget);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));

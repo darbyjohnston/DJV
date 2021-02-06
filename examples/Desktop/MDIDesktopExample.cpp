@@ -62,7 +62,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<System::C
 
     auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
-    titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
+    titleBar->setBackgroundColorRole(UI::ColorRole::BackgroundHeader);
     titleBar->addChild(titleLabel);
     titleBar->addExpander();
     titleBar->addChild(_closeButton);
@@ -77,7 +77,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<System::C
 
     auto layout = UI::VerticalLayout::create(context);
     layout->setSpacing(UI::MetricsRole::None);
-    layout->setBackgroundRole(UI::ColorRole::Background);
+    layout->setBackgroundColorRole(UI::ColorRole::Background);
     layout->addChild(titleBar);
     layout->addChild(scrollWidget);
     layout->setStretch(scrollWidget);

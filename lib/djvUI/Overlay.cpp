@@ -45,7 +45,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::Overlay");
-                setBackgroundRole(ColorRole::Overlay);
+                setBackgroundColorRole(ColorRole::Overlay);
                 setPointerEnabled(true);
 
                 p.fadeAnimation = System::Animation::Animation::create(context);

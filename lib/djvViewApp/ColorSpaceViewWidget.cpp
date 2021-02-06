@@ -43,7 +43,7 @@ namespace djv
             setClassName("djv::ViewApp::ColorSpaceViewWidget");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
-            p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+            p.listWidget->setRowColorRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
             p.searchBox = UIComponents::SearchBox::create(context);
 

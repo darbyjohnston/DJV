@@ -76,10 +76,10 @@ namespace djv
             ///@{
 
             MetricsRole getMinimumSizeRole() const;
-            ColorRole getBackgroundRole() const;
+            ColorRole getBackgroundColorRole() const;
 
             void setMinimumSizeRole(MetricsRole);
-            void setBackgroundRole(ColorRole);
+            void setBackgroundColorRole(ColorRole);
 
             ///@}
 

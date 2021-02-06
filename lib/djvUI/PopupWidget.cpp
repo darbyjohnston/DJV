@@ -23,7 +23,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::PopupWidget");
-            setBackgroundRole(ColorRole::Background);
+            setBackgroundColorRole(ColorRole::Background);
             setPointerEnabled(true);
 
             p.border = Border::create(context);

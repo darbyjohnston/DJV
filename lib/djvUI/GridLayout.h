@@ -61,8 +61,8 @@ namespace djv
                 //! \name Options
                 ///@{
 
-                void setRowBackgroundRole(int, ColorRole);
-                void setColumnBackgroundRole(int, ColorRole);
+                void setRowColorRole(int, ColorRole);
+                void setColumnColorRole(int, ColorRole);
 
                 ///@}
 

@@ -156,7 +156,7 @@ namespace djv
 
                 p.lineEditBase = Text::LineEditBase::create(context);
                 p.lineEditBase->setFont(Render2D::Font::familyMono);
-                p.lineEditBase->setBackgroundRole(UI::ColorRole::None);
+                p.lineEditBase->setBackgroundColorRole(UI::ColorRole::None);
                 p.lineEditBase->installEventFilter(shared_from_this());
                 addChild(p.lineEditBase);
 

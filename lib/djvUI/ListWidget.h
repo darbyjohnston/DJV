@@ -81,7 +81,7 @@ namespace djv
             //! \name Options
             ///@{
 
-            void setAlternateRowsRoles(ColorRole, ColorRole);
+            void setRowColorRoles(ColorRole even, ColorRole odd);
 
             ///@}
 

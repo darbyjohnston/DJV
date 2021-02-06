@@ -36,7 +36,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::ToolBar");
-            setBackgroundRole(ColorRole::BackgroundToolBar);
+            setBackgroundColorRole(ColorRole::BackgroundToolBar);
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);

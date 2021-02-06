@@ -81,9 +81,9 @@ namespace djv
             return _vAlign;
         }
 
-        inline ColorRole Widget::getBackgroundRole() const
+        inline ColorRole Widget::getBackgroundColorRole() const
         {
-            return _backgroundRole;
+            return _backgroundColorRole;
         }
 
         inline const std::set<Side>& Widget::getShadowOverlay() const

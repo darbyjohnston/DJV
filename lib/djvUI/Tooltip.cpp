@@ -176,7 +176,7 @@ namespace djv
             p.overlay = Layout::Overlay::create(context);
             p.overlay->setCapturePointer(false);
             p.overlay->setCaptureKeyboard(false);
-            p.overlay->setBackgroundRole(ColorRole::None);
+            p.overlay->setBackgroundColorRole(ColorRole::None);
             p.overlay->addChild(layout);
 
             window->addChild(p.overlay);

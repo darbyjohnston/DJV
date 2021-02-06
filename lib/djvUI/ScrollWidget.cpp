@@ -640,7 +640,7 @@ namespace djv
             p.scrollArea->installEventFilter(shared_from_this());
 
             p.scrollAreaSwipe = Widget::create(context);
-            //p.scrollAreaSwipe->setBackgroundRole(ColorRole::Overlay);
+            //p.scrollAreaSwipe->setBackgroundColorRole(ColorRole::Overlay);
             p.scrollAreaSwipe->setVisible(false);
             p.scrollAreaSwipe->installEventFilter(shared_from_this());
 
@@ -852,6 +852,11 @@ namespace djv
                 return;
             p.autoHideScrollBars = value;
             _resize();
+        }
+
+        bool ScrollWidget::hasBorder() const
+        {
+            return _p->border->getBorderSize() != MetricsRole::None;
         }
 
         MetricsRole ScrollWidget::getMinimumSizeRole() const

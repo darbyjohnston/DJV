@@ -149,7 +149,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UIComponents::ListViewHeader");
-            setBackgroundRole(UI::ColorRole::BackgroundBellows);
+            setBackgroundColorRole(UI::ColorRole::BackgroundBellows);
             
             p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
 

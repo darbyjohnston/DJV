@@ -62,7 +62,7 @@ namespace djv
                 p.buttonLayout->installEventFilter(shared_from_this());
 
                 p.lineEdit = UI::Text::LineEdit::create(context);
-                p.lineEdit->setBackgroundRole(UI::ColorRole::Trough);
+                p.lineEdit->setBackgroundColorRole(UI::ColorRole::Trough);
 
                 p.layout = UI::HorizontalLayout::create(context);
                 p.layout->setSpacing(UI::MetricsRole::None);

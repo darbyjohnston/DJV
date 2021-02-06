@@ -62,7 +62,7 @@ namespace djv
                 //! \name Text
                 ///@{
 
-                const std::string& getText() const;
+                std::string getText() const;
 
                 void setText(const std::string&);
 

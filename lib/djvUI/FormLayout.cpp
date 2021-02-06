@@ -19,7 +19,7 @@ namespace djv
             {
                 std::string fontFamily;
                 std::string fontFace;
-                std::vector<ColorRole> alternateRowsRoles = { ColorRole::None, ColorRole::None };
+                std::vector<ColorRole> rowColorRoles = { ColorRole::None, ColorRole::None };
                 VAlign labelVAlign = VAlign::Center;
                 std::shared_ptr<Grid> layout;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<Text::Block>> widgetToText;
@@ -132,12 +132,12 @@ namespace djv
                 }
             }
 
-            void Form::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
+            void Form::setRowColorRoles(ColorRole even, ColorRole odd)
             {
                 DJV_PRIVATE_PTR();
-                if (value0 == p.alternateRowsRoles[0] && value1 == p.alternateRowsRoles[1])
+                if (even == p.rowColorRoles[0] && odd == p.rowColorRoles[1])
                     return;
-                p.alternateRowsRoles = { value0, value1 };
+                p.rowColorRoles = { even, odd };
                 _widgetUpdate();
             }
 
@@ -204,7 +204,7 @@ namespace djv
                 const glm::ivec2 gridSize = p.layout->getGridSize();
                 for (int y = 0; y < gridSize.y; ++y)
                 {
-                    p.layout->setRowBackgroundRole(y, (y % 2 == 0) ? p.alternateRowsRoles[0] : p.alternateRowsRoles[1]);
+                    p.layout->setRowColorRole(y, (y % 2 == 0) ? p.rowColorRoles[0] : p.rowColorRoles[1]);
                 }
             }
 

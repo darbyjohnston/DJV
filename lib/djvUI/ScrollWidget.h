@@ -81,6 +81,7 @@ namespace djv
             //! \name Options
             ///@{
 
+            bool hasBorder() const;
             MetricsRole getMinimumSizeRole() const;
             MetricsRole getScrollBarSizeRole() const;
 

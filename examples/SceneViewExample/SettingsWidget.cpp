@@ -16,7 +16,7 @@ void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     Widget::_init(context);
 
-    setBackgroundRole(UI::ColorRole::Background);
+    setBackgroundColorRole(UI::ColorRole::Background);
 
     _childLayout = UI::VerticalLayout::create(context);
     _childLayout->setSpacing(UI::MetricsRole::None);

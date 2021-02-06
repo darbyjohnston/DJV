@@ -142,7 +142,7 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            hLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
+            hLayout->setBackgroundColorRole(UI::ColorRole::BackgroundToolBar);
             hLayout->addExpander();
             hLayout->addChild(p.acceptButton);
             hLayout->addChild(p.cancelButton);

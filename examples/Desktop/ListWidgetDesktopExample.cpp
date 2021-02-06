@@ -124,7 +124,7 @@ void Application::_init(std::list<std::string>& args)
     alternateRowsCheckBox->setCheckedCallback(
         [this](bool value)
         {
-            _listWidget->setAlternateRowsRoles(
+            _listWidget->setRowColorRoles(
                 UI::ColorRole::None,
                 value ? UI::ColorRole::Trough : UI::ColorRole::None);
         });

@@ -205,7 +205,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const Math::BBox2f& g = getGeometry();
                 const auto& render = _getRender();
-                render->setFillColor(style->getColor(getBackgroundRole()));
+                render->setFillColor(style->getColor(getBackgroundColorRole()));
                 render->drawRect(g);
                 if (_isPressed())
                 {

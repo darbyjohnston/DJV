@@ -89,7 +89,7 @@ namespace djv
                 _label = UI::Text::Label::create(context);
                 _label->setTextHAlign(UI::TextHAlign::Left);
                 _label->setMargin(UI::MetricsRole::MarginSmall);
-                _label->setBackgroundRole(UI::ColorRole::Trough);
+                _label->setBackgroundColorRole(UI::ColorRole::Trough);
                 addChild(_label);
 
                 _widgetUpdate();

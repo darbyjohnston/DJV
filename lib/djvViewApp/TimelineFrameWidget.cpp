@@ -67,7 +67,7 @@ namespace djv
             p.lineEditBase->addAction(prevX10Action);
 
             p.buttons = UI::Numeric::IncrementButtons::create(context);
-            p.buttons->setBackgroundRole(UI::ColorRole::None);
+            p.buttons->setBackgroundColorRole(UI::ColorRole::None);
 
             p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);

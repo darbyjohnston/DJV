@@ -32,7 +32,7 @@ namespace djv
                 setVAlign(VAlign::Center);
 
                 p.lineEditBase = LineEditBase::create(context);
-                p.lineEditBase->setBackgroundRole(ColorRole::Trough);
+                p.lineEditBase->setBackgroundColorRole(ColorRole::Trough);
                 addChild(p.lineEditBase);
 
                 auto weak = std::weak_ptr<LineEdit>(std::dynamic_pointer_cast<LineEdit>(shared_from_this()));
@@ -145,10 +145,10 @@ namespace djv
                 _p->lineEditBase->setFocusCallback(callback);
             }
 
-            void LineEdit::setBackgroundRole(ColorRole value)
+            void LineEdit::setBackgroundColorRole(ColorRole value)
             {
                 DJV_PRIVATE_PTR();
-                p.lineEditBase->setBackgroundRole(value);
+                p.lineEditBase->setBackgroundColorRole(value);
             }
 
             std::shared_ptr<Widget> LineEdit::getFocusWidget()

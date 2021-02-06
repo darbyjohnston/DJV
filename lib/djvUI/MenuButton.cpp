@@ -399,7 +399,7 @@ namespace djv
                     break;
                 }
 
-                render->setFillColor(style->getColor(getBackgroundRole()));
+                render->setFillColor(style->getColor(getBackgroundColorRole()));
                 render->drawRect(g2);
                 if (p.open)
                 {

@@ -88,7 +88,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::TimelineWidget");
-            setBackgroundRole(UI::ColorRole::BackgroundToolBar);
+            setBackgroundColorRole(UI::ColorRole::BackgroundToolBar);
 
             p.speedPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.speedPopupButton->setPopupIcon("djvIconPopupMenu");
@@ -142,7 +142,7 @@ namespace djv
 
             auto toolBar = UI::ToolBar::create(context);
             toolBar->setVAlign(UI::VAlign::Center);
-            toolBar->setBackgroundRole(UI::ColorRole::None);
+            toolBar->setBackgroundColorRole(UI::ColorRole::None);
             toolBar->addAction(playbackActions["InPoint"]);
             toolBar->addAction(playbackActions["PrevFrame"]);
             toolBar->addAction(playbackActions["Reverse"]);

@@ -41,6 +41,7 @@ namespace djv
             MetricsRole getSwatchSizeRole() const;
 
             void setSwatchSizeRole(MetricsRole);
+
             void setBorder(bool);
 
             ///@}

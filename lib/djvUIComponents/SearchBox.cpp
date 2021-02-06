@@ -48,11 +48,11 @@ namespace djv
             p.clearButton->setIcon("djvIconClear");
             p.clearButton->setInsideMargin(UI::MetricsRole::None);
             p.clearButton->setTextFocusEnabled(false);
-            p.clearButton->setBackgroundRole(UI::ColorRole::None);
+            p.clearButton->setBackgroundColorRole(UI::ColorRole::None);
             
             p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->setBackgroundRole(UI::ColorRole::Trough);
+            p.layout->setBackgroundColorRole(UI::ColorRole::Trough);
             p.layout->addChild(p.lineEditBase);
             p.layout->setStretch(p.lineEditBase);
             p.soloLayout = UI::SoloLayout::create(context);

@@ -77,7 +77,7 @@ namespace djv
 
                 ///@}
 
-                void setBackgroundRole(ColorRole) override;
+                void setBackgroundColorRole(ColorRole) override;
 
                 std::shared_ptr<Widget> getFocusWidget() override;
 

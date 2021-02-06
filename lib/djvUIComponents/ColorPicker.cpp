@@ -50,7 +50,7 @@ namespace djv
             setVAlign(UI::VAlign::Center);
 
             p.comboBox = UI::ComboBox::create(context);
-            p.comboBox->setBackgroundRole(UI::ColorRole::None);
+            p.comboBox->setBackgroundColorRole(UI::ColorRole::None);
             addChild(p.comboBox);
 
             _widgetUpdate();
@@ -817,11 +817,11 @@ namespace djv
 
                     auto overlay = UI::Layout::Overlay::create(context);
                     overlay->setFadeIn(false);
-                    overlay->setBackgroundRole(UI::ColorRole::None);
+                    overlay->setBackgroundColorRole(UI::ColorRole::None);
                     overlay->addChild(popupLayout);
 
                     p.window = UI::Window::create(context);
-                    p.window->setBackgroundRole(UI::ColorRole::None);
+                    p.window->setBackgroundColorRole(UI::ColorRole::None);
                     p.window->addChild(overlay);
                     
                     auto weak = std::weak_ptr<ColorPickerSwatch>(std::dynamic_pointer_cast<ColorPickerSwatch>(shared_from_this()));
