@@ -124,14 +124,14 @@ namespace djv
             UIComponents::UIComponentsSystem::create(shared_from_this());
             FileSystem::create(shared_from_this());
             WindowSystem::create(shared_from_this());
-            //EditSystem::create(shared_from_this()); // Create after WindowSystem
+            EditSystem::create(shared_from_this()); // Create after WindowSystem
             ViewSystem::create(shared_from_this());
             ImageSystem::create(shared_from_this());
             PlaybackSystem::create(shared_from_this());
             AudioSystem::create(shared_from_this());
             ColorPickerSystem::create(shared_from_this());
             MagnifySystem::create(shared_from_this());
-            //AnnotateSystem::create(shared_from_this());
+            AnnotateSystem::create(shared_from_this());
             InfoSystem::create(shared_from_this());
             MessagesSystem::create(shared_from_this());
             LogSystem::create(shared_from_this());
