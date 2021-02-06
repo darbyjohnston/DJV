@@ -201,7 +201,6 @@ namespace djv
                     }
                     default: break;
                     }
-                    handleGeom = handleGeom.margin(-b);
                     render->setFillColor(style->getColor(ColorRole::Border));
                     render->drawRect(handleGeom);
                     handleGeom = handleGeom.margin(-b);
