@@ -89,8 +89,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             ToolWidgetData out;
-            auto contextWeak = getContext();
-            if (auto context = contextWeak.lock())
+            if (auto context = getContext().lock())
             {
                 if (value == _p->actions["Info"])
                 {

@@ -52,12 +52,10 @@ namespace djv
             ///@{
 
             std::shared_ptr<Core::Observer::IValueSubject<AnnotateLineSize> > observeLineSize() const;
-            std::shared_ptr<Core::Observer::IListSubject<Image::Color> > observeColors() const;
-            std::shared_ptr<Core::Observer::IValueSubject<int> > observeCurrentColor() const;
+            std::shared_ptr<Core::Observer::IValueSubject<Image::Color> > observeColor() const;
 
             void setLineSize(AnnotateLineSize);
-            void setColors(const std::vector<Image::Color>&);
-            void setCurrentColor(int);
+            void setColor(const Image::Color&);
 
             /// @}
 

@@ -31,7 +31,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         AnnotateTool,
-        DJV_TEXT("annotate_tool_polyline"),
+        DJV_TEXT("annotate_tool_freehand"),
+        DJV_TEXT("annotate_tool_arrow"),
         DJV_TEXT("annotate_tool_line"),
         DJV_TEXT("annotate_tool_rectangle"),
         DJV_TEXT("annotate_tool_ellipse"));

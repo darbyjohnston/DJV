@@ -26,25 +26,16 @@ namespace djv
         {
             std::shared_ptr<Observer::ValueSubject<AnnotateTool> > tool;
             std::shared_ptr<Observer::ValueSubject<AnnotateLineSize> > lineSize;
-            std::shared_ptr<Observer::ListSubject<Image::Color> > colors;
-            std::shared_ptr<Observer::ValueSubject<int> > currentColor;
+            std::shared_ptr<Observer::ValueSubject<Image::Color> > color;
         };
 
         void AnnotateSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::AnnotateSettings", context);
             DJV_PRIVATE_PTR();
-            p.tool = Observer::ValueSubject<AnnotateTool>::create(AnnotateTool::Polyline);
+            p.tool = Observer::ValueSubject<AnnotateTool>::create(AnnotateTool::Freehand);
             p.lineSize = Observer::ValueSubject<AnnotateLineSize>::create(AnnotateLineSize::Medium);
-            p.colors = Observer::ListSubject<Image::Color>::create(
-                {
-                    Image::Color(1.F, 0.F, 0.F),
-                    Image::Color(0.F, 1.F, 0.F),
-                    Image::Color(0.F, 0.F, 1.F),
-                    Image::Color(1.F, 1.F, 1.F),
-                    Image::Color(0.F, 0.F, 0.F)
-                });
-            p.currentColor = Observer::ValueSubject<int>::create(0);
+            p.color = Observer::ValueSubject<Image::Color>::create(Image::Color(1.F, 0.F, 0.f));
             _load();
         }
 
@@ -62,7 +53,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::Observer::IValueSubject<AnnotateTool> > AnnotateSettings::observeTool() const
+        std::shared_ptr<Observer::IValueSubject<AnnotateTool> > AnnotateSettings::observeTool() const
         {
             return _p->tool;
         }
@@ -73,7 +64,7 @@ namespace djv
         }
 
 
-        std::shared_ptr<Core::Observer::IValueSubject<AnnotateLineSize> > AnnotateSettings::observeLineSize() const
+        std::shared_ptr<Observer::IValueSubject<AnnotateLineSize> > AnnotateSettings::observeLineSize() const
         {
             return _p->lineSize;
         }
@@ -83,24 +74,14 @@ namespace djv
             _p->lineSize->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::Observer::IListSubject<Image::Color> > AnnotateSettings::observeColors() const
+        std::shared_ptr<Observer::IValueSubject<Image::Color> > AnnotateSettings::observeColor() const
         {
-            return _p->colors;
+            return _p->color;
         }
 
-        void AnnotateSettings::setColors(const std::vector<Image::Color>& value)
+        void AnnotateSettings::setColor(const Image::Color& value)
         {
-            _p->colors->setIfChanged(value);
-        }
-
-        std::shared_ptr<Core::Observer::IValueSubject<int> > AnnotateSettings::observeCurrentColor() const
-        {
-            return _p->currentColor;
-        }
-
-        void AnnotateSettings::setCurrentColor(int value)
-        {
-            _p->currentColor->setIfChanged(value);
+            _p->color->setIfChanged(value);
         }
 
         void AnnotateSettings::load(const rapidjson::Value & value)
@@ -110,8 +91,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 UI::Settings::read("Tool", value, p.tool);
                 UI::Settings::read("LineSize", value, p.lineSize);
-                UI::Settings::read("Colors", value, p.colors);
-                UI::Settings::read("CurrentColor", value, p.currentColor);
+                UI::Settings::read("Color", value, p.color);
             }
         }
 
@@ -121,8 +101,7 @@ namespace djv
             rapidjson::Value out(rapidjson::kObjectType);
             UI::Settings::write("Tool", p.tool->get(), out, allocator);
             UI::Settings::write("LineSize", p.lineSize->get(), out, allocator);
-            UI::Settings::write("Colors", p.colors->get(), out, allocator);
-            UI::Settings::write("CurrentColor", p.currentColor->get(), out, allocator);
+            UI::Settings::write("Color", p.color->get(), out, allocator);
             return out;
         }
 

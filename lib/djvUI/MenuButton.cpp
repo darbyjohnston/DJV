@@ -28,6 +28,8 @@ namespace djv
             {
                 bool open = false;
                 MenuButtonStyle buttonStyle = MenuButtonStyle::Flat;
+                ColorRole iconColorRole = ColorRole::Foreground;
+                Image::Color iconColor;
                 bool textFocusEnabled = false;
                 std::string fontFamily;
                 std::string fontFace;
@@ -108,6 +110,7 @@ namespace djv
                         }
                     }
                     p.iconWidget->setIcon(value);
+                    _widgetUpdate();
                 }
                 else
                 {
@@ -127,6 +130,7 @@ namespace djv
                         if (auto context = getContext().lock())
                         {
                             p.popupIconWidget = IconWidget::create(context);
+                            p.popupIconWidget->setMargin(MetricsRole::MarginSmall);
                             p.popupIconWidget->setVAlign(VAlign::Center);
                             addChild(p.popupIconWidget);
                         }
@@ -141,9 +145,37 @@ namespace djv
                 }
             }
 
-            const std::string& Menu::getText() const
+            ColorRole Menu::getIconColorRole() const
             {
-                return _p->label->getText();
+                return _p->iconColorRole;
+            }
+
+            const Image::Color& Menu::getIconColor() const
+            {
+                return _p->iconColor;
+            }
+
+            void Menu::setIconColorRole(ColorRole value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.iconColorRole)
+                    return;
+                p.iconColorRole = value;
+                _widgetUpdate();
+            }
+
+            void Menu::setIconColor(const Image::Color& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.iconColor)
+                    return;
+                p.iconColor = value;
+                _widgetUpdate();
+            }
+
+            std::string Menu::getText() const
+            {
+                return _p->label ? _p->label->getText() : std::string();
             }
 
             void Menu::setText(const std::string& value)
@@ -157,15 +189,12 @@ namespace djv
                         {
                             p.label = Text::Label::create(context);
                             p.label->setTextHAlign(TextHAlign::Left);
-                            p.label->setFontFamily(p.fontFamily);
-                            p.label->setFontFace(p.fontFace);
-                            p.label->setFontSizeRole(p.fontSizeRole);
-                            p.label->setTextElide(p.textElide);
                             p.label->setMargin(MetricsRole::MarginSmall);
                             addChild(p.label);
                         }
                     }
                     p.label->setText(value);
+                    _widgetUpdate();
                 }
                 else
                 {
@@ -193,31 +222,28 @@ namespace djv
             void Menu::setFontFamily(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.fontFamily)
+                    return;
                 p.fontFamily = value;
-                if (p.label)
-                {
-                    p.label->setFontFamily(value);
-                }
+                _widgetUpdate();
             }
 
             void Menu::setFontFace(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.fontFace)
+                    return;
                 p.fontFace = value;
-                if (p.label)
-                {
-                    p.label->setFontFace(value);
-                }
+                _widgetUpdate();
             }
 
             void Menu::setFontSizeRole(MetricsRole value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.fontSizeRole)
+                    return;
                 p.fontSizeRole = value;
-                if (p.label)
-                {
-                    p.label->setFontSizeRole(value);
-                }
+                _widgetUpdate();
             }
 
             size_t Menu::getTextElide() const
@@ -241,10 +267,7 @@ namespace djv
                 if (value == p.textElide)
                     return;
                 p.textElide = value;
-                if (p.label)
-                {
-                    p.label->setTextElide(value);
-                }
+                _widgetUpdate();
             }
 
             void Menu::setInsideMargin(MetricsRole value)
@@ -491,6 +514,23 @@ namespace djv
                 if (p.openCallback)
                 {
                     p.openCallback(p.open);
+                }
+            }
+
+            void Menu::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.iconWidget)
+                {
+                    p.iconWidget->setIconColorRole(p.iconColorRole);
+                    p.iconWidget->setIconColor(p.iconColor);
+                }
+                if (p.label)
+                {
+                    p.label->setFontFamily(p.fontFamily);
+                    p.label->setFontFace(p.fontFace);
+                    p.label->setFontSizeRole(p.fontSizeRole);
+                    p.label->setTextElide(p.textElide);
                 }
             }
 

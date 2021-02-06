@@ -8,6 +8,12 @@
 
 namespace djv
 {
+    namespace Image
+    {
+        class Color;
+    
+    } // namespace Image
+
     namespace UI
     {
         namespace Button
@@ -44,6 +50,12 @@ namespace djv
 
                 void setIcon(const std::string&);
                 void setPopupIcon(const std::string&);
+
+                ColorRole getIconColorRole() const;
+                const Image::Color& getIconColor() const;
+
+                void setIconColorRole(ColorRole);
+                void setIconColor(const Image::Color&);
 
                 ///@}
 

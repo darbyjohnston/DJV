@@ -8,6 +8,12 @@
 
 namespace djv
 {
+    namespace Image
+    {
+        class Color;
+
+    } // namespace Image
+
     namespace UI
     {
         namespace Button
@@ -45,12 +51,18 @@ namespace djv
                 void setIcon(const std::string&);
                 void setPopupIcon(const std::string&);
 
+                ColorRole getIconColorRole() const;
+                const Image::Color& getIconColor() const;
+
+                void setIconColorRole(ColorRole);
+                void setIconColor(const Image::Color&);
+
                 ///@}
 
                 //! \name Text
                 ///@{
 
-                const std::string& getText() const;
+                std::string getText() const;
 
                 void setText(const std::string&);
 
@@ -101,6 +113,8 @@ namespace djv
                 bool _isHovered() const;
                                 
                 void _doOpenCallback();
+
+                void _widgetUpdate();
 
                 DJV_PRIVATE();
             };

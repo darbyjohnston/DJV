@@ -34,6 +34,8 @@ namespace djv
             MenuData getMenuData() const override;
 
         protected:
+            void _actionsUpdate();
+
             void _textUpdate() override;
             void _shortcutsUpdate() override;
 

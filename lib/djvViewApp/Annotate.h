@@ -31,13 +31,14 @@ namespace djv
 
         enum class AnnotateTool
         {
-            Polyline,
+            Freehand,
+            Arrow,
             Line,
             Rectangle,
             Ellipse,
 
             Count,
-            First = Polyline
+            First = Freehand
         };
 
         enum class AnnotateLineSize
@@ -81,18 +82,38 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        class AnnotatePolyline : public AnnotatePrimitive
+        class AnnotateFreehand : public AnnotatePrimitive
         {
-            DJV_NON_COPYABLE(AnnotatePolyline);
+            DJV_NON_COPYABLE(AnnotateFreehand);
 
         protected:
             void _init(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
-            AnnotatePolyline();
+            AnnotateFreehand();
 
         public:
-            ~AnnotatePolyline() override;
+            ~AnnotateFreehand() override;
 
-            static std::shared_ptr<AnnotatePolyline> create(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
+            static std::shared_ptr<AnnotateFreehand> create(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
+
+            void draw(const std::shared_ptr<Render2D::Render>&) override;
+            void addPoint(const glm::vec2&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class AnnotateArrow : public AnnotatePrimitive
+        {
+            DJV_NON_COPYABLE(AnnotateArrow);
+
+        protected:
+            void _init(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
+            AnnotateArrow();
+
+        public:
+            ~AnnotateArrow() override;
+
+            static std::shared_ptr<AnnotateArrow> create(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
 
             void draw(const std::shared_ptr<Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;

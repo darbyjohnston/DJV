@@ -188,6 +188,26 @@ namespace djv
                 _p->button->setPopupIcon(value);
             }
 
+            ColorRole Popup::getIconColorRole() const
+            {
+                return _p->button->getIconColorRole();
+            }
+
+            const Image::Color& Popup::getIconColor() const
+            {
+                return _p->button->getIconColor();
+            }
+
+            void Popup::setIconColorRole(ColorRole value)
+            {
+                _p->button->setIconColorRole(value);
+            }
+
+            void Popup::setIconColor(const Image::Color& value)
+            {
+                _p->button->setIconColor(value);
+            }
+
             const std::string& Popup::getText() const
             {
                 return _p->button->getText();

@@ -44,31 +44,31 @@ namespace djv
             return _p->context;
         }
 
-        struct AnnotatePolyline::Private
+        struct AnnotateFreehand::Private
         {
             std::vector<glm::vec2> points;
         };
         
-        void AnnotatePolyline::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
+        void AnnotateFreehand::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
             AnnotatePrimitive::_init(options, context);
         }
         
-        AnnotatePolyline::AnnotatePolyline() :
+        AnnotateFreehand::AnnotateFreehand() :
             _p(new Private)
         {}
             
-        AnnotatePolyline::~AnnotatePolyline()
+        AnnotateFreehand::~AnnotateFreehand()
         {}
         
-        std::shared_ptr<AnnotatePolyline> AnnotatePolyline::create(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
+        std::shared_ptr<AnnotateFreehand> AnnotateFreehand::create(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
         {
-            auto out = std::shared_ptr<AnnotatePolyline>(new AnnotatePolyline);
+            auto out = std::shared_ptr<AnnotateFreehand>(new AnnotateFreehand);
             out->_init(options, context);
             return out;
         }
             
-        void AnnotatePolyline::draw(const std::shared_ptr<Render2D::Render>& render)
+        void AnnotateFreehand::draw(const std::shared_ptr<Render2D::Render>& render)
         {
             DJV_PRIVATE_PTR();
             const auto& options = getOptions();
@@ -77,8 +77,50 @@ namespace djv
             render->drawPolyline(p.points);
         }
         
-        void AnnotatePolyline::addPoint(const glm::vec2& value)
+        void AnnotateFreehand::addPoint(const glm::vec2& value)
         {
+            _p->points.push_back(value);
+        }
+
+        struct AnnotateArrow::Private
+        {
+            std::vector<glm::vec2> points;
+        };
+
+        void AnnotateArrow::_init(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
+        {
+            AnnotatePrimitive::_init(options, context);
+        }
+
+        AnnotateArrow::AnnotateArrow() :
+            _p(new Private)
+        {}
+
+        AnnotateArrow::~AnnotateArrow()
+        {}
+
+        std::shared_ptr<AnnotateArrow> AnnotateArrow::create(const AnnotateOptions& options, const std::shared_ptr<System::Context>& context)
+        {
+            auto out = std::shared_ptr<AnnotateArrow>(new AnnotateArrow);
+            out->_init(options, context);
+            return out;
+        }
+
+        void AnnotateArrow::draw(const std::shared_ptr<Render2D::Render>& render)
+        {
+            DJV_PRIVATE_PTR();
+            const auto& options = getOptions();
+            render->setFillColor(options.color);
+            render->setLineWidth(options.lineSize);
+            render->drawPolyline(p.points);
+        }
+
+        void AnnotateArrow::addPoint(const glm::vec2& value)
+        {
+            while (_p->points.size() > 1)
+            {
+                _p->points.pop_back();
+            }
             _p->points.push_back(value);
         }
 

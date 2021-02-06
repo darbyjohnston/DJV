@@ -35,6 +35,9 @@ namespace djv
                 const std::shared_ptr<System::Context>&);
 
         protected:
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+
             void _initEvent(System::Event::Init &) override;
 
         private:

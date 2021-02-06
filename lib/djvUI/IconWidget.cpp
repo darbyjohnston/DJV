@@ -26,6 +26,7 @@ namespace djv
 
             std::string name;
             ColorRole iconColorRole = ColorRole::Foreground;
+            Image::Color iconColor;
             MetricsRole iconSizeRole = MetricsRole::Icon;
 
             std::future<std::shared_ptr<Image::Data> > imageFuture;
@@ -76,6 +77,11 @@ namespace djv
             return _p->iconColorRole;
         }
 
+        const Image::Color& IconWidget::getIconColor() const
+        {
+            return _p->iconColor;
+        }
+
         MetricsRole IconWidget::getIconSizeRole() const
         {
             return _p->iconSizeRole;
@@ -87,6 +93,15 @@ namespace djv
             if (value == p.iconColorRole)
                 return;
             p.iconColorRole = value;
+            _redraw();
+        }
+
+        void IconWidget::setIconColor(const Image::Color& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.iconColor)
+                return;
+            p.iconColor = value;
             _redraw();
         }
 
@@ -174,8 +189,8 @@ namespace djv
                 }
                 else
                 {
-                    render->setFillColor(Image::Color(1.F, 1.F, 1.F));
-                    render->drawImage(p.image, pos);
+                    render->setFillColor(p.iconColor);
+                    render->drawFilledImage(p.image, pos);
                 }
             }
         }

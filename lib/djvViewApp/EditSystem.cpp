@@ -25,9 +25,13 @@ namespace djv
     {
         struct EditSystem::Private
         {
+            bool hasUndo = false;
+            bool hasRedo = false;
+
             std::shared_ptr<MediaWidget> activeWidget;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
+
             std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<Observer::Value<bool> > hasUndoObserver;
             std::shared_ptr<Observer::Value<bool> > hasRedoObserver;
@@ -48,6 +52,7 @@ namespace djv
             p.menu->addAction(p.actions["Undo"]);
             p.menu->addAction(p.actions["Redo"]);
 
+            _actionsUpdate();
             _textUpdate();
             _shortcutsUpdate();
             
@@ -94,7 +99,8 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            system->_p->actions["Undo"]->setEnabled(value);
+                                            system->_p->hasUndo = value;
+                                            system->_actionsUpdate();
                                         }
                                     });
 
@@ -104,16 +110,18 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            system->_p->actions["Redo"]->setEnabled(value);
+                                            system->_p->hasRedo = value;
+                                            system->_actionsUpdate();
                                         }
                                     });
                             }
                             else
                             {
-                                system->_p->actions["Undo"]->setEnabled(false);
-                                system->_p->actions["Redo"]->setEnabled(false);
+                                system->_p->hasUndo = false;
+                                system->_p->hasRedo = false;
                                 system->_p->hasUndoObserver.reset();
                                 system->_p->hasRedoObserver.reset();
+                                system->_actionsUpdate();
                             }
                         }
                     });
@@ -152,6 +160,16 @@ namespace djv
                 { _p->menu },
                 2
             };
+        }
+
+        void EditSystem::_actionsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Undo"]->setEnabled(p.hasUndo);
+                p.actions["Redo"]->setEnabled(p.hasRedo);
+            }
         }
 
         void EditSystem::_textUpdate()

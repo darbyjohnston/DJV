@@ -39,11 +39,9 @@ namespace djv
         {
             std::shared_ptr<AnnotateSettings> settings;
             
-            bool currentTool = false;
             AnnotateTool tool = AnnotateTool::First;
             AnnotateLineSize lineSize = AnnotateLineSize::First;
-            std::vector<Image::Color> colors;
-            int currentColor = -1;
+            Image::Color color;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
@@ -60,8 +58,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<Observer::Value<bool> > > actionObservers;
             std::shared_ptr<Observer::Value<AnnotateTool> > toolObserver;
             std::shared_ptr<Observer::Value<AnnotateLineSize> > lineSizeObserver;
-            std::shared_ptr<Observer::List<Image::Color> > colorsObserver;
-            std::shared_ptr<Observer::Value<int> > currentColorObserver;
+            std::shared_ptr<Observer::Value<Image::Color> > colorObserver;
             std::shared_ptr<Observer::Value<bool> > undoObserver;
             std::shared_ptr<Observer::Value<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<Observer::Value<glm::vec2> > imagePosObserver;
@@ -81,8 +78,10 @@ namespace djv
             p.actions["Annotate"] = UI::Action::create();
             p.actions["Annotate"]->setIcon("djvIconAnnotate");
 
-            p.actions["Polyline"] = UI::Action::create();
-            p.actions["Polyline"]->setIcon("djvIconAnnotatePolyline");
+            p.actions["Freehand"] = UI::Action::create();
+            p.actions["Freehand"]->setIcon("djvIconAnnotateFreehand");
+            p.actions["Arrow"] = UI::Action::create();
+            p.actions["Arrow"]->setIcon("djvIconAnnotateArrow");
             p.actions["Line"] = UI::Action::create();
             p.actions["Line"]->setIcon("djvIconAnnotateLine");
             p.actions["Rectangle"] = UI::Action::create();
@@ -91,7 +90,8 @@ namespace djv
             p.actions["Ellipse"]->setIcon("djvIconAnnotateEllipse");
             p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.toolActionGroup->setActions({
-                p.actions["Polyline"],
+                p.actions["Freehand"],
+                p.actions["Arrow"],
                 p.actions["Line"],
                 p.actions["Rectangle"],
                 p.actions["Ellipse"] });
@@ -122,9 +122,21 @@ namespace djv
             p.actions["Prev"]->setIcon("djvIconArrowLeft");
 
             _addShortcut(DJV_TEXT("shortcut_annotate"), GLFW_KEY_A, UI::getSystemModifier());
+            _addShortcut(DJV_TEXT("shortcut_annotate_freehand"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_arrow"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_line"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_rectangle"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_ellipse"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_clear"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_add"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_delete"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_delete_all"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_next"), 0);
+            _addShortcut(DJV_TEXT("shortcut_annotate_prev"), 0);
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["Polyline"]);
+            p.menu->addAction(p.actions["Freehand"]);
+            p.menu->addAction(p.actions["Arrow"]);
             p.menu->addAction(p.actions["Line"]);
             p.menu->addAction(p.actions["Rectangle"]);
             p.menu->addAction(p.actions["Ellipse"]);
@@ -189,23 +201,13 @@ namespace djv
                 }
             });
 
-            p.colorsObserver = Observer::List<Image::Color>::create(
-                annotateSettings->observeColors(),
-                [weak](const std::vector<Image::Color>& value)
+            p.colorObserver = Observer::Value<Image::Color>::create(
+                annotateSettings->observeColor(),
+                [weak](const Image::Color& value)
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->colors = value;
-                }
-            });
-
-            p.currentColorObserver = Observer::Value<int>::create(
-                annotateSettings->observeCurrentColor(),
-                [weak](int value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->currentColor = value;
+                    system->_p->color = value;
                 }
             });
 
@@ -257,7 +259,8 @@ namespace djv
                                         {
                                             if (auto system = weak.lock())
                                             {
-                                                if (system->_p->currentTool && system->_p->activeWidget)
+                                                if (system->_p->actions["Annotate"]->observeChecked()->get() &&
+                                                    system->_p->activeWidget)
                                                 {
                                                     switch (value.state)
                                                     {
@@ -371,8 +374,10 @@ namespace djv
             {
                 p.actions["Annotate"]->setText(_getText(DJV_TEXT("menu_annotate")));
                 p.actions["Annotate"]->setTooltip(_getText(DJV_TEXT("menu_annotate_tooltip")));
-                p.actions["Polyline"]->setText(_getText(DJV_TEXT("menu_annotate_polyline")));
-                p.actions["Polyline"]->setTooltip(_getText(DJV_TEXT("menu_annotate_polyline_tooltip")));
+                p.actions["Freehand"]->setText(_getText(DJV_TEXT("menu_annotate_freehand")));
+                p.actions["Freehand"]->setTooltip(_getText(DJV_TEXT("menu_annotate_freehand_tooltip")));
+                p.actions["Arrow"]->setText(_getText(DJV_TEXT("menu_annotate_arrow")));
+                p.actions["Arrow"]->setTooltip(_getText(DJV_TEXT("menu_annotate_arrow_tooltip")));
                 p.actions["Line"]->setText(_getText(DJV_TEXT("menu_annotate_line")));
                 p.actions["Line"]->setTooltip(_getText(DJV_TEXT("menu_annotate_line_tooltip")));
                 p.actions["Rectangle"]->setText(_getText(DJV_TEXT("menu_annotate_rectangle")));
@@ -402,6 +407,17 @@ namespace djv
             if (p.actions.size())
             {
                 p.actions["Annotate"]->setShortcuts(_getShortcuts("shortcut_annotate"));
+                p.actions["Freehand"]->setShortcuts(_getShortcuts("shortcut_annotate_freehand"));
+                p.actions["Arrow"]->setShortcuts(_getShortcuts("shortcut_annotate_arrow"));
+                p.actions["Line"]->setShortcuts(_getShortcuts("shortcut_annotate_line"));
+                p.actions["Rectangle"]->setShortcuts(_getShortcuts("shortcut_annotate_rectangle"));
+                p.actions["Ellipse"]->setShortcuts(_getShortcuts("shortcut_annotate_ellipse"));
+                p.actions["Clear"]->setShortcuts(_getShortcuts("shortcut_annotate_clear"));
+                p.actions["Add"]->setShortcuts(_getShortcuts("shortcut_annotate_add"));
+                p.actions["Delete"]->setShortcuts(_getShortcuts("shortcut_annotate_delete"));
+                p.actions["DeleteAll"]->setShortcuts(_getShortcuts("shortcut_annotate_delete_all"));
+                p.actions["Next"]->setShortcuts(_getShortcuts("shortcut_annotate_next"));
+                p.actions["Prev"]->setShortcuts(_getShortcuts("shortcut_annotate_prev"));
             }
         }
         
@@ -420,15 +436,18 @@ namespace djv
                 {
                     p.dragStart = value;
                     AnnotateOptions options;
-                    options.color = p.currentColor >= 0 && p.currentColor < p.colors.size() ? p.colors[p.currentColor] : Image::Color();
+                    options.color = p.color;
                     auto uiSystem = context->getSystemT<UI::UISystem>();
                     const auto& style = uiSystem->getStyle();
                     options.lineSize = getAnnotateLineSize(p.lineSize) * style->getScale();
                     std::shared_ptr<AnnotatePrimitive> primitive;
                     switch (p.tool)
                     {
-                    case AnnotateTool::Polyline:
-                        primitive = AnnotatePolyline::create(options, context);
+                    case AnnotateTool::Freehand:
+                        primitive = AnnotateFreehand::create(options, context);
+                        break;
+                    case AnnotateTool::Arrow:
+                        primitive = AnnotateArrow::create(options, context);
                         break;
                     case AnnotateTool::Line:
                         primitive = AnnotateLine::create(options, context);

@@ -8,6 +8,12 @@
 
 namespace djv
 {
+    namespace Image
+    {
+        class Color;
+
+    } // namespace Image
+
     namespace UI
     {
         //! This class provides a widget that displays an icon.
@@ -37,9 +43,11 @@ namespace djv
             ///@{
 
             ColorRole getIconColorRole() const;
+            const Image::Color& getIconColor() const;
             MetricsRole getIconSizeRole() const;
 
             void setIconColorRole(ColorRole);
+            void setIconColor(const Image::Color&);
             void setIconSizeRole(MetricsRole);
 
             ///@}
