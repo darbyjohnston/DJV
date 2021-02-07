@@ -291,7 +291,22 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (index >= 0 && index < static_cast<int>(p.buttonGroup->getButtonCount()))
             {
-                std::dynamic_pointer_cast<TabBarButton>(p.buttonGroup->getButtons()[index])->setText(value);
+                if (auto button = std::dynamic_pointer_cast<TabBarButton>(p.buttonGroup->getButtons()[index]))
+                {
+                    button->setText(value);
+                }
+            }
+        }
+
+        void TabBar::setTooltip(int index, const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (index >= 0 && index < static_cast<int>(p.buttonGroup->getButtonCount()))
+            {
+                if (auto button = std::dynamic_pointer_cast<TabBarButton>(p.buttonGroup->getButtons()[index]))
+                {
+                    button->setTooltip(value);
+                }
             }
         }
 

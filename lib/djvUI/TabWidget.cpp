@@ -16,8 +16,9 @@ namespace djv
     {
         struct TabWidget::Private
         {
+            std::vector<std::string> text;
+            std::vector<std::string> tooltips;
             std::vector<std::shared_ptr<Widget> > widgets;
-            std::map<std::shared_ptr<Widget>, std::string> widgetToText;
             std::shared_ptr<TabBar> tabBar;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<SoloLayout> soloLayout;
@@ -85,8 +86,23 @@ namespace djv
             const auto i = std::find(p.widgets.begin(), p.widgets.end(), widget);
             if (i != p.widgets.end())
             {
-                p.widgetToText[widget] = text;
-                p.tabBar->setText(i - p.widgets.begin(), text);
+                const auto j = i - p.widgets.begin();
+                p.text.resize(j + 1);
+                p.text[j] = text;
+                p.tabBar->setText(j, text);
+            }
+        }
+
+        void TabWidget::setTooltip(const std::shared_ptr<Widget>& widget, const std::string& tooltip)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = std::find(p.widgets.begin(), p.widgets.end(), widget);
+            if (i != p.widgets.end())
+            {
+                const auto j = i - p.widgets.begin();
+                p.tooltips.resize(j + 1);
+                p.tooltips[j] = tooltip;
+                p.tabBar->setTooltip(j, tooltip);
             }
         }
 
@@ -130,8 +146,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
+                p.text.push_back(std::string());
+                p.tooltips.push_back(std::string());
                 p.widgets.push_back(widget);
-                p.widgetToText[widget] = std::string();
                 p.soloLayout->addChild(widget);
                 _widgetUpdate();
             }
@@ -145,12 +162,16 @@ namespace djv
                 const auto i = std::find(p.widgets.begin(), p.widgets.end(), widget);
                 if (i != p.widgets.end())
                 {
+                    const auto j = i - p.widgets.begin();
+                    if (j < p.text.size())
+                    {
+                        p.text.erase(p.text.begin() + j);
+                    }
+                    if (j < p.tooltips.size())
+                    {
+                        p.tooltips.erase(p.tooltips.begin() + j);
+                    }
                     p.widgets.erase(i);
-                }
-                const auto j = p.widgetToText.find(widget);
-                if (j != p.widgetToText.end())
-                {
-                    p.widgetToText.erase(j);
                 }
                 p.soloLayout->removeChild(widget);
                 _widgetUpdate();
@@ -160,8 +181,9 @@ namespace djv
         void TabWidget::clearChildren()
         {
             DJV_PRIVATE_PTR();
+            p.text.clear();
+            p.tooltips.clear();
             p.widgets.clear();
-            p.widgetToText.clear();
             p.soloLayout->clearChildren();
             _widgetUpdate();
         }
@@ -186,22 +208,16 @@ namespace djv
         void TabWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            std::vector<std::string> tabs;
-            for (const auto& i : p.widgets)
+            p.tabBar->setTabs(p.text);
+            for (size_t i = 0; i < p.tooltips.size(); ++i)
             {
-                std::string text;
-                const auto j = p.widgetToText.find(i);
-                if (j != p.widgetToText.end())
-                {
-                    text = j->second;
-                }
-                tabs.push_back(text);
+                p.tabBar->setTooltip(static_cast<int>(i), p.tooltips[i]);
             }
-            p.tabBar->setTabs(tabs);
             const auto i = std::find(p.widgets.begin(), p.widgets.end(), p.soloLayout->getCurrentWidget());
             if (i != p.widgets.end())
             {
-                p.tabBar->setCurrentTab(i - p.widgets.begin());
+                const auto j = i - p.widgets.begin();
+                p.tabBar->setCurrentTab(static_cast<int>(j));
             }
         }
 

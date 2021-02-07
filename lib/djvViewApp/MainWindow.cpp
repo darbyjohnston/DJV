@@ -329,6 +329,7 @@ namespace djv
                                     auto mediaWidget = MediaWidget::create(value, context);
                                     widget->_p->mediaTabWidget->addChild(mediaWidget);
                                     widget->_p->mediaTabWidget->setText(mediaWidget, value->getFileInfo().getFileName(Math::Frame::invalid, false));
+                                    widget->_p->mediaTabWidget->setTooltip(mediaWidget, value->getFileInfo().getFileName());
                                     widget->_p->mediaWidgets[value] = mediaWidget;
                                 }
                             }

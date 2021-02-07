@@ -33,6 +33,7 @@ namespace djv
             void clearTabs();
 
             void setText(int, const std::string&);
+            void setTooltip(int, const std::string&);
 
             ///@}
 

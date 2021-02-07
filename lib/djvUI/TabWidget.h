@@ -30,8 +30,9 @@ namespace djv
             ///@{
 
             const std::shared_ptr<TabBar>& getTabBar() const;
-            
+
             void setText(const std::shared_ptr<Widget>&, const std::string&);
+            void setTooltip(const std::shared_ptr<Widget>&, const std::string&);
 
             ///@}
 
