@@ -545,7 +545,7 @@ namespace djv
                 const size_t size = p.media->getSize();
                 if (size > 0 && currentIndex != Observer::invalidListIndex)
                 {
-                    if (currentIndex > 0 && index < currentIndex || currentIndex >= size)
+                    if (currentIndex > 0 && (currentIndex > index || currentIndex >= size))
                     {
                         --currentIndex;
                     }
