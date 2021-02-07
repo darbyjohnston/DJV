@@ -66,6 +66,7 @@ namespace djv
                         if (!widget->getSettingsName().empty())
                         {
                             auto label = UI::Text::Label::create(context);
+                            label->setFontFace("Bold");
                             label->setTextHAlign(UI::TextHAlign::Left);
                             label->setMargin(UI::MetricsRole::MarginSmall);
                             p.labels[widget] = label;
