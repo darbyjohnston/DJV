@@ -29,7 +29,6 @@
     "file_browser_decrease_thumbnail_size": "Уменьшить размер эскиза",
     "file_browser_decrease_thumbnail_size_tooltip": "Уменьшить размер миниатюр",
     "file_browser_drives": "приводы",
-    "file_browser_edit_shortcuts_tooltip": "Изменить список ярлыков",
     "file_browser_enable_file_sequences": "Включить последовательности файлов",
     "file_browser_file_browser_show_shortcuts": "Ярлыки",
     "file_browser_file_sequences_tooltip": "Показывать последовательности файлов как один элемент",

@@ -29,7 +29,6 @@
     "file_browser_decrease_thumbnail_size": "Reducer miniaturestørrelsen",
     "file_browser_decrease_thumbnail_size_tooltip": "Reducer størrelsen på miniaturebillederne",
     "file_browser_drives": "Drev",
-    "file_browser_edit_shortcuts_tooltip": "Rediger listen over genveje",
     "file_browser_enable_file_sequences": "Aktivér filsekvenser",
     "file_browser_file_browser_show_shortcuts": "Genveje",
     "file_browser_file_sequences_tooltip": "Vis sekvenser af filer som et enkelt element",

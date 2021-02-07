@@ -23,10 +23,10 @@ namespace djv
             struct ShortcutsWidget::Private
             {
                 System::File::Path path;
-                bool edit = false;
+                bool deleteEnabled = false;
                 size_t textElide = 0;
                 std::shared_ptr<UI::ToolButton> addButton;
-                std::shared_ptr<UI::ToolButton> editButton;
+                std::shared_ptr<UI::ToolButton> deleteButton;
                 std::shared_ptr<UI::ButtonGroup> deleteButtonGroup;
                 std::shared_ptr<UI::GridLayout> itemLayout;
                 std::shared_ptr<UI::VerticalLayout> layout;
@@ -49,9 +49,9 @@ namespace djv
                 p.addButton = UI::ToolButton::create(context);
                 p.addButton->setIcon("djvIconAddSmall");
 
-                p.editButton = UI::ToolButton::create(context);
-                p.editButton->setButtonType(UI::ButtonType::Toggle);
-                p.editButton->setIcon("djvIconClearSmall");
+                p.deleteButton = UI::ToolButton::create(context);
+                p.deleteButton->setButtonType(UI::ButtonType::Toggle);
+                p.deleteButton->setIcon("djvIconClearSmall");
 
                 p.deleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
                 
@@ -60,7 +60,7 @@ namespace djv
                 auto toolBar = UI::ToolBar::create(context);
                 toolBar->addExpander();
                 toolBar->addChild(p.addButton);
-                toolBar->addChild(p.editButton);
+                toolBar->addChild(p.deleteButton);
                 p.layout->addChild(toolBar);
                 p.layout->addSeparator();
                 p.itemLayout = UI::GridLayout::create(context);
@@ -79,12 +79,12 @@ namespace djv
                         }
                     });
 
-                p.editButton->setCheckedCallback(
+                p.deleteButton->setCheckedCallback(
                     [weak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->edit = value;
+                            widget->_p->deleteEnabled = value;
                             for (const auto& i : widget->_p->deleteButtonGroup->getButtons())
                             {
                                 i->setVisible(value);
@@ -119,7 +119,7 @@ namespace djv
 
                                     auto deleteButton = UI::ToolButton::create(context);
                                     deleteButton->setIcon("djvIconClearSmall");
-                                    deleteButton->setVisible(widget->_p->edit);
+                                    deleteButton->setVisible(widget->_p->deleteEnabled);
                                     deleteButtons.push_back(deleteButton);
 
                                     widget->_p->itemLayout->addChild(button);
@@ -192,7 +192,7 @@ namespace djv
                 if (event.getData().text)
                 {
                     p.addButton->setTooltip(_getText(DJV_TEXT("file_browser_add_shortcut_tooltip")));
-                    p.editButton->setTooltip(_getText(DJV_TEXT("file_browser_edit_shortcuts_tooltip")));
+                    p.deleteButton->setTooltip(_getText(DJV_TEXT("file_browser_delete_shortcuts_tooltip")));
                 }
             }
 

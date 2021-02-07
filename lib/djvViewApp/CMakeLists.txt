@@ -4,7 +4,7 @@ set(header
 	AnnotateFunc.h
 	AnnotateSettings.h
 	AnnotateSystem.h
-	AnnotateWidget.h
+	AnnotatePrivate.h
     Application.h
 	ApplicationSettings.h
 	AudioSystem.h
@@ -85,9 +85,12 @@ set(header
 set(source
     AboutDialog.cpp
 	Annotate.cpp
+	AnnotateCommentWidget.cpp
 	AnnotateFunc.cpp
 	AnnotateSettings.cpp
+	AnnotateSummaryWidget.cpp
 	AnnotateSystem.cpp
+	AnnotateToolBar.cpp
 	AnnotateWidget.cpp
     Application.cpp
 	ApplicationSettings.cpp

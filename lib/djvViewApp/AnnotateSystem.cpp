@@ -6,7 +6,7 @@
 
 #include <djvViewApp/AnnotateFunc.h>
 #include <djvViewApp/AnnotateSettings.h>
-#include <djvViewApp/AnnotateWidget.h>
+#include <djvViewApp/AnnotatePrivate.h>
 #include <djvViewApp/EditSystem.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
@@ -113,9 +113,6 @@ namespace djv
 
             p.actions["Add"] = UI::Action::create();
             p.actions["Add"]->setIcon("djvIconAdd");
-            p.actions["Delete"] = UI::Action::create();
-            p.actions["Delete"]->setIcon("djvIconClose");
-            p.actions["DeleteAll"] = UI::Action::create();
             p.actions["Next"] = UI::Action::create();
             p.actions["Next"]->setIcon("djvIconArrowRight");
             p.actions["Prev"] = UI::Action::create();
@@ -129,8 +126,6 @@ namespace djv
             _addShortcut(DJV_TEXT("shortcut_annotate_ellipse"), 0);
             _addShortcut(DJV_TEXT("shortcut_annotate_clear"), 0);
             _addShortcut(DJV_TEXT("shortcut_annotate_add"), 0);
-            _addShortcut(DJV_TEXT("shortcut_annotate_delete"), 0);
-            _addShortcut(DJV_TEXT("shortcut_annotate_delete_all"), 0);
             _addShortcut(DJV_TEXT("shortcut_annotate_next"), 0);
             _addShortcut(DJV_TEXT("shortcut_annotate_prev"), 0);
 
@@ -140,13 +135,9 @@ namespace djv
             p.menu->addAction(p.actions["Line"]);
             p.menu->addAction(p.actions["Rectangle"]);
             p.menu->addAction(p.actions["Ellipse"]);
-            p.menu->addSeparator();
             p.menu->addAction(p.actions["Clear"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Add"]);
-            p.menu->addAction(p.actions["Delete"]);
-            p.menu->addAction(p.actions["DeleteAll"]);
-            p.menu->addSeparator();
             p.menu->addAction(p.actions["Next"]);
             p.menu->addAction(p.actions["Prev"]);
 
@@ -345,10 +336,13 @@ namespace djv
                 {
                     auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_annotate"), context);
 
-                    auto widget = AnnotateWidget::create(p.actions, context);
+                    auto toolBar = AnnotateToolBar::create(p.actions, context);
+
+                    auto widget = AnnotateWidget::create(context);
                     p.widget = widget;
                     
                     out.titleBar = titleBar;
+                    out.toolBar = toolBar;
                     out.widget = widget;
                 }
             }
@@ -388,10 +382,6 @@ namespace djv
                 p.actions["Clear"]->setTooltip(_getText(DJV_TEXT("menu_annotate_clear_tooltip")));
                 p.actions["Add"]->setText(_getText(DJV_TEXT("menu_annotate_add")));
                 p.actions["Add"]->setTooltip(_getText(DJV_TEXT("menu_annotate_add_tooltip")));
-                p.actions["Delete"]->setText(_getText(DJV_TEXT("menu_annotate_delete")));
-                p.actions["Delete"]->setTooltip(_getText(DJV_TEXT("menu_annotate_delete_tooltip")));
-                p.actions["DeleteAll"]->setText(_getText(DJV_TEXT("menu_annotate_delete_all")));
-                p.actions["DeleteAll"]->setTooltip(_getText(DJV_TEXT("menu_annotate_delete_all_tooltip")));
                 p.actions["Next"]->setText(_getText(DJV_TEXT("menu_annotate_next")));
                 p.actions["Next"]->setTooltip(_getText(DJV_TEXT("menu_annotate_next_tooltip")));
                 p.actions["Prev"]->setText(_getText(DJV_TEXT("menu_annotate_prev")));
@@ -414,8 +404,6 @@ namespace djv
                 p.actions["Ellipse"]->setShortcuts(_getShortcuts("shortcut_annotate_ellipse"));
                 p.actions["Clear"]->setShortcuts(_getShortcuts("shortcut_annotate_clear"));
                 p.actions["Add"]->setShortcuts(_getShortcuts("shortcut_annotate_add"));
-                p.actions["Delete"]->setShortcuts(_getShortcuts("shortcut_annotate_delete"));
-                p.actions["DeleteAll"]->setShortcuts(_getShortcuts("shortcut_annotate_delete_all"));
                 p.actions["Next"]->setShortcuts(_getShortcuts("shortcut_annotate_next"));
                 p.actions["Prev"]->setShortcuts(_getShortcuts("shortcut_annotate_prev"));
             }

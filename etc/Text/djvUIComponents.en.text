@@ -29,7 +29,7 @@
     "file_browser_decrease_thumbnail_size": "Decrease thumbnail size",
     "file_browser_decrease_thumbnail_size_tooltip": "Decrease the size of the thumbnails",
     "file_browser_drives": "Drives",
-    "file_browser_edit_shortcuts_tooltip": "Edit the list of shortcuts",
+    "file_browser_delete_shortcuts_tooltip": "Delete shortcuts",
     "file_browser_enable_file_sequences": "Enable file sequences",
     "file_browser_file_sequences_tooltip": "Show sequences of files as a single item",
     "file_browser_file_tooltip_audio_channels": "Channels",
