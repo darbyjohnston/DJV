@@ -64,7 +64,7 @@ namespace djv
             void open();
             void open(const System::File::Info&, const OpenOptions& = OpenOptions());
             void open(const std::vector<std::string>&, OpenOptions = OpenOptions());
-            void close(const std::shared_ptr<Media>&);
+            void close(std::shared_ptr<Media>);
             void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media>&);
 

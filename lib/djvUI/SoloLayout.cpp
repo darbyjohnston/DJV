@@ -180,15 +180,29 @@ namespace djv
 
             void Solo::removeChild(const std::shared_ptr<IObject>& value)
             {
-                const auto& childWidgets = getChildWidgets();
-                const auto i = std::find(childWidgets.begin(), childWidgets.end(), value);
-                std::shared_ptr<Widget> currentWidget;
-                if (i != childWidgets.end() && i != childWidgets.begin())
+                DJV_PRIVATE_PTR();
+                int currentIndex = -1;
+                auto childWidgets = getChildWidgets();
+                const auto i = std::find(childWidgets.begin(), childWidgets.end(), p.currentWidget);
+                if (i != childWidgets.end())
                 {
-                    currentWidget = *(i - 1);
+                    currentIndex = i - childWidgets.begin();
                 }
                 Widget::removeChild(value);
-                setCurrentWidget(currentWidget);
+                if (value == p.currentWidget)
+                {
+                    std::shared_ptr<Widget> currentWidget;
+                    childWidgets = getChildWidgets();
+                    if (currentIndex >= static_cast<int>(childWidgets.size()))
+                    {
+                        --currentIndex;
+                    }
+                    if (currentIndex >= 0 && currentIndex < childWidgets.size())
+                    {
+                        currentWidget = childWidgets[currentIndex];
+                    }
+                    setCurrentWidget(currentWidget);
+                }
             }
 
             void Solo::_preLayoutEvent(System::Event::PreLayout&)

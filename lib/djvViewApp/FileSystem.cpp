@@ -524,10 +524,10 @@ namespace djv
             }
         }
 
-        void FileSystem::close(const std::shared_ptr<Media>& media)
+        void FileSystem::close(std::shared_ptr<Media> media)
         {
             DJV_PRIVATE_PTR();
-            size_t index = p.media->indexOf(media);
+            const size_t index = p.media->indexOf(media);
             if (index != Observer::invalidListIndex)
             {
                 {
@@ -536,20 +536,23 @@ namespace djv
                     _log(ss.str());
                 }
 
+                size_t currentIndex = p.media->indexOf(p.currentMedia->get());
                 p.media->removeItem(index);
                 p.closed->setIfChanged(media);
                 p.closed->setIfChanged(nullptr);
-                const size_t size = p.media->getSize();
+
                 std::shared_ptr<Media> current;
-                if (size > 0)
+                const size_t size = p.media->getSize();
+                if (size > 0 && currentIndex != Observer::invalidListIndex)
                 {
-                    if (index == size)
+                    if (currentIndex > 0 && index < currentIndex || currentIndex >= size)
                     {
-                        --index;
+                        --currentIndex;
                     }
-                    current = p.media->getItem(index);
+                    current = p.media->getItem(currentIndex);
                 }
                 setCurrentMedia(current);
+
                 _cacheUpdate();
             }
         }

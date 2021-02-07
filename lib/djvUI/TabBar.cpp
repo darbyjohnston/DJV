@@ -35,8 +35,11 @@ namespace djv
 
                 static std::shared_ptr<TabBarButton> create(const std::string&, const std::shared_ptr<System::Context>&);
 
-                const std::string& getText() const;
                 void setText(const std::string&);
+
+                void setClosable(bool);
+
+                void setCloseCallback(const std::function<void(void)>&);
 
                 void setChecked(bool) override;
 
@@ -49,7 +52,9 @@ namespace djv
 
             private:
                 std::shared_ptr<Text::Label> _label;
-                std::shared_ptr<StackLayout> _layout;
+                std::shared_ptr<ToolButton> _closeButton;
+                std::shared_ptr<HorizontalLayout> _layout;
+                std::function<void(void)> _closeCallback;
             };
 
             void TabBarButton::_init(const std::string& text, const std::shared_ptr<System::Context>& context)
@@ -63,8 +68,10 @@ namespace djv
                 _label->setTextColorRole(ColorRole::ForegroundDim);
                 _label->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
 
-                _layout = StackLayout::create(context);
+                _layout = HorizontalLayout::create(context);
+                _layout->setSpacing(MetricsRole::None);
                 _layout->addChild(_label);
+                _layout->setStretch(_label);
                 addChild(_layout);
             }
 
@@ -81,20 +88,61 @@ namespace djv
                 return out;
             }
 
-            const std::string& TabBarButton::getText() const
-            {
-                return _label->getText();
-            }
-
             void TabBarButton::setText(const std::string& value)
             {
                 _label->setText(value);
+            }
+
+            void TabBarButton::setClosable(bool value)
+            {
+                if (value)
+                {
+                    if (!_closeButton)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            _closeButton = ToolButton::create(context);
+                            _closeButton->setIcon("djvIconCloseSmall");
+                            _closeButton->setForegroundColorRole(isChecked() ? ColorRole::Foreground : ColorRole::ForegroundDim);
+                            _layout->addChild(_closeButton);
+                            auto weak = std::weak_ptr<TabBarButton>(std::dynamic_pointer_cast<TabBarButton>(shared_from_this()));
+                            _closeButton->setClickedCallback(
+                                [weak]
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        if (widget->_closeCallback)
+                                        {
+                                            widget->_closeCallback();
+                                        }
+                                    }
+                                });
+                        }
+                    }
+                }
+                else
+                {
+                    if (_closeButton)
+                    {
+                        _layout->removeChild(_closeButton);
+                        _closeButton.reset();
+                    }
+                }
+            }
+
+            void TabBarButton::setCloseCallback(const std::function<void(void)>& value)
+            {
+                _closeCallback = value;
             }
 
             void TabBarButton::setChecked(bool value)
             {
                 IButton::setChecked(value);
                 _label->setTextColorRole(value ? ColorRole::Foreground : ColorRole::ForegroundDim);
+                if (_closeButton)
+                {
+                    _closeButton->setForegroundColorRole(value ? ColorRole::Foreground : ColorRole::ForegroundDim);
+                }
             }
 
             float TabBarButton::getHeightForWidth(float value) const
@@ -130,11 +178,15 @@ namespace djv
 
         struct TabBar::Private
         {
+            bool closable = false;
+
+            std::vector<std::shared_ptr<TabBarButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<HorizontalLayout> layout;
             std::shared_ptr<ScrollWidget> scrollWidget;
+
             std::function<void(int)> callback;
-            std::function<void(size_t)> removedCallback;
+            std::function<void(int)> closeCallback;
         };
 
         void TabBar::_init(const std::shared_ptr<System::Context>& context)
@@ -159,15 +211,15 @@ namespace djv
             auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
                 [weak](int value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    if (widget->_p->callback)
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->callback(value);
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(value);
+                        }
                     }
-                }
-            });
+                });
         }
 
         TabBar::TabBar() :
@@ -196,11 +248,31 @@ namespace djv
             {
                 p.layout->clearChildren();
                 std::vector<std::shared_ptr<Button::IButton> > buttons;
+                int index = 0;
                 for (const auto& i : text)
                 {
                     auto button = TabBarButton::create(i, context);
+                    button->setClosable(p.closable);
+                    p.buttons.push_back(button);
                     p.layout->addChild(button);
                     buttons.push_back(button);
+                    auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));
+                    button->setCloseCallback(
+                        [weak, index]
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (widget->_p->closeCallback)
+                                {
+                                    widget->_p->closeCallback(index);
+                                }
+                            }
+                        });
+                    if (index < static_cast<int>(text.size()) - 1)
+                    {
+                        p.layout->addSeparator();
+                    }
+                    ++index;
                 }
                 p.buttonGroup->setButtons(buttons);
             }
@@ -209,6 +281,7 @@ namespace djv
         void TabBar::clearTabs()
         {
             DJV_PRIVATE_PTR();
+            p.buttons.clear();
             p.buttonGroup->clearButtons();
             p.layout->clearChildren();
         }
@@ -235,6 +308,28 @@ namespace djv
         void TabBar::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
+        }
+
+        bool TabBar::areTabsClosable() const
+        {
+            return _p->closable;
+        }
+
+        void TabBar::setTabsClosable(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.closable)
+                return;
+            p.closable = value;
+            for (const auto& i : p.buttons)
+            {
+                i->setClosable(p.closable);
+            }
+        }
+
+        void TabBar::setTabCloseCallback(const std::function<void(int)>& value)
+        {
+            _p->closeCallback = value;
         }
 
         float TabBar::getHeightForWidth(float value) const

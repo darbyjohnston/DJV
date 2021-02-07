@@ -41,10 +41,21 @@ namespace djv
             int getCurrentTab() const;
 
             void setCurrentTab(int);
+
             void setCurrentTabCallback(const std::function<void(int)>&);
-            void closeCurrentTab();
 
             ///@}
+
+            //! \name Options
+            ///@{
+
+            bool areTabsClosable() const;
+
+            void setTabsClosable(bool);
+
+            void setTabCloseCallback(const std::function<void(int)>&);
+
+            ///@]
 
             float getHeightForWidth(float) const override;
 

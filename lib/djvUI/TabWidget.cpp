@@ -45,19 +45,19 @@ namespace djv
             auto weak = std::weak_ptr<TabWidget>(std::dynamic_pointer_cast<TabWidget>(shared_from_this()));
             p.tabBar->setCurrentTabCallback(
                 [weak](int value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    if (value >= 0 && value < static_cast<int>(widget->_p->widgets.size()))
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->soloLayout->setCurrentWidget(widget->_p->widgets[value]);
+                        if (value >= 0 && value < static_cast<int>(widget->_p->widgets.size()))
+                        {
+                            widget->_p->soloLayout->setCurrentWidget(widget->_p->widgets[value]);
+                        }
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(value);
+                        }
                     }
-                    if (widget->_p->callback)
-                    {
-                        widget->_p->callback(value);
-                    }
-                }
-            });
+                });
         }
 
         TabWidget::TabWidget() :
@@ -110,9 +110,19 @@ namespace djv
             _p->callback = value;
         }
 
-        void TabWidget::closeCurrentTab()
+        bool TabWidget::areTabsClosable() const
         {
-            //! \todo Implement me!
+            return _p->tabBar->areTabsClosable();
+        }
+
+        void TabWidget::setTabsClosable(bool value)
+        {
+            _p->tabBar->setTabsClosable(value);
+        }
+
+        void TabWidget::setTabCloseCallback(const std::function<void(int)>& value)
+        {
+            _p->tabBar->setTabCloseCallback(value);
         }
 
         void TabWidget::addChild(const std::shared_ptr<IObject>& value)
@@ -142,7 +152,7 @@ namespace djv
                 {
                     p.widgetToText.erase(j);
                 }
-                p.soloLayout->removeChild(value);
+                p.soloLayout->removeChild(widget);
                 _widgetUpdate();
             }
         }
@@ -188,6 +198,11 @@ namespace djv
                 tabs.push_back(text);
             }
             p.tabBar->setTabs(tabs);
+            const auto i = std::find(p.widgets.begin(), p.widgets.end(), p.soloLayout->getCurrentWidget());
+            if (i != p.widgets.end())
+            {
+                p.tabBar->setCurrentTab(i - p.widgets.begin());
+            }
         }
 
     } // namespace UI

@@ -141,6 +141,7 @@ namespace djv
             auto backgroundWidget = WindowBackgroundWidget::create(context);
 
             p.mediaTabWidget = UI::TabWidget::create(context);
+            p.mediaTabWidget->setTabsClosable(true);
 
             p.timelineWidget = TimelineWidget::create(context);
 
@@ -211,6 +212,23 @@ namespace djv
                             if (auto windowSystem = context->getSystemT<WindowSystem>())
                             {
                                 windowSystem->setActiveWidget(mediaWidget);
+                            }
+                        }
+                    }
+                });
+            p.mediaTabWidget->setTabCloseCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto fileSystem = context->getSystemT<FileSystem>())
+                            {
+                                if (value >= 0 && value < static_cast<int>(widget->_p->media.size()))
+                                {
+                                    fileSystem->close(widget->_p->media[value]);
+                                }
                             }
                         }
                     }
