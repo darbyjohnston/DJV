@@ -19,6 +19,7 @@ namespace djv
 
     namespace ViewApp
     {
+        //! \todo Should this be configurable?
         const int textElide = 20;
 
         //! This class provides the color space configuration widget.

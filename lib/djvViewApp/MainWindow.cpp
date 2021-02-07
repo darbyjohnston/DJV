@@ -48,6 +48,13 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            //! \todo Should this be configurable?
+            const size_t textElide = 20;
+
+        } // namespace
+
         struct MainWindow::Private
         {
             std::vector<std::shared_ptr<Media> > media;
@@ -142,6 +149,7 @@ namespace djv
 
             p.mediaTabWidget = UI::TabWidget::create(context);
             p.mediaTabWidget->setTabsClosable(true);
+            p.mediaTabWidget->setTextElide(textElide);
 
             p.timelineWidget = TimelineWidget::create(context);
 

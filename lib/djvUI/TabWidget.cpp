@@ -141,6 +141,16 @@ namespace djv
             _p->tabBar->setTabCloseCallback(value);
         }
 
+        size_t TabWidget::getTextElide() const
+        {
+            return _p->tabBar->getTextElide();
+        }
+
+        void TabWidget::setTextElide(size_t value)
+        {
+            _p->tabBar->setTextElide(value);
+        }
+
         void TabWidget::addChild(const std::shared_ptr<IObject>& value)
         {
             DJV_PRIVATE_PTR();

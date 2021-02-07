@@ -41,6 +41,8 @@ namespace djv
 
                 void setCloseCallback(const std::function<void(void)>&);
 
+                void setTextElide(size_t);
+
                 void setChecked(bool) override;
 
                 float getHeightForWidth(float) const override;
@@ -135,6 +137,11 @@ namespace djv
                 _closeCallback = value;
             }
 
+            void TabBarButton::setTextElide(size_t value)
+            {
+                _label->setTextElide(value);
+            }
+
             void TabBarButton::setChecked(bool value)
             {
                 IButton::setChecked(value);
@@ -179,6 +186,7 @@ namespace djv
         struct TabBar::Private
         {
             bool closable = false;
+            size_t textElide = 0;
 
             std::vector<std::shared_ptr<TabBarButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
@@ -253,6 +261,7 @@ namespace djv
                 {
                     auto button = TabBarButton::create(i, context);
                     button->setClosable(p.closable);
+                    button->setTextElide(p.textElide);
                     p.buttons.push_back(button);
                     p.layout->addChild(button);
                     buttons.push_back(button);
@@ -345,6 +354,23 @@ namespace djv
         void TabBar::setTabCloseCallback(const std::function<void(int)>& value)
         {
             _p->closeCallback = value;
+        }
+
+        size_t TabBar::getTextElide() const
+        {
+            return _p->textElide;
+        }
+
+        void TabBar::setTextElide(size_t value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.textElide)
+                return;
+            p.textElide = value;
+            for (const auto& i : p.buttons)
+            {
+                i->setTextElide(p.textElide);
+            }
         }
 
         float TabBar::getHeightForWidth(float value) const

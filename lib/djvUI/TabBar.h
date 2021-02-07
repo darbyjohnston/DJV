@@ -57,6 +57,10 @@ namespace djv
 
             void setTabCloseCallback(const std::function<void(int)>&);
 
+            size_t getTextElide() const;
+
+            void setTextElide(size_t);
+
             ///@]
 
             float getHeightForWidth(float) const override;
