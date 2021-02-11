@@ -17,6 +17,7 @@ namespace djv
     {
         class Action;
         class Menu;
+        class ToolBar;
         class Widget;
 
         struct ShortcutDataPair;
@@ -34,28 +35,6 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This struct provides action data.
-        class ActionData
-        {
-        public:
-            ActionData();
-            ActionData(const std::vector<std::shared_ptr<UI::Action> >&, int sortKey = -1);
-
-            std::vector<std::shared_ptr<UI::Action> > actions;
-            int sortKey = -1;
-        };
-
-        //! This struct provides menu data.
-        class MenuData
-        {
-        public:
-            MenuData();
-            MenuData(const std::vector<std::shared_ptr<UI::Menu> >&, int sortKey = -1);
-            
-            std::vector<std::shared_ptr<UI::Menu> > menus;
-            int sortKey = -1;
-        };
-
         //! This struct provides tool widget data.
         class ToolWidgetData
         {
@@ -85,17 +64,23 @@ namespace djv
         public:
             ~IViewAppSystem() override;
 
+            //! Get the sort key.
+            virtual int getSortKey() const = 0;
+
             //! Get the actions.
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions() const;
 
             //! Get the menus.
-            virtual MenuData getMenuData() const;
+            virtual std::vector<std::shared_ptr<UI::Menu> > getMenus() const;
 
-            //! Get the actions shown on the tool bar.
-            virtual ActionData getToolBarActionData() const;
+            //! Create tool bars.
+            virtual std::vector<std::shared_ptr<UI::ToolBar> > createToolBars() const;
 
-            //! Get the tool actions.
-            virtual ActionData getToolActionData() const;
+            //! Get the tool widget actions.
+            virtual std::vector<std::shared_ptr<UI::Action> > getToolWidgetActions() const;
+
+            //! Get the tool widget tool bar actions.
+            virtual std::vector<std::shared_ptr<UI::Action> > getToolWidgetToolBarActions() const;
 
             //! Create a tool widget.
             virtual ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&);

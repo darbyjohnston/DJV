@@ -615,18 +615,19 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > PlaybackSystem::getActions() const
+        int PlaybackSystem::getSortKey() const
+        {
+            return 6;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> PlaybackSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData PlaybackSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > PlaybackSystem::getMenus() const
         {
-            return
-            {
-                { _p->menu },
-                6
-            };
+            return { _p->menu };
         }
 
         void PlaybackSystem::_actionsUpdate()

@@ -71,17 +71,31 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > InfoSystem::getActions() const
+        int InfoSystem::getSortKey() const
+        {
+            return 11;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> InfoSystem::getActions() const
         {
             return _p->actions;
         }
 
-        ActionData InfoSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > InfoSystem::getToolWidgetActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["Info"] },
-                11
+                p.actions["Info"]
+            };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > InfoSystem::getToolWidgetToolBarActions() const
+        {
+            DJV_PRIVATE_PTR();
+            return
+            {
+                p.actions["Info"]
             };
         }
 
@@ -91,7 +105,7 @@ namespace djv
             ToolWidgetData out;
             if (auto context = getContext().lock())
             {
-                if (value == _p->actions["Info"])
+                if (value == p.actions["Info"])
                 {
                     auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_info_title"), context);
 

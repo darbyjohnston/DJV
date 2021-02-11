@@ -157,17 +157,31 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > MessagesSystem::getActions() const
+        int MessagesSystem::getSortKey() const
+        {
+            return 12;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> MessagesSystem::getActions() const
         {
             return _p->actions;
         }
 
-        ActionData MessagesSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > MessagesSystem::getToolWidgetActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["Messages"] },
-                12
+                p.actions["Messages"]
+            };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > MessagesSystem::getToolWidgetToolBarActions() const
+        {
+            DJV_PRIVATE_PTR();
+            return
+            {
+                p.actions["Messages"]
             };
         }
 
@@ -178,7 +192,7 @@ namespace djv
             auto contextWeak = getContext();
             if (auto context = contextWeak.lock())
             {
-                if (value == _p->actions["Messages"])
+                if (value == p.actions["Messages"])
                 {
                     auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_messages"), context);
 

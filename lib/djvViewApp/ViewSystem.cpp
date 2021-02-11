@@ -21,6 +21,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutDataFunc.h>
 #include <djvUI/Style.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/UISystem.h>
 
 #include <djvSystem/Context.h>
@@ -487,42 +488,53 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ViewSystem::getActions() const
+        int ViewSystem::getSortKey() const
+        {
+            return 4;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> ViewSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData ViewSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > ViewSystem::getMenus() const
         {
+            return { _p->menu };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > ViewSystem::getToolWidgetActions() const
+        {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->menu },
-                4
+                p.actions["PanZoom"],
+                p.actions["ViewOptions"]
             };
         }
 
-        ActionData ViewSystem::getToolBarActionData() const
+        std::vector<std::shared_ptr<UI::Action> > ViewSystem::getToolWidgetToolBarActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                {
-                    _p->actions["FrameLock"],
-                    _p->actions["CenterLock"]
-                },
-                4
+                p.actions["PanZoom"],
+                p.actions["ViewOptions"]
             };
         }
 
-        ActionData ViewSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::ToolBar> > ViewSystem::createToolBars() const
         {
-            return
+            DJV_PRIVATE_PTR();
+            std::vector<std::shared_ptr<UI::ToolBar> > out;
+            if (auto context = getContext().lock())
             {
-                {
-                    _p->actions["PanZoom"],
-                    _p->actions["ViewOptions"]
-                },
-                4
-            };
+                auto toolBar = UI::ToolBar::create(context);
+                toolBar->addAction(p.actions["FrameLock"]);
+                toolBar->addAction(p.actions["CenterLock"]);
+                out.push_back(toolBar);
+            }
+            return out;
         }
 
         ToolWidgetData ViewSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)

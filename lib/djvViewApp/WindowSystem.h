@@ -73,8 +73,9 @@ namespace djv
 
             ///@}
 
+            int getSortKey() const override;
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenuData() const override;
+            std::vector<std::shared_ptr<UI::Menu> > getMenus() const override;
 
         protected:
             void _textUpdate() override;

@@ -27,8 +27,10 @@ namespace djv
 
             static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<System::Context>&);
 
+            int getSortKey() const override;
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            ActionData getToolActionData() const override;
+            std::vector<std::shared_ptr<UI::Action> > getToolWidgetActions() const override;
+            std::vector<std::shared_ptr<UI::Action> > getToolWidgetToolBarActions() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
             std::vector<std::shared_ptr<UIComponents::Settings::IWidget> > createSettingsWidgets() const override;
 

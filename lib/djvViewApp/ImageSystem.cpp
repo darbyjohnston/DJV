@@ -355,29 +355,38 @@ namespace djv
             }
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions() const
+        int ImageSystem::getSortKey() const
+        {
+            return 5;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> ImageSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData ImageSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > ImageSystem::getMenus() const
         {
+            return { _p->menu };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > ImageSystem::getToolWidgetActions() const
+        {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->menu },
-                5
+                p.actions["ImageControls"],
+                p.actions["ColorSpace"]
             };
         }
 
-        ActionData ImageSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > ImageSystem::getToolWidgetToolBarActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                {
-                    _p->actions["ImageControls"],
-                    _p->actions["ColorSpace"]
-                },
-                5
+                p.actions["ImageControls"],
+                p.actions["ColorSpace"]
             };
         }
 

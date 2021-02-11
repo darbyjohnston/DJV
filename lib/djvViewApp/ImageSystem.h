@@ -39,9 +39,11 @@ namespace djv
             void loadFrameStore();
             void clearFrameStore();
 
+            int getSortKey() const override;
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenuData() const override;
-            ActionData getToolActionData() const override;
+            std::vector<std::shared_ptr<UI::Menu> > getMenus() const override;
+            std::vector<std::shared_ptr<UI::Action> > getToolWidgetActions() const override;
+            std::vector<std::shared_ptr<UI::Action> > getToolWidgetToolBarActions() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
             void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
 

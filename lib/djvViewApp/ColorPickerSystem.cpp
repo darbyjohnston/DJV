@@ -68,17 +68,31 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ColorPickerSystem::getActions() const
+        int ColorPickerSystem::getSortKey() const
+        {
+            return 8;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> ColorPickerSystem::getActions() const
         {
             return _p->actions;
         }
 
-        ActionData ColorPickerSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > ColorPickerSystem::getToolWidgetActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["ColorPicker"] },
-                8
+                p.actions["ColorPicker"]
+            };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > ColorPickerSystem::getToolWidgetToolBarActions() const
+        {
+            DJV_PRIVATE_PTR();
+            return
+            {
+                p.actions["ColorPicker"]
             };
         }
 

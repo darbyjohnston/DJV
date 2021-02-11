@@ -148,18 +148,19 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > EditSystem::getActions() const
+        int EditSystem::getSortKey() const
+        {
+            return 2;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> EditSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData EditSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > EditSystem::getMenus() const
         {
-            return
-            {
-                { _p->menu },
-                2
-            };
+            return { _p->menu };
         }
 
         void EditSystem::_actionsUpdate()

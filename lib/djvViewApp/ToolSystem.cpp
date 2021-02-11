@@ -12,6 +12,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvSystem/Context.h>
 
@@ -40,7 +41,8 @@ namespace djv
         struct ToolSystem::Private
         {
             std::shared_ptr<ToolSettings> settings;
-            std::vector<std::shared_ptr<UI::Action> > toolActions;
+            std::vector<std::shared_ptr<UI::Action> > toolWidgetActions;
+            std::vector<std::shared_ptr<UI::Action> > toolBarActions;
             std::map<std::shared_ptr<UI::Action>, std::shared_ptr<IViewAppSystem> > toolSystems;
             std::shared_ptr<Observer::ValueSubject<CurrentTool> > currentTool;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
@@ -59,32 +61,50 @@ namespace djv
             p.currentTool = Observer::ValueSubject<CurrentTool>::create();
 
             std::map<int, std::shared_ptr<IViewAppSystem> > toolSystems;
-            std::map<int, std::pair<std::shared_ptr<IViewAppSystem>, std::vector<std::shared_ptr<UI::Action> > > > toolActions;
+            std::map<int, std::pair<std::shared_ptr<IViewAppSystem>, std::vector<std::shared_ptr<UI::Action> > > > toolWidgetActions;
+            std::map<int, std::pair<std::shared_ptr<IViewAppSystem>, std::vector<std::shared_ptr<UI::Action> > > > toolBarActions;
             auto systems = context->getSystemsT<IViewAppSystem>();
             for (const auto& i : systems)
             {
-                const auto actionData = i->getToolActionData();
-                if (!actionData.actions.empty())
+                auto actions = i->getToolWidgetActions();
+                if (!actions.empty())
                 {
-                    toolActions[actionData.sortKey] = std::make_pair(i, actionData.actions);
+                    toolWidgetActions[i->getSortKey()] = std::make_pair(i, actions);
+                }
+                actions = i->getToolWidgetToolBarActions();
+                if (!actions.empty())
+                {
+                    toolBarActions[i->getSortKey()] = std::make_pair(i, actions);
                 }
             }
-            for (const auto& i : toolActions)
+            for (const auto& i : toolWidgetActions)
             {
                 for (const auto& j : i.second.second)
                 {
-                    p.toolActions.push_back(j);
+                    p.toolWidgetActions.push_back(j);
                     p.toolSystems[j] = i.second.first;
+                }
+            }
+            for (const auto& i : toolBarActions)
+            {
+                for (const auto& j : i.second.second)
+                {
+                    p.toolBarActions.push_back(j);
                 }
             }
 
             p.actionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.actionGroup->setActions(p.toolActions);
+            std::vector<std::shared_ptr<UI::Action> > actions;
+            for (const auto& i : p.toolWidgetActions)
+            {
+                actions.push_back(i);
+            }
+            p.actionGroup->setActions(actions);
 
             _addShortcut(DJV_TEXT("shortcut_tools"), GLFW_KEY_T);
 
             p.menu = UI::Menu::create(context);
-            for (const auto& i : toolActions)
+            for (const auto& i : toolWidgetActions)
             {
                 for (const auto& j : i.second.second)
                 {
@@ -145,10 +165,10 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             int out = -1;
-            const auto i = std::find(p.toolActions.begin(), p.toolActions.end(), value);
-            if (i != p.toolActions.end())
+            const auto i = std::find(p.toolWidgetActions.begin(), p.toolWidgetActions.end(), value);
+            if (i != p.toolWidgetActions.end())
             {
-                out = i - p.toolActions.begin();
+                out = i - p.toolWidgetActions.begin();
             }
             return out;
         }
@@ -163,33 +183,36 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ToolSystem::getActions() const
+        int ToolSystem::getSortKey() const
         {
-            return _p->actions;
+            return 18;
         }
 
-        MenuData ToolSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > ToolSystem::getMenus() const
         {
-            return
-            {
-                { _p->menu },
-                18
-            };
+            return { _p->menu };
         }
 
-        ActionData ToolSystem::getToolBarActionData() const
+        std::vector<std::shared_ptr<UI::ToolBar> > ToolSystem::createToolBars() const
         {
-            return
+            DJV_PRIVATE_PTR();
+            std::vector<std::shared_ptr<UI::ToolBar> > out;
+            if (auto context = getContext().lock())
             {
-                _p->toolActions,
-                18
-            };
+                auto toolBar = UI::ToolBar::create(context);
+                for (const auto& i : p.toolBarActions)
+                {
+                    toolBar->addAction(i);
+                }
+                out.push_back(toolBar);
+            }
+            return out;
         }
 
         void ToolSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (p.toolActions.size())
+            if (p.menu)
             {
                 p.menu->setText(_getText(DJV_TEXT("menu_tools")));
             }
@@ -201,13 +224,13 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 CurrentTool currentTool;
-                if (value >= 0 && value < p.toolActions.size())
+                if (value >= 0 && value < p.toolWidgetActions.size())
                 {
-                    const auto& action = p.toolActions[value];
-                    const auto i = p.toolSystems.find(action);
+                    const auto& actions = p.toolWidgetActions[value];
+                    const auto i = p.toolSystems.find(actions);
                     if (i != p.toolSystems.end())
                     {
-                        currentTool.action = action;
+                        currentTool.action = i->first;
                         currentTool.system = i->second;
                     }
                 }

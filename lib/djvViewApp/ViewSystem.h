@@ -30,10 +30,12 @@ namespace djv
 
             static std::shared_ptr<ViewSystem> create(const std::shared_ptr<System::Context>&);
 
+            int getSortKey() const override;
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenuData() const override;
-            ActionData getToolBarActionData() const override;
-            ActionData getToolActionData() const override;
+            std::vector<std::shared_ptr<UI::Menu> > getMenus() const override;
+            std::vector<std::shared_ptr<UI::ToolBar> > createToolBars() const override;
+            std::vector<std::shared_ptr<UI::Action> > getToolWidgetActions() const override;
+            std::vector<std::shared_ptr<UI::Action> > getToolWidgetToolBarActions() const override;
             ToolWidgetData createToolWidget(const std::shared_ptr<UI::Action>&) override;
             void deleteToolWidget(const std::shared_ptr<UI::Action>&) override;
 

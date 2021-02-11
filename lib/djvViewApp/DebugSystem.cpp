@@ -77,17 +77,22 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > DebugSystem::getActions() const
+        int DebugSystem::getSortKey() const
+        {
+            return 14;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> DebugSystem::getActions() const
         {
             return _p->actions;
         }
 
-        ActionData DebugSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > DebugSystem::getToolWidgetActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["Debug"] },
-                14
+                p.actions["Debug"]
             };
         }
 
@@ -98,7 +103,7 @@ namespace djv
             auto contextWeak = getContext();
             if (auto context = contextWeak.lock())
             {
-                if (value == _p->actions["Debug"])
+                if (value == p.actions["Debug"])
                 {
                     auto titleBar = ToolTitleBar::create(DJV_TEXT("debug_title"), context);
 
@@ -116,11 +121,11 @@ namespace djv
         void DebugSystem::deleteToolWidget(const std::shared_ptr<UI::Action>& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == _p->actions["Debug"])
+            if (value == p.actions["Debug"])
             {
                 if (auto widget = p.widget.lock())
                 {
-                    _p->bellowsState = widget->getBellowsState();
+                    p.bellowsState = widget->getBellowsState();
                 }
             }
         }

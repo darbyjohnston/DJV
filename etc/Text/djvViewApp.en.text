@@ -399,7 +399,7 @@
     "menu_view_lock_center_tooltip": "Center the view and set the zoom to 1.0 (locked)",
     "menu_view_lock_frame": "Lock Frame",
     "menu_view_lock_frame_tooltip": "Frame the image within the view (locked)",
-    "menu_view_options": "Options",
+    "menu_view_options": "View Options",
     "menu_view_options_tooltip": "View options",
     "menu_view_pan_zoom": "Pan and Zoom",
     "menu_view_pan_zoom_tooltip": "Pan and zoom the view",
@@ -657,5 +657,6 @@
     "widget_view_grid_size": "Size",
     "widget_view_hud_background": "Background",
     "widget_view_hud_color": "Color",
-    "view_zoom": "Zoom"
+    "view_zoom": "Zoom",
+    "tool_close": "Close the tool"
 }

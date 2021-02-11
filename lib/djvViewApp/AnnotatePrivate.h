@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <djvViewApp/IViewAppSystem.h>
+
 #include <djvUI/Widget.h>
 
 #include <djvMath/FrameNumber.h>

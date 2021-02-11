@@ -87,17 +87,31 @@ namespace djv
             return out;
         }
         
-        std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions() const
+        int SettingsSystem::getSortKey() const
+        {
+            return 17;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> SettingsSystem::getActions() const
         {
             return _p->actions;
         }
-        
-        ActionData SettingsSystem::getToolActionData() const
+
+        std::vector<std::shared_ptr<UI::Action> > SettingsSystem::getToolWidgetActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["Settings"] },
-                17
+                p.actions["Settings"]
+            };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > SettingsSystem::getToolWidgetToolBarActions() const
+        {
+            DJV_PRIVATE_PTR();
+            return
+            {
+                p.actions["Settings"]
             };
         }
 
@@ -108,7 +122,7 @@ namespace djv
             auto contextWeak = getContext();
             if (auto context = contextWeak.lock())
             {
-                if (value == _p->actions["Settings"])
+                if (value == p.actions["Settings"])
                 {
                     auto titleBar = ToolTitleBar::create(DJV_TEXT("settings_title"), context);
 

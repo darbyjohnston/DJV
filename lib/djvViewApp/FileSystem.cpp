@@ -586,35 +586,46 @@ namespace djv
             return _p->cachePercentage;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions() const
+        int FileSystem::getSortKey() const
+        {
+            return 1;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> FileSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData FileSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > FileSystem::getMenus() const
         {
+            return { _p->menu };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > FileSystem::getToolWidgetActions() const
+        {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->menu },
-                1
+                p.actions["Layers"]
             };
         }
 
-        ActionData FileSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > FileSystem::getToolWidgetToolBarActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["Layers"] },
-                1
+                p.actions["Layers"]
             };
         }
 
         ToolWidgetData FileSystem::createToolWidget(const std::shared_ptr<UI::Action>& value)
         {
+            DJV_PRIVATE_PTR();
             ToolWidgetData out;
             if (auto context = getContext().lock())
             {
-                if (value == _p->actions["Layers"])
+                if (value == p.actions["Layers"])
                 {
                     auto titleBar = ToolTitleBar::create(DJV_TEXT("layers_title"), context);
 

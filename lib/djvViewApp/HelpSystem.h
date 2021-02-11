@@ -24,8 +24,9 @@ namespace djv
 
             static std::shared_ptr<HelpSystem> create(const std::shared_ptr<System::Context>&);
 
+            int getSortKey() const override;
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenuData() const override;
+            std::vector<std::shared_ptr<UI::Menu> > getMenus() const override;
 
         protected:
             void _textUpdate() override;

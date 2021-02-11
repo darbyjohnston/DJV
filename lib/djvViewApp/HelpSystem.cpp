@@ -128,18 +128,19 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > HelpSystem::getActions() const
+        int HelpSystem::getSortKey() const
+        {
+            return 15;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> HelpSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData HelpSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > HelpSystem::getMenus() const
         {
-            return
-            {
-                { _p->menu },
-                15
-            };
+            return { _p->menu };
         }
 
         void HelpSystem::_textUpdate()

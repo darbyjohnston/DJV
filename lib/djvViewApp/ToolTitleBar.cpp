@@ -4,7 +4,12 @@
 
 #include <djvViewApp/ToolTitleBar.h>
 
+#include <djvViewApp/ToolSettings.h>
+
 #include <djvUI/Label.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvSystem/Context.h>
 
@@ -18,6 +23,8 @@ namespace djv
         {
             std::string text;
             std::shared_ptr<UI::Text::Label> label;
+            std::shared_ptr<UI::ToolButton> closeButton;
+            std::shared_ptr<UI::HorizontalLayout> layout;
         };
 
         void ToolTitleBar::_init(
@@ -35,7 +42,28 @@ namespace djv
             p.label = UI::Text::Label::create(context);
             p.label->setTextHAlign(UI::TextHAlign::Left);
             p.label->setMargin(UI::MetricsRole::MarginSmall);
-            addChild(p.label);
+
+            p.closeButton = UI::ToolButton::create(context);
+            p.closeButton->setIcon("djvIconCloseSmall");
+
+            p.layout = UI::HorizontalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.label);
+            p.layout->setStretch(p.label);
+            p.layout->addChild(p.closeButton);
+            addChild(p.layout);
+
+            auto weakContext = std::weak_ptr<System::Context>(context);
+            p.closeButton->setClickedCallback(
+                [weakContext]
+                {
+                    if (auto context = weakContext.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
+                        auto toolSettings = settingsSystem->getSettingsT<ToolSettings>();
+                        toolSettings->setCurrentTool(-1);
+                    }
+                });
         }
 
         ToolTitleBar::ToolTitleBar() :
@@ -53,15 +81,15 @@ namespace djv
             out->_init(text, context);
             return out;
         }
-
+        
         void ToolTitleBar::_preLayoutEvent(System::Event::PreLayout&)
         {
-            _setMinimumSize(_p->label->getMinimumSize());
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void ToolTitleBar::_layoutEvent(System::Event::Layout&)
         {
-            _p->label->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
         }
 
         void ToolTitleBar::_initEvent(System::Event::Init & event)
@@ -71,6 +99,7 @@ namespace djv
             if (event.getData().text)
             {
                 p.label->setText(_getText(p.text));
+                p.closeButton->setTooltip(_getText(DJV_TEXT("tool_close")));
             }
         }
 

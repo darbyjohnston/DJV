@@ -64,17 +64,22 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > LogSystem::getActions() const
+        int LogSystem::getSortKey() const
+        {
+            return 13;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> LogSystem::getActions() const
         {
             return _p->actions;
         }
 
-        ActionData LogSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > LogSystem::getToolWidgetActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["SystemLog"] },
-                13
+                p.actions["SystemLog"]
             };
         }
 
@@ -85,7 +90,7 @@ namespace djv
             auto contextWeak = getContext();
             if (auto context = contextWeak.lock())
             {
-                if (value == _p->actions["SystemLog"])
+                if (value == p.actions["SystemLog"])
                 {
                     auto titleBar = ToolTitleBar::create(DJV_TEXT("widget_log"), context);
 

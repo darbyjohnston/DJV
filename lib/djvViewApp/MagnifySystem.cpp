@@ -67,17 +67,31 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > MagnifySystem::getActions() const
+        int MagnifySystem::getSortKey() const
+        {
+            return 9;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> MagnifySystem::getActions() const
         {
             return _p->actions;
         }
 
-        ActionData MagnifySystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > MagnifySystem::getToolWidgetActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["Magnify"] },
-                9
+                p.actions["Magnify"]
+            };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > MagnifySystem::getToolWidgetToolBarActions() const
+        {
+            DJV_PRIVATE_PTR();
+            return
+            {
+                p.actions["Magnify"]
             };
         }
 

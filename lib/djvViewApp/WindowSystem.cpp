@@ -342,18 +342,19 @@ namespace djv
             return _p->fade;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions() const
+        int WindowSystem::getSortKey() const
+        {
+            return 3;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action>> WindowSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData WindowSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > WindowSystem::getMenus() const
         {
-            return
-            {
-                { _p->menu },
-                3
-            };
+            return { _p->menu };
         }
 
         void WindowSystem::_textUpdate()

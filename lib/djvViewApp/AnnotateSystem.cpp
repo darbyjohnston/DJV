@@ -303,26 +303,36 @@ namespace djv
             return out;
         }
 
+        int AnnotateSystem::getSortKey() const
+        {
+            return 10;
+        }
+
         std::map<std::string, std::shared_ptr<UI::Action> > AnnotateSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData AnnotateSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > AnnotateSystem::getMenus() const
         {
+            return { _p->menu };
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > AnnotateSystem::getToolWidgetActions() const
+        {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->menu },
-                10
+                p.actions["Annotate"]
             };
         }
 
-        ActionData AnnotateSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > AnnotateSystem::getToolWidgetToolBarActions() const
         {
+            DJV_PRIVATE_PTR();
             return
             {
-                { _p->actions["Annotate"] },
-                10
+                p.actions["Annotate"]
             };
         }
 

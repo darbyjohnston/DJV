@@ -33,6 +33,7 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/TabBar.h>
 #include <djvUI/TabWidget.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvSystem/FileInfo.h>
@@ -89,17 +90,17 @@ namespace djv
             setClassName("djv::ViewApp::MainWindow");
 
             auto viewSystems = context->getSystemsT<IViewAppSystem>();
-            std::map<int, std::vector<std::shared_ptr<UI::Menu> > > menus;
+            std::map<int, std::vector<std::shared_ptr<UI::Menu> > > menusSorted;
             for (auto system : viewSystems)
             {
-                for (auto action : system->getActions())
+                for (auto actionData : system->getActions())
                 {
-                    addAction(action.second);
+                    addAction(actionData.second);
                 }
-                const auto menuData = system->getMenuData();
-                if (!menuData.menus.empty())
+                const auto menus = system->getMenus();
+                if (!menus.empty())
                 {
-                    menus[menuData.sortKey] = menuData.menus;
+                    menusSorted[system->getSortKey()] = menus;
                 }
             }
 
@@ -111,7 +112,7 @@ namespace djv
             }
 
             auto menuBar = UI::MenuBar::create(context);
-            for (const auto& i : menus)
+            for (const auto& i : menusSorted)
             {
                 for (const auto& j : i.second)
                 {
@@ -120,25 +121,23 @@ namespace djv
             }
             menuBar->addExpander(UI::Side::Right);
             menuBar->addSeparator(UI::Side::Right);
-            std::map<int, std::vector<std::shared_ptr<UI::Action> > > toolBarActions;
+            std::map<int, std::vector<std::shared_ptr<UI::ToolBar> > > toolBars;
             for (const auto& i : viewSystems)
             {
-                const auto actionData = i->getToolBarActionData();
-                if (!actionData.actions.empty())
+                const auto j = i->createToolBars();
+                if (!j.empty())
                 {
-                    toolBarActions[actionData.sortKey] = actionData.actions;
+                    toolBars[i->getSortKey()] = j;
                 }
             }
             size_t count = 0;
-            for (const auto& i : toolBarActions)
+            for (const auto& i : toolBars)
             {
-                for (const auto& k : i.second)
+                for (const auto& j : i.second)
                 {
-                    auto button = UI::ToolButton::create(context);
-                    button->addAction(k);
-                    menuBar->addChild(button);
+                    menuBar->addChild(j);
                 }
-                if (count < toolBarActions.size() - 1)
+                if (count < toolBars.size() - 1)
                 {
                     menuBar->addSeparator(UI::Side::Right);
                 }

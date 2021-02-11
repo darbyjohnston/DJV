@@ -60,6 +60,11 @@ namespace djv
             return out;
         }
 
+        int NUXSystem::getSortKey() const
+        {
+            return 0;
+        }
+
     } // namespace ViewApp
 } // namespace djv
 

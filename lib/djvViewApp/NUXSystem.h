@@ -26,6 +26,8 @@ namespace djv
 
             std::shared_ptr<NUXWidget> createNUXWidget();
 
+            int getSortKey() const;
+
         private:
             DJV_PRIVATE();
         };

@@ -21,22 +21,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        ActionData::ActionData()
-        {}
-        
-        ActionData::ActionData(const std::vector<std::shared_ptr<UI::Action> >& actions, int sortKey) :
-            actions(actions),
-            sortKey(sortKey)
-        {}
-        
-        MenuData::MenuData()
-        {}
-        
-        MenuData::MenuData(const std::vector<std::shared_ptr<UI::Menu> >& menus, int sortKey) :
-            menus(menus),
-            sortKey(sortKey)
-        {}
-
         ToolWidgetData::ToolWidgetData()
         {}
         
@@ -107,22 +91,27 @@ namespace djv
         
         std::map<std::string, std::shared_ptr<UI::Action> > IViewAppSystem::getActions() const
         {
-            return std::map<std::string, std::shared_ptr<UI::Action> >();
+            return {};
         }
 
-        MenuData IViewAppSystem::getMenuData() const
+        std::vector<std::shared_ptr<UI::Menu> > IViewAppSystem::getMenus() const
         {
-            return MenuData();
+            return {};
         }
 
-        ActionData IViewAppSystem::getToolBarActionData() const
+        std::vector<std::shared_ptr<UI::ToolBar> > IViewAppSystem::createToolBars() const
         {
-            return ActionData();
+            return {};
         }
 
-        ActionData IViewAppSystem::getToolActionData() const
+        std::vector<std::shared_ptr<UI::Action> > IViewAppSystem::getToolWidgetActions() const
         {
-            return ActionData();
+            return {};
+        }
+
+        std::vector<std::shared_ptr<UI::Action> > IViewAppSystem::getToolWidgetToolBarActions() const
+        {
+            return {};
         }
 
         ToolWidgetData IViewAppSystem::createToolWidget(const std::shared_ptr<UI::Action>&)

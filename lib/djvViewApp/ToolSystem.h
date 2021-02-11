@@ -41,9 +41,9 @@ namespace djv
 
             std::shared_ptr<UI::Widget> createToolDrawer();
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenuData() const override;
-            ActionData getToolBarActionData() const override;
+            int getSortKey() const override;
+            std::vector<std::shared_ptr<UI::Menu> > getMenus() const override;
+            std::vector<std::shared_ptr<UI::ToolBar> > createToolBars() const override;
 
         protected:
             void _textUpdate() override;
