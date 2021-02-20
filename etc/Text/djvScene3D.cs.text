@@ -1,8 +1,8 @@
 {
     "error_cannot_parse_the_value": "Nelze analyzovat hodnotu.",
-    "error_file_open": "Nelze otevřít soubor.",
-    "error_file_read": "Soubor nelze číst.",
-    "error_file_write": "Nelze zapsat soubor.",
-    "obj_plugin_description": "Tento plugin poskytuje I / O soubor OBJ.",
-    "opennurbs_plugin_description": "Tento plugin poskytuje I / O soubor OpenNURBS."
+    "error_file_open": "Soubor nelze nelze otevřít.",
+    "error_file_read": "Soubor nelze přečíst.",
+    "error_file_write": "Soubor nelze zapsat.",
+    "obj_plugin_description": "Tento přídavný modul poskytuje I / O souboru OBJ.",
+    "opennurbs_plugin_description": "Tento přídavný modul poskytuje I / O souboru OpenNURBS."
 }
