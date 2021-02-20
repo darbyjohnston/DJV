@@ -1,8 +1,8 @@
 {
     "render3d_default_material_mode_default": "Výchozí",
     "render3d_default_material_mode_normals": "Normály",
-    "render3d_default_material_mode_unlit": "Nesvítí",
+    "render3d_default_material_mode_unlit": "Neosvětlený",
     "render3d_default_material_mode_uvs": "UV",
-    "render3d_depth_buffer_mode_reverse": "Zvrátit",
-    "render3d_depth_buffer_mode_standard": "Standard"
+    "render3d_depth_buffer_mode_reverse": "Obrátit",
+    "render3d_depth_buffer_mode_standard": "Standardní"
 }
