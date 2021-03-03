@@ -39,13 +39,11 @@ namespace IO
     public:
         FrameInfo();
         explicit FrameInfo(
-            Timestamp                timestamp,
-            djv::Math::Frame::Number frame     = 0,
-            int32_t                  timecode  = 0);
+            Timestamp timestamp,
+            int32_t   timecode  = 0);
 
-        Timestamp                         timestamp = 0;
-        djv::Math::Frame::Number          frame     = 0;
-        int32_t                           timecode  = 0;
+        Timestamp timestamp = 0;
+        int32_t   timecode  = 0;
 
         bool operator == (const FrameInfo&) const;
         bool operator != (const FrameInfo&) const;

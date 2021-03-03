@@ -164,6 +164,8 @@ namespace IO
             auto avVideoStream = p.avFormatContext->streams[p.avVideoStream];
             auto avVideoCodecParameters = avVideoStream->codecpar;
             auto avVideoCodec = avcodec_find_decoder(avVideoCodecParameters->codec_id);
+            //auto avVideoCodec = avcodec_find_decoder_by_name("h264_dxva2");
+            //auto avVideoCodec = avcodec_find_decoder_by_name("h264_d3d11va");
             if (!avVideoCodec)
             {
                 std::stringstream ss;
@@ -186,8 +188,8 @@ namespace IO
                 ss << "Cannot open " << info.getFileName();
                 throw std::runtime_error(ss.str());
             }
-            p.avCodecContext[p.avVideoStream]->thread_count = 1;
-            p.avCodecContext[p.avVideoStream]->thread_type = FF_THREAD_SLICE;
+            p.avCodecContext[p.avVideoStream]->thread_count = 8;
+            p.avCodecContext[p.avVideoStream]->thread_type = FF_THREAD_FRAME; //FF_THREAD_SLICE;
             r = avcodec_open2(p.avCodecContext[p.avVideoStream], avVideoCodec, 0);
             if (r < 0)
             {

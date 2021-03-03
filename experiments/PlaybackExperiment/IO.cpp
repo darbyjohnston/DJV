@@ -17,11 +17,9 @@ namespace IO
     {}
     
     FrameInfo::FrameInfo(
-        Timestamp                timestamp,
-        djv::Math::Frame::Number frame,
-        int32_t                  timecode) :
+        Timestamp timestamp,
+        int32_t   timecode) :
         timestamp(timestamp),
-        frame(frame),
         timecode(timecode)
     {}
 
@@ -87,8 +85,8 @@ namespace IO
     }
 
     IIO::IIO() :
-        _videoQueue(10),
-        _audioQueue(10)
+        _videoQueue(100),
+        _audioQueue(100)
     {}
 
     IIO::~IIO()

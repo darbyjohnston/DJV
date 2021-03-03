@@ -272,7 +272,7 @@ void Media::setPlayback(Playback value)
     }
 }
 
-void Media::seek(Math::Frame::Index value)
+void Media::seek(IO::Timestamp value)
 {
     DJV_PRIVATE_PTR();
     if (p.read)
@@ -393,11 +393,10 @@ void Media::_tickNoAudio()
 {
     DJV_PRIVATE_PTR();
 
-    IO::FrameInfo frameInfo;
     switch (p.playbackSubject->get())
     {
     case Playback::Stop:
-        frameInfo = p.currentFrameSubject->get();
+        p.noAudio.frameInfo = p.currentFrameSubject->get();
         break;
     case Playback::Forward:
     case Playback::Reverse:
@@ -405,7 +404,7 @@ void Media::_tickNoAudio()
         const auto now = std::chrono::steady_clock::now();
         const double playbackTime = std::chrono::duration<float>(now - p.noAudio.startTime).count();
         const auto rate = p.ioInfo->videoSpeed.swap();
-        frameInfo.timestamp = p.noAudio.startTimestamp + playbackTime * rate.getNum() / rate.getDen();
+        p.noAudio.frameInfo.timestamp = p.noAudio.startTimestamp + playbackTime * IO::timebase.getDen();
     }
     default: break;
     }
@@ -422,7 +421,7 @@ void Media::_tickNoAudio()
         auto& videoQueue = p.read->getVideoQueue();
         finished = videoQueue.isFinished() && videoQueue.isEmpty();
         while (!videoQueue.isEmpty() &&
-            (videoQueue.getFrame().info.timestamp <= frameInfo.timestamp || IO::SeekFrame::True == videoQueue.getFrame().seekFrame))
+            (videoQueue.getFrame().info.timestamp <= p.noAudio.frameInfo.timestamp || IO::SeekFrame::True == videoQueue.getFrame().seekFrame))
         {
             frame = videoQueue.popFrame();
             valid = true;
