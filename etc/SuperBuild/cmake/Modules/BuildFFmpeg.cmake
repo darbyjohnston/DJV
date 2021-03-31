@@ -32,6 +32,10 @@ else()
     if(FFmpeg_SHARED_LIBS)
         set(FFmpeg_CONFIGURE_ARGS ${FFmpeg_CONFIGURE_ARGS} --disable-static --enable-shared)
     endif()
+    if(APPLE)
+        set(FFmpeg_CONFIGURE_ARGS ${FFmpeg_CONFIGURE_ARGS} --cc=clang)
+    endif()
+    
     ExternalProject_Add(
         FFmpeg
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FFmpeg
