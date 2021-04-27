@@ -59,7 +59,7 @@
     "plugin_jpeg_io": "Dieses Plugin bietet JPEG-Bild-I/O (Joint Photographic Experts Group).",
     "plugin_netpbm_io": "Dieses Plugin bietet NetPBM-Image-I/O",
     "plugin_openexr_io": "Dieses Plugin bietet OpenEXR-Datei-I/O",
-    "plugin_pfm_io": "Dieses Plugin bietet PFM-Image-E / A.",
+    "plugin_pfm_io": "Dieses Plugin bietet PFM-Image-I/O",
     "plugin_png_i_o": "Dieses Plugin bietet PNG-Image-I/O (Portable Network Graphics).",
     "plugin_rla_io": "Dieses Plugin bietet RLA-Image-I/O",
     "plugin_sgi_io": "Dieses Plugin bietet SGI-Image-I/O",

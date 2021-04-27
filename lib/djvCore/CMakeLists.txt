@@ -47,7 +47,7 @@ set(source
     TimeFunc.cpp
     UIDFunc.cpp
     UndoStack.cpp)
-if (WIN32)
+if(WIN32)
     set(source
         ${source}
         ErrorFuncWin32.cpp
@@ -63,7 +63,7 @@ endif()
 add_library(djvCore ${header} ${source})
 set(LIBRARIES
     RapidJSON)
-if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "arm")
+if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "arm" AND NOT APPLE)
     set(LIBRARIES ${LIBRARIES} atomic)
 endif()
 target_link_libraries(djvCore ${LIBRARIES})

@@ -25,7 +25,7 @@ jobs:
       run: sudo apt-get install libpulse-dev
 
     - name: Install Python dev
-      run: sudo apt-get install python3.7-dev
+      run: sudo apt-get install python3.8-dev
 
     - name: Build DJV
       run: >
