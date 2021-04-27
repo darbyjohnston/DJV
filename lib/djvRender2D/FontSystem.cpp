@@ -123,7 +123,6 @@ namespace djv
                     std::string text;
                     FontInfo fontInfo;
                     uint16_t elide = 0;
-                    bool cacheOnly = false;
                     std::promise<std::vector<std::shared_ptr<Glyph> > > promise;
                 };
 
@@ -524,20 +523,6 @@ namespace djv
                 return future;
             }
 
-            void FontSystem::cacheGlyphs(const std::string& text, const FontInfo& fontInfo)
-            {
-                DJV_PRIVATE_PTR();
-                GlyphsRequest request;
-                request.text = text;
-                request.fontInfo = fontInfo;
-                request.cacheOnly = true;
-                {
-                    std::unique_lock<std::mutex> lock(p.requestMutex);
-                    p.glyphsQueue.push_back(std::move(request));
-                }
-                p.requestCV.notify_one();
-            }
-
             void FontSystem::_initFreeType()
             {
                 DJV_PRIVATE_PTR();
@@ -777,29 +762,19 @@ namespace djv
                     const size_t outSize = request.elide > 0 ? std::min(inSize, static_cast<size_t>(request.elide)) : inSize;
                     const bool elided = outSize < inSize;
                     const auto fontInfoList = p.getFontInfoList(request.fontInfo);
-                    if (request.cacheOnly)
+                    std::vector<std::shared_ptr<Glyph> > glyphs(outSize + (elided ? 3 : 0));
+                    size_t i = 0;
+                    for (; i < outSize; ++i)
                     {
-                        for (size_t i = 0; i < inSize; ++i)
-                        {
-                            p.getGlyph(utf32[i], fontInfoList);
-                        }
+                        glyphs[i] = p.getGlyph(utf32[i], fontInfoList);
                     }
-                    else
+                    if (elided)
                     {
-                        std::vector<std::shared_ptr<Glyph> > glyphs(outSize + (elided ? 3 : 0));
-                        size_t i = 0;
-                        for (; i < outSize; ++i)
-                        {
-                            glyphs[i] = p.getGlyph(utf32[i], fontInfoList);
-                        }
-                        if (elided)
-                        {
-                            glyphs[i] = p.getGlyph('.', fontInfoList);
-                            glyphs[i + 1] = p.getGlyph('.', fontInfoList);
-                            glyphs[i + 2] = p.getGlyph('.', fontInfoList);
-                        }
-                        request.promise.set_value(std::move(glyphs));
+                        glyphs[i] = p.getGlyph('.', fontInfoList);
+                        glyphs[i + 1] = p.getGlyph('.', fontInfoList);
+                        glyphs[i + 2] = p.getGlyph('.', fontInfoList);
                     }
+                    request.promise.set_value(std::move(glyphs));
                 }
                 p.glyphsRequests.clear();
             }

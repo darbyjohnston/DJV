@@ -210,9 +210,6 @@ namespace djv
                     uint16_t           maxLineWidth,
                     const FontInfo&    fontInfo);
 
-                //! Request font glyphs to be cached.
-                void cacheGlyphs(const std::string& text, const FontInfo&);
-
                 ///@}
             
             private:

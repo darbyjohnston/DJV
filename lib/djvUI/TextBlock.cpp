@@ -308,7 +308,6 @@ namespace djv
                     style->getFontInfo(p.fontFace, p.fontSizeRole) :
                     style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
                 p.fontMetricsFuture = p.fontSystem->getMetrics(p.fontInfo);
-                p.fontSystem->cacheGlyphs(p.text, p.fontInfo);
                 p.textCache.clear();
                 _resize();
             }
