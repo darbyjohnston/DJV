@@ -124,6 +124,7 @@ namespace djv
             uint16_t textureSize = 0;
             Image::Type textureType = Image::Type::None;
             uint8_t border = 0;
+            UID uid = 0;
             std::vector<std::shared_ptr<Texture> > textures;
             std::vector<std::shared_ptr<BoxPackingNode> > boxPackingNodes;
             std::map<UID, std::shared_ptr<BoxPackingNode> > cache;
@@ -198,14 +199,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
 
-            static UID _uid = 0;
-
             for (uint8_t i = 0; i < p.textureCount; ++i)
             {
                 if (auto node = p.boxPackingNodes[i]->insert(data))
                 {
                     // The data has been added to the atlas.
-                    node->uid = ++_uid;
+                    node->uid = ++p.uid;
                     p.textures[node->textureIndex]->copy(*data, node->bbox.min.x + p.border, node->bbox.min.y + p.border);
                     p.cache[node->uid] = node;
                     _toTextureAtlasItem(node, out);
@@ -245,7 +244,7 @@ namespace djv
                     old->timestamp = ++_timestamp;
                     if (auto node2 = old->insert(data))
                     {
-                        node2->uid = ++_uid;
+                        node2->uid = ++p.uid;
 
                         //! \todo Do we need to zero out the old data?
                         //auto zero = Image::Data::create(Image::Info(data->getSize() + p.border * 2, p.textureType));
