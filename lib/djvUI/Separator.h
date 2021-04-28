@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a widget that draws a separator line.
+            //! Separator widget.
             class Separator : public Widget
             {
                 DJV_NON_COPYABLE(Separator);

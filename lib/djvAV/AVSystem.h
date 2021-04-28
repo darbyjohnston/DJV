@@ -13,9 +13,10 @@
 
 namespace djv
 {
+    //! Audio/video.
     namespace AV
     {
-        //! This class provides an AV system.
+        //! Audio/visual system.
         class AVSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(AVSystem);

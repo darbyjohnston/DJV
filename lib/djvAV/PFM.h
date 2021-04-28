@@ -19,13 +19,13 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides PFM Portable FloatMap Image Format
+        //! Portable FloatMap (PFM) image I/O.
         namespace PFM
         {
             static const std::string pluginName = "PFM";
             static const std::set<std::string> fileExtensions = { ".pfm" };
 
-            //! This class provides the PFM file reader.
+            //! PFM reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -51,7 +51,7 @@ namespace djv
                 IO::Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, float& scale);
             };
 
-            //! This class provides the PFM file I/O plugin.
+            //! PFM I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

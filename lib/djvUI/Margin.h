@@ -22,7 +22,7 @@ namespace djv
         
         namespace Layout
         {
-            //! This class provides margins.
+            //! Margins.
             class Margin
             {
             public:

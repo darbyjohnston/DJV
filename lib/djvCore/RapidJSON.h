@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides RapidJSON functionality.
+        //! JSON functionality.
         namespace RapidJSON
         {
             void errorLineNumber(const char*, size_t size, size_t index, size_t& line, size_t& character);

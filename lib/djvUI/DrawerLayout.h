@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a drawer layout.
+            //! Drawer layout.
             class Drawer : public Widget
             {
                 DJV_NON_COPYABLE(Drawer);

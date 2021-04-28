@@ -16,7 +16,7 @@ namespace djv
 
         } // namespace Style
 
-        //! This class provides a UI system.
+        //! UI system.
         class UISystem : public System::ISystem
         {
             DJV_NON_COPYABLE(UISystem);

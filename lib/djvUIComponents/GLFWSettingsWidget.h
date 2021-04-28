@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a GLFW settings widget.
+            //! GLFW settings widget.
             class GLFWWidget : public IWidget
             {
                 DJV_NON_COPYABLE(GLFWWidget);

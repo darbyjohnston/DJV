@@ -22,7 +22,6 @@ set(header
     ISystem.h
     ISystemInline.h
     LogSystem.h
-    Namespace.h
     Path.h
     PathInline.h
     RecentFilesModel.h

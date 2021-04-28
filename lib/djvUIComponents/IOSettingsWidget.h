@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides an I/O threads settings widget.
+            //! I/O threads settings widget.
             class IOThreadsWidget : public IWidget
             {
                 DJV_NON_COPYABLE(IOThreadsWidget);

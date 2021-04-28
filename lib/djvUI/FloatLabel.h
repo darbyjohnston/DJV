@@ -20,7 +20,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides a label for floating-point values.
+            //! Floating point label widget.
             class FloatLabel : public Widget
             {
                 DJV_NON_COPYABLE(FloatLabel);

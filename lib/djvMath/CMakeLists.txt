@@ -8,7 +8,6 @@ set(header
     MathInline.h
     Matrix.h
     MatrixInline.h
-    Namespace.h
     NumericValueModels.h
     Range.h
     RangeInline.h

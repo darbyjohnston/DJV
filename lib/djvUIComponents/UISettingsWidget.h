@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a tooltips settings widget.
+            //! Tooltips settings widget.
             class TooltipsWidget : public IWidget
             {
                 DJV_NON_COPYABLE(TooltipsWidget);

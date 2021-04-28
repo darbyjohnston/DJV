@@ -12,7 +12,7 @@ namespace djv
     {
         class Menu;
 
-        //! This class provides a menu bar widget.
+        //! Menu bar widget.
         class MenuBar : public Widget
         {
             DJV_NON_COPYABLE(MenuBar);

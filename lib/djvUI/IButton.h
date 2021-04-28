@@ -10,10 +10,10 @@ namespace djv
 {
     namespace UI
     {
-        //! This namespace provides button widgets.
+        //! Button widgets.
         namespace Button
         {
-            //! This class provides the interface for button widgets.
+            //! Base class for button widgets.
             class IButton : public Widget
             {
             protected:

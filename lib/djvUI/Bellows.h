@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a bellows widget.
+            //! Bellows widget.
             class Bellows : public Widget
             {
                 DJV_NON_COPYABLE(Bellows);

@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the application.
+        //! Viewer application.
         class Application : public Desktop::Application
         {
             DJV_NON_COPYABLE(Application);

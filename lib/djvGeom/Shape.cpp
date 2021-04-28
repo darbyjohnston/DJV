@@ -55,7 +55,7 @@ namespace djv
             triangle.v2.v = triangle.v2.t = 0 + offset;
             mesh.triangles.push_back(triangle);
 
-            calcNormals(mesh);
+            TriangleMesh::calcNormals(mesh);
         }
 
         Circle::Circle(float radius, size_t resolution) :
@@ -95,7 +95,7 @@ namespace djv
                 mesh.triangles.push_back(triangle);
             }
 
-            calcNormals(mesh);
+            TriangleMesh::calcNormals(mesh);
         }
 
         Cube::Cube(float radius) :
@@ -112,7 +112,7 @@ namespace djv
             Math::BBox3f bbox;
             bbox.min = glm::vec3(-_radius, -_radius, -_radius);
             bbox.max = glm::vec3(_radius, _radius, _radius);
-            triangulateBBox(bbox, mesh);
+            TriangleMesh::triangulateBBox(bbox, mesh);
         }
 
         Sphere::Sphere(float radius, const Resolution& resolution) :
@@ -192,7 +192,7 @@ namespace djv
                 }
             }
 
-            calcNormals(mesh);
+            TriangleMesh::calcNormals(mesh);
         }
 
         Cylinder::Cylinder(float radius, float length, size_t resolution) :
@@ -291,7 +291,7 @@ namespace djv
                 }
             }
 
-            calcNormals(mesh);
+            TriangleMesh::calcNormals(mesh);
         }
 
     } // namespace Geom

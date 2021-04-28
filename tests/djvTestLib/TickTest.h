@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Test
     {
-        //! This class provides the interface for confidence tests which need to be ticked.
+        //! Base class for confidence tests which need to be ticked.
         class ITickTest : public ITest
         {
         public:

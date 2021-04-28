@@ -13,7 +13,7 @@ namespace djv
 {
     namespace Image
     {
-        //! This class provides string tags.
+        //! Image tags.
         class Tags
         {
         public:

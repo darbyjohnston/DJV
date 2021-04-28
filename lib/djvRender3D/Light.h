@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Render3D
     {
-        //! This class provides the base functionality for lights.
+        //! Base class for lights.
         class ILight : public std::enable_shared_from_this<ILight>
         {
             DJV_NON_COPYABLE(ILight);
@@ -33,7 +33,7 @@ namespace djv
             float _intensity = 1.F;
         };
 
-        //! This class provides a hemisphere light.
+        //! Hemisphere light.
         class HemisphereLight : public ILight
         {
         protected:
@@ -56,7 +56,7 @@ namespace djv
             Image::Color _bottomColor = Image::Color::RGB_F32(.4F, .4F, .8F);
         };
 
-        //! This class provides a directional light.
+        //! Directional light.
         class DirectionalLight : public ILight
         {
         protected:
@@ -73,7 +73,7 @@ namespace djv
             glm::vec3 _direction = glm::vec3(-1.F, -1.F, -1.F);
         };
 
-        //! This class provides a point light.
+        //! Point light.
         class PointLight : public ILight
         {
         protected:
@@ -90,7 +90,7 @@ namespace djv
             glm::vec3 _position = glm::vec3(0.F, 0.F, 0.F);
         };
 
-        //! This class provides a spot light.
+        //! Spot light.
         class SpotLight : public ILight
         {
         protected:

@@ -16,7 +16,7 @@ namespace djv
         class MediaCanvas;
         class MediaWidget;
 
-        //! This class provides the window system.
+        //! Window system.
         class WindowSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(WindowSystem);

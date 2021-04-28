@@ -12,10 +12,10 @@ namespace djv
 {
     namespace Audio
     {
-        //! This constant provides the default audio information name.
+        //! Default audio information name.
         const std::string defaultName = "Audio";
 
-        //! This class provides audio data information.
+        //! Audio data information.
         class Info
         {
         public:

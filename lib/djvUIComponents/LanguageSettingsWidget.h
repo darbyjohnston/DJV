@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a language widget.
+        //! Language widget.
         class LanguageWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(LanguageWidget);
@@ -38,7 +38,7 @@ namespace djv
 
         namespace Settings
         {
-            //! This class provides a language settings widget.
+            //! Language settings widget.
             class LanguageWidget : public IWidget
             {
                 DJV_NON_COPYABLE(LanguageWidget);

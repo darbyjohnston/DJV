@@ -6,7 +6,6 @@ set(header
     MeshCache.h
     Mesh.h
     MeshInline.h
-    Namespace.h
     OffscreenBuffer.h
     OffscreenBufferInline.h
     Shader.h

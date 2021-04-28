@@ -10,7 +10,7 @@ namespace djv
 {
     namespace System
     {
-        //! This class provides the core systems.
+        //! Core systems.
         class CoreSystem : public ISystem
         {
             DJV_NON_COPYABLE(CoreSystem);

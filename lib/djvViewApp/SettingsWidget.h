@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the settings widget.
+        //! Settings widget.
         class SettingsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(SettingsWidget);

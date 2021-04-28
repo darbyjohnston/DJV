@@ -6,16 +6,17 @@
 
 namespace djv
 {
+    //! Three-dimensional scenes.
     namespace Scene3D
     {
-        //! This enumeration provides the scene orientation.
+        //! Scene orientation.
         enum class SceneOrient
         {
             YUp,
             ZUp
         };
 
-        //! This enumeration provides how colors are assigned.
+        //! Color assignment.
         enum class ColorAssignment
         {
             Layer,
@@ -26,7 +27,7 @@ namespace djv
             First = Layer
         };
 
-        //! This enumeration provides how materials are assigned.
+        //! Material assignment.
         enum class MaterialAssignment
         {
             Layer,

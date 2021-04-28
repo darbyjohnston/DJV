@@ -14,7 +14,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides debugging settings.
+        //! Debugging settings.
         class DebugSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(DebugSettings);

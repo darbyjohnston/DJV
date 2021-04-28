@@ -19,10 +19,10 @@ namespace djv
             template<typename T>
             class IListSubject;
 
-            //! This value represents an invalid index.
+            //! Invalid index.
             static const size_t invalidListIndex = static_cast<size_t>(-1);
 
-            //! This class provides a list observer.
+            //! List observer.
             template<typename T>
             class List : public std::enable_shared_from_this<List<T> >
             {
@@ -53,7 +53,7 @@ namespace djv
                 std::weak_ptr<IListSubject<T> > _subject;
             };
 
-            //! This class provides the interface for a list subject.
+            //! Base class for a list subject.
             template<typename T>
             class IListSubject
             {
@@ -90,7 +90,7 @@ namespace djv
                 friend List<T>;
             };
 
-            //! This class provides a list subject.
+            //! List subject.
             template<typename T>
             class ListSubject : public IListSubject<T>
             {

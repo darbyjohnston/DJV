@@ -12,7 +12,7 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides Portable Network Graphics (PNG) file I/O.
+        //! Portable Network Graphics (PNG) image I/O.
         //!
         //! References:
         //! - http://www.libpng.org
@@ -21,13 +21,13 @@ namespace djv
             static const std::string pluginName = "PNG";
             static const std::set<std::string> fileExtensions = { ".png" };
 
-            //! This struct provides a PNG error message.
+            //! Error handling.
             struct ErrorStruct
             {
                 std::vector<std::string> messages;
             };
 
-            //! This class provides the PNG file reader.
+            //! PNG reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -54,7 +54,7 @@ namespace djv
                 IO::Info _open(const std::string&, const std::shared_ptr<File>&);
             };
                 
-            //! This class provides the PNG file writer.
+            //! PNG writer.
             class Write : public IO::ISequenceWrite
             {
                 DJV_NON_COPYABLE(Write);
@@ -81,7 +81,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the PNG file I/O plugin.
+            //! PNG I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

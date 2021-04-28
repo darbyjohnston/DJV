@@ -21,7 +21,7 @@ namespace djv
 
     namespace UI
     {
-        //! This struct provides keyboard shortcut data.
+        //! Keyboard shortcut data.
         struct ShortcutData
         {
             explicit ShortcutData(int key = 0, int modifiers = 0);
@@ -35,7 +35,7 @@ namespace djv
             bool operator < (const ShortcutData&) const;
         };
 
-        //! This struct provides primary and secondary shortcut data.
+        //! Primary and secondary keyboard shortcut data.
         struct ShortcutDataPair
         {
             ShortcutDataPair();
@@ -49,10 +49,10 @@ namespace djv
             bool operator < (const ShortcutDataPair&) const;
         };
 
-        //! This typedef provides a map of shortcut data.
+        //! Keyboard shortcut data.
         typedef std::map<std::string, ShortcutDataPair> ShortcutDataMap;
         
-        //! Get the system specific shortcut modifier.
+        //! Get the system specific keyboard shortcut modifier.
         int getSystemModifier();
 
         //! \name Conversion

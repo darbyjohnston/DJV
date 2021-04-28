@@ -23,12 +23,13 @@
 
 namespace djv
 {
+    //! Imaging
     namespace Image
     {
         //! \name Types
         ///@{
 
-        //! This enumeration provides image types.
+        //! Image types.
         enum class Type
         {
             None,
@@ -63,7 +64,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Type);
 
-        //! This enumeration provides image channels.
+        //! Image channels.
         enum class Channels
         {
             None,
@@ -77,7 +78,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Channels);
 
-        //! This enumeration provides image data types.
+        //! Image data types.
         enum class DataType
         {
             None,
@@ -128,7 +129,7 @@ namespace djv
 
         ///@}
 
-        //! This struct provides 10-bit MSB pixel data.
+        //! 10-bit MSB pixel data.
         struct U10_S_MSB
         {
             uint32_t r   : 10;
@@ -140,7 +141,7 @@ namespace djv
             constexpr bool operator != (const U10_S_MSB&) const noexcept;
         };
 
-        //! This struct provides 10-bit LSB pixel data.
+        //! 10-bit LSB pixel data.
         struct U10_S_LSB
         {
             uint32_t pad : 2;

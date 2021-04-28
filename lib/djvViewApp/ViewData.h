@@ -18,7 +18,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This struct provides grid options.
+        //! Grid options.
         struct GridOptions
         {
             bool            enabled     = false;
@@ -30,7 +30,7 @@ namespace djv
             bool operator == (const GridOptions&) const;
         };
 
-        //! This struct provides HUD data.
+        //! HUD data.
         struct HUDData
         {
             std::string       fileName;
@@ -45,7 +45,7 @@ namespace djv
             bool operator == (const HUDData&) const;
         };
 
-        //! This struct provides HUD options.
+        //! HUD options.
         struct HUDOptions
         {
             bool          enabled    = false;
@@ -55,7 +55,7 @@ namespace djv
             bool operator == (const HUDOptions&) const;
         };
 
-        //! This struct provides background options.
+        //! Background options.
         struct ViewBackgroundOptions
         {
             ViewBackground background        = ViewBackground::First;

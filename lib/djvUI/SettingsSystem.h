@@ -17,7 +17,7 @@ namespace djv
         {
             class ISettings;
 
-            //! This class provides a system for saving and restoring user settings.
+            //! User settings system.
             //!
             //! \bug How can we merge settings changes from multiple application instances?
             class SettingsSystem : public System::ISystem

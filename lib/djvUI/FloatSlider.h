@@ -15,7 +15,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides a basic slider widget for floating-point values.
+            //! Basic floating point slider widget.
             class BasicFloatSlider : public ISlider<float>, public Slider
             {
                 DJV_NON_COPYABLE(BasicFloatSlider);
@@ -48,7 +48,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a slider widget for floating-point values.
+            //! Floating point slider widget.
             class FloatSlider : public Widget
             {
                 DJV_NON_COPYABLE(FloatSlider);

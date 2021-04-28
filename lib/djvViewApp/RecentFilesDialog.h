@@ -19,7 +19,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides the recently used files dialog.
+        //! Recent files dialog.
         class RecentFilesDialog : public UI::IDialog
         {
             DJV_NON_COPYABLE(RecentFilesDialog);

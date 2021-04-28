@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the log system.
+        //! Log system.
         class LogSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(LogSystem);

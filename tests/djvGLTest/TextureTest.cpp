@@ -46,7 +46,7 @@ namespace djv
                         ss2 << type;
                         _print(_getText(ss.str()) + " " + _getText(ss2.str()));
                     }
-                    auto texture = Texture::create(info);
+                    auto texture = Texture2D::create(info);
                     DJV_ASSERT(texture->getInfo() == info);
                     {
                         std::stringstream ss;

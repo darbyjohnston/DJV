@@ -36,7 +36,7 @@ namespace djv
     {
         namespace FileBrowser
         {
-            //! This class provides a file browser item view.
+            //! File browser item view.
             //!
             //! \todo Elide names which are too long.
             //! \todo Show an animated spinner for thumbnails that are loading.

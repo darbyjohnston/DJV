@@ -14,8 +14,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This enumeration provides how widgets are stretched to fill
-            //! space in a layout.
+            //! Grid layout stretch.
             enum class GridStretch
             {
                 None,
@@ -28,7 +27,9 @@ namespace djv
             };
             DJV_ENUM_HELPERS(GridStretch);
 
-            //! This class provides a layout that arranges it's children in a grid.
+            //! Grid layout.
+            //!
+            //! This layout arranges it's children in a grid.
             //!
             //! \todo Add the ability for child widgets to span multiple rows and columns.
             class Grid : public Widget

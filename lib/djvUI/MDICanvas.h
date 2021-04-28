@@ -10,12 +10,12 @@ namespace djv
 {
     namespace UI
     {
-        //! This namespace provides multiple document interface (MDI) functionality.
+        //! Multiple document interface (MDI).
         namespace MDI
         {
             class IWidget;
 
-            //! This class provides a MDI canvas widget.
+            //! MDI canvas widget.
             class Canvas : public Widget
             {
                 DJV_NON_COPYABLE(Canvas);

@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides a point primitive.
+        //! Point list primitive.
         class PointListPrimitive : public IPrimitive
         {
             DJV_NON_COPYABLE(PointListPrimitive);

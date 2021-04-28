@@ -14,7 +14,9 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a layout that arranges it's children into a stack.
+            //! Stack layout widget.
+            //!
+            //! This layout arranges it's children into a stack.
             class Stack : public Widget
             {
                 DJV_NON_COPYABLE(Stack);

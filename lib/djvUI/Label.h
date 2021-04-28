@@ -10,12 +10,12 @@ namespace djv
 {
     namespace UI
     {
-        //! This namespace provides text widget functionality.
+        //! Text widgets.
         namespace Text
         {
             class LabelSizeGroup;
 
-            //! This class provides a text label.
+            //! Text label widget.
             class Label : public Widget
             {
                 DJV_NON_COPYABLE(Label);
@@ -97,8 +97,9 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides functionality to constrain the minimum size
-            //! of multiple Label widgets.
+            //! Label size group.
+            //!
+            //! This constrains the minimum size of multiple Label widgets.
             class LabelSizeGroup : public std::enable_shared_from_this<LabelSizeGroup>
             {
                 DJV_NON_COPYABLE(LabelSizeGroup);

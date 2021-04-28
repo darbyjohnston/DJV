@@ -18,7 +18,7 @@ namespace djv
 
     namespace UIComponents
     {
-        //! This class provides a popup widget for choosing a color type.
+        //! Color type widget.
         class ColorTypeWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorTypeWidget);
@@ -49,7 +49,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides slider widgets for choosing a color.
+        //! Color slider widget.
         //!
         //! \todo Implement HSV.
         class ColorSliders : public UI::Widget
@@ -88,7 +88,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a color picker widget.
+        //! Color picker widget.
         class ColorPicker : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorPicker);
@@ -117,7 +117,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a color swatch with a color picker.
+        //! Color swatch widget with a color picker.
         class ColorPickerSwatch : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorPickerSwatch);

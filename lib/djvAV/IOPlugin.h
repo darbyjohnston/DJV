@@ -23,7 +23,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This class provides I/O plugin options.
+            //! I/O plugin options.
             struct IOOptions
             {
                 size_t videoQueueSize = 1;
@@ -31,7 +31,7 @@ namespace djv
                 size_t audioQueueSize = 30;
             };
 
-            //! This class provides the base interface for I/O.
+            //! Base interface for I/O.
             class IIO : public std::enable_shared_from_this<IIO>
             {
             protected:
@@ -81,7 +81,7 @@ namespace djv
                 size_t _threadCount = 4;
             };
 
-            //! This class provides options for reading.
+            //! Read options.
             struct ReadOptions : IOOptions
             {
                 ReadOptions();
@@ -90,7 +90,7 @@ namespace djv
                 std::string colorSpace;
             };
 
-            //! This class provides the interface for reading.
+            //! Base interface for readers.
             class IRead : public IIO
             {
             protected:
@@ -153,13 +153,13 @@ namespace djv
                 Cache _cache;
             };
 
-            //! This class provides options for writing.
+            //! Write options.
             struct WriteOptions : IOOptions
             {
                 std::string colorSpace;
             };
 
-            //! This class provides the interface for writing.
+            //! Base interface for writers.
             class IWrite : public IIO
             {
             protected:
@@ -179,7 +179,7 @@ namespace djv
                 WriteOptions _options;
             };
 
-            //! This class provides the interface for I/O plugins.
+            //! Base interface for I/O plugins.
             class IPlugin : public std::enable_shared_from_this<IPlugin>
             {
             protected:

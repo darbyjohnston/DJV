@@ -13,7 +13,7 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides error handling functionality.
+        //! Error handling.
         namespace Error
         {
             //! Format an error for display to the user.

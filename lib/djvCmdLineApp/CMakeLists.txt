@@ -1,6 +1,5 @@
 set(header
-    Application.h
-    Namespace.h)
+    Application.h)
 set(source
     Application.cpp)
 

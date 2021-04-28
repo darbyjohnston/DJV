@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the view options grid widget.
+        //! View options grid widget.
         class ViewOptionsGridWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ViewOptionsGridWidget);
@@ -38,7 +38,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the view options HUD widget.
+        //! View options HUD widget.
         class ViewOptionsHUDWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ViewOptionsHUDWidget);
@@ -66,7 +66,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the view options background widget.
+        //! View options background widget.
         class ViewOptionsBackgroundWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ViewOptionsBackgroundWidget);
@@ -92,7 +92,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the view options border widget.
+        //! View options border widget.
         class ViewOptionsBorderWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ViewOptionsBorderWidget);
@@ -120,7 +120,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the view options widget.
+        //! View options widget.
         class ViewOptionsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ViewOptionsWidget);

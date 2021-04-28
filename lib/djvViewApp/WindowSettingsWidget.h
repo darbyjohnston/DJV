@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the window geometry settings widget.
+        //! Window geometry settings widget.
         class WindowGeometrySettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(WindowGeometrySettingsWidget);
@@ -34,7 +34,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the fullscreen monitor settings widget.
+        //! Fullscreen monitor settings widget.
         class FullscreenMonitorSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(FullscreenMonitorSettingsWidget);
@@ -60,7 +60,7 @@ namespace djv
             DJV_PRIVATE();
         };
         
-        //! This class provides the background image settings widget.
+        //! Background image settings widget.
         class BackgroundImageSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(BackgroundImageSettingsWidget);

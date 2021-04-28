@@ -32,7 +32,7 @@ namespace djv
         class Tooltip;
         class Window;
 
-        //! This class provides the base widget functionality.
+        //! Base class for widgets.
         class Widget : public System::IObject
         {
             DJV_NON_COPYABLE(Widget);

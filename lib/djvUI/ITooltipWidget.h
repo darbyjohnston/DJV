@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides the interface for tooltip widgets.
+        //! Base class for tooltip widgets.
         class ITooltipWidget : public Widget
         {
             DJV_NON_COPYABLE(ITooltipWidget);

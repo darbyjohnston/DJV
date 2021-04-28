@@ -23,7 +23,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides the information widget.
+        //! Information widget.
         class InfoWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(InfoWidget);

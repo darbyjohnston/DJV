@@ -17,7 +17,6 @@ set(header
     MaterialInline.h
     MeshPrimitive.h
     MeshPrimitiveInline.h
-    Namespace.h
     NullPrimitive.h
     NullPrimitiveInline.h
     OBJ.h

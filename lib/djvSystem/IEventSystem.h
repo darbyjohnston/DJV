@@ -17,7 +17,7 @@ namespace djv
 
         namespace Event
         {
-            //! This class provides the base functionality for event systems.
+            //! Base class for event systems.
             class IEventSystem : public ISystem
             {
                 DJV_NON_COPYABLE(IEventSystem);

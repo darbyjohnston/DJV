@@ -18,7 +18,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides the image system.
+        //! Image system.
         class ImageSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(ImageSystem);

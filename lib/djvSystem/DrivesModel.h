@@ -16,7 +16,7 @@ namespace djv
         {
             class Path;
 
-            //! This class provides a list of the file system drives.
+            //! File system drive model.
             class DrivesModel : public std::enable_shared_from_this<DrivesModel>
             {
                 DJV_NON_COPYABLE(DrivesModel);

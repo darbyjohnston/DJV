@@ -16,7 +16,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides the edit system.
+        //! Edit system.
         class EditSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(EditSystem);

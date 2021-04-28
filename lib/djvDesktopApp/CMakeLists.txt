@@ -1,8 +1,7 @@
 set(header
     Application.h
     EventSystem.h
-    GLFWSystem.h
-    Namespace.h)
+    GLFWSystem.h)
 set(source
     Application.cpp
     EventSystem.cpp

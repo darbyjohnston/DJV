@@ -13,7 +13,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides an editor widget for floating-point values.
+            //! Floating point editor widget.
             class FloatEdit : public IEdit<float>, public Edit
             {
                 DJV_NON_COPYABLE(FloatEdit);

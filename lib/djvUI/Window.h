@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a top-level window.
+        //! Top-level window.
         class Window : public Widget
         {
             DJV_NON_COPYABLE(Window);

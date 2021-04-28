@@ -16,7 +16,7 @@ namespace djv
         class IMaterial;
         class Layer;
 
-        //! This class provides the base functionality for layer items.
+        //! Base class for layer items.
         class ILayerItem : public std::enable_shared_from_this<ILayerItem>
         {
             DJV_NON_COPYABLE(ILayerItem);
@@ -37,7 +37,7 @@ namespace djv
             friend class Layer;
         };
 
-        //! This class provides a layer.
+        //! Layer.
         class Layer : public ILayerItem
         {
             DJV_NON_COPYABLE(Layer);

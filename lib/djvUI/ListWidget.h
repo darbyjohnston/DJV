@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This struct provides a list item.
+        //! List item.
         struct ListItem
         {
             ListItem();
@@ -26,7 +26,7 @@ namespace djv
             bool operator == (const ListItem&) const;
         };
 
-        //! This class provides a list widget.
+        //! List widget.
         //!
         //! \todo Keep the current item visible in the scroll widget.
         class ListWidget : public Widget

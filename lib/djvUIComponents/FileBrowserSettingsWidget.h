@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a file browser settings widget.
+            //! File browser settings widget.
             class FileBrowserWidget : public IWidget
             {
                 DJV_NON_COPYABLE(FileBrowserWidget);

@@ -5,8 +5,7 @@ set(header
     Info.h
     InfoInline.h
     Type.h
-    TypeInline.h
-    Namespace.h)
+    TypeInline.h)
 set(source
     AudioSystem.cpp
     Data.cpp

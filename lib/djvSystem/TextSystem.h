@@ -18,7 +18,7 @@ namespace djv
         
         } // namespace File
 
-        //! This class provides text and translations.
+        //! Text and translation system.
         //!
         //! Text files are searched for in this order:
         //! - File::ResourcePath::Text

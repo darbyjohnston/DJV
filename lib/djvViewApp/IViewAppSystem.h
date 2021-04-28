@@ -35,7 +35,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This struct provides tool widget data.
+        //! Tool widget data.
         class ToolWidgetData
         {
         public:
@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<UI::Widget> footer;
         };
 
-        //! This class provides the base functionality for systems.
+        //! Base class for systems.
         class IViewAppSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(IViewAppSystem);

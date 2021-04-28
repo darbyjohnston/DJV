@@ -14,9 +14,10 @@
 
 namespace djv
 {
+    //! OpenGL functionality.
     namespace GL
     {
-        //! This enumeration provides GLFW swap intervals.
+        //! GLFW swap intervals.
         enum class SwapInterval
         {
             Default,

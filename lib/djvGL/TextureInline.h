@@ -6,12 +6,12 @@ namespace djv
 {
     namespace GL
     {
-        inline const Image::Info& Texture::getInfo() const
+        inline const Image::Info& Texture2D::getInfo() const
         {
             return _info;
         }
 
-        inline GLuint Texture::getID() const
+        inline GLuint Texture2D::getID() const
         {
             return _id;
         }

@@ -16,7 +16,7 @@ namespace djv
     {
         class ImageFilterOptions;
 
-        //! This class provides a 2D render system.
+        //! Two-dimensional render system.
         class RenderSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(RenderSystem);

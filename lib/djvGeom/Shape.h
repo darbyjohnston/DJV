@@ -10,11 +10,12 @@
 
 namespace djv
 {
+    //! Geometry functionality.
     namespace Geom
     {
         class TriangleMesh;
 
-        //! This class provides the interface for shapes.
+        //! Base class for shapes.
         class IShape
         {
         public:
@@ -23,7 +24,7 @@ namespace djv
             virtual void triangulate(TriangleMesh&) const = 0;
         };
 
-        //! This class provides a square shape.
+        //! Square shape.
         class Square : public IShape
         {
         public:
@@ -49,7 +50,7 @@ namespace djv
             float _radius = .5F;
         };
 
-        //! This class provides a circle shape.
+        //! Circle shape.
         class Circle : public IShape
         {
         public:
@@ -85,7 +86,7 @@ namespace djv
             size_t _resolution = 10;
         };
 
-        //! This class provides a cube shape.
+        //! Cube shape.
         class Cube : public IShape
         {
         public:
@@ -111,7 +112,7 @@ namespace djv
             float _radius = .5F;
         };
 
-        //! This class provides a sphere shape.
+        //! Sphere shape.
         class Sphere : public IShape
         {
         public:
@@ -166,7 +167,7 @@ namespace djv
             bool _textureSpan = true;
         };
 
-        //! This class provides a cylinder shape.
+        //! Cylinder shape.
         class Cylinder : public IShape
         {
         public:

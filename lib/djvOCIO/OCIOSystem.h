@@ -20,7 +20,7 @@ namespace djv
 {
     namespace OCIO
     {
-        //! This enumeration provides the configuration modes.
+        //! Configuration modes.
         enum class ConfigMode
         {
             None,
@@ -33,10 +33,10 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ConfigMode);
 
-        //! Thsi typedef provides the image color space associations.
+        //! Image color space associations.
         typedef std::map<std::string, std::string> ImageColorSpaces;
 
-        //! This struct provides a color space configuration.
+        //! Color space configuration.
         struct Config
         {
             Config();

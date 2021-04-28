@@ -6,9 +6,10 @@
 
 namespace djv
 {
+    //! System functionality.
     namespace System
     {
-        //! This enumeration provides the log levels.
+        //! Log levels.
         enum class LogLevel
         {
             Information,

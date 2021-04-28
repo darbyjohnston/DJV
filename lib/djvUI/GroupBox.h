@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a group box widget.
+            //! Group box widget.
             class GroupBox : public Widget
             {
                 DJV_NON_COPYABLE(GroupBox);

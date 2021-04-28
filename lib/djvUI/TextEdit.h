@@ -13,7 +13,7 @@ namespace djv
     {
         namespace Text
         {
-            //! This class provides a text editor widget.
+            //! Text editor widget.
             class Edit : public Widget
             {
                 DJV_NON_COPYABLE(Edit);

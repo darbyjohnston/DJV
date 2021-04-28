@@ -46,7 +46,7 @@ namespace djv
         {
             {
                 Geom::TriangleMesh mesh;
-                Geom::triangulateBBox(Math::BBox3f(-1.F, -1.F, -1.F, 1.F, 1.F, 1.F), mesh);
+                Geom::TriangleMesh::triangulateBBox(Math::BBox3f(-1.F, -1.F, -1.F, 1.F, 1.F, 1.F), mesh);
                 for (const auto& i : mesh.v)
                 {
                     mesh.c.push_back(glm::vec3(1.F, 1.F, 1.F));

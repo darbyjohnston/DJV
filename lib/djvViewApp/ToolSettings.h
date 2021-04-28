@@ -19,7 +19,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the tool settings.
+        //! Tool settings.
         class ToolSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(ToolSettings);

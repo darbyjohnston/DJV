@@ -25,7 +25,7 @@ namespace djv
 
     namespace Test
     {
-        //! This class provides the interface for confidence tests.
+        //! Base class for confidence tests.
         class ITest
         {
         public:

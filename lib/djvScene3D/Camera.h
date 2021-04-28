@@ -16,7 +16,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides the base functionality for cameras.
+        //! Base class for cameras.
         class ICamera : public IPrimitive
         {
             DJV_NON_COPYABLE(ICamera);
@@ -35,7 +35,7 @@ namespace djv
             glm::mat4x4 _p = glm::mat4x4(1.F);
         };
 
-        //! This class provides default camera data.
+        //! Default camera data.
         struct DefaultCameraData
         {
             float               fov         = 45.F;
@@ -48,7 +48,7 @@ namespace djv
             bool operator == (const DefaultCameraData&) const;
         };
 
-        //! This class provides a default camera.
+        //! Default camera.
         class DefaultCamera : public ICamera
         {
         protected:
@@ -75,7 +75,7 @@ namespace djv
             DefaultCameraData _data;
         };
 
-        //! This class provides polat camera data.
+        //! Polar camera data.
         struct PolarCameraData
         {
             float               fov         = 45.F;
@@ -89,7 +89,7 @@ namespace djv
             bool operator == (const PolarCameraData&) const;
         };
 
-        //! This class provides a polar camera.
+        //! Polar camera.
         class PolarCamera : public ICamera
         {
         protected:

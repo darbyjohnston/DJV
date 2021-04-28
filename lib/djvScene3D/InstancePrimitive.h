@@ -10,7 +10,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides a primitive instance.
+        //! Primitive instance.
         class InstancePrimitive : public IPrimitive
         {
             DJV_NON_COPYABLE(InstancePrimitive);

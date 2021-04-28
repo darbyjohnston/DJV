@@ -17,7 +17,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This enumeration provides the scroll directions.
+        //! Scroll directions.
         enum class ScrollType
         {
             Both,
@@ -29,7 +29,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ScrollType);
 
-        //! This class provides a scroll widget.
+        //! Scroll widget.
         //!
         //! \todo Add a minimum scroll bar handle size.
         class ScrollWidget : public Widget

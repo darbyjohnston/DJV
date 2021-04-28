@@ -32,7 +32,7 @@ namespace djv
         class IPrimitive;
         class Scene;
 
-        //! This struct provides render options.
+        //! Render options.
         struct RenderOptions
         {
             std::shared_ptr<ICamera>      camera;
@@ -44,7 +44,7 @@ namespace djv
             bool operator == (const RenderOptions&) const;
         };
 
-        //! This class provides a renderer.
+        //! Scene renderer.
         class Render : public std::enable_shared_from_this<Render>
         {
             DJV_NON_COPYABLE(Render);

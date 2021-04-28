@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides a tool widget title bar.
+        //! Tool title bar widget.
         class ToolTitleBar : public UI::Widget
         {
             DJV_NON_COPYABLE(ToolTitleBar);

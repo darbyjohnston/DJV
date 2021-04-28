@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a widget that draws a border.
+            //! Border widget.
             class Border : public Widget
             {
                 DJV_NON_COPYABLE(Border);

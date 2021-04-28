@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a splitter widget.
+            //! Splitter widget.
             class Splitter : public Widget
             {
                 DJV_NON_COPYABLE(Splitter);

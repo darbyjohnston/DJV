@@ -13,7 +13,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides spacing information.
+            //! Spacing.
             class Spacing
             {
             public:

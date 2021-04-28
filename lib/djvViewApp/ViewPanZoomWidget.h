@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the view pan and zoom widget.
+        //! View pan and zoom widget.
         class ViewPanZoomWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ViewPanZoomWidget);

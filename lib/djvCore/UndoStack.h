@@ -18,7 +18,7 @@ namespace djv
         {
             class ICommand;
 
-            //! This class provides an undo stack.
+            //! Undo stack.
             class UndoStack : public std::enable_shared_from_this<UndoStack>
             {
                 DJV_NON_COPYABLE(UndoStack);

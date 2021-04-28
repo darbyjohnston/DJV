@@ -46,7 +46,7 @@ namespace djv
     {
         class AnnotatePrimitive;
         
-        //! This class provides a media object.
+        //! Media.
         class Media : public std::enable_shared_from_this<Media>
         {
             DJV_NON_COPYABLE(Media);

@@ -22,7 +22,7 @@ namespace djv
         class Timer;
         class TimerSystem;
 
-        //! This class provides the context.
+        //! Context.
         class Context : public std::enable_shared_from_this<Context>
         {
             DJV_NON_COPYABLE(Context);

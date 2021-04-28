@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the magnify system.
+        //! Magnify system.
         class MagnifySystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(MagnifySystem);

@@ -20,7 +20,7 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides FFmpeg image and audio I/O.
+        //! FFmpeg image and audio I/O.
         //!
         //! References:
         //! - https://ffmpeg.org
@@ -65,7 +65,7 @@ namespace djv
             //! Get error string.
             std::string getErrorString(int);
 
-            //! This struct provides the FFmpeg file I/O optioms.
+            //! FFmpeg I/O optioms.
             struct Options
             {
                 size_t threadCount = 4;
@@ -73,7 +73,7 @@ namespace djv
                 bool operator == (const Options&) const;
             };
 
-            //! This class provides the FFmpeg file reader.
+            //! FFmpeg reader.
             class Read : public IO::IRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -124,7 +124,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the FFmpeg file I/O plugin.
+            //! FFmpeg I/O plugin.
             class Plugin : public IO::IPlugin
             {
                 DJV_NON_COPYABLE(Plugin);

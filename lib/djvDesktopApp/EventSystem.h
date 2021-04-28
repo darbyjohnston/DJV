@@ -20,7 +20,7 @@ namespace djv
 
     namespace Desktop
     {
-        //! This class provides a desktop application event system.
+        //! Desktop application event system.
         class EventSystem : public UI::EventSystem
         {
             DJV_NON_COPYABLE(EventSystem);

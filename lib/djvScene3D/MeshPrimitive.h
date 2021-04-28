@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides a mesh primitive.
+        //! Mesh primitive.
         class MeshPrimitive : public IPrimitive
         {
             DJV_NON_COPYABLE(MeshPrimitive);

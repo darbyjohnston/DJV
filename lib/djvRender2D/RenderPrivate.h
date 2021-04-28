@@ -27,7 +27,7 @@ namespace djv
         const size_t   colorSpaceCacheMax     = 32;
 #endif // DJV_GL_ES2
 
-        // This enumeration provides how the color is used to draw the render primitive.
+        // Primitive color modes.
         enum class ColorMode
         {
             SolidColor,             // Use the uniform variable "color"
@@ -41,7 +41,7 @@ namespace djv
             Shadow                  // Use the uniform variable "color" multiplied by the "U" texture coordinate
         };
 
-        //! This struct provides data used to draw the render primitive.
+        //! Primitive render data.
         struct PrimitiveData
         {
             // Used as an offset to find textures.
@@ -74,7 +74,7 @@ namespace djv
             GLint textureSamplerLoc         = 0;
         };
 
-        //! This class provides the base functionality for render primitives.
+        //! Base class for render primitives.
         class Primitive
         {
         public:
@@ -91,7 +91,7 @@ namespace djv
             virtual void bind(const PrimitiveData&, const std::shared_ptr<GL::Shader>&);
         };
 
-        //! This class provides a text render primitive.
+        //! Text render primitive.
         class TextPrimitive : public Primitive
         {
         public:
@@ -100,7 +100,7 @@ namespace djv
             void bind(const PrimitiveData&, const std::shared_ptr<GL::Shader>&) override;
         };
 
-        //! This class provides an image render primitive.
+        //! Image render primitive.
         class ImagePrimitive : public Primitive
         {
         public:
@@ -129,14 +129,14 @@ namespace djv
             void bind(const PrimitiveData&, const std::shared_ptr<GL::Shader>&) override;
         };
 
-        //! This class provides a shadow render primitive.
+        //! Shadow render primitive.
         class ShadowPrimitive : public Primitive
         {
         public:
             void bind(const PrimitiveData&, const std::shared_ptr<GL::Shader>&) override;
         };
 
-        //! This class provides a texture render primitive.
+        //! Texture render primitive.
         class TexturePrimitive : public Primitive
         {
         public:
@@ -146,7 +146,7 @@ namespace djv
             void bind(const PrimitiveData&, const std::shared_ptr<GL::Shader>&) override;
         };
 
-        //! This struct provides the layout for a VBO vertex.
+        //! VBO vertex layout.
         struct VBOVertex
         {
             float    vx;
@@ -157,7 +157,7 @@ namespace djv
 
 #if !defined(DJV_GL_ES2)
 
-        //! This class provides a 3D lookup table for color space conversions.
+        //! Three-dimensional lookup table for color space conversions.
         class LUT3D
         {
             DJV_NON_COPYABLE(LUT3D);
@@ -182,7 +182,7 @@ namespace djv
             GLuint _id = 0;
         };
 
-        //! This struct provides data for color space conversions.
+        //! Color space data.
         struct ColorSpaceData
         {
             size_t                  id;

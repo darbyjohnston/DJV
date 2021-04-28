@@ -15,12 +15,12 @@ namespace djv
 {
     namespace System
     {
-        //! This namespace provides animation functionality.
+        //! Animation functionality.
         namespace Animation
         {
             class AnimationSystem;
 
-            //! This enumeration provides the animation types.
+            //! Animation types.
             enum class Type
             {
                 Linear,
@@ -35,13 +35,13 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
-            //! This typedef provides an animation function.
+            //! Animation function.
             typedef std::function<float(float)> Function;
 
             //! Get an animation function.
             Function getFunction(Type);
 
-            //! This class provides an animated value.
+            //! Animated value.
             class Animation : public std::enable_shared_from_this<Animation>
             {
                 DJV_NON_COPYABLE(Animation);
@@ -109,7 +109,7 @@ namespace djv
                 friend class AnimationSystem;
             };
 
-            //! This class provides the animation system.
+            //! Animation system.
             class AnimationSystem : public ISystem
             {
                 DJV_NON_COPYABLE(AnimationSystem);

@@ -12,9 +12,10 @@
 
 namespace djv
 {
+    //! User interface.
     namespace UI
     {
-        //! This enumeration provides orientations.
+        //! Orientations.
         enum class Orientation
         {
             Horizontal,
@@ -28,7 +29,7 @@ namespace djv
         //! Get the opposite orientation.
         Orientation getOpposite(Orientation);
 
-        //! This enumeration provides sides.
+        //! Sides.
         enum class Side
         {
             Left,
@@ -41,7 +42,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Side);
 
-        //! This enumeration provides corners.
+        //! Corners.
         enum class Corner
         {
             UpperLeft,
@@ -54,7 +55,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Corner);
 
-        //! This enumeration provides layout expansion directions.
+        //! Layout expansion directions.
         enum class Expand
         {
             None,
@@ -67,7 +68,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Expand);
 
-        //! This enumeration provides horizontal alignment.
+        //! Horizontal alignment.
         enum class HAlign
         {
             Center,
@@ -80,7 +81,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(HAlign);
 
-        //! This enumeration provides vertical alignment.
+        //! Vertical alignment.
         enum class VAlign
         {
             Center,
@@ -93,7 +94,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(VAlign);
 
-        //! This enumeration provides horizontal text alignment.
+        //! Horizontal text alignment.
         enum class TextHAlign
         {
             Center,
@@ -105,7 +106,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(TextHAlign);
 
-        //! This enumeration provides vertical text alignment.
+        //! Vertical text alignment.
         enum class TextVAlign
         {
             Center,
@@ -118,7 +119,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(TextVAlign);
 
-        //! This enumeration provides selection types.
+        //! Selection types.
         enum class SelectionType
         {
             None,
@@ -131,7 +132,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(SelectionType);
 
-        //! This enumeration provides sort orders.
+        //! Sort orders.
         enum class SortOrder
         {
             Forward,
@@ -142,7 +143,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(SortOrder);
 
-        //! This enumeration provides button types.
+        //! Button types.
         enum class ButtonType
         {
             Push,
@@ -155,7 +156,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ButtonType);
 
-        //! This enumeration provides item view types.
+        //! Item view types.
         enum class ViewType
         {
             Tiles,
@@ -165,14 +166,14 @@ namespace djv
             First = Tiles
         };
 
-        //! This enumeration provides callback options.
+        //! Callback options.
         enum class Callback
         {
             Trigger,
             Suppress
         };
 
-        //! This enumeration provides the color roles.
+        //! Color roles.
         enum class ColorRole
         {
             None,
@@ -204,7 +205,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ColorRole);
 
-        //! This enumeration provides the metrics roles.
+        //! Metrics roles.
         enum class MetricsRole
         {
             None,
@@ -251,21 +252,21 @@ namespace djv
         };
         DJV_ENUM_HELPERS(MetricsRole);
 
-        //! This enumeration provides information about text editing.
+        //! Information about text editing.
         enum class TextEditReason
         {
             Accepted,
             LostFocus
         };
 
-        //! This enumeration provides the text focus navigation direction.
+        //! Text focus navigation direction.
         enum class TextFocusDirection
         {
             Next,
             Prev
         };
 
-        //! This enumeration provides image rotations.
+        //! Image rotations.
         enum class ImageRotate
         {
             _0,
@@ -281,7 +282,7 @@ namespace djv
         //! Get the image rotation value.
         float getImageRotate(ImageRotate);
 
-        //! This enumeration provides image aspect ratios.
+        //! Image aspect ratios.
         enum class ImageAspectRatio
         {
             Unscaled,
@@ -305,7 +306,7 @@ namespace djv
         //! Get the image aspect ratio scale.
         float getAspectRatioScale(ImageAspectRatio, float aspectRatio);
 
-        //! This enumeration provides menu popup directions.
+        //! Menu popup directions.
         enum class Popup
         {
             BelowRight,
@@ -318,7 +319,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Popup);
 
-        //! This enum provides menu button styles.
+        //! Menu button styles.
         enum class MenuButtonStyle
         {
             Flat,
@@ -326,7 +327,7 @@ namespace djv
             ComboBox
         };
 
-        //! This enum provides mouse scroll wheel speeds.
+        //! Mouse scroll wheel speeds.
         enum class ScrollWheelSpeed
         {
             Slow,

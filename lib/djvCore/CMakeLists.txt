@@ -11,7 +11,6 @@ set(header
     MapObserverInline.h
     Memory.h
     MemoryInline.h
-    Namespace.h
     OS.h
     OSInline.h
     Observer.h

@@ -16,7 +16,7 @@ namespace djv
 {
     namespace AV
     {
-        //! This enumeration provides common speeds.
+        //! Common speeds.
         enum class FPS
         {
             _1,

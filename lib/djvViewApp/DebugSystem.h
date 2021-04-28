@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the debugging system.
+        //! Debugging system.
         class DebugSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(DebugSystem);

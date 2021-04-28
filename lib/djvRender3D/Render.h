@@ -26,13 +26,14 @@ namespace djv
 
     } // namespace GL
 
+    //! Three-dimensional rendering.
     namespace Render3D
     {
         class ICamera;
         class ILight;
         class IMaterial;
 
-        //! This enumeration provides depth buffer modes.
+        //! Depth buffer modes.
         enum class DepthBufferMode
         {
             Standard,
@@ -43,7 +44,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(DepthBufferMode);
 
-        //! This struct provides render options.
+        //! Render options.
         struct RenderOptions
         {
             std::shared_ptr<ICamera>    camera;
@@ -52,7 +53,7 @@ namespace djv
             DepthBufferMode             depthBufferMode = DepthBufferMode::Reverse;
         };
 
-        //! This class provides a 3D render system.
+        //! Three-dimensional renderer.
         class Render : public System::ISystem
         {
             DJV_NON_COPYABLE(Render);

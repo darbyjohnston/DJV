@@ -30,7 +30,7 @@ namespace djv
             Image::Size size;
             Image::Mirror mirror;
             std::shared_ptr<OffscreenBuffer> offscreenBuffer;
-            std::shared_ptr<Texture> texture;
+            std::shared_ptr<Texture2D> texture;
             std::shared_ptr<VBO> vbo;
             std::shared_ptr<VAO> vao;
             std::shared_ptr<Shader> shader;
@@ -80,7 +80,7 @@ namespace djv
 
             if (!p.texture || (p.texture && data.getInfo() != p.texture->getInfo()))
             {
-                p.texture = Texture::create(data.getInfo());
+                p.texture = Texture2D::create(data.getInfo());
             }
             p.texture->bind();
             p.texture->copy(data);

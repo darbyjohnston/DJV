@@ -15,7 +15,7 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides string functionality.
+        //! String functionality.
         namespace String
         {
             //! Default size for char buffers.

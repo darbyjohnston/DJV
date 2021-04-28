@@ -16,7 +16,7 @@ namespace djv
 {
     namespace Image
     {
-        //! This class provides image data.
+        //! Image data.
         class Data
         {
             DJV_NON_COPYABLE(Data);

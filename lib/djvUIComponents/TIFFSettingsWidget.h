@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a TIFF settings widget.
+            //! TIFF settings widget.
             class TIFFWidget : public IWidget
             {
                 DJV_NON_COPYABLE(TIFFWidget);

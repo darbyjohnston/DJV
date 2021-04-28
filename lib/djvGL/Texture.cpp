@@ -80,7 +80,7 @@ namespace djv
             return GL_RGBA;
         }*/
 
-        void Texture::_init(const Image::Info& info, GLenum filterMin, GLenum filterMag)
+        void Texture2D::_init(const Image::Info& info, GLenum filterMin, GLenum filterMag)
         {
             _info = info;
             _filterMin = filterMin;
@@ -116,10 +116,10 @@ namespace djv
             }
         }
 
-        Texture::Texture()
+        Texture2D::Texture2D()
         {}
 
-        Texture::~Texture()
+        Texture2D::~Texture2D()
         {
             if (_id)
             {
@@ -135,14 +135,14 @@ namespace djv
 #endif // DJV_GL_PBO
         }
 
-        std::shared_ptr<Texture> Texture::create(const Image::Info& info, GLenum filterMin, GLenum filterMag)
+        std::shared_ptr<Texture2D> Texture2D::create(const Image::Info& info, GLenum filterMin, GLenum filterMag)
         {
-            auto out = std::shared_ptr<Texture>(new Texture);
+            auto out = std::shared_ptr<Texture2D>(new Texture2D);
             out->_init(info, filterMin, filterMag);
             return out;
         }
 
-        void Texture::set(const Image::Info& info)
+        void Texture2D::set(const Image::Info& info)
         {
             if (info == _info)
                 return;
@@ -186,7 +186,7 @@ namespace djv
             }
         }
 
-        void Texture::copy(const Image::Data & data)
+        void Texture2D::copy(const Image::Data & data)
         {
             const auto & info = data.getInfo();
 #if defined(DJV_GL_ES2)
@@ -237,7 +237,7 @@ namespace djv
 #endif // DJV_GL_ES2
         }
 
-        void Texture::copy(const Image::Data & data, uint16_t x, uint16_t y)
+        void Texture2D::copy(const Image::Data & data, uint16_t x, uint16_t y)
         {
             const auto & info = data.getInfo();
 
@@ -289,7 +289,7 @@ namespace djv
 #endif // DJV_GL_ES2
         }
 
-        void Texture::bind()
+        void Texture2D::bind()
         {
             glBindTexture(GL_TEXTURE_2D, _id);
         }

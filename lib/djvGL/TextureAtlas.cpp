@@ -23,7 +23,7 @@ namespace djv
 
         } // namespace
 
-        //! This class provides the nodes used for box packing.
+        //! Box packing node.
         //!
         //! References:
         //! - http://blackpawn.com/texts/lightmaps/
@@ -125,7 +125,7 @@ namespace djv
             Image::Type textureType = Image::Type::None;
             uint8_t border = 0;
             UID uid = 0;
-            std::vector<std::shared_ptr<Texture> > textures;
+            std::vector<std::shared_ptr<Texture2D> > textures;
             std::vector<std::shared_ptr<BoxPackingNode> > boxPackingNodes;
             std::map<UID, std::shared_ptr<BoxPackingNode> > cache;
         };
@@ -140,7 +140,7 @@ namespace djv
 
             for (uint8_t i = 0; i < p.textureCount; ++i)
             {
-                auto texture = Texture::create(Image::Info(textureSize, textureSize, textureType), filter, filter);
+                auto texture = Texture2D::create(Image::Info(textureSize, textureSize, textureType), filter, filter);
                 p.textures.push_back(std::move(texture));
 
                 auto node = BoxPackingNode::create(border);

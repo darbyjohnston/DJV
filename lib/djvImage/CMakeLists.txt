@@ -5,7 +5,6 @@ set(header
     DataInline.h
     Info.h
     InfoInline.h
-    Namespace.h
     Tags.h
     TagsInline.h
     Type.h

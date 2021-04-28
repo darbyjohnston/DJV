@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a button for use with toolbars.
+            //! Tool button widget.
             class Tool : public IButton
             {
                 DJV_NON_COPYABLE(Tool);

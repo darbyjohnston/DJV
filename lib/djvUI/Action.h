@@ -19,7 +19,7 @@ namespace djv
         struct ShortcutData;
         struct ShortcutDataPair;
 
-        //! This class provides an action.
+        //! Action.
         class Action : public std::enable_shared_from_this<Action>
         {
             DJV_NON_COPYABLE(Action);

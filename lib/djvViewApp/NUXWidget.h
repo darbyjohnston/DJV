@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the new user experience widget.
+        //! New user experience widget.
         class NUXWidget : public UI::Window
         {
             DJV_NON_COPYABLE(NUXWidget);

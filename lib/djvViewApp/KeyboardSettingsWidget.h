@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides a keyboard shortcut settings widget.
+        //! Keyboard shortcut settings widget.
         class KeyboardShortcutSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(KeyboardShortcutSettingsWidget);

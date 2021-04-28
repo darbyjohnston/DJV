@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Math
     {
-        //! This class provides a rational number.
+        //! Rational number.
         template<typename T>
         class Rational
         {
@@ -48,7 +48,7 @@ namespace djv
             T _den = static_cast<T>(0);
         };
 
-        //! This typedef provides an integer rational.
+        //! Integer rational number.
         typedef Rational<int> IntRational;
 
     } // namespace Math

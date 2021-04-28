@@ -16,7 +16,7 @@ namespace djv
 
     namespace UI
     {
-        //! This class provides a widget that displays an icon.
+        //! Icon widget.
         class IconWidget : public Widget
         {
             DJV_NON_COPYABLE(IconWidget);

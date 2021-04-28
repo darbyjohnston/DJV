@@ -12,7 +12,7 @@ namespace djv
     {
         class NUXWidget;
 
-        //! This class provides the new user experience system.
+        //! New user experience system.
         class NUXSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(NUXSystem);

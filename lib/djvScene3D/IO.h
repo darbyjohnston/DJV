@@ -19,10 +19,10 @@ namespace djv
     {
         class Scene;
 
-        //! This namespace provides I/O functionality.
+        //! Input/output.
         namespace IO
         {
-            //! This class provides I/O information.
+            //! I/O information.
             class Info
             {
             public:
@@ -33,7 +33,7 @@ namespace djv
                 bool operator == (const Info&) const;
             };
 
-            //! This class provides the interface for I/O.
+            //! Base class for I/O.
             class IIO : public std::enable_shared_from_this<IIO>
             {
             protected:
@@ -53,7 +53,7 @@ namespace djv
                 System::File::Info _fileInfo;
             };
 
-            //! This class provides the interface for reading.
+            //! Base class for readers.
             class IRead : public IIO
             {
             protected:
@@ -70,7 +70,7 @@ namespace djv
                 virtual std::future<std::shared_ptr<Scene> > getScene() = 0;
             };
 
-            //! This class provides the interface for writing.
+            //! Base class for writers.
             class IWrite : public IIO
             {
             protected:
@@ -86,7 +86,7 @@ namespace djv
                 virtual std::future<bool> setScene(const std::shared_ptr<Scene>&) = 0;
             };
 
-            //! This class provides the interface for I/O plugins.
+            //! Base class for I/O plugins.
             class IPlugin : public std::enable_shared_from_this<IPlugin>
             {
             protected:
@@ -130,7 +130,7 @@ namespace djv
                 std::set<std::string> _fileExtensions;
             };
 
-            //! This class provides an I/O system.
+            //! I/O system.
             class IOSystem : public System::ISystem
             {
                 DJV_NON_COPYABLE(IOSystem);

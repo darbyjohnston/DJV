@@ -13,7 +13,6 @@ set(header
 	LineGraphWidget.h
     ListViewHeader.h
     MouseSettingsWidget.h
-    Namespace.h
     PPMSettingsWidget.h
     Render2DSettingsWidget.h
     SceneWidget.h

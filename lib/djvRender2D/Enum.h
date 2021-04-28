@@ -12,9 +12,10 @@
 
 namespace djv
 {
+    //! Two-dimensional rendering.
     namespace Render2D
     {
-        //! This enumeration provides sides.
+        //! Sides.
         enum class Side
         {
             None,
@@ -28,7 +29,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Side);
         
-        //! This enumeration provides how the alpha channel is used for blending.
+        //! Alpha channel blending.
         //!
         //! References:
         //! - https://microsoft.github.io/Win2D/html/PremultipliedAlpha.htm

@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides a widget for displaying messages.
+        //! Messages widget.
         class MessagesWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(MessagesWidget);
@@ -41,7 +41,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a tool bar for the messages widget.
+        //! Messages tool bar widget.
         class MessagesToolBar : public UI::ToolBar
         {
             DJV_NON_COPYABLE(MessagesToolBar);

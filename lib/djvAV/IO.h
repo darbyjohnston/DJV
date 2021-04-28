@@ -19,10 +19,10 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides I/O functionality.
+        //! Input/output.
         namespace IO
         {
-            //! This class provides I/O information.
+            //! I/O information.
             class Info
             {
             public:
@@ -39,7 +39,7 @@ namespace djv
                 bool operator == (const Info&) const;
             };
 
-            //! This class provides a video frame.
+            //! Video frame.
             class VideoFrame
             {
             public:
@@ -52,7 +52,7 @@ namespace djv
                 bool operator == (const VideoFrame&) const;
             };
 
-            //! This class provides a queue of video frames.
+            //! Video frame queue.
             class VideoQueue
             {
                 DJV_NON_COPYABLE(VideoQueue);
@@ -97,7 +97,7 @@ namespace djv
                 bool _finished = false;
             };
 
-            //! This class provides an audio frame.
+            //! Audio frame.
             class AudioFrame
             {
             public:
@@ -109,7 +109,7 @@ namespace djv
                 bool operator == (const AudioFrame&) const;
             };
 
-            //! This class provides a queue of audio frames.
+            //! Audio frame queue.
             class AudioQueue
             {
                 DJV_NON_COPYABLE(AudioQueue);
@@ -154,7 +154,7 @@ namespace djv
                 bool _finished = false;
             };
 
-            //! This class provides playback in/out points.
+            //! Playback in/out points.
             class InOutPoints
             {
             public:
@@ -185,14 +185,14 @@ namespace djv
                 Math::Frame::Index _out = Math::Frame::invalid;
             };
 
-            //! This enumeration provides the playback direction for caching.
+            //! Playback direction for caching.
             enum class Direction
             {
                 Forward,
                 Reverse
             };
 
-            //! This class provides a frame cache.
+            //! Frame cache.
             class Cache
             {
             public:

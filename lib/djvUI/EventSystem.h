@@ -13,7 +13,7 @@ namespace djv
         class Widget;
         class Window;
 
-        //! This class provides a window system interface.
+        //! Event system.
         class EventSystem : public System::Event::IEventSystem
         {
             DJV_NON_COPYABLE(EventSystem);

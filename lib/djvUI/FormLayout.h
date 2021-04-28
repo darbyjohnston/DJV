@@ -13,7 +13,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a form layout.
+            //! Form layout.
             class Form : public Widget
             {
                 DJV_NON_COPYABLE(Form);

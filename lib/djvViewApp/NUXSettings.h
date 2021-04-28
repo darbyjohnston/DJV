@@ -12,7 +12,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the new user experience settings.
+        //! New user experience settings.
         class NUXSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(NUXSettings);

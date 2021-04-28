@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Math
     {
-        //! This struct provides a 3-dimensional ray.
+        //! Three-dimensional ray.
         template<typename T, glm::precision P = glm::defaultp>
         struct tRay3
         {

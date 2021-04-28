@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides random number functionality.
+        //! Random numbers.
         namespace Random
         {
             //! Get a random number between zero and one.

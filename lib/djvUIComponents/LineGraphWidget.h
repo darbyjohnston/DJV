@@ -12,7 +12,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a widget for displaying an animated line graph.
+        //! Animated line graph widget.
         class LineGraphWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(LineGraphWidget);

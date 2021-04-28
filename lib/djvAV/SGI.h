@@ -19,7 +19,7 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides Silicon Graphics image I/O.
+        //! Silicon Graphics image I/O.
         //!
         //! References:
         //! - Paul Haeberli, "The SGI Image File Format, Version 1.00"
@@ -28,7 +28,7 @@ namespace djv
             static const std::string pluginName = "SGI";
             static const std::set<std::string> fileExtensions = { ".sgi", ".rgba", ".rgb", ".bw" };
 
-            //! This class provides the SGI file reader.
+            //! SGI reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -58,7 +58,7 @@ namespace djv
                 std::vector<uint32_t> _rleSize;
             };
                 
-            //! This class provides the SGI file I/O plugin.
+            //! SGI I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

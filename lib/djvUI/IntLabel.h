@@ -20,7 +20,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides a label for integer values.
+            //! Integer label widget.
             class IntLabel : public Widget
             {
                 DJV_NON_COPYABLE(IntLabel);

@@ -25,7 +25,7 @@ namespace djv
 
     namespace UIComponents
     {
-        //! This enumeration provides the scene rotation.
+        //! Scene rotation.
         enum class SceneRotate
         {
             None,
@@ -41,7 +41,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(SceneRotate);
 
-        //! This struct provides render options.
+        //! Scene render options.
         struct SceneRenderOptions
         {
             Render3D::DefaultMaterialMode shaderMode      = Render3D::DefaultMaterialMode::Default;
@@ -57,7 +57,7 @@ namespace djv
             bool operator == (const SceneRenderOptions&) const;
         };
 
-        //! This class provides a scene view widget.
+        //! Scene view widget.
         class SceneWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(SceneWidget);

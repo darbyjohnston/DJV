@@ -21,13 +21,13 @@ namespace djv
 {
     namespace UI
     {
-        //! This namespace provides styling functionality.
+        //! Style functionality.
         namespace Style
         {
-            //! This constant provides the default icon size.
+            //! Default icon size.
             const uint16_t iconSizeDefault = 24;
 
-            //! This class provides a color palette.
+            //! Color palette.
             class Palette
             {
             public:
@@ -48,7 +48,7 @@ namespace djv
                 float _disabledMult = .65F;
             };
 
-            //! This class provides size metrics.
+            //! Size metrics.
             class Metrics
             {
             public:
@@ -64,7 +64,7 @@ namespace djv
                 std::map<MetricsRole, float> _metrics;
             };
 
-            //! This class provides the UI style.
+            //! Style.
             class Style : public std::enable_shared_from_this<Style>
             {
                 DJV_NON_COPYABLE(Style);

@@ -19,14 +19,14 @@ namespace djv
     {
         namespace File
         {
-            //! This enumeration provides the OS specific path separators.
+            //! Operating system path separators.
             enum class PathSeparator
             {
                 Unix,
                 Windows
             };
 
-            //! This enumeration provides resource paths.
+            //! Resource paths.
             enum class ResourcePath
             {
                 Application,
@@ -48,7 +48,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(ResourcePath);
             
-            //! This enumeration provides directory shortcuts.
+            //! Directory shortcuts.
             enum class DirectoryShortcut
             {
                 Home,
@@ -61,7 +61,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(DirectoryShortcut);
 
-            //! This class provides a file system path.
+            //! File system path.
             //!
             //! Paths are broken into components that represent the directory name,
             //! file name, base name, number, and extension.

@@ -19,7 +19,7 @@ namespace djv
         {
             class Path;
 
-            //! This class provides functionality for watching directory changes.
+            //! Directory watcher.
             //!
             //! \bug What do we do about changes to the directory path (like deletion or moving)?
             class DirectoryWatcher : public std::enable_shared_from_this<DirectoryWatcher>

@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the audio system.
+        //! Audio system.
         class AudioSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(AudioSystem);

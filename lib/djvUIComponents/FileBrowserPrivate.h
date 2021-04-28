@@ -34,7 +34,7 @@ namespace djv
 
             const Math::IntRange thumbnailSizeRange(50, 800);
 
-            //! This class provides a file browser path widget.
+            //! File browser path widget.
             class PathWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(PathWidget);
@@ -70,7 +70,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a file browser shortcuts model.
+            //! File browser shortcuts model.
             class ShortcutsModel : public std::enable_shared_from_this<ShortcutsModel>
             {
                 DJV_NON_COPYABLE(ShortcutsModel);
@@ -94,7 +94,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a file browser shortcuts widget.
+            //! File browser shortcuts widget.
             class ShortcutsWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(ShortcutsWidget);
@@ -127,7 +127,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a file browser recent paths widget.
+            //! File browser recent paths widget.
             class RecentPathsWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(RecentPathsWidget);
@@ -157,7 +157,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a file browser drives widget.
+            //! File browser drives widget.
             class DrivesWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(DrivesWidget);
@@ -187,7 +187,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the file browser paths widget.
+            //! File browser paths widget.
             class PathsWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(PathsWidget);
@@ -223,7 +223,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the file browser thumbnail widget.
+            //! File browser thumbnail widget.
             class ThumbnailWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(ThumbnailWidget);

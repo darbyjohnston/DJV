@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a check box button.
+            //! Check box widget.
             class CheckBox : public IButton
             {
                 DJV_NON_COPYABLE(CheckBox);

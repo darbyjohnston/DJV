@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Text
         {
-            //! This class provides the base functionality for line edit widgets.
+            //! Base class for line edit widgets.
             //!
             //! \todo Add a class for constraining the minimum size of multiple
             //! LineEditBase widgets, similiar to LabelSizeGroup.

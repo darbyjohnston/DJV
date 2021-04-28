@@ -22,7 +22,7 @@ namespace djv
         struct HUDOptions;
         struct ViewBackgroundOptions;
 
-        //! This class provides the view settings.
+        //! View settings.
         class ViewSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(ViewSettings);

@@ -15,7 +15,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the magnify settings.
+        //! Magnify settings.
         class MagnifySettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(MagnifySettings);

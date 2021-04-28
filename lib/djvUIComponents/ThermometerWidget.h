@@ -10,8 +10,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a widget for displaying a value in a
-        //! "thermometer" style.
+        //! Thermometer widget.
         class ThermometerWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ThermometerWidget);

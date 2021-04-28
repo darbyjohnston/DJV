@@ -12,7 +12,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a color swatch widget.
+        //! Color swatch widget.
         class ColorSwatch : public Widget
         {
             DJV_NON_COPYABLE(ColorSwatch);

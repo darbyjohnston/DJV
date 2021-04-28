@@ -12,15 +12,14 @@ namespace djv
 {
     namespace Math
     {
-        //! This enumeration provides options for what happens when the
-        //! value range is exceeded.
+        //! Numeric value overflow options.
         enum class NumericValueOverflow
         {
             Clamp,
             Wrap
         };
 
-        //! This class provides the interface for numeric value models.
+        //! Base class for numeric value models.
         template<typename T>
         class INumericValueModel
         {

@@ -17,7 +17,7 @@ namespace djv
 {
     namespace Desktop
     {
-        //! This struct provides information about monitors.
+        //! Monitor information.
         struct MonitorInfo
         {
             std::string  name;
@@ -27,7 +27,7 @@ namespace djv
             bool operator == (const MonitorInfo&) const;
         };
 
-        //! This class provides a system for GLFW functionality.
+        //! GLFW system.
         class GLFWSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(GLFWSystem);

@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides font settings.
+            //! Font settings.
             class Font : public ISettings
             {
                 DJV_NON_COPYABLE(Font);

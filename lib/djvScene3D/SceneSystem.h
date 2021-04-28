@@ -10,7 +10,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides the scene system.
+        //! Scene system.
         class SceneSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(SceneSystem);

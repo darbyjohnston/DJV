@@ -13,7 +13,7 @@ namespace djv
 {
     namespace Audio
     {
-        //! This class provides audio data.
+        //! Audio data.
         class Data
         {
             DJV_NON_COPYABLE(Data);

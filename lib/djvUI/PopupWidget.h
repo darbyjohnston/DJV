@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a popup widget.
+        //! Popup widget.
         class PopupWidget : public Widget
         {
             DJV_NON_COPYABLE(PopupWidget);

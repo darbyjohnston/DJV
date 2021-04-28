@@ -26,7 +26,7 @@ namespace djv
 
     namespace Scene3D
     {
-        //! This class provides the base functionality for materials.
+        //! Base class for materials.
         class IMaterial : public std::enable_shared_from_this<IMaterial>
         {
             DJV_NON_COPYABLE(IMaterial);
@@ -40,7 +40,7 @@ namespace djv
             virtual std::shared_ptr<Render3D::IMaterial> createMaterial(const std::shared_ptr<System::Context>&) = 0;
         };
 
-        //! This class provides a default material.
+        //! Default material.
         class DefaultMaterial : public IMaterial
         {
         protected:

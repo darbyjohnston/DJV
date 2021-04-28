@@ -12,10 +12,10 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This namespace provides settings functionality.
+        //! User settings.
         namespace Settings
         {
-            //! This class provides the base functionality for settings widgets.
+            //! Base class for settings widgets.
             class IWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(IWidget);

@@ -31,7 +31,7 @@ namespace djv
 
     namespace Render2D
     {
-        //! This class provides a 2D render system.
+        //! Two-dimensional renderer.
         class Render : public System::ISystem
         {
             DJV_NON_COPYABLE(Render);

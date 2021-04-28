@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a search box widget.
+        //! Search box widget.
         class SearchBox : public UI::Widget
         {
             DJV_NON_COPYABLE(SearchBox);

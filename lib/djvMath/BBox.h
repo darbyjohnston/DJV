@@ -16,7 +16,7 @@ namespace djv
 {
     namespace Math
     {
-        //! This class provides an axis aligned bounding box.
+        //! Axis aligned bounding box.
         template<typename T, glm::precision P = glm::defaultp>
         class tBBox2
         {
@@ -70,7 +70,7 @@ namespace djv
             constexpr bool operator != (const tBBox2<T, P>&) const noexcept;
         };
 
-        //! This class provides an axis aligned bounding box.
+        //! Axis aligned bounding box.
         template<typename T, glm::precision P = glm::defaultp>
         class tBBox3
         {

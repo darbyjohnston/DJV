@@ -10,7 +10,7 @@ namespace djv
 {
     namespace Render3D
     {
-        //! This class provides a 3D render system.
+        //! Three dimsional render system.
         class RenderSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(RenderSystem);

@@ -22,7 +22,7 @@ namespace djv
     {
         namespace FileBrowser
         {
-            //! This class provides a file browser dialog.
+            //! File browser dialog.
             class Dialog : public UI::IDialog
             {
                 DJV_NON_COPYABLE(Dialog);

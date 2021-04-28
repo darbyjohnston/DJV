@@ -13,7 +13,7 @@ namespace djv
     {
         namespace Text
         {
-            //! This class provides a text block.
+            //! Text block widget.
             class Block : public Widget
             {
                 DJV_NON_COPYABLE(Block);

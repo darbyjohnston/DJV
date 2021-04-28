@@ -17,7 +17,7 @@ namespace djv
         class Media;
         class ViewWidget;
 
-        //! This enumeration provides the pointer state.
+        //! Pointer state.
         enum class PointerState
         {
             None,
@@ -26,7 +26,7 @@ namespace djv
             End
         };
 
-        //! This struct provides pointer data.
+        //! Pointer data.
         struct PointerData
         {
             PointerData();
@@ -46,7 +46,7 @@ namespace djv
             bool operator == (const PointerData&) const;
         };
 
-        //! This struct provides scroll data.
+        //! Scroll data.
         struct ScrollData
         {
             ScrollData();
@@ -62,7 +62,7 @@ namespace djv
             bool operator == (const ScrollData&) const;
         };
 
-        //! This class provides a media widget.
+        //! Media widget.
         class MediaWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(MediaWidget);

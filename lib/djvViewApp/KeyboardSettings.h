@@ -16,7 +16,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides keyboard settings.
+        //! Keyboard settings.
         class KeyboardSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(KeyboardSettings);

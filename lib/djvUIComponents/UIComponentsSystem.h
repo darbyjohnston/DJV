@@ -8,9 +8,10 @@
 
 namespace djv
 {
+    //! User interface components.
     namespace UIComponents
     {
-        //! This class provides a UI system.
+        //! UI components system.
         class UIComponentsSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(UIComponentsSystem);

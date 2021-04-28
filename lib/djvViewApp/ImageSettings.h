@@ -20,7 +20,7 @@ namespace djv
     {
         struct ImageData;
 
-        //! This class provides the image settings.
+        //! Image settings.
         class ImageSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(ImageSettings);

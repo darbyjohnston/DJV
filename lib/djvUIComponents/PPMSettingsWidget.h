@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a PPM settings widget.
+            //! PPM settings widget.
             class PPMWidget : public IWidget
             {
                 DJV_NON_COPYABLE(PPMWidget);

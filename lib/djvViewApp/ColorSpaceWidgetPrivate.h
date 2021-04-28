@@ -22,7 +22,7 @@ namespace djv
         //! \todo Should this be configurable?
         const int textElide = 20;
 
-        //! This class provides the color space configuration widget.
+        //! Color space configuration widget.
         class ColorSpaceConfigWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorSpaceConfigWidget);
@@ -48,7 +48,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the color space display widget.
+        //! Color space display widget.
         class ColorSpaceDisplayWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorSpaceDisplayWidget);
@@ -76,7 +76,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the color space view widget.
+        //! Color space view widget.
         class ColorSpaceViewWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorSpaceViewWidget);
@@ -104,7 +104,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the color space images widget.
+        //! Color space images widget.
         class ColorSpaceImagesWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorSpaceImagesWidget);

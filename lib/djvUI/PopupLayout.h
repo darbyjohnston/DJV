@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a popup layout.
+            //! Popup layout.
             class Popup : public Widget
             {
                 DJV_NON_COPYABLE(Popup);

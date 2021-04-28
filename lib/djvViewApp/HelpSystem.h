@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the help system.
+        //! Help system.
         class HelpSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(HelpSystem);

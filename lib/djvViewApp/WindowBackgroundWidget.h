@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the window background widget.
+        //! Window background widget.
         class WindowBackgroundWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(WindowBackgroundWidget);

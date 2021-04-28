@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides general settings.
+            //! General settings.
             class General : public ISettings
             {
                 DJV_NON_COPYABLE(General);

@@ -12,8 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This enumeration provides options for how the Solo layout
-            //! calculates a minimum size from it's child widgets.
+            //! Solo layout minimum size.
             enum class SoloMinimumSize
             {
                 None,
@@ -22,7 +21,9 @@ namespace djv
                 Both
             };
 
-            //! This class provides a layout that shows a single child at a time.
+            //! Soo layout widget.
+            //!
+            //! This layout shows a single child at a time.
             class Solo : public Widget
             {
                 DJV_NON_COPYABLE(Solo);

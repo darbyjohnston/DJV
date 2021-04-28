@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the tool drawer widget.
+        //! Tool drawer widget.
         class ToolDrawer : public UI::Widget
         {
             DJV_NON_COPYABLE(ToolDrawer);

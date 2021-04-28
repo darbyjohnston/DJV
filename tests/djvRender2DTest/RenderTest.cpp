@@ -143,7 +143,7 @@ namespace djv
                 render->drawShadow(Math::BBox2f(0.F, 100.F, 200.F, 300.F), Side::Right);
                 render->drawShadow(Math::BBox2f(100.F, 200.F, 300.F, 400.F), 32.F);
                 
-                auto texture = GL::Texture::create(Image::Info(64, 64, Image::Type::RGBA_U8));
+                auto texture = GL::Texture2D::create(Image::Info(64, 64, Image::Type::RGBA_U8));
                 render->drawTexture(Math::BBox2f(0.F, 100.F, 200.F, 300.F), texture->getID());
                 
                 render->popClipRect();

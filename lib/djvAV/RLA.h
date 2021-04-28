@@ -19,7 +19,7 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides Wavefront RLA image I/O.
+        //! Wavefront RLA image I/O.
         //!
         //! References:
         //! - James D. Murray, William vanRyper, "Encyclopedia of AV File Formats,
@@ -29,7 +29,7 @@ namespace djv
             static const std::string pluginName = "RLA";
             static const std::set<std::string> fileExtensions = { ".rla", ".rpf" };
 
-            //! This class provides the RLA file reader.
+            //! RLA reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -57,7 +57,7 @@ namespace djv
                 std::vector<int32_t> _rleOffset;
             };
 
-            //! This class provides the RLA file I/O plugin.
+            //! RLA I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

@@ -10,10 +10,10 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides functionality for the observer pattern.
+        //! Observer pattern.
         namespace Observer
         {
-            //! This enumeration provides observer callback options.
+            //! Observer callback options.
             enum class CallbackAction
             {
                 Trigger,

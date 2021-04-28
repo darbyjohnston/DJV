@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the layers widget.
+        //! Layers widget.
         class LayersWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(LayersWidget);

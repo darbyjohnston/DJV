@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the sequence settings widget.
+        //! Sequence settings widget.
         class SequenceSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(SequenceSettingsWidget);
@@ -33,7 +33,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the recent files settings widget.
+        //! Recent files settings widget.
         class RecentFilesSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(RecentFilesSettingsWidget);

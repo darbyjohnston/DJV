@@ -19,7 +19,7 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides Targa image I/O.
+        //! Targa image I/O.
         //!
         //! References:
         //! - James D. Murray, William vanRyper, "Encyclopedia of AV File Formats,
@@ -29,7 +29,7 @@ namespace djv
             static const std::string pluginName = "Targa";
             static const std::set<std::string> fileExtensions = { ".tga" };
 
-            //! This class provides the Targa file reader.
+            //! Targa reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -58,7 +58,7 @@ namespace djv
                 bool _compression = false;
             };
                 
-            //! This class provides the Targa file I/O plugin.
+            //! Targa I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

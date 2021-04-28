@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the 2D render settings.
+            //! Two-dimensional render settings.
             class Render2D : public ISettings
             {
                 DJV_NON_COPYABLE(Render2D);

@@ -16,7 +16,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the mouse settings.
+            //! Mouse settings.
             class Mouse : public ISettings
             {
                 DJV_NON_COPYABLE(Mouse);

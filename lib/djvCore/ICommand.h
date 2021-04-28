@@ -12,10 +12,10 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides functionality for the command pattern.
+        //! Command pattern.
         namespace Command
         {
-            //! This class provides the interface for commands.
+            //! Base class for commands.
             class ICommand : public std::enable_shared_from_this<ICommand>
             {
             public:

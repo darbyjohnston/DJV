@@ -16,7 +16,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the playback settings.
+        //! Playback settings.
         class PlaybackSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(PlaybackSettings);

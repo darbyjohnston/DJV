@@ -10,7 +10,7 @@ namespace djv
 {
     namespace Math
     {
-        //! This class provides an integer number model.
+        //! Integer number model.
         class IntValueModel : public INumericValueModel<int>
         {
             DJV_NON_COPYABLE(IntValueModel);
@@ -23,7 +23,7 @@ namespace djv
             static std::shared_ptr<IntValueModel> create();
         };
 
-        //! This class provides a floating-point number model.
+        //! Floating-point number model.
         class FloatValueModel : public INumericValueModel<float>
         {
             DJV_NON_COPYABLE(FloatValueModel);

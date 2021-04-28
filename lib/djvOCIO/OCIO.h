@@ -11,9 +11,10 @@
 
 namespace djv
 {
+    //! OpenColorIO functionality.
     namespace OCIO
     {
-        //! This struct provides a color space conversion.
+        //! Color space conversion.
         class Convert
         {
         public:
@@ -29,7 +30,7 @@ namespace djv
             bool operator < (const Convert&) const;
         };
 
-        //! This struct provides information about a view.
+        //! View information.
         class View
         {
         public:
@@ -42,7 +43,7 @@ namespace djv
             bool operator == (const View&) const;
         };
 
-        //! This struct provides information about a display.
+        //! Display information.
         class Display
         {
         public:

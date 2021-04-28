@@ -10,7 +10,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides a group.
+        //! Group.
         class Group : public IPrimitive
         {
         protected:

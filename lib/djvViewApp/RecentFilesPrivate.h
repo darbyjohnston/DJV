@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the recent files thumbnail widget.
+        //! Recent files thumbnail widget.
         class RecentFilesThumbnailWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(RecentFilesThumbnailWidget);

@@ -18,7 +18,7 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides OpenEXR file I/O.
+        //! OpenEXR image I/O.
         //!
         //! References:
         //! - http://www.openexr.com
@@ -30,7 +30,7 @@ namespace djv
             static const std::string pluginName = "OpenEXR";
             static const std::set<std::string> fileExtensions = { ".exr" };
 
-            //! This enumeration provides how the OpenEXR channels are grouped together.
+            //! OpenEXR channels grouping.
             enum class Channels
             {
                 None,
@@ -42,7 +42,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Channels);
 
-            //! This struct provides an OpenEXR image channel.
+            //! OpenEXR image channel.
             struct Channel
             {
                 Channel();
@@ -56,7 +56,7 @@ namespace djv
                 glm::ivec2      sampling = glm::ivec2(1, 1);
             };
 
-            //! This struct provides an OpenEXR image layer.
+            //! OpenEXR image layer.
             struct Layer
             {
                 Layer(
@@ -68,7 +68,7 @@ namespace djv
                 bool                 luminanceChroma = false;
             };
 
-            //! This enumeration provides the OpenEXR file compression types.
+            //! OpenEXR compression type.
             enum class Compression
             {
                 None,
@@ -119,7 +119,7 @@ namespace djv
             //! Convert from an Imf channel.
             Channel fromImf(const std::string& name, const Imf::Channel&);
 
-            //! This struct provides the OpenEXR file I/O optioms.
+            //! OpenEXR I/O optioms.
             struct Options
             {
                 size_t      threadCount         = 4;
@@ -130,7 +130,7 @@ namespace djv
                 bool operator == (const Options&) const;
             };
 
-            //! This class provides a memory-mapped input stream.
+            //! Memory-mapped input stream.
             class MemoryMappedIStream : public Imf::IStream
             {
                 DJV_NON_COPYABLE(MemoryMappedIStream);
@@ -149,7 +149,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the OpenEXR file reader.
+            //! OpenEXR reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -179,7 +179,7 @@ namespace djv
                 DJV_PRIVATE();
             };
                 
-            //! This class provides the OpenEXR file writer.
+            //! OpenEXR writer.
             class Write : public IO::ISequenceWrite
             {
                 DJV_NON_COPYABLE(Write);
@@ -208,7 +208,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the OpenEXR file I/O plugin.
+            //! OpenEXR I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

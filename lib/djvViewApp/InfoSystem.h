@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the metadata information system.
+        //! Metadata information system.
         class InfoSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(InfoSystem);

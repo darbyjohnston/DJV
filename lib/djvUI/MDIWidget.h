@@ -14,7 +14,7 @@ namespace djv
         {
             class Canvas;
 
-            //! This enumeration provides the MDI move and resize handles.
+            //! MDI move and resize handles.
             enum class Handle
             {
                 None,
@@ -32,7 +32,7 @@ namespace djv
                 First = None
             };
 
-            //! This class provides the base functionality for MDI widgets.
+            //! Base class for MDI widgets.
             class IWidget : public Widget
             {
                 DJV_NON_COPYABLE(IWidget);

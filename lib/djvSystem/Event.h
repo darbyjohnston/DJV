@@ -21,10 +21,10 @@ namespace djv
     {
         class IObject;
 
-        //! This namespace provides event system functionality.
+        //! Event system.
         namespace Event
         {
-            //! This enumeration provides the event types.
+            //! Event types.
             enum class Type
             {
                 ParentChanged,
@@ -57,7 +57,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
-            //! This class provides the event base class.
+            //! Base class for events.
             class Event
             {
             protected:
@@ -77,7 +77,7 @@ namespace djv
                 bool _accepted = false;
             };
 
-            //! This class provides an event for when an object's parent changes.
+            //! Parent changed event.
             class ParentChanged : public Event
             {
             public:
@@ -91,7 +91,7 @@ namespace djv
                 std::shared_ptr<IObject> _newParent;
             };
 
-            //! This class provides an event for when a child object is added.
+            //! Child added event.
             class ChildAdded : public Event
             {
             public:
@@ -103,7 +103,7 @@ namespace djv
                 std::shared_ptr<IObject> _child;
             };
 
-            //! This class provides an event for when a child object is removed.
+            //! Child removed event.
             class ChildRemoved : public Event
             {
             public:
@@ -115,14 +115,14 @@ namespace djv
                 std::shared_ptr<IObject> _child;
             };
 
-            //! This class provides an event for when the children change order.
+            //! Child order changed event.
             class ChildOrder : public Event
             {
             public:
                 ChildOrder();
             };
 
-            //! This struct provides initialization event data.
+            //! Initialization event data.
             struct InitData
             {
                 InitData(bool all = false);
@@ -133,7 +133,7 @@ namespace djv
                 bool text   = false;
             };
 
-            //! This class provides an initialization event.
+            //! Initialization event.
             class Init : public Event
             {
             public:
@@ -145,7 +145,7 @@ namespace djv
                 InitData _data;
             };
 
-            //! This class provides an update event.
+            //! Update event.
             class Update : public Event
             {
             public:
@@ -159,28 +159,28 @@ namespace djv
                 Core::Time::Duration _dt;
             };
 
-            //! This class provides an event to initialize user interface layout.
+            //! Initialize user interface layout event.
             class InitLayout : public Event
             {
             public:
                 InitLayout();
             };
 
-            //! This class provides an event to prepare for user interface layout.
+            //! Prepare for user interface layout event.
             class PreLayout : public Event
             {
             public:
                 PreLayout();
             };
 
-            //! This class provides an event for user interface layout.
+            //! User interface layout event.
             class Layout : public Event
             {
             public:
                 Layout();
             };
 
-            //! This class provides a clip event.
+            //! Clip event.
             class Clip : public Event
             {
             public:
@@ -194,7 +194,7 @@ namespace djv
                 Math::BBox2f _clipRect;
             };
 
-            //! This class provides a paint event.
+            //! Paint event.
             class Paint : public Event
             {
             public:
@@ -208,8 +208,7 @@ namespace djv
                 Math::BBox2f _clipRect;
             };
 
-            //! This class provides a second paint event after the children have been
-            //! drawn.
+            //! Second paint event after the children have been drawn.
             class PaintOverlay : public Event
             {
             public:
@@ -223,13 +222,13 @@ namespace djv
                 Math::BBox2f _clipRect;
             };
 
-            //! This typedef provides a pointer ID.
+            //! Pointer ID.
             typedef uint32_t PointerID;
 
-            //! This constant provides an invalid pointer ID.
+            //! Invalid pointer ID.
             const PointerID invalidID = 0;
 
-            //! This struct provides information about the pointer.
+            //! Pointer information.
             struct PointerInfo
             {
                 PointerInfo();
@@ -243,7 +242,7 @@ namespace djv
                 bool operator == (const PointerInfo&) const;
             };
 
-            //! This class provides the interface for pointer events.
+            //! Base class for pointer events.
             class IPointer : public Event
             {
             protected:
@@ -267,42 +266,42 @@ namespace djv
                 PointerInfo _pointerInfo;
             };
 
-            //! This class provides a pointer enter event.
+            //! Pointer enter event.
             class PointerEnter : public IPointer
             {
             public:
                 explicit PointerEnter(int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a pointer leave event.
+            //! Pointer leave event.
             class PointerLeave : public IPointer
             {
             public:
                 explicit PointerLeave(int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a pointer move event.
+            //! Pointer move event.
             class PointerMove : public IPointer
             {
             public:
                 explicit PointerMove(int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a button press event.
+            //! Button press event.
             class ButtonPress : public IPointer
             {
             public:
                 explicit ButtonPress(int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a button release event.
+            //! Button release event.
             class ButtonRelease : public IPointer
             {
             public:
                 explicit ButtonRelease(int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a scroll event.
+            //! Scroll event.
             class Scroll : public IPointer
             {
             public:
@@ -314,7 +313,7 @@ namespace djv
                 glm::vec2 _scrollDelta;
             };
 
-            //! This class provides a drag and drop event.
+            //! Drag and drop event.
             class Drop : public IPointer
             {
             public:
@@ -326,7 +325,7 @@ namespace djv
                 std::vector<std::string> _dropPaths;
             };
 
-            //! This class provides the interface for key events.
+            //! Base class for key events.
             class IKey : public IPointer
             {
             protected:
@@ -341,35 +340,35 @@ namespace djv
                 int _key;
             };
 
-            //! This class provides a key press event.
+            //! Key press event.
             class KeyPress : public IKey
             {
             public:
                 KeyPress(int key, int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a key release event.
+            //! Key release event.
             class KeyRelease : public IKey
             {
             public:
                 KeyRelease(int key, int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a text focus event.
+            //! Text focus event.
             class TextFocus : public Event
             {
             public:
                 TextFocus();
             };
 
-            //! This class provides a text focus lost event.
+            //! Text focus lost event.
             class TextFocusLost : public Event
             {
             public:
                 TextFocusLost();
             };
 
-            //! This class provides a text input event.
+            //! Text input event.
             class TextInput : public Event
             {
             public:

@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a JPEG settings widget.
+            //! JPEG settings widget.
             class JPEGWidget : public IWidget
             {
                 DJV_NON_COPYABLE(JPEGWidget);

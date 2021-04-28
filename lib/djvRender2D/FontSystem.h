@@ -25,25 +25,25 @@ namespace djv
 
     namespace Render2D
     {
-        //! This namespace provides font functionality.
+        //! Font functionality.
         namespace Font
         {
-            //! This typedef provides font family IDs.
+            //! Font family ID.
             typedef uint16_t FamilyID;
 
-            //! This typedef provides font face IDs.
+            //! Font face ID.
             typedef uint16_t FaceID;
 
-            //! This constant provides the default font family.
+            //! Default font family.
             const std::string familyDefault = "Noto Sans";
 
-            //! This constant provides the default font face.
+            //! Default font face.
             const std::string faceDefault = "Regular";
 
-            //! This constant provides the default mono font family.
+            //! Default mono font family.
             const std::string familyMono = "Noto Mono";
 
-            //! This class provides font information.
+            //! Font information.
             class FontInfo
             {
             public:
@@ -66,7 +66,7 @@ namespace djv
                 size_t   _hash   = 0;
             };
 
-            //! This struct provides font metrics.
+            //! Font metrics.
             class Metrics
             {
             public:
@@ -77,7 +77,7 @@ namespace djv
                 uint16_t lineHeight = 0;
             };
 
-            //! This struct provides font glyph information.
+            //! Font glyph information.
             class GlyphInfo
             {
             public:
@@ -91,7 +91,7 @@ namespace djv
                 bool operator < (const GlyphInfo&) const;
             };
 
-            //! This struct provides a font glyph.
+            //! Font glyph.
             class Glyph
             {
                 DJV_NON_COPYABLE(Glyph);
@@ -110,7 +110,7 @@ namespace djv
                 int32_t                      rsbDelta  = 0;
             };
 
-            //! This struct provides a line of text.
+            //! Line of text.
             class TextLine
             {
             public:
@@ -122,14 +122,14 @@ namespace djv
                 std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             
-            //! This class provides a font error.
+            //! Font error.
             class Error : public std::runtime_error
             {
             public:
                 explicit Error(const std::string&);
             };
 
-            //! This class provides a font system.
+            //! Font system.
             //!
             //! \todo Add support for gamma correction?
             //! - https://www.freetype.org/freetype2/docs/text-rendering-general.html

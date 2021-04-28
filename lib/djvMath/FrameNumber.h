@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Math
     {
-        //! This namespace provides frame number functionality.
+        //! Frame numbers.
         namespace Frame
         {
             //! This type represents a frame number.
@@ -23,17 +23,18 @@ namespace djv
             //! This type represents a frame index.
             typedef int64_t Index;
 
-            //! This value represents an invalid frame number.
+            //! Invalid frame number.
             const int64_t invalid = std::numeric_limits<int64_t>::min();
 
-            //! This value represents an invalid frame index.
+            //! Invalid frame index.
             const int64_t invalidIndex = std::numeric_limits<int64_t>::min();
 
-            //! This typedef provides a frame number range.
+            //! Frame number range.
             typedef Math::Range<Number> Range;
             
-            //! This class provides a sequence of frame numbers. A sequence is
-            //! composed of multiple frame number ranges (e.g., 1-10,20-30).
+            //! Sequence of frame numbers.
+            //!
+            //! A sequence is composed of multiple frame number ranges (e.g., 1-10,20-30).
             class Sequence
             {
             public:

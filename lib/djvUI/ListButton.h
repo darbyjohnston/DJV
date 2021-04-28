@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a button for use in lists.
+            //! List button widget.
             class List : public IButton
             {
                 DJV_NON_COPYABLE(List);

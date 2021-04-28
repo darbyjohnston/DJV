@@ -4,7 +4,6 @@ set(header
     Enum.h
     FontSystem.h
     FontSystemInline.h
-    Namespace.h
     Render.h
     RenderSystem.h
     RenderInline.h

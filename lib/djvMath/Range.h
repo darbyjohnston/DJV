@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Math
     {
-        //! This class provides a range of numbers.
+        //! Range of numbers.
         template<typename T>
         class Range
         {
@@ -50,13 +50,13 @@ namespace djv
             T _max = static_cast<T>(0);
         };
 
-        //! This typedef provides an integer range.
+        //! Integer range.
         typedef Range<int> IntRange;
 
-        //! This typedef provides a size_t range.
+        //! Size range.
         typedef Range<size_t> SizeTRange;
 
-        //! This typedef provides a floating point range.
+        //! Floating point range.
         typedef Range<float> FloatRange;
 
     } // namespace Math

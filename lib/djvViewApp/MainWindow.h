@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the main window.
+        //! Main window.
         class MainWindow : public UI::Window
         {
             DJV_NON_COPYABLE(MainWindow);

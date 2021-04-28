@@ -36,7 +36,7 @@ namespace djv
     {
         class IMaterial;
 
-        //! This class provides the base functionality for primitives.
+        //! Base class for primitives.
         class IPrimitive : public ILayerItem
         {
             DJV_NON_COPYABLE(IPrimitive);

@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the A/V settings.
+            //! Audio/video settings.
             class AV : public ISettings
             {
                 DJV_NON_COPYABLE(AV);

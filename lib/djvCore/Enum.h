@@ -6,14 +6,14 @@
 
 #include <djvCore/Core.h>
 
-//! This macro provides enum helpers.
+//! Enum helpers.
 //!
 //! Required includes:
 //! - vector
 #define DJV_ENUM_HELPERS(name)  \
     std::vector<name> get##name##Enums()
 
-//! This macro provides enum serialziation helpers.
+//! Enum serialziation helpers.
 //!
 //! Required includes:
 //! - sstream
@@ -24,7 +24,7 @@
     std::ostream& operator << (std::ostream&, name); \
     std::istream& operator >> (std::istream&, name&);
 
-//! This macro provides the enum helpers implementation.
+//! Enum helpers implementation.
 //!
 //! Required includes:
 //! - vector
@@ -39,7 +39,7 @@
         return out; \
     }
 
-//! This macro provides the enum serialziation helpers implementation.
+//! Enum serialziation helpers implementation.
 //!
 //! Required includes:
 //! - algorithm

@@ -1,5 +1,4 @@
 set(header
-    Namespace.h
     PointList.h
     PointListInline.h
     Shape.h

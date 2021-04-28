@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a time units widget.
+        //! Time units widget.
         class TimeUnitsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(TimeUnitsWidget);
@@ -39,7 +39,7 @@ namespace djv
 
         namespace Settings
         {
-            //! This class provides a time settings widget.
+            //! Time settings widget.
             class TimeWidget : public IWidget
             {
                 DJV_NON_COPYABLE(TimeWidget);

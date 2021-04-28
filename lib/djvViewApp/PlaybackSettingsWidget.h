@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the playback settings widget.
+        //! Playback settings widget.
         class PlaybackSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(PlaybackSettingsWidget);
@@ -32,7 +32,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the timeline settings widget.
+        //! Timeline settings widget.
         class TimelineSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(TimelineSettingsWidget);

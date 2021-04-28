@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a mouse settings widget.
+            //! Mouse settings widget.
             class MouseWidget : public IWidget
             {
                 DJV_NON_COPYABLE(MouseWidget);

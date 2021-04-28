@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a button for an action.
+            //! Action button widget.
             class ActionButton : public Button::IButton
             {
                 DJV_NON_COPYABLE(ActionButton);

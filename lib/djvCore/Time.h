@@ -14,13 +14,13 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides time functionality.
+        //! Time functionality.
         namespace Time
         {
-            //! This typedef provides the default time duration.
+            //! Default time duration.
             typedef std::chrono::microseconds Duration;
 
-            //! This typedef provides the default time point.
+            //! Default time point.
             typedef std::chrono::steady_clock::time_point TimePoint;
             
             //! \name Utility

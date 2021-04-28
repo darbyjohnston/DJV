@@ -12,7 +12,9 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides an overlay widget for capturing pointer and key events.
+            //! Overlay widget.
+            //!
+            //! Captures pointer and key events.
             class Overlay : public Widget
             {
                 DJV_NON_COPYABLE(Overlay);

@@ -12,7 +12,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the playback system.
+        //! Playback system.
         class PlaybackSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(PlaybackSystem);

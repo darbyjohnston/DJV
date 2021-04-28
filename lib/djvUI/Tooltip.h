@@ -23,7 +23,7 @@ namespace djv
         class ITooltipWidget;
         class Window;
 
-        //! This class provides tooltips.
+        //! Tooltip.
         class Tooltip : public std::enable_shared_from_this<Tooltip>
         {
             DJV_NON_COPYABLE(Tooltip);

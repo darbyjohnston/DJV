@@ -18,7 +18,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a button to popup a widget.
+            //! Popup widget.
             class Popup : public Widget
             {
                 DJV_NON_COPYABLE(Popup);

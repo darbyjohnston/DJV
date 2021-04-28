@@ -17,12 +17,13 @@
 
 namespace djv
 {
+    //! Audio functionality.
     namespace Audio
     {
         //! \name Types
         ///@{
 
-        //! This enumeration provides audio data types.
+        //! Audio data type.
         enum class Type
         {
             None,

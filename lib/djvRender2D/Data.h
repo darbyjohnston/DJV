@@ -17,10 +17,10 @@ namespace djv
 {
     namespace Render2D
     {
-        //! This constant provides the default DPI.
+        //! Default DPI.
         const float dpiDefault = 96.F;
         
-        //! This enumeration provides which image channels are displayed.
+        //! Image channels display.
         enum class ImageChannelsDisplay
         {
             Color,
@@ -34,7 +34,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ImageChannelsDisplay);
 
-        //! This eumeration provides the image caching options.
+        //! Image caching options.
         enum class ImageCache
         {
             Atlas,
@@ -45,7 +45,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ImageCache);
         
-        //! This class provides color values.
+        //! Image color values.
         class ImageColor
         {
         public:
@@ -60,7 +60,7 @@ namespace djv
             bool operator != (const ImageColor&) const;
         };
         
-        //! This class provides levels values.
+        //! Image levels values.
         class ImageLevels
         {
         public:
@@ -76,7 +76,7 @@ namespace djv
             bool operator != (const ImageLevels&) const;
         };
         
-        //! This class provides exposure values.
+        //! Image exposure values.
         class ImageExposure
         {
         public:
@@ -91,7 +91,7 @@ namespace djv
             bool operator != (const ImageExposure&) const;
         };
 
-        //! This class provides image options.
+        //! Image options.
         class ImageOptions
         {
         public:
@@ -115,7 +115,7 @@ namespace djv
             bool operator != (const ImageOptions&) const;
         };
 
-        //! This eumeration provides the image filtering options.
+        //! Image filtering options.
         enum class ImageFilter
         {
             Nearest,
@@ -126,7 +126,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ImageFilter);
 
-        //! This class provides image filter options.
+        //! Image filter options.
         class ImageFilterOptions
         {
         public:

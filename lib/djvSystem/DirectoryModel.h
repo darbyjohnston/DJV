@@ -17,7 +17,7 @@ namespace djv
 
         namespace File
         {
-            //! This class provides a directory model.
+            //! Directory model.
             class DirectoryModel : public std::enable_shared_from_this<DirectoryModel>
             {
                 DJV_NON_COPYABLE(DirectoryModel);

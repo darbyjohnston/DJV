@@ -46,7 +46,7 @@ namespace djv
             }
         }
 
-        void calcNormals(TriangleMesh& mesh)
+        void TriangleMesh::calcNormals(TriangleMesh& mesh)
         {
             const size_t trianglesSize = mesh.triangles.size();
             mesh.n.resize(trianglesSize);
@@ -69,7 +69,7 @@ namespace djv
             }
         }
 
-        void triangulateBBox(const Math::BBox3f& value, TriangleMesh& mesh)
+        void TriangleMesh::triangulateBBox(const Math::BBox3f& value, TriangleMesh& mesh)
         {
             mesh.clear();
 
@@ -159,7 +159,7 @@ namespace djv
             calcNormals(mesh);
         }
 
-        bool intersectTriangle(
+        bool TriangleMesh::intersectTriangle(
             const glm::vec3& pos,
             const glm::vec3& dir,
             const glm::vec3& v0,
@@ -201,7 +201,7 @@ namespace djv
             return false;
         }
 
-        bool intersect(
+        bool TriangleMesh::intersect(
             const glm::vec3&    pos,
             const glm::vec3&    dir,
             const TriangleMesh& mesh,
@@ -242,7 +242,7 @@ namespace djv
             return out;
         }
 
-        bool intersect(
+        bool TriangleMesh::intersect(
             const glm::vec3&    pos,
             const glm::vec3&    dir,
             const TriangleMesh& mesh,
@@ -324,7 +324,7 @@ namespace djv
             return out;
         }
 
-        void faceToTriangles(
+        void TriangleMesh::faceToTriangles(
             const TriangleMesh::Face& face,
             std::vector<TriangleMesh::Triangle>& triangles)
         {

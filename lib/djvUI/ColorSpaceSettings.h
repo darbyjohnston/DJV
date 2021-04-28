@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides color space settings.
+            //! Color space settings.
             class ColorSpace : public ISettings
             {
                 DJV_NON_COPYABLE(ColorSpace);

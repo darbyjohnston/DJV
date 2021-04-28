@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a spacer for use in layouts.
+            //! Spacer widget.
             class Spacer : public Widget
             {
                 DJV_NON_COPYABLE(Spacer);
@@ -43,7 +43,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a horizontal spacer for use in layouts.
+            //! Horizontal spacer widget.
             class HorizontalSpacer : public Spacer
             {
                 DJV_NON_COPYABLE(HorizontalSpacer);
@@ -55,7 +55,7 @@ namespace djv
                 static std::shared_ptr<HorizontalSpacer> create(const std::shared_ptr<System::Context>&);
             };
 
-            //! This class provides a vertical spacer for use in layouts.
+            //! Vertical spacer widget.
             class VerticalSpacer : public Spacer
             {
                 DJV_NON_COPYABLE(VerticalSpacer);

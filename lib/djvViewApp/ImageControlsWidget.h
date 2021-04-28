@@ -18,7 +18,7 @@ namespace djv
     {
         struct GridOptions;
 
-        //! This class provides the image controls widget.
+        //! Image controls widget.
         class ImageControlsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ImageControlsWidget);

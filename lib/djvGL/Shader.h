@@ -36,14 +36,14 @@ namespace djv
 
     namespace GL
     {
-        //! This class provides an OpenGL shader error.
+        //! OpenGL shader error.
         class ShaderError : public std::runtime_error
         {
         public:
             explicit ShaderError(const std::string&);
         };
         
-        //! This class provides an OpenGL shader.
+        //! OpenGL shader.
         class Shader
         {
             DJV_NON_COPYABLE(Shader);

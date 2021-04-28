@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a list view header widget.
+        //! List view header widget.
         class ListViewHeader : public UI::Widget
         {
             DJV_NON_COPYABLE(ListViewHeader);

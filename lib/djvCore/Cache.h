@@ -15,7 +15,7 @@ namespace djv
     {
         namespace Memory
         {
-            //! This class provides a cache.
+            //! Memory cache.
             //!
             //! \todo Return an iterator from get() instead of a value?
             template<typename T, typename U>

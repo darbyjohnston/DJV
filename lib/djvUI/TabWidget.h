@@ -12,7 +12,7 @@ namespace djv
     {
         class TabBar;
 
-        //! This class provides a tab widget.
+        //! Tab widget.
         class TabWidget : public Widget
         {
             DJV_NON_COPYABLE(TabWidget);

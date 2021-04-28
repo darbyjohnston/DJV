@@ -99,7 +99,7 @@ namespace djv
                 render->drawPolyLines({ pointList, pointList });
                 
                 auto mesh = std::shared_ptr<Geom::TriangleMesh>(new Geom::TriangleMesh);
-                Geom::triangulateBBox(
+                Geom::TriangleMesh::triangulateBBox(
                     Math::BBox3f(-100.F, -100.F, -100.F, 100.F, 100.F, 100.F),
                     *mesh);
                 render->drawTriangleMesh(*mesh);

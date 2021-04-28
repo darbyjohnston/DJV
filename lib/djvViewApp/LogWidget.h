@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the log widget.
+        //! Log widget.
         class LogWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(LogWidget);
@@ -41,7 +41,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a tool bar for the log widget.
+        //! Log tool bar widget.
         class LogToolBar : public UI::ToolBar
         {
             DJV_NON_COPYABLE(LogToolBar);

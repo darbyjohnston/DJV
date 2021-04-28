@@ -16,7 +16,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a selection model.
+        //! Selection model.
         class SelectionModel : public std::enable_shared_from_this<SelectionModel>
         {
             DJV_NON_COPYABLE(SelectionModel);

@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Core
     {
-        //! This type provides a unique runtime ID.
+        //! Unique runtime ID.
         typedef uint64_t UID;
         
         //! Create a new unique runtime ID.

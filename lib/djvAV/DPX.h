@@ -19,7 +19,7 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides DPX image I/O.
+        //! DPX image I/O.
         //!
         //! References:
         //! - SMPTE, "SMPTE 268M-2003"
@@ -30,7 +30,7 @@ namespace djv
             static const std::string pluginName = "DPX";
             static const std::set<std::string> fileExtensions = { ".dpx" };
 
-            //! This enumeration provides the DPX file format versions.
+            //! DPX file format versions.
             enum class Version
             {
                 _1_0,
@@ -41,7 +41,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Version);
 
-            //! This enumeration provides DPX file endian options.
+            //! DPX endian options.
             enum class Endian
             {
                 Auto, //!< Use the endian of the machine 
@@ -53,14 +53,14 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Endian);
 
-            //! This constant provides the DPX file magic numbers.
+            //! DPX header magic numbers.
             static const char magic[][5] =
             {
                 "SDPX",
                 "XPDS"
             };
 
-            //! This enumeration provides the DPX file image orientations.
+            //! DPX image orientations.
             enum class Orient
             {
                 LeftRightTopBottom,
@@ -77,7 +77,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Orient);
 
-            //! This enumeration provides the DPX file channel descriptors.
+            //! DPX channel descriptors.
             enum class Descriptor
             {
                 User            = 0,
@@ -105,7 +105,7 @@ namespace djv
                 User8           = 156
             };
 
-            //! This enumeration provides the DPX file color transfer information.
+            //! DPX color transfer information.
             enum class Transfer
             {
                 User,
@@ -127,8 +127,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Transfer);
 
-            //! This enumeration provides the colorimetric information for 1.0 version
-            //! DPX files.
+            //! DPX colorimetric information for version 1.0.
             enum class Colorimetric_1_0
             {
                 User = 0,
@@ -142,8 +141,7 @@ namespace djv
                 PAL = 10
             };
 
-            //! This enumeration provides the colorimetric information for 2.0 version
-            //! DPX files.
+            //! DPX colorimetric information for version 2.0.
             enum Colorimetric_2_0
             {
                 User = 0,
@@ -157,7 +155,7 @@ namespace djv
                 PAL = 10
             };
 
-            //! This enumeration provides how the DPX file data components are ordered.
+            //! DPX data component ordering.
             enum class Components
             {
                 Pack,
@@ -169,7 +167,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Components);
 
-            //! This stuct provides the DPX file header.
+            //! DPX header.
             struct Header
             {
                 struct File
@@ -279,13 +277,13 @@ namespace djv
                 TV tv;
             };
 
-            //! Zero out the data in a DPX file header.
+            //! Zero out the data in a DPX header.
             void zero(Header&);
 
-            //! Convert then endian of a DPX file header.
+            //! Convert then endian of a DPX header.
             void convertEndian(Header&);
                 
-            //! Read a DPX file header.
+            //! Read a DPX header.
             //!
             //! Throws:
             //! - System::File::Error
@@ -295,7 +293,7 @@ namespace djv
                 Transfer&,
                 const std::shared_ptr<System::TextSystem>&);
                 
-            //! Write a DPX file header.
+            //! Write a DPX header.
             //!
             //! Throws:
             //! - System::File::Error
@@ -306,10 +304,10 @@ namespace djv
                 Endian,
                 Transfer);
 
-            //! Finish writing the DPX file header after image data is written.
+            //! Finish writing the DPX header after image data is written.
             void writeFinish(const std::shared_ptr<System::File::IO>&);
 
-            //! This struct provides the DPX file I/O options.
+            //! DPX I/O options.
             struct Options
             {
                 Version version = Version::_2_0;
@@ -318,7 +316,7 @@ namespace djv
                 bool operator == (const Options&) const;
             };
 
-            //! This class provides the DPX file reader.
+            //! DPX reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -347,7 +345,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the DPX file writer.
+            //! DPX writer.
             class Write : public IO::ISequenceWrite
             {
                 DJV_NON_COPYABLE(Write);
@@ -376,7 +374,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the DPX file I/O plugin.
+            //! DPX I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);
@@ -397,7 +395,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            } // namespace DPX
+        } // namespace DPX
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::DPX::Version);

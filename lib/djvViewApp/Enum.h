@@ -12,9 +12,10 @@
 
 namespace djv
 {
+    //! Viewer application.
     namespace ViewApp
     {
-        //! This enumeration provides view lock modes.
+        //! View lock modes.
         enum class ViewLock
         {
             None,
@@ -26,7 +27,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ViewLock);
 
-        //! This enumeration provides grid labels.
+        //! Grid labels.
         enum class GridLabels
         {
             None,
@@ -38,7 +39,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(GridLabels);
 
-        //! This enumeration provides HUD background options.
+        //! HUD background options.
         enum class HUDBackground
         {
             None,
@@ -49,7 +50,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(HUDBackground);
 
-        //! This enumeration provides view backgrounds.
+        //! View backgrounds.
         enum class ViewBackground
         {
             Solid,
@@ -60,7 +61,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ViewBackground);
 
-        //! This enumeration provides playback modes.
+        //! Playback modes.
         enum class Playback
         {
             Stop,
@@ -72,7 +73,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Playback);
 
-        //! This enumeration provides playback speeds.
+        //! Playback speeds.
         enum class PlaybackSpeed
         {
             Default,
@@ -83,7 +84,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(PlaybackSpeed);
 
-        //! This enumeration provides playback modes.
+        //! Playback modes.
         enum class PlaybackMode
         {
             Once,
@@ -95,7 +96,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(PlaybackMode);
 
-        //! This enumeration provides command-line modes.
+        //! Command-line modes.
         enum class CmdLineMode
         {
             DJV,

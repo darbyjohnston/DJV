@@ -45,14 +45,14 @@ namespace djv
 
         } // namespace IO
             
-        //! This class provides a thumbnail error.
+        //! Thumbnail error.
         class ThumbnailError : public std::runtime_error
         {
         public:
             explicit ThumbnailError(const std::string&);
         };
         
-        //! This class provides a system for generating thumbnail images from files.
+        //! Thumbnail system.
         class ThumbnailSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(ThumbnailSystem);
@@ -69,7 +69,7 @@ namespace djv
             //! - ThumbnailError
             static std::shared_ptr<ThumbnailSystem> create(const std::shared_ptr<System::Context>&);
 
-            //! This structure provides thumbnail information.
+            //! Thumbnail information future.
             struct InfoFuture
             {
                 InfoFuture();
@@ -84,7 +84,7 @@ namespace djv
             //! Cancel information about a file.
             void cancelInfo(Core::UID);
 
-            //! This structure provides a thumbnail image.
+            //! Thumbnail image future.
             struct ImageFuture
             {
                 ImageFuture();

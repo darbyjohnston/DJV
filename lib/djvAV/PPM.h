@@ -19,7 +19,7 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides NetPBM file I/O.
+        //! NetPBM image I/O.
         //!
         //! References:
         //! - Netpbm, "PPM Format Specification"
@@ -29,7 +29,7 @@ namespace djv
             static const std::string pluginName = "PPM";
             static const std::set<std::string> fileExtensions = { ".ppm" };
 
-            //! This enumeration provides the PPM file data types.
+            //! PPM data type.
             enum class Data
             {
                 ASCII,
@@ -60,7 +60,7 @@ namespace djv
                 size_t          size,
                 size_t          componentSize);
 
-            //! This struct provides the PPM file I/O options.
+            //! PPM I/O options.
             struct Options
             {
                 Data data = Data::Binary;
@@ -68,7 +68,7 @@ namespace djv
                 bool operator == (const Options&) const;
             };
 
-            //! This class provides the PPM file reader.
+            //! PPM reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -94,7 +94,7 @@ namespace djv
                 IO::Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, Data&);
             };
                 
-            //! This class provides the PPM file writer.
+            //! PPM writer.
             class Write : public IO::ISequenceWrite
             {
                 DJV_NON_COPYABLE(Write);
@@ -123,7 +123,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the PPM file I/O plugin.
+            //! PPM I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

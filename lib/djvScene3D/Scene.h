@@ -22,7 +22,7 @@ namespace djv
         class IPrimitive;
         class Layer;
 
-        //! This class provides a scene.
+        //! Scene.
         class Scene : public std::enable_shared_from_this<Scene>
         {
             DJV_NON_COPYABLE(Scene);

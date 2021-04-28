@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides the base functionality for numeric slider widgets.
+            //! Base class for numeric slider widgets.
             class Slider : public Widget
             {
             protected:

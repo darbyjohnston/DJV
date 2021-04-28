@@ -22,7 +22,7 @@ namespace djv
 
     namespace GL
     {
-        //! This struct provides information about a texture atlas item.
+        //! Texture atlas item.
         struct TextureAtlasItem
         {
             uint16_t w = 0;
@@ -32,7 +32,7 @@ namespace djv
             Math::FloatRange textureV;
         };
 
-        //! This class provides a texture atlas.
+        //! Texture atlas.
         class TextureAtlas
         {
             DJV_NON_COPYABLE(TextureAtlas);

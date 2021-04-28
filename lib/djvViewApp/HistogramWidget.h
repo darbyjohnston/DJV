@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the histogram widget.
+        //! Histogram widget.
         class HistogramWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(HistogramWidget);

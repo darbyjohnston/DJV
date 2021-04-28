@@ -10,9 +10,10 @@ struct GLFWwindow;
 
 namespace djv
 {
+    //! Desktop applications.
     namespace Desktop
     {
-        //! This class provides a desktop application.
+        //! Desktop application.
         class Application : public CmdLine::Application
         {
             DJV_NON_COPYABLE(Application);

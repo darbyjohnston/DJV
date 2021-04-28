@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the GLFW settings.
+            //! GLFW settings.
             class GLFW : public ISettings
             {
                 DJV_NON_COPYABLE(GLFW);

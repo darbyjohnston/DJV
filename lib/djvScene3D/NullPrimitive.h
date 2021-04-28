@@ -10,7 +10,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides a null primitive.
+        //! Null primitive.
         class NullPrimitive : public IPrimitive
         {
             DJV_NON_COPYABLE(NullPrimitive);

@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Image
     {
-        //! This class provides a color.
+        //! Color.
         class Color
         {
         public:

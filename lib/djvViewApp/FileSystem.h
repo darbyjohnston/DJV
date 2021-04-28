@@ -29,7 +29,7 @@ namespace djv
     {
         class Media;
 
-        //! This struct provides options for opening files.
+        //! Options for opening files.
         struct OpenOptions
         {
             std::shared_ptr<Math::IntRational>  speed;
@@ -39,7 +39,7 @@ namespace djv
             std::shared_ptr<std::string>        frame;
         };
 
-        //! This class provides the file system.
+        //! File system.
         class FileSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(FileSystem);

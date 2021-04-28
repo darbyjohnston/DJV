@@ -18,10 +18,10 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides time functionality.
+        //! Time functionality.
         namespace Time
         {
-            //! This enumeration provides time units.
+            //! Time units.
             enum class Units
             {
                 Timecode,

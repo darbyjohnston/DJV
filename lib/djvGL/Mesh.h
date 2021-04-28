@@ -19,7 +19,7 @@ namespace djv
 {
     namespace GL
     {
-        //! This enumeration provides the VBO vertex types.
+        //! VBO vertex types.
         enum class VBOType
         {
             Pos2_F32_UV_U16,
@@ -39,7 +39,7 @@ namespace djv
         //! Get the VBO type byte count.
         size_t getVertexByteCount(VBOType) noexcept;
 
-        //! This class provides an OpenGL vertex buffer object.
+        //! OpenGL vertex buffer object.
         class VBO
         {
             DJV_NON_COPYABLE(VBO);
@@ -84,7 +84,7 @@ namespace djv
             GLuint _vbo = 0;
         };
 
-        //! This class provides an OpenGL vertex array object.
+        //! OpenGL vertex array object.
         class VAO
         {
             DJV_NON_COPYABLE(VAO);

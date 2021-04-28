@@ -16,7 +16,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This class provides an I/O system.
+            //! I/O system.
             class IOSystem : public System::ISystem
             {
                 DJV_NON_COPYABLE(IOSystem);

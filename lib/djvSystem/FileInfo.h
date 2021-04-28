@@ -26,7 +26,7 @@ namespace djv
     {
         namespace File
         {
-            //! This enumeration provides file types.
+            //! File types.
             enum class Type
             {
                 File,      //!< Regular file
@@ -38,7 +38,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
-            //! This enumeration provides file permissions.
+            //! File permissions.
             enum class Permissions
             {
                 Read  = 1, //!< Readable
@@ -46,7 +46,7 @@ namespace djv
                 Exec  = 4, //!< Executable
             };
 
-            //! This enumeration provides directory listing sort options.
+            //! Directory listing sort options.
             enum class DirectoryListSort
             {
                 Name,
@@ -58,7 +58,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(DirectoryListSort);
 
-            //! This struct provides directory listing options.
+            //! Directory listing options.
             struct DirectoryListOptions
             {
                 std::set<std::string>       extensions;
@@ -73,7 +73,7 @@ namespace djv
                 bool operator == (const DirectoryListOptions&) const;
             };
 
-            //! This class provides information about files and file sequences.
+            //! File and file sequence information.
             //!
             //! A file sequence is a list of file names that share a common name and
             //! have frame numbers. File sequences are used to store animation or movie

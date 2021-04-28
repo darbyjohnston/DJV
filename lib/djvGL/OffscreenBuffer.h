@@ -22,7 +22,7 @@ namespace djv
 
     namespace GL
     {
-        //! This enumeration provides OpenGL offscreen depth buffer types.
+        //! OpenGL offscreen depth buffer types.
         enum class OffscreenDepthType
         {
             None,
@@ -43,7 +43,7 @@ namespace djv
         //! Get the OpenGL type.
         GLenum getGLType(OffscreenDepthType);
 
-        //! This enumeration provides OpenGL offscreen buffer sampling options.
+        //! OpenGL offscreen buffer sampling.
         enum class OffscreenSampling
         {
             None,
@@ -57,14 +57,14 @@ namespace djv
         };
         DJV_ENUM_HELPERS(OffscreenSampling);
 
-        //! This class provides an OpenGL offscreen buffer error.
+        //! OpenGL offscreen buffer error.
         class OffscreenBufferError : public std::runtime_error
         {
         public:
             explicit OffscreenBufferError(const std::string&);
         };
 
-        //! This class provides an OpenGL offscreen buffer.
+        //! OpenGL offscreen buffer.
         class OffscreenBuffer : public std::enable_shared_from_this<OffscreenBuffer>
         {
             DJV_NON_COPYABLE(OffscreenBuffer);
@@ -128,8 +128,7 @@ namespace djv
             GLuint _depthID = 0;
         };
 
-        //! This class provides a wrapper for automatically binding and unbinding an
-        //! OpenGL offscreen buffer.
+        //! Wrapper for automatically binding an OpenGL offscreen buffer.
         class OffscreenBufferBinding
         {
         public:

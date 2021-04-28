@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the new user experience settings widget.
+        //! New user experience settings widget.
         class NUXSettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(NUXSettingsWidget);

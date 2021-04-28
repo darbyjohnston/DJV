@@ -12,7 +12,7 @@ namespace djv
     {
         class Menu;
 
-        //! This class provides a menu that is shown by clicking a button.
+        //! Popup menu.
         class PopupMenu : public Widget
         {
             DJV_NON_COPYABLE(PopupMenu);

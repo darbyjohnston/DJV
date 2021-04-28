@@ -14,7 +14,9 @@ namespace djv
     {
         namespace Layout
         {
-            //! This class provides a layout that arranges it's children similar to a text paragraph.
+            //! Flow layout.
+            //!
+            //! This layout arranges it's children similar to a text paragraph.
             class Flow : public Widget
             {
                 DJV_NON_COPYABLE(Flow);

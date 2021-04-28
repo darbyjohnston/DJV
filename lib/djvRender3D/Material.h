@@ -29,13 +29,13 @@ namespace djv
     {
         class ILight;
 
-        //! This struct provides binding data.
+        //! Light binding data.
         struct BindData
         {
             std::vector<std::shared_ptr<ILight> > lights;
         };
 
-        //! This struct provides per-primitive binding data.
+        //! Per-primitive binding data.
         struct PrimitiveBindData
         {
             glm::mat4x4 model;
@@ -43,7 +43,7 @@ namespace djv
             Image::Color color;
         };
 
-        //! This class provides the base functionality for materials.
+        //! Base class for materials.
         class IMaterial : public std::enable_shared_from_this<IMaterial>
         {
             DJV_NON_COPYABLE(IMaterial);
@@ -69,7 +69,7 @@ namespace djv
             std::shared_ptr<GL::Shader> _shader;
         };
 
-        //! This class provides an unlit solid colored material.
+        //! Unlit solid colored material.
         class SolidColorMaterial : public IMaterial
         {
             DJV_NON_COPYABLE(SolidColorMaterial);
@@ -90,7 +90,7 @@ namespace djv
             std::map<std::string, GLint> _locations;
         };
 
-        //! This enumeration provides the default material modes.
+        //! Default material modes.
         enum class DefaultMaterialMode
         {
             Default,
@@ -103,7 +103,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(DefaultMaterialMode);
 
-        //! This class provides a default material.
+        //! Default material.
         class DefaultMaterial : public IMaterial
         {
             DJV_NON_COPYABLE(DefaultMaterial);

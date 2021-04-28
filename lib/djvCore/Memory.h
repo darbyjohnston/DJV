@@ -15,7 +15,7 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides memory functionality.
+        //! Memory functionality.
         namespace Memory
         {
             const uint64_t kilobyte = 1024; //!< The number of bytes in a kilobyte
@@ -23,7 +23,7 @@ namespace djv
             const uint64_t gigabyte = megabyte * 1024; //!< The number of bytes in a gigabyte
             const uint64_t terabyte = gigabyte * 1024; //!< The number of bytes in a terabyte
 
-            //! This enumeration provides memory units.
+            //! Memory units.
             enum class Unit
             {
                 KB, //!< Kilobytes
@@ -35,7 +35,7 @@ namespace djv
                 First = KB
             };
 
-            //! This enumeration provides endian types.
+            //! Endian type.
             enum class Endian
             {
                 MSB, //!< Most siginificant byte first

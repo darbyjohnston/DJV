@@ -106,7 +106,7 @@ namespace djv
                     f.v.push_back(i);
                 }
                 std::vector<TriangleMesh::Triangle> t;
-                faceToTriangles(f, t);
+                TriangleMesh::faceToTriangles(f, t);
                 DJV_ASSERT(2 == t.size());
                 DJV_ASSERT(v[0] == t[0].v0);
                 DJV_ASSERT(v[1] == t[0].v1);
@@ -126,14 +126,14 @@ namespace djv
                 t.v1.v = 2;
                 t.v2.v = 3;
                 mesh.triangles.push_back(t);
-                calcNormals(mesh);
+                TriangleMesh::calcNormals(mesh);
                 DJV_ASSERT(1 == mesh.n.size());
             }
             
             {
                 glm::vec3 hit(0.F, 0.F, 0.F);
                 glm::vec3 barycentric(0.F, 0.F, 0.F);
-                DJV_ASSERT(intersectTriangle(
+                DJV_ASSERT(TriangleMesh::intersectTriangle(
                     glm::vec3(0.F, 0.F, 1.F),
                     glm::vec3(0.F, 0.F, -1.F),
                     glm::vec3(-1.F, -1.F, 0.F),
@@ -151,7 +151,7 @@ namespace djv
                     ss << barycentric;
                     _print("Barycentric: " + ss.str());
                 }
-                DJV_ASSERT(!intersectTriangle(
+                DJV_ASSERT(!TriangleMesh::intersectTriangle(
                     glm::vec3(0.F, 0.F, 1.F),
                     glm::vec3(0.F, 0.F, 1.F),
                     glm::vec3(-1.F, -1.F, 0.F),
@@ -172,7 +172,7 @@ namespace djv
                 t.v2.v = 3;
                 mesh.triangles.push_back(t);
                 glm::vec3 hit(0.F, 0.F, 0.F);
-                DJV_ASSERT(intersect(
+                DJV_ASSERT(TriangleMesh::intersect(
                     glm::vec3(0.F, 0.F, 1.F),
                     glm::vec3(0.F, 0.F, -1.F),
                     mesh,
@@ -182,7 +182,7 @@ namespace djv
                     ss << hit;
                     _print("Hit: " + ss.str());
                 }
-                DJV_ASSERT(!intersect(
+                DJV_ASSERT(!TriangleMesh::intersect(
                     glm::vec3(0.F, 0.F, 1.F),
                     glm::vec3(0.F, 0.F, 1.F),
                     mesh,
@@ -218,7 +218,7 @@ namespace djv
                 glm::vec3 hitColor(0.F, 0.F, 0.F);
                 glm::vec2 hitTexture(0.F, 0.F);
                 glm::vec3 hitNormal(0.F, 0.F, 0.F);
-                DJV_ASSERT(intersect(
+                DJV_ASSERT(TriangleMesh::intersect(
                     glm::vec3(0.F, 0.F, 1.F),
                     glm::vec3(0.F, 0.F, -1.F),
                     mesh,
@@ -246,7 +246,7 @@ namespace djv
                     ss << hit;
                     _print("Hit normal: " + ss.str());
                 }
-                DJV_ASSERT(!intersect(
+                DJV_ASSERT(!TriangleMesh::intersect(
                     glm::vec3(0.F, 0.F, 1.F),
                     glm::vec3(0.F, 0.F, 1.F),
                     mesh,
@@ -259,7 +259,7 @@ namespace djv
             {
                 Math::BBox3f bbox(-1.F, -1.F, -1.F, 1.F, 1.F, 1.F);
                 TriangleMesh mesh;
-                triangulateBBox(bbox, mesh);
+                TriangleMesh::triangulateBBox(bbox, mesh);
                 DJV_ASSERT(12 == mesh.triangles.size());
             }
         }

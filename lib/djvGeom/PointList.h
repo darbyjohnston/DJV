@@ -16,7 +16,7 @@ namespace djv
 {
     namespace Geom
     {
-        //! This struct provides a point list.
+        //! Point list.
         class PointList
         {
         public:

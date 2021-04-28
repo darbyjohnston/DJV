@@ -18,7 +18,7 @@ namespace djv
 {
     namespace Image
     {
-        //! This class provides information about image mirroring.
+        //! Image mirroring.
         class Mirror
         {
         public:
@@ -32,7 +32,7 @@ namespace djv
             constexpr bool operator != (const Mirror&) const noexcept;
         };
 
-        //! This class provides information about the image data layout.
+        //! Image data layout.
         class Layout
         {
         public:
@@ -47,7 +47,7 @@ namespace djv
             constexpr bool operator != (const Layout&) const noexcept;
         };
 
-        //! This class provides the image size.
+        //! Image size.
         class Size
         {
         public:
@@ -63,10 +63,10 @@ namespace djv
             bool operator != (const Size&) const noexcept;
         };
 
-        //! This constant provides the default name.
+        //! The default name.
         const std::string defaultName = "Video";
         
-        //! This class provides image information.
+        //! Image information.
         class Info
         {
         public:

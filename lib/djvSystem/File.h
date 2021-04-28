@@ -15,10 +15,10 @@ namespace djv
 {
     namespace System
     {
-        //! This namespace provides file system functionality.
+        //! File system.
         namespace File
         {
-            //! This class provides a file error.
+            //! File error.
             class Error : public std::runtime_error
             {
             public:
@@ -28,7 +28,7 @@ namespace djv
             //! \name Utility
             ///@{
 
-            //! This function provides a wrapper for fopen().
+            //! Wrapper for fopen().
             //! Throws:
             //! - std::exception
             FILE* fopen(const std::string& fileName, const std::string& mode);

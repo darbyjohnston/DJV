@@ -23,7 +23,7 @@ namespace djv
         
         } // namespace Button
 
-        //! This class provides a popup menu widget.
+        //! Popup menu widget.
         class Menu : public System::IObject
         {
             DJV_NON_COPYABLE(Menu);

@@ -11,7 +11,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a widget for editing keyboard shortcuts.
+        //! Keyboard shortcuts widget.
         class ShortcutsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ShortcutsWidget);

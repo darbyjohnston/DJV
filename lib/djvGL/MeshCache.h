@@ -15,7 +15,7 @@ namespace djv
         class VBO;
         class VAO;
 
-        //! This class provides a mesh cache.
+        //! Mesh cache.
         class MeshCache
         {
             DJV_NON_COPYABLE(MeshCache);

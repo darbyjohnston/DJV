@@ -20,7 +20,7 @@ namespace djv
             template<typename T, typename U>
             class IMapSubject;
 
-            //! This class provides a map observer.
+            //! Map observer.
             template<typename T, typename U>
             class Map : public std::enable_shared_from_this<Map<T, U> >
             {
@@ -50,7 +50,7 @@ namespace djv
                 std::weak_ptr<IMapSubject<T, U> > _subject;
             };
 
-            //! This class provides the interface for a map subject.
+            //! Base class for a map subject.
             template<typename T, typename U>
             class IMapSubject
             {
@@ -84,7 +84,7 @@ namespace djv
                 friend Map<T, U>;
             };
 
-            //! This class provides a map subject.
+            //! Map subject.
             template<typename T, typename U>
             class MapSubject : public IMapSubject<T, U>
             {

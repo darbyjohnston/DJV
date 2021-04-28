@@ -12,7 +12,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This namespace provides layout functionality.
+        //! Widget layout.
         namespace Layout
         {
             //! \name Utility

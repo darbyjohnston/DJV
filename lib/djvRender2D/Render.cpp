@@ -46,34 +46,34 @@ namespace djv
         {
             Render* system = nullptr;
 
-            ImageFilterOptions                           imageFilterOptions  = ImageFilterOptions(ImageFilter::Linear, ImageFilter::Nearest);
-            bool                                         textLCDRendering    = true;
+            ImageFilterOptions                             imageFilterOptions  = ImageFilterOptions(ImageFilter::Linear, ImageFilter::Nearest);
+            bool                                           textLCDRendering    = true;
 
-            Math::BBox2f                                 viewport;
-            std::vector<std::shared_ptr<Primitive> >     primitives;
-            size_t                                       primitivesCount     = 0;
-            PrimitiveData                                primitiveData;
-            std::shared_ptr<GL::TextureAtlas>            textureAtlas;
-            std::map<UID, uint64_t>                      textureIDs;
-            std::map<UID, uint64_t>                      glyphTextureIDs;
-            std::vector<std::shared_ptr<GL::Texture> >   dynamicTextures;
-            std::map<UID, std::shared_ptr<GL::Texture> > dynamicTextureCache;
+            Math::BBox2f                                   viewport;
+            std::vector<std::shared_ptr<Primitive> >       primitives;
+            size_t                                         primitivesCount     = 0;
+            PrimitiveData                                  primitiveData;
+            std::shared_ptr<GL::TextureAtlas>              textureAtlas;
+            std::map<UID, uint64_t>                        textureIDs;
+            std::map<UID, uint64_t>                        glyphTextureIDs;
+            std::vector<std::shared_ptr<GL::Texture2D> >   dynamicTextures;
+            std::map<UID, std::shared_ptr<GL::Texture2D> > dynamicTextureCache;
 #if !defined(DJV_GL_ES2)
-            std::map<OCIO::Convert, ColorSpaceData>      colorSpaceCache;
-            size_t                                       colorSpaceID        = 1;
+            std::map<OCIO::Convert, ColorSpaceData>        colorSpaceCache;
+            size_t                                         colorSpaceID        = 1;
 #endif // DJV_GL_ES2
-            std::vector<uint8_t>                         vboData;
-            size_t                                       vboDataSize         = 0;
-            std::shared_ptr<GL::VBO>                     vbo;
-            std::shared_ptr<GL::VAO>                     vao;
-            std::string                                  vertexFileName;
-            std::string                                  vertexSource;
-            std::string                                  fragmentFileName;
-            std::string                                  fragmentSource;
-            std::shared_ptr<GL::Shader>                  shader;
-            GLint                                        mvpLoc              = 0;
+            std::vector<uint8_t>                           vboData;
+            size_t                                         vboDataSize         = 0;
+            std::shared_ptr<GL::VBO>                       vbo;
+            std::shared_ptr<GL::VAO>                       vao;
+            std::string                                    vertexFileName;
+            std::string                                    vertexSource;
+            std::string                                    fragmentFileName;
+            std::string                                    fragmentSource;
+            std::shared_ptr<GL::Shader>                    shader;
+            GLint                                          mvpLoc              = 0;
 
-            std::shared_ptr<System::Timer>               statsTimer;
+            std::shared_ptr<System::Timer>                 statsTimer;
 
             void vboDataSizeUpdate(size_t);
 
@@ -1125,7 +1125,7 @@ namespace djv
             for (size_t i = 0; i < dynamicTextureCount; ++i)
             {
                 p.dynamicTextures.emplace_back(
-                    GL::Texture::create(
+                    GL::Texture2D::create(
                         Image::Info(),
                         toGL(p.imageFilterOptions.min),
                         toGL(p.imageFilterOptions.mag)));
@@ -1269,7 +1269,7 @@ namespace djv
                     }
                     else
                     {
-                        std::shared_ptr<GL::Texture> texture;
+                        std::shared_ptr<GL::Texture2D> texture;
                         if (dynamicTextures.size())
                         {
                             texture = dynamicTextures.back();
@@ -1278,7 +1278,7 @@ namespace djv
                         }
                         else
                         {
-                            texture = GL::Texture::create(image->getInfo(), GL_LINEAR, GL_NEAREST);
+                            texture = GL::Texture2D::create(image->getInfo(), GL_LINEAR, GL_NEAREST);
                         }
                         texture->copy(*image);
                         dynamicTextureCache[uid] = texture;

@@ -11,7 +11,7 @@ namespace djv
 {
     namespace System
     {
-        //! This class provides the location of resources.
+        //! Resource system.
         //!
         //! By default the application root is used for bundled resources. This
         //! may be overridden with the DJV_RESOURCE_PATH environment variable.

@@ -21,7 +21,7 @@ namespace djv
         class ResourceSystem;
         class TextSystem;
 
-        //! This class provides the very base functionality for systems.
+        //! Base class for low-level systems.
         class ISystemBase : public std::enable_shared_from_this<ISystemBase>
         {
             DJV_NON_COPYABLE(ISystemBase);
@@ -74,7 +74,7 @@ namespace djv
             std::vector<std::shared_ptr<ISystemBase> > _dependencies;
         };
 
-        //! This class provides the base functionality for systems.
+        //! Base class for systems.
         class ISystem : public ISystemBase
         {
             DJV_NON_COPYABLE(ISystem);

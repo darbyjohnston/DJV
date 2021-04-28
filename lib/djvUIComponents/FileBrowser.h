@@ -22,10 +22,10 @@ namespace djv
 
     namespace UIComponents
     {
-        //! This namespace provides file browser functionality.
+        //! File browser.
         namespace FileBrowser
         {
-            //! This class provides a file browser widget.
+            //! File browser widget.
             class FileBrowser : public UI::Widget
             {
                 DJV_NON_COPYABLE(FileBrowser);

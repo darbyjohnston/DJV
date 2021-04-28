@@ -18,9 +18,10 @@ struct GLFWwindow;
 
 namespace djv
 {
+    //! Command line applications.
     namespace CmdLine
     {
-        //! This class provides a command-line application.
+        //! Command-line application.
         class Application : public System::Context
         {
             DJV_NON_COPYABLE(Application);

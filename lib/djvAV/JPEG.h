@@ -22,7 +22,7 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides Joint Photographic Experts Group (JPEG) image I/O.
+        //! Joint Photographic Experts Group (JPEG) image I/O.
         //!
         //! References:
         //! - http://www.ijg.org
@@ -31,7 +31,7 @@ namespace djv
             static const std::string pluginName = "JPEG";
             static const std::set<std::string> fileExtensions = { ".jpeg", ".jpg", ".jfif" };
 
-            //! This struct provides the JPEG file I/O options.
+            //! JPEG I/O options.
             struct Options
             {
                 int quality = 90;
@@ -39,7 +39,7 @@ namespace djv
                 bool operator == (const Options&) const;
             };
 
-            //! This struct provides libjpeg error handling.
+            //! Error handling.
             struct JPEGErrorStruct
             {
                 struct jpeg_error_mgr pub;
@@ -47,7 +47,7 @@ namespace djv
                 jmp_buf jump;
             };
 
-            //! This class provides the JPEG file reader.
+            //! JPEG reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -74,7 +74,7 @@ namespace djv
                 IO::Info _open(const std::string&, const std::shared_ptr<File>&);
             };
                 
-            //! This class provides the JPEG file writer.
+            //! JPEG writer.
             class Write : public IO::ISequenceWrite
             {
                 DJV_NON_COPYABLE(Write);
@@ -102,7 +102,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the JPEG file I/O plugin.
+            //! JPEG I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

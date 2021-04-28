@@ -13,7 +13,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the settings system.
+        //! Settings system.
         class SettingsSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(SettingsSystem);

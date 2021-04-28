@@ -18,7 +18,7 @@ namespace djv
     {
         struct ColorPickerData;
 
-        //! This class provides the color picker settings.
+        //! Color picker settings.
         class ColorPickerSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(ColorPickerSettings);

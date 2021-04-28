@@ -14,7 +14,7 @@ namespace djv
 {
     namespace Render3D
     {
-        //! This class provides the base functionality for cameras.
+        //! Base class for cameras.
         class ICamera : public std::enable_shared_from_this<ICamera>
         {
             DJV_NON_COPYABLE(ICamera);
@@ -33,7 +33,7 @@ namespace djv
             glm::mat4x4 _p = glm::mat4x4(1.F);
         };
 
-        //! This struct provides a default camera.
+        //! Default camera.
         class DefaultCamera : public ICamera
         {
         protected:

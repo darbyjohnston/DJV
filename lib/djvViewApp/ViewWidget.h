@@ -20,7 +20,7 @@ namespace djv
     {
         class Media;
 
-        //! This class provides an image view widget.
+        //! Image view widget.
         class ViewWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ViewWidget);

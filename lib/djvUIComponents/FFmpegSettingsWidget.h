@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a FFmpeg settings widget.
+            //! FFmpeg settings widget.
             class FFmpegWidget : public IWidget
             {
                 DJV_NON_COPYABLE(FFmpegWidget);

@@ -18,7 +18,7 @@ namespace djv
     {
         class TimerSystem;
 
-        //! This enumeration provides common timer values.
+        //! Common timer values.
         enum class TimerValue
         {
             VerySlow,
@@ -32,7 +32,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(TimerValue);
 
-        //! This class provides a timer.
+        //! Timer.
         class Timer : public std::enable_shared_from_this<Timer>
         {
             DJV_NON_COPYABLE(Timer);
@@ -81,7 +81,7 @@ namespace djv
             friend class TimerSystem;
         };
 
-        //! This class provides the system that manages timers.
+        //! Timer system.
         class TimerSystem : public ISystemBase
         {
             DJV_NON_COPYABLE(TimerSystem);

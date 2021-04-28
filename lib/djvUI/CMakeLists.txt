@@ -54,7 +54,6 @@ set(header
     MenuBar.h
     MenuButton.h
     MultiStateButton.h
-    Namespace.h
     NumericEdit.h
     NumericSlider.h
     Overlay.h

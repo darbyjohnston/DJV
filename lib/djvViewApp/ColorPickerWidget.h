@@ -12,7 +12,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the color picker widget.
+        //! Color picker widget.
         class ColorPickerWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorPickerWidget);

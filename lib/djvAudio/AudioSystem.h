@@ -12,6 +12,7 @@ namespace djv
 {
     namespace Audio
     {
+        //! Audio device format.
         enum class DeviceFormat
         {
             S8,
@@ -26,6 +27,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(DeviceFormat);
 
+        //! Audio device.
         struct Device
         {
             std::string                 name;
@@ -37,7 +39,7 @@ namespace djv
             std::vector<DeviceFormat>   nativeFormats;
         };
 
-        //! This class provides an audio system.
+        //! Audio system.
         class AudioSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(AudioSystem);

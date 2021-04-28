@@ -14,7 +14,7 @@ namespace djv
     {
         struct ShortcutData;
 
-        //! This class provides a keyboard shortcut.
+        //! Keyboard shortcut.
         class Shortcut : public std::enable_shared_from_this<Shortcut>
         {
             DJV_NON_COPYABLE(Shortcut);

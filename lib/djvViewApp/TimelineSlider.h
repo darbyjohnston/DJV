@@ -18,7 +18,7 @@ namespace djv
     {
         class Media;
 
-        //! This class provides a timeline slider.
+        //! Timeline slider widget.
         class TimelineSlider : public UI::Widget
         {
             DJV_NON_COPYABLE(TimelineSlider);

@@ -16,8 +16,7 @@ namespace djv
     {
         namespace Layout
         {
-            //! This enumeration provides how widgets are stretched to fill
-            //! space in a layout.
+            //! Row layout stretch.
             enum class RowStretch
             {
                 None,
@@ -28,7 +27,9 @@ namespace djv
             };
             DJV_ENUM_HELPERS(RowStretch);
 
-            //! This class provides a layout that arranges it's children in a row.
+            //! Row layout widget.
+            //!
+            //! This layout arranges it's children in a row.
             class Row : public Widget
             {
                 DJV_NON_COPYABLE(Row);
@@ -69,7 +70,9 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a layout that arranges it's children in a horizontal row.
+            //! Horizontal layout widget.
+            //!
+            //! This layout arranges it's children in a horizontal row.
             class Horizontal : public Row
             {
                 DJV_NON_COPYABLE(Horizontal);
@@ -82,7 +85,9 @@ namespace djv
                 static std::shared_ptr<Horizontal> create(const std::shared_ptr<System::Context>&);
             };
 
-            //! This class provides a layout that arranges it's children in a vertical row.
+            //! Vertical layout widget.
+            //!
+            //! This layout arranges it's children in a vertical row.
             class Vertical : public Row
             {
                 DJV_NON_COPYABLE(Vertical);

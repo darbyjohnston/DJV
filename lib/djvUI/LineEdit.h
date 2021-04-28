@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Text
         {
-            //! This class provides a widget for editing a line of text.
+            //! Line edit widget.
             class LineEdit : public Widget
             {
                 DJV_NON_COPYABLE(LineEdit);

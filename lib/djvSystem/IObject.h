@@ -22,7 +22,7 @@ namespace djv
 
         } // namespace Event
 
-        //! This class provides the base functionality for objects.
+        //! Base class for objects.
         class IObject : public std::enable_shared_from_this<IObject>
         {
             DJV_NON_COPYABLE(IObject);

@@ -20,7 +20,7 @@ namespace djv
 
     namespace UI
     {
-        //! This class provides an icon system.
+        //! Icon system.
         class IconSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(IconSystem);

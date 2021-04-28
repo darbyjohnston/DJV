@@ -16,7 +16,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the style settings.
+            //! Style settings.
             class Style : public ISettings
             {
                 DJV_NON_COPYABLE(Style);

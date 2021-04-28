@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the messages system.
+        //! Messages system.
         class MessagesSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(MessagesSystem);

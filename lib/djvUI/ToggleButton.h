@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a toggle button.
+            //! Toggle button widget.
             class Toggle : public IButton
             {
                 DJV_NON_COPYABLE(Toggle);

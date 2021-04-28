@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the annotation system.
+        //! Annotation system.
         class AnnotateSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(AnnotateSystem);

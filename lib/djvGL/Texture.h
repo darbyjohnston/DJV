@@ -18,20 +18,20 @@ namespace djv
         //! Get the OpenGL internal format.
         //GLenum getInternalFormat1D(Image::Type);
         
-        //! This class provides an OpenGL texture.
-        class Texture
+        //! Two-dimensonal OpenGL texture.
+        class Texture2D
         {
-            DJV_NON_COPYABLE(Texture);
+            DJV_NON_COPYABLE(Texture2D);
             void _init(
                 const Image::Info&,
                 GLenum filterMin = GL_LINEAR,
                 GLenum filterMag = GL_LINEAR);
-            Texture();
+            Texture2D();
 
         public:
-            ~Texture();
+            ~Texture2D();
 
-            static std::shared_ptr<Texture> create(
+            static std::shared_ptr<Texture2D> create(
                 const Image::Info&,
                 GLenum filterMin = GL_LINEAR,
                 GLenum filterMag = GL_LINEAR);
@@ -66,7 +66,7 @@ namespace djv
 #endif // DJV_GL_PBO
         };
 
-        //! This class provides a 1D OpenGL texture.
+        //! One-dimensional OpenGL texture.
         /*class Texture1D
         {
             DJV_NON_COPYABLE(Texture1D);

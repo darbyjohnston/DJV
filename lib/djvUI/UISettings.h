@@ -14,7 +14,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides UI settings.
+            //! UI settings.
             class UI : public ISettings
             {
                 DJV_NON_COPYABLE(UI);

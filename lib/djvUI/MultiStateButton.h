@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a multi-state button.
+            //! Multi-state button.
             class MultiState : public Widget
             {
                 DJV_NON_COPYABLE(MultiState);

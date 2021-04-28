@@ -26,7 +26,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the file browser settings.
+            //! File browser settings.
             class FileBrowser : public UI::Settings::ISettings
             {
                 DJV_NON_COPYABLE(FileBrowser);

@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the color space widget.
+        //! Color space widget.
         class ColorSpaceWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(ColorSpaceWidget);

@@ -8,7 +8,6 @@ set(header
     IOPlugin.h
     IOPluginInline.h
     IOSystem.h
-    Namespace.h
     PFM.h
     PPM.h
     RLA.h

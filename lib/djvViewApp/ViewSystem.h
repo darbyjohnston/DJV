@@ -16,7 +16,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the view system.
+        //! View system.
         class ViewSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(ViewSystem);

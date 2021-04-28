@@ -30,7 +30,7 @@ namespace djv
     {
         namespace File
         {
-            //! This enumeration provides file I/O modes.
+            //! File I/O modes.
             enum class Mode
             {
                 Read,
@@ -42,7 +42,7 @@ namespace djv
                 First = Read
             };
 
-            //! This class provides file I/O.
+            //! File I/O.
             class IO
             {
                 DJV_NON_COPYABLE(IO);

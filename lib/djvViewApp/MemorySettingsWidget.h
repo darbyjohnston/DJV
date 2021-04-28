@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides a memory cache enabled widget.
+        //! Memory cache enabled widget.
         class MemoryCacheEnabledWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(MemoryCacheEnabledWidget);
@@ -32,7 +32,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a memory cache size widget.
+        //! Memory cache size widget.
         class MemoryCacheSizeWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(MemoryCacheSizeWidget);
@@ -56,7 +56,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a memory settings widget.
+        //! Memory settings widget.
         class MemorySettingsWidget : public UIComponents::Settings::IWidget
         {
             DJV_NON_COPYABLE(MemorySettingsWidget);

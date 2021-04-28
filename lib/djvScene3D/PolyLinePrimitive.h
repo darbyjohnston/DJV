@@ -12,7 +12,7 @@ namespace djv
 {
     namespace Scene3D
     {
-        //! This class provides a poly-line primitive.
+        //! Poly-line primitive.
         class PolyLinePrimitive : public IPrimitive
         {
             DJV_NON_COPYABLE(PolyLinePrimitive);

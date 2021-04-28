@@ -18,10 +18,10 @@ namespace djv
 {
     namespace GL
     {
-        //! This namespace provides GLFW functionality.
+        //! GLFW functionality.
         namespace GLFW
         {
-            //! This enumeration provides GLFW error strings.
+            //! GLFW error strings.
             enum class ErrorString
             {
                 Init,
@@ -29,14 +29,14 @@ namespace djv
                 GLAD
             };
             
-            //! This class provides a GLFW error.
+            //! GLFW error.
             class Error : public std::runtime_error
             {
             public:
                 explicit Error(const std::string&);
             };
         
-            //! This class provides a system for GLFW functionality.
+            //! GLFW system.
             class GLFWSystem : public System::ISystem
             {
                 DJV_NON_COPYABLE(GLFWSystem);

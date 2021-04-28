@@ -19,7 +19,7 @@ namespace djv
             template<typename T>
             class IValueSubject;
 
-            //! This class provides a value observer.
+            //! Value observer.
             template<typename T>
             class Value : public std::enable_shared_from_this<Value<T> >
             {
@@ -50,7 +50,7 @@ namespace djv
                 std::weak_ptr<IValueSubject<T> > _subject;
             };
 
-            //! This class provides the interface for a value subject.
+            //! Base class for a value subject.
             template<typename T>
             class IValueSubject
             {
@@ -72,7 +72,7 @@ namespace djv
                 friend class Value<T>;
             };
 
-            //! This class provides a value subject.
+            //! Value subject.
             template<typename T>
             class ValueSubject : public IValueSubject<T>
             {

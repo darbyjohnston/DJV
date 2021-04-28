@@ -24,7 +24,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides the annotation settings.
+        //! Annotation settings.
         class AnnotateSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(AnnotateSettings);

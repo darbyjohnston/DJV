@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UIComponents
     {
-        //! This class provides a style size widget.
+        //! Style size widget.
         class SizeWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(SizeWidget);
@@ -34,7 +34,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a style palette widget.
+        //! Style palette widget.
         class PaletteWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(PaletteWidget);
@@ -61,7 +61,7 @@ namespace djv
 
         namespace Settings
         {
-            //! This class provides a style settings widget.
+            //! Style settings widget.
             class StyleWidget : public IWidget
             {
                 DJV_NON_COPYABLE(StyleWidget);

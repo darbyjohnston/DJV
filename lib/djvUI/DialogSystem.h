@@ -12,7 +12,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides standard dialogs.
+        //! Standard dialogs.
         class DialogSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(DialogSystem);

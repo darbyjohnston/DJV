@@ -18,10 +18,10 @@ namespace djv
 {
     namespace UI
     {
-        //! This namespace provides numeric widget functionality.
+        //! Numeric widgets.
         namespace Numeric
         {
-            //! This enumeration provides the numeric widget keyboard shortcuts.
+            //! Numeric widget keyboard shortcuts.
             enum class Key
             {
                 None,
@@ -38,7 +38,7 @@ namespace djv
             //! Convert a GLFW key to a numeric widget keyboard shortcut.
             Key glfwToKey(int);
 
-            //! This class provides the interface for numeric widgets.
+            //! Base class for numeric widgets.
             template<typename T>
             class IWidget
             {
@@ -98,7 +98,7 @@ namespace djv
                 std::function<void(T, TextEditReason)> _callback;
             };
 
-            //! This class provides the interface for numeric editor widgets.
+            //! Base class for numeric editor widgets.
             template<typename T>
             class IEdit : public IWidget<T>
             {
@@ -109,7 +109,7 @@ namespace djv
                 bool _doKeyPress(Key) override;
             };
 
-            //! This class provides the interface for numeric slider widgets.
+            //! Base class for numeric slider widgets.
             template<typename T>
             class ISlider : public IWidget<T>
             {

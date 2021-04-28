@@ -10,7 +10,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a combo box widget.
+        //! Combo box widget.
         //!
         //! \todo When the combo box is opened, position the current item under the pointer.
         class ComboBox : public Widget

@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides a 2D renderer image settings widget.
+            //! Two-dimensional renderer image settings widget.
             class Render2DImageWidget : public IWidget
             {
                 DJV_NON_COPYABLE(Render2DImageWidget);
@@ -37,7 +37,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a 2D renderer text settings widget.
+            //! Two-dimensioanl renderer text settings widget.
             class Render2DTextWidget : public IWidget
             {
                 DJV_NON_COPYABLE(Render2DTextWidget);

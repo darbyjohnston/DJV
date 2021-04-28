@@ -5,7 +5,6 @@ set(header
     LightInline.h
     Material.h
     MaterialInline.h
-    Namespace.h
     Render.h
     RenderSystem.h)
 set(source

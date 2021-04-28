@@ -16,15 +16,15 @@ namespace djv
 {
     namespace Geom
     {
-        //! This struct provides a triangle mesh.
+        //! Triangle mesh.
         class TriangleMesh
         {
         public:
             TriangleMesh();
 
+            //! Get the unique ID.
             Core::UID getUID() const;
 
-            //! This struct provides a vertex.
             struct Vertex
             {
                 Vertex();
@@ -37,7 +37,6 @@ namespace djv
                 bool operator == (const Vertex&) const;
             };
 
-            //! This struct provides a face.
             struct Face
             {
                 std::vector<Vertex> v;
@@ -45,7 +44,6 @@ namespace djv
                 bool operator == (const Face&) const;
             };
 
-            //! This struct provides a triangle.
             struct Triangle
             {
                 Triangle();
@@ -65,72 +63,68 @@ namespace djv
 
             Math::BBox3f bbox = Math::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
 
-            //! \name Utility
-            ///@{
-
+            //! Clear the components.
             void clear();
 
             //! Compute the bounding-box of the mesh.
             void bboxUpdate();
+
+            //! \name Utility
+            ///@{
+
+            //! Calculate the mesh normals.
+            //! \todo Implement smoothing.
+            //! \todo Add an option for CW and CCW.
+            static void calcNormals(TriangleMesh&);
+
+            //! Create a mesh from a bounding-box.
+            static void triangulateBBox(const Math::BBox3f&, TriangleMesh&);
+
+            ///@}
+
+            //! \name Intersection
+            ///@{
+
+            //! Intersect a line with a triangle.
+            static bool intersectTriangle(
+                const glm::vec3& pos,
+                const glm::vec3& dir,
+                const glm::vec3& v0,
+                const glm::vec3& v1,
+                const glm::vec3& v2,
+                glm::vec3& hit,
+                glm::vec3& barycentric);
+
+            //! Intersect a line with a mesh.
+            static bool intersect(
+                const glm::vec3& pos,
+                const glm::vec3& dir,
+                const TriangleMesh& mesh,
+                glm::vec3& hit);
+            static bool intersect(
+                const glm::vec3& pos,
+                const glm::vec3& dir,
+                const TriangleMesh& mesh,
+                glm::vec3& hit,
+                glm::vec3& hitColor,
+                glm::vec2& hitTexture,
+                glm::vec3& hitNormal);
+
+            ///@}
+
+            //! \name Conversion
+            ///@{
+
+            //! Convert a face into triangles.
+            static void faceToTriangles(
+                const TriangleMesh::Face&,
+                std::vector<TriangleMesh::Triangle>&);
 
             ///@}
 
         private:
             Core::UID _uid = 0;
         };
-
-        //! \name Utility
-        ///@{
-
-        //! Calculate the mesh normals.
-        //! \todo Implement smoothing.
-        //! \todo Add an option for CW and CCW.
-        void calcNormals(TriangleMesh&);
-
-        //! Create a mesh from a bounding-box.
-        void triangulateBBox(const Math::BBox3f&, TriangleMesh&);
-
-        ///@}
-
-        //! \name Intersection
-        ///@{
-
-        //! Intersect a line with a triangle.
-        bool intersectTriangle(
-            const glm::vec3& pos,
-            const glm::vec3& dir,
-            const glm::vec3& v0,
-            const glm::vec3& v1,
-            const glm::vec3& v2,
-            glm::vec3&       hit,
-            glm::vec3&       barycentric);
-
-        //! Intersect a line with a mesh.
-        bool intersect(
-            const glm::vec3&    pos,
-            const glm::vec3&    dir,
-            const TriangleMesh& mesh,
-            glm::vec3&          hit);
-        bool intersect(
-            const glm::vec3&    pos,
-            const glm::vec3&    dir,
-            const TriangleMesh& mesh,
-            glm::vec3&          hit,
-            glm::vec3&          hitColor,
-            glm::vec2&          hitTexture,
-            glm::vec3&          hitNormal);
-
-        ///@}
-
-        //! \name Conversion
-        ///@{
-
-        //! Convert a face into triangles.
-        void faceToTriangles(
-            const TriangleMesh::Face&,
-            std::vector<TriangleMesh::Triangle>&);
-
-        ///@}
 
     } // namespace Geom
 } // namespace djv

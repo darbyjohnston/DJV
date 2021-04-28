@@ -13,11 +13,10 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides operating system functionality.
+        //! Operating system.
         namespace OS
         {
-            //! This enumeration provides OS specific environment variable
-            //! list separators.
+            //! Operating system environment variable list separators.
             enum class ListSeparator
             {
                 Unix,

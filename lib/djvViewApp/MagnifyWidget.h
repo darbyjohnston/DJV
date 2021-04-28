@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the magnify widget.
+        //! Magnify widget.
         class MagnifyWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(MagnifyWidget);

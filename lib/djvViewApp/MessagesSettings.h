@@ -14,7 +14,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the messages settings.
+        //! Messages settings.
         class MessagesSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(MessagesSettings);

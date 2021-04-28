@@ -17,7 +17,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides a basic slider widget for integer values.
+            //! Basic integer slider widget.
             class BasicIntSlider : public ISlider<int>, public Slider
             {
                 DJV_NON_COPYABLE(BasicIntSlider);
@@ -50,7 +50,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a slider widget for integer values.
+            //! Integera slider widget.
             class IntSlider : public Widget
             {
                 DJV_NON_COPYABLE(IntSlider);

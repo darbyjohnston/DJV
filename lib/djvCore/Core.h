@@ -6,20 +6,21 @@
 
 namespace djv
 {
+    //! Core functionality.
     namespace Core
     {
-        //! This function provides an assert (for convenience use the DJV_ASSERT macro).
+        //! Assert (for convenience use the DJV_ASSERT macro).
         void _assert(const char * file, int line);
 
     } // namespace Core
 } // namespace djv
 
-//! This macro provides private implementation members.
+//! Private implementation members.
 #define DJV_PRIVATE() \
     struct Private; \
     std::unique_ptr<Private> _p
 
-//! This macro provides a reference to the private implementation.
+//! Reference to the private implementation.
 #define DJV_PRIVATE_PTR() \
     auto& p = *_p
 
@@ -31,7 +32,7 @@ namespace djv
 //! This macro marks strings for extraction.
 #define DJV_TEXT(arg) (arg)
 
-//! This macro provides an assert.
+//! Assert.
 #if defined(DJV_ASSERT)
 #undef DJV_ASSERT
 #define DJV_ASSERT(value) \

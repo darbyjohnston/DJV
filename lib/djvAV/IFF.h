@@ -20,7 +20,7 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides Generic Interchange File Format (IFF) image I/O.
+        //! Generic Interchange File Format (IFF) image I/O.
         //!
         //! References:
         //! - Affine Toolkit (Thomas E. Burge), riff.h and riff.c
@@ -34,7 +34,7 @@ namespace djv
             static const std::string pluginName = "IFF";
             static const std::set<std::string> fileExtensions = { ".iff", ".z" };
 
-            //! This class provides the IFF file reader.
+            //! IFF reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -63,7 +63,7 @@ namespace djv
                 bool _compression = false;
             };
 
-            //! This class provides the IFF file I/O plugin.
+            //! IFF I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

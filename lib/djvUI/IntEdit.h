@@ -13,7 +13,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides an editor widget for integer values.
+            //! Integer edit widget.
             class IntEdit : public IEdit<int>, public Edit
             {
                 DJV_NON_COPYABLE(IntEdit);

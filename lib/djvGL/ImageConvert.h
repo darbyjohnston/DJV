@@ -26,7 +26,7 @@ namespace djv
 
     namespace GL
     {
-        //! This class provides image data conversion.
+        //! Image data conversion.
         class ImageConvert
         {
             DJV_NON_COPYABLE(ImageConvert);

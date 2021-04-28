@@ -19,7 +19,7 @@ namespace djv
 
     namespace AV
     {
-        //! This namespace provides Cineon image I/O.
+        //! Cineon image I/O.
         //!
         //! References:
         //! - Kodak, "4.5 DRAFT - Image File Format Proposal for Digital Pictures"
@@ -28,7 +28,7 @@ namespace djv
             static const std::string pluginName = "Cineon";
             static const std::set<std::string> fileExtensions = { ".cin" };
 
-            //! This enumeration provides the Cineon file color profiles.
+            //! Cineon color profiles.
             enum class ColorProfile
             {
                 Raw,
@@ -39,14 +39,14 @@ namespace djv
             };
             DJV_ENUM_HELPERS(ColorProfile);
 
-            //! This constant provides the Cineon file header magic numbers.
+            //! Cineon header magic numbers.
             const uint32_t magic[] =
             {
                 0x802a5fd7,
                 0xd75f2a80
             };
 
-            //! This enumeration provides the Cineon file image orientations.
+            //! Cineon image orientations.
             enum class Orient
             {
                 LeftRightTopBottom,
@@ -63,7 +63,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Orient);
 
-            //! This enumeration provides the Cineon file descriptors.
+            //! Cineon file descriptors.
             enum class Descriptor
             {
                 Luminance,
@@ -79,7 +79,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Descriptor);
 
-            //! This stuct provides the Cineon file header.
+            //! Cineon header.
             struct Header
             {
                 struct File
@@ -205,7 +205,7 @@ namespace djv
                 size_t             maxLen,
                 bool               terminate);
 
-            //! This class provides the Cineon file reader.
+            //! Cineon reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -237,7 +237,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the Cineon file writer.
+            //! Cineon writer.
             class Write : public IO::ISequenceWrite
             {
                 DJV_NON_COPYABLE(Write);
@@ -265,7 +265,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the Cineon file I/O plugin.
+            //! Cineon I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

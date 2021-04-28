@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Numeric
         {
-            //! This class provides buttons for incrementing/decrementing a value.
+            //! Increment/decrement button widget.
             class IncrementButtons : public Widget
             {
                 DJV_NON_COPYABLE(IncrementButtons);
@@ -40,7 +40,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the base functionality for numeric editor widgets.
+            //! Base class for numeric editor widgets.
             class Edit : public Widget
             {
                 DJV_NON_COPYABLE(Edit);

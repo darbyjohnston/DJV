@@ -12,7 +12,7 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides Tagged Image File Format (TIFF) I/O.
+        //! Tagged Image File Format (TIFF) I/O.
         //!
         //! References:
         //! - http://www.libtiff.org
@@ -21,7 +21,7 @@ namespace djv
             static const std::string pluginName = "TIFF";
             static const std::set<std::string> fileExtensions = { ".tiff", ".tif" };
 
-            //! This enumeration provides the TIFF file compression types.
+            //! TIFF compression type.
             enum class Compression
             {
                 None,
@@ -42,7 +42,7 @@ namespace djv
                 uint16_t * green,
                 uint16_t * blue);
 
-            //! This struct provides the TIFF file I/O options.
+            //! TIFF I/O options.
             struct Options
             {
                 Compression compression = Compression::LZW;
@@ -50,7 +50,7 @@ namespace djv
                 bool operator == (const Options&) const;
             };
 
-            //! This class provides the TIFF file reader.
+            //! TIFF reader.
             class Read : public IO::ISequenceRead
             {
                 DJV_NON_COPYABLE(Read);
@@ -77,7 +77,7 @@ namespace djv
                 IO::Info _open(const std::string&, File&);
             };
                 
-            //! This class provides the TIFF file writer.
+            //! TIFF writer.
             class Write : public IO::ISequenceWrite
             {
                 DJV_NON_COPYABLE(Write);
@@ -106,7 +106,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides the TIFF file I/O plugin.
+            //! TIFF I/O plugin.
             class Plugin : public IO::ISequencePlugin
             {
                 DJV_NON_COPYABLE(Plugin);

@@ -10,7 +10,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the about dialog.
+        //! About dialog.
         class AboutDialog : public UI::IDialog
         {
             DJV_NON_COPYABLE(AboutDialog);

@@ -12,7 +12,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This structure provides the current tool data.
+        //! Current tool.
         struct CurrentTool
         {
             std::shared_ptr<UI::Action> action;
@@ -21,7 +21,7 @@ namespace djv
             bool operator == (const CurrentTool&) const;
         };
 
-        //! This class provides the tool system.
+        //! Tool system.
         class ToolSystem : public IViewAppSystem
         {
             DJV_NON_COPYABLE(ToolSystem);

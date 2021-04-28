@@ -14,7 +14,7 @@ namespace djv
     {
         class Shader;
         
-        //! This class provides a shader system.
+        //! Shader system.
         class ShaderSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(ShaderSystem);
