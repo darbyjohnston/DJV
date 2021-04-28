@@ -14,7 +14,7 @@
 #include <djvMath/NumericValueModels.h>
 #include <djvMath/Range.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 using namespace djv;
 

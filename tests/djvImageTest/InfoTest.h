@@ -22,6 +22,7 @@ namespace djv
             void _layout();
             void _size();
             void _info();
+            void _serialize();
         };
         
     } // namespace ImageTest

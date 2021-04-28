@@ -4,9 +4,7 @@
 
 #include <djvUI/LayoutUtil.h>
 
-#include <djvUI/EnumFunc.h>
-
-#include <djvMath/MathFunc.h>
+#include <djvMath/Math.h>
 
 #include <map>
 

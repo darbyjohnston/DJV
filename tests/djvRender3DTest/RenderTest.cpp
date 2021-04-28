@@ -12,7 +12,7 @@
 #include <djvGL/OffscreenBuffer.h>
 
 #include <djvGeom/PointList.h>
-#include <djvGeom/TriangleMeshFunc.h>
+#include <djvGeom/TriangleMesh.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>

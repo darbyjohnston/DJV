@@ -6,7 +6,7 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/DrivesModel.h>
-#include <djvSystem/PathFunc.h>
+#include <djvSystem/Path.h>
 
 #include <sstream>
 

@@ -8,6 +8,8 @@
 
 #include <djvImage/Info.h>
 
+#include <djvCore/Enum.h>
+
 #include <memory>
 
 namespace djv
@@ -30,6 +32,16 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(OffscreenDepthType);
+        
+        //! Get the OpenGL internal format.
+        GLenum getInternalFormat(OffscreenDepthType);
+        
+        //! Get the OpenGL format.
+        GLenum getGLFormat(OffscreenDepthType);
+        
+        //! Get the OpenGL type.
+        GLenum getGLType(OffscreenDepthType);
 
         //! This enumeration provides OpenGL offscreen buffer sampling options.
         enum class OffscreenSampling
@@ -43,6 +55,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(OffscreenSampling);
 
         //! This class provides an OpenGL offscreen buffer error.
         class OffscreenBufferError : public std::runtime_error
@@ -128,6 +141,10 @@ namespace djv
         };
 
     } // namespace GL
+
+    DJV_ENUM_SERIALIZE_HELPERS(GL::OffscreenDepthType);
+    DJV_ENUM_SERIALIZE_HELPERS(GL::OffscreenSampling);
+
 } // namespace djv
 
 #include <djvGL/OffscreenBufferInline.h>

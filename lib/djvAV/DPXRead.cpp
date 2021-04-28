@@ -4,8 +4,7 @@
 
 #include <djvAV/DPX.h>
 
-#include <djvAV/CineonFunc.h>
-#include <djvAV/DPXFunc.h>
+#include <djvAV/Cineon.h>
 
 #include <djvSystem/FileIO.h>
 
@@ -15,68 +14,65 @@ namespace djv
 {
     namespace AV
     {
-        namespace IO
+        namespace DPX
         {
-            namespace DPX
+            struct Read::Private
             {
-                struct Read::Private
-                {
-                    Transfer transfer = Transfer::FilmPrint;
-                    Options options;
-                };
+                Transfer transfer = Transfer::FilmPrint;
+                Options options;
+            };
 
-                Read::Read() :
-                    _p(new Private)
-                {}
+            Read::Read() :
+                _p(new Private)
+            {}
 
-                Read::~Read()
-                {
-                    _finish();
-                }
+            Read::~Read()
+            {
+                _finish();
+            }
 
-                std::shared_ptr<Read> Read::create(
-                    const System::File::Info& fileInfo,
-                    const ReadOptions& readOptions,
-                    const Options& options,
-                    const std::shared_ptr<System::TextSystem>& textSystem,
-                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<System::LogSystem>& logSystem)
-                {
-                    auto out = std::shared_ptr<Read>(new Read);
-                    out->_p->options = options;
-                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
-                    return out;
-                }
+            std::shared_ptr<Read> Read::create(
+                const System::File::Info& fileInfo,
+                const IO::ReadOptions& readOptions,
+                const Options& options,
+                const std::shared_ptr<System::TextSystem>& textSystem,
+                const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                const std::shared_ptr<System::LogSystem>& logSystem)
+            {
+                auto out = std::shared_ptr<Read>(new Read);
+                out->_p->options = options;
+                out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
+                return out;
+            }
 
-                Info Read::_readInfo(const std::string& fileName)
-                {
-                    auto io = System::File::IO::create();
-                    return _open(fileName, io);
-                }
+            IO::Info Read::_readInfo(const std::string& fileName)
+            {
+                auto io = System::File::IO::create();
+                return _open(fileName, io);
+            }
 
-                std::shared_ptr<Image::Data> Read::_readImage(const std::string& fileName)
-                {
-                    auto io = System::File::IO::create();
-                    const auto info = _open(fileName, io);
-                    auto out = Cineon::Read::readImage(info, io);
-                    out->setPluginName(pluginName);
-                    return out;
-                }
+            std::shared_ptr<Image::Data> Read::_readImage(const std::string& fileName)
+            {
+                auto io = System::File::IO::create();
+                const auto info = _open(fileName, io);
+                auto out = Cineon::Read::readImage(info, io);
+                out->setPluginName(pluginName);
+                return out;
+            }
 
-                Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io)
-                {
-                    DJV_PRIVATE_PTR();
-                    io->open(fileName, System::File::Mode::Read);
-                    Info info;
-                    info.videoSpeed = _speed;
-                    info.videoSequence = _sequence;
-                    info.video.push_back(Image::Info());
-                    DPX::read(io, info, p.transfer, _textSystem);
-                    return info;
-                }
+            IO::Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io)
+            {
+                DJV_PRIVATE_PTR();
+                io->open(fileName, System::File::Mode::Read);
+                IO::Info info;
+                info.videoSpeed = _speed;
+                info.videoSequence = _sequence;
+                info.video.push_back(Image::Info());
+                DPX::read(io, info, p.transfer, _textSystem);
+                return info;
+            }
 
-            } // namespace DPX
-        } // namespace IO
+        } // namespace DPX
     } // namespace AV
 } // namespace djv
 

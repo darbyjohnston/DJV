@@ -26,6 +26,9 @@ namespace djv
             void _path();
             void _sequences();
             void _operators();
+            void _enum();
+            void _util();
+            void _serialize();
 
             std::string _fileName;
             std::string _sequenceName;

@@ -7,7 +7,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 #include <iostream>
 

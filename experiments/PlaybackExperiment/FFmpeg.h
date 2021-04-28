@@ -6,7 +6,14 @@
 
 #include "IO.h"
 
+extern "C"
+{
+#include <libavutil/samplefmt.h>
+
+} // extern "C"
+
 struct AVPacket;
+struct AVRational;
 
 namespace IO
 {
@@ -67,5 +74,17 @@ namespace IO
         bool canRead(const djv::System::File::Info&) override;
         std::shared_ptr<IRead> read(const djv::System::File::Info&) override;
     };
+    
+    AVRational toFFmpeg(const djv::Math::IntRational& value);
+
+    djv::Math::IntRational fromFFmpeg(const AVRational& value);
+
+    djv::Audio::Type fromFFmpeg(AVSampleFormat value);
+
+    void extractAudio(
+        uint8_t** inData,
+        int inFormat,
+        uint8_t inChannelCount,
+        std::shared_ptr<djv::Audio::Data>);
 
 } // namespace IO

@@ -4,7 +4,6 @@
 
 #include <djvUI/ImageWidget.h>
 
-#include <djvUI/EnumFunc.h>
 #include <djvUI/Style.h>
 
 #include <djvRender2D/Render.h>

@@ -14,7 +14,7 @@
 
 #include <djvMath/BBox.h>
 
-#include <djvCore/RapidJSONFunc.h>
+#include <djvCore/RapidJSON.h>
 
 #include <glm/mat3x3.hpp>
 

@@ -8,7 +8,11 @@
 
 #include <djvMath/FrameNumber.h>
 
+#include <djvCore/Enum.h>
+#include <djvCore/RapidJSON.h>
+
 #include <set>
+#include <sstream>
 
 #include <sys/types.h>
 
@@ -32,6 +36,7 @@ namespace djv
                 Count,
                 First = File
             };
+            DJV_ENUM_HELPERS(Type);
 
             //! This enumeration provides file permissions.
             enum class Permissions
@@ -51,6 +56,7 @@ namespace djv
                 Count,
                 First = Name
             };
+            DJV_ENUM_HELPERS(DirectoryListSort);
 
             //! This struct provides directory listing options.
             struct DirectoryListOptions
@@ -154,8 +160,57 @@ namespace djv
                 Math::Frame::Sequence _sequence;
             };
 
+            //! \name Utility
+            ///@{
+
+            //! Get the contents of the given directory.
+            std::vector<Info> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
+
+            ///@}
+
+            //! \name Sequences
+            ///@{
+
+            //! Test whether the string contains all '#' characters.
+            bool isSequenceWildcard(const std::string&) noexcept;
+
+            //! Get the file sequence for the given file.
+            Info getSequence(const Path&, const std::set<std::string>& extensions);
+
+            ///@}
+
+            //! \name Conversion
+            ///@{
+
+            //! Get file permissions labels.
+            std::string getPermissionsLabel(int);
+
+            ///@}
+
         } // namespace File
     } // namespace System
+
+    DJV_ENUM_SERIALIZE_HELPERS(System::File::Type);
+    DJV_ENUM_SERIALIZE_HELPERS(System::File::DirectoryListSort);
+
+    rapidjson::Value toJSON(System::File::Type, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(System::File::DirectoryListSort, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const System::File::Info&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, System::File::Type&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, System::File::DirectoryListSort&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, System::File::Info&);
+
+    std::ostream& operator << (std::ostream&, const System::File::Info&);
+
 } // namespace djv
 
 #include <djvSystem/FileInfoInline.h>

@@ -5,9 +5,8 @@
 #include <djvViewApp/ImageSettings.h>
 
 #include <djvViewApp/ImageData.h>
-#include <djvViewApp/ImageDataFunc.h>
 
-#include <djvMath/BBoxFunc.h>
+#include <djvMath/BBox.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

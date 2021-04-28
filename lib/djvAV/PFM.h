@@ -19,58 +19,55 @@ namespace djv
 
     namespace AV
     {
-        namespace IO
+        //! This namespace provides PFM Portable FloatMap Image Format
+        namespace PFM
         {
-            //! This namespace provides PFM Portable FloatMap Image Format
-            namespace PFM
+            static const std::string pluginName = "PFM";
+            static const std::set<std::string> fileExtensions = { ".pfm" };
+
+            //! This class provides the PFM file reader.
+            class Read : public IO::ISequenceRead
             {
-                static const std::string pluginName = "PFM";
-                static const std::set<std::string> fileExtensions = { ".pfm" };
+                DJV_NON_COPYABLE(Read);
 
-                //! This class provides the PFM file reader.
-                class Read : public ISequenceRead
-                {
-                    DJV_NON_COPYABLE(Read);
+            protected:
+                Read();
 
-                protected:
-                    Read();
+            public:
+                ~Read() override;
 
-                public:
-                    ~Read() override;
+                static std::shared_ptr<Read> create(
+                    const System::File::Info&,
+                    const IO::ReadOptions&,
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
-                    static std::shared_ptr<Read> create(
-                        const System::File::Info&,
-                        const ReadOptions&,
-                        const std::shared_ptr<System::TextSystem>&,
-                        const std::shared_ptr<System::ResourceSystem>&,
-                        const std::shared_ptr<System::LogSystem>&);
+            protected:
+                IO::Info _readInfo(const std::string& fileName) override;
+                std::shared_ptr<Image::Data> _readImage(const std::string& fileName) override;
 
-                protected:
-                    Info _readInfo(const std::string& fileName) override;
-                    std::shared_ptr<Image::Data> _readImage(const std::string& fileName) override;
+            private:
+                IO::Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, float& scale);
+            };
 
-                private:
-                    Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, float& scale);
-                };
+            //! This class provides the PFM file I/O plugin.
+            class Plugin : public IO::ISequencePlugin
+            {
+                DJV_NON_COPYABLE(Plugin);
 
-                //! This class provides the PFM file I/O plugin.
-                class Plugin : public ISequencePlugin
-                {
-                    DJV_NON_COPYABLE(Plugin);
+            protected:
+                Plugin();
 
-                protected:
-                    Plugin();
+            public:
+                static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
-                public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
+                std::shared_ptr<IO::IRead> read(const System::File::Info&, const IO::ReadOptions&) const override;
 
-                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
-
-                private:
-                    DJV_PRIVATE();
-                };
+            private:
+                DJV_PRIVATE();
+            };
 
             } // namespace PFM
-        } // namespace IO
     } // namespace AV
 } // namespace djv

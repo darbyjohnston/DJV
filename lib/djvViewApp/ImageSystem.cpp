@@ -20,7 +20,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvRender2D/Render.h>
 

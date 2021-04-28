@@ -23,6 +23,9 @@ namespace djv
             void _path();
             void _split();
             void _operators();
+            void _enum();
+            void _util();
+            void _serialize();
         };
         
     } // namespace SystemTest

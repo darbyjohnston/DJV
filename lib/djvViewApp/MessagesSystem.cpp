@@ -12,13 +12,13 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/IEventSystem.h>
 #include <djvSystem/LogSystem.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

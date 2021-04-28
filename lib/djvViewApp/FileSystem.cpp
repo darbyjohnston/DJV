@@ -19,23 +19,21 @@
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/ToolBar.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/FileInfoFunc.h>
 #include <djvSystem/LogSystem.h>
-#include <djvSystem/PathFunc.h>
 #include <djvSystem/RecentFilesModel.h>
 #include <djvSystem/TextSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

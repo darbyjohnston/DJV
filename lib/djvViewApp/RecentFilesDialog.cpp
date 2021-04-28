@@ -29,11 +29,11 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfo.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvMath/MathFunc.h>
+#include <djvMath/Math.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

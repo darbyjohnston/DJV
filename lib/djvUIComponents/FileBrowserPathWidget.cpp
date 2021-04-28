@@ -15,7 +15,6 @@
 #include <djvUI/SoloLayout.h>
 
 #include <djvSystem/FileInfo.h>
-#include <djvSystem/PathFunc.h>
 
 using namespace djv::Core;
 

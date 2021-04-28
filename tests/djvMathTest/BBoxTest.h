@@ -24,6 +24,8 @@ namespace djv
             void _components();
             void _util();
             void _comparison();
+            void _operators();
+            void _serialize();
         };
         
     } // namespace MathTest

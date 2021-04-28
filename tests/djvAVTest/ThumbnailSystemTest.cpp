@@ -7,13 +7,13 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/ResourceSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 using namespace djv::Core;
 using namespace djv::AV;

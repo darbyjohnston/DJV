@@ -22,7 +22,7 @@
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvImage/Data.h>
 

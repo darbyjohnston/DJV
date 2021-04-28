@@ -21,7 +21,7 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/Timer.h>

@@ -4,19 +4,19 @@
 
 #include <djvAudio/AudioSystem.h>
 
-#include <djvAudio/AudioSystemFunc.h>
-
 #include <djvSystem/Context.h>
 #include <djvSystem/CoreSystem.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 #include <djvCore/OS.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <rtaudio/RtAudio.h>
 
+#include <algorithm>
+#include <array>
 #include <sstream>
 
 using namespace djv::Core;
@@ -25,6 +25,8 @@ namespace djv
 {
     namespace Audio
     {
+        DJV_ENUM_HELPERS_IMPLEMENTATION(DeviceFormat);
+        
         struct AudioSystem::Private
         {
             std::unique_ptr<RtAudio> rtAudio;
@@ -247,5 +249,16 @@ namespace djv
         }
 
     } // namespace Audio
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Audio,
+        DeviceFormat,
+        DJV_TEXT("audio_device_format_s8"),
+        DJV_TEXT("audio_device_format_s16"),
+        DJV_TEXT("audio_device_format_s24"),
+        DJV_TEXT("audio_device_format_s32"),
+        DJV_TEXT("audio_device_format_f32"),
+        DJV_TEXT("audio_device_format_f64"));
+
 } // namespace djv
 

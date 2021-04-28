@@ -8,8 +8,10 @@
 
 #include <djvSystem/ISystem.h>
 
+#include <djvCore/Enum.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/ValueObserver.h>
 
 #include <OpenColorIO/OpenColorIO.h>
@@ -29,6 +31,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(ConfigMode);
 
         //! Thsi typedef provides the image color space associations.
         typedef std::map<std::string, std::string> ImageColorSpaces;
@@ -114,6 +117,20 @@ namespace djv
         };
 
     } // namespace OCIO
+
+    DJV_ENUM_SERIALIZE_HELPERS(OCIO::ConfigMode);
+
+    rapidjson::Value toJSON(OCIO::ConfigMode, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const OCIO::Config&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, OCIO::ConfigMode&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, OCIO::Config&);
+
 } // namespace djv
 
 #include <djvOCIO/OCIOSystemInline.h>

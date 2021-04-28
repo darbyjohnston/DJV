@@ -8,7 +8,6 @@
 #include <djvRender3D/Material.h>
 
 #include <djvGL/GLFWSystem.h>
-#include <djvGL/MeshFunc.h>
 #include <djvGL/MeshCache.h>
 #include <djvGL/Shader.h>
 #include <djvGL/ShaderSystem.h>
@@ -16,7 +15,7 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <array>
 

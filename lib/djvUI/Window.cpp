@@ -5,7 +5,7 @@
 #include <djvUI/Window.h>
 
 #include <djvUI/EventSystem.h>
-#include <djvUI/StackLayoutFunc.h>
+#include <djvUI/StackLayout.h>
 
 #include <djvSystem/Context.h>
 

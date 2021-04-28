@@ -19,7 +19,7 @@
 #include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/UISystem.h>

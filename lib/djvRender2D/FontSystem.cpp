@@ -6,14 +6,14 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/CoreSystem.h>
-#include <djvSystem/FileInfoFunc.h>
+#include <djvSystem/FileInfo.h>
 #include <djvSystem/ResourceSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvImage/Data.h>
 
 #include <djvCore/Cache.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <freetype2/ft2build.h>
 #include FT_FREETYPE_H

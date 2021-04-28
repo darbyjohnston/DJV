@@ -9,7 +9,7 @@
 #include <djvUI/GroupBox.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/PPMFunc.h>
+#include <djvAV/PPM.h>
 
 #include <djvSystem/Context.h>
 
@@ -50,12 +50,12 @@ namespace djv
                         if (auto context = contextWeak.lock())
                         {
                             auto io = context->getSystemT<AV::IO::IOSystem>();
-                            AV::IO::PPM::Options options;
+                            AV::PPM::Options options;
                             rapidjson::Document document;
                             auto& allocator = document.GetAllocator();
-                            fromJSON(io->getOptions(AV::IO::PPM::pluginName, allocator), options);
-                            options.data = static_cast<AV::IO::PPM::Data>(value);
-                            io->setOptions(AV::IO::PPM::pluginName, toJSON(options, allocator));
+                            fromJSON(io->getOptions(AV::PPM::pluginName, allocator), options);
+                            options.data = static_cast<AV::PPM::Data>(value);
+                            io->setOptions(AV::PPM::pluginName, toJSON(options, allocator));
                         }
                     });
             }
@@ -103,12 +103,12 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     auto io = context->getSystemT<AV::IO::IOSystem>();
-                    AV::IO::PPM::Options options;
+                    AV::PPM::Options options;
                     rapidjson::Document document;
                     auto& allocator = document.GetAllocator();
-                    fromJSON(io->getOptions(AV::IO::PPM::pluginName, allocator), options);
+                    fromJSON(io->getOptions(AV::PPM::pluginName, allocator), options);
                     std::vector<std::string> items;
-                    for (auto i : AV::IO::PPM::getDataEnums())
+                    for (auto i : AV::PPM::getDataEnums())
                     {
                         std::stringstream ss;
                         ss << i;

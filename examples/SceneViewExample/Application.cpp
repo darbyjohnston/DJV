@@ -13,7 +13,7 @@
 
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 using namespace djv;
 

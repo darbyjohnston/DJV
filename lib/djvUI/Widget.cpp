@@ -8,7 +8,7 @@
 #include <djvUI/EventSystem.h>
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/Tooltip.h>
@@ -21,7 +21,7 @@
 
 #include <djvMath/Math.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

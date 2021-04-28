@@ -20,12 +20,12 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/Event.h>
 #include <djvSystem/IObject.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 #if defined(DJV_GL_ES2)
 #include <djvSystem/ResourceSystem.h>
 #endif // DJV_GL_ES2
 
-#include <djvMath/VectorFunc.h>
+#include <djvMath/Vector.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

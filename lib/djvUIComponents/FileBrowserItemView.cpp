@@ -15,14 +15,13 @@
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvOCIO/OCIOSystem.h>
 
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/FileInfoFunc.h>
 
 #include <djvCore/StringFormat.h>
 

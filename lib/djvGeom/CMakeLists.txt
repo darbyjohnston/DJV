@@ -5,13 +5,11 @@ set(header
     Shape.h
     ShapeInline.h
     TriangleMesh.h
-    TriangleMeshFunc.h
     TriangleMeshInline.h)
 set(source
     PointList.cpp
     Shape.cpp
-    TriangleMesh.cpp
-    TriangleMeshFunc.cpp)
+    TriangleMesh.cpp)
 
 add_library(djvGeom ${header} ${source})
 set(LIBRARIES

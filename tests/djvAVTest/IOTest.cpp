@@ -5,19 +5,19 @@
 #include <djvAVTest/IOTest.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/PPMFunc.h>
-#include <djvAV/SpeedFunc.h>
+#include <djvAV/PPM.h>
+#include <djvAV/Speed.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TextSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvMath/FrameNumberFunc.h>
+#include <djvMath/FrameNumber.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 using namespace djv::AV;

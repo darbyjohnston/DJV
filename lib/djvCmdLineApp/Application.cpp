@@ -5,17 +5,17 @@
 #include <djvCmdLineApp/Application.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 #include <djvCore/OS.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <iostream>
 #include <sstream>

@@ -10,7 +10,8 @@
 
 #include <djvImage/Info.h>
 
-#include <djvCore/RapidJSONFunc.h>
+#include <djvCore/Enum.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {
@@ -31,6 +32,7 @@ namespace djv
             Count,
             First = Color
         };
+        DJV_ENUM_HELPERS(ImageChannelsDisplay);
 
         //! This eumeration provides the image caching options.
         enum class ImageCache
@@ -41,6 +43,7 @@ namespace djv
             Count,
             First = Atlas
         };
+        DJV_ENUM_HELPERS(ImageCache);
         
         //! This class provides color values.
         class ImageColor
@@ -121,6 +124,7 @@ namespace djv
             Count,
             First = Nearest
         };
+        DJV_ENUM_HELPERS(ImageFilter);
 
         //! This class provides image filter options.
         class ImageFilterOptions
@@ -136,8 +140,51 @@ namespace djv
             bool operator == (const ImageFilterOptions&) const;
             bool operator != (const ImageFilterOptions&) const;
         };
+        
+        //! \name Conversion
+        ///@{
+
+        GLenum toGL(ImageFilter);
+
+        ///@}
 
     } // namespace Render2D
+
+    DJV_ENUM_SERIALIZE_HELPERS(Render2D::ImageChannelsDisplay);
+    DJV_ENUM_SERIALIZE_HELPERS(Render2D::ImageCache);
+    DJV_ENUM_SERIALIZE_HELPERS(Render2D::ImageFilter);
+
+    rapidjson::Value toJSON(Render2D::ImageChannelsDisplay, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Render2D::ImageColor&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Render2D::ImageLevels&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Render2D::ImageExposure&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(Render2D::ImageFilter, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Render2D::ImageFilterOptions&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Render2D::ImageChannelsDisplay&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Render2D::ImageColor&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Render2D::ImageLevels&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Render2D::ImageExposure&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Render2D::ImageFilter&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Render2D::ImageFilterOptions&);
+
 } // namespace djv
 
 #include <djvRender2D/DataInline.h>

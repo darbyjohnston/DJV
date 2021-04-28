@@ -17,9 +17,9 @@
 
 #include <djvSystem/ResourceSystem.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/RandomFunc.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/Random.h>
+#include <djvCore/String.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

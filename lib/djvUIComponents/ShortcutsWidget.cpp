@@ -16,7 +16,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
@@ -24,7 +24,7 @@
 
 #include <djvSystem/Context.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

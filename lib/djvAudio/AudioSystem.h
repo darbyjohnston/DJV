@@ -6,6 +6,8 @@
 
 #include <djvSystem/ISystem.h>
 
+#include <djvCore/Enum.h>
+
 namespace djv
 {
     namespace Audio
@@ -22,6 +24,7 @@ namespace djv
             Count,
             First = S8
         };
+        DJV_ENUM_HELPERS(DeviceFormat);
 
         struct Device
         {
@@ -59,5 +62,8 @@ namespace djv
         };
 
     } // namespace Audio
+
+    DJV_ENUM_SERIALIZE_HELPERS(Audio::DeviceFormat);
+
 } // namespace djv
 

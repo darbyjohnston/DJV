@@ -7,19 +7,15 @@
 #include "IOCache.h"
 
 #include <djvAV/Time.h>
-#include <djvAV/TimeFunc.h>
 
 #include <djvAudio/AudioSystem.h>
-#include <djvAudio/DataFunc.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/TextSystem.h>
 #include <djvSystem/Timer.h>
-#include <djvSystem/TimerFunc.h>
 
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
 
 using namespace djv;
 

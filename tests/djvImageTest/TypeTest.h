@@ -20,6 +20,9 @@ namespace djv
         private:
             void _enum();
             void _constants();
+            void _util();
+            void _convert();
+            void _serialize();
         };
         
     } // namespace ImageTest

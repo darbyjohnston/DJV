@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <djvImage/Color.h>
 #include <djvImage/Info.h>
 #include <djvImage/Tags.h>
 
@@ -98,6 +99,13 @@ namespace djv
             const uint8_t* _p = nullptr;
             Tags _tags;
         };
+
+        //! \name Utility
+        ///@{
+
+        Color getAverageColor(const std::shared_ptr<Data>&);
+
+        ///@}
 
     } // namespace Image
 } // namespace djv

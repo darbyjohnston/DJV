@@ -8,6 +8,8 @@
 
 #include <glm/vec3.hpp>
 
+#include <sstream>
+
 namespace djv
 {
     namespace Math
@@ -38,6 +40,15 @@ namespace djv
 #endif //GLM_PRECISION
 
     } // namespace Math
+
+    template<typename T, glm::precision P = glm::defaultp>
+    std::ostream& operator << (std::ostream&, const Math::tRay3<T, P>&);
+
+    //! Throws:
+    //! - std::exception
+    template<typename T, glm::precision P = glm::defaultp>
+    std::istream& operator >> (std::istream&, Math::tRay3<T, P>&);
+
 } // namespace djv
 
 #include <djvMath/RayInline.h>

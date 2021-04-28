@@ -4,7 +4,7 @@
 
 #include "Application.h"
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 #include <iostream>
 

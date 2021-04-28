@@ -12,6 +12,12 @@ namespace djv
 {
     namespace GL
     {
+        //! Get the OpenGL internal format.
+        GLenum getInternalFormat2D(Image::Type);
+
+        //! Get the OpenGL internal format.
+        //GLenum getInternalFormat1D(Image::Type);
+        
         //! This class provides an OpenGL texture.
         class Texture
         {

@@ -8,7 +8,7 @@
 
 #include <djvRender2D/Render.h>
 
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 using namespace djv;
 

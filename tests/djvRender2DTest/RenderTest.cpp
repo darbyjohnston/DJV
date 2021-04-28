@@ -19,7 +19,7 @@
 #include <djvSystem/TextSystem.h>
 #include <djvSystem/Timer.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 using namespace djv::Render2D;

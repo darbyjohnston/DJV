@@ -12,7 +12,7 @@
 
 #include <djvImage/Color.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 using namespace djv::Core;
 using namespace djv::GL;

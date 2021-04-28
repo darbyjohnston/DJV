@@ -1,6 +1,5 @@
 set(header
     Animation.h
-    AnimationFunc.h
     AnimationInline.h
     Context.h
     ContextInline.h
@@ -10,15 +9,11 @@ set(header
     DrivesModel.h
     Enum.h
     Event.h
-    EventFunc.h
     EventInline.h
     File.h
-    FileFunc.h
     FileIO.h
-    FileIOFunc.h
     FileIOInline.h
     FileInfo.h
-    FileInfoFunc.h
     FileInfoInline.h
     FileInfoPrivate.h
     IEventSystem.h
@@ -28,61 +23,49 @@ set(header
     ISystemInline.h
     LogSystem.h
     Namespace.h
-    PathFunc.h
     Path.h
     PathInline.h
     RecentFilesModel.h
     ResourceSystem.h
     TextSystem.h
     Timer.h
-    TimerInline.h
-    TimerFunc.h)
+    TimerInline.h)
 set(source
     Animation.cpp
-    AnimationFunc.cpp
     Context.cpp
     CoreSystem.cpp
     DirectoryModel.cpp
     DrivesModel.cpp
     Event.cpp
-    EventFunc.cpp
     File.cpp
     FileIO.cpp
-    FileIOFunc.cpp
-    FileInfoFunc.cpp
     FileInfo.cpp
     IEventSystem.cpp
     IObject.cpp
     ISystem.cpp
     LogSystem.cpp
-    PathFunc.cpp
     Path.cpp
     RecentFilesModel.cpp
     ResourceSystem.cpp
     TextSystem.cpp
-    Timer.cpp
-    TimerFunc.cpp)
+    Timer.cpp)
 if (WIN32)
     set(source
         ${source}
         DirectoryWatcherWin32.cpp
         DrivesModelWin32.cpp
-        FileFuncWin32.cpp
         FileIOWin32.cpp
-        FileInfoFuncWin32.cpp
         FileInfoWin32.cpp
-        PathFuncWin32.cpp
+        FileWin32.cpp
         PathWin32.cpp)
 else()
     set(source
         ${source}
         DirectoryWatcherUnix.cpp
         DrivesModelUnix.cpp
-        FileFuncUnix.cpp
         FileIOUnix.cpp
-        FileInfoFuncUnix.cpp
         FileInfoUnix.cpp
-        PathFuncUnix.cpp
+        FileUnix.cpp
         PathUnix.cpp)
 endif()
 

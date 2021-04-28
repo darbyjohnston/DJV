@@ -6,6 +6,8 @@
 
 #include <djvImage/Type.h>
 
+#include <djvCore/RapidJSON.h>
+
 namespace djv
 {
     namespace Image
@@ -76,7 +78,30 @@ namespace djv
             std::vector<uint8_t> _data;
         };
 
+        //! \name Conversion
+        ///@{
+        /// 
+        void rgbToHSV(const float[3], float[3]);
+        void hsvToRGB(const float[3], float[3]);
+
+        std::string getLabel(const Color&, int precision = 2);
+
+        ///@}
+
     } // namespace Image
+
+    std::ostream& operator << (std::ostream&, const Image::Color&);
+
+    //! Throws:
+    //! - std::exception
+    std::istream& operator >> (std::istream&, Image::Color&);
+
+    rapidjson::Value toJSON(const Image::Color&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Image::Color&);
+
 } // namespace djv
 
 #include <djvImage/ColorInline.h>

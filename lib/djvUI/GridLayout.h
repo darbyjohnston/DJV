@@ -26,6 +26,7 @@ namespace djv
                 Count,
                 First = None
             };
+            DJV_ENUM_HELPERS(GridStretch);
 
             //! This class provides a layout that arranges it's children in a grid.
             //!
@@ -86,5 +87,9 @@ namespace djv
         using Layout::GridStretch;
 
     } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::GridStretch);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::GridStretch);
+    
 } // namespace Gp
 

@@ -11,6 +11,8 @@
 
 #include <djvMath/Range.h>
 
+#include <djvCore/Enum.h>
+
 namespace djv
 {
     namespace UI
@@ -25,6 +27,7 @@ namespace djv
             Count,
             First = Both
         };
+        DJV_ENUM_HELPERS(ScrollType);
 
         //! This class provides a scroll widget.
         //!
@@ -109,4 +112,8 @@ namespace djv
         };
 
     } // namespace UI
+    
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ScrollType);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ScrollType);
+
 } // namespace djv

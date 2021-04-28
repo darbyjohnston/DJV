@@ -6,6 +6,7 @@
 
 #include <djvSystem/ISystem.h>
 
+#include <djvCore/Enum.h>
 #include <djvCore/Time.h>
 
 #include <functional>
@@ -32,9 +33,13 @@ namespace djv
                 First = Linear,
                 Last = Sine
             };
+            DJV_ENUM_HELPERS(Type);
 
             //! This typedef provides an animation function.
             typedef std::function<float(float)> Function;
+
+            //! Get an animation function.
+            Function getFunction(Type);
 
             //! This class provides an animated value.
             class Animation : public std::enable_shared_from_this<Animation>
@@ -128,6 +133,10 @@ namespace djv
 
         } // namespace Animation
     } // namespace System
+
+    DJV_ENUM_SERIALIZE_HELPERS(System::Animation::Type);
+    DJV_ENUM_SERIALIZE_HELPERS(System::Animation::Type);
+
 } // namespace djv
 
 #include <djvSystem/AnimationInline.h>

@@ -1,14 +1,12 @@
 set(header
-    DataFuncTest.h
     DataTest.h
-    EnumFuncTest.h
+    EnumTest.h
     FontSystemTest.h
     RenderSystemTest.h
     RenderTest.h)
 set(source
-    DataFuncTest.cpp
     DataTest.cpp
-    EnumFuncTest.cpp
+    EnumTest.cpp
     FontSystemTest.cpp
     RenderSystemTest.cpp
     RenderTest.cpp)

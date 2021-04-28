@@ -19,9 +19,11 @@ namespace djv
             
         private:
             void _ctor();
-            void _getSet();
-            void _util();
+            void _members();
             void _operators();
+            void _rgbToHSV(float, float, float);
+            void _util();
+            void _serialize();
         };
         
     } // namespace ImageTest

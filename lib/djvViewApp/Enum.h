@@ -4,6 +4,12 @@
 
 #pragma once
 
+#include <djvCore/Enum.h>
+#include <djvCore/RapidJSON.h>
+
+#include <sstream>
+#include <vector>
+
 namespace djv
 {
     namespace ViewApp
@@ -18,6 +24,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(ViewLock);
 
         //! This enumeration provides grid labels.
         enum class GridLabels
@@ -29,6 +36,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(GridLabels);
 
         //! This enumeration provides HUD background options.
         enum class HUDBackground
@@ -39,6 +47,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(HUDBackground);
 
         //! This enumeration provides view backgrounds.
         enum class ViewBackground
@@ -49,6 +58,7 @@ namespace djv
             Count,
             First = Solid
         };
+        DJV_ENUM_HELPERS(ViewBackground);
 
         //! This enumeration provides playback modes.
         enum class Playback
@@ -60,6 +70,7 @@ namespace djv
             Count,
             First = Stop
         };
+        DJV_ENUM_HELPERS(Playback);
 
         //! This enumeration provides playback speeds.
         enum class PlaybackSpeed
@@ -70,6 +81,7 @@ namespace djv
             Count,
             First = Default
         };
+        DJV_ENUM_HELPERS(PlaybackSpeed);
 
         //! This enumeration provides playback modes.
         enum class PlaybackMode
@@ -81,6 +93,7 @@ namespace djv
             Count,
             First = Once
         };
+        DJV_ENUM_HELPERS(PlaybackMode);
 
         //! This enumeration provides command-line modes.
         enum class CmdLineMode
@@ -91,6 +104,53 @@ namespace djv
             Count,
             First = DJV
         };
+        DJV_ENUM_HELPERS(CmdLineMode);
 
     } // namespace ViewApp
+
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ViewLock);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::GridLabels);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::HUDBackground);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ViewBackground);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackSpeed);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::CmdLineMode);
+
+    rapidjson::Value toJSON(ViewApp::ViewLock, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(ViewApp::GridLabels, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(ViewApp::HUDBackground, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(ViewApp::ViewBackground, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(ViewApp::PlaybackSpeed, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(ViewApp::PlaybackMode, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(ViewApp::CmdLineMode, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::ViewLock&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::GridLabels&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::HUDBackground&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::ViewBackground&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::PlaybackSpeed&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::PlaybackMode&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::CmdLineMode&);
+
 } // namespace djv

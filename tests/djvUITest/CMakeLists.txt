@@ -1,13 +1,13 @@
 set(header
     ActionGroupTest.h
     ButtonGroupTest.h
-    EnumFuncTest.h
+    EnumTest.h
     SelectionModelTest.h
     WidgetTest.h)
 set(source
     ActionGroupTest.cpp
     ButtonGroupTest.cpp
-    EnumFuncTest.cpp
+    EnumTest.cpp
     SelectionModelTest.cpp
     WidgetTest.cpp)
 

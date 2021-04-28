@@ -1,53 +1,53 @@
 set(header
     AVSystemTest.h
-    CineonFuncTest.h
-    DPXFuncTest.h
+    CineonTest.h
+    DPXTest.h
     IOTest.h
-    PPMFuncTest.h
-	SpeedFuncTest.h
+    PPMTest.h
+	SpeedTest.h
     ThumbnailSystemTest.h
-    TimeFuncTest.h)
+    TimeTest.h)
 set(source
     AVSystemTest.cpp
-    CineonFuncTest.cpp
-    DPXFuncTest.cpp
+    CineonTest.cpp
+    DPXTest.cpp
     IOTest.cpp
-    PPMFuncTest.cpp
-	SpeedFuncTest.cpp
+    PPMTest.cpp
+	SpeedTest.cpp
     ThumbnailSystemTest.cpp
-    TimeFuncTest.cpp)
+    TimeTest.cpp)
 if (NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
     if(FFmpeg_FOUND)
         set(header
             ${header}
-            FFmpegFuncTest.h)
+            FFmpegTest.h)
         set(header
             ${header}
-            FFmpegFuncTest.cpp)
+            FFmpegTest.cpp)
     endif()
     if(JPEG_FOUND)
         set(header
             ${header}
-            JPEGFuncTest.h)
+            JPEGTest.h)
         set(header
             ${header}
-            JPEGFuncTest.cpp)
+            JPEGTest.cpp)
     endif()
     if(OpenEXR_FOUND)
         set(header
             ${header}
-            OpenEXRFuncTest.h)
+            OpenEXRTest.h)
         set(header
             ${header}
-            OpenEXRFuncTest.cpp)
+            OpenEXRTest.cpp)
     endif()
     if(TIFF_FOUND)
         set(header
             ${header}
-            TIFFFuncTest.h)
+            TIFFTest.h)
         set(header
             ${header}
-            TIFFFuncTest.cpp)
+            TIFFTest.cpp)
     endif()
 endif()
 

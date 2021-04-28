@@ -4,13 +4,9 @@
 
 #include <djvViewApp/AnnotateSettings.h>
 
-#include <djvViewApp/AnnotateFunc.h>
+#include <djvImage/Color.h>
 
-#include <djvUI/EnumFunc.h>
-
-#include <djvImage/ColorFunc.h>
-
-#include <djvMath/BBoxFunc.h>
+#include <djvMath/BBox.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

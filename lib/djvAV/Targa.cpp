@@ -10,31 +10,28 @@ namespace djv
 {
     namespace AV
     {
-        namespace IO
+        namespace Targa
         {
-            namespace Targa
+            Plugin::Plugin()
+            {}
+
+            std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
             {
-                Plugin::Plugin()
-                {}
+                auto out = std::shared_ptr<Plugin>(new Plugin);
+                out->_init(
+                    pluginName,
+                    DJV_TEXT("plugin_targa_io"),
+                    fileExtensions,
+                    context);
+                return out;
+            }
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
-                {
-                    auto out = std::shared_ptr<Plugin>(new Plugin);
-                    out->_init(
-                        pluginName,
-                        DJV_TEXT("plugin_targa_io"),
-                        fileExtensions,
-                        context);
-                    return out;
-                }
+            std::shared_ptr<IO::IRead> Plugin::read(const System::File::Info& fileInfo, const IO::ReadOptions& options) const
+            {
+                return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
+            }
 
-                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo, const ReadOptions& options) const
-                {
-                    return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
-                }
-
-            } // namespace Targa
-        } // namespace IO
+        } // namespace Targa
     } // namespace AV
 } // namespace djv
 

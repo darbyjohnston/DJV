@@ -4,8 +4,6 @@
 
 #include <djvAV/OpenEXR.h>
 
-#include <djvAV/OpenEXRFunc.h>
-
 #include <djvSystem/File.h>
 #include <djvSystem/FileIO.h>
 #include <djvSystem/TextSystem.h>
@@ -23,261 +21,258 @@ namespace djv
 {
     namespace AV
     {
-        namespace IO
+        namespace OpenEXR
         {
-            namespace OpenEXR
+#if defined(DJV_MMAP)
+            struct MemoryMappedIStream::Private
             {
-#if defined(DJV_MMAP)
-                struct MemoryMappedIStream::Private
-                {
-                    System::File::IO f;
-                    uint64_t         size    = 0;
-                    uint64_t         pos     = 0;
-                    char*            p       = nullptr;
-                };
+                System::File::IO f;
+                uint64_t         size    = 0;
+                uint64_t         pos     = 0;
+                char*            p       = nullptr;
+            };
 
-                MemoryMappedIStream::MemoryMappedIStream(const char fileName[]) :
-                    IStream(fileName),
-                    _p(new Private)
-                {
-                    DJV_PRIVATE_PTR();
-                    p.f.open(fileName, System::File::Mode::Read);
-                    p.size = p.f.getSize();
-                    p.p = (char*)(p.f.mmapP());
-                }
+            MemoryMappedIStream::MemoryMappedIStream(const char fileName[]) :
+                IStream(fileName),
+                _p(new Private)
+            {
+                DJV_PRIVATE_PTR();
+                p.f.open(fileName, System::File::Mode::Read);
+                p.size = p.f.getSize();
+                p.p = (char*)(p.f.mmapP());
+            }
 
-                MemoryMappedIStream::~MemoryMappedIStream()
-                {}
+            MemoryMappedIStream::~MemoryMappedIStream()
+            {}
 
-                bool MemoryMappedIStream::isMemoryMapped() const
-                {
-                    return true;
-                }
+            bool MemoryMappedIStream::isMemoryMapped() const
+            {
+                return true;
+            }
 
-                char* MemoryMappedIStream::readMemoryMapped(int n)
-                {
-                    DJV_PRIVATE_PTR();
-                    if (p.pos >= p.size)
-                        throw System::File::Error("Error reading OpenEXR file.");
-                    if (p.pos + n > p.size)
-                        throw System::File::Error("Error reading OpenEXR file.");
-                    char* out = p.p + p.pos;
-                    p.pos += n;
-                    return out;
-                }
+            char* MemoryMappedIStream::readMemoryMapped(int n)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.pos >= p.size)
+                    throw System::File::Error("Error reading OpenEXR file.");
+                if (p.pos + n > p.size)
+                    throw System::File::Error("Error reading OpenEXR file.");
+                char* out = p.p + p.pos;
+                p.pos += n;
+                return out;
+            }
 
-                bool MemoryMappedIStream::read(char c[], int n)
-                {
-                    DJV_PRIVATE_PTR();
-                    if (p.pos >= p.size)
-                        throw System::File::Error("Error reading OpenEXR file.");
-                    if (p.pos + n > p.size)
-                        throw System::File::Error("Error reading OpenEXR file.");
-                    memcpy(c, p.p + p.pos, n);
-                    p.pos += n;
-                    return p.pos < p.size;
-                }
+            bool MemoryMappedIStream::read(char c[], int n)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.pos >= p.size)
+                    throw System::File::Error("Error reading OpenEXR file.");
+                if (p.pos + n > p.size)
+                    throw System::File::Error("Error reading OpenEXR file.");
+                memcpy(c, p.p + p.pos, n);
+                p.pos += n;
+                return p.pos < p.size;
+            }
 
-                Imf::Int64 MemoryMappedIStream::tellg()
-                {
-                    return _p->pos;
-                }
+            Imf::Int64 MemoryMappedIStream::tellg()
+            {
+                return _p->pos;
+            }
 
-                void MemoryMappedIStream::seekg(Imf::Int64 pos)
-                {
-                    _p->pos = pos;
-                }
+            void MemoryMappedIStream::seekg(Imf::Int64 pos)
+            {
+                _p->pos = pos;
+            }
 #endif // DJV_MMAP
 
-                struct Read::File
+            struct Read::File
+            {
+                ~File()
                 {
-                    ~File()
+                }
+
+                std::unique_ptr<MemoryMappedIStream> s;
+                std::unique_ptr<Imf::InputFile>      f;
+                Math::BBox2i                         displayWindow;
+                Math::BBox2i                         dataWindow;
+                Math::BBox2i                         intersectedWindow;
+                std::vector<OpenEXR::Layer>          layers;
+                bool                                 fast              = false;
+            };
+
+            struct Read::Private
+            {
+                Options options;
+            };
+
+            Read::Read() :
+                _p(new Private)
+            {}
+
+            Read::~Read()
+            {
+                _finish();
+            }
+
+            std::shared_ptr<Read> Read::create(
+                const System::File::Info& fileInfo,
+                const IO::ReadOptions& readOptions,
+                const Options& options,
+                const std::shared_ptr<System::TextSystem>& textSystem,
+                const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                const std::shared_ptr<System::LogSystem>& logSystem)
+            {
+                auto out = std::shared_ptr<Read>(new Read);
+                out->_p->options = options;
+                out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
+                return out;
+            }
+
+            IO::Info Read::_readInfo(const std::string& fileName)
+            {
+                File f;
+                return _open(fileName, f);
+            }
+
+            std::shared_ptr<Image::Data> Read::_readImage(const std::string& fileName)
+            {
+                File f;
+                IO::Info info = _open(fileName, f);
+                Image::Info imageInfo = info.video[std::min(_options.layer, info.video.size() - 1)];
+                std::shared_ptr<Image::Data> out = Image::Data::create(imageInfo);
+                out->setPluginName(pluginName);
+                out->setTags(info.tags);
+                const size_t channels = Image::getChannelCount(imageInfo.type);
+                const size_t channelByteCount = Image::getByteCount(getDataType(imageInfo.type));
+                const size_t cb = channels * channelByteCount;
+                const size_t scb = imageInfo.size.w * channels * channelByteCount;
+                if (f.fast)
+                {
+                    Imf::FrameBuffer frameBuffer;
+                    for (size_t c = 0; c < channels; ++c)
                     {
+                        const std::string& name = f.layers[_options.layer].channels[c].name;
+                        const glm::ivec2& sampling = f.layers[_options.layer].channels[c].sampling;
+                        frameBuffer.insert(
+                            name.c_str(),
+                            Imf::Slice(
+                                toImf(Image::getDataType(imageInfo.type)),
+                                (char*)out->getData() + (c * channelByteCount),
+                                cb,
+                                scb,
+                                sampling.x,
+                                sampling.y,
+                                0.F));
                     }
-
-                    std::unique_ptr<MemoryMappedIStream> s;
-                    std::unique_ptr<Imf::InputFile>      f;
-                    Math::BBox2i                         displayWindow;
-                    Math::BBox2i                         dataWindow;
-                    Math::BBox2i                         intersectedWindow;
-                    std::vector<OpenEXR::Layer>          layers;
-                    bool                                 fast              = false;
-                };
-
-                struct Read::Private
-                {
-                    Options options;
-                };
-
-                Read::Read() :
-                    _p(new Private)
-                {}
-
-                Read::~Read()
-                {
-                    _finish();
+                    f.f->setFrameBuffer(frameBuffer);
+                    f.f->readPixels(f.displayWindow.min.y, f.displayWindow.max.y);
                 }
-
-                std::shared_ptr<Read> Read::create(
-                    const System::File::Info& fileInfo,
-                    const ReadOptions& readOptions,
-                    const Options& options,
-                    const std::shared_ptr<System::TextSystem>& textSystem,
-                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<System::LogSystem>& logSystem)
+                else
                 {
-                    auto out = std::shared_ptr<Read>(new Read);
-                    out->_p->options = options;
-                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
-                    return out;
-                }
-
-                Info Read::_readInfo(const std::string& fileName)
-                {
-                    File f;
-                    return _open(fileName, f);
-                }
-
-                std::shared_ptr<Image::Data> Read::_readImage(const std::string& fileName)
-                {
-                    File f;
-                    Info info = _open(fileName, f);
-                    Image::Info imageInfo = info.video[std::min(_options.layer, info.video.size() - 1)];
-                    std::shared_ptr<Image::Data> out = Image::Data::create(imageInfo);
-                    out->setPluginName(pluginName);
-                    out->setTags(info.tags);
-                    const size_t channels = Image::getChannelCount(imageInfo.type);
-                    const size_t channelByteCount = Image::getByteCount(getDataType(imageInfo.type));
-                    const size_t cb = channels * channelByteCount;
-                    const size_t scb = imageInfo.size.w * channels * channelByteCount;
-                    if (f.fast)
+                    Imf::FrameBuffer frameBuffer;
+                    std::vector<char> buf(f.dataWindow.w() * cb);
+                    for (int c = 0; c < channels; ++c)
                     {
-                        Imf::FrameBuffer frameBuffer;
-                        for (size_t c = 0; c < channels; ++c)
-                        {
-                            const std::string& name = f.layers[_options.layer].channels[c].name;
-                            const glm::ivec2& sampling = f.layers[_options.layer].channels[c].sampling;
-                            frameBuffer.insert(
-                                name.c_str(),
-                                Imf::Slice(
-                                    toImf(Image::getDataType(imageInfo.type)),
-                                    (char*)out->getData() + (c * channelByteCount),
-                                    cb,
-                                    scb,
-                                    sampling.x,
-                                    sampling.y,
-                                    0.F));
-                        }
-                        f.f->setFrameBuffer(frameBuffer);
-                        f.f->readPixels(f.displayWindow.min.y, f.displayWindow.max.y);
+                        const std::string& name = f.layers[_options.layer].channels[c].name;
+                        const glm::ivec2& sampling = f.layers[_options.layer].channels[c].sampling;
+                        frameBuffer.insert(
+                            name.c_str(),
+                            Imf::Slice(
+                                toImf(Image::getDataType(imageInfo.type)),
+                                buf.data() - (f.dataWindow.min.x * cb) + (c * channelByteCount),
+                                cb,
+                                0,
+                                sampling.x,
+                                sampling.y,
+                                0.F));
                     }
-                    else
+                    f.f->setFrameBuffer(frameBuffer);
+                    for (int y = f.displayWindow.min.y; y <= f.displayWindow.max.y; ++y)
                     {
-                        Imf::FrameBuffer frameBuffer;
-                        std::vector<char> buf(f.dataWindow.w() * cb);
-                        for (int c = 0; c < channels; ++c)
+                        uint8_t* p = out->getData() + ((y - f.displayWindow.min.y) * scb);
+                        uint8_t* end = p + scb;
+                        if (y >= f.intersectedWindow.min.y && y <= f.intersectedWindow.max.y)
                         {
-                            const std::string& name = f.layers[_options.layer].channels[c].name;
-                            const glm::ivec2& sampling = f.layers[_options.layer].channels[c].sampling;
-                            frameBuffer.insert(
-                                name.c_str(),
-                                Imf::Slice(
-                                    toImf(Image::getDataType(imageInfo.type)),
-                                    buf.data() - (f.dataWindow.min.x * cb) + (c * channelByteCount),
-                                    cb,
-                                    0,
-                                    sampling.x,
-                                    sampling.y,
-                                    0.F));
+                            size_t size = (f.intersectedWindow.min.x - f.displayWindow.min.x) * cb;
+                            memset(p, 0, size);
+                            p += size;
+                            size = f.intersectedWindow.w() * cb;
+                            f.f->readPixels(y, y);
+                            memcpy(
+                                p,
+                                buf.data() + std::max(f.displayWindow.min.x - f.dataWindow.min.x, 0) * cb,
+                                size);
+                            p += size;
                         }
-                        f.f->setFrameBuffer(frameBuffer);
-                        for (int y = f.displayWindow.min.y; y <= f.displayWindow.max.y; ++y)
-                        {
-                            uint8_t* p = out->getData() + ((y - f.displayWindow.min.y) * scb);
-                            uint8_t* end = p + scb;
-                            if (y >= f.intersectedWindow.min.y && y <= f.intersectedWindow.max.y)
-                            {
-                                size_t size = (f.intersectedWindow.min.x - f.displayWindow.min.x) * cb;
-                                memset(p, 0, size);
-                                p += size;
-                                size = f.intersectedWindow.w() * cb;
-                                f.f->readPixels(y, y);
-                                memcpy(
-                                    p,
-                                    buf.data() + std::max(f.displayWindow.min.x - f.dataWindow.min.x, 0) * cb,
-                                    size);
-                                p += size;
-                            }
-                            memset(p, 0, end - p);
-                        }
+                        memset(p, 0, end - p);
                     }
-                    return out;
                 }
+                return out;
+            }
 
-                Info Read::_open(const std::string& fileName, File& f)
-                {
-                    DJV_PRIVATE_PTR();
+            IO::Info Read::_open(const std::string& fileName, File& f)
+            {
+                DJV_PRIVATE_PTR();
 
-                    Info out;
+                IO::Info out;
 
-                    // Open the file.
+                // Open the file.
 #if defined(DJV_MMAP)
-                    f.s.reset(new MemoryMappedIStream(fileName.c_str()));
-                    f.f.reset(new Imf::InputFile(*f.s.get()));
+                f.s.reset(new MemoryMappedIStream(fileName.c_str()));
+                f.f.reset(new Imf::InputFile(*f.s.get()));
 #else // DJV_MMAP
-                    f.f.reset(new Imf::InputFile(fileName.c_str()));
+                f.f.reset(new Imf::InputFile(fileName.c_str()));
 #endif // DJV_MMAP
 
-                    // Get the display and data windows.
-                    f.displayWindow = fromImath(f.f->header().displayWindow());
-                    f.dataWindow = fromImath(f.f->header().dataWindow());
-                    f.intersectedWindow = f.displayWindow.intersect(f.dataWindow);
-                    f.fast = f.displayWindow == f.dataWindow;
+                // Get the display and data windows.
+                f.displayWindow = fromImath(f.f->header().displayWindow());
+                f.dataWindow = fromImath(f.f->header().dataWindow());
+                f.intersectedWindow = f.displayWindow.intersect(f.dataWindow);
+                f.fast = f.displayWindow == f.dataWindow;
 
-                    // Get the tags.
-                    readTags(f.f->header(), out.tags, _speed);
+                // Get the tags.
+                readTags(f.f->header(), out.tags, _speed);
 
-                    // Get the layers.
-                    f.layers = getLayers(f.f->header().channels(), p.options.channels);
-                    out.fileName = fileName;
-                    out.videoSequence = _sequence;
-                    out.videoSpeed = _speed;
-                    out.video.resize(f.layers.size());
-                    for (size_t i = 0; i < f.layers.size(); ++i)
+                // Get the layers.
+                f.layers = getLayers(f.f->header().channels(), p.options.channels);
+                out.fileName = fileName;
+                out.videoSequence = _sequence;
+                out.videoSpeed = _speed;
+                out.video.resize(f.layers.size());
+                for (size_t i = 0; i < f.layers.size(); ++i)
+                {
+                    const auto& layer = f.layers[i];
+                    const glm::ivec2 sampling(layer.channels[0].sampling.x, layer.channels[0].sampling.y);
+                    if (sampling.x != 1 || sampling.y != 1)
+                        f.fast = false;
+                    auto& info = out.video[i];
+                    info.name = layer.name;
+                    info.size.w = f.displayWindow.w();
+                    info.size.h = f.displayWindow.h();
+                    info.pixelAspectRatio = f.f->header().pixelAspectRatio();
+                    switch (layer.channels[0].type)
                     {
-                        const auto& layer = f.layers[i];
-                        const glm::ivec2 sampling(layer.channels[0].sampling.x, layer.channels[0].sampling.y);
-                        if (sampling.x != 1 || sampling.y != 1)
-                            f.fast = false;
-                        auto& info = out.video[i];
-                        info.name = layer.name;
-                        info.size.w = f.displayWindow.w();
-                        info.size.h = f.displayWindow.h();
-                        info.pixelAspectRatio = f.f->header().pixelAspectRatio();
-                        switch (layer.channels[0].type)
-                        {
-                        case Image::DataType::F16:
-                        case Image::DataType::F32:
-                            info.type = Image::getFloatType(layer.channels.size(), Image::getBitDepth(layer.channels[0].type));
-                            break;
-                        case Image::DataType::U32:
-                            info.type = Image::getIntType(layer.channels.size(), Image::getBitDepth(layer.channels[0].type));
-                            break;
-                        default: break;
-                        }
-                        if (Image::Type::None == info.type)
-                        {
-                            throw System::File::Error(String::Format("{0}: {1}").
-                                arg(fileName).
-                                arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
-                        }
+                    case Image::DataType::F16:
+                    case Image::DataType::F32:
+                        info.type = Image::getFloatType(layer.channels.size(), Image::getBitDepth(layer.channels[0].type));
+                        break;
+                    case Image::DataType::U32:
+                        info.type = Image::getIntType(layer.channels.size(), Image::getBitDepth(layer.channels[0].type));
+                        break;
+                    default: break;
                     }
-
-                    return out;
+                    if (Image::Type::None == info.type)
+                    {
+                        throw System::File::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
+                    }
                 }
 
-            } // namespace OpenEXR
-        } // namespace IO
+                return out;
+            }
+
+        } // namespace OpenEXR
     } // namespace AV
 } // namespace djv
 

@@ -5,7 +5,7 @@
 #include <djvUI/Overlay.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/StackLayoutFunc.h>
+#include <djvUI/StackLayout.h>
 
 #include <djvSystem/Animation.h>
 #include <djvSystem/Timer.h>

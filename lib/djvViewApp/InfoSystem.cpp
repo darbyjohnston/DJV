@@ -11,7 +11,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/ToolBar.h>
 
 #include <djvSystem/Context.h>

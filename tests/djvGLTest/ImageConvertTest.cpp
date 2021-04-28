@@ -12,7 +12,7 @@
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 using namespace djv::GL;

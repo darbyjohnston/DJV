@@ -1,40 +1,29 @@
 set(header
-    BBoxFunc.h
-    BBoxFuncInline.h
     BBox.h
     BBoxInline.h
     FrameNumber.h
-    FrameNumberFunc.h
     INumericValueModel.h
     INumericValueModelInline.h
-    MathFunc.h
-    MathFuncInline.h
     Math.h
-    MatrixFunc.h
-    MatrixFuncInline.h
+    MathInline.h
+    Matrix.h
+    MatrixInline.h
     Namespace.h
     NumericValueModels.h
-    RangeFunc.h
-    RangeFuncInline.h
     Range.h
     RangeInline.h
-    RationalFunc.h
     Rational.h
-    RationalFuncInline.h
     RationalInline.h
-    RayFunc.h
-    RayFuncInline.h
     Ray.h
     RayInline.h
-    VectorFunc.h
-    VectorFuncInline.h)
+    Vector.h
+    VectorInline.h)
 set(source
-    BBoxFunc.cpp
+    BBox.cpp
     FrameNumber.cpp
-    FrameNumberFunc.cpp
     NumericValueModels.cpp
-    RationalFunc.cpp
-    VectorFunc.cpp)
+    Rational.cpp
+    Vector.cpp)
 
 add_library(djvMath ${header} ${source})
 set(LIBRARIES

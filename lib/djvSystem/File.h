@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <stdio.h>
+
 namespace djv
 {
     namespace System
@@ -22,6 +24,16 @@ namespace djv
             public:
                 explicit Error(const std::string&);
             };
+            
+            //! \name Utility
+            ///@{
+
+            //! This function provides a wrapper for fopen().
+            //! Throws:
+            //! - std::exception
+            FILE* fopen(const std::string& fileName, const std::string& mode);
+
+            ///@}
 
         } // namespace File
     } // namespace System

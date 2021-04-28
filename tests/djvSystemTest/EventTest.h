@@ -25,6 +25,8 @@ namespace djv
             void _coreEvent();
             void _renderEvent();
             void _inputEvent();
+            void _enum();
+            void _serialize();
         };
         
     } // namespace SystemTest

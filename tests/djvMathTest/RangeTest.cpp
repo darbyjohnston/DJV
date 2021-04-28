@@ -24,6 +24,7 @@ namespace djv
             _ctor();
             _util();
             _operators();
+            _serialize();
         }
 
         void RangeTest::_ctor()
@@ -90,6 +91,28 @@ namespace djv
                 DJV_ASSERT(IntRange() != range);
                 DJV_ASSERT(IntRange() < range);
             }
+        }
+
+        void RangeTest::_serialize()
+        {
+            {
+                const IntRange range(1, 10);
+                std::stringstream ss;
+                ss << range;
+                IntRange range2;
+                ss >> range2;
+                DJV_ASSERT(range == range2);
+            }
+
+            try
+            {
+                IntRange range;
+                std::stringstream ss;
+                ss >> range;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
         
     } // namespace MathTest

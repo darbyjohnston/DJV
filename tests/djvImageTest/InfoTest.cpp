@@ -5,7 +5,7 @@
 #include <djvImageTest/InfoTest.h>
 
 #include <djvImage/Info.h>
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 #include <djvCore/Memory.h>
 
@@ -28,6 +28,7 @@ namespace djv
             _layout();
             _size();
             _info();
+            _serialize();
         }
         
         void InfoTest::_mirror()
@@ -183,6 +184,50 @@ namespace djv
                     ss << "    Data byte count: " << info.getDataByteCount();
                     _print(ss.str());
                 }
+            }
+        }
+
+        void InfoTest::_serialize()
+        {
+            {
+                const Image::Size value(1, 2);
+                std::stringstream ss;
+                ss << value;
+                Image::Size value2;
+                ss >> value2;
+                DJV_ASSERT(value == value2);
+            }
+
+            try
+            {
+                Image::Size value;
+                std::stringstream ss;
+                ss >> value;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {
+            }
+
+            {
+                const Image::Size value(1, 2);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                Image::Size value2;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                Image::Size value;
+                fromJSON(json, value);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {
             }
         }
 

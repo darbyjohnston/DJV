@@ -4,7 +4,6 @@
 
 #include <djvViewApp/AnnotateSystem.h>
 
-#include <djvViewApp/AnnotateFunc.h>
 #include <djvViewApp/AnnotateSettings.h>
 #include <djvViewApp/AnnotatePrivate.h>
 #include <djvViewApp/EditSystem.h>
@@ -19,7 +18,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 

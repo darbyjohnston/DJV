@@ -19,8 +19,8 @@ namespace djv
         
         private:
             void _data();
-            void _util();
             void _operators();
+            void _util();
         };
         
     } // namespace ImageTest

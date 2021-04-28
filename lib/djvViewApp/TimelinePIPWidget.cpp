@@ -23,12 +23,12 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvOCIO/OCIOSystem.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvMath/Math.h>
 

@@ -7,7 +7,7 @@
 #include <djvSystem/ISystem.h>
 #include <djvSystem/Path.h>
 
-#include <djvCore/RapidJSONFunc.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {

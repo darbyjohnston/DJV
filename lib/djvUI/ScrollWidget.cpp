@@ -15,7 +15,7 @@
 #include <djvRender2D/Render.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvMath/Math.h>
 
@@ -24,12 +24,18 @@
 
 #include <glm/geometric.hpp>
 
+#include <array>
+#include <list>
+#include <sstream>
+
 using namespace djv::Core;
 
 namespace djv
 {
     namespace UI
     {
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ScrollType);
+        
         namespace
         {
             //! \todo Should this be configurable?
@@ -1261,5 +1267,13 @@ namespace djv
             }
         }
 
-    } // namespace UI    
+    } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        ScrollType,
+        DJV_TEXT("ui_scroll_type_both"),
+        DJV_TEXT("ui_scroll_type_horizontal"),
+        DJV_TEXT("ui_scroll_type_vertical"));
+
 } // namespace djv

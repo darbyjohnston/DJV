@@ -19,113 +19,140 @@ namespace djv
 
     namespace AV
     {
-        namespace IO
+        //! This namespace provides NetPBM file I/O.
+        //!
+        //! References:
+        //! - Netpbm, "PPM Format Specification"
+        //!   http://netpbm.sourceforge.net/doc/ppm.html
+        namespace PPM
         {
-            //! This namespace provides NetPBM file I/O.
-            //!
-            //! References:
-            //! - Netpbm, "PPM Format Specification"
-            //!   http://netpbm.sourceforge.net/doc/ppm.html
-            namespace PPM
+            static const std::string pluginName = "PPM";
+            static const std::set<std::string> fileExtensions = { ".ppm" };
+
+            //! This enumeration provides the PPM file data types.
+            enum class Data
             {
-                static const std::string pluginName = "PPM";
-                static const std::set<std::string> fileExtensions = { ".ppm" };
+                ASCII,
+                Binary,
 
-                //! This enumeration provides the PPM file data types.
-                enum class Data
-                {
-                    ASCII,
-                    Binary,
-
-                    Count,
-                    First = ASCII
-                };
-
-                //! This struct provides the PPM file I/O options.
-                struct Options
-                {
-                    Data data = Data::Binary;
-                    
-                    bool operator == (const Options&) const;
-                };
-
-                //! This class provides the PPM file reader.
-                class Read : public ISequenceRead
-                {
-                    DJV_NON_COPYABLE(Read);
-
-                protected:
-                    Read();
-
-                public:
-                    ~Read() override;
-
-                    static std::shared_ptr<Read> create(
-                        const System::File::Info&,
-                        const ReadOptions&,
-                        const std::shared_ptr<System::TextSystem>&,
-                        const std::shared_ptr<System::ResourceSystem>&,
-                        const std::shared_ptr<System::LogSystem>&);
-
-                protected:
-                    Info _readInfo(const std::string&) override;
-                    std::shared_ptr<Image::Data> _readImage(const std::string&) override;
-
-                private:
-                    Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, Data&);
-                };
+                Count,
+                First = ASCII
+            };
+            DJV_ENUM_HELPERS(Data);
                 
-                //! This class provides the PPM file writer.
-                class Write : public ISequenceWrite
-                {
-                    DJV_NON_COPYABLE(Write);
+            //! Get the number of bytes in a scanline.
+            size_t getScanlineByteCount(
+                int    width,
+                size_t channelCount,
+                size_t bitDepth);
 
-                protected:
-                    Write();
+            //! Read PPM file ASCII data.
+            void readASCII(
+                const std::shared_ptr<System::File::IO>& io,
+                uint8_t* out,
+                size_t size,
+                size_t componentSize);
 
-                public:
-                    ~Write() override;
+            //! Save PPM file ASCII data.
+            size_t writeASCII(
+                const uint8_t * in,
+                char *          out,
+                size_t          size,
+                size_t          componentSize);
 
-                    static std::shared_ptr<Write> create(
-                        const System::File::Info&,
-                        const Info&,
-                        const WriteOptions&,
-                        const Options&,
-                        const std::shared_ptr<System::TextSystem>&,
-                        const std::shared_ptr<System::ResourceSystem>&,
-                        const std::shared_ptr<System::LogSystem>&);
+            //! This struct provides the PPM file I/O options.
+            struct Options
+            {
+                Data data = Data::Binary;
+                    
+                bool operator == (const Options&) const;
+            };
 
-                protected:
-                    Image::Type _getImageType(Image::Type) const override;
-                    Image::Layout _getImageLayout() const override;
-                    void _write(const std::string& fileName, const std::shared_ptr<Image::Data>&) override;
+            //! This class provides the PPM file reader.
+            class Read : public IO::ISequenceRead
+            {
+                DJV_NON_COPYABLE(Read);
 
-                private:
-                    DJV_PRIVATE();
-                };
+            protected:
+                Read();
 
-                //! This class provides the PPM file I/O plugin.
-                class Plugin : public ISequencePlugin
-                {
-                    DJV_NON_COPYABLE(Plugin);
+            public:
+                ~Read() override;
 
-                protected:
-                    Plugin();
+                static std::shared_ptr<Read> create(
+                    const System::File::Info&,
+                    const IO::ReadOptions&,
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
-                public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
+            protected:
+                IO::Info _readInfo(const std::string&) override;
+                std::shared_ptr<Image::Data> _readImage(const std::string&) override;
 
-                    rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
-                    void setOptions(const rapidjson::Value&) override;
+            private:
+                IO::Info _open(const std::string&, const std::shared_ptr<System::File::IO>&, Data&);
+            };
+                
+            //! This class provides the PPM file writer.
+            class Write : public IO::ISequenceWrite
+            {
+                DJV_NON_COPYABLE(Write);
 
-                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions&) const override;
+            protected:
+                Write();
 
-                private:
-                    DJV_PRIVATE();
-                };
+            public:
+                ~Write() override;
 
-            } // namespace PPM
-        } // namespace IO
+                static std::shared_ptr<Write> create(
+                    const System::File::Info&,
+                    const IO::Info&,
+                    const IO::WriteOptions&,
+                    const Options&,
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
+
+            protected:
+                Image::Type _getImageType(Image::Type) const override;
+                Image::Layout _getImageLayout() const override;
+                void _write(const std::string& fileName, const std::shared_ptr<Image::Data>&) override;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+            //! This class provides the PPM file I/O plugin.
+            class Plugin : public IO::ISequencePlugin
+            {
+                DJV_NON_COPYABLE(Plugin);
+
+            protected:
+                Plugin();
+
+            public:
+                static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
+
+                rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
+                void setOptions(const rapidjson::Value&) override;
+
+                std::shared_ptr<IO::IRead> read(const System::File::Info&, const IO::ReadOptions&) const override;
+                std::shared_ptr<IO::IWrite> write(const System::File::Info&, const IO::Info&, const IO::WriteOptions&) const override;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace PPM
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::PPM::Data);
+    
+    rapidjson::Value toJSON(const AV::PPM::Options&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, AV::PPM::Options&);
+
 } // namespace djv

@@ -17,7 +17,7 @@
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/OSFunc.h>
+#include <djvCore/OS.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

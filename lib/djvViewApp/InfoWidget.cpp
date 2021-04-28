@@ -14,11 +14,11 @@
 #include <djvUI/TextBlock.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvSystem/Context.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 

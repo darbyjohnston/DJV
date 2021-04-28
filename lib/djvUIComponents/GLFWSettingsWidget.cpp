@@ -9,7 +9,6 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/UISettings.h>
 
-#include <djvGL/EnumFunc.h>
 #include <djvGL/GLFWSystem.h>
 
 #include <djvSystem/Context.h>

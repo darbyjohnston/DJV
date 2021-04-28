@@ -12,14 +12,14 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvScene3D/IO.h>
 #include <djvScene3D/Scene.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

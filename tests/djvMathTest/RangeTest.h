@@ -23,6 +23,7 @@ namespace djv
             void _ctor();
             void _util();
             void _operators();
+            void _serialize();
         };
         
     } // namespace MathTest

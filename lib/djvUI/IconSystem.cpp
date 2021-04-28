@@ -11,10 +11,9 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/File.h>
-#include <djvSystem/FileInfoFunc.h>
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvCore/Cache.h>
 

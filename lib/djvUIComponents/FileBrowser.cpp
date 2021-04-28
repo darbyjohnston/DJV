@@ -33,13 +33,12 @@
 #include <djvSystem/DirectoryModel.h>
 #include <djvSystem/DrivesModel.h>
 #include <djvSystem/FileInfo.h>
-#include <djvSystem/PathFunc.h>
 #include <djvSystem/RecentFilesModel.h>
 
-#include <djvMath/MathFunc.h>
+#include <djvMath/Math.h>
 
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <ctime>
 

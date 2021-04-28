@@ -21,6 +21,8 @@ namespace djv
             void _config();
             void _system();
             void _operators();
+            void _enum();
+            void _serialize();
         };
         
     } // namespace OCIOTest

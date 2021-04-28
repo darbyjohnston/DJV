@@ -6,6 +6,8 @@
 
 #include <djvMath/Range.h>
 
+#include <djvCore/RapidJSON.h>
+
 #include <vector>
 
 namespace djv
@@ -82,8 +84,50 @@ namespace djv
                 size_t              _pad    = 0;
             };
 
+            //! \name Utility
+            ///@{
+
+            bool isValid(const Range&);
+
+            ///@}
+
+            //! \name Conversion
+            ///@{
+
+            std::vector<Number> toFrames(const Range&);
+            std::vector<Number> toFrames(const Sequence&);
+
+            Sequence fromFrames(const std::vector<Number>&);
+
+            std::string toString(Number, size_t pad = 0);
+            std::string toString(const Range&, size_t pad = 0);
+            std::string toString(const Sequence&);
+
+            //! Throws:
+            //! - std::exception
+            void fromString(const std::string&, Range&, size_t& pad);
+
+            //! Throws:
+            //! - std::exception
+            void fromString(const std::string&, Sequence&);
+
+            ///@}
+
         } // namespace Frame
     } // namespace Math
+
+    std::ostream& operator << (std::ostream&, const Math::Frame::Sequence&);
+
+    //! Throws:
+    //! - std::exception
+    std::istream& operator >> (std::istream&, Math::Frame::Sequence&);
+
+    rapidjson::Value toJSON(const Math::Frame::Sequence&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Math::Frame::Sequence&);
+    
 } // namespace djv
 
 #include <djvMath/FrameNumberInline.h>

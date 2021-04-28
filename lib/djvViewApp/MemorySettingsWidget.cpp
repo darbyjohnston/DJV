@@ -16,7 +16,7 @@
 
 #include <djvSystem/Context.h>
 
-#include <djvCore/OSFunc.h>
+#include <djvCore/OS.h>
 
 using namespace djv::Core;
 

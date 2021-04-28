@@ -4,8 +4,12 @@
 
 #pragma once
 
+#include <djvCore/RapidJSON.h>
+
 #include <map>
+#include <memory>
 #include <string>
+#include <vector>
 
 namespace djv
 {
@@ -47,8 +51,44 @@ namespace djv
 
         //! This typedef provides a map of shortcut data.
         typedef std::map<std::string, ShortcutDataPair> ShortcutDataMap;
+        
+        //! Get the system specific shortcut modifier.
+        int getSystemModifier();
+
+        //! \name Conversion
+        ///@{
+
+        std::map<int, std::string> getKeyStrings();
+        std::map<int, std::string> getModifierStrings();
+
+        std::string keyToString(int);
+        std::string modifierToString(int);
+        int keyFromString(const std::string&);
+        int modifierFromString(const std::string&);
+
+        std::string getText(
+            const ShortcutData&,
+            const std::shared_ptr<System::TextSystem>&);
+        std::string getText(
+            int key,
+            int keyModifiers,
+            const std::shared_ptr<System::TextSystem>&);
+
+        ///@}
 
     } // namespace UI
+
+    rapidjson::Value toJSON(const UI::ShortcutData&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const UI::ShortcutDataPair&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ShortcutData&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ShortcutDataPair&);
+
 } // namespace djv
 
 #include <djvUI/ShortcutDataInline.h>

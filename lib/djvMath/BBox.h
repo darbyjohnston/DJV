@@ -4,10 +4,13 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/RapidJSON.h>
 
+#include <glm/mat4x4.hpp>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+
+#include <sstream>
 
 namespace djv
 {
@@ -150,6 +153,40 @@ namespace djv
 #endif //GLM_PRECISION
 
     } // namespace Math
+
+    template<typename T, glm::precision P = glm::defaultp>
+    bool fuzzyCompare(const Math::tBBox2<T, P>&, const Math::tBBox2<T, P>&) noexcept;
+    template<typename T, glm::precision P = glm::defaultp>
+    bool fuzzyCompare(const Math::tBBox3<T, P>&, const Math::tBBox3<T, P>&) noexcept;
+
+    template<typename T, glm::precision P = glm::defaultp>
+    Math::tBBox3<T, P> operator * (const Math::tBBox3<T, P>&, const glm::mat4&) noexcept;
+
+    template<typename T, glm::precision P = glm::defaultp>
+    std::ostream& operator << (std::ostream&, const Math::tBBox2<T, P>&);
+    template<typename T, glm::precision P = glm::defaultp>
+    std::ostream& operator << (std::ostream&, const Math::tBBox3<T, P>&);
+
+    //! Throws:
+    //! - std::exception
+    template<typename T, glm::precision P = glm::defaultp>
+    std::istream& operator >> (std::istream&, Math::tBBox2<T, P>&);
+
+    //! Throws:
+    //! - std::exception
+    template<typename T, glm::precision P = glm::defaultp>
+    std::istream& operator >> (std::istream&, Math::tBBox3<T, P>&);
+
+    rapidjson::Value toJSON(const Math::BBox2i&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Math::BBox2f&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Math::BBox3f&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, Math::BBox2i&);
+    void fromJSON(const rapidjson::Value&, Math::BBox2f&);
+    void fromJSON(const rapidjson::Value&, Math::BBox3f&);
+
 } // namespace djv
 
 #include <djvMath/BBoxInline.h>

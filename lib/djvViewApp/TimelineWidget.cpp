@@ -26,7 +26,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvSystem/Context.h>
 

@@ -5,9 +5,9 @@
 #include <djvViewApp/FileSettings.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/FileInfoFunc.h>
+#include <djvSystem/FileInfo.h>
 
-#include <djvMath/BBoxFunc.h>
+#include <djvMath/BBox.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

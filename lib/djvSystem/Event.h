@@ -6,6 +6,7 @@
 
 #include <djvMath/BBox.h>
 
+#include <djvCore/Enum.h>
 #include <djvCore/Time.h>
 
 #include <chrono>
@@ -54,6 +55,7 @@ namespace djv
                 Count,
                 First = Update
             };
+            DJV_ENUM_HELPERS(Type);
 
             //! This class provides the event base class.
             class Event
@@ -383,6 +385,9 @@ namespace djv
 
         } // namespace Event
     } // namespace System
+
+    DJV_ENUM_SERIALIZE_HELPERS(System::Event::Type);
+
 } // namespace djv
 
 #include <djvSystem/EventInline.h>

@@ -7,16 +7,15 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/DirectoryWatcher.h>
 #include <djvSystem/FileInfo.h>
-#include <djvSystem/FileInfoFunc.h>
 #include <djvSystem/FileIO.h>
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvCore/OSFunc.h>
-#include <djvCore/RapidJSONFunc.h>
+#include <djvCore/OS.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <rapidjson/error/en.h>
 

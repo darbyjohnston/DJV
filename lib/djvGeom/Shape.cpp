@@ -4,10 +4,10 @@
 
 #include <djvGeom/Shape.h>
 
-#include <djvGeom/TriangleMeshFunc.h>
+#include <djvGeom/TriangleMesh.h>
 
 #include <djvMath/Math.h>
-#include <djvMath/MathFunc.h>
+#include <djvMath/Math.h>
 
 using namespace djv::Core;
 

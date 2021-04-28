@@ -39,6 +39,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(SceneRotate);
 
         //! This struct provides render options.
         struct SceneRenderOptions
@@ -126,5 +127,8 @@ namespace djv
         };
 
     } // namespace UIComponents
+
+    DJV_ENUM_SERIALIZE_HELPERS(UIComponents::SceneRotate);
+
 } // namespace djv
 

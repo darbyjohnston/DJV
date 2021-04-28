@@ -5,7 +5,7 @@
 #include <djvUI/LineEditBase.h>
 
 #include <djvUI/EventSystem.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 
 #include <djvRender2D/FontSystem.h>

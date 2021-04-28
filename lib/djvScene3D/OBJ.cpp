@@ -12,10 +12,10 @@
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvGeom/TriangleMeshFunc.h>
+#include <djvGeom/TriangleMesh.h>
 
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 

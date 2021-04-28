@@ -1,7 +1,6 @@
 set(header
     AboutDialog.h
 	Annotate.h
-	AnnotateFunc.h
 	AnnotateSettings.h
 	AnnotateSystem.h
 	AnnotatePrivate.h
@@ -9,7 +8,6 @@ set(header
 	ApplicationSettings.h
 	AudioSystem.h
     ColorPickerData.h
-    ColorPickerDataFunc.h
     ColorPickerSettings.h
     ColorPickerSystem.h
     ColorPickerWidget.h
@@ -20,7 +18,6 @@ set(header
     DebugWidget.h
     EditSystem.h
     Enum.h
-    EnumFunc.h
     FileSystem.h
     FileSettings.h
     FileSettingsWidget.h
@@ -29,7 +26,6 @@ set(header
     IViewAppSystem.h
     ImageControlsWidget.h
     ImageData.h
-    ImageDataFunc.h
 	ImageSettings.h
     ImageSystem.h
     InfoSystem.h
@@ -73,7 +69,6 @@ set(header
     ViewOptionsWidget.h
     ViewPanZoomWidget.h
 	ViewData.h
-	ViewDataFunc.h
 	ViewSettings.h
     ViewSystem.h
     ViewWidget.h
@@ -86,7 +81,6 @@ set(source
     AboutDialog.cpp
 	Annotate.cpp
 	AnnotateCommentWidget.cpp
-	AnnotateFunc.cpp
 	AnnotateSettings.cpp
 	AnnotateSummaryWidget.cpp
 	AnnotateSystem.cpp
@@ -96,7 +90,6 @@ set(source
 	ApplicationSettings.cpp
 	AudioSystem.cpp
     ColorPickerData.cpp
-    ColorPickerDataFunc.cpp
     ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
@@ -109,7 +102,7 @@ set(source
     DebugSystem.cpp
     DebugWidget.cpp
     EditSystem.cpp
-    EnumFunc.cpp
+    Enum.cpp
     FileSettings.cpp
     FileSettingsWidget.cpp
     FileSystem.cpp
@@ -118,7 +111,6 @@ set(source
     IViewAppSystem.cpp
     ImageControlsWidget.cpp
     ImageData.cpp
-    ImageDataFunc.cpp
 	ImageSettings.cpp
     ImageSystem.cpp
     InfoSystem.cpp
@@ -163,7 +155,6 @@ set(source
     ViewOptionsWidget.cpp
     ViewPanZoomWidget.cpp
 	ViewData.cpp
-	ViewDataFunc.cpp
     ViewGridOverlay.cpp
 	ViewHUDOverlay.cpp
 	ViewSettings.cpp

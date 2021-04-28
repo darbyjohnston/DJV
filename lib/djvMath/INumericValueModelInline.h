@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvMath/MathFunc.h>
+#include <djvMath/Math.h>
 
 namespace djv
 {

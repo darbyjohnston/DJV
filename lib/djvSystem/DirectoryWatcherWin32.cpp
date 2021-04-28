@@ -7,10 +7,10 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/Path.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
 
 #include <atomic>

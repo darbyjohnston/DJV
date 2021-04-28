@@ -31,6 +31,8 @@ namespace djv
             _coreEvent();
             _renderEvent();
             _inputEvent();
+            _enum();
+            _serialize();
         }
 
         namespace
@@ -317,6 +319,28 @@ namespace djv
                 DJV_ASSERT(event.getEventType() == Event::Type::TextInput);
                 DJV_ASSERT(event.getUtf32() == utf32);
                 DJV_ASSERT(event.getTextModifiers() == textModifiers);
+            }
+        }
+
+        void EventTest::_enum()
+        {
+            for (auto i : Event::getTypeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Event type: " + _getText(ss.str()));
+            }
+        }
+        
+        void EventTest::_serialize()
+        {
+            for (auto i : Event::getTypeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                Event::Type j = Event::Type::First;
+                ss >> j;
+                DJV_ASSERT(i == j);
             }
         }
         

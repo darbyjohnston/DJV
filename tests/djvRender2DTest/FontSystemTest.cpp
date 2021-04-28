@@ -8,11 +8,11 @@
 #include <djvRender2D/FontSystem.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvMath/VectorFunc.h>
+#include <djvMath/Vector.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 using namespace djv::Render2D;
@@ -136,7 +136,6 @@ namespace djv
                 auto measureGlyphsFuture = system->measureGlyphs(text, fontInfo);
                 auto textLinesFuture = system->textLines(text, 100, fontInfo);
                 auto glyphsFuture = system->getGlyphs(text, fontInfo);
-                system->cacheGlyphs(text, fontInfo);
                 
                 Font::Metrics metrics;
                 glm::vec2 measure = glm::vec2(0.F, 0.F);

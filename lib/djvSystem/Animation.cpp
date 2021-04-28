@@ -4,12 +4,13 @@
 
 #include <djvSystem/Animation.h>
 
-#include <djvSystem/AnimationFunc.h>
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
 
 #include <djvMath/Math.h>
-#include <djvMath/MathFunc.h>
+
+#include <array>
+#include <sstream>
 
 //#pragma optimize("", off)
 
@@ -21,6 +22,24 @@ namespace djv
     {
         namespace Animation
         {
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Type);
+
+            Function getFunction(Type value)
+            {
+                const std::array<Function, 5> data =
+                {
+                    [](float t) { return t; },
+                    [](float t) { return powf(t, 2.F); },
+                    [](float t) { return powf(t, .5F); },
+                    [](float t) { return Math::smoothStep(t, 0.F, 1.F); },
+                    [](float t)
+                {
+                    return (sinf(t * Math::pi2 - Math::pi / 2.F) + 1.F) * .5F;
+                }
+                };
+                return data[static_cast<size_t>(value)];
+            }
+
             void Animation::_init(const std::shared_ptr<Context>& context)
             {
                 _function = getFunction(_type);
@@ -164,5 +183,15 @@ namespace djv
 
         } // namespace Animation
     } // namespace System
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        System::Animation,
+        Type,
+        DJV_TEXT("animation_type_linear"),
+        DJV_TEXT("animation_type_ease_in"),
+        DJV_TEXT("animation_type_ease_out"),
+        DJV_TEXT("animation_type_smooth_step"),
+        DJV_TEXT("animation_type_sine"));
+
 } // namespace djv
 

@@ -6,7 +6,7 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvOCIO/OCIOSystemFunc.h>
+#include <djvOCIO/OCIOSystem.h>
 
 #include <djvSystem/Context.h>
 

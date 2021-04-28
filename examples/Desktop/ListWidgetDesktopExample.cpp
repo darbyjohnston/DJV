@@ -15,8 +15,8 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/String.h>
 
 using namespace djv;
 

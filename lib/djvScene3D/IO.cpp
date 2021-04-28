@@ -16,7 +16,7 @@
 #include <djvSystem/TextSystem.h>
 
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <map>
 #include <sstream>

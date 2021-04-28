@@ -4,7 +4,6 @@
 
 #include <djvUI/GLFWSettings.h>
 
-#include <djvGL/EnumFunc.h>
 #include <djvGL/GLFWSystem.h>
 
 #include <djvSystem/Context.h>

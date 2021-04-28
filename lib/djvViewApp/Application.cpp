@@ -36,9 +36,9 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/SpeedFunc.h>
+#include <djvAV/Speed.h>
 #include <djvSystem/TextSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvOCIO/OCIOSystem.h>
 

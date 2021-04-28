@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvMath/MathFunc.h>
+#include <djvMath/Math.h>
 
 namespace djv
 {
@@ -66,6 +66,12 @@ namespace djv
         inline bool Rational<T>::operator != (const Rational& other) const noexcept
         {
             return !(*this == other);
+        }
+
+        template<typename T>
+        inline Math::Rational<T> operator * (const Math::Rational<T>& a, const Math::Rational<T>& b)
+        {
+            return Math::Rational<T>(a.getNum() * b.getNum(), a.getDen() * b.getDen());
         }
 
     } // namespace Math

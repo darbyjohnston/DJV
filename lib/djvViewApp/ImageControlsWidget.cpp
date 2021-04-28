@@ -14,7 +14,6 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
-#include <djvUI/EnumFunc.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ImageWidget.h>
@@ -23,9 +22,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToolButton.h>
-
-#include <djvRender2D/EnumFunc.h>
-#include <djvRender2D/DataFunc.h>
 
 #include <djvSystem/Context.h>
 

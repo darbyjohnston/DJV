@@ -6,13 +6,12 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileIO.h>
-#include <djvSystem/PathFunc.h>
 #include <djvSystem/ResourceSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/OSFunc.h>
-#include <djvCore/TimeFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/OS.h>
+#include <djvCore/Time.h>
 
 #include <atomic>
 #include <condition_variable>

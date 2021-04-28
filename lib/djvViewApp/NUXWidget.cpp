@@ -34,11 +34,11 @@
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TextSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvMath/Math.h>
 
-#include <djvCore/RandomFunc.h>
+#include <djvCore/Random.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

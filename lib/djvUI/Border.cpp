@@ -5,7 +5,7 @@
 #include <djvUI/Border.h>
 
 #include <djvUI/DrawUtil.h>
-#include <djvUI/StackLayoutFunc.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/Style.h>
 
 #include <djvRender2D/Render.h>

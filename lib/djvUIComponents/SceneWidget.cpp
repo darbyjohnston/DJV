@@ -18,7 +18,7 @@
 #endif // DJV_GL_ES2
 
 #include <djvSystem/Context.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 #if defined(DJV_GL_ES2)
 #include <djvSystem/ResourceSystem.h>
 #endif // DJV_GL_ES2
@@ -33,6 +33,8 @@ namespace djv
 {
     namespace UIComponents
     {
+        DJV_ENUM_HELPERS_IMPLEMENTATION(SceneRotate);
+        
         namespace
         {
             //! \todo Should these be configurable?
@@ -491,4 +493,16 @@ namespace djv
         }
 
     } // namespace UIComponents
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UIComponents,
+        SceneRotate,
+        DJV_TEXT("scene_rotate_none"),
+        DJV_TEXT("scene_rotate_x_+90"),
+        DJV_TEXT("scene_rotate_x_-90"),
+        DJV_TEXT("scene_rotate_y_+90"),
+        DJV_TEXT("scene_rotate_y_-90"),
+        DJV_TEXT("scene_rotate_z_+90"),
+        DJV_TEXT("scene_rotate_z_-90"));
+
 } // namespace djv

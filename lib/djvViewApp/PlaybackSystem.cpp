@@ -16,7 +16,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>

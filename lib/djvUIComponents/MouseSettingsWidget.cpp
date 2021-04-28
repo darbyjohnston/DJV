@@ -6,7 +6,6 @@
 
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
-#include <djvUI/EnumFunc.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/MouseSettings.h>
 #include <djvUI/RowLayout.h>

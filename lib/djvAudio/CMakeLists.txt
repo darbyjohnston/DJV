@@ -1,23 +1,17 @@
 set(header
     AudioSystem.h
-    AudioSystemFunc.h
     Data.h
     DataInline.h
-    DataFunc.h
-    DataFuncInline.h
     Info.h
     InfoInline.h
-    TypeFunc.h
-    TypeFuncInline.h
     Type.h
+    TypeInline.h
     Namespace.h)
 set(source
     AudioSystem.cpp
-    AudioSystemFunc.cpp
     Data.cpp
-    DataFunc.cpp
     Info.cpp
-    TypeFunc.cpp)
+    Type.cpp)
 
 add_library(djvAudio ${header} ${source})
 set(LIBRARIES

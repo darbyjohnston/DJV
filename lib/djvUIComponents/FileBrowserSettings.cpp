@@ -4,18 +4,13 @@
 
 #include <djvUIComponents/FileBrowserSettings.h>
 
-#include <djvUI/EnumFunc.h>
-#include <djvUI/ShortcutDataFunc.h>
-
 #include <djvImage/Info.h>
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/FileInfoFunc.h>
-#include <djvSystem/PathFunc.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/OSFunc.h>
+#include <djvCore/OS.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

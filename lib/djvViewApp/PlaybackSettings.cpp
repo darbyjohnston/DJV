@@ -4,11 +4,9 @@
 
 #include <djvViewApp/PlaybackSettings.h>
 
-#include <djvViewApp/EnumFunc.h>
-
 #include <djvSystem/Context.h>
 
-#include <djvMath/RationalFunc.h>
+#include <djvMath/Rational.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

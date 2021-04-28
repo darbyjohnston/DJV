@@ -5,9 +5,8 @@
 #include <djvViewApp/ColorPickerSettings.h>
 
 #include <djvViewApp/ColorPickerData.h>
-#include <djvViewApp/ColorPickerDataFunc.h>
 
-#include <djvMath/BBoxFunc.h>
+#include <djvMath/BBox.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

@@ -6,6 +6,8 @@
 
 #include <djvImage/Type.h>
 
+#include <djvCore/RapidJSON.h>
+
 namespace djv
 {
     namespace ViewApp
@@ -22,5 +24,12 @@ namespace djv
         };
 
     } // namespace ViewApp
+
+    rapidjson::Value toJSON(const ViewApp::ColorPickerData&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::ColorPickerData&);
+    
 } // namespace djv
 

@@ -4,7 +4,7 @@
 
 #include <djvViewApp/MagnifySettings.h>
 
-#include <djvMath/BBoxFunc.h>
+#include <djvMath/BBox.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

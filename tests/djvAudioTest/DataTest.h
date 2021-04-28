@@ -21,6 +21,8 @@ namespace djv
             void _info();
             void _data();
             void _operators();
+            void _util();
+            void _convert();
         };
         
     } // namespace AudioTest

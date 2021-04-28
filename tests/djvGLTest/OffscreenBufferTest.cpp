@@ -4,14 +4,14 @@
 
 #include <djvGLTest/OffscreenBufferTest.h>
 
-#include <djvGL/OffscreenBufferFunc.h>
+#include <djvGL/OffscreenBuffer.h>
 
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 using namespace djv::Core;
 using namespace djv::GL;
@@ -28,6 +28,8 @@ namespace djv
         
         void OffscreenBufferTest::run()
         {
+            _enum();
+            
             if (auto context = getContext().lock())
             {
                 auto textSystem = context->getSystemT<System::TextSystem>();
@@ -114,6 +116,23 @@ namespace djv
                         }
                     }
                 }
+            }
+        }
+
+        void OffscreenBufferTest::_enum()
+        {
+            for (const auto& i : getOffscreenDepthTypeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Depth type: " + _getText(ss.str()));
+            }
+            
+            for (const auto& i : getOffscreenSamplingEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Offscreen sampling: " + _getText(ss.str()));
             }
         }
         

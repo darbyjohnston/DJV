@@ -8,7 +8,6 @@
 
 #include <djvSystem/Path.h>
 #include <djvSystem/FileIO.h>
-#include <djvSystem/FileIOFunc.h>
 
 #include <djvCore/String.h>
 #include <djvCore/StringFormat.h>

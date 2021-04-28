@@ -9,7 +9,7 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/ResourceSystem.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 #include <djvCore/ValueObserver.h>
 
 #include <sstream>
@@ -32,6 +32,8 @@ namespace djv
             _config();
             _system();
             _operators();
+            _enum();
+            _serialize();
         }
         
         void OCIOSystemTest::_config()
@@ -240,7 +242,60 @@ namespace djv
                 DJV_ASSERT(config == config);
             }
         }
-        
+
+        void OCIOSystemTest::_enum()
+        {
+            for (const auto& i : OCIO::getConfigModeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Config mode: " + _getText(ss.str()));
+            }
+        }
+
+        void OCIOSystemTest::_serialize()
+        {
+            {
+                OCIO::ConfigMode value = OCIO::ConfigMode::First;
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                OCIO::ConfigMode value2;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+
+            try
+            {
+                auto json = rapidjson::Value();
+                OCIO::ConfigMode value;
+                fromJSON(json, value);
+                DJV_ASSERT(false);
+            }
+            
+            catch (const std::exception&)
+            {}
+            {
+                OCIO::Config config = createConfig();
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(config, allocator);
+                OCIO::Config config2;
+                fromJSON(json, config2);
+                DJV_ASSERT(config == config2);
+            }
+
+            try
+            {
+                auto json = rapidjson::Value();
+                OCIO::Config config;
+                fromJSON(json, config);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+        }
+
     } // namespace OCIOTest
 } // namespace djv
 

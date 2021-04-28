@@ -1,33 +1,33 @@
 set(header
 	CacheTest.h
     EnumTest.h
-    ErrorFuncTest.h
+    ErrorTest.h
     ListObserverTest.h
     MapObserverTest.h
-    MemoryFuncTest.h
-    OSFuncTest.h
-	RandomFuncTest.h
-	RapidJSONFuncTest.h
+    MemoryTest.h
+    OSTest.h
+	RandomTest.h
+	RapidJSONTest.h
     StringFormatTest.h
-    StringFuncTest.h
-    TimeFuncTest.h
-    UIDFuncTest.h
+    StringTest.h
+    TimeTest.h
+    UIDTest.h
     UndoStackTest.h
     ValueObserverTest.h)
 set(source
 	CacheTest.cpp
     EnumTest.cpp
-    ErrorFuncTest.cpp
+    ErrorTest.cpp
     ListObserverTest.cpp
     MapObserverTest.cpp
-    MemoryFuncTest.cpp
-    OSFuncTest.cpp
-	RandomFuncTest.cpp
-	RapidJSONFuncTest.cpp
+    MemoryTest.cpp
+    OSTest.cpp
+	RandomTest.cpp
+	RapidJSONTest.cpp
     StringFormatTest.cpp
-    StringFuncTest.cpp
-    TimeFuncTest.cpp
-    UIDFuncTest.cpp
+    StringTest.cpp
+    TimeTest.cpp
+    UIDTest.cpp
     UndoStackTest.cpp
     ValueObserverTest.cpp)
 

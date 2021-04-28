@@ -6,6 +6,7 @@
 
 #include <djvSystem/ISystem.h>
 
+#include <djvCore/Enum.h>
 #include <djvCore/Time.h>
 
 #include <chrono>
@@ -29,6 +30,7 @@ namespace djv
             Count,
             First = VerySlow
         };
+        DJV_ENUM_HELPERS(TimerValue);
 
         //! This class provides a timer.
         class Timer : public std::enable_shared_from_this<Timer>
@@ -101,8 +103,20 @@ namespace djv
 
             friend class Timer;
         };
+        
+        //! \name Information
+        ///@{
+
+        size_t getTimerValue(TimerValue);
+        
+        Core::Time::Duration getTimerDuration(TimerValue);
+
+        ///@}
 
     } // namespace System
+
+    DJV_ENUM_SERIALIZE_HELPERS(System::TimerValue);
+
 } // namespace djv
 
 #include <djvSystem/TimerInline.h>

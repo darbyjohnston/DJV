@@ -4,7 +4,7 @@
 
 #include <djvAV/IO.h>
 
-#include <djvAV/SpeedFunc.h>
+#include <djvAV/Speed.h>
 
 using namespace djv::Core;
 

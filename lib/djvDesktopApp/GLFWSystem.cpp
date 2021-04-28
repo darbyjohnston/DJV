@@ -10,7 +10,7 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/CoreSystem.h>
 #include <djvSystem/LogSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvCore/OS.h>
 

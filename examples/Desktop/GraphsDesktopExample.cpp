@@ -12,7 +12,7 @@
 
 #include <djvSystem/Timer.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 using namespace djv;
 

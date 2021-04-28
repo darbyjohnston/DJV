@@ -4,7 +4,6 @@
 
 #include <djvViewApp/ViewOptionsWidget.h>
 
-#include <djvViewApp/EnumFunc.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/ViewData.h>
 #include <djvViewApp/ViewSettings.h>

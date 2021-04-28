@@ -35,6 +35,9 @@ namespace djv
                 PageDown
             };
 
+            //! Convert a GLFW key to a numeric widget keyboard shortcut.
+            Key glfwToKey(int);
+
             //! This class provides the interface for numeric widgets.
             template<typename T>
             class IWidget

@@ -7,7 +7,7 @@
 #include <djvSystem/FileInfo.h>
 #include <djvSystem/ISystem.h>
 
-#include <djvCore/RapidJSONFunc.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/ValueObserver.h>
 
 #include <future>

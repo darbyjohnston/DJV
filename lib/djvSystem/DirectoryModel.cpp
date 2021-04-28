@@ -5,9 +5,7 @@
 #include <djvSystem/DirectoryModel.h>
 
 #include <djvSystem/DirectoryWatcher.h>
-#include <djvSystem/FileInfoFunc.h>
-#include <djvSystem/TimerFunc.h>
-#include <djvSystem/PathFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvCore/OS.h>
 

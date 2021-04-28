@@ -5,7 +5,7 @@
 #include <djvCoreTest/UndoStackTest.h>
 
 #include <djvCore/ICommand.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 #include <djvCore/UndoStack.h>
 
 #include <sstream>

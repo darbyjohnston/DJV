@@ -14,7 +14,6 @@ set(header
     DrawUtil.h
     DrawerLayout.h
     Enum.h
-    EnumFunc.h
     EventSystem.h
     FloatEdit.h
     FloatLabel.h
@@ -25,12 +24,10 @@ set(header
     GLFWSettings.h
     GeneralSettings.h
     GridLayout.h
-    GridLayoutFunc.h
     GroupBox.h
     IButton.h
     IDialog.h
     INumericWidget.h
-    INumericWidgetFunc.h
     INumericWidgetInline.h
     ISettings.h
     ISettingsTemplates.h
@@ -68,9 +65,7 @@ set(header
     PushButton.h
     Render2DSettings.h
     RowLayout.h
-    RowLayoutFunc.h
     ScrollWidget.h
-    ScrollWidgetFunc.h
     SelectionModel.h
     SelectionModelInline.h
     Separator.h
@@ -78,7 +73,6 @@ set(header
     SettingsSystemInline.h
     Shortcut.h
     ShortcutData.h
-    ShortcutDataFunc.h
     ShortcutDataInline.h
     Spacer.h
     Spacing.h
@@ -86,9 +80,7 @@ set(header
     Splitter.h
     SoloLayout.h
     StackLayout.h
-    StackLayoutFunc.h
     Style.h
-    StyleFunc.h
     StyleInline.h
     StyleSettings.h
     TabBar.h
@@ -119,7 +111,7 @@ set(source
     DialogSystem.cpp
     DrawUtil.cpp
     DrawerLayout.cpp
-    EnumFunc.cpp
+    Enum.cpp
     EventSystem.cpp
     FloatEdit.cpp
     FloatLabel.cpp
@@ -130,11 +122,10 @@ set(source
     GLFWSettings.cpp
     GeneralSettings.cpp
     GridLayout.cpp
-    GridLayoutFunc.cpp
     GroupBox.cpp
     IButton.cpp
     IDialog.cpp
-    INumericWidgetFunc.cpp
+    INumericWidget.cpp
     ISettings.cpp
     ITooltipWidget.cpp
     IconSystem.cpp
@@ -167,23 +158,18 @@ set(source
     PushButton.cpp
     Render2DSettings.cpp
     RowLayout.cpp
-    RowLayoutFunc.cpp
     ScrollWidget.cpp
-    ScrollWidgetFunc.cpp
     SelectionModel.cpp
     Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp
     ShortcutData.cpp
-    ShortcutDataFunc.cpp
     Spacer.cpp
     Spacing.cpp
     Splitter.cpp
     SoloLayout.cpp
     StackLayout.cpp
-    StackLayoutFunc.cpp
     Style.cpp
-    StyleFunc.cpp
     StyleSettings.cpp
     TabBar.cpp
     TabWidget.cpp

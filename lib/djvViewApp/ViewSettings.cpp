@@ -4,10 +4,9 @@
 
 #include <djvViewApp/ViewSettings.h>
 
-#include <djvViewApp/EnumFunc.h>
-#include <djvViewApp/ViewDataFunc.h>
+#include <djvViewApp/ViewData.h>
 
-#include <djvMath/BBoxFunc.h>
+#include <djvMath/BBox.h>
 #include <djvSystem/Context.h>
 
 // These need to be included last on macOS.

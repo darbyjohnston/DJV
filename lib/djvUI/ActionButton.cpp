@@ -10,14 +10,14 @@
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvRender2D/Render.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

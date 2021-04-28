@@ -14,7 +14,7 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Window.h>
 
 #include <djvRender2D/FontSystem.h>
@@ -25,7 +25,7 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 

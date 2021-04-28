@@ -10,7 +10,6 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvRender2D/DataFunc.h>
 #include <djvRender2D/RenderSystem.h>
 
 #include <djvSystem/Context.h>

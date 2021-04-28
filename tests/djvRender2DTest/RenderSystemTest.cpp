@@ -4,8 +4,8 @@
 
 #include <djvRender2DTest/RenderSystemTest.h>
 
-#include <djvRender2D/DataFunc.h>
-#include <djvRender2D/EnumFunc.h>
+#include <djvRender2D/Data.h>
+#include <djvRender2D/Enum.h>
 #include <djvRender2D/RenderSystem.h>
 
 #include <djvSystem/Context.h>

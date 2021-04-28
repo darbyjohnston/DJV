@@ -5,7 +5,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/SpeedFunc.h>
+#include <djvAV/Speed.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvOCIO/OCIOSystem.h>

@@ -5,7 +5,6 @@
 #include <djvUI/FloatEdit.h>
 
 #include <djvUI/FloatLabel.h>
-#include <djvUI/INumericWidgetFunc.h>
 #include <djvUI/LineEdit.h>
 
 #include <djvMath/NumericValueModels.h>

@@ -8,7 +8,7 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/IntSlider.h>
 
-#include <djvAV/FFmpegFunc.h>
+#include <djvAV/FFmpeg.h>
 #include <djvAV/IOSystem.h>
 
 #include <djvSystem/Context.h>
@@ -53,12 +53,12 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 auto io = context->getSystemT<AV::IO::IOSystem>();
-                                AV::IO::FFmpeg::Options options;
+                                AV::FFmpeg::Options options;
                                 rapidjson::Document document;
                                 auto& allocator = document.GetAllocator();
-                                fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
+                                fromJSON(io->getOptions(AV::FFmpeg::pluginName, allocator), options);
                                 options.threadCount = value;
-                                io->setOptions(AV::IO::FFmpeg::pluginName, toJSON(options, allocator));
+                                io->setOptions(AV::FFmpeg::pluginName, toJSON(options, allocator));
                             }
                         }
                     });
@@ -106,10 +106,10 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     auto io = context->getSystemT<AV::IO::IOSystem>();
-                    AV::IO::FFmpeg::Options options;
+                    AV::FFmpeg::Options options;
                     rapidjson::Document document;
                     auto& allocator = document.GetAllocator();
-                    fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
+                    fromJSON(io->getOptions(AV::FFmpeg::pluginName, allocator), options);
                     p.threadCountSlider->setValue(options.threadCount);
                 }
             }

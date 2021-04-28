@@ -5,7 +5,7 @@
 #include <djvSystem/DrivesModel.h>
 
 #include <djvSystem/Path.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <atomic>
 #include <mutex>

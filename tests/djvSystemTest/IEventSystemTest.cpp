@@ -8,9 +8,9 @@
 #include <djvSystem/IEventSystem.h>
 #include <djvSystem/IObject.h>
 
-#include <djvMath/VectorFunc.h>
+#include <djvMath/Vector.h>
 
-#include <djvCore/RandomFunc.h>
+#include <djvCore/Random.h>
 
 using namespace djv::Core;
 using namespace djv::System;

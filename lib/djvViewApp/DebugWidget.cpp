@@ -23,7 +23,7 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 using namespace djv::Core;
 

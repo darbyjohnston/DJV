@@ -6,7 +6,7 @@
 
 #include <djvGL/ImageConvert.h>
 
-#include <djvAV/SpeedFunc.h>
+#include <djvAV/Speed.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/File.h>
@@ -14,9 +14,9 @@
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/Path.h>
 #include <djvSystem/TextSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvCore/OSFunc.h>
+#include <djvCore/OS.h>
 #include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
 

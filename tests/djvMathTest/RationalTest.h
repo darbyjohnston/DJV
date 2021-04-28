@@ -24,6 +24,7 @@ namespace djv
             void _conversion();
             void _util();
             void _operators();
+            void _serialize();
         };
         
     } // namespace MathTest

@@ -14,8 +14,8 @@
 
 #include <djvSystem/Timer.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/RandomFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/Random.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

@@ -8,7 +8,7 @@
 #include <djvUI/IntSlider.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/JPEGFunc.h>
+#include <djvAV/JPEG.h>
 
 #include <djvSystem/Context.h>
 
@@ -54,12 +54,12 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 auto io = context->getSystemT<AV::IO::IOSystem>();
-                                AV::IO::JPEG::Options options;
+                                AV::JPEG::Options options;
                                 rapidjson::Document document;
                                 auto& allocator = document.GetAllocator();
-                                fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
+                                fromJSON(io->getOptions(AV::JPEG::pluginName, allocator), options);
                                 options.quality = value;
-                                io->setOptions(AV::IO::JPEG::pluginName, toJSON(options, allocator));
+                                io->setOptions(AV::JPEG::pluginName, toJSON(options, allocator));
                             }
                         }
                     });
@@ -107,10 +107,10 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     auto io = context->getSystemT<AV::IO::IOSystem>();
-                    AV::IO::JPEG::Options options;
+                    AV::JPEG::Options options;
                     rapidjson::Document document;
                     auto& allocator = document.GetAllocator();
-                    fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
+                    fromJSON(io->getOptions(AV::JPEG::pluginName, allocator), options);
                     p.qualitySlider->setValue(options.quality);
                 }
             }

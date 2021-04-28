@@ -14,7 +14,7 @@
 #include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvOCIO/OCIOSystemFunc.h>
+#include <djvOCIO/OCIOSystem.h>
 
 #include <djvSystem/Context.h>
 

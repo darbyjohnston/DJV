@@ -5,11 +5,10 @@
 #include <djvAudioTest/AudioSystemTest.h>
 
 #include <djvAudio/AudioSystem.h>
-#include <djvAudio/AudioSystemFunc.h>
 
 #include <djvSystem/Context.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <sstream>
 
@@ -28,6 +27,13 @@ namespace djv
         
         void AudioSystemTest::run()
         {
+            for (const auto& i : Audio::getDeviceFormatEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Device format: " + _getText(ss.str()));
+            }
+            
             if (auto context = getContext().lock())
             {
                 auto system = context->getSystemT<AudioSystem>();

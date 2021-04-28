@@ -6,16 +6,14 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/FileInfoFunc.h>
-#include <djvSystem/PathFunc.h>
 #include <djvSystem/TextSystem.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 #include <djvCore/StringFormat.h>
 
 using namespace djv;

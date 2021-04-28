@@ -4,11 +4,11 @@
 
 #include <djvGL/MeshCache.h>
 
-#include <djvGL/MeshFunc.h>
+#include <djvGL/Mesh.h>
 
 #include <djvMath/Range.h>
 
-#include <djvCore/UIDFunc.h>
+#include <djvCore/UID.h>
 
 #include <map>
 #include <set>

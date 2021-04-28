@@ -4,6 +4,12 @@
 
 #pragma once
 
+#include <djvCore/Enum.h>
+#include <djvCore/RapidJSON.h>
+
+#include <sstream>
+#include <vector>
+
 namespace djv
 {
     namespace UI
@@ -17,6 +23,10 @@ namespace djv
             Count,
             First = Horizontal
         };
+        DJV_ENUM_HELPERS(Orientation);
+        
+        //! Get the opposite orientation.
+        Orientation getOpposite(Orientation);
 
         //! This enumeration provides sides.
         enum class Side
@@ -29,6 +39,7 @@ namespace djv
             Count,
             First = Left
         };
+        DJV_ENUM_HELPERS(Side);
 
         //! This enumeration provides corners.
         enum class Corner
@@ -41,6 +52,7 @@ namespace djv
             Count,
             First = UpperLeft
         };
+        DJV_ENUM_HELPERS(Corner);
 
         //! This enumeration provides layout expansion directions.
         enum class Expand
@@ -53,6 +65,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(Expand);
 
         //! This enumeration provides horizontal alignment.
         enum class HAlign
@@ -65,6 +78,7 @@ namespace djv
             Count,
             First = Center
         };
+        DJV_ENUM_HELPERS(HAlign);
 
         //! This enumeration provides vertical alignment.
         enum class VAlign
@@ -77,6 +91,7 @@ namespace djv
             Count,
             First = Center
         };
+        DJV_ENUM_HELPERS(VAlign);
 
         //! This enumeration provides horizontal text alignment.
         enum class TextHAlign
@@ -88,6 +103,7 @@ namespace djv
             Count,
             First = Center
         };
+        DJV_ENUM_HELPERS(TextHAlign);
 
         //! This enumeration provides vertical text alignment.
         enum class TextVAlign
@@ -100,6 +116,7 @@ namespace djv
             Count,
             First = Center
         };
+        DJV_ENUM_HELPERS(TextVAlign);
 
         //! This enumeration provides selection types.
         enum class SelectionType
@@ -112,6 +129,7 @@ namespace djv
             Count,
             First = Single
         };
+        DJV_ENUM_HELPERS(SelectionType);
 
         //! This enumeration provides sort orders.
         enum class SortOrder
@@ -122,6 +140,7 @@ namespace djv
             Count,
             First = Forward
         };
+        DJV_ENUM_HELPERS(SortOrder);
 
         //! This enumeration provides button types.
         enum class ButtonType
@@ -134,6 +153,7 @@ namespace djv
             Count,
             First = Push
         };
+        DJV_ENUM_HELPERS(ButtonType);
 
         //! This enumeration provides item view types.
         enum class ViewType
@@ -182,6 +202,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(ColorRole);
 
         //! This enumeration provides the metrics roles.
         enum class MetricsRole
@@ -228,6 +249,7 @@ namespace djv
             Count,
             First = None
         };
+        DJV_ENUM_HELPERS(MetricsRole);
 
         //! This enumeration provides information about text editing.
         enum class TextEditReason
@@ -254,6 +276,10 @@ namespace djv
             Count,
             First = _0
         };
+        DJV_ENUM_HELPERS(ImageRotate);
+
+        //! Get the image rotation value.
+        float getImageRotate(ImageRotate);
 
         //! This enumeration provides image aspect ratios.
         enum class ImageAspectRatio
@@ -268,6 +294,16 @@ namespace djv
             Count,
             First = Unscaled
         };
+        DJV_ENUM_HELPERS(ImageAspectRatio);
+        
+        //! Get the image aspect ratio.
+        float getImageAspectRatio(ImageAspectRatio);
+
+        //! Get the pixel aspect ratio.
+        float getPixelAspectRatio(ImageAspectRatio, float pixelAspectRatio);
+        
+        //! Get the image aspect ratio scale.
+        float getAspectRatioScale(ImageAspectRatio, float aspectRatio);
 
         //! This enumeration provides menu popup directions.
         enum class Popup
@@ -280,6 +316,7 @@ namespace djv
             Count,
             First = BelowRight
         };
+        DJV_ENUM_HELPERS(Popup);
 
         //! This enum provides menu button styles.
         enum class MenuButtonStyle
@@ -299,7 +336,49 @@ namespace djv
             Count,
             First = Slow
         };
+        DJV_ENUM_HELPERS(ScrollWheelSpeed);
 
     } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Side);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Corner);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Expand);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::HAlign);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::VAlign);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::TextHAlign);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::TextVAlign);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::SelectionType);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::SortOrder);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ButtonType);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ViewType);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ImageRotate);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ImageAspectRatio);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Popup);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ScrollWheelSpeed);
+
+    rapidjson::Value toJSON(UI::ViewType, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ImageRotate, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ImageAspectRatio, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ScrollWheelSpeed, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ViewType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ImageRotate&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ImageAspectRatio&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ScrollWheelSpeed&);
+
 } // namespace djv
 

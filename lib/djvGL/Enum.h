@@ -7,6 +7,10 @@
 #include <djvGL/GL.h>
 
 #include <djvCore/Enum.h>
+#include <djvCore/RapidJSON.h>
+
+#include <sstream>
+#include <vector>
 
 namespace djv
 {
@@ -22,7 +26,17 @@ namespace djv
             Count,
             First = Default
         };
+        DJV_ENUM_HELPERS(SwapInterval);
 
     } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS(GL::SwapInterval);
+
+    rapidjson::Value toJSON(GL::SwapInterval, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, GL::SwapInterval&);
+    
 } // namespace djv
 

@@ -14,11 +14,11 @@
 #include <djvSystem/LogSystem.h>
 #include <djvSystem/ResourceSystem.h>
 #include <djvSystem/TextSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <djvCore/Cache.h>
-#include <djvCore/OSFunc.h>
-#include <djvCore/UIDFunc.h>
+#include <djvCore/OS.h>
+#include <djvCore/UID.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

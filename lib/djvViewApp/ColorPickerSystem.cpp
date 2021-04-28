@@ -10,7 +10,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/TextSystem.h>

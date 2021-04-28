@@ -4,7 +4,7 @@
 
 #include <djvGeom/PointList.h>
 
-#include <djvCore/UIDFunc.h>
+#include <djvCore/UID.h>
 
 using namespace djv::Core;
 

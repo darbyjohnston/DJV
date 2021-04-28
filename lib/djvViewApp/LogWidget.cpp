@@ -13,11 +13,11 @@
 #include <djvUI/Window.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/FileIOFunc.h>
+#include <djvSystem/FileIO.h>
 #include <djvSystem/Path.h>
 #include <djvSystem/ResourceSystem.h>
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 using namespace djv::Core;
 

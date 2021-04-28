@@ -38,15 +38,14 @@
 #include <djvGL/Shader.h>
 #endif // DJV_GL_ES2
 
-#include <djvImage/ColorFunc.h>
-#include <djvImage/DataFunc.h>
+#include <djvImage/Color.h>
 
 #include <djvSystem/Context.h>
 #if defined(DJV_GL_ES2)
 #include <djvSystem/ResourceSystem.h>
 #endif // DJV_GL_ES2
 
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -619,7 +618,7 @@ namespace djv
             p.actions["ApplyColorSpace"]->setChecked(p.data.applyColorSpace);
 
             p.colorSwatch->setColor(p.color);
-            p.colorLabel->setText(Image::getLabel(p.color, 2, false));
+            p.colorLabel->setText(Image::getLabel(p.color, 2));
             p.colorLabel->setTooltip(_getText(DJV_TEXT("color_label_tooltip")));
             {
                 std::stringstream ss;

@@ -24,6 +24,13 @@ namespace djv
         
         void TimerTest::run()
         {
+            for (auto i : getTimerValueEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Timer value: " + _getText(ss.str()));
+            }
+
             if (auto context = getContext().lock())
             {
                 auto timer = Timer::create(context);

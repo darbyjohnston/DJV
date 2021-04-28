@@ -9,7 +9,7 @@
 #include <djvUI/FormLayout.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/TIFFFunc.h>
+#include <djvAV/TIFF.h>
 
 #include <djvSystem/Context.h>
 
@@ -50,12 +50,12 @@ namespace djv
                         if (auto context = contextWeak.lock())
                         {
                             auto io = context->getSystemT<AV::IO::IOSystem>();
-                            AV::IO::TIFF::Options options;
+                            AV::TIFF::Options options;
                             rapidjson::Document document;
                             auto& allocator = document.GetAllocator();
-                            fromJSON(io->getOptions(AV::IO::TIFF::pluginName, allocator), options);
-                            options.compression = static_cast<AV::IO::TIFF::Compression>(value);
-                            io->setOptions(AV::IO::TIFF::pluginName, toJSON(options, allocator));
+                            fromJSON(io->getOptions(AV::TIFF::pluginName, allocator), options);
+                            options.compression = static_cast<AV::TIFF::Compression>(value);
+                            io->setOptions(AV::TIFF::pluginName, toJSON(options, allocator));
                         }
                     });
             }
@@ -103,12 +103,12 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     auto io = context->getSystemT<AV::IO::IOSystem>();
-                    AV::IO::TIFF::Options options;
+                    AV::TIFF::Options options;
                     rapidjson::Document document;
                     auto& allocator = document.GetAllocator();
-                    fromJSON(io->getOptions(AV::IO::TIFF::pluginName, allocator), options);
+                    fromJSON(io->getOptions(AV::TIFF::pluginName, allocator), options);
                     std::vector<std::string> items;
-                    for (auto i : AV::IO::TIFF::getCompressionEnums())
+                    for (auto i : AV::TIFF::getCompressionEnums())
                     {
                         std::stringstream ss;
                         ss << i;

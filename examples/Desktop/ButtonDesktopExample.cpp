@@ -10,7 +10,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 
 using namespace djv;
 

@@ -1,9 +1,7 @@
 set(header
-    DataFunc.h
     Data.h
     DataInline.h
     Enum.h
-    EnumFunc.h
     FontSystem.h
     FontSystemInline.h
     Namespace.h
@@ -13,8 +11,7 @@ set(header
     RenderPrivate.h)
 set(source
     Data.cpp
-    DataFunc.cpp
-    EnumFunc.cpp
+    Enum.cpp
     FontSystem.cpp
     Render.cpp
     RenderSystem.cpp

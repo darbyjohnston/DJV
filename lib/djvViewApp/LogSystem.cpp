@@ -8,7 +8,7 @@
 #include <djvViewApp/ToolTitleBar.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/ShortcutDataFunc.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvSystem/Context.h>
 

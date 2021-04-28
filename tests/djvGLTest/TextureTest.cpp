@@ -6,7 +6,7 @@
 
 #include <djvGL/Texture.h>
 
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 using namespace djv::Core;
 using namespace djv::GL;
@@ -23,6 +23,15 @@ namespace djv
         
         void TextureTest::run()
         {
+            for (const auto type : Image::getTypeEnums())
+            {
+                std::stringstream ss;
+                ss << type;
+                std::stringstream ss2;
+                ss2 << getInternalFormat2D(type);
+                _print(_getText(ss.str()) + " internal format 2D: " + ss2.str());
+            }
+
             for (const auto& size : {
                 Image::Size(64, 64),
                 Image::Size(0, 0) })

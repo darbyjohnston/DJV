@@ -4,10 +4,10 @@
 
 #include <djvGLTest/MeshTest.h>
 
-#include <djvGL/MeshFunc.h>
+#include <djvGL/Mesh.h>
 
 #include <djvGeom/PointList.h>
-#include <djvGeom/TriangleMeshFunc.h>
+#include <djvGeom/TriangleMesh.h>
 
 #include <sstream>
 
@@ -26,7 +26,20 @@ namespace djv
         
         void MeshTest::run()
         {
+            _enum();
             _convert();
+        }
+        
+        void MeshTest::_enum()
+        {
+            for (const auto& i : getVBOTypeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                std::stringstream ss2;
+                ss2 << getVertexByteCount(i);
+                _print(_getText(ss.str()) + " byte count: " + ss2.str());
+            }
         }
         
         void MeshTest::_convert()

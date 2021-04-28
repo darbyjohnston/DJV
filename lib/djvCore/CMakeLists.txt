@@ -3,61 +3,57 @@ set(header
     CacheInline.h
     Core.h
     Enum.h
-    ErrorFunc.h
+    Error.h
     ICommand.h
     ListObserver.h
     ListObserverInline.h
     MapObserver.h
     MapObserverInline.h
     Memory.h
-    MemoryFunc.h
-    MemoryFuncInline.h
+    MemoryInline.h
     Namespace.h
-    OSFunc.h
-    OSFuncInline.h
+    OS.h
+    OSInline.h
     Observer.h
-    RandomFunc.h
-    RandomFuncInline.h
-    RapidJSONFunc.h
+    Random.h
+    RandomInline.h
+    RapidJSON.h
     RapidJSONTemplates.h
     RapidJSONTemplatesInline.h
     StringFormat.h
     StringFormatInline.h
-    StringFunc.h
-    StringFuncInline.h
     String.h
+    StringInline.h
     Time.h
-    TimeFunc.h
-    TimeFuncInline.h
+    TimeInline.h
     UID.h
-    UIDFunc.h
     UndoStack.h
     ValueObserver.h
     ValueObserverInline.h)
 set(source
     Core.cpp
-    ErrorFunc.cpp
+    Error.cpp
     ICommand.cpp
-    MemoryFunc.cpp
-    OSFunc.cpp
-    RapidJSONFunc.cpp
-    RandomFunc.cpp
+    Memory.cpp
+    OS.cpp
+    RapidJSON.cpp
+    Random.cpp
     StringFormat.cpp
-    StringFunc.cpp
-    TimeFunc.cpp
-    UIDFunc.cpp
+    String.cpp
+    Time.cpp
+    UID.cpp
     UndoStack.cpp)
 if(WIN32)
     set(source
         ${source}
-        ErrorFuncWin32.cpp
-        OSFuncWin32.cpp
-        TimeFuncWin32.cpp)
+        ErrorWin32.cpp
+        OSWin32.cpp
+        TimeWin32.cpp)
 else()
     set(source
         ${source}
-        OSFuncUnix.cpp
-        TimeFuncUnix.cpp)
+        OSUnix.cpp
+        TimeUnix.cpp)
 endif()
 
 add_library(djvCore ${header} ${source})

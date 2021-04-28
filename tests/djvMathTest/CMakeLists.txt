@@ -1,29 +1,21 @@
 set(header
-    BBoxFuncTest.h
     BBoxTest.h
-	FrameNumberFuncTest.h
 	FrameNumberTest.h
-    MathFuncTest.h
-    MatrixFuncTest.h
+    MathTest.h
+    MatrixTest.h
     NumericValueModelsTest.h
-	RangeFuncTest.h
 	RangeTest.h
-	RationalFuncTest.h
 	RationalTest.h
-    VectorFuncTest.h)
+    VectorTest.h)
 set(source
-    BBoxFuncTest.cpp
     BBoxTest.cpp
-	FrameNumberFuncTest.cpp
 	FrameNumberTest.cpp
-    MathFuncTest.cpp
-    MatrixFuncTest.cpp
+    MathTest.cpp
+    MatrixTest.cpp
     NumericValueModelsTest.cpp
-	RangeFuncTest.cpp
 	RangeTest.cpp
-	RationalFuncTest.cpp
 	RationalTest.cpp
-    VectorFuncTest.cpp)
+    VectorTest.cpp)
 
 add_library(djvMathTest ${header} ${source})
 target_link_libraries(djvMathTest djvTestLib)

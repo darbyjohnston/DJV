@@ -11,6 +11,8 @@
 
 #include <djvMath/Range.h>
 
+#include <djvCore/Enum.h>
+
 #include <memory>
 
 namespace djv
@@ -32,6 +34,10 @@ namespace djv
             Count,
             First = Pos2_F32_UV_U16
         };
+        DJV_ENUM_HELPERS(VBOType);
+
+        //! Get the VBO type byte count.
+        size_t getVertexByteCount(VBOType) noexcept;
 
         //! This class provides an OpenGL vertex buffer object.
         class VBO
@@ -100,6 +106,9 @@ namespace djv
         };
 
     } // namespace GL
+    
+    DJV_ENUM_SERIALIZE_HELPERS(GL::VBOType);
+    
 } // namespace djv
 
 #include <djvGL/MeshInline.h>

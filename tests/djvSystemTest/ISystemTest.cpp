@@ -6,7 +6,6 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/ISystem.h>
-#include <djvSystem/PathFunc.h>
 #include <djvSystem/ResourceSystem.h>
 
 using namespace djv::Core;

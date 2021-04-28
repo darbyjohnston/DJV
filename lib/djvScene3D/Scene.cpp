@@ -7,8 +7,8 @@
 #include <djvScene3D/Camera.h>
 #include <djvScene3D/IPrimitive.h>
 
-#include <djvMath/BBoxFunc.h>
-#include <djvMath/MatrixFunc.h>
+#include <djvMath/BBox.h>
+#include <djvMath/Matrix.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 

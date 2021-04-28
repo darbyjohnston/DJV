@@ -4,7 +4,6 @@
 
 #include <djvViewApp/TimelineWidgetPrivate.h>
 
-#include <djvViewApp/EnumFunc.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/PlaybackSettings.h>
 
@@ -17,7 +16,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvAV/SpeedFunc.h>
+#include <djvAV/Speed.h>
 
 #include <djvSystem/Context.h>
 

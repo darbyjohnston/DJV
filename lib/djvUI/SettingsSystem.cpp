@@ -11,10 +11,9 @@
 #include <djvSystem/Context.h>
 #include <djvSystem/FileIO.h>
 #include <djvSystem/FileInfo.h>
-#include <djvSystem/PathFunc.h>
 #include <djvSystem/ResourceSystem.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 #include <djvCore/StringFormat.h>
 
 #include <rapidjson/error/en.h>

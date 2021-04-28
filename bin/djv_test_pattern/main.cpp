@@ -12,14 +12,14 @@
 
 #include <djvGL/OffscreenBuffer.h>
 
-#include <djvImage/InfoFunc.h>
+#include <djvImage/Info.h>
 
 #include <djvSystem/Context.h>
 #include <djvSystem/FileInfo.h>
 #include <djvSystem/TextSystem.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 #include <djvCore/StringFormat.h>
 
 #include <iostream>

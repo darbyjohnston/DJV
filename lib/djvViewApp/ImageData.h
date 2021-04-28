@@ -8,6 +8,8 @@
 
 #include <djvRender2D/Data.h>
 
+#include <djvCore/RapidJSON.h>
+
 namespace djv
 {
     namespace ViewApp
@@ -38,5 +40,12 @@ namespace djv
         };
 
     } // namespace ViewApp
+
+    rapidjson::Value toJSON(const ViewApp::ImageData&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, ViewApp::ImageData&);
+
 } // namespace djv
 

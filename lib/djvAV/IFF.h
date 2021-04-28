@@ -20,66 +20,63 @@ namespace djv
 
     namespace AV
     {
-        namespace IO
+        //! This namespace provides Generic Interchange File Format (IFF) image I/O.
+        //!
+        //! References:
+        //! - Affine Toolkit (Thomas E. Burge), riff.h and riff.c
+        //!   http://affine.org
+        //! - Autodesk Maya documentation, "Overview of Maya IFF"
+        //!
+        //! Implementation:
+        //! - Mikael Sundell, mikael.sundell@gmail.com
+        namespace IFF
         {
-            //! This namespace provides Generic Interchange File Format (IFF) image I/O.
-            //!
-            //! References:
-            //! - Affine Toolkit (Thomas E. Burge), riff.h and riff.c
-            //!   http://affine.org
-            //! - Autodesk Maya documentation, "Overview of Maya IFF"
-            //!
-            //! Implementation:
-            //! - Mikael Sundell, mikael.sundell@gmail.com
-            namespace IFF
+            static const std::string pluginName = "IFF";
+            static const std::set<std::string> fileExtensions = { ".iff", ".z" };
+
+            //! This class provides the IFF file reader.
+            class Read : public IO::ISequenceRead
             {
-                static const std::string pluginName = "IFF";
-                static const std::set<std::string> fileExtensions = { ".iff", ".z" };
+                DJV_NON_COPYABLE(Read);
 
-                //! This class provides the IFF file reader.
-                class Read : public ISequenceRead
-                {
-                    DJV_NON_COPYABLE(Read);
+            protected:
+                Read();
 
-                protected:
-                    Read();
+            public:
+                ~Read() override;
 
-                public:
-                    ~Read() override;
+                static std::shared_ptr<Read> create(
+                    const System::File::Info&,
+                    const IO::ReadOptions&,
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
-                    static std::shared_ptr<Read> create(
-                        const System::File::Info&,
-                        const ReadOptions&,
-                        const std::shared_ptr<System::TextSystem>&,
-                        const std::shared_ptr<System::ResourceSystem>&,
-                        const std::shared_ptr<System::LogSystem>&);
+            protected:
+                IO::Info _readInfo(const std::string& fileName) override;
+                std::shared_ptr<Image::Data> _readImage(const std::string& fileName) override;
 
-                protected:
-                    Info _readInfo(const std::string& fileName) override;
-                    std::shared_ptr<Image::Data> _readImage(const std::string& fileName) override;
-
-                private:
-                    Info _open(const std::string&, const std::shared_ptr<System::File::IO>&);
+            private:
+                IO::Info _open(const std::string&, const std::shared_ptr<System::File::IO>&);
                     
-                    int  _tiles       = 0;
-                    bool _compression = false;
-                };
+                int  _tiles       = 0;
+                bool _compression = false;
+            };
 
-                //! This class provides the IFF file I/O plugin.
-                class Plugin : public ISequencePlugin
-                {
-                    DJV_NON_COPYABLE(Plugin);
+            //! This class provides the IFF file I/O plugin.
+            class Plugin : public IO::ISequencePlugin
+            {
+                DJV_NON_COPYABLE(Plugin);
 
-                protected:
-                    Plugin();
+            protected:
+                Plugin();
 
-                public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
+            public:
+                static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
-                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
-                };
+                std::shared_ptr<IO::IRead> read(const System::File::Info&, const IO::ReadOptions&) const override;
+            };
 
-            } // namespace IFF
-        } // namespace IO
+        } // namespace IFF
     } // namespace AV
 } // namespace djv

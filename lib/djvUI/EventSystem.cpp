@@ -13,7 +13,7 @@
 #include <djvRender2D/RenderSystem.h>
 
 #include <djvSystem/Context.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 //#pragma optimize("", off)
 

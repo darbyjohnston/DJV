@@ -1,8 +1,8 @@
 set(header
-    EnumFuncTest.h
+    EnumTest.h
     FileSystemTest.h)
 set(source
-    EnumFuncTest.cpp
+    EnumTest.cpp
     FileSystemTest.cpp)
 
 add_library(djvViewAppTest ${header} ${source})

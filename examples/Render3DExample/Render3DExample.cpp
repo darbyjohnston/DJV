@@ -18,8 +18,8 @@
 #include <djvGeom/Shape.h>
 #include <djvGeom/TriangleMesh.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/RandomFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/Random.h>
 
 #include <djvMath/Math.h>
 

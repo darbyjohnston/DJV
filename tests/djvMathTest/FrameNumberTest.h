@@ -22,6 +22,8 @@ namespace djv
         private:
             void _sequence();
             void _operators();
+            void _conversion();
+            void _serialize();
         };
         
     } // namespace MathTest

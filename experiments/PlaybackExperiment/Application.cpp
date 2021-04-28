@@ -10,7 +10,7 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 using namespace djv;
 

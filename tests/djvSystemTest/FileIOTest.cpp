@@ -25,7 +25,8 @@ namespace djv
                 File::Path(tempPath, "FileIOTest"),
                 context),
             _fileName("file.txt"),
-            _text("Hello world!")
+            _text("Hello"),
+            _text2("world!")
         {}
         
         void FileIOTest::run()
@@ -98,6 +99,89 @@ namespace djv
                 DJV_ASSERT(i32 == _i32);
                 DJV_ASSERT(u32 == _u32);
                 DJV_ASSERT(f   == _f);
+            }
+
+            {
+                auto io = File::IO::create();
+                const std::string fileName = File::Path(getTempPath(), _fileName).get();
+                io->open(
+                    fileName,
+                    File::Mode::Write);
+                io->write(_text + " ");
+                io->open(
+                    fileName,
+                    File::Mode::Append);
+                io->write(_text2);
+
+                io->open(
+                    fileName,
+                    File::Mode::Read);
+                std::string buf = File::readContents(io);
+                _print(buf);
+                DJV_ASSERT((_text + " " + _text2) == buf);
+                io->setPos(0);
+                DJV_ASSERT(0 == io->getPos());
+            }
+
+            {
+                const std::string fileName = File::Path(getTempPath(), _fileName).get();
+                File::writeLines(
+                    fileName,
+                    {
+                        "# This is a comment",
+                        _text + " " + _text2
+                    });
+
+                auto io = File::IO::create();
+                io->open(
+                    fileName,
+                    File::Mode::ReadWrite);
+                char buf[String::cStringLength];
+                File::readWord(io, buf);
+                _print(buf);
+                DJV_ASSERT(_text == buf);
+                File::readWord(io, buf);
+                _print(buf);
+                DJV_ASSERT(_text2 == buf);
+            }
+
+            {
+                const std::string fileName = File::Path(getTempPath(), _fileName).get();
+                auto io = File::IO::create();
+                io->open(
+                    fileName,
+                    File::Mode::Write);
+                io->write(_text + "\n" + _text2);
+
+                io->open(
+                    fileName,
+                    File::Mode::Read);
+                char buf[String::cStringLength];
+                File::readLine(io, buf);
+                _print(buf);
+                DJV_ASSERT(_text == buf);
+                File::readLine(io, buf);
+                _print(buf);
+                DJV_ASSERT(_text2 == buf);
+            }
+
+            {
+                const std::string fileName = File::Path(getTempPath(), _fileName).get();
+                File::writeLines(
+                    fileName,
+                    {
+                        _text,
+                        "# This is a comment",
+                        _text2
+                    });
+
+                const auto lines = File::readLines(fileName);
+                for (const auto& i : lines)
+                {
+                    _print(i);
+                }
+                DJV_ASSERT(_text == lines[0]);
+                DJV_ASSERT(_text2 == lines[2]);
             }
         }
         

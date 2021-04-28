@@ -5,11 +5,10 @@
 #include <djvGLTest/MeshCacheTest.h>
 
 #include <djvGL/MeshCache.h>
-#include <djvGL/MeshFunc.h>
 
-#include <djvGeom/TriangleMeshFunc.h>
+#include <djvGeom/TriangleMesh.h>
 
-#include <djvCore/UIDFunc.h>
+#include <djvCore/UID.h>
 
 #include <sstream>
 

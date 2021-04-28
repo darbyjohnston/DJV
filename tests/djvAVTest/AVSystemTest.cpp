@@ -5,8 +5,8 @@
 #include <djvAVTest/AVSystemTest.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/SpeedFunc.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Speed.h>
+#include <djvAV/Time.h>
 
 #include <djvSystem/Context.h>
 

@@ -22,7 +22,7 @@
 #include <djvRender2D/Render.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/TimeFunc.h>
+#include <djvAV/Time.h>
 
 #include <djvOCIO/OCIOSystem.h>
 
