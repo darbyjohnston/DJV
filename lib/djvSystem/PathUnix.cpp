@@ -26,6 +26,8 @@
 #include <errno.h>
 #include <unistd.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace System
