@@ -6,7 +6,7 @@
 
 #include <djvSystem/Context.h>
 #include <djvSystem/Path.h>
-#include <djvSystem/TimerFunc.h>
+#include <djvSystem/Timer.h>
 
 #include <ctime>
 #include <mutex>

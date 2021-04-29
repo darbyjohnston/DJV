@@ -7,7 +7,7 @@
 #include <djvSystem/FileInfo.h>
 #include <djvSystem/File.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
 #include <djvCore/StringFormat.h>
 
 #if defined(DJV_PLATFORM_MACOS)

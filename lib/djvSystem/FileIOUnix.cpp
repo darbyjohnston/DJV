@@ -5,12 +5,12 @@
 #include <djvSystem/FileIO.h>
 
 #include <djvSystem/File.h>
-#include <djvSystem/PathFunc.h>
+#include <djvSystem/Path.h>
 
-#include <djvCore/ErrorFunc.h>
-#include <djvCore/MemoryFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/Memory.h>
+#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
 
 #include <iostream>
 #include <sstream>

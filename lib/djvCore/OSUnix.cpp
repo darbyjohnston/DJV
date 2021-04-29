@@ -2,11 +2,11 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCore/OSFunc.h>
+#include <djvCore/OS.h>
 
-#include <djvCore/ErrorFunc.h>
+#include <djvCore/Error.h>
+#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
 
 #if defined(DJV_PLATFORM_MACOS)
 #include <ApplicationServices/ApplicationServices.h>

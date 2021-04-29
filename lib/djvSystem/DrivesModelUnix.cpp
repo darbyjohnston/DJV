@@ -5,7 +5,6 @@
 #include <djvSystem/DrivesModel.h>
 
 #include <djvSystem/FileInfo.h>
-#include <djvSystem/FileInfoFunc.h>
 
 //#pragma optimize("", off)
 
