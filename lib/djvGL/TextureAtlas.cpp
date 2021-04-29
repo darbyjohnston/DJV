@@ -204,7 +204,8 @@ namespace djv
                 if (auto node = p.boxPackingNodes[i]->insert(data))
                 {
                     // The data has been added to the atlas.
-                    node->uid = ++p.uid;
+                    p.uid = p.uid + 1;
+                    node->uid = p.uid;
                     p.textures[node->textureIndex]->copy(*data, node->bbox.min.x + p.border, node->bbox.min.y + p.border);
                     p.cache[node->uid] = node;
                     _toTextureAtlasItem(node, out);
@@ -244,7 +245,8 @@ namespace djv
                     old->timestamp = ++_timestamp;
                     if (auto node2 = old->insert(data))
                     {
-                        node2->uid = ++p.uid;
+                        p.uid = p.uid + 1;
+                        node2->uid = p.uid;
 
                         //! \todo Do we need to zero out the old data?
                         //auto zero = Image::Data::create(Image::Info(data->getSize() + p.border * 2, p.textureType));
