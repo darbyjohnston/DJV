@@ -493,24 +493,18 @@ namespace djv
                     const size_t vboDataOffset = p.vboDataSize;
                     p.vboDataSizeUpdate(6);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
-                    pData->vx = i.min.x;
-                    pData->vy = i.min.y;
-                    ++pData;
-                    pData->vx = i.max.x;
-                    pData->vy = i.min.y;
-                    ++pData;
-                    pData->vx = i.max.x;
-                    pData->vy = i.max.y;
-                    ++pData;
-                    pData->vx = i.max.x;
-                    pData->vy = i.max.y;
-                    ++pData;
-                    pData->vx = i.min.x;
-                    pData->vy = i.max.y;
-                    ++pData;
-                    pData->vx = i.min.x;
-                    pData->vy = i.min.y;
-                    ++pData;
+                    pData[0].vx = i.min.x;
+                    pData[0].vy = i.min.y;
+                    pData[1].vx = i.max.x;
+                    pData[1].vy = i.min.y;
+                    pData[2].vx = i.max.x;
+                    pData[2].vy = i.max.y;
+                    pData[3].vx = i.max.x;
+                    pData[3].vy = i.max.y;
+                    pData[4].vx = i.min.x;
+                    pData[4].vy = i.max.y;
+                    pData[5].vx = i.min.x;
+                    pData[5].vy = i.min.y;
                 }
             }
 
@@ -536,57 +530,48 @@ namespace djv
                 const float h = rect.h();
                 const float radius = h / 2.F;
                 VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
-                pData->vx = rect.min.x + radius;
-                pData->vy = rect.min.y;
-                ++pData;
-                pData->vx = rect.max.x - radius;
-                pData->vy = rect.min.y;
-                ++pData;
-                pData->vx = rect.max.x - radius;
-                pData->vy = rect.max.y;
-                ++pData;
-                pData->vx = rect.max.x - radius;
-                pData->vy = rect.max.y;
-                ++pData;
-                pData->vx = rect.min.x + radius;
-                pData->vy = rect.max.y;
-                ++pData;
-                pData->vx = rect.min.x + radius;
-                pData->vy = rect.min.y;
-                ++pData;
+                pData[0].vx = rect.min.x + radius;
+                pData[0].vy = rect.min.y;
+                pData[1].vx = rect.max.x - radius;
+                pData[1].vy = rect.min.y;
+                pData[2].vx = rect.max.x - radius;
+                pData[2].vy = rect.max.y;
+                pData[3].vx = rect.max.x - radius;
+                pData[3].vy = rect.max.y;
+                pData[4].vx = rect.min.x + radius;
+                pData[4].vy = rect.max.y;
+                pData[5].vx = rect.min.x + radius;
+                pData[5].vy = rect.min.y;
+                pData += 6;
 
                 for (size_t i = 0; i < facets; ++i)
                 {
                     const float x = rect.min.x + radius;
                     const float y = rect.min.y + radius;
-                    pData->vx = x;
-                    pData->vy = y;
-                    ++pData;
+                    pData[0].vx = x;
+                    pData[0].vy = y;
                     float degrees = static_cast<float>(i) / static_cast<float>(facets) * 180.F + 90.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    ++pData;
+                    pData[1].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[1].vy = y + sinf(Math::deg2rad(degrees)) * radius;
                     degrees = static_cast<float>(i + 1) / static_cast<float>(facets) * 180.F + 90.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    ++pData;
+                    pData[2].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[2].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData += 3;
                 }
 
                 for (size_t i = 0; i < facets; ++i)
                 {
                     const float x = rect.max.x - radius;
                     const float y = rect.min.y + radius;
-                    pData->vx = x;
-                    pData->vy = y;
-                    ++pData;
+                    pData[0].vx = x;
+                    pData[0].vy = y;
                     float degrees = static_cast<float>(i) / static_cast<float>(facets) * 180.F + 270.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    ++pData;
+                    pData[1].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[1].vy = y + sinf(Math::deg2rad(degrees)) * radius;
                     degrees = static_cast<float>(i + 1) / static_cast<float>(facets) * 180.F + 270.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    ++pData;
+                    pData[2].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[2].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData += 3;
                 }
 
                 p.primitives.emplace_back(primitive);
@@ -615,17 +600,15 @@ namespace djv
                 VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                 for (size_t i = 0; i < facets * 3; i += 3)
                 {
-                    pData->vx = pos.x;
-                    pData->vy = pos.y;
-                    ++pData;
+                    pData[0].vx = pos.x;
+                    pData[0].vy = pos.y;
                     float degrees = static_cast<float>(i) / static_cast<float>(facets) * 360.F;
-                    pData->vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
-                    ++pData;
+                    pData[1].vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[1].vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
                     degrees = static_cast<float>(i + 1) / static_cast<float>(facets) * 360.F;
-                    pData->vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
-                    ++pData;
+                    pData[2].vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[2].vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData += 3;
                 }
 
                 p.primitives.emplace_back(primitive);
@@ -733,35 +716,30 @@ namespace djv
                             const size_t vboDataOffset = p.vboDataSize;
                             p.vboDataSizeUpdate(6);
                             VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
+                            pData[0].vx = bbox.min.x;
+                            pData[0].vy = bbox.min.y;
+                            pData[0].tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                            pData[0].ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
+                            pData[1].vx = bbox.max.x;
+                            pData[1].vy = bbox.min.y;
+                            pData[1].tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                            pData[1].ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
+                            pData[2].vx = bbox.max.x;
+                            pData[2].vy = bbox.max.y;
+                            pData[2].tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                            pData[2].ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
+                            pData[3].vx = bbox.max.x;
+                            pData[3].vy = bbox.max.y;
+                            pData[3].tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                            pData[3].ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
+                            pData[4].vx = bbox.min.x;
+                            pData[4].vy = bbox.max.y;
+                            pData[4].tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                            pData[4].ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
+                            pData[5].vx = bbox.min.x;
+                            pData[5].vy = bbox.min.y;
+                            pData[5].tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                            pData[5].ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
                         }
                     }
 
@@ -797,21 +775,18 @@ namespace djv
                 const size_t vboDataOffset = p.vboDataSize;
                 p.vboDataSizeUpdate(4);
                 VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
-                pData->vx = value.min.x;
-                pData->vy = value.min.y;
-                pData->tx = u[static_cast<size_t>(side)][0];
-                ++pData;
-                pData->vx = value.max.x;
-                pData->vy = value.min.y;
-                pData->tx = u[static_cast<size_t>(side)][1];
-                ++pData;
-                pData->vx = value.min.x;
-                pData->vy = value.max.y;
-                pData->tx = u[static_cast<size_t>(side)][2];
-                ++pData;
-                pData->vx = value.max.x;
-                pData->vy = value.max.y;
-                pData->tx = u[static_cast<size_t>(side)][3];
+                pData[0].vx = value.min.x;
+                pData[0].vy = value.min.y;
+                pData[0].tx = u[static_cast<size_t>(side)][0];
+                pData[1].vx = value.max.x;
+                pData[1].vy = value.min.y;
+                pData[1].tx = u[static_cast<size_t>(side)][1];
+                pData[2].vx = value.min.x;
+                pData[2].vy = value.max.y;
+                pData[2].tx = u[static_cast<size_t>(side)][2];
+                pData[3].vx = value.max.x;
+                pData[3].vy = value.max.y;
+                pData[3].tx = u[static_cast<size_t>(side)][3];
 
                 p.primitives.emplace_back(primitive);
             }
@@ -836,154 +811,127 @@ namespace djv
                 VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
 
                 // Center.
-                pData->vx = value.min.x + radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
+                pData[0].vx = value.min.x + radius;
+                pData[0].vy = value.min.y + radius;
+                pData[0].tx = 65535;
+                pData[1].vx = value.max.x - radius;
+                pData[1].vy = value.min.y + radius;
+                pData[1].tx = 65535;
+                pData[2].vx = value.max.x - radius;
+                pData[2].vy = value.max.y - radius;
+                pData[2].tx = 65535;
+                pData[3].vx = value.max.x - radius;
+                pData[3].vy = value.max.y - radius;
+                pData[3].tx = 65535;
+                pData[4].vx = value.min.x + radius;
+                pData[4].vy = value.max.y - radius;
+                pData[4].tx = 65535;
+                pData[5].vx = value.min.x + radius;
+                pData[5].vy = value.min.y + radius;
+                pData[5].tx = 65535;
+                pData += 6;
 
                 // Right.
-                pData->vx = value.max.x - radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x;
-                pData->vy = value.min.y + radius;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.max.x;
-                pData->vy = value.max.y - radius;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.max.x;
-                pData->vy = value.max.y - radius;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
+                pData[0].vx = value.max.x - radius;
+                pData[0].vy = value.min.y + radius;
+                pData[0].tx = 65535;
+                pData[1].vx = value.max.x;
+                pData[1].vy = value.min.y + radius;
+                pData[1].tx = 0;
+                pData[2].vx = value.max.x;
+                pData[2].vy = value.max.y - radius;
+                pData[2].tx = 0;
+                pData[3].vx = value.max.x;
+                pData[3].vy = value.max.y - radius;
+                pData[3].tx = 0;
+                pData[4].vx = value.max.x - radius;
+                pData[4].vy = value.max.y - radius;
+                pData[4].tx = 65535;
+                pData[5].vx = value.max.x - radius;
+                pData[5].vy = value.min.y + radius;
+                pData[5].tx = 65535;
+                pData += 6;
 
                 // Left.
-                pData->vx = value.min.x;
-                pData->vy = value.min.y + radius;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.min.x;
-                pData->vy = value.max.y - radius;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.min.x;
-                pData->vy = value.min.y + radius;
-                pData->tx = 0;
-                ++pData;
+                pData[0].vx = value.min.x;
+                pData[0].vy = value.min.y + radius;
+                pData[0].tx = 0;
+                pData[1].vx = value.min.x + radius;
+                pData[1].vy = value.min.y + radius;
+                pData[1].tx = 65535;
+                pData[2].vx = value.min.x + radius;
+                pData[2].vy = value.max.y - radius;
+                pData[2].tx = 65535;
+                pData[3].vx = value.min.x + radius;
+                pData[3].vy = value.max.y - radius;
+                pData[3].tx = 65535;
+                pData[4].vx = value.min.x;
+                pData[4].vy = value.max.y - radius;
+                pData[4].tx = 0;
+                pData[5].vx = value.min.x;
+                pData[5].vy = value.min.y + radius;
+                pData[5].tx = 0;
+                pData += 6;
 
                 // Top.
-                pData->vx = value.min.x + radius;
-                pData->vy = value.min.y;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.min.y;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.min.y + radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.min.y;
-                pData->tx = 0;
-                ++pData;
+                pData[0].vx = value.min.x + radius;
+                pData[0].vy = value.min.y;
+                pData[0].tx = 0;
+                pData[1].vx = value.max.x - radius;
+                pData[1].vy = value.min.y;
+                pData[1].tx = 0;
+                pData[2].vx = value.max.x - radius;
+                pData[2].vy = value.min.y + radius;
+                pData[2].tx = 65535;
+                pData[3].vx = value.max.x - radius;
+                pData[3].vy = value.min.y + radius;
+                pData[3].tx = 65535;
+                pData[4].vx = value.min.x + radius;
+                pData[4].vy = value.min.y + radius;
+                pData[4].tx = 65535;
+                pData[5].vx = value.min.x + radius;
+                pData[5].vy = value.min.y;
+                pData[5].tx = 0;
+                pData += 6;
 
                 // Bottom.
-                pData->vx = value.min.x + radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.max.y;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.max.x - radius;
-                pData->vy = value.max.y;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.max.y;
-                pData->tx = 0;
-                ++pData;
-                pData->vx = value.min.x + radius;
-                pData->vy = value.max.y - radius;
-                pData->tx = 65535;
-                ++pData;
+                pData[0].vx = value.min.x + radius;
+                pData[0].vy = value.max.y - radius;
+                pData[0].tx = 65535;
+                pData[1].vx = value.max.x - radius;
+                pData[1].vy = value.max.y - radius;
+                pData[1].tx = 65535;
+                pData[2].vx = value.max.x - radius;
+                pData[2].vy = value.max.y;
+                pData[2].tx = 0;
+                pData[3].vx = value.max.x - radius;
+                pData[3].vy = value.max.y;
+                pData[3].tx = 0;
+                pData[4].vx = value.min.x + radius;
+                pData[4].vy = value.max.y;
+                pData[4].tx = 0;
+                pData[5].vx = value.min.x + radius;
+                pData[5].vy = value.max.y - radius;
+                pData[5].tx = 65535;
+                pData += 6;
 
                 // Upper left.
                 float x = value.min.x + radius;
                 float y = value.min.y + radius;
                 for (size_t i = 0; i < facets; ++i)
                 {
-                    pData->vx = x;
-                    pData->vy = y;
-                    pData->tx = 65535;
-                    ++pData;
+                    pData[0].vx = x;
+                    pData[0].vy = y;
+                    pData[0].tx = 65535;
                     float degrees = static_cast<float>(i) / static_cast<float>(facets) * 90.F + 180.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[1].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[1].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[1].tx = 0;
                     degrees = static_cast<float>(i + 1) / static_cast<float>(facets) * 90.F + 180.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[2].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[2].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[2].tx = 0;
+                    pData += 3;
                 }
 
                 // Upper right.
@@ -991,20 +939,18 @@ namespace djv
                 y = value.min.y + radius;
                 for (size_t i = 0; i < facets; ++i)
                 {
-                    pData->vx = x;
-                    pData->vy = y;
-                    pData->tx = 65535;
-                    ++pData;
+                    pData[0].vx = x;
+                    pData[0].vy = y;
+                    pData[0].tx = 65535;
                     float degrees = static_cast<float>(i) / static_cast<float>(facets) * 90.F + 270.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[1].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[1].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[1].tx = 0;
                     degrees = static_cast<float>(i + 1) / static_cast<float>(facets) * 90.F + 270.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[2].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[2].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[2].tx = 0;
+                    pData += 3;
                 }
 
                 // Lower right.
@@ -1012,20 +958,18 @@ namespace djv
                 y = value.max.y - radius;
                 for (size_t i = 0; i < facets; ++i)
                 {
-                    pData->vx = x;
-                    pData->vy = y;
-                    pData->tx = 65535;
-                    ++pData;
+                    pData[0].vx = x;
+                    pData[0].vy = y;
+                    pData[0].tx = 65535;
                     float degrees = static_cast<float>(i) / static_cast<float>(facets) * 90.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[1].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[1].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[1].tx = 0;
                     degrees = static_cast<float>(i + 1) / static_cast<float>(facets) * 90.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[2].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[2].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[2].tx = 0;
+                    pData += 3;
                 }
 
                 // Lower left.
@@ -1033,20 +977,18 @@ namespace djv
                 y = value.max.y - radius;
                 for (size_t i = 0; i < facets; ++i)
                 {
-                    pData->vx = x;
-                    pData->vy = y;
-                    pData->tx = 65535;
-                    ++pData;
+                    pData[0].vx = x;
+                    pData[0].vy = y;
+                    pData[0].tx = 65535;
                     float degrees = static_cast<float>(i) / static_cast<float>(facets) * 90.F + 90.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[1].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[1].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[1].tx = 0;
                     degrees = static_cast<float>(i + 1) / static_cast<float>(facets) * 90.F + 90.F;
-                    pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
-                    pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
-                    pData->tx = 0;
-                    ++pData;
+                    pData[2].vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                    pData[2].vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                    pData[2].tx = 0;
+                    pData += 3;
                 }
 
                 p.primitives.emplace_back(primitive);
@@ -1073,25 +1015,22 @@ namespace djv
                 const size_t vboDataOffset = p.vboDataSize;
                 p.vboDataSizeUpdate(4);
                 VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
-                pData->vx = value.min.x;
-                pData->vy = value.min.y;
-                pData->tx = 0;
-                pData->ty = 65535;
-                ++pData;
-                pData->vx = value.max.x;
-                pData->vy = value.min.y;
-                pData->tx = 65535;
-                pData->ty = 65535;
-                ++pData;
-                pData->vx = value.min.x;
-                pData->vy = value.max.y;
-                pData->tx = 0;
-                pData->ty = 0;
-                ++pData;
-                pData->vx = value.max.x;
-                pData->vy = value.max.y;
-                pData->tx = 65535;
-                pData->ty = 0;
+                pData[0].vx = value.min.x;
+                pData[0].vy = value.min.y;
+                pData[0].tx = 0;
+                pData[0].ty = 65535;
+                pData[1].vx = value.max.x;
+                pData[1].vy = value.min.y;
+                pData[1].tx = 65535;
+                pData[1].ty = 65535;
+                pData[2].vx = value.min.x;
+                pData[2].vy = value.max.y;
+                pData[2].tx = 0;
+                pData[2].ty = 0;
+                pData[3].vx = value.max.x;
+                pData[3].vy = value.max.y;
+                pData[3].tx = 65535;
+                pData[3].ty = 0;
 
                 p.primitives.push_back(primitive);
             }
@@ -1369,25 +1308,22 @@ namespace djv
                 const size_t vboDataOffset = vboDataSize;
                 vboDataSizeUpdate(4);
                 VBOVertex* pData = reinterpret_cast<VBOVertex*>(&vboData[vboDataOffset]);
-                pData->vx = pts[0].x;
-                pData->vy = pts[0].y;
-                pData->tx = static_cast<uint16_t>(textureU[0] * 65535.F);
-                pData->ty = static_cast<uint16_t>(textureV[0] * 65535.F);
-                ++pData;
-                pData->vx = pts[1].x;
-                pData->vy = pts[1].y;
-                pData->tx = static_cast<uint16_t>(textureU[1] * 65535.F);
-                pData->ty = static_cast<uint16_t>(textureV[0] * 65535.F);
-                ++pData;
-                pData->vx = pts[3].x;
-                pData->vy = pts[3].y;
-                pData->tx = static_cast<uint16_t>(textureU[0] * 65535.F);
-                pData->ty = static_cast<uint16_t>(textureV[1] * 65535.F);
-                ++pData;
-                pData->vx = pts[2].x;
-                pData->vy = pts[2].y;
-                pData->tx = static_cast<uint16_t>(textureU[1] * 65535.F);
-                pData->ty = static_cast<uint16_t>(textureV[1] * 65535.F);
+                pData[0].vx = pts[0].x;
+                pData[0].vy = pts[0].y;
+                pData[0].tx = static_cast<uint16_t>(textureU[0] * 65535.F);
+                pData[0].ty = static_cast<uint16_t>(textureV[0] * 65535.F);
+                pData[1].vx = pts[1].x;
+                pData[1].vy = pts[1].y;
+                pData[1].tx = static_cast<uint16_t>(textureU[1] * 65535.F);
+                pData[1].ty = static_cast<uint16_t>(textureV[0] * 65535.F);
+                pData[2].vx = pts[3].x;
+                pData[2].vy = pts[3].y;
+                pData[2].tx = static_cast<uint16_t>(textureU[0] * 65535.F);
+                pData[2].ty = static_cast<uint16_t>(textureV[1] * 65535.F);
+                pData[3].vx = pts[2].x;
+                pData[3].vy = pts[2].y;
+                pData[3].tx = static_cast<uint16_t>(textureU[1] * 65535.F);
+                pData[3].ty = static_cast<uint16_t>(textureV[1] * 65535.F);
 
                 primitives.push_back(primitive);
             }
