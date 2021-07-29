@@ -10,11 +10,7 @@
 #include <algorithm>
 #include <array>
 
-extern "C"
-{
 #include <fseq.h>
-
-} // extern "C"
 
 namespace djv
 {
