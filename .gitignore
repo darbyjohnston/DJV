@@ -1,4 +1,7 @@
 build
+Debug
+Release
+RelWithDebInfo
 docs/doxygen
 *~
 .git
