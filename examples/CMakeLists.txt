@@ -1,5 +1,6 @@
 add_subdirectory(CmdLine)
 add_subdirectory(Desktop)
+add_subdirectory(GOLExample)
 add_subdirectory(Render2DExample)
 add_subdirectory(Render3DExample)
 if(NOT DJV_BUILD_MINIMAL)
