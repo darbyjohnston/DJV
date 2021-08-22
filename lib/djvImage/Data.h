@@ -35,6 +35,8 @@ namespace djv
 
             Core::UID getUID() const;
 
+            void newUID();
+
             const Info& getInfo() const;
             const Size& getSize() const;
             uint16_t getWidth() const;

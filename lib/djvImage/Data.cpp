@@ -41,6 +41,11 @@ namespace djv
             return out;
         }
 
+        void Data::newUID()
+        {
+            _uid = Core::createUID();
+        }
+
         void Data::setPluginName(const std::string& value)
         {
             _pluginName = value;
