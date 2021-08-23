@@ -4,7 +4,7 @@ set(header
     DPXTest.h
     IOTest.h
     PPMTest.h
-	SpeedTest.h
+    SpeedTest.h
     ThumbnailSystemTest.h
     TimeTest.h)
 set(source
@@ -13,10 +13,10 @@ set(source
     DPXTest.cpp
     IOTest.cpp
     PPMTest.cpp
-	SpeedTest.cpp
+    SpeedTest.cpp
     ThumbnailSystemTest.cpp
     TimeTest.cpp)
-if (NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
+if (NOT DJV_BUILD_TINY)
     if(FFmpeg_FOUND)
         set(header
             ${header}

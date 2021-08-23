@@ -1,13 +1,13 @@
 set(header
-	CacheTest.h
+    CacheTest.h
     EnumTest.h
     ErrorTest.h
     ListObserverTest.h
     MapObserverTest.h
     MemoryTest.h
     OSTest.h
-	RandomTest.h
-	RapidJSONTest.h
+    RandomTest.h
+    RapidJSONTest.h
     StringFormatTest.h
     StringTest.h
     TimeTest.h
@@ -15,15 +15,15 @@ set(header
     UndoStackTest.h
     ValueObserverTest.h)
 set(source
-	CacheTest.cpp
+    CacheTest.cpp
     EnumTest.cpp
     ErrorTest.cpp
     ListObserverTest.cpp
     MapObserverTest.cpp
     MemoryTest.cpp
     OSTest.cpp
-	RandomTest.cpp
-	RapidJSONTest.cpp
+    RandomTest.cpp
+    RapidJSONTest.cpp
     StringFormatTest.cpp
     StringTest.cpp
     TimeTest.cpp
