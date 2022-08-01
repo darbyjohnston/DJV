@@ -12,6 +12,8 @@
 
 #include <future>
 
+#include <djvAV/IO.h>
+
 namespace djv
 {
     namespace System
