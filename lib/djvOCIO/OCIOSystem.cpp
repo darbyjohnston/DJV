@@ -589,8 +589,8 @@ namespace djv
                             const char* viewName = ocioConfig->getView(displayName, j);
                             View view;
                             view.name = viewName;
-                            view.colorSpace = ocioConfig->getDisplayColorSpaceName(displayName, viewName);
-                            view.looks = ocioConfig->getDisplayLooks(displayName, viewName);
+                            view.colorSpace = ocioConfig->getDisplayViewColorSpaceName(displayName, viewName);
+                            view.looks = ocioConfig->getDisplayViewLooks(displayName, viewName);
                             display.views.push_back(view);
                         }
                         displays.push_back(display);

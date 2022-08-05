@@ -1274,21 +1274,26 @@ namespace djv
                             colorSpaceData.lut3D.reset(new LUT3D);
                             auto config = _OCIO::GetCurrentConfig();
                             auto processor = config->getProcessor(options.colorSpace.input.c_str(), options.colorSpace.output.c_str());
-                            _OCIO::GpuShaderDesc shaderDesc;
-                            shaderDesc.setLanguage(_OCIO::GPU_LANGUAGE_GLSL_1_3);
+
+                            auto gpu = processor->getOptimizedLegacyGPUProcessor(_OCIO::OPTIMIZATION_DEFAULT, colorSpaceData.lut3D->getEdgeLen());
+                            auto shaderDesc = _OCIO::GpuShaderDesc::CreateShaderDesc();
+
+                            shaderDesc->setLanguage(_OCIO::GPU_LANGUAGE_GLSL_1_3);
                             std::stringstream ss;
                             ss << "colorSpace" << colorSpaceData.id;
-                            shaderDesc.setFunctionName(ss.str().c_str());
-                            shaderDesc.setLut3DEdgeLen(colorSpaceData.lut3D->getEdgeLen());
-                            colorSpaceData.shaderSource = processor->getGpuShaderText(shaderDesc);
+                            shaderDesc->setFunctionName(ss.str().c_str());
+                            shaderDesc->setResourcePrefix("ocio_");
+                            gpu->extractGpuShaderInfo(shaderDesc);
+
+                            colorSpaceData.shaderSource = shaderDesc->getShaderText();
                             size_t index = colorSpaceData.shaderSource.find("texture3D");
                             if (index != std::string::npos)
                             {
                                 colorSpaceData.shaderSource.replace(index, std::string("texture3D").size(), "texture");
                             }
                             auto data = colorSpaceData.lut3D->getData();
-                            processor->getGpuLut3D(data, shaderDesc);
-                            colorSpaceData.lut3D->copy();
+                            // processor->getGpuLut3D(data, shaderDesc);
+                            // colorSpaceData.lut3D->copy();
                             colorSpaceCache[options.colorSpace] = colorSpaceData;
                             shader.reset();
                         }

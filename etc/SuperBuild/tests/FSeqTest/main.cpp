@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
 {
     FSeqFileName components;
     fseqFileNameInit(&components);
-    fseqFileNameSplit("/tmp/render.1.exr", &components, FSEQ_STRING_LEN);
+    fseqFileNameSplit("/tmp/render.1.exr", &components, FSEQ_STRING_LEN, NULL);
     std::cout << "path: " << components.path << std::endl;
     std::cout << "base: " << components.base << std::endl;
     std::cout << "number: " << components.number << std::endl;

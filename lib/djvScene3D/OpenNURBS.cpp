@@ -21,7 +21,7 @@
 #include <djvGeom/TriangleMesh.h>
 
 #include <djvCore/StringFormat.h>
-#include <djvCore/StringFunc.h>
+#include <djvCore/String.h>
 
 #include <opennurbs/opennurbs.h>
 

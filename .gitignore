@@ -1,9 +1,11 @@
-build
-Debug
-Release
+*build*/*
+etc/SuperBuild/.vs
+etc/SuperBuild/CMakeSettings.json
+*Debug*/*
+*Release*/*
 RelWithDebInfo
 docs/doxygen
 *~
 .git
 .vscode
-
+.vs
