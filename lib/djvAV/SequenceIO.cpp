@@ -24,6 +24,7 @@
 #include <GLFW/glfw3.h>
 
 #include <future>
+#include <thread>
 
 using namespace djv::Core;
 
