@@ -13,6 +13,7 @@
 //#include <AL/alext.h>
 #include <rtaudio/RtAudio.h>
 
+#include <cstdint>
 #include <limits>
 
 namespace djv
