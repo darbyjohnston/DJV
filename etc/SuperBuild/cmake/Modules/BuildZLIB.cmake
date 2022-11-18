@@ -1,5 +1,8 @@
 include(ExternalProject)
 
+set(ZLIB_GIT_REPOSITORY "https://github.com/madler/zlib.git")
+set(ZLIB_GIT_TAG "v1.2.11")
+
 set(ZLIB_ARGS
     -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -18,7 +21,8 @@ endif()
 ExternalProject_Add(
     ZLIB
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/ZLIB
-    URL http://www.zlib.net/zlib-1.2.11.tar.gz
+    GIT_REPOSITORY ${ZLIB_GIT_REPOSITORY}
+    GIT_TAG ${ZLIB_GIT_TAG}
     PATCH_COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/ZLIB-patch/CMakeLists.txt
         ${CMAKE_CURRENT_BINARY_DIR}/ZLIB/src/ZLIB/CMakeLists.txt
