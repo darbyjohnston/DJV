@@ -24,6 +24,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include <thread>
+
 using namespace djv;
 
 const size_t drawCount = 10000;

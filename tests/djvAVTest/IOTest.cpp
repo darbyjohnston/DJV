@@ -19,6 +19,8 @@
 #include <djvCore/Error.h>
 #include <djvCore/String.h>
 
+#include <thread>
+
 using namespace djv::Core;
 using namespace djv::AV;
 using namespace djv::AV::IO;

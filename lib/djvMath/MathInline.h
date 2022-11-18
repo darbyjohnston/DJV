@@ -3,6 +3,7 @@
 // All rights reserved.
 
 #include <algorithm>
+#include <limits>
 
 #include <float.h>
 #include <math.h>

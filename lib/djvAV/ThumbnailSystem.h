@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <djvAV/IO.h>
+
 #include <djvImage/Type.h>
 
 #include <djvSystem/ISystem.h>
