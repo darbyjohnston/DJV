@@ -48,5 +48,5 @@ jobs:
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DJV_BUILD/install/lib &&
         export PYTHONPATH=$DJV_BUILD/install/lib:$PYTHONPATH &&
         cd SuperBuild/DJV/src/DJV-build &&
-        ./build/bin/djvTest
-
+        cmake --build . --target test &&
+        cat Testing/Temporary/LastTest.log
