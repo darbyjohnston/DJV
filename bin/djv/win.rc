@@ -1,3 +1,0 @@
-#include "winrc.h"
-
-DJV_ICON ICON "..\\..\\etc\\Windows\\djv.ico"

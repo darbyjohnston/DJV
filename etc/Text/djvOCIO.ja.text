@@ -1,7 +1,0 @@
-{
-    "error_cannot_parse_the_value": "値を解析できません。",
-    "ocio_config_mode_cmd_line": "コマンドライン",
-    "ocio_config_mode_env": "環境",
-    "ocio_config_mode_none": "なし",
-    "ocio_config_mode_user": "ユーザー"
-}

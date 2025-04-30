@@ -1,7 +1,0 @@
-{
-    "error_cannot_parse_the_value": "Der Wert kann nicht analysiert werden.",
-    "ocio_config_mode_cmd_line": "Befehlszeile",
-    "ocio_config_mode_env": "Umgebung",
-    "ocio_config_mode_none": "Keiner",
-    "ocio_config_mode_user": "Nutzer"
-}

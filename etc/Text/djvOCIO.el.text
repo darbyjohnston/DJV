@@ -1,7 +1,0 @@
-{
-    "error_cannot_parse_the_value": "Δεν είναι δυνατή η ανάλυση της τιμής.",
-    "ocio_config_mode_cmd_line": "Γραμμή εντολών",
-    "ocio_config_mode_env": "περιβάλλον",
-    "ocio_config_mode_none": "Κανένας",
-    "ocio_config_mode_user": "Χρήστης"
-}

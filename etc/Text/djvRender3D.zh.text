@@ -1,8 +1,0 @@
-{
-    "render3d_default_material_mode_default": "默认",
-    "render3d_default_material_mode_normals": "法线",
-    "render3d_default_material_mode_unlit": "熄灭",
-    "render3d_default_material_mode_uvs": "紫外线",
-    "render3d_depth_buffer_mode_reverse": "相反",
-    "render3d_depth_buffer_mode_standard": "标准"
-}

@@ -1,8 +1,0 @@
-{
-    "render3d_default_material_mode_default": "Προκαθορισμένο",
-    "render3d_default_material_mode_normals": "Κανονικά",
-    "render3d_default_material_mode_unlit": "Μη φωτισμένη",
-    "render3d_default_material_mode_uvs": "UVs",
-    "render3d_depth_buffer_mode_reverse": "ΑΝΤΙΣΤΡΟΦΗ",
-    "render3d_depth_buffer_mode_standard": "Πρότυπο"
-}

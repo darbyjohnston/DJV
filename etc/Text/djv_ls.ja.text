@@ -1,6 +1,0 @@
-{
-    "djv_ls_description": "djv_lsは、画像シーケンスをリストするためのコマンドラインツールです。",
-    "djv_ls_usage": "使用法",
-    "djv_ls_usage_format": "djv_ls [入力、...]",
-    "error_file_open": "ファイルを開けません。"
-}

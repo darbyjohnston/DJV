@@ -1,8 +1,0 @@
-{
-    "error_cannot_parse_the_value": "Værdien kan ikke analyseres.",
-    "error_file_open": "Kan ikke åbne fil.",
-    "error_file_read": "Filen kan ikke læses.",
-    "error_file_write": "Kan ikke skrive fil.",
-    "obj_plugin_description": "Dette plugin giver OBJ-fil I / O.",
-    "opennurbs_plugin_description": "Dette plugin giver OpenNURBS-fil I / O."
-}

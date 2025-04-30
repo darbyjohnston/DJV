@@ -1,8 +1,0 @@
-{
-    "error_cannot_parse_the_value": "Cannot parse the value.",
-    "error_file_open": "Cannot open file.",
-    "error_file_read": "Cannot read file.",
-    "error_file_write": "Cannot write file.",
-    "obj_plugin_description": "This plugin provides OBJ file I/O.",
-    "opennurbs_plugin_description": "This plugin provides OpenNURBS file I/O."
-}

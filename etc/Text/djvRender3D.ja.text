@@ -1,8 +1,0 @@
-{
-    "render3d_default_material_mode_default": "デフォルト",
-    "render3d_default_material_mode_normals": "法線",
-    "render3d_default_material_mode_unlit": "Unlit",
-    "render3d_default_material_mode_uvs": "UV",
-    "render3d_depth_buffer_mode_reverse": "反転",
-    "render3d_depth_buffer_mode_standard": "標準"
-}

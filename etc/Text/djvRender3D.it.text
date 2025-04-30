@@ -1,8 +1,0 @@
-{
-    "render3d_default_material_mode_default": "Predefinito",
-    "render3d_default_material_mode_normals": "normali",
-    "render3d_default_material_mode_unlit": "spento",
-    "render3d_default_material_mode_uvs": "UV",
-    "render3d_depth_buffer_mode_reverse": "Inverso",
-    "render3d_depth_buffer_mode_standard": "Standard"
-}

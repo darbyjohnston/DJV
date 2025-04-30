@@ -1,6 +1,0 @@
-{
-    "djv_info_description": "djv_info ist ein Befehlszeilenprogramm zum Anzeigen von Informationen zu Bildern und Bildsequenzen.",
-    "djv_info_usage": "Verwendungszweck",
-    "djv_info_usage_format": "djv_info [Eingabe, ...]",
-    "error_file_open": "Kann Datei nicht öffnen."
-}

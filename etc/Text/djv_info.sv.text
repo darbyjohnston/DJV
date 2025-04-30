@@ -1,6 +1,0 @@
-{
-    "djv_info_description": "djv_info är ett kommandoradsverktyg för att visa information om bilder och bildsekvenser.",
-    "djv_info_usage": "Användande",
-    "djv_info_usage_format": "djv_info [input, ...]",
-    "error_file_open": "Kan inte öppna filen."
-}

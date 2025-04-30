@@ -1,6 +1,0 @@
-{
-    "djv_ls_description": "djv_ls to narzędzie wiersza polecenia do wyświetlania sekwencji obrazów.",
-    "djv_ls_usage": "Stosowanie",
-    "djv_ls_usage_format": "djv_ls [wejście, ...]",
-    "error_file_open": "Nie można otworzyć pliku."
-}

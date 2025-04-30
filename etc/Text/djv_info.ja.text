@@ -1,6 +1,0 @@
-{
-    "djv_info_description": "djv_infoは、画像と画像シーケンスに関する情報を表示するためのコマンドラインツールです。",
-    "djv_info_usage": "使用法",
-    "djv_info_usage_format": "djv_info [入力、...]",
-    "error_file_open": "ファイルを開けません。"
-}

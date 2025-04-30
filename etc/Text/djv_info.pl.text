@@ -1,6 +1,0 @@
-{
-    "djv_info_description": "djv_info to narzędzie wiersza polecenia do wyświetlania informacji o obrazach i sekwencjach obrazów.",
-    "djv_info_usage": "Stosowanie",
-    "djv_info_usage_format": "djv_info [wejście, ...]",
-    "error_file_open": "Nie można otworzyć pliku."
-}

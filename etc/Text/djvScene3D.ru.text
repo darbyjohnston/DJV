@@ -1,8 +1,0 @@
-{
-    "error_cannot_parse_the_value": "Невозможно проанализировать значение.",
-    "error_file_open": "Не может открыть файл.",
-    "error_file_read": "Не удается прочитать файл.",
-    "error_file_write": "Не могу записать файл.",
-    "obj_plugin_description": "Этот плагин обеспечивает ввод-вывод файла OBJ.",
-    "opennurbs_plugin_description": "Этот плагин обеспечивает файловый ввод / вывод OpenNURBS."
-}

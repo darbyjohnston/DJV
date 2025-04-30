@@ -1,8 +1,0 @@
-{
-    "error_cannot_parse_the_value": "Δεν είναι δυνατή η ανάλυση της τιμής.",
-    "error_file_open": "Δεν είναι δυνατό το άνοιγμα του αρχείου.",
-    "error_file_read": "Δεν είναι δυνατή η ανάγνωση του αρχείου.",
-    "error_file_write": "Δεν είναι δυνατή η εγγραφή αρχείου.",
-    "obj_plugin_description": "Αυτό το πρόσθετο παρέχει I / O αρχείο OBJ.",
-    "opennurbs_plugin_description": "Αυτό το plugin παρέχει I / O αρχείο OpenNURBS."
-}

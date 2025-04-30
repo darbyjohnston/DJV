@@ -1,6 +1,0 @@
-{
-    "djv_ls_description": "djv_ls je nástroj příkazového řádku pro výpis obrazových sekvencí.",
-    "djv_ls_usage": "Používání",
-    "djv_ls_usage_format": "djv_ls [vstup, ...]",
-    "error_file_open": "Nelze otevřít soubor."
-}
