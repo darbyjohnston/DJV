@@ -7,7 +7,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: ON
       TLRENDER_FFMPEG: ON
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: OFF
       dtk_API: GL_4_1
 
@@ -34,7 +37,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: OFF
       TLRENDER_FFMPEG: OFF
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: OFF
       dtk_API: GLES_2
 
@@ -61,7 +67,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: ON
       TLRENDER_FFMPEG: ON
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: ON
       dtk_API: GL_4_1
 
@@ -99,7 +108,10 @@ jobs:
     runs-on: macos-13
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: ON
       TLRENDER_FFMPEG: ON
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: OFF
       dtk_API: GL_4_1
       CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
@@ -131,7 +143,10 @@ jobs:
     runs-on: macos-latest
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: ON
       TLRENDER_FFMPEG: ON
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: OFF
       dtk_API: GL_4_1
       CMAKE_OSX_DEPLOYMENT_TARGET: 14
@@ -163,7 +178,10 @@ jobs:
     runs-on: macos-latest
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: ON
       TLRENDER_FFMPEG: ON
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: ON
       dtk_API: GL_4_1
       CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
@@ -206,7 +224,10 @@ jobs:
     runs-on: windows-latest
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: ON
       TLRENDER_FFMPEG: ON
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: OFF
       dtk_API: GL_4_1
 
@@ -238,7 +259,10 @@ jobs:
     runs-on: windows-latest
 
     env:
+      TLRENDER_NET: OFF
+      TLRENDER_OCIO: ON
       TLRENDER_FFMPEG: ON
+      TLRENDER_FFMPEG_MINIMAL: OFF
       TLRENDER_USD: ON
       dtk_API: GL_4_1
 
