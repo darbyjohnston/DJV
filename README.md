@@ -15,15 +15,15 @@ Features:
 Experimental:
 * USD support
 
-These screenshots show two images being compared, a render and a wireframe,
-with a wipe and horizontal layout.
-
-![Screenshot](etc/Images/djv_screenshot1.png)
-![Screenshot](etc/Images/djv_screenshot2.png)
-
 [Download](https://darbyjohnston.github.io/DJV/index.html)
 
 [Documentation](https://darbyjohnston.github.io/DJV/index.html)
+
+These screenshots show two images being compared, a render and a wireframe,
+with a wipe and horizontal layout:
+
+![Screenshot](etc/Images/djv_screenshot1.png)
+![Screenshot](etc/Images/djv_screenshot2.png)
 
 
 # Building on Linux
