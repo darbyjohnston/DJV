@@ -341,7 +341,7 @@ namespace djv
             std::shared_ptr<dtk::ObservableValue<tl::ffmpeg::Options> > ffmpeg;
 #endif // TLRENDER_FFMPEG
 #if defined(TLRENDER_USD)
-            std::shared_ptr<dtk::ObservableValue<usd::Options> > usd;
+            std::shared_ptr<dtk::ObservableValue<tl::usd::Options> > usd;
 #endif // TLRENDER_USD
         };
 

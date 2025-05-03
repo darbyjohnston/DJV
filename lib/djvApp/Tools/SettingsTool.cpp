@@ -884,7 +884,7 @@ namespace djv
                 {
                     DTK_P();
                     tl::usd::Options options = p.model->getUSD();
-                    options.drawMode = static_cast<usd::DrawMode>(value);
+                    options.drawMode = static_cast<tl::usd::DrawMode>(value);
                     p.model->setUSD(options);
                 });
 
