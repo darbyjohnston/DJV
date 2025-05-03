@@ -3,10 +3,10 @@
 
 DJV
 ===
-DJV is a media playback application for VFX, animation, and film production.
+DJV provides professional media review software for VFX, animation, and film production.
 
 Features:
-* Playback OpenTimelineIO timelines (.otio and .otioz), image sequences, and movies
+* Playback OpenTimelineIO files (.otio and .otioz), image sequences, and movies
 * A/B comparison with multiple modes including wipe, overlay, difference, and tile
 * Color management with OpenColorIO
 * Multi-track, variable speed, and reverse audio playback
@@ -15,13 +15,14 @@ Features:
 Experimental:
 * USD support
 
-* [Download](https://darbyjohnston.github.io/DJV/index.html)
-* [Documentation](https://darbyjohnston.github.io/DJV/index.html)
+[Download](https://darbyjohnston.github.io/DJV/index.html)
+
+[Documentation](https://darbyjohnston.github.io/DJV/index.html)
 
 ![Screenshot](etc/Images/djv_screenshot1.png)
 ![Screenshot](etc/Images/djv_screenshot2.png)
 
-These screenshots show time images being compared, a render and a wireframe,
+These screenshots show two images being compared, a render and a wireframe,
 with a wipe and horizontal layout.
 
 
