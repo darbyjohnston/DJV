@@ -70,7 +70,7 @@ namespace djv
 #if defined(TLRENDER_USD)
             int usdRenderWidth = 1920;
             float usdComplexity = 1.F;
-            usd::DrawMode usdDrawMode = usd::DrawMode::ShadedSmooth;
+            tl::usd::DrawMode usdDrawMode = tl::usd::DrawMode::ShadedSmooth;
             bool usdEnableLighting = true;
             bool usdSRGB = true;
             size_t usdStageCache = 10;
@@ -921,7 +921,7 @@ namespace djv
             out = tl::io::merge(out, tl::ffmpeg::getOptions(p.settingsModel->getFFmpeg()));
 #endif // TLRENDER_FFMPEG
 #if defined(TLRENDER_USD)
-            out = io::merge(out, usd::getOptions(p.settingsModel->getUSD()));
+            out = tl::io::merge(out, tl::usd::getOptions(p.settingsModel->getUSD()));
 #endif // TLRENDER_USD
             return out;
         }
