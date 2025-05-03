@@ -9,14 +9,14 @@ Features:
 * Playback OpenTimelineIO timelines (.otio and .otioz), image sequences, and movies
 * A/B comparison with multiple modes including wipe, overlay, difference, and tile
 * Color management with OpenColorIO
-* Multi-channel, multi-track, variable speed, and reverse audio playback
+* Multi-track, variable speed, and reverse audio playback
 * Support for Linux, macOS, and Windows
 
 Experimental:
 * USD support
 
-* [Download](https://darbyjohnston.github.io/DJV/download.html)
-* [Documentation](https://darbyjohnston.github.io/DJV/documentation.html)
+* [Download](https://darbyjohnston.github.io/DJV/index.html)
+* [Documentation](https://darbyjohnston.github.io/DJV/index.html)
 
 ![Screenshot](etc/Images/djv_screenshot1.png)
 ![Screenshot](etc/Images/djv_screenshot2.png)
