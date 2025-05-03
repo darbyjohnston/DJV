@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -x
+
+BUILD_TYPE=$1
+
+mkdir build
+cd build
+cmake ../etc/SuperBuild \
+    -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+    -DCMAKE_INSTALL_PREFIX=$PWD/install \
+    -DCMAKE_PREFIX_PATH=$PWD/install \
+    -DTLRENDER_FFMPEG=$TLRENDER_FFMPEG \
+    -DTLRENDER_USD=$TLRENDER_USD \
+    -Ddtk_API=$dtk_API \
+    -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} \
+    -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}
+cmake --build . -j 4 --config $BUILD_TYPE

@@ -1,3 +1,279 @@
 name: CI
 
 on: [push]
+
+jobs:
+  linux-build:
+    runs-on: ubuntu-latest
+
+    env:
+      TLRENDER_FFMPEG: ON
+      TLRENDER_USD: OFF
+      dtk_API: GL_4_1
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build DJV
+      run: bash etc/Linux/linux-build-gha.sh Debug
+
+  linux-gles2-build:
+    runs-on: ubuntu-latest
+
+    env:
+      TLRENDER_FFMPEG: OFF
+      TLRENDER_USD: OFF
+      dtk_API: GLES_2
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build DJV
+      run: bash etc/Linux/linux-build-gha.sh Debug
+
+  linux-package:
+    runs-on: ubuntu-latest
+
+    env:
+      TLRENDER_FFMPEG: ON
+      TLRENDER_USD: ON
+      dtk_API: GL_4_1
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build DJV
+      run: bash etc/Linux/linux-build-gha.sh Release
+
+    - name: Package
+      run: |
+        cd build
+        cd DJV/src/DJV-build
+        cmake --build . -j 4 --target package
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: DJV-Linux-Packages
+        path: build/DJV/src/DJV-build/DJV-*.tar.gz
+
+  macos-13-build:
+    runs-on: macos-13
+
+    env:
+      TLRENDER_FFMPEG: ON
+      TLRENDER_USD: OFF
+      dtk_API: GL_4_1
+      CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
+      CMAKE_OSX_ARCHITECTURES: x86_64
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # \bug DYLD_LIBRARY_PATH is not being set here?
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build DJV
+      run: |
+        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+        bash etc/macOS/macos-build-gha.sh Debug
+
+  macos-build:
+    runs-on: macos-latest
+
+    env:
+      TLRENDER_FFMPEG: ON
+      TLRENDER_USD: OFF
+      dtk_API: GL_4_1
+      CMAKE_OSX_DEPLOYMENT_TARGET: 14
+      CMAKE_OSX_ARCHITECTURES: arm64
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # \bug DYLD_LIBRARY_PATH is not being set here?
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build DJV
+      run: |
+        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+        bash etc/macOS/macos-build-gha.sh Debug
+
+  macos-package:
+    runs-on: macos-latest
+
+    env:
+      TLRENDER_FFMPEG: ON
+      TLRENDER_USD: ON
+      dtk_API: GL_4_1
+      CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
+      CMAKE_OSX_ARCHITECTURES: arm64
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # \bug DYLD_LIBRARY_PATH is not being set here?
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build DJV
+      run: |
+        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+        bash etc/macOS/macos-build-gha.sh Release
+
+    - name: Package
+      run: |
+        cd build
+        cd DJV/src/DJV-build
+        cmake --build . -j 4 --target package
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: DJV-macOS-Packages
+        path: build/DJV/src/DJV-build/DJV-*.dmg
+
+  windows-build:
+    runs-on: windows-latest
+
+    env:
+      TLRENDER_FFMPEG: ON
+      TLRENDER_USD: OFF
+      dtk_API: GL_4_1
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - uses: ilammy/setup-nasm@v1
+
+    # \bug Any spaces before the ">>" will be considered part of the path.
+    - name: Setup environment
+      shell: cmd
+      run: |
+        echo %CD%\build\install\bin>> %GITHUB_PATH%
+        echo %CD%\build\install\lib>> %GITHUB_PATH%
+        echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
+        cmake --version
+        python --version
+        
+    - name: Build DJV
+      shell: cmd
+      run: |
+        etc\Windows\windows-build-gha.bat Debug
+
+  windows-package:
+    runs-on: windows-latest
+
+    env:
+      TLRENDER_FFMPEG: ON
+      TLRENDER_USD: ON
+      dtk_API: GL_4_1
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - uses: ilammy/setup-nasm@v1
+
+    # \bug Any spaces before the ">>" will be considered part of the path.
+    - name: Setup environment
+      shell: cmd
+      run: |
+        echo %CD%\build\install\bin>> %GITHUB_PATH%
+        echo %CD%\build\install\lib>> %GITHUB_PATH%
+        echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
+        cmake --version
+        python --version
+
+    - name: Build DJV
+      shell: cmd
+      run: |
+        etc\Windows\windows-build-gha.bat Release
+
+    - name: Package
+      shell: cmd
+      run: |
+        cd build
+        cd DJV\src\DJV-build
+        cmake --build . -j 4 --target package
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: DJV-Windows-Packages
+        path: build\DJV\src\DJV-build\DJV-*.zip

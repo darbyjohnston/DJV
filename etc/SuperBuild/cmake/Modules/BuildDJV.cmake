@@ -1,0 +1,13 @@
+include(ExternalProject)
+
+set(DJV_ARGS
+    ${DJV_EXTERNAL_ARGS}
+    -DDJV_IGNORE_PREFIX_PATH=${DJV_IGNORE_PREFIX_PATH})
+
+ExternalProject_Add(
+    DJV
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/DJV
+    DEPENDS tlRender
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..
+    LIST_SEPARATOR |
+    CMAKE_ARGS ${DJV_ARGS})
