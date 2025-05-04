@@ -18,14 +18,15 @@ project(
     HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES CXX)
 
+set(TLRENDER_FFMPEG TRUE CACHE BOOL "Set whether FFmpeg support is enabled")
+set(TLRENDER_USD FALSE CACHE BOOL "Set whether USD support is enabled")
+
 list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(tlRender REQUIRED)
 
-set(TLRENDER_FFMPEG ON)
-set(TLRENDER_USD ON)
 include(djvPackage)
 
 include_directories(${CMAKE_SOURCE_DIR}/lib)
