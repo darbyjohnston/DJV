@@ -14,7 +14,7 @@ add_definitions(-DDJV_VERSION="${DJV_VERSION}")
 project(
     DJV
     VERSION ${DJV_VERSION}
-    DESCRIPTION "Professional review software for VFX, animation, and film production"
+    DESCRIPTION "Professional review software for visual effects, film, and animation"
     HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES CXX)
 
@@ -24,6 +24,17 @@ set(TLRENDER_USD FALSE CACHE BOOL "Set whether USD support is enabled")
 list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 set(CMAKE_CXX_STANDARD 17)
+
+if(WIN32)
+elseif(APPLE)
+    set(CMAKE_SKIP_BUILD_RPATH FALSE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
+else()
+    set(CMAKE_SKIP_BUILD_RPATH FALSE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+endif()
 
 find_package(tlRender REQUIRED)
 
