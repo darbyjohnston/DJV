@@ -26,7 +26,10 @@ with a wipe and horizontal layout:
 ![Screenshot](etc/Images/djv_screenshot2.png)
 
 
-# Building on Linux
+Building
+========
+
+## Building on Linux
 
 Clone the repository:
 ```
@@ -49,7 +52,7 @@ export LD_LIBRARY_PATH=$PWD/Release/install/lib:$LD_LIBRARY_PATH
 ```
 
 
-# Building on macOS
+## Building on macOS
 
 Clone the repository:
 ```
@@ -68,7 +71,7 @@ Run the application:
 ./Release/DJV/src/DJV-build/bin/djv/djv
 ```
 
-## Notes for building on macOS
+### Notes for building on macOS
 
 The CMake variable `CMAKE_OSX_ARCHITECTURES` can be used to specify the build
 architecture:
@@ -86,7 +89,7 @@ alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
 ```
 
 
-# Building on Windows
+## Building on Windows
 
 Dependencies:
 * Install MSYS2 (https://www.msys2.org) for compiling FFmpeg.
