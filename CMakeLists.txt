@@ -24,6 +24,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(tlRender REQUIRED)
 
+set(TLRENDER_FFMPEG ON)
+set(TLRENDER_USD ON)
 include(djvPackage)
 
 include_directories(${CMAKE_SOURCE_DIR}/lib)

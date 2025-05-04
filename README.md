@@ -19,6 +19,9 @@ Experimental:
 
 [Documentation](https://darbyjohnston.github.io/DJV/index.html)
 
+DJV is built with the tlRender library:
+* [tlRender](https://github.com/darbyjohnston/tlRender)
+
 These screenshots show two images being compared, a render and a wireframe,
 with a wipe and horizontal layout:
 
