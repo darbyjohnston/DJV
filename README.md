@@ -3,7 +3,7 @@
 
 DJV
 ===
-DJV provides professional media review software for VFX, animation, and film production.
+DJV provides professional media review software for visual effects, film, and animation.
 
 Features:
 * Playback OpenTimelineIO files (.otio and .otioz), image sequences, and movies
