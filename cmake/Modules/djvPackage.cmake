@@ -62,6 +62,7 @@ if(WIN32)
             ${CMAKE_INSTALL_PREFIX}/bin/usd_sdr.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_tf.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_trace.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_ts.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usd.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdAppUtils.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdBakeMtlx.dll
@@ -215,6 +216,7 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_sdr.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_tf.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_trace.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ts.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usd.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdAppUtils.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdBakeMtlx.dylib
@@ -373,6 +375,7 @@ else()
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_sdr.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_tf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_trace.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ts.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdAppUtils.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdBakeMtlx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdGeom.so
