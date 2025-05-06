@@ -64,7 +64,7 @@ jobs:
       run: bash etc/Linux/linux-build-gha.sh Debug
 
   linux-package:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     env:
       TLRENDER_NET: OFF
