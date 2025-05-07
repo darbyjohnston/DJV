@@ -56,6 +56,7 @@ if(WIN32)
             ${CMAKE_INSTALL_PREFIX}/bin/usd_kind.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_ndr.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_pcp.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_pegtl.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_plug.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_pxOsd.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_sdf.dll
@@ -210,6 +211,7 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_kind.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ndr.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pcp.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_pegtl.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_plug.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pxOsd.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_sdf.dylib
@@ -369,6 +371,7 @@ else()
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_kind.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ndr.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pcp.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_pegtl.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_plug.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pxOsd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_sdf.so
@@ -416,4 +419,38 @@ else()
         DESTINATION lib)
 
 endif()
+
+install(
+    FILES
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_BlackmagicDesign.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_boost.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_CMake.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_CURL.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_dtk.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_expat.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_FFmpeg.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libjpeg-turbo.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libjpeg.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libpng.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_Libssh2.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libtiff.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_MaterialX.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_minizip-ng.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_nlohmann_json.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OFL.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_oneTBB.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenColorIO.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenEXR.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenSSL.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenSubdiv.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenTimelineIO.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenUSD.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_pystring.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_Qt.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_SDL2.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_stb.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_tlRender.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_yaml-cpp.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_zlib.txt
+    DESTINATION etc/DJV)
 
