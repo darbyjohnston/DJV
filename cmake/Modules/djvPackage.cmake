@@ -420,3 +420,37 @@ else()
 
 endif()
 
+install(
+    FILES
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_BlackmagicDesign.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_boost.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_CMake.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_CURL.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_dtk.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_expat.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_FFmpeg.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libjpeg-turbo.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libjpeg.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libpng.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_Libssh2.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libtiff.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_MaterialX.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_minizip-ng.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_nlohmann_json.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OFL.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_oneTBB.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenColorIO.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenEXR.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenSSL.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenSubdiv.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenTimelineIO.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenUSD.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_pystring.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_Qt.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_SDL2.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_stb.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_tlRender.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_yaml-cpp.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_zlib.txt
+    DESTINATION etc/DJV)
+

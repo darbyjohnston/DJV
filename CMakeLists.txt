@@ -44,5 +44,6 @@ include_directories(${CMAKE_SOURCE_DIR}/lib)
 add_subdirectory(lib)
 add_subdirectory(tests)
 add_subdirectory(bin)
+add_subdirectory(etc/Legal)
 
 include(CPack)
