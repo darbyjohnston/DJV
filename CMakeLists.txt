@@ -39,6 +39,7 @@ endif()
 find_package(tlRender REQUIRED)
 
 include(djvPackage)
+include(InstallRequiredSystemLibraries)
 
 include_directories(${CMAKE_SOURCE_DIR}/lib)
 add_subdirectory(lib)
