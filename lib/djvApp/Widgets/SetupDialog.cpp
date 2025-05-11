@@ -19,17 +19,17 @@ namespace djv
 {
     namespace app
     {
-        struct SetupHomeWidget::Private
+        struct SetupStartWidget::Private
         {
             std::shared_ptr<dtk::VerticalLayout> layout;
         };
 
-        void SetupHomeWidget::_init(
+        void SetupStartWidget::_init(
             const std::shared_ptr<dtk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            IWidget::_init(context, "djv::app::SetupHomeWidget", parent);
+            IWidget::_init(context, "djv::app::SetupStartWidget", parent);
             DTK_P();
             p.layout = dtk::VerticalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(dtk::SizeRole::SpacingLarge);
@@ -37,30 +37,30 @@ namespace djv
             dtk::Label::create(context, "Changes can also be made later in the settings tool.", p.layout);
         }
 
-        SetupHomeWidget::SetupHomeWidget() :
+        SetupStartWidget::SetupStartWidget() :
             _p(new Private)
         {}
 
-        SetupHomeWidget::~SetupHomeWidget()
+        SetupStartWidget::~SetupStartWidget()
         {}
 
-        std::shared_ptr<SetupHomeWidget> SetupHomeWidget::create(
+        std::shared_ptr<SetupStartWidget> SetupStartWidget::create(
             const std::shared_ptr<dtk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            auto out = std::shared_ptr<SetupHomeWidget>(new SetupHomeWidget);
+            auto out = std::shared_ptr<SetupStartWidget>(new SetupStartWidget);
             out->_init(context, app, parent);
             return out;
         }
 
-        void SetupHomeWidget::setGeometry(const dtk::Box2I& value)
+        void SetupStartWidget::setGeometry(const dtk::Box2I& value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void SetupHomeWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void SetupStartWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -68,7 +68,6 @@ namespace djv
 
         struct SetupDialog::Private
         {
-            std::shared_ptr<dtk::Label> label;
             std::shared_ptr<dtk::PushButton> nextButton;
             std::shared_ptr<dtk::PushButton> prevButton;
             std::shared_ptr<dtk::PushButton> closeButton;
@@ -91,11 +90,11 @@ namespace djv
                 parent);
             DTK_P();
 
-            p.label = dtk::Label::create(
+            auto label = dtk::Label::create(
                 context,
                 dtk::Format("DJV {0} Setup").arg(DJV_VERSION));
-            p.label->setFontRole(dtk::FontRole::Title);
-            p.label->setMarginRole(dtk::SizeRole::Margin);
+            label->setFontRole(dtk::FontRole::Title);
+            label->setMarginRole(dtk::SizeRole::Margin);
 
             p.nextButton = dtk::PushButton::create(context, "Next");
             p.prevButton = dtk::PushButton::create(context, "Previous");
@@ -103,7 +102,7 @@ namespace djv
 
             p.stackLayout = dtk::StackLayout::create(context);
             p.stackLayout->setMarginRole(dtk::SizeRole::MarginDialog);
-            p.widgets.push_back(SetupHomeWidget::create(context, app, p.stackLayout));
+            p.widgets.push_back(SetupStartWidget::create(context, app, p.stackLayout));
             auto vLayout = dtk::VerticalLayout::create(context, p.stackLayout);
             vLayout->setSpacingRole(dtk::SizeRole::SpacingLarge);
             dtk::Label::create(context, "Configure the style:", vLayout);
@@ -119,7 +118,7 @@ namespace djv
 
             p.layout = dtk::VerticalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(dtk::SizeRole::None);
-            p.label->setParent(p.layout);
+            label->setParent(p.layout);
             dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
             p.stackLayout->setParent(p.layout);
             dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
@@ -129,8 +128,6 @@ namespace djv
             p.nextButton->setParent(hLayout);
             hLayout->addSpacer(dtk::SizeRole::Spacing, dtk::Stretch::Expanding);
             p.closeButton->setParent(hLayout);
-
-            auto appWeak = std::weak_ptr<App>(app);
 
             p.nextButton->setClickedCallback(
                 [this]

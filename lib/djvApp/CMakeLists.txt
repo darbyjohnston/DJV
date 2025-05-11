@@ -3,6 +3,7 @@ set(HEADERS_ACTIONS
     Actions/CompareActions.h
     Actions/FileActions.h
     Actions/FrameActions.h
+    Actions/HelpActions.h
     Actions/IActions.h
     Actions/PlaybackActions.h
     Actions/TimelineActions.h
@@ -14,6 +15,7 @@ set(HEADERS_MENUS
     Menus/CompareMenu.h
     Menus/FileMenu.h
     Menus/FrameMenu.h
+    Menus/HelpMenu.h
     Menus/PlaybackMenu.h
     Menus/TimelineMenu.h
     Menus/ToolsMenu.h
@@ -52,6 +54,7 @@ set(HEADERS_PRIVATE_TOOLS
     Tools/SettingsToolPrivate.h
     Tools/ViewToolPrivate.h)
 set(HEADERS_WIDGETS
+    Widgets/AboutDialog.h
     Widgets/AudioPopup.h
     Widgets/BottomToolBar.h
     Widgets/CompareToolBar.h
@@ -87,6 +90,7 @@ set(SOURCE_ACTIONS
     Actions/CompareActions.cpp
     Actions/FileActions.cpp
     Actions/FrameActions.cpp
+    Actions/HelpActions.cpp
     Actions/IActions.cpp
     Actions/PlaybackActions.cpp
     Actions/TimelineActions.cpp
@@ -98,6 +102,7 @@ set(SOURCE_MENUS
     Menus/CompareMenu.cpp
     Menus/FileMenu.cpp
     Menus/FrameMenu.cpp
+    Menus/HelpMenu.cpp
     Menus/PlaybackMenu.cpp
     Menus/TimelineMenu.cpp
     Menus/ToolsMenu.cpp
@@ -134,6 +139,7 @@ set(SOURCE_TOOLS
     Tools/ToolsWidget.cpp
     Tools/ViewTool.cpp)
 set(SOURCE_WIDGETS
+    Widgets/AboutDialog.cpp
     Widgets/AudioPopup.cpp
     Widgets/BottomToolBar.cpp
     Widgets/CompareToolBar.cpp

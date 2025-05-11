@@ -9,6 +9,7 @@
 #include <djvApp/Actions/CompareActions.h>
 #include <djvApp/Actions/FileActions.h>
 #include <djvApp/Actions/FrameActions.h>
+#include <djvApp/Actions/HelpActions.h>
 #include <djvApp/Actions/PlaybackActions.h>
 #include <djvApp/Actions/TimelineActions.h>
 #include <djvApp/Actions/ToolsActions.h>
@@ -18,6 +19,7 @@
 #include <djvApp/Menus/CompareMenu.h>
 #include <djvApp/Menus/FileMenu.h>
 #include <djvApp/Menus/FrameMenu.h>
+#include <djvApp/Menus/HelpMenu.h>
 #include <djvApp/Menus/PlaybackMenu.h>
 #include <djvApp/Menus/TimelineMenu.h>
 #include <djvApp/Menus/ToolsMenu.h>
@@ -27,6 +29,7 @@
 #include <djvApp/Models/TimeUnitsModel.h>
 #include <djvApp/Models/ViewportModel.h>
 #include <djvApp/Tools/ToolsWidget.h>
+#include <djvApp/Widgets/AboutDialog.h>
 #include <djvApp/Widgets/BottomToolBar.h>
 #include <djvApp/Widgets/CompareToolBar.h>
 #include <djvApp/Widgets/FileToolBar.h>
@@ -78,6 +81,7 @@ namespace djv
             std::shared_ptr<ViewActions> viewActions;
             std::shared_ptr<WindowActions> windowActions;
             std::shared_ptr<ToolsActions> toolsActions;
+            std::shared_ptr<HelpActions> helpActions;
             std::shared_ptr<FileMenu> fileMenu;
             std::shared_ptr<CompareMenu> compareMenu;
             std::shared_ptr<PlaybackMenu> playbackMenu;
@@ -87,6 +91,7 @@ namespace djv
             std::shared_ptr<ViewMenu> viewMenu;
             std::shared_ptr<WindowMenu> windowMenu;
             std::shared_ptr<ToolsMenu> toolsMenu;
+            std::shared_ptr<HelpMenu> helpMenu;
             std::shared_ptr<dtk::MenuBar> menuBar;
             std::shared_ptr<FileToolBar> fileToolBar;
             std::shared_ptr<CompareToolBar> compareToolBar;
@@ -98,6 +103,7 @@ namespace djv
             std::shared_ptr<StatusBar> statusBar;
             std::shared_ptr<ToolsWidget> toolsWidget;
             std::shared_ptr<SetupDialog> setupDialog;
+            std::shared_ptr<AboutDialog> aboutDialog;
             std::map<std::string, std::shared_ptr<dtk::Divider> > dividers;
             std::shared_ptr<dtk::Splitter> splitter;
             std::shared_ptr<dtk::Splitter> splitter2;
@@ -151,6 +157,10 @@ namespace djv
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.toolsActions = ToolsActions::create(context, app);
+            p.helpActions = HelpActions::create(
+                context,
+                app,
+                std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
 
             p.fileMenu = FileMenu::create(context, app, p.fileActions);
             p.compareMenu = CompareMenu::create(context, app, p.compareActions);
@@ -164,6 +174,7 @@ namespace djv
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()),
                 p.windowActions);
             p.toolsMenu = ToolsMenu::create(context, p.toolsActions);
+            p.helpMenu = HelpMenu::create(context, p.helpActions);
             p.menuBar = dtk::MenuBar::create(context);
             p.menuBar->addMenu("File", p.fileMenu);
             p.menuBar->addMenu("Compare", p.compareMenu);
@@ -174,6 +185,7 @@ namespace djv
             p.menuBar->addMenu("View", p.viewMenu);
             p.menuBar->addMenu("Window", p.windowMenu);
             p.menuBar->addMenu("Tools", p.toolsMenu);
+            p.menuBar->addMenu("Help", p.helpMenu);
 
             p.fileToolBar = FileToolBar::create(
                 context,
@@ -351,6 +363,24 @@ namespace djv
         void MainWindow::focusCurrentFrame()
         {
             _p->bottomToolBar->focusCurrentFrame();
+        }
+
+        void MainWindow::showAboutDialog()
+        {
+            DTK_P();
+            if (auto context = getContext())
+            {
+                if (auto app = p.app.lock())
+                {
+                    p.aboutDialog = AboutDialog::create(context, app);
+                    p.aboutDialog->open(std::dynamic_pointer_cast<IWindow>(shared_from_this()));
+                    p.aboutDialog->setCloseCallback(
+                        [this]
+                        {
+                            _p->aboutDialog.reset();
+                        });
+                }
+            }
         }
 
         void MainWindow::setGeometry(const dtk::Box2I& value)

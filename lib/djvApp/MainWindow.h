@@ -54,6 +54,9 @@ namespace djv
             //! Focus the current frame widget.
             void focusCurrentFrame();
 
+            //! Show the about dialog.
+            void showAboutDialog();
+
             void setGeometry(const dtk::Box2I&) override;
             void keyPressEvent(dtk::KeyEvent&) override;
             void keyReleaseEvent(dtk::KeyEvent&) override;

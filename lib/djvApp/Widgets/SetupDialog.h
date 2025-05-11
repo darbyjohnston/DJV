@@ -12,10 +12,10 @@ namespace djv
     {
         class App;
 
-        //! Setup home widget.
-        class SetupHomeWidget : public dtk::IWidget
+        //! Setup start widget.
+        class SetupStartWidget : public dtk::IWidget
         {
-            DTK_NON_COPYABLE(SetupHomeWidget);
+            DTK_NON_COPYABLE(SetupStartWidget);
 
         protected:
             void _init(
@@ -23,12 +23,12 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<dtk::IWidget>& parent);
 
-            SetupHomeWidget();
+            SetupStartWidget();
 
         public:
-            virtual ~SetupHomeWidget();
+            virtual ~SetupStartWidget();
 
-            static std::shared_ptr<SetupHomeWidget> create(
+            static std::shared_ptr<SetupStartWidget> create(
                 const std::shared_ptr<dtk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<dtk::IWidget>& parent = nullptr);
