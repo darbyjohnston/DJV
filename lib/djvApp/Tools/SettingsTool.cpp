@@ -1119,9 +1119,9 @@ namespace djv
             mouseWidget->setMarginRole(dtk::SizeRole::MarginSmall);
             auto shortcutsWidget = ShortcutsSettingsWidget::create(context, app);
             shortcutsWidget->setMarginRole(dtk::SizeRole::MarginSmall);
-            auto styleWidget = StyleSettingsWidget::create(context, app, false);
+            auto styleWidget = StyleSettingsWidget::create(context, app);
             styleWidget->setMarginRole(dtk::SizeRole::MarginSmall);
-            auto timeWidget = TimeSettingsWidget::create(context, app, false);
+            auto timeWidget = TimeSettingsWidget::create(context, app);
             timeWidget->setMarginRole(dtk::SizeRole::MarginSmall);
 #if defined(TLRENDER_FFMPEG)
             auto ffmpegWidget = FFmpegSettingsWidget::create(context, app);
