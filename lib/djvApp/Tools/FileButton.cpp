@@ -53,7 +53,7 @@ namespace djv
             const std::shared_ptr<FilesModelItem>& item,
             const std::shared_ptr<IWidget>& parent)
         {
-            IButton::_init(context, "tl::play_app::FileButton", parent);
+            IButton::_init(context, "djv::app::FileButton", parent);
             DTK_P();
             const std::string s = dtk::elide(item->path.get(-1, tl::file::PathType::FileName));
             setText(s);

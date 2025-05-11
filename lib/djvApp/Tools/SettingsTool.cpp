@@ -4,6 +4,7 @@
 
 #include <djvApp/Tools/SettingsToolPrivate.h>
 
+#include <djvApp/Models/TimeUnitsModel.h>
 #include <djvApp/App.h>
 
 #if defined(TLRENDER_USD)
@@ -31,6 +32,12 @@ namespace djv
 {
     namespace app
     {
+        ISettingsWidget::~ISettingsWidget()
+        {}
+
+        void ISettingsWidget::setMarginRole(dtk::SizeRole)
+        {}
+
         struct AdvancedSettingsWidget::Private
         {
             std::shared_ptr<SettingsModel> model;
@@ -49,7 +56,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::AdvancedSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::AdvancedSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -70,7 +77,6 @@ namespace djv
             p.audioRequestsEdit->setRange(dtk::RangeI(1, 64));
 
             p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             auto label = dtk::Label::create(context, "Changes are applied to new files.", p.layout);
             auto formLayout = dtk::FormLayout::create(context, p.layout);
@@ -145,15 +151,20 @@ namespace djv
             return out;
         }
 
+        void AdvancedSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void AdvancedSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void AdvancedSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
@@ -174,7 +185,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::CacheSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::CacheSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -195,7 +206,6 @@ namespace djv
             p.readBehindEdit->setLargeStep(1.0);
 
             p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             p.layout->addRow("Video cache (GB):", p.videoEdit);
             p.layout->addRow("Audio cache (GB):", p.audioEdit);
@@ -256,15 +266,20 @@ namespace djv
             return out;
         }
 
+        void CacheSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void CacheSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void CacheSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
@@ -283,7 +298,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::FileBrowserSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::FileBrowserSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -292,7 +307,6 @@ namespace djv
             p.nfdCheckBox->setHStretch(dtk::Stretch::Expanding);
 
             p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             p.layout->addRow("Native file dialog:", p.nfdCheckBox);
 
@@ -331,15 +345,20 @@ namespace djv
             return out;
         }
 
+        void FileBrowserSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void FileBrowserSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void FileBrowserSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
@@ -363,7 +382,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::FileSequenceSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::FileSequenceSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -390,7 +409,6 @@ namespace djv
             p.threadsEdit->setRange(dtk::RangeI(1, 64));
 
             p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             p.layout->addRow("Audio:", p.audioComboBox);
             p.layout->addRow("Audio extensions:", p.audioExtensionsEdit);
@@ -484,15 +502,20 @@ namespace djv
             return out;
         }
 
+        void FileSequenceSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void FileSequenceSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void FileSequenceSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
@@ -501,6 +524,7 @@ namespace djv
             std::shared_ptr<SettingsModel> model;
 
             std::shared_ptr<dtk::CheckBox> tooltipsCheckBox;
+            std::shared_ptr<dtk::CheckBox> showSetupCheckBox;
             std::shared_ptr<dtk::FormLayout> layout;
 
             std::shared_ptr<dtk::ValueObserver<MiscSettings> > settingsObserver;
@@ -511,7 +535,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::MiscSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::MiscSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -519,10 +543,13 @@ namespace djv
             p.tooltipsCheckBox = dtk::CheckBox::create(context);
             p.tooltipsCheckBox->setHStretch(dtk::Stretch::Expanding);
 
+            p.showSetupCheckBox = dtk::CheckBox::create(context);
+            p.showSetupCheckBox->setHStretch(dtk::Stretch::Expanding);
+
             p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             p.layout->addRow("Enable tooltips:", p.tooltipsCheckBox);
+            p.layout->addRow("Show setup dialog:", p.showSetupCheckBox);
 
             p.settingsObserver = dtk::ValueObserver<MiscSettings>::create(
                 p.model->observeMisc(),
@@ -530,6 +557,7 @@ namespace djv
                 {
                     DTK_P();
                     p.tooltipsCheckBox->setChecked(value.tooltipsEnabled);
+                    p.showSetupCheckBox->setChecked(value.showSetup);
                 });
 
             p.tooltipsCheckBox->setCheckedCallback(
@@ -538,6 +566,15 @@ namespace djv
                     DTK_P();
                     auto settings = p.model->getMisc();
                     settings.tooltipsEnabled = value;
+                    p.model->setMisc(settings);
+                });
+
+            p.showSetupCheckBox->setCheckedCallback(
+                [this](bool value)
+                {
+                    DTK_P();
+                    auto settings = p.model->getMisc();
+                    settings.showSetup = value;
                     p.model->setMisc(settings);
                 });
         }
@@ -559,15 +596,20 @@ namespace djv
             return out;
         }
 
+        void MiscSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void MiscSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void MiscSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
@@ -589,7 +631,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::MouseSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::MouseSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -617,7 +659,6 @@ namespace djv
             }
 
             p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             for (const auto mouseAction : getMouseActionEnums())
             {
@@ -678,15 +719,95 @@ namespace djv
             return out;
         }
 
+        void MouseSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void MouseSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void MouseSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
+            _setSizeHint(_p->layout->getSizeHint());
+        }
+
+        struct TimeSettingsWidget::Private
+        {
+            std::shared_ptr<TimeUnitsModel> timeUnitsModel;
+
+            std::shared_ptr<dtk::ComboBox> timeUnitsComboBox;
+            std::shared_ptr<dtk::FormLayout> layout;
+
+            std::shared_ptr<dtk::ValueObserver<tl::timeline::TimeUnits> > timeUnitsObserver;
+        };
+
+        void TimeSettingsWidget::_init(
+            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<App>& app,
+            const std::shared_ptr<IWidget>& parent)
+        {
+            ISettingsWidget::_init(context, "djv::app::TimeSettingsWidget", parent);
+            DTK_P();
+
+            p.timeUnitsModel = app->getTimeUnitsModel();
+
+            p.timeUnitsComboBox = dtk::ComboBox::create(context, tl::timeline::getTimeUnitsLabels());
+
+            p.layout = dtk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout->addRow("Time units:", p.timeUnitsComboBox);
+
+            p.timeUnitsComboBox->setIndexCallback(
+                [this](int value)
+                {
+                    _p->timeUnitsModel->setTimeUnits(static_cast<tl::timeline::TimeUnits>(value));
+                });
+
+            p.timeUnitsObserver = dtk::ValueObserver<tl::timeline::TimeUnits>::create(
+                p.timeUnitsModel->observeTimeUnits(),
+                [this](tl::timeline::TimeUnits value)
+                {
+                    _p->timeUnitsComboBox->setCurrentIndex(static_cast<int>(value));
+                });
+
+        }
+
+        TimeSettingsWidget::TimeSettingsWidget() :
+            _p(new Private)
+        {}
+
+        TimeSettingsWidget::~TimeSettingsWidget()
+        {}
+
+        std::shared_ptr<TimeSettingsWidget> TimeSettingsWidget::create(
+            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<App>& app,
+            const std::shared_ptr<IWidget>& parent)
+        {
+            auto out = std::shared_ptr<TimeSettingsWidget>(new TimeSettingsWidget);
+            out->_init(context, app, parent);
+            return out;
+        }
+
+        void TimeSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
+        void TimeSettingsWidget::setGeometry(const dtk::Box2I& value)
+        {
+            ISettingsWidget::setGeometry(value);
+            _p->layout->setGeometry(value);
+        }
+
+        void TimeSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        {
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
@@ -707,7 +828,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::FFmpegSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::FFmpegSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -719,7 +840,6 @@ namespace djv
             p.threadsEdit->setRange(dtk::RangeI(0, 64));
 
             p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             auto label = dtk::Label::create(context, "Changes are applied to new files.", p.layout);
             auto formLayout = dtk::FormLayout::create(context, p.layout);
@@ -772,15 +892,20 @@ namespace djv
             return out;
         }
 
+        void FFmpegSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void FFmpegSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void FFmpegSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
@@ -808,7 +933,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::USDSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::USDSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
@@ -834,7 +959,6 @@ namespace djv
             p.diskCacheEdit->setRange(dtk::RangeI(0, 1024));
 
             p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
             auto label = dtk::Label::create(context, "Changes are applied to new files.", p.layout);
             auto formLayout = dtk::FormLayout::create(context, p.layout);
@@ -942,15 +1066,20 @@ namespace djv
             return out;
         }
 
+        void USDSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void USDSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void USDSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 #endif // TLRENDER_USD
@@ -972,23 +1101,35 @@ namespace djv
                 context,
                 app,
                 Tool::Settings,
-                "tl::play_app::SettingsTool",
+                "djv::app::SettingsTool",
                 parent);
             DTK_P();
 
             auto advancedWidget = AdvancedSettingsWidget::create(context, app);
+            advancedWidget->setMarginRole(dtk::SizeRole::MarginSmall);
             auto cacheWidget = CacheSettingsWidget::create(context, app);
+            cacheWidget->setMarginRole(dtk::SizeRole::MarginSmall);
             auto fileBrowserWidget = FileBrowserSettingsWidget::create(context, app);
+            fileBrowserWidget->setMarginRole(dtk::SizeRole::MarginSmall);
             auto fileSequenceWidget = FileSequenceSettingsWidget::create(context, app);
+            fileSequenceWidget->setMarginRole(dtk::SizeRole::MarginSmall);
             auto miscWidget = MiscSettingsWidget::create(context, app);
+            miscWidget->setMarginRole(dtk::SizeRole::MarginSmall);
             auto mouseWidget = MouseSettingsWidget::create(context, app);
+            mouseWidget->setMarginRole(dtk::SizeRole::MarginSmall);
             auto shortcutsWidget = ShortcutsSettingsWidget::create(context, app);
-            auto styleWidget = StyleSettingsWidget::create(context, app);
+            shortcutsWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            auto styleWidget = StyleSettingsWidget::create(context, app, false);
+            styleWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            auto timeWidget = TimeSettingsWidget::create(context, app, false);
+            timeWidget->setMarginRole(dtk::SizeRole::MarginSmall);
 #if defined(TLRENDER_FFMPEG)
             auto ffmpegWidget = FFmpegSettingsWidget::create(context, app);
+            ffmpegWidget->setMarginRole(dtk::SizeRole::MarginSmall);
 #endif // TLRENDER_FFMPEG
 #if defined(TLRENDER_USD)
             auto usdWidget = USDSettingsWidget::create(context, app);
+            usdWidget->setMarginRole(dtk::SizeRole::MarginSmall);
 #endif // TLRENDER_USD
 
             auto vLayout = dtk::VerticalLayout::create(context);
@@ -1007,6 +1148,8 @@ namespace djv
             p.bellows["Shortcuts"]->setWidget(shortcutsWidget);
             p.bellows["Style"] = dtk::Bellows::create(context, "Style", vLayout);
             p.bellows["Style"]->setWidget(styleWidget);
+            p.bellows["Time"] = dtk::Bellows::create(context, "Time", vLayout);
+            p.bellows["Time"]->setWidget(timeWidget);
 #if defined(TLRENDER_FFMPEG)
             p.bellows["FFmpeg"] = dtk::Bellows::create(context, "FFmpeg", vLayout);
             p.bellows["FFmpeg"]->setWidget(ffmpegWidget);

@@ -26,7 +26,7 @@ namespace djv
         {
             IMenuPopup::_init(
                 context,
-                "tl::play_app::SpeedPopup",
+                "djv::app::SpeedPopup",
                 parent);
             DTK_P();
 

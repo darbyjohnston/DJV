@@ -60,7 +60,7 @@ namespace djv
                 context,
                 app,
                 Tool::Files,
-                "tl::play_app::FilesTool",
+                "djv::app::FilesTool",
                 parent);
             DTK_P();
 

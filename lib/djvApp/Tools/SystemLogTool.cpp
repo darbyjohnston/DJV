@@ -44,7 +44,7 @@ namespace djv
                 context,
                 app,
                 Tool::SystemLog,
-                "tl::play_app::SystemLogTool",
+                "djv::app::SystemLogTool",
                 parent);
             DTK_P();
 

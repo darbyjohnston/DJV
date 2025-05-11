@@ -53,7 +53,7 @@ namespace djv
                 context,
                 app,
                 Tool::Devices,
-                "tl::play_app::DevicesTool",
+                "djv::app::DevicesTool",
                 parent);
             DTK_P();
 

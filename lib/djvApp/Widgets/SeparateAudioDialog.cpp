@@ -19,7 +19,7 @@ namespace djv
         {
             IDialog::_init(
                 context,
-                "tl::play_app::SeparateAudioDialog",
+                "djv::app::SeparateAudioDialog",
                 parent);
             DTK_P();
 

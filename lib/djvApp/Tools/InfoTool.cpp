@@ -39,7 +39,7 @@ namespace djv
                 context,
                 app,
                 Tool::Info,
-                "tl::play_app::InfoTool",
+                "djv::app::InfoTool",
                 parent);
             DTK_P();
 

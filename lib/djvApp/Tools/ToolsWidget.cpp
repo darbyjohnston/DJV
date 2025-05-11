@@ -39,7 +39,7 @@ namespace djv
         {
             IWidget::_init(
                 context,
-                "tl::play_app::ToolsWidget",
+                "djv::app::ToolsWidget",
                 parent);
             DTK_P();
 

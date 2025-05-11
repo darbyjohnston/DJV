@@ -29,7 +29,7 @@ namespace djv
         {
             IWidget::_init(
                 context,
-                "tl::play_app::ShuttleWidget",
+                "djv::app::ShuttleWidget",
                 parent);
             DTK_P();
 

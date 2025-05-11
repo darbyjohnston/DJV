@@ -6,6 +6,7 @@
 
 #include <djvApp/Models/ColorModel.h>
 #include <djvApp/Models/FilesModel.h>
+#include <djvApp/Models/SettingsModel.h>
 #include <djvApp/Models/TimeUnitsModel.h>
 #include <djvApp/Models/ViewportModel.h>
 #include <djvApp/App.h>

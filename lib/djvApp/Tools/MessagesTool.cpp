@@ -45,7 +45,7 @@ namespace djv
                 context,
                 app,
                 Tool::Messages,
-                "tl::play_app::MessagesTool",
+                "djv::app::MessagesTool",
                 parent);
             DTK_P();
 

@@ -55,7 +55,7 @@ namespace djv
                 context,
                 app,
                 Tool::Audio,
-                "tl::play_app::AudioTool",
+                "djv::app::AudioTool",
                 parent);
             DTK_P();
 

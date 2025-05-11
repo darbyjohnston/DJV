@@ -17,6 +17,7 @@
 #include <dtk/ui/RowLayout.h>
 #include <dtk/core/Context.h>
 #include <dtk/core/Format.h>
+#include <dtk/core/String.h>
 #include <dtk/core/Timer.h>
 
 namespace djv
@@ -50,7 +51,7 @@ namespace djv
         {
             IWidget::_init(
                 context,
-                "tl::play_app::StatusBar",
+                "djv::app::StatusBar",
                 parent);
             DTK_P();
 

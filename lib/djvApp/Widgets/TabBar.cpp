@@ -8,6 +8,7 @@
 #include <djvApp/App.h>
 
 #include <dtk/ui/TabBar.h>
+#include <dtk/core/String.h>
 
 namespace djv
 {

@@ -45,7 +45,7 @@ namespace djv
             const std::shared_ptr<dtk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::ShortcutWidget", parent);
+            IWidget::_init(context, "djv::app::ShortcutWidget", parent);
             DTK_P();
             
             setHStretch(dtk::Stretch::Expanding);
@@ -274,13 +274,12 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::ShortcutsSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::ShortcutsSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
 
             p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
             p.layout->setSpacingRole(dtk::SizeRole::Spacing);
 
             p.settingsObserver = dtk::ValueObserver<ShortcutsSettings>::create(
@@ -308,15 +307,20 @@ namespace djv
             return out;
         }
 
+        void ShortcutsSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void ShortcutsSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void ShortcutsSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 

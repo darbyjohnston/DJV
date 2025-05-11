@@ -32,7 +32,7 @@ namespace djv
                 context,
                 app,
                 Tool::ColorPicker,
-                "tl::play_app::ColorPickerTool",
+                "djv::app::ColorPickerTool",
                 parent);
             DTK_P();
 

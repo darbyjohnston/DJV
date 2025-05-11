@@ -52,6 +52,7 @@ namespace djv
             std::shared_ptr<dtk::ToolButton> muteButton;
             std::shared_ptr<dtk::HorizontalLayout> layout;
 
+            std::shared_ptr<dtk::ValueObserver<tl::timeline::TimeUnits> > timeUnitsObserver;
             std::shared_ptr<dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
             std::shared_ptr<dtk::ValueObserver<double> > speedObserver;
             std::shared_ptr<dtk::ValueObserver<double> > speedObserver2;
@@ -68,7 +69,7 @@ namespace djv
         {
             IWidget::_init(
                 context,
-                "tl::play_app::BottomToolBar",
+                "djv::app::BottomToolBar",
                 parent);
             DTK_P();
 
@@ -113,10 +114,7 @@ namespace djv
             p.speedButton->setIcon("MenuArrow");
             p.speedButton->setTooltip("Speed menu");
 
-            p.timeUnitsComboBox = dtk::ComboBox::create(context);
-            p.timeUnitsComboBox->setItems(tl::timeline::getTimeUnitsLabels());
-            p.timeUnitsComboBox->setCurrentIndex(
-                static_cast<int>(timeUnitsModel->getTimeUnits()));
+            p.timeUnitsComboBox = dtk::ComboBox::create(context, tl::timeline::getTimeUnitsLabels());
             p.timeUnitsComboBox->setTooltip("Time units");
 
             p.audioButton = dtk::ToolButton::create(context);
@@ -248,6 +246,13 @@ namespace djv
                     {
                         app->getAudioModel()->setMute(value);
                     }
+                });
+
+            p.timeUnitsObserver = dtk::ValueObserver<tl::timeline::TimeUnits>::create(
+                app->getTimeUnitsModel()->observeTimeUnits(),
+                [this](tl::timeline::TimeUnits value)
+                {
+                    _p->timeUnitsComboBox->setCurrentIndex(static_cast<int>(value));
                 });
 
             p.playerObserver = dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(

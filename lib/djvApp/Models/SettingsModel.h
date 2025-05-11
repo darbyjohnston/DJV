@@ -124,6 +124,7 @@ namespace djv
         struct MiscSettings
         {
             bool tooltipsEnabled = true;
+            bool showSetup = true;
 
             bool operator == (const MiscSettings&) const;
             bool operator != (const MiscSettings&) const;

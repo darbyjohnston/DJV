@@ -34,7 +34,7 @@ namespace djv
         {
             IWidget::_init(
                 context,
-                "tl::play_app::SeparateAudioWidget",
+                "djv::app::SeparateAudioWidget",
                 parent);
             DTK_P();
 

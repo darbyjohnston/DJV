@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvApp/Models/SettingsModel.h>
-
 #include <tlTimeline/Player.h>
 
 #include <dtk/ui/App.h>

@@ -968,7 +968,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        _context->log("tl::play_app::App", e.what(), dtk::LogType::Error);
+                        _context->log("djv::app::App", e.what(), dtk::LogType::Error);
                     }
                 }
             }
@@ -1021,7 +1021,7 @@ namespace djv
                             }
                             catch (const std::exception& e)
                             {
-                                _context->log("tl::play_app::App", e.what(), dtk::LogType::Error);
+                                _context->log("djv::app::App", e.what(), dtk::LogType::Error);
                             }
                         }
                     }

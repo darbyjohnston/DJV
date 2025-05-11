@@ -28,7 +28,7 @@ namespace djv
         {
             IWidgetPopup::_init(
                 context,
-                "tl::play_app::AudioPopup",
+                "djv::app::AudioPopup",
                 parent);
             DTK_P();
 

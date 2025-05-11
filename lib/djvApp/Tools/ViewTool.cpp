@@ -46,7 +46,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::ViewOptionsWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::ViewOptionsWidget", parent);
             DTK_P();
 
             p.colorBuffers.push_back(dtk::ImageType::RGBA_U8);
@@ -227,7 +227,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::BackgroundWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::BackgroundWidget", parent);
             DTK_P();
 
             p.typeComboBox = dtk::ComboBox::create(
@@ -412,7 +412,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::OutlineWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::OutlineWidget", parent);
             DTK_P();
 
             p.enabledCheckBox = dtk::CheckBox::create(context);
@@ -527,7 +527,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::GridWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::GridWidget", parent);
             DTK_P();
 
             p.enabledCheckBox = dtk::CheckBox::create(context);
@@ -655,7 +655,7 @@ namespace djv
                 context,
                 app,
                 Tool::View,
-                "tl::play_app::ViewTool",
+                "djv::app::ViewTool",
                 parent);
             DTK_P();
 

@@ -243,7 +243,9 @@ namespace djv
 
         bool MiscSettings::operator == (const MiscSettings& other) const
         {
-            return tooltipsEnabled == other.tooltipsEnabled;
+            return
+                tooltipsEnabled == other.tooltipsEnabled &&
+                showSetup == other.showSetup;
         }
 
         bool MiscSettings::operator != (const MiscSettings& other) const
@@ -749,6 +751,7 @@ namespace djv
         void to_json(nlohmann::json& json, const MiscSettings& value)
         {
             json["TooltipsEnabled"] = value.tooltipsEnabled;
+            json["ShowSetup"] = value.showSetup;
         }
 
         void to_json(nlohmann::json& json, const MouseSettings& value)
@@ -842,6 +845,7 @@ namespace djv
         void from_json(const nlohmann::json& json, MiscSettings& value)
         {
             json.at("TooltipsEnabled").get_to(value.tooltipsEnabled);
+            json.at("ShowSetup").get_to(value.showSetup);
         }
 
         void from_json(const nlohmann::json& json, MouseSettings& value)

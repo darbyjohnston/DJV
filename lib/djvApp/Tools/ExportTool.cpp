@@ -6,6 +6,7 @@
 
 #include <djvApp/Models/ColorModel.h>
 #include <djvApp/Models/FilesModel.h>
+#include <djvApp/Models/SettingsModel.h>
 #include <djvApp/Models/ViewportModel.h>
 #include <djvApp/App.h>
 
@@ -99,7 +100,7 @@ namespace djv
                 context,
                 app,
                 Tool::Export,
-                "tl::play_app::ExportTool",
+                "djv::app::ExportTool",
                 parent);
             DTK_P();
 

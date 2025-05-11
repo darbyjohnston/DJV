@@ -30,6 +30,7 @@
 #include <djvApp/Widgets/BottomToolBar.h>
 #include <djvApp/Widgets/CompareToolBar.h>
 #include <djvApp/Widgets/FileToolBar.h>
+#include <djvApp/Widgets/SetupDialog.h>
 #include <djvApp/Widgets/StatusBar.h>
 #include <djvApp/Widgets/TabBar.h>
 #include <djvApp/Widgets/ToolsToolBar.h>
@@ -96,6 +97,7 @@ namespace djv
             std::shared_ptr<BottomToolBar> bottomToolBar;
             std::shared_ptr<StatusBar> statusBar;
             std::shared_ptr<ToolsWidget> toolsWidget;
+            std::shared_ptr<SetupDialog> setupDialog;
             std::map<std::string, std::shared_ptr<dtk::Divider> > dividers;
             std::shared_ptr<dtk::Splitter> splitter;
             std::shared_ptr<dtk::Splitter> splitter2;
@@ -230,6 +232,20 @@ namespace djv
             p.bottomToolBar->setParent(p.layout);
             p.dividers["Status"] = dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
             p.statusBar->setParent(p.layout);
+
+            auto miscSettings = app->getSettingsModel()->getMisc();
+            if (miscSettings.showSetup)
+            {
+                miscSettings.showSetup = false;
+                app->getSettingsModel()->setMisc(miscSettings);
+                p.setupDialog = SetupDialog::create(context, app);
+                p.setupDialog->open(std::dynamic_pointer_cast<IWindow>(shared_from_this()));
+                p.setupDialog->setCloseCallback(
+                    [this]
+                    {
+                        _p->setupDialog.reset();
+                    });
+            }
 
             auto appWeak = std::weak_ptr<App>(app);
             p.viewport->setCompareCallback(

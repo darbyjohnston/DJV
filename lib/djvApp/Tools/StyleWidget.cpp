@@ -35,16 +35,11 @@ namespace djv
                 4.F
             };
 
-            std::shared_ptr<dtk::ComboBox> displayScaleComboBox;
+            std::shared_ptr<dtk::ComboBox> colorStyleComboBox;
             std::shared_ptr<dtk::FloatEditSlider> brightnessSlider;
             std::shared_ptr<dtk::FloatEditSlider> contrastSlider;
-            std::shared_ptr<dtk::FloatEditSlider> saturationSlider;
-            std::shared_ptr<dtk::FloatEditSlider> tintSlider;
-            std::shared_ptr<dtk::ComboBox> colorStyleComboBox;
-            std::map<dtk::ColorRole, std::shared_ptr<dtk::ColorSwatch> > customColorSwatches;
-            std::shared_ptr<dtk::PushButton> defaultPaletteButton;
-            std::shared_ptr<dtk::FormLayout> formLayout;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::shared_ptr<dtk::ComboBox> displayScaleComboBox;
+            std::shared_ptr<dtk::FormLayout> layout;
 
             std::shared_ptr<dtk::ValueObserver<StyleSettings> > settingsObserver;
         };
@@ -54,10 +49,21 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "tl::play_app::StyleSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::StyleSettingsWidget", parent);
             DTK_P();
 
             p.model = app->getSettingsModel();
+
+            p.colorStyleComboBox = dtk::ComboBox::create(context, dtk::getColorStyleLabels());
+            p.colorStyleComboBox->setHStretch(dtk::Stretch::Expanding);
+
+            p.brightnessSlider = dtk::FloatEditSlider::create(context);
+            p.brightnessSlider->setRange(dtk::RangeF(.5F, 1.5F));
+            p.brightnessSlider->setDefaultValue(1.F);
+
+            p.contrastSlider = dtk::FloatEditSlider::create(context);
+            p.contrastSlider->setRange(dtk::RangeF(.5F, 1.5F));
+            p.contrastSlider->setDefaultValue(1.F);
 
             std::vector<std::string> labels;
             for (auto d : p.displayScales)
@@ -69,98 +75,18 @@ namespace djv
             p.displayScaleComboBox = dtk::ComboBox::create(context, labels);
             p.displayScaleComboBox->setHStretch(dtk::Stretch::Expanding);
 
-            p.brightnessSlider = dtk::FloatEditSlider::create(context);
-            p.brightnessSlider->setRange(dtk::RangeF(.5F, 1.5F));
-            p.brightnessSlider->setDefaultValue(1.F);
-            p.contrastSlider = dtk::FloatEditSlider::create(context);
-            p.contrastSlider->setRange(dtk::RangeF(.5F, 1.5F));
-            p.contrastSlider->setDefaultValue(1.F);
-            p.saturationSlider = dtk::FloatEditSlider::create(context);
-            p.saturationSlider->setRange(dtk::RangeF(.0F, 2.F));
-            p.saturationSlider->setDefaultValue(1.F);
-            p.tintSlider = dtk::FloatEditSlider::create(context);
-            p.tintSlider->setRange(dtk::RangeF(0.F, 1.F));
-            p.tintSlider->setDefaultValue(0.F);
-
-            p.colorStyleComboBox = dtk::ComboBox::create(context, dtk::getColorStyleLabels());
-            p.colorStyleComboBox->setHStretch(dtk::Stretch::Expanding);
-
-            for (auto colorRole : dtk::getColorRoleEnums())
-            {
-                auto colorSwatch = dtk::ColorSwatch::create(context);
-                colorSwatch->setEditable(true);
-                p.customColorSwatches[colorRole] = colorSwatch;
-            }
-
-            p.defaultPaletteButton = dtk::PushButton::create(context, "Default Palette");
-
-            p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
+            p.layout = dtk::FormLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
-            p.formLayout = dtk::FormLayout::create(context, p.layout);
-            p.formLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
-            p.formLayout->addRow("Display scale:", p.displayScaleComboBox);
-            p.formLayout->addRow("Brightness:", p.brightnessSlider);
-            p.formLayout->addRow("Contrast:", p.contrastSlider);
-            p.formLayout->addRow("Satuation:", p.saturationSlider);
-            p.formLayout->addRow("Tint:", p.tintSlider);
-            p.formLayout->addRow("Color style:", p.colorStyleComboBox);
-            for (auto i : p.customColorSwatches)
-            {
-                p.formLayout->addRow(dtk::Format("{0}:").arg(dtk::getLabel(i.first)), i.second);
-            }
-            p.defaultPaletteButton->setParent(p.layout);
+            p.layout->addRow("Color style:", p.colorStyleComboBox);
+            p.layout->addRow("Brightness:", p.brightnessSlider);
+            p.layout->addRow("Contrast:", p.contrastSlider);
+            p.layout->addRow("Display scale:", p.displayScaleComboBox);
 
             p.settingsObserver = dtk::ValueObserver<StyleSettings>::create(
                 app->getSettingsModel()->observeStyle(),
                 [this](const StyleSettings& value)
                 {
                     _widgetUpdate(value);
-                });
-
-            p.displayScaleComboBox->setIndexCallback(
-                [this](int value)
-                {
-                    DTK_P();
-                    auto settings = p.model->getStyle();
-                    if (value >= 0 && value < p.displayScales.size())
-                    {
-                        settings.displayScale = p.displayScales[value];
-                    }
-                    p.model->setStyle(settings);
-                });
-
-            p.brightnessSlider->setCallback(
-                [this](float value)
-                {
-                    DTK_P();
-                    auto settings = p.model->getStyle();
-                    settings.colorControls.brightness = value;
-                    p.model->setStyle(settings);
-                });
-            p.contrastSlider->setCallback(
-                [this](float value)
-                {
-                    DTK_P();
-                    auto settings = p.model->getStyle();
-                    settings.colorControls.contrast = value;
-                    p.model->setStyle(settings);
-                });
-            p.saturationSlider->setCallback(
-                [this](float value)
-                {
-                    DTK_P();
-                    auto settings = p.model->getStyle();
-                    settings.colorControls.saturation = value;
-                    p.model->setStyle(settings);
-                });
-            p.tintSlider->setCallback(
-                [this](float value)
-                {
-                    DTK_P();
-                    auto settings = p.model->getStyle();
-                    settings.colorControls.tint = value;
-                    p.model->setStyle(settings);
                 });
 
             p.colorStyleComboBox->setIndexCallback(
@@ -172,29 +98,33 @@ namespace djv
                     p.model->setStyle(settings);
                 });
 
-            for (auto i : p.customColorSwatches)
-            {
-                const dtk::ColorRole colorRole = i.first;
-                i.second->setColorCallback(
-                    [this, colorRole](const dtk::Color4F& value)
-                    {
-                        DTK_P();
-                        auto settings = p.model->getStyle();
-                        auto i = settings.customColorRoles.find(colorRole);
-                        if (i != settings.customColorRoles.end())
-                        {
-                            settings.customColorRoles[colorRole] = value;
-                        }
-                        p.model->setStyle(settings);
-                    });
-            }
-
-            p.defaultPaletteButton->setClickedCallback(
-                [this]
+            p.brightnessSlider->setCallback(
+                [this](float value)
                 {
                     DTK_P();
                     auto settings = p.model->getStyle();
-                    settings.customColorRoles = dtk::getCustomColorRoles();
+                    settings.colorControls.brightness = value;
+                    p.model->setStyle(settings);
+                });
+
+            p.contrastSlider->setCallback(
+                [this](float value)
+                {
+                    DTK_P();
+                    auto settings = p.model->getStyle();
+                    settings.colorControls.contrast = value;
+                    p.model->setStyle(settings);
+                });
+
+            p.displayScaleComboBox->setIndexCallback(
+                [this](int value)
+                {
+                    DTK_P();
+                    auto settings = p.model->getStyle();
+                    if (value >= 0 && value < p.displayScales.size())
+                    {
+                        settings.displayScale = p.displayScales[value];
+                    }
                     p.model->setStyle(settings);
                 });
         }
@@ -216,21 +146,31 @@ namespace djv
             return out;
         }
 
+        void StyleSettingsWidget::setMarginRole(dtk::SizeRole value)
+        {
+            _p->layout->setMarginRole(value);
+        }
+
         void StyleSettingsWidget::setGeometry(const dtk::Box2I& value)
         {
-            IWidget::setGeometry(value);
+            ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void StyleSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
+            ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
         void StyleSettingsWidget::_widgetUpdate(const StyleSettings& value)
         {
             DTK_P();
+
+            p.colorStyleComboBox->setCurrentIndex(static_cast<int>(value.colorStyle));
+
+            p.brightnessSlider->setValue(value.colorControls.brightness);
+            p.contrastSlider->setValue(value.colorControls.contrast);
 
             const auto i = std::find(
                 p.displayScales.begin(),
@@ -240,26 +180,6 @@ namespace djv
                 i != p.displayScales.end() ?
                 (i - p.displayScales.begin()) :
                 -1);
-
-            p.brightnessSlider->setValue(value.colorControls.brightness);
-            p.contrastSlider->setValue(value.colorControls.contrast);
-            p.saturationSlider->setValue(value.colorControls.saturation);
-            p.tintSlider->setValue(value.colorControls.tint);
-
-            p.colorStyleComboBox->setCurrentIndex(
-                static_cast<int>(value.colorStyle));
-
-            for (const auto j : p.customColorSwatches)
-            {
-                p.formLayout->setRowVisible(j.second, dtk::ColorStyle::Custom == value.colorStyle);
-                const auto k = value.customColorRoles.find(j.first);
-                if (k != value.customColorRoles.end())
-                {
-                    j.second->setColor(k->second);
-                }
-            }
-
-            p.defaultPaletteButton->setVisible(dtk::ColorStyle::Custom == value.colorStyle);
         }
     }
 }

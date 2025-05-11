@@ -14,8 +14,22 @@ namespace djv
     {
         class App;
 
+        //! Base class for settings widgets.
+        class ISettingsWidget : public dtk::IWidget
+        {
+            DTK_NON_COPYABLE(ISettingsWidget);
+
+        protected:
+            ISettingsWidget() = default;
+
+        public:
+            virtual ~ISettingsWidget();
+
+            virtual void setMarginRole(dtk::SizeRole);
+        };
+
         //! Advanced settings widget.
-        class AdvancedSettingsWidget : public dtk::IWidget
+        class AdvancedSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(AdvancedSettingsWidget);
 
@@ -35,6 +49,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -42,7 +58,7 @@ namespace djv
         };
 
         //! Cache settings widget.
-        class CacheSettingsWidget : public dtk::IWidget
+        class CacheSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(CacheSettingsWidget);
 
@@ -62,6 +78,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -70,7 +88,7 @@ namespace djv
         };
 
         //! File browser settings widget.
-        class FileBrowserSettingsWidget : public dtk::IWidget
+        class FileBrowserSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(FileBrowserSettingsWidget);
 
@@ -90,6 +108,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -97,7 +117,7 @@ namespace djv
         };
 
         //! File sequence settings widget.
-        class FileSequenceSettingsWidget : public dtk::IWidget
+        class FileSequenceSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(FileSequenceSettingsWidget);
 
@@ -117,6 +137,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -125,7 +147,7 @@ namespace djv
         };
 
         //! Miscellaneous settings widget.
-        class MiscSettingsWidget : public dtk::IWidget
+        class MiscSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(MiscSettingsWidget);
 
@@ -145,6 +167,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -153,7 +177,7 @@ namespace djv
         };
 
         //! Mouse settings widget.
-        class MouseSettingsWidget : public dtk::IWidget
+        class MouseSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(MouseSettingsWidget);
 
@@ -172,6 +196,8 @@ namespace djv
                 const std::shared_ptr<dtk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
+
+            void setMarginRole(dtk::SizeRole) override;
 
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
@@ -220,7 +246,7 @@ namespace djv
         };
 
         //! Keyboard shortcuts settings widget.
-        class ShortcutsSettingsWidget : public dtk::IWidget
+        class ShortcutsSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(ShortcutsSettingsWidget);
 
@@ -240,6 +266,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -250,7 +278,7 @@ namespace djv
         };
 
         //! Style settings widget.
-        class StyleSettingsWidget : public dtk::IWidget
+        class StyleSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(StyleSettingsWidget);
 
@@ -270,6 +298,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -279,9 +309,39 @@ namespace djv
             DTK_PRIVATE();
         };
 
+        //! Time settings widget.
+        class TimeSettingsWidget : public ISettingsWidget
+        {
+            DTK_NON_COPYABLE(TimeSettingsWidget);
+
+        protected:
+            void _init(
+                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<App>&,
+                const std::shared_ptr<IWidget>& parent);
+
+            TimeSettingsWidget();
+
+        public:
+            virtual ~TimeSettingsWidget();
+
+            static std::shared_ptr<TimeSettingsWidget> create(
+                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<App>&,
+                const std::shared_ptr<IWidget>& parent = nullptr);
+
+            void setMarginRole(dtk::SizeRole) override;
+
+            void setGeometry(const dtk::Box2I&) override;
+            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+
+        private:
+            DTK_PRIVATE();
+        };
+
 #if defined(TLRENDER_FFMPEG)
         //! FFmpeg settings widget.
-        class FFmpegSettingsWidget : public dtk::IWidget
+        class FFmpegSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(FFmpegSettingsWidget);
 
@@ -301,6 +361,8 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
+            void setMarginRole(dtk::SizeRole) override;
+
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;
 
@@ -311,7 +373,7 @@ namespace djv
 
 #if defined(TLRENDER_USD)
         //! USD settings widget.
-        class USDSettingsWidget : public dtk::IWidget
+        class USDSettingsWidget : public ISettingsWidget
         {
             DTK_NON_COPYABLE(USDSettingsWidget);
 
@@ -330,6 +392,8 @@ namespace djv
                 const std::shared_ptr<dtk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
+
+            void setMarginRole(dtk::SizeRole) override;
 
             void setGeometry(const dtk::Box2I&) override;
             void sizeHintEvent(const dtk::SizeHintEvent&) override;

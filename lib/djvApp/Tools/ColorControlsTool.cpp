@@ -48,7 +48,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::OCIOWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::OCIOWidget", parent);
             DTK_P();
             
 #if !defined(TLRENDER_OCIO)
@@ -199,7 +199,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::LUTWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::LUTWidget", parent);
             DTK_P();
             
 #if !defined(TLRENDER_OCIO)
@@ -310,7 +310,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::ColorWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::ColorWidget", parent);
             DTK_P();
 
             p.enabledCheckBox = dtk::CheckBox::create(context);
@@ -495,7 +495,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::LevelsWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::LevelsWidget", parent);
             DTK_P();
 
             p.settings = app->getSettings();
@@ -737,7 +737,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::EXRDisplayWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::EXRDisplayWidget", parent);
             DTK_P();
 
             p.enabledCheckBox = dtk::CheckBox::create(context);
@@ -878,7 +878,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<dtk::IWidget>& parent)
         {
-            dtk::IWidget::_init(context, "tl::play_app::SoftClipWidget", parent);
+            dtk::IWidget::_init(context, "djv::app::SoftClipWidget", parent);
             DTK_P();
 
             p.enabledCheckBox = dtk::CheckBox::create(context);
@@ -974,7 +974,7 @@ namespace djv
                 context,
                 app,
                 Tool::ColorControls,
-                "tl::play_app::ColorControlsTool",
+                "djv::app::ColorControlsTool",
                 parent);
             DTK_P();
 
