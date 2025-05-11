@@ -2,7 +2,7 @@
 // Copyright (c) 2021-2025 Darby Johnston
 // All rights reserved.
 
-#include <djvApp/Widgets/SeparateAudioPrivate.h>
+#include <djvApp/Widgets/SeparateAudioDialog.h>
 
 #include <dtk/ui/Divider.h>
 #include <dtk/ui/FileEdit.h>

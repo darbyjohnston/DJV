@@ -69,8 +69,6 @@ set(HEADERS_WIDGETS
     Widgets/ViewToolBar.h
     Widgets/Viewport.h
     Widgets/WindowToolBar.h)
-set(HEADERS_PRIVATE_WIDGETS
-    Widgets/SeparateAudioPrivate.h)
 set(HEADERS
     App.h
     MainWindow.h

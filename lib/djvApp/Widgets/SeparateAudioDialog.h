@@ -14,6 +14,38 @@ namespace djv
     {
         class App;
 
+        //! Separate audio widget.
+        class SeparateAudioWidget : public dtk::IWidget
+        {
+            DTK_NON_COPYABLE(SeparateAudioWidget);
+
+        protected:
+            void _init(
+                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<IWidget>& parent);
+
+            SeparateAudioWidget();
+
+        public:
+            virtual ~SeparateAudioWidget();
+
+            static std::shared_ptr<SeparateAudioWidget> create(
+                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<IWidget>& parent = nullptr);
+
+            void setCallback(const std::function<void(
+                const tl::file::Path&,
+                const tl::file::Path&)>&);
+
+            void setCancelCallback(const std::function<void(void)>&);
+
+            void setGeometry(const dtk::Box2I&) override;
+            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+
+        private:
+            DTK_PRIVATE();
+        };
+
         //! Separate audio dialog.
         class SeparateAudioDialog : public dtk::IDialog
         {

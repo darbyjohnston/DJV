@@ -32,8 +32,9 @@ namespace djv
             IWidget::_init(context, "djv::app::SetupStartWidget", parent);
             DTK_P();
             p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingLarge);
-            dtk::Label::create(context, "Start by configuring some settings.", p.layout);
+            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            dtk::Label::create(context, dtk::Format("Welcome to DJV version {0}.").arg(DJV_VERSION), p.layout);
+            dtk::Label::create(context, "Start by configuring some common settings.", p.layout);
             dtk::Label::create(context, "Changes can also be made later in the settings tool.", p.layout);
         }
 
@@ -92,7 +93,7 @@ namespace djv
 
             auto label = dtk::Label::create(
                 context,
-                dtk::Format("DJV {0} Setup").arg(DJV_VERSION));
+                dtk::Format("Setup").arg(DJV_VERSION));
             label->setFontRole(dtk::FontRole::Title);
             label->setMarginRole(dtk::SizeRole::Margin);
 
