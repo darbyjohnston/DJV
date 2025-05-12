@@ -72,6 +72,26 @@ namespace djv
 
             std::shared_ptr<Viewport> viewport;
             std::shared_ptr<tl::timelineui::TimelineWidget> timelineWidget;
+            std::shared_ptr<FileActions> fileActions;
+            std::shared_ptr<CompareActions> compareActions;
+            std::shared_ptr<PlaybackActions> playbackActions;
+            std::shared_ptr<FrameActions> frameActions;
+            std::shared_ptr<TimelineActions> timelineActions;
+            std::shared_ptr<AudioActions> audioActions;
+            std::shared_ptr<ViewActions> viewActions;
+            std::shared_ptr<WindowActions> windowActions;
+            std::shared_ptr<ToolsActions> toolsActions;
+            std::shared_ptr<HelpActions> helpActions;
+            std::shared_ptr<FileMenu> fileMenu;
+            std::shared_ptr<CompareMenu> compareMenu;
+            std::shared_ptr<PlaybackMenu> playbackMenu;
+            std::shared_ptr<FrameMenu> frameMenu;
+            std::shared_ptr<TimelineMenu> timelineMenu;
+            std::shared_ptr<AudioMenu> audioMenu;
+            std::shared_ptr<ViewMenu> viewMenu;
+            std::shared_ptr<WindowMenu> windowMenu;
+            std::shared_ptr<ToolsMenu> toolsMenu;
+            std::shared_ptr<HelpMenu> helpMenu;
             std::shared_ptr<dtk::MenuBar> menuBar;
             std::shared_ptr<FileToolBar> fileToolBar;
             std::shared_ptr<CompareToolBar> compareToolBar;
@@ -116,77 +136,77 @@ namespace djv
             p.timelineWidget = tl::timelineui::TimelineWidget::create(context, timeUnitsModel);
             p.timelineWidget->setScrollBarsVisible(false);
 
-            auto fileActions = FileActions::create(context, app);
-            auto compareActions = CompareActions::create(context, app);
-            auto playbackActions = PlaybackActions::create(context, app);
-            auto frameActions = FrameActions::create(
+            p.fileActions = FileActions::create(context, app);
+            p.compareActions = CompareActions::create(context, app);
+            p.playbackActions = PlaybackActions::create(context, app);
+            p.frameActions = FrameActions::create(
                 context,
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            auto timelineActions = TimelineActions::create(
+            p.timelineActions = TimelineActions::create(
                 context,
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            auto audioActions = AudioActions::create(context, app);
-            auto viewActions = ViewActions::create(
+            p.audioActions = AudioActions::create(context, app);
+            p.viewActions = ViewActions::create(
                 context,
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            auto windowActions = WindowActions::create(
+            p.windowActions = WindowActions::create(
                 context,
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            auto toolsActions = ToolsActions::create(context, app);
-            auto helpActions = HelpActions::create(
+            p.toolsActions = ToolsActions::create(context, app);
+            p.helpActions = HelpActions::create(
                 context,
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
 
-            auto fileMenu = FileMenu::create(context, app, fileActions);
-            auto compareMenu = CompareMenu::create(context, app, compareActions);
-            auto playbackMenu = PlaybackMenu::create(context, playbackActions);
-            auto frameMenu = FrameMenu::create(context, frameActions);
-            auto timelineMenu = TimelineMenu::create(context, timelineActions);
-            auto audioMenu = AudioMenu::create(context, audioActions);
-            auto viewMenu = ViewMenu::create(context, viewActions);
-            auto windowMenu = WindowMenu::create(
+            p.fileMenu = FileMenu::create(context, app, p.fileActions);
+            p.compareMenu = CompareMenu::create(context, app, p.compareActions);
+            p.playbackMenu = PlaybackMenu::create(context, p.playbackActions);
+            p.frameMenu = FrameMenu::create(context, p.frameActions);
+            p.timelineMenu = TimelineMenu::create(context, p.timelineActions);
+            p.audioMenu = AudioMenu::create(context, p.audioActions);
+            p.viewMenu = ViewMenu::create(context, p.viewActions);
+            p.windowMenu = WindowMenu::create(
                 context,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()),
-                windowActions);
-            auto toolsMenu = ToolsMenu::create(context, toolsActions);
-            auto helpMenu = HelpMenu::create(context, helpActions);
+                p.windowActions);
+            p.toolsMenu = ToolsMenu::create(context, p.toolsActions);
+            p.helpMenu = HelpMenu::create(context, p.helpActions);
             p.menuBar = dtk::MenuBar::create(context);
-            p.menuBar->addMenu("File", fileMenu);
-            p.menuBar->addMenu("Compare", compareMenu);
-            p.menuBar->addMenu("Playback", playbackMenu);
-            p.menuBar->addMenu("Frame", frameMenu);
-            p.menuBar->addMenu("Timeline", timelineMenu);
-            p.menuBar->addMenu("Audio", audioMenu);
-            p.menuBar->addMenu("View", viewMenu);
-            p.menuBar->addMenu("Window", windowMenu);
-            p.menuBar->addMenu("Tools", toolsMenu);
-            p.menuBar->addMenu("Help", helpMenu);
+            p.menuBar->addMenu("File", p.fileMenu);
+            p.menuBar->addMenu("Compare", p.compareMenu);
+            p.menuBar->addMenu("Playback", p.playbackMenu);
+            p.menuBar->addMenu("Frame", p.frameMenu);
+            p.menuBar->addMenu("Timeline", p.timelineMenu);
+            p.menuBar->addMenu("Audio", p.audioMenu);
+            p.menuBar->addMenu("View", p.viewMenu);
+            p.menuBar->addMenu("Window", p.windowMenu);
+            p.menuBar->addMenu("Tools", p.toolsMenu);
+            p.menuBar->addMenu("Help", p.helpMenu);
 
             p.fileToolBar = FileToolBar::create(
                 context,
-                fileActions->getActions());
+                p.fileActions->getActions());
             p.compareToolBar = CompareToolBar::create(
                 context,
-                compareActions->getActions());
-            p.viewToolBar = ViewToolBar::create(context, viewActions);
+                p.compareActions->getActions());
+            p.viewToolBar = ViewToolBar::create(context, p.viewActions);
             p.windowToolBar = WindowToolBar::create(
                 context,
-                windowActions->getActions());
+                p.windowActions->getActions());
             p.toolsToolBar = ToolsToolBar::create(
                 context,
-                toolsActions->getActions());
+                p.toolsActions->getActions());
             p.tabBar = TabBar::create(context, app);
             p.bottomToolBar = BottomToolBar::create(
                 context,
                 app,
-                playbackActions,
-                frameActions,
-                audioActions);
+                p.playbackActions,
+                p.frameActions,
+                p.audioActions);
             p.statusBar = StatusBar::create(context, app);
 
             p.toolsWidget = ToolsWidget::create(
