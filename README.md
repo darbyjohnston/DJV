@@ -48,9 +48,6 @@ cmake --build Release -j 4 --config Release
 ```
 Run the application:
 ```
-export LD_LIBRARY_PATH=$PWD/Release/install/lib:$LD_LIBRARY_PATH
-```
-```
 ./Release/DJV/src/DJV-build/bin/djv/djv
 ```
 
