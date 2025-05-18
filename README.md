@@ -21,16 +21,15 @@ Experimental:
 full support for video codeces, either compile from source or replace the
 FFmpeg shared library files.
 
-[Documentation](https://darbyjohnston.github.io/DJV/index.html)
-
-DJV is built with the tlRender library:
-* [tlRender](https://github.com/darbyjohnston/tlRender)
-
 These screenshots show two images being compared, a render and a wireframe,
 with a wipe and horizontal layout:
 
 ![Screenshot](etc/Images/djv_screenshot1.png)
 ![Screenshot](etc/Images/djv_screenshot2.png)
+
+[Documentation](https://darbyjohnston.github.io/DJV/index.html)
+
+DJV is built with the [tlRender](https://github.com/darbyjohnston/tlRender) library.
 
 
 Building
