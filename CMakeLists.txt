@@ -27,9 +27,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 if(WIN32)
 elseif(APPLE)
-    set(CMAKE_SKIP_BUILD_RPATH FALSE)
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
     set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
+    # \bug Should this be set automatically?
+    set(CMAKE_BUILD_RPATH "@executable_path/../../../../../install/lib")
 else()
     set(CMAKE_SKIP_BUILD_RPATH FALSE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)

@@ -107,10 +107,6 @@ elseif(APPLE)
 
     set(CPACK_GENERATOR Bundle)
 
-    list(APPEND CMAKE_INSTALL_RPATH
-        "@executable_path/../lib")
-    #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
     set(INSTALL_DYLIBS)
     
     if(TLRENDER_FFMPEG)
