@@ -63,6 +63,11 @@
   </defs>
   <g
      id="g7">
+    <path
+       id="circle1"
+       style="fill:url(#linearGradient25);fill-opacity:1;stroke:#8b8b8b;stroke-opacity:1;stroke-width:4.50042738;stroke-dasharray:none"
+       d="M -23.227533 192.01824 A 168.76602 168.76602 0 0 0 -191.99356 23.252208 A 168.76602 168.76602 0 0 0 -360.75959 192.01824 A 168.76602 168.76602 0 0 0 -191.99356 360.78426 A 168.76602 168.76602 0 0 0 -23.227533 192.01824 z M -166.67866 192.01824 A 25.314905 25.314905 0 0 1 -191.99356 217.33314 A 25.314905 25.314905 0 0 1 -217.30846 192.01824 A 25.314905 25.314905 0 0 1 -191.99356 166.70333 A 25.314905 25.314905 0 0 1 -166.67866 192.01824 z "
+       transform="rotate(-90)" />
     <rect
        style="fill:#000000;fill-opacity:0;stroke-width:38.2418"
        id="rect7"
@@ -70,25 +75,6 @@
        height="384.03647"
        x="0"
        y="-0.024675" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke-width:38.3713"
-       id="path7"
-       cx="192.01823"
-       cy="191.99356"
-       r="177.01682" />
-    <circle
-       cx="-191.99356"
-       cy="192.01823"
-       r="168.76602"
-       stroke="#000000"
-       stroke-width="0.137534"
-       fill="none"
-       id="circle1"
-       style="fill:url(#linearGradient25);fill-opacity:1;stroke:none"
-       inkscape:export-filename="DJV_Icon.svg"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96"
-       transform="rotate(-90)" />
     <path
        d="M 178.79234,126.52528 137.06761,74.060766 a 16.878005,16.878005 0 0 1 7.9942,-26.557583 151.90204,151.90204 0 0 1 93.88059,0 16.878005,16.878005 0 0 1 7.99421,26.557641 l -41.72474,52.464456 a 16.878005,16.878005 0 0 1 -26.41953,0"
        stroke="#000000"
@@ -97,7 +83,7 @@
        stroke-linejoin="round"
        fill="none"
        id="path1"
-       style="fill:#3c3c3c;fill-opacity:1;stroke:none" />
+       style="fill:#333333;fill-opacity:1;stroke:#8b8b8b;stroke-opacity:1;stroke-width:4.50042738;stroke-dasharray:none" />
     <path
        d="m 128.71991,170.68794 -66.297944,9.90247 A 16.878005,16.878005 0 0 1 43.419496,160.3884 151.90204,151.90204 0 0 1 90.35982,79.085409 a 16.878005,16.878005 0 0 1 26.99664,6.355635 l 24.57319,62.366926 a 16.878005,16.878005 0 0 1 -13.20974,22.87997"
        stroke="#000000"
@@ -106,7 +92,7 @@
        stroke-linejoin="round"
        fill="none"
        id="path2"
-       style="fill:#3c3c3c;fill-opacity:1;stroke:none" />
+       style="fill:#333333;fill-opacity:1;stroke:#8b8b8b;stroke-opacity:1;stroke-width:4.50042738;stroke-dasharray:none" />
     <path
        d="m 141.92965,236.13335 -24.5732,62.36686 A 16.878005,16.878005 0 0 1 90.35982,304.85585 151.90204,151.90204 0 0 1 43.419496,223.5528 16.878005,16.878005 0 0 1 62.421955,203.35085 l 66.297955,9.90252 a 16.878005,16.878005 0 0 1 13.20974,22.87998"
        stroke="#000000"
@@ -115,7 +101,7 @@
        stroke-linejoin="round"
        fill="none"
        id="path3"
-       style="fill:#3c3c3c;fill-opacity:1;stroke:none" />
+       style="fill:#333333;fill-opacity:1;stroke:#8b8b8b;stroke-opacity:1;stroke-width:4.50042738;stroke-dasharray:none" />
     <path
        d="m 205.21187,257.41603 41.72474,52.46446 a 16.878005,16.878005 0 0 1 -7.99421,26.55758 151.90204,151.90204 0 0 1 -93.88059,0 16.878005,16.878005 0 0 1 -7.99418,-26.55758 l 41.72471,-52.46446 a 16.878005,16.878005 0 0 1 26.41955,0"
        stroke="#000000"
@@ -124,7 +110,7 @@
        stroke-linejoin="round"
        fill="none"
        id="path4"
-       style="fill:#3c3c3c;fill-opacity:1;stroke:none" />
+       style="fill:#333333;fill-opacity:1;stroke:#8b8b8b;stroke-opacity:1;stroke-width:4.50042738;stroke-dasharray:none" />
     <path
        d="m 255.28434,213.25337 66.29792,-9.90252 a 16.878005,16.878005 0 0 1 19.00245,20.20195 151.90204,151.90204 0 0 1 -46.94028,81.30305 16.878005,16.878005 0 0 1 -26.99666,-6.35564 l -24.57321,-62.36686 a 16.878005,16.878005 0 0 1 13.20978,-22.88009"
        stroke="#000000"
@@ -133,7 +119,7 @@
        stroke-linejoin="round"
        fill="none"
        id="path5"
-       style="fill:#3c3c3c;fill-opacity:1;stroke:none" />
+       style="fill:#333333;fill-opacity:1;stroke:#8b8b8b;stroke-opacity:1;stroke-width:4.50042738;stroke-dasharray:none" />
     <path
        d="m 242.07456,147.80797 24.57321,-62.366926 a 16.878005,16.878005 0 0 1 26.99666,-6.355635 151.90204,151.90204 0 0 1 46.94028,81.302991 16.878005,16.878005 0 0 1 -19.00245,20.20196 l -66.29792,-9.90242 a 16.878005,16.878005 0 0 1 -13.20976,-22.87997"
        stroke="#000000"
@@ -142,15 +128,6 @@
        stroke-linejoin="round"
        fill="none"
        id="path6"
-       style="fill:#3c3c3c;fill-opacity:1;stroke:none" />
-    <circle
-       cx="192.01823"
-       cy="191.99356"
-       r="25.314905"
-       stroke="#000000"
-       stroke-width="0.206301"
-       fill="none"
-       id="circle23"
-       style="fill:#3c3c3c;fill-opacity:1;stroke:none" />
+       style="fill:#333333;fill-opacity:1;stroke:#8b8b8b;stroke-opacity:1;stroke-width:4.50042738;stroke-dasharray:none" />
   </g>
 </svg>
