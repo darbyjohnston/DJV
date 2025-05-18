@@ -8,6 +8,7 @@
 #include <tlDevice/Init.h>
 
 #include <dtk/core/Context.h>
+#include <dtk/core/Error.h>
 
 #include <iostream>
 

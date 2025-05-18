@@ -48,6 +48,7 @@
 
 #include <dtk/ui/ButtonGroup.h>
 #include <dtk/ui/Divider.h>
+#include <dtk/ui/IconSystem.h>
 #include <dtk/ui/Label.h>
 #include <dtk/ui/Menu.h>
 #include <dtk/ui/MenuBar.h>
@@ -59,11 +60,20 @@
 #include <tlDevice/BMDOutputDevice.h>
 #endif // TLRENDER_BMD
 
+namespace djv_resource
+{
+    extern std::vector<uint8_t> DJV_Icon_512;
+    extern std::vector<uint8_t> DJV_Icon_256;
+    extern std::vector<uint8_t> DJV_Icon_128;
+    extern std::vector<uint8_t> DJV_Icon_64;
+    extern std::vector<uint8_t> DJV_Icon_32;
+    extern std::vector<uint8_t> DJV_Icon_16;
+}
+
 namespace djv
 {
     namespace app
     {
-
         struct MainWindow::Private
         {
             std::weak_ptr<App> app;
@@ -125,6 +135,21 @@ namespace djv
             Window::_init(context, "djv", settings.size);
             DTK_P();
 
+            auto iconSystem = context->getSystem<dtk::IconSystem>();
+            iconSystem->add("DJV_Icon_512", djv_resource::DJV_Icon_512);
+            iconSystem->add("DJV_Icon_256", djv_resource::DJV_Icon_256);
+            iconSystem->add("DJV_Icon_128", djv_resource::DJV_Icon_128);
+            iconSystem->add("DJV_Icon_64", djv_resource::DJV_Icon_64);
+            iconSystem->add("DJV_Icon_32", djv_resource::DJV_Icon_32);
+            iconSystem->add("DJV_Icon_16", djv_resource::DJV_Icon_16);
+            std::vector<std::shared_ptr<dtk::Image> > icons;
+            icons.push_back(iconSystem->get("DJV_Icon_512", 1.0));
+            icons.push_back(iconSystem->get("DJV_Icon_256", 1.0));
+            icons.push_back(iconSystem->get("DJV_Icon_128", 1.0));
+            icons.push_back(iconSystem->get("DJV_Icon_64", 1.0));
+            icons.push_back(iconSystem->get("DJV_Icon_32", 1.0));
+            icons.push_back(iconSystem->get("DJV_Icon_16", 1.0));
+            setIcons(icons);
             setBackgroundRole(dtk::ColorRole::Window);
 
             p.app = app;
