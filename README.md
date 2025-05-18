@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Build Status](https://github.com/darbyjohnston/DJV/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/darbyjohnston/DJV/actions/workflows/ci-workflow.yml)
 
-![DJV Icon](etc/Icons/DJV_Icon_128.svg) DJV
+![DJV Icon](etc/Icons/DJV_Icon_32.svg) DJV
 ===
 DJV provides professional media review software for visual effects, film, and animation.
 
