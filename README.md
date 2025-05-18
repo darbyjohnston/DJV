@@ -17,6 +17,10 @@ Experimental:
 
 [Download](https://darbyjohnston.github.io/DJV/index.html)
 
+NOTE: Download packages only include a minimal set of video codecs. To enable
+full support for video codeces, either compile from source or replace the
+FFmpeg shared library files.
+
 [Documentation](https://darbyjohnston.github.io/DJV/index.html)
 
 DJV is built with the tlRender library:
