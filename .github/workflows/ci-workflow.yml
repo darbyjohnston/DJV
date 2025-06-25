@@ -12,7 +12,7 @@ jobs:
       TLRENDER_FFMPEG: ON
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: OFF
-      dtk_API: GL_4_1
+      FEATHER_TK_API: GL_4_1
 
     steps:
     - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
       TLRENDER_FFMPEG: OFF
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: OFF
-      dtk_API: GLES_2
+      FEATHER_TK_API: GLES_2
 
     steps:
     - uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
       TLRENDER_FFMPEG: ON
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: ON
-      dtk_API: GL_4_1
+      FEATHER_TK_API: GL_4_1
 
     steps:
     - uses: actions/checkout@v4
@@ -113,7 +113,7 @@ jobs:
       TLRENDER_FFMPEG: ON
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: OFF
-      dtk_API: GL_4_1
+      FEATHER_TK_API: GL_4_1
       CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
       CMAKE_OSX_ARCHITECTURES: x86_64
 
@@ -148,7 +148,7 @@ jobs:
       TLRENDER_FFMPEG: ON
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: OFF
-      dtk_API: GL_4_1
+      FEATHER_TK_API: GL_4_1
       CMAKE_OSX_DEPLOYMENT_TARGET: 14
       CMAKE_OSX_ARCHITECTURES: arm64
 
@@ -183,7 +183,7 @@ jobs:
       TLRENDER_FFMPEG: ON
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: ON
-      dtk_API: GL_4_1
+      FEATHER_TK_API: GL_4_1
       CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
       CMAKE_OSX_ARCHITECTURES: arm64
 
@@ -229,7 +229,7 @@ jobs:
       TLRENDER_FFMPEG: ON
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: OFF
-      dtk_API: GL_4_1
+      FEATHER_TK_API: GL_4_1
 
     steps:
     - uses: actions/checkout@v4
@@ -264,7 +264,7 @@ jobs:
       TLRENDER_FFMPEG: ON
       TLRENDER_FFMPEG_MINIMAL: ON
       TLRENDER_USD: ON
-      dtk_API: GL_4_1
+      FEATHER_TK_API: GL_4_1
 
     steps:
     - uses: actions/checkout@v4
