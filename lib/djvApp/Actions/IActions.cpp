@@ -6,7 +6,7 @@
 
 #include <djvApp/App.h>
 
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Format.h>
 
 namespace djv
 {
@@ -14,19 +14,19 @@ namespace djv
     {
         struct IActions::Private
         {
-            std::shared_ptr<dtk::ValueObserver<ShortcutsSettings> > shortcutsSettingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<ShortcutsSettings> > shortcutsSettingsObserver;
         };
 
         void IActions::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::string& name)
         {
-            DTK_P();
+            FEATHER_TK_P();
 
             _name = name;
 
-            p.shortcutsSettingsObserver = dtk::ValueObserver<ShortcutsSettings>::create(
+            p.shortcutsSettingsObserver = feather_tk::ValueObserver<ShortcutsSettings>::create(
                 app->getSettingsModel()->observeShortcuts(),
                 [this](const ShortcutsSettings& value)
                 {
@@ -41,7 +41,7 @@ namespace djv
         IActions::~IActions()
         {}
 
-        const std::map<std::string, std::shared_ptr<dtk::Action> >& IActions::getActions() const
+        const std::map<std::string, std::shared_ptr<feather_tk::Action> >& IActions::getActions() const
         {
             return _actions;
         }
@@ -50,7 +50,7 @@ namespace djv
         {
             for (const auto& i : _actions)
             {
-                const std::string name = dtk::Format("{0}/{1}").arg(_name).arg(i.first);
+                const std::string name = feather_tk::Format("{0}/{1}").arg(_name).arg(i.first);
                 const auto j = std::find_if(
                     value.shortcuts.begin(),
                     value.shortcuts.end(),
@@ -65,12 +65,12 @@ namespace djv
                     const auto k = _tooltips.find(i.first);
                     if (k != _tooltips.end())
                     {
-                        i.second->setTooltip(dtk::Format(
+                        i.second->setTooltip(feather_tk::Format(
                             "{0}\n"
                             "\n"
                             "Shortcut: {1}").
                             arg(k->second).
-                            arg(dtk::getShortcutLabel(j->key, j->modifiers)));
+                            arg(feather_tk::getShortcutLabel(j->key, j->modifiers)));
                     }
                 }
             }

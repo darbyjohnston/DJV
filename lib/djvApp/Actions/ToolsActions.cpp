@@ -13,15 +13,15 @@ namespace djv
     {
         struct ToolsActions::Private
         {
-            std::shared_ptr<dtk::ValueObserver<Tool> > activeObserver;
+            std::shared_ptr<feather_tk::ValueObserver<Tool> > activeObserver;
         };
 
         void ToolsActions::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             IActions::_init(context, app, "Tools");
-            DTK_P();
+            FEATHER_TK_P();
 
             auto appWeak = std::weak_ptr<App>(app);
             const auto enums = getToolEnums();
@@ -29,7 +29,7 @@ namespace djv
             for (size_t i = 1; i < enums.size(); ++i)
             {
                 const auto tool = enums[i];
-                auto action = dtk::Action::create(
+                auto action = feather_tk::Action::create(
                     getText(tool),
                     getIcon(tool),
                     [appWeak, tool](bool value)
@@ -61,7 +61,7 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.activeObserver = dtk::ValueObserver<Tool>::create(
+            p.activeObserver = feather_tk::ValueObserver<Tool>::create(
                 app->getToolsModel()->observeActiveTool(),
                 [this](Tool value)
                 {
@@ -82,7 +82,7 @@ namespace djv
         {}
 
         std::shared_ptr<ToolsActions> ToolsActions::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             auto out = std::shared_ptr<ToolsActions>(new ToolsActions);

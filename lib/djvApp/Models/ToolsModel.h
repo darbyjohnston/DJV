@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <dtk/ui/Event.h>
-#include <dtk/core/ObservableValue.h>
+#include <feather-tk/ui/Event.h>
+#include <feather-tk/core/ObservableValue.h>
 
-namespace dtk
+namespace feather_tk
 {
     class Settings;
 }
@@ -35,7 +35,7 @@ namespace djv
             Count,
             First = None
         };
-        DTK_ENUM(Tool);
+        FEATHER_TK_ENUM(Tool);
 
         //! Get the tool text.
         std::string getText(Tool);
@@ -49,10 +49,10 @@ namespace djv
         //! Tools model.
         class ToolsModel : public std::enable_shared_from_this<ToolsModel>
         {
-            DTK_NON_COPYABLE(ToolsModel);
+            FEATHER_TK_NON_COPYABLE(ToolsModel);
 
         protected:
-            void _init(const std::shared_ptr<dtk::Settings>&);
+            void _init(const std::shared_ptr<feather_tk::Settings>&);
 
             ToolsModel();
 
@@ -61,19 +61,19 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<ToolsModel> create(
-                const std::shared_ptr<dtk::Settings>&);
+                const std::shared_ptr<feather_tk::Settings>&);
 
             //! Get the active tool.
             Tool getActiveTool() const;
 
             //! Observe the active tool.
-            std::shared_ptr<dtk::ObservableValue<Tool> > observeActiveTool() const;
+            std::shared_ptr<feather_tk::ObservableValue<Tool> > observeActiveTool() const;
 
             //! Set the active tool.
             void setActiveTool(Tool);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

@@ -13,16 +13,16 @@
 #include <tlDevice/BMDOutputDevice.h>
 #endif // TLRENDER_BMD
 
-#include <dtk/ui/Bellows.h>
-#include <dtk/ui/CheckBox.h>
-#include <dtk/ui/ComboBox.h>
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/FloatEdit.h>
-#include <dtk/ui/FloatEditSlider.h>
-#include <dtk/ui/FormLayout.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
+#include <feather-tk/ui/Bellows.h>
+#include <feather-tk/ui/CheckBox.h>
+#include <feather-tk/ui/ComboBox.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/FloatEdit.h>
+#include <feather-tk/ui/FloatEditSlider.h>
+#include <feather-tk/ui/FormLayout.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
 
 #include <sstream>
 
@@ -33,19 +33,19 @@ namespace djv
         struct DevicesTool::Private
         {
 #if defined(TLRENDER_BMD)
-            std::shared_ptr<dtk::CheckBox> enabledCheckBox;
-            std::shared_ptr<dtk::ComboBox> deviceComboBox;
-            std::shared_ptr<dtk::ComboBox> displayModeComboBox;
-            std::shared_ptr<dtk::ComboBox> pixelTypeComboBox;
-            std::shared_ptr<dtk::CheckBox> _444SDIVideoOutputCheckBox;
-            std::shared_ptr<dtk::ComboBox> videoLevelsComboBox;
+            std::shared_ptr<feather_tk::CheckBox> enabledCheckBox;
+            std::shared_ptr<feather_tk::ComboBox> deviceComboBox;
+            std::shared_ptr<feather_tk::ComboBox> displayModeComboBox;
+            std::shared_ptr<feather_tk::ComboBox> pixelTypeComboBox;
+            std::shared_ptr<feather_tk::CheckBox> _444SDIVideoOutputCheckBox;
+            std::shared_ptr<feather_tk::ComboBox> videoLevelsComboBox;
 
-            std::shared_ptr<dtk::ValueObserver<bmd::DevicesModelData> > dataObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bmd::DevicesModelData> > dataObserver;
 #endif // TLRENDER_BMD
         };
 
         void DevicesTool::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -55,26 +55,26 @@ namespace djv
                 Tool::Devices,
                 "djv::app::DevicesTool",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
 #if defined(TLRENDER_BMD)
-            p.enabledCheckBox = dtk::CheckBox::create(context);
+            p.enabledCheckBox = feather_tk::CheckBox::create(context);
 
-            p.deviceComboBox = dtk::ComboBox::create(context);
-            p.deviceComboBox->setHStretch(dtk::Stretch::Expanding);
-            p.displayModeComboBox = dtk::ComboBox::create(context);
-            p.displayModeComboBox->setHStretch(dtk::Stretch::Expanding);
-            p.pixelTypeComboBox = dtk::ComboBox::create(context);
-            p.pixelTypeComboBox->setHStretch(dtk::Stretch::Expanding);
+            p.deviceComboBox = feather_tk::ComboBox::create(context);
+            p.deviceComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.displayModeComboBox = feather_tk::ComboBox::create(context);
+            p.displayModeComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.pixelTypeComboBox = feather_tk::ComboBox::create(context);
+            p.pixelTypeComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p._444SDIVideoOutputCheckBox = dtk::CheckBox::create(context);
+            p._444SDIVideoOutputCheckBox = feather_tk::CheckBox::create(context);
 
-            p.videoLevelsComboBox = dtk::ComboBox::create(context, dtk::getVideoLevelsLabels());
-            p.videoLevelsComboBox->setHStretch(dtk::Stretch::Expanding);
+            p.videoLevelsComboBox = feather_tk::ComboBox::create(context, feather_tk::getVideoLevelsLabels());
+            p.videoLevelsComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            auto formLayout = dtk::FormLayout::create(context);
-            formLayout->setMarginRole(dtk::SizeRole::MarginSmall);
-            formLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            auto formLayout = feather_tk::FormLayout::create(context);
+            formLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             formLayout->addRow("Enabled:", p.enabledCheckBox);
             formLayout->addRow("Device:", p.deviceComboBox);
             formLayout->addRow("Display mode:", p.displayModeComboBox);
@@ -82,7 +82,7 @@ namespace djv
             formLayout->addRow("444 SDI:", p._444SDIVideoOutputCheckBox);
             formLayout->addRow("Video levels:", p.videoLevelsComboBox);
 
-            auto scrollWidget = dtk::ScrollWidget::create(context);
+            auto scrollWidget = feather_tk::ScrollWidget::create(context);
             scrollWidget->setBorder(false);
             scrollWidget->setWidget(formLayout);
             _setWidget(scrollWidget);
@@ -138,15 +138,15 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        app->getBMDDevicesModel()->setVideoLevels(static_cast<dtk::VideoLevels>(value));
+                        app->getBMDDevicesModel()->setVideoLevels(static_cast<feather_tk::VideoLevels>(value));
                     }
                 });
 
-            p.dataObserver = dtk::ValueObserver<bmd::DevicesModelData>::create(
+            p.dataObserver = feather_tk::ValueObserver<bmd::DevicesModelData>::create(
                 app->getBMDDevicesModel()->observeData(),
                 [this](const bmd::DevicesModelData& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.enabledCheckBox->setChecked(value.deviceEnabled);
 
                     p.deviceComboBox->setItems(value.devices);
@@ -179,7 +179,7 @@ namespace djv
         {}
 
         std::shared_ptr<DevicesTool> DevicesTool::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

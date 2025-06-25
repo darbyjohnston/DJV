@@ -16,20 +16,21 @@ namespace djv
     {
         struct TimelineMenu::Private
         {
-            std::map<std::string, std::shared_ptr<dtk::Menu> > menus;
+            std::map<std::string, std::shared_ptr<feather_tk::Menu> > menus;
         };
 
         void TimelineMenu::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<TimelineActions>& timelineActions,
             const std::shared_ptr<IWidget>& parent)
         {
             Menu::_init(context, parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             auto actions = timelineActions->getActions();
             addAction(actions["FrameView"]);
-            addAction(actions["Scroll"]);
+            addAction(actions["ScrollBars"]);
+            addAction(actions["AutoScroll"]);
             addAction(actions["StopOnScrub"]);
             addAction(actions["Thumbnails"]);
             p.menus["ThumbnailSize"] = addSubMenu("Thumbnails Size");
@@ -46,7 +47,7 @@ namespace djv
         {}
 
         std::shared_ptr<TimelineMenu> TimelineMenu::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<TimelineActions>& timelineActions,
             const std::shared_ptr<IWidget>& parent)
         {

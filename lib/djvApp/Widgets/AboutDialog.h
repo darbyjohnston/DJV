@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/IDialog.h>
+#include <feather-tk/ui/IDialog.h>
 
 namespace djv
 {
@@ -13,13 +13,13 @@ namespace djv
         class App;
 
         //! About dialog.
-        class AboutDialog : public dtk::IDialog
+        class AboutDialog : public feather_tk::IDialog
         {
-            DTK_NON_COPYABLE(AboutDialog);
+            FEATHER_TK_NON_COPYABLE(AboutDialog);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,12 +29,12 @@ namespace djv
             virtual ~AboutDialog();
 
             static std::shared_ptr<AboutDialog> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

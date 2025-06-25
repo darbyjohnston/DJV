@@ -7,16 +7,16 @@
 #include <djvApp/Models/AudioModel.h>
 #include <djvApp/App.h>
 
-#include <dtk/ui/Bellows.h>
-#include <dtk/ui/ButtonGroup.h>
-#include <dtk/ui/CheckBox.h>
-#include <dtk/ui/ComboBox.h>
-#include <dtk/ui/DoubleEditSlider.h>
-#include <dtk/ui/FormLayout.h>
-#include <dtk/ui/IntEditSlider.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/ui/Bellows.h>
+#include <feather-tk/ui/ButtonGroup.h>
+#include <feather-tk/ui/CheckBox.h>
+#include <feather-tk/ui/ComboBox.h>
+#include <feather-tk/ui/DoubleEditSlider.h>
+#include <feather-tk/ui/FormLayout.h>
+#include <feather-tk/ui/IntEditSlider.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
+#include <feather-tk/core/Format.h>
 
 namespace djv
 {
@@ -28,26 +28,26 @@ namespace djv
             tl::audio::Info info;
             std::vector<bool> channelMute;
 
-            std::shared_ptr<dtk::ComboBox> deviceComboBox;
-            std::shared_ptr<dtk::IntEditSlider> volumeSlider;
-            std::shared_ptr<dtk::CheckBox> muteCheckBox;
-            std::vector<std::shared_ptr<dtk::CheckBox> > channelMuteCheckBoxes;
-            std::shared_ptr<dtk::ButtonGroup> channelMuteButtonGroup;
-            std::shared_ptr<dtk::DoubleEditSlider> syncOffsetSlider;
+            std::shared_ptr<feather_tk::ComboBox> deviceComboBox;
+            std::shared_ptr<feather_tk::IntEditSlider> volumeSlider;
+            std::shared_ptr<feather_tk::CheckBox> muteCheckBox;
+            std::vector<std::shared_ptr<feather_tk::CheckBox> > channelMuteCheckBoxes;
+            std::shared_ptr<feather_tk::ButtonGroup> channelMuteButtonGroup;
+            std::shared_ptr<feather_tk::DoubleEditSlider> syncOffsetSlider;
 
-            std::shared_ptr<dtk::HorizontalLayout> channelMuteLayout;
+            std::shared_ptr<feather_tk::HorizontalLayout> channelMuteLayout;
 
-            std::shared_ptr<dtk::ListObserver<tl::audio::DeviceID> > devicesObserver;
-            std::shared_ptr<dtk::ValueObserver<tl::audio::DeviceID> > deviceObserver;
-            std::shared_ptr<dtk::ValueObserver<float> > volumeObserver;
-            std::shared_ptr<dtk::ValueObserver<bool> > muteObserver;
-            std::shared_ptr<dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
-            std::shared_ptr<dtk::ListObserver<bool> > channelMuteObserver;
-            std::shared_ptr<dtk::ValueObserver<double> > syncOffsetObserver;
+            std::shared_ptr<feather_tk::ListObserver<tl::audio::DeviceID> > devicesObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::audio::DeviceID> > deviceObserver;
+            std::shared_ptr<feather_tk::ValueObserver<float> > volumeObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > muteObserver;
+            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<feather_tk::ListObserver<bool> > channelMuteObserver;
+            std::shared_ptr<feather_tk::ValueObserver<double> > syncOffsetObserver;
         };
 
         void AudioTool::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -57,36 +57,36 @@ namespace djv
                 Tool::Audio,
                 "djv::app::AudioTool",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
-            p.deviceComboBox = dtk::ComboBox::create(context);
+            p.deviceComboBox = feather_tk::ComboBox::create(context);
             p.deviceComboBox->setTooltip("Audio output device");
 
-            p.volumeSlider = dtk::IntEditSlider::create(context);
-            p.volumeSlider->setRange(dtk::RangeI(0, 100));
+            p.volumeSlider = feather_tk::IntEditSlider::create(context);
+            p.volumeSlider->setRange(feather_tk::RangeI(0, 100));
             p.volumeSlider->setStep(1);
             p.volumeSlider->setLargeStep(10);
 
-            p.muteCheckBox = dtk::CheckBox::create(context);
+            p.muteCheckBox = feather_tk::CheckBox::create(context);
 
-            p.channelMuteButtonGroup = dtk::ButtonGroup::create(context, dtk::ButtonGroupType::Toggle);
+            p.channelMuteButtonGroup = feather_tk::ButtonGroup::create(context, feather_tk::ButtonGroupType::Toggle);
 
-            p.syncOffsetSlider = dtk::DoubleEditSlider::create(context);
-            p.syncOffsetSlider->setRange(dtk::RangeD(-1.0, 1.0));
+            p.syncOffsetSlider = feather_tk::DoubleEditSlider::create(context);
+            p.syncOffsetSlider->setRange(feather_tk::RangeD(-1.0, 1.0));
             p.syncOffsetSlider->setDefaultValue(0.0);
 
-            auto formLayout = dtk::FormLayout::create(context);
-            formLayout->setMarginRole(dtk::SizeRole::MarginSmall);
-            formLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            auto formLayout = feather_tk::FormLayout::create(context);
+            formLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             formLayout->addRow("Device:", p.deviceComboBox);
             formLayout->addRow("Volume:", p.volumeSlider);
             formLayout->addRow("Mute:", p.muteCheckBox);
-            p.channelMuteLayout = dtk::HorizontalLayout::create(context);
-            p.channelMuteLayout->setSpacingRole(dtk::SizeRole::SpacingTool);
+            p.channelMuteLayout = feather_tk::HorizontalLayout::create(context);
+            p.channelMuteLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
             formLayout->addRow("Channel mute:", p.channelMuteLayout);
             formLayout->addRow("Sync offset:", p.syncOffsetSlider);
 
-            auto scrollWidget = dtk::ScrollWidget::create(context);
+            auto scrollWidget = feather_tk::ScrollWidget::create(context);
             scrollWidget->setBorder(false);
             scrollWidget->setWidget(formLayout);
             _setWidget(scrollWidget);
@@ -147,7 +147,7 @@ namespace djv
                     }
                 });
 
-            p.devicesObserver = dtk::ListObserver<tl::audio::DeviceID>::create(
+            p.devicesObserver = feather_tk::ListObserver<tl::audio::DeviceID>::create(
                 app->getAudioModel()->observeDevices(),
                 [this](const std::vector<tl::audio::DeviceID>& devices)
                 {
@@ -163,7 +163,7 @@ namespace djv
                     _p->deviceComboBox->setItems(names);
                 });
 
-            p.deviceObserver = dtk::ValueObserver<tl::audio::DeviceID>::create(
+            p.deviceObserver = feather_tk::ValueObserver<tl::audio::DeviceID>::create(
                 app->getAudioModel()->observeDevice(),
                 [this](const tl::audio::DeviceID& value)
                 {
@@ -176,21 +176,21 @@ namespace djv
                     _p->deviceComboBox->setCurrentIndex(index);
                 });
 
-            p.volumeObserver = dtk::ValueObserver<float>::create(
+            p.volumeObserver = feather_tk::ValueObserver<float>::create(
                 app->getAudioModel()->observeVolume(),
                 [this](float value)
                 {
                     _p->volumeSlider->setValue(std::roundf(value * 100.F));
                 });
 
-            p.muteObserver = dtk::ValueObserver<bool>::create(
+            p.muteObserver = feather_tk::ValueObserver<bool>::create(
                 app->getAudioModel()->observeMute(),
                 [this](bool value)
                 {
                     _p->muteCheckBox->setChecked(value);
                 });
 
-            p.playerObserver = dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& value)
                 {
@@ -198,7 +198,7 @@ namespace djv
                     _widgetUpdate();
                 });
 
-            p.channelMuteObserver = dtk::ListObserver<bool>::create(
+            p.channelMuteObserver = feather_tk::ListObserver<bool>::create(
                 app->getAudioModel()->observeChannelMute(),
                 [this](const std::vector<bool>& value)
                 {
@@ -206,7 +206,7 @@ namespace djv
                     _widgetUpdate();
                 });
 
-            p.syncOffsetObserver = dtk::ValueObserver<double>::create(
+            p.syncOffsetObserver = feather_tk::ValueObserver<double>::create(
                 app->getAudioModel()->observeSyncOffset(),
                 [this](double value)
                 {
@@ -222,7 +222,7 @@ namespace djv
         {}
 
         std::shared_ptr<AudioTool> AudioTool::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -233,7 +233,7 @@ namespace djv
 
         void AudioTool::_widgetUpdate()
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (p.channelMuteCheckBoxes.size() != p.info.channelCount)
             {
                 for (const auto& checkBox : p.channelMuteCheckBoxes)
@@ -246,9 +246,9 @@ namespace djv
                 {
                     for (size_t i = 0; i < p.info.channelCount; ++i)
                     {
-                        auto checkBox = dtk::CheckBox::create(
+                        auto checkBox = feather_tk::CheckBox::create(
                             context,
-                            dtk::Format("{0}").arg(i),
+                            feather_tk::Format("{0}").arg(i),
                             p.channelMuteLayout);
                         p.channelMuteCheckBoxes.push_back(checkBox);
                         p.channelMuteButtonGroup->addButton(checkBox);

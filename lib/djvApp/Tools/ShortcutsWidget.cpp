@@ -6,11 +6,11 @@
 
 #include <djvApp/App.h>
 
-#include <dtk/ui/GroupBox.h>
-#include <dtk/ui/DrawUtil.h>
-#include <dtk/ui/FormLayout.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/GroupBox.h>
+#include <feather-tk/ui/DrawUtil.h>
+#include <feather-tk/ui/FormLayout.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
 
 namespace djv
 {
@@ -21,7 +21,7 @@ namespace djv
             Shortcut shortcut;
             bool collision = false;
 
-            std::shared_ptr<dtk::Label> label;
+            std::shared_ptr<feather_tk::Label> label;
 
             std::function<void(const Shortcut&)> callback;
 
@@ -34,27 +34,27 @@ namespace djv
 
             struct DrawData
             {
-                dtk::Box2I g;
-                dtk::Box2I g2;
-                dtk::TriMesh2F border;
+                feather_tk::Box2I g;
+                feather_tk::Box2I g2;
+                feather_tk::TriMesh2F border;
             };
             std::optional<DrawData> draw;
         };
 
         void ShortcutWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, "djv::app::ShortcutWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
             
-            setHStretch(dtk::Stretch::Expanding);
+            setHStretch(feather_tk::Stretch::Expanding);
             setAcceptsKeyFocus(true);
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
 
-            p.label = dtk::Label::create(context, shared_from_this());
-            p.label->setMarginRole(dtk::SizeRole::MarginInside);
+            p.label = feather_tk::Label::create(context, shared_from_this());
+            p.label->setMarginRole(feather_tk::SizeRole::MarginInside);
 
             _widgetUpdate();
         }
@@ -67,7 +67,7 @@ namespace djv
         {}
 
         std::shared_ptr<ShortcutWidget> ShortcutWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<ShortcutWidget>(new ShortcutWidget);
@@ -77,7 +77,7 @@ namespace djv
 
         void ShortcutWidget::setShortcut(const Shortcut& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (value == p.shortcut)
                 return;
             p.shortcut = value;
@@ -91,20 +91,20 @@ namespace djv
 
         void ShortcutWidget::setCollision(bool value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (value == p.collision)
                 return;
             p.collision = value;
             _widgetUpdate();
         }
 
-        void ShortcutWidget::setGeometry(const dtk::Box2I& value)
+        void ShortcutWidget::setGeometry(const feather_tk::Box2I& value)
         {
             bool changed = value != getGeometry();
             IWidget::setGeometry(value);
-            DTK_P();
+            FEATHER_TK_P();
 
-            const dtk::Box2I g = dtk::margin(value, -p.size.border);
+            const feather_tk::Box2I g = feather_tk::margin(value, -p.size.border);
             p.label->setGeometry(g);
 
             if (changed)
@@ -113,52 +113,52 @@ namespace djv
             }
         }
 
-        void ShortcutWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void ShortcutWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            DTK_P();
+            FEATHER_TK_P();
 
             if (!p.size.displayScale.has_value() ||
                 (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
             {
                 p.size.displayScale = event.displayScale;
-                p.size.border = event.style->getSizeRole(dtk::SizeRole::Border, event.displayScale);
+                p.size.border = event.style->getSizeRole(feather_tk::SizeRole::Border, event.displayScale);
                 p.draw.reset();
             }
 
             _setSizeHint(_p->label->getSizeHint() + p.size.border * 2);
         }
 
-        void ShortcutWidget::drawEvent(const dtk::Box2I& drawRect, const dtk::DrawEvent& event)
+        void ShortcutWidget::drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent& event)
         {
             IWidget::drawEvent(drawRect, event);
-            DTK_P();
+            FEATHER_TK_P();
 
             if (!p.draw.has_value())
             {
                 p.draw = Private::DrawData();
                 p.draw->g = getGeometry();
-                p.draw->g2 = dtk::margin(p.draw->g, -p.size.border);
-                p.draw->border = dtk::border(p.draw->g, p.size.border);
+                p.draw->g2 = feather_tk::margin(p.draw->g, -p.size.border);
+                p.draw->border = feather_tk::border(p.draw->g, p.size.border);
             }
 
             event.render->drawMesh(
                 p.draw->border,
-                event.style->getColorRole(hasKeyFocus() ? dtk::ColorRole::KeyFocus : dtk::ColorRole::Border));
+                event.style->getColorRole(hasKeyFocus() ? feather_tk::ColorRole::KeyFocus : feather_tk::ColorRole::Border));
 
             event.render->drawRect(
                 p.draw->g2,
-                event.style->getColorRole(p.collision ? dtk::ColorRole::Red : dtk::ColorRole::Base));
+                event.style->getColorRole(p.collision ? feather_tk::ColorRole::Red : feather_tk::ColorRole::Base));
 
             if (_isMouseInside())
             {
                 event.render->drawRect(
                     p.draw->g,
-                    event.style->getColorRole(dtk::ColorRole::Hover));
+                    event.style->getColorRole(feather_tk::ColorRole::Hover));
             }
         }
 
-        void ShortcutWidget::mouseEnterEvent(dtk::MouseEnterEvent& event)
+        void ShortcutWidget::mouseEnterEvent(feather_tk::MouseEnterEvent& event)
         {
             IWidget::mouseEnterEvent(event);
             _setDrawUpdate();
@@ -170,7 +170,7 @@ namespace djv
             _setDrawUpdate();
         }
 
-        void ShortcutWidget::mousePressEvent(dtk::MouseClickEvent& event)
+        void ShortcutWidget::mousePressEvent(feather_tk::MouseClickEvent& event)
         {
             IWidget::mousePressEvent(event);
             takeKeyFocus();
@@ -183,30 +183,30 @@ namespace djv
             _setDrawUpdate();
         }
 
-        void ShortcutWidget::keyPressEvent(dtk::KeyEvent& event)
+        void ShortcutWidget::keyPressEvent(feather_tk::KeyEvent& event)
         {
             IWidget::keyPressEvent(event);
-            DTK_P();
+            FEATHER_TK_P();
             switch (event.key)
             {
-            case dtk::Key::Unknown: break;
-            case dtk::Key::Escape:
+            case feather_tk::Key::Unknown: break;
+            case feather_tk::Key::Escape:
                 event.accept = true;
                 releaseKeyFocus();
                 break;
-            case dtk::Key::Enter: break;
-            case dtk::Key::Tab: break;
-            case dtk::Key::CapsLock: break;
-            case dtk::Key::ScrollLock: break;
-            case dtk::Key::NumLock: break;
-            case dtk::Key::LeftShift: break;
-            case dtk::Key::LeftControl: break;
-            case dtk::Key::LeftAlt: break;
-            case dtk::Key::LeftSuper: break;
-            case dtk::Key::RightShift: break;
-            case dtk::Key::RightControl: break;
-            case dtk::Key::RightAlt: break;
-            case dtk::Key::RightSuper: break;
+            case feather_tk::Key::Enter: break;
+            case feather_tk::Key::Tab: break;
+            case feather_tk::Key::CapsLock: break;
+            case feather_tk::Key::ScrollLock: break;
+            case feather_tk::Key::NumLock: break;
+            case feather_tk::Key::LeftShift: break;
+            case feather_tk::Key::LeftControl: break;
+            case feather_tk::Key::LeftAlt: break;
+            case feather_tk::Key::LeftSuper: break;
+            case feather_tk::Key::RightShift: break;
+            case feather_tk::Key::RightControl: break;
+            case feather_tk::Key::RightAlt: break;
+            case feather_tk::Key::RightSuper: break;
             default:
                 if (hasKeyFocus())
                 {
@@ -223,7 +223,7 @@ namespace djv
             }
         }
 
-        void ShortcutWidget::keyReleaseEvent(dtk::KeyEvent& event)
+        void ShortcutWidget::keyReleaseEvent(feather_tk::KeyEvent& event)
         {
             IWidget::keyReleaseEvent(event);
             event.accept = true;
@@ -231,8 +231,8 @@ namespace djv
 
         void ShortcutWidget::_widgetUpdate()
         {
-            DTK_P();
-            p.label->setText(dtk::getShortcutLabel(p.shortcut.key, p.shortcut.modifiers));
+            FEATHER_TK_P();
+            p.label->setText(feather_tk::getShortcutLabel(p.shortcut.key, p.shortcut.modifiers));
         }
 
         struct ShortcutsSettingsWidget::Private
@@ -263,26 +263,26 @@ namespace djv
             std::vector<Group> groups;
 
             std::map<std::string, std::shared_ptr<ShortcutWidget> > widgets;
-            std::vector<std::shared_ptr<dtk::GroupBox> > groupBoxes;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::vector<std::shared_ptr<feather_tk::GroupBox> > groupBoxes;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<ShortcutsSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<ShortcutsSettings> > settingsObserver;
         };
 
         void ShortcutsSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::ShortcutsSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::Spacing);
+            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::Spacing);
 
-            p.settingsObserver = dtk::ValueObserver<ShortcutsSettings>::create(
+            p.settingsObserver = feather_tk::ValueObserver<ShortcutsSettings>::create(
                 p.model->observeShortcuts(),
                 [this](const ShortcutsSettings& value)
                 {
@@ -298,7 +298,7 @@ namespace djv
         {}
 
         std::shared_ptr<ShortcutsSettingsWidget> ShortcutsSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -307,18 +307,18 @@ namespace djv
             return out;
         }
 
-        void ShortcutsSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void ShortcutsSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void ShortcutsSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void ShortcutsSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void ShortcutsSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void ShortcutsSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -326,13 +326,13 @@ namespace djv
 
         void ShortcutsSettingsWidget::_widgetUpdate(const ShortcutsSettings& settings)
         {
-            DTK_P();
+            FEATHER_TK_P();
 
             // Create groups of shortcuts.
             std::vector<Private::Group> groups;
             for (const auto& shortcut : settings.shortcuts)
             {
-                const auto s = dtk::split(shortcut.name, '/');
+                const auto s = feather_tk::split(shortcut.name, '/');
                 if ((!s.empty() && !groups.empty() && s.front() != groups.back().name) ||
                     (!s.empty() && groups.empty()))
                 {
@@ -347,10 +347,10 @@ namespace djv
             }
 
             // Find collisions.
-            std::map<std::pair<dtk::Key, int>, std::vector<std::string> > collisions;
+            std::map<std::pair<feather_tk::Key, int>, std::vector<std::string> > collisions;
             for (const auto& shortcut : settings.shortcuts)
             {
-                if (shortcut.key != dtk::Key::Unknown)
+                if (shortcut.key != feather_tk::Key::Unknown)
                 {
                     collisions[std::make_pair(shortcut.key, shortcut.modifiers)].push_back(shortcut.name);
                 }
@@ -373,10 +373,10 @@ namespace djv
                 {
                     for (const auto& group : p.groups)
                     {
-                        auto groupBox = dtk::GroupBox::create(context, group.name, p.layout);
+                        auto groupBox = feather_tk::GroupBox::create(context, group.name, p.layout);
                         p.groupBoxes.push_back(groupBox);
-                        auto formLayout = dtk::FormLayout::create(context, groupBox);
-                        formLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+                        auto formLayout = feather_tk::FormLayout::create(context, groupBox);
+                        formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
                         for (const auto& shortcut : group.shortcuts)
                         {
                             auto widget = ShortcutWidget::create(context);
@@ -386,7 +386,7 @@ namespace djv
                             widget->setCallback(
                                 [this](const Shortcut& value)
                                 {
-                                    DTK_P();
+                                    FEATHER_TK_P();
                                     auto settings = p.model->getShortcuts();
                                     const auto shortcut = value;
                                     const auto i = std::find_if(

@@ -6,14 +6,14 @@
 
 #include <djvApp/App.h>
 
-#include <dtk/ui/ComboBox.h>
-#include <dtk/ui/ColorSwatch.h>
-#include <dtk/ui/FloatEditSlider.h>
-#include <dtk/ui/FormLayout.h>
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/ComboBox.h>
+#include <feather-tk/ui/ColorSwatch.h>
+#include <feather-tk/ui/FloatEditSlider.h>
+#include <feather-tk/ui/FormLayout.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Format.h>
 
 namespace djv
 {
@@ -35,34 +35,34 @@ namespace djv
                 4.F
             };
 
-            std::shared_ptr<dtk::ComboBox> colorStyleComboBox;
-            std::shared_ptr<dtk::FloatEditSlider> brightnessSlider;
-            std::shared_ptr<dtk::FloatEditSlider> contrastSlider;
-            std::shared_ptr<dtk::ComboBox> displayScaleComboBox;
-            std::shared_ptr<dtk::FormLayout> layout;
+            std::shared_ptr<feather_tk::ComboBox> colorStyleComboBox;
+            std::shared_ptr<feather_tk::FloatEditSlider> brightnessSlider;
+            std::shared_ptr<feather_tk::FloatEditSlider> contrastSlider;
+            std::shared_ptr<feather_tk::ComboBox> displayScaleComboBox;
+            std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<StyleSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<StyleSettings> > settingsObserver;
         };
 
         void StyleSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::StyleSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.colorStyleComboBox = dtk::ComboBox::create(context, dtk::getColorStyleLabels());
-            p.colorStyleComboBox->setHStretch(dtk::Stretch::Expanding);
+            p.colorStyleComboBox = feather_tk::ComboBox::create(context, feather_tk::getColorStyleLabels());
+            p.colorStyleComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.brightnessSlider = dtk::FloatEditSlider::create(context);
-            p.brightnessSlider->setRange(dtk::RangeF(.5F, 1.5F));
+            p.brightnessSlider = feather_tk::FloatEditSlider::create(context);
+            p.brightnessSlider->setRange(feather_tk::RangeF(.5F, 1.5F));
             p.brightnessSlider->setDefaultValue(1.F);
 
-            p.contrastSlider = dtk::FloatEditSlider::create(context);
-            p.contrastSlider->setRange(dtk::RangeF(.5F, 1.5F));
+            p.contrastSlider = feather_tk::FloatEditSlider::create(context);
+            p.contrastSlider->setRange(feather_tk::RangeF(.5F, 1.5F));
             p.contrastSlider->setDefaultValue(1.F);
 
             std::vector<std::string> labels;
@@ -70,19 +70,19 @@ namespace djv
             {
                 labels.push_back(0.F == d ?
                     std::string("Automatic") :
-                    dtk::Format("{0}").arg(d).operator std::string());
+                    feather_tk::Format("{0}").arg(d).operator std::string());
             }
-            p.displayScaleComboBox = dtk::ComboBox::create(context, labels);
-            p.displayScaleComboBox->setHStretch(dtk::Stretch::Expanding);
+            p.displayScaleComboBox = feather_tk::ComboBox::create(context, labels);
+            p.displayScaleComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Color style:", p.colorStyleComboBox);
             p.layout->addRow("Brightness:", p.brightnessSlider);
             p.layout->addRow("Contrast:", p.contrastSlider);
             p.layout->addRow("Display scale:", p.displayScaleComboBox);
 
-            p.settingsObserver = dtk::ValueObserver<StyleSettings>::create(
+            p.settingsObserver = feather_tk::ValueObserver<StyleSettings>::create(
                 app->getSettingsModel()->observeStyle(),
                 [this](const StyleSettings& value)
                 {
@@ -92,16 +92,16 @@ namespace djv
             p.colorStyleComboBox->setIndexCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getStyle();
-                    settings.colorStyle = static_cast<dtk::ColorStyle>(value);
+                    settings.colorStyle = static_cast<feather_tk::ColorStyle>(value);
                     p.model->setStyle(settings);
                 });
 
             p.brightnessSlider->setCallback(
                 [this](float value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getStyle();
                     settings.colorControls.brightness = value;
                     p.model->setStyle(settings);
@@ -110,7 +110,7 @@ namespace djv
             p.contrastSlider->setCallback(
                 [this](float value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getStyle();
                     settings.colorControls.contrast = value;
                     p.model->setStyle(settings);
@@ -119,7 +119,7 @@ namespace djv
             p.displayScaleComboBox->setIndexCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getStyle();
                     if (value >= 0 && value < p.displayScales.size())
                     {
@@ -137,7 +137,7 @@ namespace djv
         {}
 
         std::shared_ptr<StyleSettingsWidget> StyleSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -146,18 +146,18 @@ namespace djv
             return out;
         }
 
-        void StyleSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void StyleSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void StyleSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void StyleSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void StyleSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void StyleSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -165,7 +165,7 @@ namespace djv
 
         void StyleSettingsWidget::_widgetUpdate(const StyleSettings& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
 
             p.colorStyleComboBox->setCurrentIndex(static_cast<int>(value.colorStyle));
 

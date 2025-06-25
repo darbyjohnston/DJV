@@ -4,20 +4,20 @@
 
 #pragma once
 
-#include <dtk/ui/IMenuPopup.h>
+#include <feather-tk/ui/IMenuPopup.h>
 
 namespace djv
 {
     namespace app
     {
         //! Speed popup.
-        class SpeedPopup : public dtk::IMenuPopup
+        class SpeedPopup : public feather_tk::IMenuPopup
         {
-            DTK_NON_COPYABLE(SpeedPopup);
+            FEATHER_TK_NON_COPYABLE(SpeedPopup);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 double defaultSpeed,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -27,7 +27,7 @@ namespace djv
             virtual ~SpeedPopup();
 
             static std::shared_ptr<SpeedPopup> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 double defaultSpeed,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -36,7 +36,7 @@ namespace djv
         private:
             void _widgetUpdate();
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

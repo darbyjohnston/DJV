@@ -4,8 +4,8 @@
 
 #include <djvApp/Models/OCIOModel.h>
 
-#include <dtk/core/Context.h>
-#include <dtk/core/OS.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/OS.h>
 
 #if defined(TLRENDER_OCIO)
 #include <OpenColorIO/OpenColorIO.h>
@@ -41,26 +41,26 @@ namespace djv
 
         struct OCIOModel::Private
         {
-            std::weak_ptr<dtk::Context> context;
+            std::weak_ptr<feather_tk::Context> context;
 #if defined(TLRENDER_OCIO)
             OCIO_NAMESPACE::ConstConfigRcPtr ocioConfig;
 #endif // TLRENDER_OCIO
-            std::shared_ptr<dtk::ObservableValue<tl::timeline::OCIOOptions> > options;
-            std::shared_ptr<dtk::ObservableValue<OCIOModelData> > data;
+            std::shared_ptr<feather_tk::ObservableValue<tl::timeline::OCIOOptions> > options;
+            std::shared_ptr<feather_tk::ObservableValue<OCIOModelData> > data;
         };
 
-        void OCIOModel::_init(const std::shared_ptr<dtk::Context>& context)
+        void OCIOModel::_init(const std::shared_ptr<feather_tk::Context>& context)
         {
-            DTK_P();
+            FEATHER_TK_P();
 
             p.context = context;
 
-            p.options = dtk::ObservableValue<tl::timeline::OCIOOptions>::create();
-            p.data = dtk::ObservableValue<OCIOModelData>::create();
+            p.options = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create();
+            p.data = feather_tk::ObservableValue<OCIOModelData>::create();
 
 #if defined(TLRENDER_OCIO)
             std::string env;
-            if (dtk::getEnv("OCIO", env) && !env.empty())
+            if (feather_tk::getEnv("OCIO", env) && !env.empty())
             {
                 try
                 {
@@ -81,7 +81,7 @@ namespace djv
                 {
                     if (const auto context = p.context.lock())
                     {
-                        context->log(std::string(), e.what(), dtk::LogType::Error);
+                        context->log(std::string(), e.what(), feather_tk::LogType::Error);
                     }
                 }
             }
@@ -95,21 +95,21 @@ namespace djv
         OCIOModel::~OCIOModel()
         {}
 
-        std::shared_ptr<OCIOModel> OCIOModel::create(const std::shared_ptr<dtk::Context>& context)
+        std::shared_ptr<OCIOModel> OCIOModel::create(const std::shared_ptr<feather_tk::Context>& context)
         {
             auto out = std::shared_ptr<OCIOModel>(new OCIOModel);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<dtk::IObservableValue<tl::timeline::OCIOOptions> > OCIOModel::observeOptions() const
+        std::shared_ptr<feather_tk::IObservableValue<tl::timeline::OCIOOptions> > OCIOModel::observeOptions() const
         {
             return _p->options;
         }
 
         void OCIOModel::setOptions(const tl::timeline::OCIOOptions& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             const bool changed = value.fileName != p.options->get().fileName;
 #if defined(TLRENDER_OCIO)
             if (changed)
@@ -139,7 +139,7 @@ namespace djv
 
         void OCIOModel::setEnabled(bool value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             auto options = p.options->get();
             options.enabled = value;
             p.options->setIfChanged(options);
@@ -148,7 +148,7 @@ namespace djv
 
         void OCIOModel::setConfig(const std::string& fileName)
         {
-            DTK_P();
+            FEATHER_TK_P();
             const bool changed = fileName != p.options->get().fileName;
 #if defined(TLRENDER_OCIO)
             if (changed)
@@ -178,14 +178,14 @@ namespace djv
             p.data->setIfChanged(_getData(options));
         }
 
-        std::shared_ptr<dtk::IObservableValue<OCIOModelData> > OCIOModel::observeData() const
+        std::shared_ptr<feather_tk::IObservableValue<OCIOModelData> > OCIOModel::observeData() const
         {
             return _p->data;
         }
 
         void OCIOModel::setInputIndex(size_t value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             auto data = p.data->get();
             if (value >= 0 && value < data.inputs.size())
             {
@@ -211,7 +211,7 @@ namespace djv
 
         void OCIOModel::setDisplayIndex(size_t value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             auto data = p.data->get();
             if (value >= 0 && value < data.displays.size())
             {
@@ -233,7 +233,7 @@ namespace djv
 
         void OCIOModel::setViewIndex(size_t value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             auto data = p.data->get();
             if (value >= 0 && value < data.views.size())
             {
@@ -251,7 +251,7 @@ namespace djv
 
         void OCIOModel::setLookIndex(size_t value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             const auto& looks = p.data->get().looks;
             if (value >= 0 && value < looks.size())
             {
@@ -264,7 +264,7 @@ namespace djv
 
         OCIOModelData OCIOModel::_getData(const tl::timeline::OCIOOptions& options) const
         {
-            DTK_P();
+            FEATHER_TK_P();
             OCIOModelData out;
             out.enabled = options.enabled;
             out.fileName = options.fileName;

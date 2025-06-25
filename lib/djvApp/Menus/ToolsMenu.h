@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/Menu.h>
+#include <feather-tk/ui/Menu.h>
 
 namespace djv
 {
@@ -13,13 +13,13 @@ namespace djv
         class ToolsActions;
 
         //! Tools menu.
-        class ToolsMenu : public dtk::Menu
+        class ToolsMenu : public feather_tk::Menu
         {
-            DTK_NON_COPYABLE(ToolsMenu);
+            FEATHER_TK_NON_COPYABLE(ToolsMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<ToolsActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace djv
             ~ToolsMenu();
 
             static std::shared_ptr<ToolsMenu> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<ToolsActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

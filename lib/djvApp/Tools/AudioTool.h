@@ -15,11 +15,11 @@ namespace djv
         //! Audio tool.
         class AudioTool : public IToolWidget
         {
-            DTK_NON_COPYABLE(AudioTool);
+            FEATHER_TK_NON_COPYABLE(AudioTool);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,14 +29,14 @@ namespace djv
             virtual ~AudioTool();
 
             static std::shared_ptr<AudioTool> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
             void _widgetUpdate();
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

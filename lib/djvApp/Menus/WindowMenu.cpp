@@ -7,7 +7,7 @@
 #include <djvApp/Actions/WindowActions.h>
 #include <djvApp/MainWindow.h>
 
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Format.h>
 
 namespace djv
 {
@@ -15,30 +15,30 @@ namespace djv
     {
         struct WindowMenu::Private
         {
-            std::map<std::string, std::shared_ptr<dtk::Menu> > menus;
+            std::map<std::string, std::shared_ptr<feather_tk::Menu> > menus;
         };
 
         void WindowMenu::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<WindowActions>& windowActions,
             const std::shared_ptr<IWidget>& parent)
         {
             Menu::_init(context, parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.menus["Resize"] = addSubMenu("Resize");
             auto mainWindowWeak = std::weak_ptr<MainWindow>(mainWindow);
-            const std::vector<dtk::Size2I> sizes =
+            const std::vector<feather_tk::Size2I> sizes =
             {
-                dtk::Size2I(1280, 720),
-                dtk::Size2I(1920, 1080),
-                dtk::Size2I(3840, 2160)
+                feather_tk::Size2I(1280, 720),
+                feather_tk::Size2I(1920, 1080),
+                feather_tk::Size2I(3840, 2160)
             };
             for (const auto size : sizes)
             {
-                auto action = dtk::Action::create(
-                    dtk::Format("{0}x{1}").arg(size.w).arg(size.h),
+                auto action = feather_tk::Action::create(
+                    feather_tk::Format("{0}x{1}").arg(size.w).arg(size.h),
                     [mainWindowWeak, size]
                     {
                         if (auto mainWindow = mainWindowWeak.lock())
@@ -75,7 +75,7 @@ namespace djv
         {}
 
         std::shared_ptr<WindowMenu> WindowMenu::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<WindowActions>& windowActions,
             const std::shared_ptr<IWidget>& parent)

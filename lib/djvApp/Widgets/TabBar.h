@@ -6,7 +6,7 @@
 
 #include <djvApp/Models/FilesModel.h>
 
-#include <dtk/ui/ToolBar.h>
+#include <feather-tk/ui/ToolBar.h>
 
 namespace djv
 {
@@ -15,13 +15,13 @@ namespace djv
         class App;
 
         //! Tab bar.
-        class TabBar : public dtk::IWidget
+        class TabBar : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(TabBar);
+            FEATHER_TK_NON_COPYABLE(TabBar);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -31,15 +31,15 @@ namespace djv
             ~TabBar();
 
             static std::shared_ptr<TabBar> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

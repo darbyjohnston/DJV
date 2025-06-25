@@ -6,11 +6,11 @@
 
 #include <tlTimeline/Player.h>
 
-#include <dtk/ui/App.h>
+#include <feather-tk/ui/App.h>
 
 #include <filesystem>
 
-namespace dtk
+namespace feather_tk
 {
     class Settings;
 }
@@ -46,13 +46,13 @@ namespace djv
 #endif // TLRENDER_BMD
 
         //! Application.
-        class App : public dtk::App
+        class App : public feather_tk::App
         {
-            DTK_NON_COPYABLE(App);
+            FEATHER_TK_NON_COPYABLE(App);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 std::vector<std::string>&);
 
             App();
@@ -62,7 +62,7 @@ namespace djv
 
             //! Create a new application.
             static std::shared_ptr<App> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 std::vector<std::string>&);
 
             //! Open a file.
@@ -77,7 +77,7 @@ namespace djv
             void openSeparateAudioDialog();
 
             //! Get the settings.
-            const std::shared_ptr<dtk::Settings>& getSettings() const;
+            const std::shared_ptr<feather_tk::Settings>& getSettings() const;
 
             //! Get the settings model.
             const std::shared_ptr<SettingsModel>& getSettingsModel() const;
@@ -95,7 +95,7 @@ namespace djv
             void reload();
 
             //! Observe the timeline player.
-            std::shared_ptr<dtk::IObservableValue<std::shared_ptr<tl::timeline::Player> > > observePlayer() const;
+            std::shared_ptr<feather_tk::IObservableValue<std::shared_ptr<tl::timeline::Player> > > observePlayer() const;
 
             //! Get the color model.
             const std::shared_ptr<ColorModel>& getColorModel() const;
@@ -113,7 +113,7 @@ namespace djv
             const std::shared_ptr<MainWindow>& getMainWindow() const;
 
             //! Observe whether the secondary window is active.
-            std::shared_ptr<dtk::IObservableValue<bool> > observeSecondaryWindow() const;
+            std::shared_ptr<feather_tk::IObservableValue<bool> > observeSecondaryWindow() const;
 
             //! Set whether the secondary window is active.
             void setSecondaryWindow(bool);
@@ -145,17 +145,17 @@ namespace djv
             std::filesystem::path _getSettingsPath(
                 const std::string& appName,
                 const std::filesystem::path& appDocsPath);
-            std::vector<std::shared_ptr<dtk::ICmdLineArg> > _getCmdLineArgs();
-            std::vector<std::shared_ptr<dtk::ICmdLineOption> > _getCmdLineOptions();
+            std::vector<std::shared_ptr<feather_tk::ICmdLineArg> > _getCmdLineArgs();
+            std::vector<std::shared_ptr<feather_tk::ICmdLineOption> > _getCmdLineOptions();
             tl::io::Options _getIOOptions() const;
 
             void _filesUpdate(const std::vector<std::shared_ptr<FilesModelItem> >&);
             void _activeUpdate(const std::vector<std::shared_ptr<FilesModelItem> >&);
             void _layersUpdate(const std::vector<int>&);
-            void _viewUpdate(const dtk::V2I& pos, double zoom, bool frame);
+            void _viewUpdate(const feather_tk::V2I& pos, double zoom, bool frame);
             void _audioUpdate();
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

@@ -7,8 +7,8 @@
 #include <djvApp/Models/AudioModel.h>
 #include <djvApp/App.h>
 
-#include <dtk/ui/IntEditSlider.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/IntEditSlider.h>
+#include <feather-tk/ui/RowLayout.h>
 
 namespace djv
 {
@@ -16,13 +16,13 @@ namespace djv
     {
         struct AudioPopup::Private
         {
-            std::shared_ptr<dtk::IntEditSlider> volumeSlider;
+            std::shared_ptr<feather_tk::IntEditSlider> volumeSlider;
 
-            std::shared_ptr<dtk::ValueObserver<float> > volumeObserver;
+            std::shared_ptr<feather_tk::ValueObserver<float> > volumeObserver;
         };
 
         void AudioPopup::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -30,17 +30,17 @@ namespace djv
                 context,
                 "djv::app::AudioPopup",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
-            p.volumeSlider = dtk::IntEditSlider::create(context);
-            p.volumeSlider->setRange(dtk::RangeI(0, 100));
+            p.volumeSlider = feather_tk::IntEditSlider::create(context);
+            p.volumeSlider->setRange(feather_tk::RangeI(0, 100));
             p.volumeSlider->setStep(1);
             p.volumeSlider->setLargeStep(10);
             p.volumeSlider->setTooltip("Audio volume");
 
-            auto layout = dtk::VerticalLayout::create(context);
-            layout->setMarginRole(dtk::SizeRole::MarginSmall);
-            layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            auto layout = feather_tk::VerticalLayout::create(context);
+            layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.volumeSlider->setParent(layout);
             setWidget(layout);
 
@@ -54,7 +54,7 @@ namespace djv
                     }
                 });
 
-            p.volumeObserver = dtk::ValueObserver<float>::create(
+            p.volumeObserver = feather_tk::ValueObserver<float>::create(
                 app->getAudioModel()->observeVolume(),
                 [this](float value)
                 {
@@ -70,7 +70,7 @@ namespace djv
         {}
 
         std::shared_ptr<AudioPopup> AudioPopup::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

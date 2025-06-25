@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/IWidgetPopup.h>
+#include <feather-tk/ui/IWidgetPopup.h>
 
 namespace djv
 {
@@ -13,13 +13,13 @@ namespace djv
         class App;
 
         //! Audio popup.
-        class AudioPopup : public dtk::IWidgetPopup
+        class AudioPopup : public feather_tk::IWidgetPopup
         {
-            DTK_NON_COPYABLE(AudioPopup);
+            FEATHER_TK_NON_COPYABLE(AudioPopup);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,12 +29,12 @@ namespace djv
             virtual ~AudioPopup();
 
             static std::shared_ptr<AudioPopup> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

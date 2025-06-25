@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/IWidget.h>
+#include <feather-tk/ui/IWidget.h>
 
 namespace djv
 {
@@ -14,13 +14,13 @@ namespace djv
         class MainWindow;
 
         //! Tools widget.
-        class ToolsWidget : public dtk::IWidget
+        class ToolsWidget : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(ToolsWidget);
+            FEATHER_TK_NON_COPYABLE(ToolsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent);
@@ -32,16 +32,16 @@ namespace djv
 
             //! Create a new widget.
             static std::shared_ptr<ToolsWidget> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

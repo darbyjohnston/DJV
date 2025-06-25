@@ -11,14 +11,14 @@
 #include <tlDevice/BMDOutputDevice.h>
 #endif // TLRENDER_BMD
 
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/Icon.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/core/Context.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/String.h>
-#include <dtk/core/Timer.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/Icon.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/String.h>
+#include <feather-tk/core/Timer.h>
 
 namespace djv
 {
@@ -28,24 +28,24 @@ namespace djv
         {
             std::weak_ptr<App> app;
 
-            std::shared_ptr<dtk::Label> logLabel;
-            std::shared_ptr<dtk::Label> infoLabel;
+            std::shared_ptr<feather_tk::Label> logLabel;
+            std::shared_ptr<feather_tk::Label> infoLabel;
 #if defined(TLRENDER_BMD)
-            std::shared_ptr<dtk::Icon> deviceActiveIcon;
+            std::shared_ptr<feather_tk::Icon> deviceActiveIcon;
 #endif // TLRENDER_BMD
-            std::shared_ptr<dtk::HorizontalLayout> layout;
+            std::shared_ptr<feather_tk::HorizontalLayout> layout;
 
-            std::shared_ptr<dtk::Timer> logTimer;
+            std::shared_ptr<feather_tk::Timer> logTimer;
 
-            std::shared_ptr<dtk::ListObserver<dtk::LogItem> > logObserver;
-            std::shared_ptr<dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<feather_tk::ListObserver<feather_tk::LogItem> > logObserver;
+            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
 #if defined(TLRENDER_BMD)
-            std::shared_ptr<dtk::ValueObserver<bool> > bmdActiveObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > bmdActiveObserver;
 #endif // TLRENDER_BMD
         };
 
         void StatusBar::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -53,48 +53,48 @@ namespace djv
                 context,
                 "djv::app::StatusBar",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
-            setHStretch(dtk::Stretch::Expanding);
+            setHStretch(feather_tk::Stretch::Expanding);
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
 
             p.app = app;
 
-            p.logLabel = dtk::Label::create(context);
-            p.logLabel->setMarginRole(dtk::SizeRole::MarginSmall, dtk::SizeRole::MarginInside);
-            p.logLabel->setHStretch(dtk::Stretch::Expanding);
+            p.logLabel = feather_tk::Label::create(context);
+            p.logLabel->setMarginRole(feather_tk::SizeRole::MarginSmall, feather_tk::SizeRole::MarginInside);
+            p.logLabel->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.infoLabel = dtk::Label::create(context);
-            p.infoLabel->setMarginRole(dtk::SizeRole::MarginSmall, dtk::SizeRole::MarginInside);
+            p.infoLabel = feather_tk::Label::create(context);
+            p.infoLabel->setMarginRole(feather_tk::SizeRole::MarginSmall, feather_tk::SizeRole::MarginInside);
 
 #if defined(TLRENDER_BMD)
-            p.deviceActiveIcon = dtk::Icon::create(context, "Devices");
+            p.deviceActiveIcon = feather_tk::Icon::create(context, "Devices");
             p.deviceActiveIcon->setTooltip("Output device active");
 #endif // TLRENDER_BMD
 
-            p.layout = dtk::HorizontalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::None);
+            p.layout = feather_tk::HorizontalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::None);
             p.logLabel->setParent(p.layout);
-            dtk::Divider::create(context, dtk::Orientation::Horizontal, p.layout);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, p.layout);
             p.infoLabel->setParent(p.layout);
 #if defined(TLRENDER_BMD)
-            dtk::Divider::create(context, dtk::Orientation::Horizontal, p.layout);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, p.layout);
             p.deviceActiveIcon->setParent(p.layout);
 #endif // TLRENDER_BMD
 
             _deviceUpdate(false);
 
-            p.logTimer = dtk::Timer::create(context);
+            p.logTimer = feather_tk::Timer::create(context);
 
-            p.logObserver = dtk::ListObserver<dtk::LogItem>::create(
+            p.logObserver = feather_tk::ListObserver<feather_tk::LogItem>::create(
                 context->getLogSystem()->observeLogItems(),
-                [this](const std::vector<dtk::LogItem>& value)
+                [this](const std::vector<feather_tk::LogItem>& value)
                 {
                     _logUpdate(value);
                 });
 
-            p.playerObserver = dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& player)
                 {
@@ -104,7 +104,7 @@ namespace djv
                 });
 
 #if defined(TLRENDER_BMD)
-            p.bmdActiveObserver = dtk::ValueObserver<bool>::create(
+            p.bmdActiveObserver = feather_tk::ValueObserver<bool>::create(
                 app->getBMDOutputDevice()->observeActive(),
                 [this](bool value)
                 {
@@ -121,7 +121,7 @@ namespace djv
         {}
 
         std::shared_ptr<StatusBar> StatusBar::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -130,40 +130,40 @@ namespace djv
             return out;
         }
 
-        void StatusBar::setGeometry(const dtk::Box2I & value)
+        void StatusBar::setGeometry(const feather_tk::Box2I & value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void StatusBar::sizeHintEvent(const dtk::SizeHintEvent & event)
+        void StatusBar::sizeHintEvent(const feather_tk::SizeHintEvent & event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void StatusBar::mousePressEvent(dtk::MouseClickEvent& event)
+        void StatusBar::mousePressEvent(feather_tk::MouseClickEvent& event)
         {
             IWidget::mousePressEvent(event);
             event.accept = true;
         }
 
-        void StatusBar::mouseReleaseEvent(dtk::MouseClickEvent& event)
+        void StatusBar::mouseReleaseEvent(feather_tk::MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            DTK_P();
+            FEATHER_TK_P();
             event.accept = true;
             Tool tool = Tool::None;
-            if (dtk::contains(p.logLabel->getGeometry(), event.pos))
+            if (feather_tk::contains(p.logLabel->getGeometry(), event.pos))
             {
                 tool = Tool::Messages;
             }
-            else if (dtk::contains(p.infoLabel->getGeometry(), event.pos))
+            else if (feather_tk::contains(p.infoLabel->getGeometry(), event.pos))
             {
                 tool = Tool::Info;
             }
 #if defined(TLRENDER_BMD)
-            else if (dtk::contains(p.deviceActiveIcon->getGeometry(), event.pos))
+            else if (feather_tk::contains(p.deviceActiveIcon->getGeometry(), event.pos))
             {
                 tool = Tool::Devices;
             }
@@ -179,16 +179,16 @@ namespace djv
             }
         }
 
-        void StatusBar::_logUpdate(const std::vector<dtk::LogItem>& value)
+        void StatusBar::_logUpdate(const std::vector<feather_tk::LogItem>& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             for (const auto& i : value)
             {
                 switch (i.type)
                 {
-                case dtk::LogType::Error:
+                case feather_tk::LogType::Error:
                 {
-                    const std::string s = dtk::toString(i);
+                    const std::string s = feather_tk::toString(i);
                     p.logLabel->setText(s);
                     p.logLabel->setTooltip(s);
                     p.logTimer->start(
@@ -207,13 +207,13 @@ namespace djv
 
         void StatusBar::_infoUpdate(const tl::file::Path& path, const tl::io::Info& info)
         {
-            DTK_P();
+            FEATHER_TK_P();
             std::vector<std::string> s;
-            s.push_back(dtk::elide(path.get(-1, tl::file::PathType::FileName)));
+            s.push_back(feather_tk::elide(path.get(-1, tl::file::PathType::FileName)));
             if (!info.video.empty())
             {
                 s.push_back(std::string(
-                    dtk::Format("video: {0}x{1}:{2} {3}").
+                    feather_tk::Format("video: {0}x{1}:{2} {3}").
                     arg(info.video[0].size.w).
                     arg(info.video[0].size.h).
                     arg(info.video[0].getAspect(), 2).
@@ -222,12 +222,12 @@ namespace djv
             if (info.audio.isValid())
             {
                 s.push_back(std::string(
-                    dtk::Format("audio: {0}ch {1} {2}kHz").
+                    feather_tk::Format("audio: {0}ch {1} {2}kHz").
                     arg(info.audio.channelCount).
                     arg(info.audio.dataType).
                     arg(info.audio.sampleRate / 1000)));
             }
-            const std::string text = dtk::join(s, ", ");
+            const std::string text = feather_tk::join(s, ", ");
             p.infoLabel->setText(text);
 
             std::vector<std::string> t;
@@ -235,7 +235,7 @@ namespace djv
             if (!info.video.empty())
             {
                 t.push_back(std::string(
-                    dtk::Format("Video: {0}x{1}:{2} {3}").
+                    feather_tk::Format("Video: {0}x{1}:{2} {3}").
                     arg(info.video[0].size.w).
                     arg(info.video[0].size.h).
                     arg(info.video[0].getAspect()).
@@ -244,21 +244,21 @@ namespace djv
             if (info.audio.isValid())
             {
                 t.push_back(std::string(
-                    dtk::Format("Audio: {0} {1} {2} {3}kHz").
+                    feather_tk::Format("Audio: {0} {1} {2} {3}kHz").
                     arg(info.audio.channelCount).
                     arg(1 == info.audio.channelCount ? "channel" : "channels").
                     arg(info.audio.dataType).
                     arg(info.audio.sampleRate / 1000)));
             }
-            const std::string tooltip = dtk::join(t, "\n");
+            const std::string tooltip = feather_tk::join(t, "\n");
             p.infoLabel->setTooltip(tooltip);
         }
 
         void StatusBar::_deviceUpdate(bool value)
         {
-            DTK_P();
+            FEATHER_TK_P();
 #if defined(TLRENDER_BMD)
-            p.deviceActiveIcon->setBackgroundRole(value ? dtk::ColorRole::Checked : dtk::ColorRole::None);
+            p.deviceActiveIcon->setBackgroundRole(value ? feather_tk::ColorRole::Checked : feather_tk::ColorRole::None);
 #endif // TLRENDER_BMD  
         }
     }

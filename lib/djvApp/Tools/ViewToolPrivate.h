@@ -14,13 +14,13 @@ namespace djv
 {
     namespace app
     {
-        class ViewOptionsWidget : public dtk::IWidget
+        class ViewOptionsWidget : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(ViewOptionsWidget);
+            FEATHER_TK_NON_COPYABLE(ViewOptionsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -30,24 +30,24 @@ namespace djv
             virtual ~ViewOptionsWidget();
 
             static std::shared_ptr<ViewOptionsWidget> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
 
-        class BackgroundWidget : public dtk::IWidget
+        class BackgroundWidget : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(BackgroundWidget);
+            FEATHER_TK_NON_COPYABLE(BackgroundWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -57,26 +57,26 @@ namespace djv
             virtual ~BackgroundWidget();
 
             static std::shared_ptr<BackgroundWidget> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         private:
             void _optionsUpdate(const tl::timeline::BackgroundOptions&);
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
 
-        class OutlineWidget : public dtk::IWidget
+        class OutlineWidget : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(OutlineWidget);
+            FEATHER_TK_NON_COPYABLE(OutlineWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -86,26 +86,26 @@ namespace djv
             virtual ~OutlineWidget();
 
             static std::shared_ptr<OutlineWidget> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         private:
             void _optionsUpdate(const tl::timeline::BackgroundOptions&);
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
 
-        class GridWidget : public dtk::IWidget
+        class GridWidget : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(GridWidget);
+            FEATHER_TK_NON_COPYABLE(GridWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -115,15 +115,15 @@ namespace djv
             virtual ~GridWidget();
 
             static std::shared_ptr<GridWidget> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

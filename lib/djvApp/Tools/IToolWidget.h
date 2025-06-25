@@ -6,7 +6,7 @@
 
 #include <djvApp/Models/ToolsModel.h>
 
-#include <dtk/ui/Bellows.h>
+#include <feather-tk/ui/Bellows.h>
 
 namespace djv
 {
@@ -15,13 +15,13 @@ namespace djv
         class App;
 
         //! Base class for tool widgets.
-        class IToolWidget : public dtk::IWidget
+        class IToolWidget : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(IToolWidget);
+            FEATHER_TK_NON_COPYABLE(IToolWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 Tool,
                 const std::string& objectName,
@@ -32,19 +32,19 @@ namespace djv
         public:
             virtual ~IToolWidget() = 0;
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         protected:
-            void _loadSettings(const std::map<std::string, std::shared_ptr<dtk::Bellows> >&);
-            void _saveSettings(const std::map<std::string, std::shared_ptr<dtk::Bellows> >&);
+            void _loadSettings(const std::map<std::string, std::shared_ptr<feather_tk::Bellows> >&);
+            void _saveSettings(const std::map<std::string, std::shared_ptr<feather_tk::Bellows> >&);
 
-            void _setWidget(const std::shared_ptr<dtk::IWidget>&);
+            void _setWidget(const std::shared_ptr<feather_tk::IWidget>&);
 
             std::weak_ptr<App> _app;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

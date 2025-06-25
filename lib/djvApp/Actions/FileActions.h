@@ -15,11 +15,11 @@ namespace djv
         //! \todo Add actions for opening the next/previous file in the directory.
         class FileActions : public IActions
         {
-            DTK_NON_COPYABLE(FileActions);
+            FEATHER_TK_NON_COPYABLE(FileActions);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&);
 
             FileActions();
@@ -28,11 +28,11 @@ namespace djv
             ~FileActions();
 
             static std::shared_ptr<FileActions> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

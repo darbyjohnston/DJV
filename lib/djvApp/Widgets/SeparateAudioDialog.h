@@ -6,7 +6,7 @@
 
 #include <tlCore/Path.h>
 
-#include <dtk/ui/IDialog.h>
+#include <feather-tk/ui/IDialog.h>
 
 namespace djv
 {
@@ -15,13 +15,13 @@ namespace djv
         class App;
 
         //! Separate audio widget.
-        class SeparateAudioWidget : public dtk::IWidget
+        class SeparateAudioWidget : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(SeparateAudioWidget);
+            FEATHER_TK_NON_COPYABLE(SeparateAudioWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             SeparateAudioWidget();
@@ -30,7 +30,7 @@ namespace djv
             virtual ~SeparateAudioWidget();
 
             static std::shared_ptr<SeparateAudioWidget> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setCallback(const std::function<void(
@@ -39,21 +39,21 @@ namespace djv
 
             void setCancelCallback(const std::function<void(void)>&);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
 
         //! Separate audio dialog.
-        class SeparateAudioDialog : public dtk::IDialog
+        class SeparateAudioDialog : public feather_tk::IDialog
         {
-            DTK_NON_COPYABLE(SeparateAudioDialog);
+            FEATHER_TK_NON_COPYABLE(SeparateAudioDialog);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             SeparateAudioDialog();
@@ -62,7 +62,7 @@ namespace djv
             virtual ~SeparateAudioDialog();
 
             static std::shared_ptr<SeparateAudioDialog> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set the callback.
@@ -71,7 +71,7 @@ namespace djv
                 const tl::file::Path&)>&);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

@@ -6,7 +6,7 @@
 
 #include <djvApp/Models/SettingsModel.h>
 
-#include <dtk/ui/Action.h>
+#include <feather-tk/ui/Action.h>
 
 namespace djv
 {
@@ -17,11 +17,11 @@ namespace djv
         //! Base class for action groups.
         class IActions : public std::enable_shared_from_this<IActions>
         {
-            DTK_NON_COPYABLE(IActions);
+            FEATHER_TK_NON_COPYABLE(IActions);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::string& name);
 
@@ -30,17 +30,17 @@ namespace djv
         public:
             ~IActions();
 
-            const std::map<std::string, std::shared_ptr<dtk::Action> >& getActions() const;
+            const std::map<std::string, std::shared_ptr<feather_tk::Action> >& getActions() const;
 
         protected:
             void _shortcutsUpdate(const ShortcutsSettings&);
 
             std::string _name;
-            std::map<std::string, std::shared_ptr<dtk::Action> > _actions;
+            std::map<std::string, std::shared_ptr<feather_tk::Action> > _actions;
             std::map<std::string, std::string> _tooltips;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

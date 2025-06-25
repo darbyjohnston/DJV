@@ -8,9 +8,9 @@
 
 #include <tlCore/Path.h>
 
-#include <dtk/ui/IWidget.h>
+#include <feather-tk/ui/IWidget.h>
 
-#include <dtk/core/LogSystem.h>
+#include <feather-tk/core/LogSystem.h>
 
 namespace djv
 {
@@ -19,13 +19,13 @@ namespace djv
         class App;
 
         //! Status bar widget.
-        class StatusBar : public dtk::IWidget
+        class StatusBar : public feather_tk::IWidget
         {
-            DTK_NON_COPYABLE(StatusBar);
+            FEATHER_TK_NON_COPYABLE(StatusBar);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -36,21 +36,21 @@ namespace djv
 
             //! Create a new widget.
             static std::shared_ptr<StatusBar> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const dtk::Box2I&) override;
-            void sizeHintEvent(const dtk::SizeHintEvent&) override;
-            void mousePressEvent(dtk::MouseClickEvent&) override;
-            void mouseReleaseEvent(dtk::MouseClickEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void mousePressEvent(feather_tk::MouseClickEvent&) override;
+            void mouseReleaseEvent(feather_tk::MouseClickEvent&) override;
 
         private:
-            void _logUpdate(const std::vector<dtk::LogItem>&);
+            void _logUpdate(const std::vector<feather_tk::LogItem>&);
             void _infoUpdate(const tl::file::Path&, const tl::io::Info&);
             void _deviceUpdate(bool);
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

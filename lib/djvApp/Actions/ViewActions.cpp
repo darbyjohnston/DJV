@@ -18,21 +18,21 @@ namespace djv
         struct ViewActions::Private
         {
 
-            std::shared_ptr<dtk::ValueObserver<bool> > frameViewObserver;
-            std::shared_ptr<dtk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
-            std::shared_ptr<dtk::ValueObserver<bool> > hudObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > frameViewObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > hudObserver;
         };
 
         void ViewActions::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
             IActions::_init(context, app, "View");
-            DTK_P();
+            FEATHER_TK_P();
 
             auto mainWindowWeak = std::weak_ptr<MainWindow>(mainWindow);
-            _actions["Frame"] = dtk::Action::create(
+            _actions["Frame"] = feather_tk::Action::create(
                 "Frame",
                 "ViewFrame",
                 [mainWindowWeak](bool value)
@@ -43,7 +43,7 @@ namespace djv
                     }
                 });
 
-            _actions["ZoomReset"] = dtk::Action::create(
+            _actions["ZoomReset"] = feather_tk::Action::create(
                 "Zoom Reset",
                 "ViewZoomReset",
                 [mainWindowWeak]
@@ -54,7 +54,7 @@ namespace djv
                     }
                 });
 
-            _actions["ZoomIn"] = dtk::Action::create(
+            _actions["ZoomIn"] = feather_tk::Action::create(
                 "Zoom In",
                 "ViewZoomIn",
                 [mainWindowWeak]
@@ -65,7 +65,7 @@ namespace djv
                     }
                 });
 
-            _actions["ZoomOut"] = dtk::Action::create(
+            _actions["ZoomOut"] = feather_tk::Action::create(
                 "Zoom Out",
                 "ViewZoomOut",
                 [mainWindowWeak]
@@ -77,7 +77,7 @@ namespace djv
                 });
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["Red"] = dtk::Action::create(
+            _actions["Red"] = feather_tk::Action::create(
                 "Red Channel",
                 [appWeak](bool value)
                 {
@@ -85,13 +85,13 @@ namespace djv
                     {
                         auto displayOptions = app->getViewportModel()->getDisplayOptions();
                         displayOptions.channels = value ?
-                            dtk::ChannelDisplay::Red :
-                            dtk::ChannelDisplay::Color;
+                            feather_tk::ChannelDisplay::Red :
+                            feather_tk::ChannelDisplay::Color;
                         app->getViewportModel()->setDisplayOptions(displayOptions);
                     }
                 });
 
-            _actions["Green"] = dtk::Action::create(
+            _actions["Green"] = feather_tk::Action::create(
                 "Green Channel",
                 [appWeak](bool value)
                 {
@@ -99,13 +99,13 @@ namespace djv
                     {
                         auto displayOptions = app->getViewportModel()->getDisplayOptions();
                         displayOptions.channels = value ?
-                            dtk::ChannelDisplay::Green :
-                            dtk::ChannelDisplay::Color;
+                            feather_tk::ChannelDisplay::Green :
+                            feather_tk::ChannelDisplay::Color;
                         app->getViewportModel()->setDisplayOptions(displayOptions);
                     }
                 });
 
-            _actions["Blue"] = dtk::Action::create(
+            _actions["Blue"] = feather_tk::Action::create(
                 "Blue Channel",
                 [appWeak](bool value)
                 {
@@ -113,13 +113,13 @@ namespace djv
                     {
                         auto displayOptions = app->getViewportModel()->getDisplayOptions();
                         displayOptions.channels = value ?
-                            dtk::ChannelDisplay::Blue :
-                            dtk::ChannelDisplay::Color;
+                            feather_tk::ChannelDisplay::Blue :
+                            feather_tk::ChannelDisplay::Color;
                         app->getViewportModel()->setDisplayOptions(displayOptions);
                     }
                 });
 
-            _actions["Alpha"] = dtk::Action::create(
+            _actions["Alpha"] = feather_tk::Action::create(
                 "Alpha Channel",
                 [appWeak](bool value)
                 {
@@ -127,13 +127,13 @@ namespace djv
                     {
                         auto displayOptions = app->getViewportModel()->getDisplayOptions();
                         displayOptions.channels = value ?
-                            dtk::ChannelDisplay::Alpha :
-                            dtk::ChannelDisplay::Color;
+                            feather_tk::ChannelDisplay::Alpha :
+                            feather_tk::ChannelDisplay::Color;
                         app->getViewportModel()->setDisplayOptions(displayOptions);
                     }
                 });
 
-            _actions["MirrorHorizontal"] = dtk::Action::create(
+            _actions["MirrorHorizontal"] = feather_tk::Action::create(
                 "Mirror Horizontal",
                 [appWeak](bool value)
                 {
@@ -145,7 +145,7 @@ namespace djv
                     }
                 });
 
-            _actions["MirrorVertical"] = dtk::Action::create(
+            _actions["MirrorVertical"] = feather_tk::Action::create(
                 "Mirror Vertical",
                 [appWeak](bool value)
                 {
@@ -157,7 +157,7 @@ namespace djv
                     }
                 });
 
-            _actions["HUD"] = dtk::Action::create(
+            _actions["HUD"] = feather_tk::Action::create(
                 "HUD",
                 [appWeak](bool value)
                 {
@@ -178,27 +178,27 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.frameViewObserver = dtk::ValueObserver<bool>::create(
+            p.frameViewObserver = feather_tk::ValueObserver<bool>::create(
                 mainWindow->getViewport()->observeFrameView(),
                 [this](bool value)
                 {
                     _actions["Frame"]->setChecked(value);
                 });
 
-            p.displayOptionsObserver = dtk::ValueObserver<tl::timeline::DisplayOptions>::create(
+            p.displayOptionsObserver = feather_tk::ValueObserver<tl::timeline::DisplayOptions>::create(
                 app->getViewportModel()->observeDisplayOptions(),
                 [this](const tl::timeline::DisplayOptions& value)
                 {
-                    _actions["Red"]->setChecked(dtk::ChannelDisplay::Red == value.channels);
-                    _actions["Green"]->setChecked(dtk::ChannelDisplay::Green == value.channels);
-                    _actions["Blue"]->setChecked(dtk::ChannelDisplay::Blue == value.channels);
-                    _actions["Alpha"]->setChecked(dtk::ChannelDisplay::Alpha == value.channels);
+                    _actions["Red"]->setChecked(feather_tk::ChannelDisplay::Red == value.channels);
+                    _actions["Green"]->setChecked(feather_tk::ChannelDisplay::Green == value.channels);
+                    _actions["Blue"]->setChecked(feather_tk::ChannelDisplay::Blue == value.channels);
+                    _actions["Alpha"]->setChecked(feather_tk::ChannelDisplay::Alpha == value.channels);
 
                     _actions["MirrorHorizontal"]->setChecked(value.mirror.x);
                     _actions["MirrorVertical"]->setChecked(value.mirror.y);
                 });
 
-            p.hudObserver = dtk::ValueObserver<bool>::create(
+            p.hudObserver = feather_tk::ValueObserver<bool>::create(
                 app->getViewportModel()->observeHUD(),
                 [this](bool value)
                 {
@@ -214,7 +214,7 @@ namespace djv
         {}
 
         std::shared_ptr<ViewActions> ViewActions::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {

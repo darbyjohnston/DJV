@@ -4,12 +4,12 @@
 
 #include <djvApp/Widgets/AboutDialog.h>
 
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/OS.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/OS.h>
 
 namespace djv
 {
@@ -17,14 +17,14 @@ namespace djv
     {
         struct AboutDialog::Private
         {
-            std::shared_ptr<dtk::PushButton> licenseButton;
-            std::shared_ptr<dtk::PushButton> creditsButton;
-            std::shared_ptr<dtk::PushButton> closeButton;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::PushButton> licenseButton;
+            std::shared_ptr<feather_tk::PushButton> creditsButton;
+            std::shared_ptr<feather_tk::PushButton> closeButton;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
         };
 
         void AboutDialog::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -32,41 +32,41 @@ namespace djv
                 context,
                 "djv::app::AboutDialog",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
-            auto titleLabel = dtk::Label::create(context, "About", p.layout);
-            titleLabel->setFontRole(dtk::FontRole::Title);
-            titleLabel->setMarginRole(dtk::SizeRole::Margin);
+            auto titleLabel = feather_tk::Label::create(context, "About", p.layout);
+            titleLabel->setFontRole(feather_tk::FontRole::Title);
+            titleLabel->setMarginRole(feather_tk::SizeRole::Margin);
 
-            auto copyrightLabel = dtk::Label::create(
+            auto copyrightLabel = feather_tk::Label::create(
                 context,
-                dtk::Format(
+                feather_tk::Format(
                     "DJV\n"
                     "Version {0}\n"
                     "Copyright (c) 2004-2025 Darby Johnston\n"
                     "All rights reserved."
                 ).arg(DJV_VERSION));
 
-            p.licenseButton = dtk::PushButton::create(context, "License");
-            p.creditsButton = dtk::PushButton::create(context, "Credits");
-            p.closeButton = dtk::PushButton::create(context, "Close");
+            p.licenseButton = feather_tk::PushButton::create(context, "License");
+            p.creditsButton = feather_tk::PushButton::create(context, "Credits");
+            p.closeButton = feather_tk::PushButton::create(context, "Close");
 
-            p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::None);
+            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::None);
             titleLabel->setParent(p.layout);
-            dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
-            auto vLayout = dtk::VerticalLayout::create(context, p.layout);
-            vLayout->setMarginRole(dtk::SizeRole::MarginDialog);
-            vLayout->setSpacingRole(dtk::SizeRole::SpacingLarge);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            auto vLayout = feather_tk::VerticalLayout::create(context, p.layout);
+            vLayout->setMarginRole(feather_tk::SizeRole::MarginDialog);
+            vLayout->setSpacingRole(feather_tk::SizeRole::SpacingLarge);
             copyrightLabel->setParent(vLayout);
-            auto vLayout2 = dtk::VerticalLayout::create(context, vLayout);
-            vLayout2->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            auto vLayout2 = feather_tk::VerticalLayout::create(context, vLayout);
+            vLayout2->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.licenseButton->setParent(vLayout2);
             p.creditsButton->setParent(vLayout2);
-            dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
-            auto hLayout = dtk::HorizontalLayout::create(context, p.layout);
-            hLayout->setMarginRole(dtk::SizeRole::Margin);
-            hLayout->addSpacer(dtk::SizeRole::Spacing, dtk::Stretch::Expanding);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
+            hLayout->setMarginRole(feather_tk::SizeRole::Margin);
+            hLayout->addSpacer(feather_tk::SizeRole::Spacing, feather_tk::Stretch::Expanding);
             p.closeButton->setParent(hLayout);
 
             p.closeButton->setClickedCallback(
@@ -78,13 +78,13 @@ namespace djv
             p.licenseButton->setClickedCallback(
                 [this]
                 {
-                    dtk::openURL("https://darbyjohnston.github.io/DJV/legal.html");
+                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/legal.html");
                 });
 
             p.creditsButton->setClickedCallback(
                 [this]
                 {
-                    dtk::openURL("https://darbyjohnston.github.io/DJV/credits.html");
+                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/credits.html");
                 });
         }
 
@@ -96,7 +96,7 @@ namespace djv
         {}
 
         std::shared_ptr<AboutDialog> AboutDialog::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

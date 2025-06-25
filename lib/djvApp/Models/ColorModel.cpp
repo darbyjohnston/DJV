@@ -10,19 +10,19 @@ namespace djv
     {
         struct ColorModel::Private
         {
-            std::weak_ptr<dtk::Context> context;
-            std::shared_ptr<dtk::ObservableValue<tl::timeline::OCIOOptions> > ocioOptions;
-            std::shared_ptr<dtk::ObservableValue<tl::timeline::LUTOptions> > lutOptions;
+            std::weak_ptr<feather_tk::Context> context;
+            std::shared_ptr<feather_tk::ObservableValue<tl::timeline::OCIOOptions> > ocioOptions;
+            std::shared_ptr<feather_tk::ObservableValue<tl::timeline::LUTOptions> > lutOptions;
         };
 
-        void ColorModel::_init(const std::shared_ptr<dtk::Context>& context)
+        void ColorModel::_init(const std::shared_ptr<feather_tk::Context>& context)
         {
-            DTK_P();
+            FEATHER_TK_P();
 
             p.context = context;
 
-            p.ocioOptions = dtk::ObservableValue<tl::timeline::OCIOOptions>::create();
-            p.lutOptions = dtk::ObservableValue<tl::timeline::LUTOptions>::create();
+            p.ocioOptions = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create();
+            p.lutOptions = feather_tk::ObservableValue<tl::timeline::LUTOptions>::create();
         }
 
         ColorModel::ColorModel() :
@@ -32,7 +32,7 @@ namespace djv
         ColorModel::~ColorModel()
         {}
 
-        std::shared_ptr<ColorModel> ColorModel::create(const std::shared_ptr<dtk::Context>& context)
+        std::shared_ptr<ColorModel> ColorModel::create(const std::shared_ptr<feather_tk::Context>& context)
         {
             auto out = std::shared_ptr<ColorModel>(new ColorModel);
             out->_init(context);
@@ -44,7 +44,7 @@ namespace djv
             return _p->ocioOptions->get();
         }
 
-        std::shared_ptr<dtk::IObservableValue<tl::timeline::OCIOOptions> > ColorModel::observeOCIOOptions() const
+        std::shared_ptr<feather_tk::IObservableValue<tl::timeline::OCIOOptions> > ColorModel::observeOCIOOptions() const
         {
             return _p->ocioOptions;
         }
@@ -59,7 +59,7 @@ namespace djv
             return _p->lutOptions->get();
         }
 
-        std::shared_ptr<dtk::IObservableValue<tl::timeline::LUTOptions> > ColorModel::observeLUTOptions() const
+        std::shared_ptr<feather_tk::IObservableValue<tl::timeline::LUTOptions> > ColorModel::observeLUTOptions() const
         {
             return _p->lutOptions;
         }

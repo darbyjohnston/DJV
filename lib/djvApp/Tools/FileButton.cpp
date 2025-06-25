@@ -6,8 +6,8 @@
 
 #include <tlTimelineUI/ThumbnailSystem.h>
 
-#include <dtk/ui/DrawUtil.h>
-#include <dtk/core/Context.h>
+#include <feather-tk/ui/DrawUtil.h>
+#include <feather-tk/core/Context.h>
 
 #include <optional>
 
@@ -25,9 +25,9 @@ namespace djv
                 int margin = 0;
                 int spacing = 0;
                 int border = 0;
-                dtk::FontInfo fontInfo;
-                dtk::FontMetrics fontMetrics;
-                dtk::Size2I textSize;
+                feather_tk::FontInfo fontInfo;
+                feather_tk::FontMetrics fontMetrics;
+                feather_tk::Size2I textSize;
             };
             SizeData size;
 
@@ -37,30 +37,30 @@ namespace djv
                 float scale = 1.F;
                 int height = 40;
                 tl::timelineui::ThumbnailRequest request;
-                std::shared_ptr<dtk::Image> image;
+                std::shared_ptr<feather_tk::Image> image;
             };
             ThumbnailData thumbnail;
 
             struct DrawData
             {
-                std::vector<std::shared_ptr<dtk::Glyph> > glyphs;
+                std::vector<std::shared_ptr<feather_tk::Glyph> > glyphs;
             };
             std::optional<DrawData> draw;
         };
 
         void FileButton::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<FilesModelItem>& item,
             const std::shared_ptr<IWidget>& parent)
         {
             IButton::_init(context, "djv::app::FileButton", parent);
-            DTK_P();
-            const std::string s = dtk::elide(item->path.get(-1, tl::file::PathType::FileName));
+            FEATHER_TK_P();
+            const std::string s = feather_tk::elide(item->path.get(-1, tl::file::PathType::FileName));
             setText(s);
             setCheckable(true);
-            setHStretch(dtk::Stretch::Expanding);
+            setHStretch(feather_tk::Stretch::Expanding);
             setAcceptsKeyFocus(true);
-            _buttonRole = dtk::ColorRole::None;
+            _buttonRole = feather_tk::ColorRole::None;
             p.item = item;
         }
 
@@ -72,7 +72,7 @@ namespace djv
         {}
 
         std::shared_ptr<FileButton> FileButton::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<FilesModelItem>& item,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -84,10 +84,10 @@ namespace djv
         void FileButton::tickEvent(
             bool parentsVisible,
             bool parentsEnabled,
-            const dtk::TickEvent& event)
+            const feather_tk::TickEvent& event)
         {
             IWidget::tickEvent(parentsVisible, parentsEnabled, event);
-            DTK_P();
+            FEATHER_TK_P();
             if (p.thumbnail.request.future.valid() &&
                 p.thumbnail.request.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
@@ -97,18 +97,18 @@ namespace djv
             }
         }
 
-        void FileButton::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void FileButton::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             IButton::sizeHintEvent(event);
-            DTK_P();
+            FEATHER_TK_P();
 
             if (!p.size.displayScale.has_value() ||
                 (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
             {
                 p.size.displayScale = event.displayScale;
-                p.size.margin = event.style->getSizeRole(dtk::SizeRole::MarginInside, event.displayScale);
-                p.size.spacing = event.style->getSizeRole(dtk::SizeRole::SpacingSmall, event.displayScale);
-                p.size.border = event.style->getSizeRole(dtk::SizeRole::Border, event.displayScale);
+                p.size.margin = event.style->getSizeRole(feather_tk::SizeRole::MarginInside, event.displayScale);
+                p.size.spacing = event.style->getSizeRole(feather_tk::SizeRole::SpacingSmall, event.displayScale);
+                p.size.border = event.style->getSizeRole(feather_tk::SizeRole::Border, event.displayScale);
                 p.size.fontInfo = event.style->getFontRole(_fontRole, event.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -133,13 +133,13 @@ namespace djv
                 }
             }
 
-            dtk::Size2I thumbnailSize;
+            feather_tk::Size2I thumbnailSize;
             if (p.thumbnail.image)
             {
-                const dtk::Size2I& size = p.thumbnail.image->getSize();
-                thumbnailSize = dtk::Size2I(size.w * p.thumbnail.image->getInfo().pixelAspectRatio, size.h);
+                const feather_tk::Size2I& size = p.thumbnail.image->getSize();
+                thumbnailSize = feather_tk::Size2I(size.w * p.thumbnail.image->getInfo().pixelAspectRatio, size.h);
             }
-            dtk::Size2I sizeHint;
+            feather_tk::Size2I sizeHint;
             sizeHint.w =
                 thumbnailSize.w +
                 p.size.spacing +
@@ -153,10 +153,10 @@ namespace djv
             _setSizeHint(sizeHint);
         }
 
-        void FileButton::clipEvent(const dtk::Box2I& clipRect, bool clipped)
+        void FileButton::clipEvent(const feather_tk::Box2I& clipRect, bool clipped)
         {
             IButton::clipEvent(clipRect, clipped);
-            DTK_P();
+            FEATHER_TK_P();
             if (clipped)
             {
                 p.draw.reset();
@@ -164,56 +164,56 @@ namespace djv
         }
 
         void FileButton::drawEvent(
-            const dtk::Box2I& drawRect,
-            const dtk::DrawEvent& event)
+            const feather_tk::Box2I& drawRect,
+            const feather_tk::DrawEvent& event)
         {
             IButton::drawEvent(drawRect, event);
-            DTK_P();
+            FEATHER_TK_P();
 
             if (!p.draw.has_value())
             {
                 p.draw = Private::DrawData();
             }
 
-            const dtk::Box2I& g = getGeometry();
+            const feather_tk::Box2I& g = getGeometry();
             const bool enabled = isEnabled();
 
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    dtk::border(g, p.size.border * 2),
-                    event.style->getColorRole(dtk::ColorRole::KeyFocus));
+                    feather_tk::border(g, p.size.border * 2),
+                    event.style->getColorRole(feather_tk::ColorRole::KeyFocus));
             }
 
-            const dtk::Box2I g2 = dtk::margin(g, -p.size.border * 2);
+            const feather_tk::Box2I g2 = feather_tk::margin(g, -p.size.border * 2);
             if (isChecked())
             {
                 event.render->drawRect(
                     g2,
-                    event.style->getColorRole(dtk::ColorRole::Checked));
+                    event.style->getColorRole(feather_tk::ColorRole::Checked));
             }
-            if (_isMousePressed() && dtk::contains(g, _getMousePos()))
+            if (_isMousePressed() && feather_tk::contains(g, _getMousePos()))
             {
                 event.render->drawRect(
                     g2,
-                    event.style->getColorRole(dtk::ColorRole::Pressed));
+                    event.style->getColorRole(feather_tk::ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
                     g2,
-                    event.style->getColorRole(dtk::ColorRole::Hover));
+                    event.style->getColorRole(feather_tk::ColorRole::Hover));
             }
 
-            const dtk::Box2I g3 = dtk::margin(g2, -p.size.margin);
+            const feather_tk::Box2I g3 = feather_tk::margin(g2, -p.size.margin);
             int x = g3.min.x;
             if (p.thumbnail.image)
             {
-                const dtk::Size2I& size = p.thumbnail.image->getSize();
-                const dtk::Size2I thumbnailSize(size.w * p.thumbnail.image->getInfo().pixelAspectRatio, size.h);
+                const feather_tk::Size2I& size = p.thumbnail.image->getSize();
+                const feather_tk::Size2I thumbnailSize(size.w * p.thumbnail.image->getInfo().pixelAspectRatio, size.h);
                 event.render->drawImage(
                     p.thumbnail.image,
-                    dtk::Box2I(x, g3.y(), thumbnailSize.w, thumbnailSize.h));
+                    feather_tk::Box2I(x, g3.y(), thumbnailSize.w, thumbnailSize.h));
                 x += thumbnailSize.w + p.size.spacing;
             }
 
@@ -223,29 +223,29 @@ namespace djv
                 {
                     p.draw->glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
                 }
-                const dtk::V2I pos(
+                const feather_tk::V2I pos(
                     x + p.size.margin,
                     g3.y() + g3.h() / 2 - p.size.textSize.h / 2);
                 event.render->drawText(
                     p.draw->glyphs,
                     p.size.fontMetrics,
                     pos,
-                    event.style->getColorRole(dtk::ColorRole::Text));
+                    event.style->getColorRole(feather_tk::ColorRole::Text));
             }
         }
 
-        void FileButton::keyPressEvent(dtk::KeyEvent& event)
+        void FileButton::keyPressEvent(feather_tk::KeyEvent& event)
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (0 == event.modifiers)
             {
                 switch (event.key)
                 {
-                case dtk::Key::Enter:
+                case feather_tk::Key::Enter:
                     event.accept = true;
                     click();
                     break;
-                case dtk::Key::Escape:
+                case feather_tk::Key::Escape:
                     if (hasKeyFocus())
                     {
                         event.accept = true;
@@ -257,7 +257,7 @@ namespace djv
             }
         }
 
-        void FileButton::keyReleaseEvent(dtk::KeyEvent& event)
+        void FileButton::keyReleaseEvent(feather_tk::KeyEvent& event)
         {
             event.accept = true;
         }

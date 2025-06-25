@@ -4,16 +4,16 @@
 
 #include <djvApp/Tools/SystemLogTool.h>
 
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/IClipboard.h>
-#include <dtk/ui/IWindow.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/ToolButton.h>
-#include <dtk/core/Context.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/String.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/IClipboard.h>
+#include <feather-tk/ui/IWindow.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
+#include <feather-tk/ui/ToolButton.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/String.h>
 
 namespace djv
 {
@@ -27,16 +27,16 @@ namespace djv
         struct SystemLogTool::Private
         {
             std::list<std::string> messages;
-            std::shared_ptr<dtk::Label> label;
-            std::shared_ptr<dtk::ScrollWidget> scrollWidget;
-            std::shared_ptr<dtk::ToolButton> copyButton;
-            std::shared_ptr<dtk::ToolButton> clearButton;
-            std::shared_ptr<dtk::VerticalLayout> layout;
-            std::shared_ptr<dtk::ListObserver<dtk::LogItem> > logObserver;
+            std::shared_ptr<feather_tk::Label> label;
+            std::shared_ptr<feather_tk::ScrollWidget> scrollWidget;
+            std::shared_ptr<feather_tk::ToolButton> copyButton;
+            std::shared_ptr<feather_tk::ToolButton> clearButton;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::ListObserver<feather_tk::LogItem> > logObserver;
         };
 
         void SystemLogTool::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -46,29 +46,29 @@ namespace djv
                 Tool::SystemLog,
                 "djv::app::SystemLogTool",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
-            p.label = dtk::Label::create(context);
-            p.label->setFontRole(dtk::FontRole::Mono);
-            p.label->setMarginRole(dtk::SizeRole::MarginSmall);
-            p.label->setVAlign(dtk::VAlign::Top);
+            p.label = feather_tk::Label::create(context);
+            p.label->setFontRole(feather_tk::FontRole::Mono);
+            p.label->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.label->setVAlign(feather_tk::VAlign::Top);
 
-            p.scrollWidget = dtk::ScrollWidget::create(context);
+            p.scrollWidget = feather_tk::ScrollWidget::create(context);
             p.scrollWidget->setWidget(p.label);
             p.scrollWidget->setBorder(false);
-            p.scrollWidget->setVStretch(dtk::Stretch::Expanding);
+            p.scrollWidget->setVStretch(feather_tk::Stretch::Expanding);
 
-            p.copyButton = dtk::ToolButton::create(context, "Copy");
+            p.copyButton = feather_tk::ToolButton::create(context, "Copy");
 
-            p.clearButton = dtk::ToolButton::create(context, "Clear");
+            p.clearButton = feather_tk::ToolButton::create(context, "Clear");
 
-            p.layout = dtk::VerticalLayout::create(context);
-            p.layout->setSpacingRole(dtk::SizeRole::None);
+            p.layout = feather_tk::VerticalLayout::create(context);
+            p.layout->setSpacingRole(feather_tk::SizeRole::None);
             p.scrollWidget->setParent(p.layout);
-            dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
-            auto hLayout = dtk::HorizontalLayout::create(context, p.layout);
-            hLayout->setMarginRole(dtk::SizeRole::MarginInside);
-            hLayout->setSpacingRole(dtk::SizeRole::SpacingTool);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
+            hLayout->setMarginRole(feather_tk::SizeRole::MarginInside);
+            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
             p.copyButton->setParent(hLayout);
             p.clearButton->setParent(hLayout);
             _setWidget(p.layout);
@@ -80,7 +80,7 @@ namespace djv
                     {
                         if (auto clipboard = window->getClipboard())
                         {
-                            const std::string text = dtk::join(
+                            const std::string text = feather_tk::join(
                                 { std::begin(_p->messages), std::end(_p->messages) },
                                 '\n');
                             clipboard->setText(text);
@@ -95,19 +95,19 @@ namespace djv
                     _p->label->setText(std::string());
                 });
 
-            p.logObserver = dtk::ListObserver<dtk::LogItem>::create(
+            p.logObserver = feather_tk::ListObserver<feather_tk::LogItem>::create(
                 context->getLogSystem()->observeLogItems(),
-                [this](const std::vector<dtk::LogItem>& value)
+                [this](const std::vector<feather_tk::LogItem>& value)
                 {
                     for (const auto& i : value)
                     {
-                        _p->messages.push_back(dtk::toString(i));
+                        _p->messages.push_back(feather_tk::toString(i));
                     }
                     while (_p->messages.size() > messagesMax)
                     {
                         _p->messages.pop_front();
                     }
-                    _p->label->setText(dtk::join(
+                    _p->label->setText(feather_tk::join(
                         { std::begin(_p->messages), std::end(_p->messages) },
                         '\n'));
                 });
@@ -121,7 +121,7 @@ namespace djv
         {}
 
         std::shared_ptr<SystemLogTool> SystemLogTool::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

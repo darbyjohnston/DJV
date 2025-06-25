@@ -16,26 +16,27 @@ namespace djv
         struct TimelineActions::Private
         {
             std::weak_ptr<MainWindow> mainWindow;
-            std::map<int, std::shared_ptr<dtk::Action> > thumbnailsSizeItems;
+            std::map<int, std::shared_ptr<feather_tk::Action> > thumbnailsSizeItems;
 
-            std::shared_ptr<dtk::ValueObserver<bool> > frameViewObserver;
-            std::shared_ptr<dtk::ValueObserver<bool> > scrollToCurrentFrameObserver;
-            std::shared_ptr<dtk::ValueObserver<bool> > stopOnScrubObserver;
-            std::shared_ptr<dtk::ValueObserver<tl::timelineui::DisplayOptions> > displayOptionsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > frameViewObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > scrollBarsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > autoScrollObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > stopOnScrubObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timelineui::DisplayOptions> > displayOptionsObserver;
         };
 
         void TimelineActions::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
             IActions::_init(context, app, "Timeline");
-            DTK_P();
+            FEATHER_TK_P();
 
             p.mainWindow = mainWindow;
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["FrameView"] = dtk::Action::create(
+            _actions["FrameView"] = feather_tk::Action::create(
                 "Frame Timeline View",
                 [appWeak](bool value)
                 {
@@ -47,19 +48,31 @@ namespace djv
                     }
                 });
 
-            _actions["Scroll"] = dtk::Action::create(
-                "Scroll To Current Frame",
+            _actions["ScrollBars"] = feather_tk::Action::create(
+                "Scroll Bars",
                 [appWeak](bool value)
                 {
                     if (auto app = appWeak.lock())
                     {
                         auto settings = app->getSettingsModel()->getTimeline();
-                        settings.scroll = value;
+                        settings.scrollBars = value;
                         app->getSettingsModel()->setTimeline(settings);
                     }
                 });
 
-            _actions["StopOnScrub"] = dtk::Action::create(
+            _actions["AutoScroll"] = feather_tk::Action::create(
+                "Auto Scroll",
+                [appWeak](bool value)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        auto settings = app->getSettingsModel()->getTimeline();
+                        settings.autoScroll = value;
+                        app->getSettingsModel()->setTimeline(settings);
+                    }
+                });
+
+            _actions["StopOnScrub"] = feather_tk::Action::create(
                 "Stop Playback When Scrubbing",
                 [appWeak](bool value)
                 {
@@ -71,7 +84,7 @@ namespace djv
                     }
                 });
 
-            _actions["Thumbnails"] = dtk::Action::create(
+            _actions["Thumbnails"] = feather_tk::Action::create(
                 "Thumbnails",
                 [appWeak](bool value)
                 {
@@ -83,7 +96,7 @@ namespace djv
                     }
                 });
 
-            _actions["ThumbnailsSmall"] = dtk::Action::create(
+            _actions["ThumbnailsSmall"] = feather_tk::Action::create(
                 "Small",
                 [appWeak]
                 {
@@ -96,7 +109,7 @@ namespace djv
                     }
                 });
 
-            _actions["ThumbnailsMedium"] = dtk::Action::create(
+            _actions["ThumbnailsMedium"] = feather_tk::Action::create(
                 "Medium",
                 [appWeak]
                 {
@@ -109,7 +122,7 @@ namespace djv
                     }
                 });
 
-            _actions["ThumbnailsLarge"] = dtk::Action::create(
+            _actions["ThumbnailsLarge"] = feather_tk::Action::create(
                 "Large",
                 [appWeak]
                 {
@@ -125,7 +138,8 @@ namespace djv
             _tooltips =
             {
                 { "FrameView", "Frame the timeline view." },
-                { "Scroll", "Scroll the timeline view to the current frame." },
+                { "ScrollBars", "Toggle the scroll bars." },
+                { "AutoScroll", "Automatically scroll the timeline to the current frame." },
                 { "StopOnScrub", "Stop playback when scrubbing the timeline." },
                 { "Thumbnails", "Toggle timeline thumbnails." },
                 { "ThumbnailsSmall", "Small timeline thumbnails." },
@@ -139,28 +153,35 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.frameViewObserver = dtk::ValueObserver<bool>::create(
+            p.frameViewObserver = feather_tk::ValueObserver<bool>::create(
                 mainWindow->getTimelineWidget()->observeFrameView(),
                 [this](bool value)
                 {
                     _actions["FrameView"]->setChecked(value);
                 });
 
-            p.scrollToCurrentFrameObserver = dtk::ValueObserver<bool>::create(
-                mainWindow->getTimelineWidget()->observeScrollToCurrentFrame(),
+            p.autoScrollObserver = feather_tk::ValueObserver<bool>::create(
+                mainWindow->getTimelineWidget()->observeAutoScroll(),
                 [this](bool value)
                 {
-                    _actions["Scroll"]->setChecked(value);
+                    _actions["AutoScroll"]->setChecked(value);
                 });
 
-            p.stopOnScrubObserver = dtk::ValueObserver<bool>::create(
+            p.scrollBarsObserver = feather_tk::ValueObserver<bool>::create(
+                mainWindow->getTimelineWidget()->observeScrollBarsVisible(),
+                [this](bool value)
+                {
+                    _actions["ScrollBars"]->setChecked(value);
+                });
+
+            p.stopOnScrubObserver = feather_tk::ValueObserver<bool>::create(
                 mainWindow->getTimelineWidget()->observeStopOnScrub(),
                 [this](bool value)
                 {
                     _actions["StopOnScrub"]->setChecked(value);
                 });
 
-            p.displayOptionsObserver = dtk::ValueObserver<tl::timelineui::DisplayOptions>::create(
+            p.displayOptionsObserver = feather_tk::ValueObserver<tl::timelineui::DisplayOptions>::create(
                 mainWindow->getTimelineWidget()->observeDisplayOptions(),
                 [this](const tl::timelineui::DisplayOptions& value)
                 {
@@ -177,7 +198,7 @@ namespace djv
         {}
 
         std::shared_ptr<TimelineActions> TimelineActions::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
@@ -188,7 +209,7 @@ namespace djv
 
         void TimelineActions::_thumbnailsSizeUpdate()
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (auto mainWindow = p.mainWindow.lock())
             {
                 const auto options = mainWindow->getTimelineWidget()->getDisplayOptions();

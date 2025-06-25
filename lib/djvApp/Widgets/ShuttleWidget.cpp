@@ -4,7 +4,7 @@
 
 #include <djvApp/Widgets/ShuttleWidget.h>
 
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Format.h>
 
 #include <optional>
 
@@ -15,7 +15,7 @@ namespace djv
         struct ShuttleWidget::Private
         {
             std::string iconPrefix;
-            std::vector<std::shared_ptr<dtk::Image> > iconImages;
+            std::vector<std::shared_ptr<feather_tk::Image> > iconImages;
             int iconIndex = 0;
             float iconScale = 1.F;
             std::function<void(bool)> activeCallback;
@@ -23,7 +23,7 @@ namespace djv
         };
 
         void ShuttleWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::string& iconPrefix,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -31,7 +31,7 @@ namespace djv
                 context,
                 "djv::app::ShuttleWidget",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
@@ -47,7 +47,7 @@ namespace djv
         {}
 
         std::shared_ptr<ShuttleWidget> ShuttleWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::string& iconPrefix,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -66,10 +66,10 @@ namespace djv
             _p->callback = value;
         }
 
-        void ShuttleWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void ShuttleWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            DTK_P();
+            FEATHER_TK_P();
 
             if (event.displayScale != p.iconScale)
             {
@@ -81,14 +81,14 @@ namespace djv
                 for (int i = 0; i < 8; ++i)
                 {
                     p.iconImages.push_back(event.iconSystem->get(
-                        dtk::Format("{0}{1}").
+                        feather_tk::Format("{0}{1}").
                         arg(p.iconPrefix).
                         arg(i),
                         event.displayScale));
                 }
             }
 
-            dtk::Size2I sizeHint;
+            feather_tk::Size2I sizeHint;
             if (!p.iconImages.empty())
             {
                 sizeHint = p.iconImages.front()->getSize();
@@ -96,15 +96,15 @@ namespace djv
             _setSizeHint(sizeHint);
         }
 
-        void ShuttleWidget::drawEvent(const dtk::Box2I& drawRect, const dtk::DrawEvent& event)
+        void ShuttleWidget::drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent& event)
         {
             IWidget::drawEvent(drawRect, event);
-            DTK_P();
-            const dtk::Box2I& g = getGeometry();
+            FEATHER_TK_P();
+            const feather_tk::Box2I& g = getGeometry();
             if (p.iconIndex >= 0 && p.iconIndex < p.iconImages.size())
             {
-                const dtk::Size2I& iconSize = p.iconImages.front()->getSize();
-                const dtk::Box2I g2(
+                const feather_tk::Size2I& iconSize = p.iconImages.front()->getSize();
+                const feather_tk::Box2I g2(
                     g.min.x + g.w() / 2 - iconSize.w / 2,
                     g.min.y + g.h() / 2 - iconSize.h / 2,
                     iconSize.w,
@@ -113,24 +113,24 @@ namespace djv
                     p.iconImages[p.iconIndex],
                     g2,
                     event.style->getColorRole(isEnabled() ?
-                        dtk::ColorRole::Text :
-                        dtk::ColorRole::TextDisabled));
+                        feather_tk::ColorRole::Text :
+                        feather_tk::ColorRole::TextDisabled));
             }
             if (_isMousePressed())
             {
                 event.render->drawRect(
                     g,
-                    event.style->getColorRole(dtk::ColorRole::Pressed));
+                    event.style->getColorRole(feather_tk::ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
                     g,
-                    event.style->getColorRole(dtk::ColorRole::Hover));
+                    event.style->getColorRole(feather_tk::ColorRole::Hover));
             }
         }
 
-        void ShuttleWidget::mouseEnterEvent(dtk::MouseEnterEvent& event)
+        void ShuttleWidget::mouseEnterEvent(feather_tk::MouseEnterEvent& event)
         {
             IWidget::mouseEnterEvent(event);
             _setDrawUpdate();
@@ -142,11 +142,11 @@ namespace djv
             _setDrawUpdate();
         }
 
-        void ShuttleWidget::mouseMoveEvent(dtk::MouseMoveEvent& event)
+        void ShuttleWidget::mouseMoveEvent(feather_tk::MouseMoveEvent& event)
         {
             IWidget::mouseMoveEvent(event);
-            DTK_P();
-            const dtk::Box2I& g = getGeometry();
+            FEATHER_TK_P();
+            const feather_tk::Box2I& g = getGeometry();
             if (_isMousePressed() && g.isValid())
             {
                 const int d = event.pos.x - _getMousePressPos().x;
@@ -163,10 +163,10 @@ namespace djv
             }
         }
 
-        void ShuttleWidget::mousePressEvent(dtk::MouseClickEvent& event)
+        void ShuttleWidget::mousePressEvent(feather_tk::MouseClickEvent& event)
         {
             IWidget::mousePressEvent(event);
-            DTK_P();
+            FEATHER_TK_P();
             _setDrawUpdate();
             if (p.activeCallback)
             {
@@ -174,10 +174,10 @@ namespace djv
             }
         }
 
-        void ShuttleWidget::mouseReleaseEvent(dtk::MouseClickEvent& event)
+        void ShuttleWidget::mouseReleaseEvent(feather_tk::MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            DTK_P();
+            FEATHER_TK_P();
             p.iconIndex = 0;
             _setDrawUpdate();
             if (p.activeCallback)

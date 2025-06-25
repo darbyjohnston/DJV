@@ -13,11 +13,11 @@ namespace djv
         //! Audio actions.
         class AudioActions : public IActions
         {
-            DTK_NON_COPYABLE(AudioActions);
+            FEATHER_TK_NON_COPYABLE(AudioActions);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&);
 
             AudioActions();
@@ -26,11 +26,11 @@ namespace djv
             ~AudioActions();
 
             static std::shared_ptr<AudioActions> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

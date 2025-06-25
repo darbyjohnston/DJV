@@ -11,7 +11,7 @@ namespace djv
         Shortcut::Shortcut(
             const std::string& name,
             const std::string& text,
-            dtk::Key key,
+            feather_tk::Key key,
             int modifiers) :
             name(name),
             text(text),

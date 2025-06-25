@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/Event.h>
+#include <feather-tk/ui/Event.h>
 
 namespace djv
 {
@@ -17,13 +17,13 @@ namespace djv
             Shortcut(
                 const std::string& name,
                 const std::string& text,
-                dtk::Key = dtk::Key::Unknown,
+                feather_tk::Key = feather_tk::Key::Unknown,
                 int modifiers = 0);
 
-            std::string name;
-            std::string text;
-            dtk::Key    key       = dtk::Key::Unknown;
-            int         modifiers = 0;
+            std::string     name;
+            std::string     text;
+            feather_tk::Key key       = feather_tk::Key::Unknown;
+            int             modifiers = 0;
 
             bool operator == (const Shortcut&) const;
             bool operator != (const Shortcut&) const;

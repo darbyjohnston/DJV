@@ -11,7 +11,7 @@ namespace djv
     namespace app
     {
         void FrameMenu::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<FrameActions>& frameActions,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -36,7 +36,7 @@ namespace djv
         {}
 
         std::shared_ptr<FrameMenu> FrameMenu::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<FrameActions>& frameActions,
             const std::shared_ptr<IWidget>& parent)
         {

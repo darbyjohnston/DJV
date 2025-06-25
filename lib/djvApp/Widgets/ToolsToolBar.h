@@ -4,21 +4,21 @@
 
 #pragma once
 
-#include <dtk/ui/ToolBar.h>
+#include <feather-tk/ui/ToolBar.h>
 
 namespace djv
 {
     namespace app
     {
         //! Tools tool bar.
-        class ToolsToolBar : public dtk::ToolBar
+        class ToolsToolBar : public feather_tk::ToolBar
         {
-            DTK_NON_COPYABLE(ToolsToolBar);
+            FEATHER_TK_NON_COPYABLE(ToolsToolBar);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
-                const std::map<std::string, std::shared_ptr<dtk::Action> >&,
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
                 const std::shared_ptr<IWidget>& parent);
 
             ToolsToolBar() = default;
@@ -27,8 +27,8 @@ namespace djv
             ~ToolsToolBar();
 
             static std::shared_ptr<ToolsToolBar> create(
-                const std::shared_ptr<dtk::Context>&,
-                const std::map<std::string, std::shared_ptr<dtk::Action> >&,
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };
     }

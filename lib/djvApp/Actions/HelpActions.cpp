@@ -7,7 +7,7 @@
 #include <djvApp/App.h>
 #include <djvApp/MainWindow.h>
 
-#include <dtk/core/OS.h>
+#include <feather-tk/core/OS.h>
 
 namespace djv
 {
@@ -18,22 +18,22 @@ namespace djv
         };
 
         void HelpActions::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
             IActions::_init(context, app, "Help");
-            DTK_P();
+            FEATHER_TK_P();
 
-            _actions["Documentation"] = dtk::Action::create(
+            _actions["Documentation"] = feather_tk::Action::create(
                 "Documentation",
                 []
                 {
-                    dtk::openURL("https://darbyjohnston.github.io/DJV/docs.html");
+                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/docs.html");
                 });
 
             std::weak_ptr<MainWindow> mainWindowWeak(mainWindow);
-            _actions["About"] = dtk::Action::create(
+            _actions["About"] = feather_tk::Action::create(
                 "About",
                 [mainWindowWeak]
                 {
@@ -52,7 +52,7 @@ namespace djv
         {}
 
         std::shared_ptr<HelpActions> HelpActions::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {

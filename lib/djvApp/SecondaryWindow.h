@@ -8,7 +8,7 @@
 
 #include <tlTimeline/Player.h>
 
-#include <dtk/ui/Window.h>
+#include <feather-tk/ui/Window.h>
 
 namespace tl
 {
@@ -27,13 +27,13 @@ namespace djv
         //! Secondary window.
         class SecondaryWindow : public tl::timelineui::Window
         {
-            DTK_NON_COPYABLE(SecondaryWindow);
+            FEATHER_TK_NON_COPYABLE(SecondaryWindow);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
-                const std::shared_ptr<dtk::Window>& shared);
+                const std::shared_ptr<feather_tk::Window>& shared);
 
             SecondaryWindow();
 
@@ -41,21 +41,21 @@ namespace djv
             virtual ~SecondaryWindow();
 
             static std::shared_ptr<SecondaryWindow> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
-                const std::shared_ptr<dtk::Window>& shared = nullptr);
+                const std::shared_ptr<feather_tk::Window>& shared = nullptr);
 
             //! Get the viewport.
             const std::shared_ptr<tl::timelineui::Viewport>& getViewport() const;
 
             //! Set the view.
             void setView(
-                const dtk::V2I& pos,
+                const feather_tk::V2I& pos,
                 double          zoom,
                 bool            frame);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

@@ -15,11 +15,11 @@ namespace djv
         //! Window actions.
         class WindowActions : public IActions
         {
-            DTK_NON_COPYABLE(WindowActions);
+            FEATHER_TK_NON_COPYABLE(WindowActions);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
@@ -29,12 +29,12 @@ namespace djv
             ~WindowActions();
 
             static std::shared_ptr<WindowActions> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

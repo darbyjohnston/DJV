@@ -6,21 +6,21 @@
 
 #include <djvApp/Models/FilesModel.h>
 
-#include <dtk/ui/ToolBar.h>
+#include <feather-tk/ui/ToolBar.h>
 
 namespace djv
 {
     namespace app
     {
         //! File tool bar.
-        class FileToolBar : public dtk::ToolBar
+        class FileToolBar : public feather_tk::ToolBar
         {
-            DTK_NON_COPYABLE(FileToolBar);
+            FEATHER_TK_NON_COPYABLE(FileToolBar);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
-                const std::map<std::string, std::shared_ptr<dtk::Action> >&,
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
                 const std::shared_ptr<IWidget>& parent);
 
             FileToolBar() = default;
@@ -29,8 +29,8 @@ namespace djv
             ~FileToolBar();
 
             static std::shared_ptr<FileToolBar> create(
-                const std::shared_ptr<dtk::Context>&,
-                const std::map<std::string, std::shared_ptr<dtk::Action> >&,
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };
     }

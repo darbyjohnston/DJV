@@ -11,11 +11,11 @@ namespace djv
     namespace app
     {
         void ViewToolBar::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<ViewActions>& viewActions,
             const std::shared_ptr<IWidget>& parent)
         {
-            ToolBar::_init(context, dtk::Orientation::Horizontal, parent);
+            ToolBar::_init(context, feather_tk::Orientation::Horizontal, parent);
 
             auto actions = viewActions->getActions();
             addAction(actions["Frame"]);
@@ -26,7 +26,7 @@ namespace djv
         {}
 
         std::shared_ptr<ViewToolBar> ViewToolBar::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<ViewActions>& viewActions,
             const std::shared_ptr<IWidget>& parent)
         {

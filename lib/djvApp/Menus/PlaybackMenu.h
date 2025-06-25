@@ -6,7 +6,7 @@
 
 #include <tlTimeline/Player.h>
 
-#include <dtk/ui/Menu.h>
+#include <feather-tk/ui/Menu.h>
 
 namespace djv
 {
@@ -15,13 +15,13 @@ namespace djv
         class PlaybackActions;
 
         //! Playback menu.
-        class PlaybackMenu : public dtk::Menu
+        class PlaybackMenu : public feather_tk::Menu
         {
-            DTK_NON_COPYABLE(PlaybackMenu);
+            FEATHER_TK_NON_COPYABLE(PlaybackMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<PlaybackActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -31,7 +31,7 @@ namespace djv
             ~PlaybackMenu();
 
             static std::shared_ptr<PlaybackMenu> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<PlaybackActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

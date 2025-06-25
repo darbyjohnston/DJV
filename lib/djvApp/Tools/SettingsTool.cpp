@@ -11,22 +11,22 @@
 #include <tlIO/USD.h>
 #endif // TLRENDER_USD
 
-#include <dtk/ui/Bellows.h>
-#include <dtk/ui/CheckBox.h>
-#include <dtk/ui/ComboBox.h>
-#include <dtk/ui/DialogSystem.h>
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/DoubleEdit.h>
-#include <dtk/ui/FloatEdit.h>
-#include <dtk/ui/FloatEditSlider.h>
-#include <dtk/ui/FormLayout.h>
-#include <dtk/ui/IntEdit.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/LineEdit.h>
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/ui/Bellows.h>
+#include <feather-tk/ui/CheckBox.h>
+#include <feather-tk/ui/ComboBox.h>
+#include <feather-tk/ui/DialogSystem.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/DoubleEdit.h>
+#include <feather-tk/ui/FloatEdit.h>
+#include <feather-tk/ui/FloatEditSlider.h>
+#include <feather-tk/ui/FormLayout.h>
+#include <feather-tk/ui/IntEdit.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/LineEdit.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
+#include <feather-tk/core/Format.h>
 
 namespace djv
 {
@@ -35,62 +35,62 @@ namespace djv
         ISettingsWidget::~ISettingsWidget()
         {}
 
-        void ISettingsWidget::setMarginRole(dtk::SizeRole)
+        void ISettingsWidget::setMarginRole(feather_tk::SizeRole)
         {}
 
         struct AdvancedSettingsWidget::Private
         {
             std::shared_ptr<SettingsModel> model;
 
-            std::shared_ptr<dtk::CheckBox> compatCheckBox;
-            std::shared_ptr<dtk::IntEdit> audioBufferFramesEdit;
-            std::shared_ptr<dtk::IntEdit> videoRequestsEdit;
-            std::shared_ptr<dtk::IntEdit> audioRequestsEdit;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::CheckBox> compatCheckBox;
+            std::shared_ptr<feather_tk::IntEdit> audioBufferFramesEdit;
+            std::shared_ptr<feather_tk::IntEdit> videoRequestsEdit;
+            std::shared_ptr<feather_tk::IntEdit> audioRequestsEdit;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<AdvancedSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<AdvancedSettings> > settingsObserver;
         };
 
         void AdvancedSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::AdvancedSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.compatCheckBox = dtk::CheckBox::create(context);
-            p.compatCheckBox->setHStretch(dtk::Stretch::Expanding);
+            p.compatCheckBox = feather_tk::CheckBox::create(context);
+            p.compatCheckBox->setHStretch(feather_tk::Stretch::Expanding);
             p.compatCheckBox->setTooltip("Enable workarounds for timelines that may not conform exactly to specification.");
 
-            p.audioBufferFramesEdit = dtk::IntEdit::create(context);
-            p.audioBufferFramesEdit->setRange(dtk::RangeI(1, 1000000));
+            p.audioBufferFramesEdit = feather_tk::IntEdit::create(context);
+            p.audioBufferFramesEdit->setRange(feather_tk::RangeI(1, 1000000));
             p.audioBufferFramesEdit->setStep(256);
             p.audioBufferFramesEdit->setLargeStep(1024);
 
-            p.videoRequestsEdit = dtk::IntEdit::create(context);
-            p.videoRequestsEdit->setRange(dtk::RangeI(1, 64));
+            p.videoRequestsEdit = feather_tk::IntEdit::create(context);
+            p.videoRequestsEdit->setRange(feather_tk::RangeI(1, 64));
 
-            p.audioRequestsEdit = dtk::IntEdit::create(context);
-            p.audioRequestsEdit->setRange(dtk::RangeI(1, 64));
+            p.audioRequestsEdit = feather_tk::IntEdit::create(context);
+            p.audioRequestsEdit->setRange(feather_tk::RangeI(1, 64));
 
-            p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
-            auto label = dtk::Label::create(context, "Changes are applied to new files.", p.layout);
-            auto formLayout = dtk::FormLayout::create(context, p.layout);
-            formLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto label = feather_tk::Label::create(context, "Changes are applied to new files.", p.layout);
+            auto formLayout = feather_tk::FormLayout::create(context, p.layout);
+            formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             formLayout->addRow("Compatibility:", p.compatCheckBox);
             formLayout->addRow("Audio buffer frames:", p.audioBufferFramesEdit);
             formLayout->addRow("Video requests:", p.videoRequestsEdit);
             formLayout->addRow("Audio requests:", p.audioRequestsEdit);
 
-            p.settingsObserver = dtk::ValueObserver<AdvancedSettings>::create(
+            p.settingsObserver = feather_tk::ValueObserver<AdvancedSettings>::create(
                 p.model->observeAdvanced(),
                 [this](const AdvancedSettings& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.compatCheckBox->setChecked(value.compat);
                     p.audioBufferFramesEdit->setValue(value.audioBufferFrameCount);
                     p.videoRequestsEdit->setValue(value.videoRequestMax);
@@ -100,7 +100,7 @@ namespace djv
             p.compatCheckBox->setCheckedCallback(
                 [this](bool value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getAdvanced();
                     settings.compat = value;
                     p.model->setAdvanced(settings);
@@ -109,7 +109,7 @@ namespace djv
             p.audioBufferFramesEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getAdvanced();
                     settings.audioBufferFrameCount = value;
                     p.model->setAdvanced(settings);
@@ -118,7 +118,7 @@ namespace djv
             p.videoRequestsEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getAdvanced();
                     settings.videoRequestMax = value;
                     p.model->setAdvanced(settings);
@@ -127,7 +127,7 @@ namespace djv
             p.audioRequestsEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getAdvanced();
                     settings.audioRequestMax = value;
                     p.model->setAdvanced(settings);
@@ -142,7 +142,7 @@ namespace djv
         {}
 
         std::shared_ptr<AdvancedSettingsWidget> AdvancedSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -151,18 +151,18 @@ namespace djv
             return out;
         }
 
-        void AdvancedSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void AdvancedSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void AdvancedSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void AdvancedSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void AdvancedSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void AdvancedSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -172,50 +172,50 @@ namespace djv
         {
             std::shared_ptr<SettingsModel> model;
 
-            std::shared_ptr<dtk::FloatEdit> videoEdit;
-            std::shared_ptr<dtk::FloatEdit> audioEdit;
-            std::shared_ptr<dtk::FloatEdit> readBehindEdit;
-            std::shared_ptr<dtk::FormLayout> layout;
+            std::shared_ptr<feather_tk::FloatEdit> videoEdit;
+            std::shared_ptr<feather_tk::FloatEdit> audioEdit;
+            std::shared_ptr<feather_tk::FloatEdit> readBehindEdit;
+            std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<tl::timeline::PlayerCacheOptions> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::PlayerCacheOptions> > settingsObserver;
         };
 
         void CacheSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::CacheSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.videoEdit = dtk::FloatEdit::create(context);
-            p.videoEdit->setRange(dtk::RangeF(0.F, 1024.F));
+            p.videoEdit = feather_tk::FloatEdit::create(context);
+            p.videoEdit->setRange(feather_tk::RangeF(0.F, 1024.F));
             p.videoEdit->setStep(1.0);
             p.videoEdit->setLargeStep(10.0);
 
-            p.audioEdit = dtk::FloatEdit::create(context);
-            p.audioEdit->setRange(dtk::RangeF(0.F, 1024.F));
+            p.audioEdit = feather_tk::FloatEdit::create(context);
+            p.audioEdit->setRange(feather_tk::RangeF(0.F, 1024.F));
             p.audioEdit->setStep(1.0);
             p.audioEdit->setLargeStep(10.0);
 
-            p.readBehindEdit = dtk::FloatEdit::create(context);
-            p.readBehindEdit->setRange(dtk::RangeF(0.F, 10.F));
+            p.readBehindEdit = feather_tk::FloatEdit::create(context);
+            p.readBehindEdit->setRange(feather_tk::RangeF(0.F, 10.F));
             p.readBehindEdit->setStep(0.1);
             p.readBehindEdit->setLargeStep(1.0);
 
-            p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Video cache (GB):", p.videoEdit);
             p.layout->addRow("Audio cache (GB):", p.audioEdit);
             p.layout->addRow("Read behind (seconds):", p.readBehindEdit);
 
-            p.settingsObserver = dtk::ValueObserver<tl::timeline::PlayerCacheOptions>::create(
+            p.settingsObserver = feather_tk::ValueObserver<tl::timeline::PlayerCacheOptions>::create(
                 p.model->observeCache(),
                 [this](const tl::timeline::PlayerCacheOptions& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.videoEdit->setValue(value.videoGB);
                     p.audioEdit->setValue(value.audioGB);
                     p.readBehindEdit->setValue(value.readBehind);
@@ -224,7 +224,7 @@ namespace djv
             p.videoEdit->setCallback(
                 [this](float value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::timeline::PlayerCacheOptions settings = p.model->getCache();
                     settings.videoGB = value;
                     p.model->setCache(settings);
@@ -233,7 +233,7 @@ namespace djv
             p.audioEdit->setCallback(
                 [this](float value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::timeline::PlayerCacheOptions settings = p.model->getCache();
                     settings.audioGB = value;
                     p.model->setCache(settings);
@@ -242,7 +242,7 @@ namespace djv
             p.readBehindEdit->setCallback(
                 [this](float value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::timeline::PlayerCacheOptions settings = p.model->getCache();
                     settings.readBehind = value;
                     p.model->setCache(settings);
@@ -257,7 +257,7 @@ namespace djv
         {}
 
         std::shared_ptr<CacheSettingsWidget> CacheSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -266,18 +266,18 @@ namespace djv
             return out;
         }
 
-        void CacheSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void CacheSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void CacheSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void CacheSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void CacheSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void CacheSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -287,41 +287,41 @@ namespace djv
         {
             std::shared_ptr<SettingsModel> model;
 
-            std::shared_ptr<dtk::CheckBox> nfdCheckBox;
-            std::shared_ptr<dtk::FormLayout> layout;
+            std::shared_ptr<feather_tk::CheckBox> nfdCheckBox;
+            std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<FileBrowserSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<FileBrowserSettings> > settingsObserver;
         };
 
         void FileBrowserSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::FileBrowserSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.nfdCheckBox = dtk::CheckBox::create(context);
-            p.nfdCheckBox->setHStretch(dtk::Stretch::Expanding);
+            p.nfdCheckBox = feather_tk::CheckBox::create(context);
+            p.nfdCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Native file dialog:", p.nfdCheckBox);
 
-            p.settingsObserver = dtk::ValueObserver<FileBrowserSettings>::create(
+            p.settingsObserver = feather_tk::ValueObserver<FileBrowserSettings>::create(
                 p.model->observeFileBrowser(),
                 [this](const FileBrowserSettings& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.nfdCheckBox->setChecked(value.nativeFileDialog);
                 });
 
             p.nfdCheckBox->setCheckedCallback(
                 [this](bool value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getFileBrowser();
                     settings.nativeFileDialog = value;
                     p.model->setFileBrowser(settings);
@@ -336,7 +336,7 @@ namespace djv
         {}
 
         std::shared_ptr<FileBrowserSettingsWidget> FileBrowserSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -345,18 +345,18 @@ namespace djv
             return out;
         }
 
-        void FileBrowserSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void FileBrowserSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void FileBrowserSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void FileBrowserSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void FileBrowserSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void FileBrowserSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -366,50 +366,50 @@ namespace djv
         {
             std::shared_ptr<SettingsModel> model;
 
-            std::shared_ptr<dtk::ComboBox> audioComboBox;
-            std::shared_ptr<dtk::LineEdit> audioExtensionsEdit;
-            std::shared_ptr<dtk::LineEdit> audioFileNameEdit;
-            std::shared_ptr<dtk::IntEdit> maxDigitsEdit;
-            std::shared_ptr<dtk::DoubleEdit> defaultSpeedEdit;
-            std::shared_ptr<dtk::IntEdit> threadsEdit;
-            std::shared_ptr<dtk::FormLayout> layout;
+            std::shared_ptr<feather_tk::ComboBox> audioComboBox;
+            std::shared_ptr<feather_tk::LineEdit> audioExtensionsEdit;
+            std::shared_ptr<feather_tk::LineEdit> audioFileNameEdit;
+            std::shared_ptr<feather_tk::IntEdit> maxDigitsEdit;
+            std::shared_ptr<feather_tk::DoubleEdit> defaultSpeedEdit;
+            std::shared_ptr<feather_tk::IntEdit> threadsEdit;
+            std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<FileSequenceSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<FileSequenceSettings> > settingsObserver;
         };
 
         void FileSequenceSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::FileSequenceSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.audioComboBox = dtk::ComboBox::create(context, tl::timeline::getFileSequenceAudioLabels());
-            p.audioComboBox->setHStretch(dtk::Stretch::Expanding);
+            p.audioComboBox = feather_tk::ComboBox::create(context, tl::timeline::getFileSequenceAudioLabels());
+            p.audioComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.audioExtensionsEdit = dtk::LineEdit::create(context);
-            p.audioExtensionsEdit->setHStretch(dtk::Stretch::Expanding);
+            p.audioExtensionsEdit = feather_tk::LineEdit::create(context);
+            p.audioExtensionsEdit->setHStretch(feather_tk::Stretch::Expanding);
             p.audioExtensionsEdit->setTooltip(
                 "List of audio file extensions to search for.\n"
                 "\n"
                 "Example: .wav .mp3");
 
-            p.audioFileNameEdit = dtk::LineEdit::create(context);
-            p.audioFileNameEdit->setHStretch(dtk::Stretch::Expanding);
+            p.audioFileNameEdit = feather_tk::LineEdit::create(context);
+            p.audioFileNameEdit->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.maxDigitsEdit = dtk::IntEdit::create(context);
+            p.maxDigitsEdit = feather_tk::IntEdit::create(context);
 
-            p.defaultSpeedEdit = dtk::DoubleEdit::create(context);
-            p.defaultSpeedEdit->setRange(dtk::RangeD(1.0, 120.0));
+            p.defaultSpeedEdit = feather_tk::DoubleEdit::create(context);
+            p.defaultSpeedEdit->setRange(feather_tk::RangeD(1.0, 120.0));
 
-            p.threadsEdit = dtk::IntEdit::create(context);
-            p.threadsEdit->setRange(dtk::RangeI(1, 64));
+            p.threadsEdit = feather_tk::IntEdit::create(context);
+            p.threadsEdit->setRange(feather_tk::RangeI(1, 64));
 
-            p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Audio:", p.audioComboBox);
             p.layout->addRow("Audio extensions:", p.audioExtensionsEdit);
             p.layout->addRow("Audio file name:", p.audioFileNameEdit);
@@ -417,13 +417,13 @@ namespace djv
             p.layout->addRow("Default speed (FPS):", p.defaultSpeedEdit);
             p.layout->addRow("I/O threads:", p.threadsEdit);
 
-            p.settingsObserver = dtk::ValueObserver<FileSequenceSettings>::create(
+            p.settingsObserver = feather_tk::ValueObserver<FileSequenceSettings>::create(
                 p.model->observeFileSequence(),
                 [this](const FileSequenceSettings& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.audioComboBox->setCurrentIndex(static_cast<int>(value.audio));
-                    p.audioExtensionsEdit->setText(dtk::join(value.audioExtensions, ' '));
+                    p.audioExtensionsEdit->setText(feather_tk::join(value.audioExtensions, ' '));
                     p.audioFileNameEdit->setText(value.audioFileName);
                     p.maxDigitsEdit->setValue(value.maxDigits);
                     p.defaultSpeedEdit->setValue(value.io.defaultSpeed);
@@ -433,7 +433,7 @@ namespace djv
             p.audioComboBox->setIndexCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     FileSequenceSettings settings = p.model->getFileSequence();
                     settings.audio = static_cast<tl::timeline::FileSequenceAudio>(value);
                     p.model->setFileSequence(settings);
@@ -442,16 +442,16 @@ namespace djv
             p.audioExtensionsEdit->setTextCallback(
                 [this](const std::string& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     FileSequenceSettings settings = p.model->getFileSequence();
-                    settings.audioExtensions = dtk::split(value, ' ');
+                    settings.audioExtensions = feather_tk::split(value, ' ');
                     p.model->setFileSequence(settings);
                 });
 
             p.audioFileNameEdit->setTextCallback(
                 [this](const std::string& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     FileSequenceSettings settings = p.model->getFileSequence();
                     settings.audioFileName = value;
                     p.model->setFileSequence(settings);
@@ -460,7 +460,7 @@ namespace djv
             p.maxDigitsEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     FileSequenceSettings settings = p.model->getFileSequence();
                     settings.maxDigits = value;
                     p.model->setFileSequence(settings);
@@ -469,7 +469,7 @@ namespace djv
             p.defaultSpeedEdit->setCallback(
                 [this](double value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     FileSequenceSettings settings = p.model->getFileSequence();
                     settings.io.defaultSpeed = value;
                     p.model->setFileSequence(settings);
@@ -478,7 +478,7 @@ namespace djv
             p.threadsEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     FileSequenceSettings settings = p.model->getFileSequence();
                     settings.io.threadCount = value;
                     p.model->setFileSequence(settings);
@@ -493,7 +493,7 @@ namespace djv
         {}
 
         std::shared_ptr<FileSequenceSettingsWidget> FileSequenceSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -502,18 +502,18 @@ namespace djv
             return out;
         }
 
-        void FileSequenceSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void FileSequenceSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void FileSequenceSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void FileSequenceSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void FileSequenceSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void FileSequenceSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -523,39 +523,39 @@ namespace djv
         {
             std::shared_ptr<SettingsModel> model;
 
-            std::shared_ptr<dtk::CheckBox> tooltipsCheckBox;
-            std::shared_ptr<dtk::CheckBox> showSetupCheckBox;
-            std::shared_ptr<dtk::FormLayout> layout;
+            std::shared_ptr<feather_tk::CheckBox> tooltipsCheckBox;
+            std::shared_ptr<feather_tk::CheckBox> showSetupCheckBox;
+            std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<MiscSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<MiscSettings> > settingsObserver;
         };
 
         void MiscSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::MiscSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.tooltipsCheckBox = dtk::CheckBox::create(context);
-            p.tooltipsCheckBox->setHStretch(dtk::Stretch::Expanding);
+            p.tooltipsCheckBox = feather_tk::CheckBox::create(context);
+            p.tooltipsCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.showSetupCheckBox = dtk::CheckBox::create(context);
-            p.showSetupCheckBox->setHStretch(dtk::Stretch::Expanding);
+            p.showSetupCheckBox = feather_tk::CheckBox::create(context);
+            p.showSetupCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enable tooltips:", p.tooltipsCheckBox);
             p.layout->addRow("Show setup dialog:", p.showSetupCheckBox);
 
-            p.settingsObserver = dtk::ValueObserver<MiscSettings>::create(
+            p.settingsObserver = feather_tk::ValueObserver<MiscSettings>::create(
                 p.model->observeMisc(),
                 [this](const MiscSettings& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.tooltipsCheckBox->setChecked(value.tooltipsEnabled);
                     p.showSetupCheckBox->setChecked(value.showSetup);
                 });
@@ -563,7 +563,7 @@ namespace djv
             p.tooltipsCheckBox->setCheckedCallback(
                 [this](bool value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getMisc();
                     settings.tooltipsEnabled = value;
                     p.model->setMisc(settings);
@@ -572,7 +572,7 @@ namespace djv
             p.showSetupCheckBox->setCheckedCallback(
                 [this](bool value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     auto settings = p.model->getMisc();
                     settings.showSetup = value;
                     p.model->setMisc(settings);
@@ -587,7 +587,7 @@ namespace djv
         {}
 
         std::shared_ptr<MiscSettingsWidget> MiscSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -596,18 +596,18 @@ namespace djv
             return out;
         }
 
-        void MiscSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void MiscSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void MiscSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void MiscSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void MiscSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void MiscSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -617,22 +617,22 @@ namespace djv
         {
             std::shared_ptr<SettingsModel> model;
             std::vector<std::string> actionLabels;
-            std::vector<dtk::KeyModifier> modifiers;
+            std::vector<feather_tk::KeyModifier> modifiers;
             std::vector<std::string> modifierLabels;
 
-            std::map<MouseAction, std::shared_ptr<dtk::ComboBox> > modifierComboBoxes;
-            std::shared_ptr<dtk::FormLayout> layout;
+            std::map<MouseAction, std::shared_ptr<feather_tk::ComboBox> > modifierComboBoxes;
+            std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<MouseSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<MouseSettings> > settingsObserver;
         };
 
         void MouseSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::MouseSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
@@ -641,36 +641,36 @@ namespace djv
             p.actionLabels.push_back("Color picker");
             p.actionLabels.push_back("Frame shuttle");
 
-            p.modifiers.push_back(dtk::KeyModifier::None);
-            p.modifiers.push_back(dtk::KeyModifier::Shift);
-            p.modifiers.push_back(dtk::KeyModifier::Control);
-            p.modifiers.push_back(dtk::KeyModifier::Alt);
-            p.modifiers.push_back(dtk::KeyModifier::Super);
+            p.modifiers.push_back(feather_tk::KeyModifier::None);
+            p.modifiers.push_back(feather_tk::KeyModifier::Shift);
+            p.modifiers.push_back(feather_tk::KeyModifier::Control);
+            p.modifiers.push_back(feather_tk::KeyModifier::Alt);
+            p.modifiers.push_back(feather_tk::KeyModifier::Super);
             p.modifierLabels.push_back("Click");
-            p.modifierLabels.push_back(dtk::to_string(dtk::KeyModifier::Shift) + " + click");
-            p.modifierLabels.push_back(dtk::to_string(dtk::KeyModifier::Control) + " + click");
-            p.modifierLabels.push_back(dtk::to_string(dtk::KeyModifier::Alt) + " + click");
-            p.modifierLabels.push_back(dtk::to_string(dtk::KeyModifier::Super) + " + click");
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Shift) + " + click");
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Control) + " + click");
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Alt) + " + click");
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Super) + " + click");
 
             for (const auto mouseAction : getMouseActionEnums())
             {
-                p.modifierComboBoxes[mouseAction] = dtk::ComboBox::create(context, p.modifierLabels);
-                p.modifierComboBoxes[mouseAction]->setHStretch(dtk::Stretch::Expanding);
+                p.modifierComboBoxes[mouseAction] = feather_tk::ComboBox::create(context, p.modifierLabels);
+                p.modifierComboBoxes[mouseAction]->setHStretch(feather_tk::Stretch::Expanding);
             }
 
-            p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             for (const auto mouseAction : getMouseActionEnums())
             {
                 p.modifierComboBoxes[mouseAction]->setParent(p.layout);
-                p.layout->addRow(dtk::Format("{0}:").arg(p.actionLabels[static_cast<size_t>(mouseAction)]), p.modifierComboBoxes[mouseAction]);
+                p.layout->addRow(feather_tk::Format("{0}:").arg(p.actionLabels[static_cast<size_t>(mouseAction)]), p.modifierComboBoxes[mouseAction]);
             }
 
-            p.settingsObserver = dtk::ValueObserver<MouseSettings>::create(
+            p.settingsObserver = feather_tk::ValueObserver<MouseSettings>::create(
                 p.model->observeMouse(),
                 [this](const MouseSettings& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     for (const auto& i : value.actions)
                     {
                         const auto j = p.modifierComboBoxes.find(i.first);
@@ -691,7 +691,7 @@ namespace djv
                 p.modifierComboBoxes[mouseAction]->setIndexCallback(
                     [this, mouseAction](int index)
                     {
-                        DTK_P();
+                        FEATHER_TK_P();
                         if (index >= 0 && index < p.modifiers.size())
                         {
                             auto settings = p.model->getMouse();
@@ -710,7 +710,7 @@ namespace djv
         {}
 
         std::shared_ptr<MouseSettingsWidget> MouseSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -719,18 +719,18 @@ namespace djv
             return out;
         }
 
-        void MouseSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void MouseSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void MouseSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void MouseSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void MouseSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void MouseSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -740,26 +740,26 @@ namespace djv
         {
             std::shared_ptr<TimeUnitsModel> timeUnitsModel;
 
-            std::shared_ptr<dtk::ComboBox> timeUnitsComboBox;
-            std::shared_ptr<dtk::FormLayout> layout;
+            std::shared_ptr<feather_tk::ComboBox> timeUnitsComboBox;
+            std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<tl::timeline::TimeUnits> > timeUnitsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::TimeUnits> > timeUnitsObserver;
         };
 
         void TimeSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::TimeSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.timeUnitsModel = app->getTimeUnitsModel();
 
-            p.timeUnitsComboBox = dtk::ComboBox::create(context, tl::timeline::getTimeUnitsLabels());
+            p.timeUnitsComboBox = feather_tk::ComboBox::create(context, tl::timeline::getTimeUnitsLabels());
 
-            p.layout = dtk::FormLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Time units:", p.timeUnitsComboBox);
 
             p.timeUnitsComboBox->setIndexCallback(
@@ -768,7 +768,7 @@ namespace djv
                     _p->timeUnitsModel->setTimeUnits(static_cast<tl::timeline::TimeUnits>(value));
                 });
 
-            p.timeUnitsObserver = dtk::ValueObserver<tl::timeline::TimeUnits>::create(
+            p.timeUnitsObserver = feather_tk::ValueObserver<tl::timeline::TimeUnits>::create(
                 p.timeUnitsModel->observeTimeUnits(),
                 [this](tl::timeline::TimeUnits value)
                 {
@@ -785,7 +785,7 @@ namespace djv
         {}
 
         std::shared_ptr<TimeSettingsWidget> TimeSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -794,18 +794,18 @@ namespace djv
             return out;
         }
 
-        void TimeSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void TimeSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void TimeSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void TimeSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void TimeSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void TimeSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -816,42 +816,42 @@ namespace djv
         {
             std::shared_ptr<SettingsModel> model;
 
-            std::shared_ptr<dtk::CheckBox> yuvToRGBCheckBox;
-            std::shared_ptr<dtk::IntEdit> threadsEdit;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::CheckBox> yuvToRGBCheckBox;
+            std::shared_ptr<feather_tk::IntEdit> threadsEdit;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<tl::ffmpeg::Options> > optionsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::ffmpeg::Options> > optionsObserver;
         };
 
         void FFmpegSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::FFmpegSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.yuvToRGBCheckBox = dtk::CheckBox::create(context);
-            p.yuvToRGBCheckBox->setHStretch(dtk::Stretch::Expanding);
+            p.yuvToRGBCheckBox = feather_tk::CheckBox::create(context);
+            p.yuvToRGBCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.threadsEdit = dtk::IntEdit::create(context);
-            p.threadsEdit->setRange(dtk::RangeI(0, 64));
+            p.threadsEdit = feather_tk::IntEdit::create(context);
+            p.threadsEdit->setRange(feather_tk::RangeI(0, 64));
 
-            p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
-            auto label = dtk::Label::create(context, "Changes are applied to new files.", p.layout);
-            auto formLayout = dtk::FormLayout::create(context, p.layout);
-            formLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto label = feather_tk::Label::create(context, "Changes are applied to new files.", p.layout);
+            auto formLayout = feather_tk::FormLayout::create(context, p.layout);
+            formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             formLayout->addRow("YUV to RGB conversion:", p.yuvToRGBCheckBox);
             formLayout->addRow("I/O threads:", p.threadsEdit);
 
-            p.optionsObserver = dtk::ValueObserver<tl::ffmpeg::Options>::create(
+            p.optionsObserver = feather_tk::ValueObserver<tl::ffmpeg::Options>::create(
                 p.model->observeFFmpeg(),
                 [this](const tl::ffmpeg::Options& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.yuvToRGBCheckBox->setChecked(value.yuvToRgb);
                     p.threadsEdit->setValue(value.threadCount);
                 });
@@ -859,7 +859,7 @@ namespace djv
             p.yuvToRGBCheckBox->setCheckedCallback(
                 [this](bool value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::ffmpeg::Options options = p.model->getFFmpeg();
                     options.yuvToRgb = value;
                     p.model->setFFmpeg(options);
@@ -868,7 +868,7 @@ namespace djv
             p.threadsEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::ffmpeg::Options options = p.model->getFFmpeg();
                     options.threadCount = value;
                     p.model->setFFmpeg(options);
@@ -883,7 +883,7 @@ namespace djv
         {}
 
         std::shared_ptr<FFmpegSettingsWidget> FFmpegSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -892,18 +892,18 @@ namespace djv
             return out;
         }
 
-        void FFmpegSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void FFmpegSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void FFmpegSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void FFmpegSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void FFmpegSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void FFmpegSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -916,53 +916,53 @@ namespace djv
         {
             std::shared_ptr<SettingsModel> model;
 
-            std::shared_ptr<dtk::IntEdit> renderWidthEdit;
-            std::shared_ptr<dtk::FloatEditSlider> complexitySlider;
-            std::shared_ptr<dtk::ComboBox> drawModeComboBox;
-            std::shared_ptr<dtk::CheckBox> lightingCheckBox;
-            std::shared_ptr<dtk::CheckBox> sRGBCheckBox;
-            std::shared_ptr<dtk::IntEdit> stageCacheEdit;
-            std::shared_ptr<dtk::IntEdit> diskCacheEdit;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::IntEdit> renderWidthEdit;
+            std::shared_ptr<feather_tk::FloatEditSlider> complexitySlider;
+            std::shared_ptr<feather_tk::ComboBox> drawModeComboBox;
+            std::shared_ptr<feather_tk::CheckBox> lightingCheckBox;
+            std::shared_ptr<feather_tk::CheckBox> sRGBCheckBox;
+            std::shared_ptr<feather_tk::IntEdit> stageCacheEdit;
+            std::shared_ptr<feather_tk::IntEdit> diskCacheEdit;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<tl::usd::Options> > optionsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::usd::Options> > optionsObserver;
         };
 
         void USDSettingsWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::USDSettingsWidget", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.renderWidthEdit = dtk::IntEdit::create(context);
-            p.renderWidthEdit->setRange(dtk::RangeI(1, 8192));
+            p.renderWidthEdit = feather_tk::IntEdit::create(context);
+            p.renderWidthEdit->setRange(feather_tk::RangeI(1, 8192));
 
-            p.complexitySlider = dtk::FloatEditSlider::create(context);
+            p.complexitySlider = feather_tk::FloatEditSlider::create(context);
 
-            p.drawModeComboBox = dtk::ComboBox::create(context, tl::usd::getDrawModeLabels());
-            p.drawModeComboBox->setHStretch(dtk::Stretch::Expanding);
+            p.drawModeComboBox = feather_tk::ComboBox::create(context, tl::usd::getDrawModeLabels());
+            p.drawModeComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.lightingCheckBox = dtk::CheckBox::create(context);
-            p.lightingCheckBox->setHStretch(dtk::Stretch::Expanding);
+            p.lightingCheckBox = feather_tk::CheckBox::create(context);
+            p.lightingCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.sRGBCheckBox = dtk::CheckBox::create(context);
-            p.sRGBCheckBox->setHStretch(dtk::Stretch::Expanding);
+            p.sRGBCheckBox = feather_tk::CheckBox::create(context);
+            p.sRGBCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.stageCacheEdit = dtk::IntEdit::create(context);
-            p.stageCacheEdit->setRange(dtk::RangeI(0, 10));
+            p.stageCacheEdit = feather_tk::IntEdit::create(context);
+            p.stageCacheEdit->setRange(feather_tk::RangeI(0, 10));
 
-            p.diskCacheEdit = dtk::IntEdit::create(context);
-            p.diskCacheEdit->setRange(dtk::RangeI(0, 1024));
+            p.diskCacheEdit = feather_tk::IntEdit::create(context);
+            p.diskCacheEdit->setRange(feather_tk::RangeI(0, 1024));
 
-            p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
-            auto label = dtk::Label::create(context, "Changes are applied to new files.", p.layout);
-            auto formLayout = dtk::FormLayout::create(context, p.layout);
-            formLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
+            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto label = feather_tk::Label::create(context, "Changes are applied to new files.", p.layout);
+            auto formLayout = feather_tk::FormLayout::create(context, p.layout);
+            formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             formLayout->addRow("Render width:", p.renderWidthEdit);
             formLayout->addRow("Render complexity:", p.complexitySlider);
             formLayout->addRow("Draw mode:", p.drawModeComboBox);
@@ -971,11 +971,11 @@ namespace djv
             formLayout->addRow("Stage cache size:", p.stageCacheEdit);
             formLayout->addRow("Disk cache size (GB):", p.diskCacheEdit);
 
-            p.optionsObserver = dtk::ValueObserver<tl::usd::Options>::create(
+            p.optionsObserver = feather_tk::ValueObserver<tl::usd::Options>::create(
                 p.model->observeUSD(),
                 [this](const tl::usd::Options& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.renderWidthEdit->setValue(value.renderWidth);
                     p.complexitySlider->setValue(value.complexity);
                     p.drawModeComboBox->setCurrentIndex(static_cast<int>(value.drawMode));
@@ -988,7 +988,7 @@ namespace djv
             p.renderWidthEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::usd::Options options = p.model->getUSD();
                     options.renderWidth = value;
                     p.model->setUSD(options);
@@ -997,7 +997,7 @@ namespace djv
             p.complexitySlider->setCallback(
                 [this](float value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::usd::Options options = p.model->getUSD();
                     options.complexity = value;
                     p.model->setUSD(options);
@@ -1006,7 +1006,7 @@ namespace djv
             p.drawModeComboBox->setIndexCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::usd::Options options = p.model->getUSD();
                     options.drawMode = static_cast<tl::usd::DrawMode>(value);
                     p.model->setUSD(options);
@@ -1015,7 +1015,7 @@ namespace djv
             p.lightingCheckBox->setCheckedCallback(
                 [this](bool value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::usd::Options options = p.model->getUSD();
                     options.enableLighting = value;
                     p.model->setUSD(options);
@@ -1024,7 +1024,7 @@ namespace djv
             p.sRGBCheckBox->setCheckedCallback(
                 [this](bool value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::usd::Options options = p.model->getUSD();
                     options.sRGB = value;
                     p.model->setUSD(options);
@@ -1033,7 +1033,7 @@ namespace djv
             p.stageCacheEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::usd::Options options = p.model->getUSD();
                     options.stageCache = value;
                     p.model->setUSD(options);
@@ -1042,7 +1042,7 @@ namespace djv
             p.diskCacheEdit->setCallback(
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     tl::usd::Options options = p.model->getUSD();
                     options.diskCache = value;
                     p.model->setUSD(options);
@@ -1057,7 +1057,7 @@ namespace djv
         {}
 
         std::shared_ptr<USDSettingsWidget> USDSettingsWidget::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -1066,18 +1066,18 @@ namespace djv
             return out;
         }
 
-        void USDSettingsWidget::setMarginRole(dtk::SizeRole value)
+        void USDSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void USDSettingsWidget::setGeometry(const dtk::Box2I& value)
+        void USDSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void USDSettingsWidget::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void USDSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -1086,14 +1086,13 @@ namespace djv
 
         struct SettingsTool::Private
         {
-            std::shared_ptr<dtk::ScrollWidget> scrollWidget;
-            std::shared_ptr<dtk::PushButton> resetButton;
-            std::map<std::string, std::shared_ptr<dtk::Bellows> > bellows;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::ScrollWidget> scrollWidget;
+            std::shared_ptr<feather_tk::PushButton> resetButton;
+            std::map<std::string, std::shared_ptr<feather_tk::Bellows> > bellows;
         };
 
         void SettingsTool::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -1103,81 +1102,72 @@ namespace djv
                 Tool::Settings,
                 "djv::app::SettingsTool",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             auto advancedWidget = AdvancedSettingsWidget::create(context, app);
-            advancedWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            advancedWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto cacheWidget = CacheSettingsWidget::create(context, app);
-            cacheWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            cacheWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto fileBrowserWidget = FileBrowserSettingsWidget::create(context, app);
-            fileBrowserWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            fileBrowserWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto fileSequenceWidget = FileSequenceSettingsWidget::create(context, app);
-            fileSequenceWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            fileSequenceWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto miscWidget = MiscSettingsWidget::create(context, app);
-            miscWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            miscWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto mouseWidget = MouseSettingsWidget::create(context, app);
-            mouseWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            mouseWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto shortcutsWidget = ShortcutsSettingsWidget::create(context, app);
-            shortcutsWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            shortcutsWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto styleWidget = StyleSettingsWidget::create(context, app);
-            styleWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            styleWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto timeWidget = TimeSettingsWidget::create(context, app);
-            timeWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            timeWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
 #if defined(TLRENDER_FFMPEG)
             auto ffmpegWidget = FFmpegSettingsWidget::create(context, app);
-            ffmpegWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            ffmpegWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
 #endif // TLRENDER_FFMPEG
 #if defined(TLRENDER_USD)
             auto usdWidget = USDSettingsWidget::create(context, app);
-            usdWidget->setMarginRole(dtk::SizeRole::MarginSmall);
+            usdWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
 #endif // TLRENDER_USD
 
-            auto vLayout = dtk::VerticalLayout::create(context);
-            vLayout->setSpacingRole(dtk::SizeRole::None);
-            p.bellows["Cache"] = dtk::Bellows::create(context, "Cache", vLayout);
+            auto vLayout = feather_tk::VerticalLayout::create(context);
+            vLayout->setSpacingRole(feather_tk::SizeRole::None);
+            p.bellows["Cache"] = feather_tk::Bellows::create(context, "Cache", vLayout);
             p.bellows["Cache"]->setWidget(cacheWidget);
-            p.bellows["FileBrowser"] = dtk::Bellows::create(context, "File Browser", vLayout);
+            p.bellows["FileBrowser"] = feather_tk::Bellows::create(context, "File Browser", vLayout);
             p.bellows["FileBrowser"]->setWidget(fileBrowserWidget);
-            p.bellows["FileSequences"] = dtk::Bellows::create(context, "File Sequences", vLayout);
+            p.bellows["FileSequences"] = feather_tk::Bellows::create(context, "File Sequences", vLayout);
             p.bellows["FileSequences"]->setWidget(fileSequenceWidget);
-            p.bellows["Misc"] = dtk::Bellows::create(context, "Miscellaneous", vLayout);
+            p.bellows["Misc"] = feather_tk::Bellows::create(context, "Miscellaneous", vLayout);
             p.bellows["Misc"]->setWidget(miscWidget);
-            p.bellows["Mouse"] = dtk::Bellows::create(context, "Mouse", vLayout);
+            p.bellows["Mouse"] = feather_tk::Bellows::create(context, "Mouse", vLayout);
             p.bellows["Mouse"]->setWidget(mouseWidget);
-            p.bellows["Shortcuts"] = dtk::Bellows::create(context, "Keyboard Shortcuts", vLayout);
+            p.bellows["Shortcuts"] = feather_tk::Bellows::create(context, "Keyboard Shortcuts", vLayout);
             p.bellows["Shortcuts"]->setWidget(shortcutsWidget);
-            p.bellows["Style"] = dtk::Bellows::create(context, "Style", vLayout);
+            p.bellows["Style"] = feather_tk::Bellows::create(context, "Style", vLayout);
             p.bellows["Style"]->setWidget(styleWidget);
-            p.bellows["Time"] = dtk::Bellows::create(context, "Time", vLayout);
+            p.bellows["Time"] = feather_tk::Bellows::create(context, "Time", vLayout);
             p.bellows["Time"]->setWidget(timeWidget);
 #if defined(TLRENDER_FFMPEG)
-            p.bellows["FFmpeg"] = dtk::Bellows::create(context, "FFmpeg", vLayout);
+            p.bellows["FFmpeg"] = feather_tk::Bellows::create(context, "FFmpeg", vLayout);
             p.bellows["FFmpeg"]->setWidget(ffmpegWidget);
 #endif // TLRENDER_USD
 #if defined(TLRENDER_USD)
-            p.bellows["USD"] = dtk::Bellows::create(context, "USD", vLayout);
+            p.bellows["USD"] = feather_tk::Bellows::create(context, "USD", vLayout);
             p.bellows["USD"]->setWidget(usdWidget);
 #endif // TLRENDER_USD
-            p.bellows["Advanced"] = dtk::Bellows::create(context, "Advanced", vLayout);
+            p.bellows["Advanced"] = feather_tk::Bellows::create(context, "Advanced", vLayout);
             p.bellows["Advanced"]->setWidget(advancedWidget);
+            auto hLayout = feather_tk::VerticalLayout::create(context, vLayout);
+            hLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.resetButton = feather_tk::PushButton::create(context, "Default Settings", hLayout);
 
-            p.scrollWidget = dtk::ScrollWidget::create(context);
+            p.scrollWidget = feather_tk::ScrollWidget::create(context);
             p.scrollWidget->setWidget(vLayout);
             p.scrollWidget->setBorder(false);
-            p.scrollWidget->setVStretch(dtk::Stretch::Expanding);
-
-            p.resetButton = dtk::PushButton::create(context, "Default Settings");
-            p.resetButton->setHStretch(dtk::Stretch::Expanding);
-
-            p.layout = dtk::VerticalLayout::create(context);
-            p.layout->setSpacingRole(dtk::SizeRole::None);
-            p.scrollWidget->setParent(p.layout);
-            dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
-            auto hLayout = dtk::HorizontalLayout::create(context, p.layout);
-            hLayout->setMarginRole(dtk::SizeRole::MarginSmall);
-            hLayout->setSpacingRole(dtk::SizeRole::SpacingSmall);
-            p.resetButton->setParent(hLayout);
-            _setWidget(p.layout);
+            p.scrollWidget->setVStretch(feather_tk::Stretch::Expanding);
+            _setWidget(p.scrollWidget);
 
             _loadSettings(p.bellows);
 
@@ -1187,7 +1177,7 @@ namespace djv
                 {
                     if (auto context = getContext())
                     {
-                        if (auto dialogSystem = context->getSystem<dtk::DialogSystem>())
+                        if (auto dialogSystem = context->getSystem<feather_tk::DialogSystem>())
                         {
                             dialogSystem->confirm(
                                 "Reset Settings",
@@ -1218,7 +1208,7 @@ namespace djv
         }
 
         std::shared_ptr<SettingsTool> SettingsTool::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

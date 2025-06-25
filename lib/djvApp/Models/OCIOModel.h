@@ -6,9 +6,9 @@
 
 #include <tlTimeline/ColorOptions.h>
 
-#include <dtk/core/ObservableValue.h>
+#include <feather-tk/core/ObservableValue.h>
 
-namespace dtk
+namespace feather_tk
 {
     class Context;
 }
@@ -38,10 +38,10 @@ namespace djv
         //! OpenColorIO model.
         class OCIOModel : public std::enable_shared_from_this<OCIOModel>
         {
-            DTK_NON_COPYABLE(OCIOModel);
+            FEATHER_TK_NON_COPYABLE(OCIOModel);
 
         protected:
-            void _init(const std::shared_ptr<dtk::Context>&);
+            void _init(const std::shared_ptr<feather_tk::Context>&);
 
             OCIOModel();
 
@@ -49,10 +49,10 @@ namespace djv
             ~OCIOModel();
 
             //! Create a new model.
-            static std::shared_ptr<OCIOModel> create(const std::shared_ptr<dtk::Context>&);
+            static std::shared_ptr<OCIOModel> create(const std::shared_ptr<feather_tk::Context>&);
 
             //! Observe the options.
-            std::shared_ptr<dtk::IObservableValue<tl::timeline::OCIOOptions> > observeOptions() const;
+            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::OCIOOptions> > observeOptions() const;
 
             //! Set the options.
             void setOptions(const tl::timeline::OCIOOptions&);
@@ -64,7 +64,7 @@ namespace djv
             void setConfig(const std::string& fileName);
 
             //! Observe the model data.
-            std::shared_ptr<dtk::IObservableValue<OCIOModelData> > observeData() const;
+            std::shared_ptr<feather_tk::IObservableValue<OCIOModelData> > observeData() const;
 
             //! Set the input index.
             void setInputIndex(size_t);
@@ -81,7 +81,7 @@ namespace djv
         private:
             OCIOModelData _getData(const tl::timeline::OCIOOptions&) const;
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

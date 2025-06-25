@@ -4,9 +4,9 @@
 
 #include <djvApp/Widgets/SpeedPopup.h>
 
-#include <dtk/ui/ListWidget.h>
+#include <feather-tk/ui/ListWidget.h>
 
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Format.h>
 
 namespace djv
 {
@@ -15,12 +15,12 @@ namespace djv
         struct SpeedPopup::Private
         {
             std::vector<double> speeds;
-            std::shared_ptr<dtk::ListWidget> listWidget;
+            std::shared_ptr<feather_tk::ListWidget> listWidget;
             std::function<void(double)> callback;
         };
 
         void SpeedPopup::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             double defaultSpeed,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -28,7 +28,7 @@ namespace djv
                 context,
                 "djv::app::SpeedPopup",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.speeds =
             {
@@ -50,7 +50,7 @@ namespace djv
                 1.0
             };
 
-            p.listWidget = dtk::ListWidget::create(context, dtk::ButtonGroupType::Click);
+            p.listWidget = feather_tk::ListWidget::create(context, feather_tk::ButtonGroupType::Click);
             setWidget(p.listWidget);
 
             _widgetUpdate();
@@ -80,7 +80,7 @@ namespace djv
         {}
 
         std::shared_ptr<SpeedPopup> SpeedPopup::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             double defaultSpeed,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -96,13 +96,13 @@ namespace djv
 
         void SpeedPopup::_widgetUpdate()
         {
-            DTK_P();
+            FEATHER_TK_P();
             std::vector<std::string> items;
             for (size_t i = 0; i < p.speeds.size(); ++i)
             {
                 items.push_back(0 == i ?
-                    dtk::Format("Default: {0}").arg(p.speeds[i], 2) :
-                    dtk::Format("{0}").arg(p.speeds[i], 2));
+                    feather_tk::Format("Default: {0}").arg(p.speeds[i], 2) :
+                    feather_tk::Format("{0}").arg(p.speeds[i], 2));
             }
             p.listWidget->setItems(items);
         }

@@ -11,7 +11,7 @@ namespace djv
     namespace app
     {
         void AudioMenu::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<AudioActions>& audioActions,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -27,7 +27,7 @@ namespace djv
         {}
 
         std::shared_ptr<AudioMenu> AudioMenu::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<AudioActions>& actions,
             const std::shared_ptr<IWidget>& parent)
         {

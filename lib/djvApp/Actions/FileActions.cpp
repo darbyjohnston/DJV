@@ -13,19 +13,19 @@ namespace djv
     {
         struct FileActions::Private
         {
-            std::shared_ptr<dtk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
-            std::shared_ptr<dtk::ValueObserver<std::shared_ptr<FilesModelItem> > > aObserver;
+            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
+            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<FilesModelItem> > > aObserver;
         };
 
         void FileActions::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             IActions::_init(context, app, "File");
-            DTK_P();
+            FEATHER_TK_P();
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["Open"] = dtk::Action::create(
+            _actions["Open"] = feather_tk::Action::create(
                 "Open",
                 "FileOpen",
                 [appWeak]
@@ -36,7 +36,7 @@ namespace djv
                     }
                 });
 
-            _actions["OpenSeparateAudio"] = dtk::Action::create(
+            _actions["OpenSeparateAudio"] = feather_tk::Action::create(
                 "Open With Separate Audio",
                 "FileOpenSeparateAudio",
                 [appWeak]
@@ -47,7 +47,7 @@ namespace djv
                     }
                 });
 
-            _actions["Close"] = dtk::Action::create(
+            _actions["Close"] = feather_tk::Action::create(
                 "Close",
                 "FileClose",
                 [appWeak]
@@ -58,7 +58,7 @@ namespace djv
                     }
                 });
 
-            _actions["CloseAll"] = dtk::Action::create(
+            _actions["CloseAll"] = feather_tk::Action::create(
                 "Close All",
                 "FileCloseAll",
                 [appWeak]
@@ -69,7 +69,7 @@ namespace djv
                     }
                 });
 
-            _actions["Reload"] = dtk::Action::create(
+            _actions["Reload"] = feather_tk::Action::create(
                 "Reload",
                 "FileReload",
                 [appWeak]
@@ -80,7 +80,7 @@ namespace djv
                     }
                 });
 
-            _actions["Next"] = dtk::Action::create(
+            _actions["Next"] = feather_tk::Action::create(
                 "Next",
                 "Next",
                 [appWeak]
@@ -91,7 +91,7 @@ namespace djv
                     }
                 });
 
-            _actions["Prev"] = dtk::Action::create(
+            _actions["Prev"] = feather_tk::Action::create(
                 "Previous",
                 "Prev",
                 [appWeak]
@@ -102,7 +102,7 @@ namespace djv
                     }
                 });
 
-            _actions["NextLayer"] = dtk::Action::create(
+            _actions["NextLayer"] = feather_tk::Action::create(
                 "Next Layer",
                 "Next",
                 [appWeak]
@@ -113,7 +113,7 @@ namespace djv
                     }
                 });
 
-            _actions["PrevLayer"] = dtk::Action::create(
+            _actions["PrevLayer"] = feather_tk::Action::create(
                 "Previous Layer",
                 "Prev",
                 [appWeak]
@@ -124,7 +124,7 @@ namespace djv
                     }
                 });
 
-            _actions["Exit"] = dtk::Action::create(
+            _actions["Exit"] = feather_tk::Action::create(
                 "Exit",
                 [appWeak]
                 {
@@ -150,11 +150,11 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.filesObserver = dtk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.filesObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeFiles(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     _actions["Close"]->setEnabled(!value.empty());
                     _actions["CloseAll"]->setEnabled(!value.empty());
                     _actions["Reload"]->setEnabled(!value.empty());
@@ -162,7 +162,7 @@ namespace djv
                     _actions["Prev"]->setEnabled(value.size() > 1);
                 });
 
-            p.aObserver = dtk::ValueObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.aObserver = feather_tk::ValueObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeA(),
                 [this](const std::shared_ptr<FilesModelItem>& value)
                 {
@@ -179,7 +179,7 @@ namespace djv
         {}
 
         std::shared_ptr<FileActions> FileActions::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             auto out = std::shared_ptr<FileActions>(new FileActions);

@@ -28,11 +28,11 @@ namespace djv
         //! Main window.
         class MainWindow : public tl::timelineui::Window
         {
-            DTK_NON_COPYABLE(MainWindow);
+            FEATHER_TK_NON_COPYABLE(MainWindow);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&);
 
             MainWindow();
@@ -42,7 +42,7 @@ namespace djv
 
             //! Create a new main window.
             static std::shared_ptr<MainWindow> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&);
 
             //! Get the viewport.
@@ -57,9 +57,9 @@ namespace djv
             //! Show the about dialog.
             void showAboutDialog();
 
-            void setGeometry(const dtk::Box2I&) override;
-            void keyPressEvent(dtk::KeyEvent&) override;
-            void keyReleaseEvent(dtk::KeyEvent&) override;
+            void setGeometry(const feather_tk::Box2I&) override;
+            void keyPressEvent(feather_tk::KeyEvent&) override;
+            void keyReleaseEvent(feather_tk::KeyEvent&) override;
 
         protected:
             void _drop(const std::vector<std::string>&) override;
@@ -69,7 +69,7 @@ namespace djv
             void _settingsUpdate(const WindowSettings&);
             void _settingsUpdate(const TimelineSettings&);
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

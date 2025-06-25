@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/ToolBar.h>
+#include <feather-tk/ui/ToolBar.h>
 
 namespace djv
 {
@@ -13,13 +13,13 @@ namespace djv
         class ViewActions;
 
         //! View tool bar.
-        class ViewToolBar : public dtk::ToolBar
+        class ViewToolBar : public feather_tk::ToolBar
         {
-            DTK_NON_COPYABLE(ViewToolBar);
+            FEATHER_TK_NON_COPYABLE(ViewToolBar);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<ViewActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace djv
             ~ViewToolBar();
 
             static std::shared_ptr<ViewToolBar> create(
-                const std::shared_ptr<dtk::Context>&,
+                const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<ViewActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

@@ -6,9 +6,9 @@
 
 #include <tlTimeline/ColorOptions.h>
 
-#include <dtk/core/ObservableValue.h>
+#include <feather-tk/core/ObservableValue.h>
 
-namespace dtk
+namespace feather_tk
 {
     class Context;
 }
@@ -20,10 +20,10 @@ namespace djv
         //! Color model.
         class ColorModel : public std::enable_shared_from_this<ColorModel>
         {
-            DTK_NON_COPYABLE(ColorModel);
+            FEATHER_TK_NON_COPYABLE(ColorModel);
 
         protected:
-            void _init(const std::shared_ptr<dtk::Context>&);
+            void _init(const std::shared_ptr<feather_tk::Context>&);
 
             ColorModel();
 
@@ -31,13 +31,13 @@ namespace djv
             ~ColorModel();
 
             //! Create a new model.
-            static std::shared_ptr<ColorModel> create(const std::shared_ptr<dtk::Context>&);
+            static std::shared_ptr<ColorModel> create(const std::shared_ptr<feather_tk::Context>&);
 
             //! Get the OpenColorIO options.
             const tl::timeline::OCIOOptions& getOCIOOptions() const;
 
             //! Observe the OpenColorIO options.
-            std::shared_ptr<dtk::IObservableValue<tl::timeline::OCIOOptions> > observeOCIOOptions() const;
+            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::OCIOOptions> > observeOCIOOptions() const;
 
             //! Set the OpenColorIO options.
             void setOCIOOptions(const tl::timeline::OCIOOptions&);
@@ -46,13 +46,13 @@ namespace djv
             const tl::timeline::LUTOptions& getLUTOptions() const;
 
             //! Observe the LUT options.
-            std::shared_ptr<dtk::IObservableValue<tl::timeline::LUTOptions> > observeLUTOptions() const;
+            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::LUTOptions> > observeLUTOptions() const;
 
             //! Set the LUT options.
             void setLUTOptions(const tl::timeline::LUTOptions&);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

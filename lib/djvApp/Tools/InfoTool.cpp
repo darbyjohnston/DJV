@@ -6,14 +6,14 @@
 
 #include <djvApp/App.h>
 
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/GridLayout.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/SearchBox.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/GridLayout.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
+#include <feather-tk/ui/SearchBox.h>
 
-#include <dtk/core/String.h>
+#include <feather-tk/core/String.h>
 
 namespace djv
 {
@@ -24,14 +24,14 @@ namespace djv
             tl::io::Info info;
             std::string search;
 
-            std::shared_ptr<dtk::SearchBox> searchBox;
-            std::shared_ptr<dtk::GridLayout> layout;
+            std::shared_ptr<feather_tk::SearchBox> searchBox;
+            std::shared_ptr<feather_tk::GridLayout> layout;
 
-            std::shared_ptr<dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
         };
 
         void InfoTool::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -41,30 +41,30 @@ namespace djv
                 Tool::Info,
                 "djv::app::InfoTool",
                 parent);
-            DTK_P();
+            FEATHER_TK_P();
 
-            p.searchBox = dtk::SearchBox::create(context);
-            p.searchBox->setHStretch(dtk::Stretch::Expanding);
+            p.searchBox = feather_tk::SearchBox::create(context);
+            p.searchBox->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.layout = dtk::GridLayout::create(context);
-            p.layout->setMarginRole(dtk::SizeRole::MarginSmall);
-            p.layout->setSpacingRole(dtk::SizeRole::SpacingSmall);
-            auto scrollWidget = dtk::ScrollWidget::create(context);
+            p.layout = feather_tk::GridLayout::create(context);
+            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto scrollWidget = feather_tk::ScrollWidget::create(context);
             scrollWidget->setWidget(p.layout);
             scrollWidget->setBorder(false);
-            scrollWidget->setVStretch(dtk::Stretch::Expanding);
+            scrollWidget->setVStretch(feather_tk::Stretch::Expanding);
 
-            auto layout = dtk::VerticalLayout::create(context);
-            layout->setSpacingRole(dtk::SizeRole::None);
+            auto layout = feather_tk::VerticalLayout::create(context);
+            layout->setSpacingRole(feather_tk::SizeRole::None);
             scrollWidget->setParent(layout);
-            dtk::Divider::create(context, dtk::Orientation::Vertical, layout);
-            auto hLayout = dtk::HorizontalLayout::create(context, layout);
-            hLayout->setMarginRole(dtk::SizeRole::MarginInside);
-            hLayout->setSpacingRole(dtk::SizeRole::SpacingTool);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, layout);
+            auto hLayout = feather_tk::HorizontalLayout::create(context, layout);
+            hLayout->setMarginRole(feather_tk::SizeRole::MarginInside);
+            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
             p.searchBox->setParent(hLayout);
             _setWidget(layout);
 
-            p.playerObserver = dtk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& value)
                 {
@@ -88,7 +88,7 @@ namespace djv
         {}
 
         std::shared_ptr<InfoTool> InfoTool::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -99,7 +99,7 @@ namespace djv
 
         void InfoTool::_widgetUpdate()
         {
-            DTK_P();
+            FEATHER_TK_P();
             auto children = p.layout->getChildren();
             for (const auto& child : children)
             {
@@ -112,22 +112,22 @@ namespace djv
                 {
                     bool filter = false;
                     if (!p.search.empty() &&
-                        !dtk::contains(
+                        !feather_tk::contains(
                             tag.first,
                             p.search,
-                            dtk::CaseCompare::Insensitive) &&
-                        !dtk::contains(
+                            feather_tk::CaseCompare::Insensitive) &&
+                        !feather_tk::contains(
                             tag.second,
                             p.search,
-                            dtk::CaseCompare::Insensitive))
+                            feather_tk::CaseCompare::Insensitive))
                     {
                         filter = true;
                     }
                     if (!filter)
                     {
-                        auto label = dtk::Label::create(context, tag.first + ":", p.layout);
+                        auto label = feather_tk::Label::create(context, tag.first + ":", p.layout);
                         p.layout->setGridPos(label, row, 0);
-                        label = dtk::Label::create(context, tag.second, p.layout);
+                        label = feather_tk::Label::create(context, tag.second, p.layout);
                         p.layout->setGridPos(label, row, 1);
                         ++row;
                     }

@@ -7,8 +7,8 @@
 #include <djvApp/Models/FilesModel.h>
 #include <djvApp/App.h>
 
-#include <dtk/ui/TabBar.h>
-#include <dtk/core/String.h>
+#include <feather-tk/ui/TabBar.h>
+#include <feather-tk/core/String.h>
 
 namespace djv
 {
@@ -17,20 +17,20 @@ namespace djv
         struct TabBar::Private
         {
             int aIndex = -1;
-            std::shared_ptr<dtk::TabBar> tabBar;
-            std::shared_ptr<dtk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
-            std::shared_ptr<dtk::ValueObserver<int> > aIndexObserver;
+            std::shared_ptr<feather_tk::TabBar> tabBar;
+            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
+            std::shared_ptr<feather_tk::ValueObserver<int> > aIndexObserver;
         };
 
         void TabBar::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, "tl::play::TabBar", parent);
-            DTK_P();
+            FEATHER_TK_P();
 
-            p.tabBar = dtk::TabBar::create(context, shared_from_this());
+            p.tabBar = feather_tk::TabBar::create(context, shared_from_this());
             p.tabBar->setTabsClosable(true);
 
             std::weak_ptr<App> appWeak(app);
@@ -51,26 +51,26 @@ namespace djv
                     }
                 });
 
-            p.filesObserver = dtk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.filesObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeFiles(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.tabBar->clearTabs();
                     for (const auto& item : value)
                     {
                         p.tabBar->addTab(
-                            dtk::elide(item->path.get(-1, tl::file::PathType::FileName)),
+                            feather_tk::elide(item->path.get(-1, tl::file::PathType::FileName)),
                             item->path.get());
                     }
                     p.tabBar->setCurrentTab(p.aIndex);
                 });
 
-            p.aIndexObserver = dtk::ValueObserver<int>::create(
+            p.aIndexObserver = feather_tk::ValueObserver<int>::create(
                 app->getFilesModel()->observeAIndex(),
                 [this](int value)
                 {
-                    DTK_P();
+                    FEATHER_TK_P();
                     p.aIndex = value;
                     p.tabBar->setCurrentTab(value);
                 });
@@ -84,7 +84,7 @@ namespace djv
         {}
 
         std::shared_ptr<TabBar> TabBar::create(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -93,13 +93,13 @@ namespace djv
             return out;
         }
 
-        void TabBar::setGeometry(const dtk::Box2I& value)
+        void TabBar::setGeometry(const feather_tk::Box2I& value)
         {
             IWidget::setGeometry(value);
             _p->tabBar->setGeometry(value);
         }
 
-        void TabBar::sizeHintEvent(const dtk::SizeHintEvent& event)
+        void TabBar::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->tabBar->getSizeHint());

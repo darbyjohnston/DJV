@@ -6,13 +6,13 @@
 
 #include <djvApp/App.h>
 
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/Icon.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/ToolButton.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/Settings.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/Icon.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/ToolButton.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/Settings.h>
+#include <feather-tk/core/Format.h>
 
 namespace djv
 {
@@ -20,26 +20,26 @@ namespace djv
     {
         struct IToolWidget::Private
         {
-            std::shared_ptr<dtk::Settings> settings;
+            std::shared_ptr<feather_tk::Settings> settings;
 
             Tool tool;
             
-            std::shared_ptr<dtk::Icon> icon;
-            std::shared_ptr<dtk::Label> label;
-            std::shared_ptr<dtk::ToolButton> closeButton;
-            std::shared_ptr<dtk::VerticalLayout> toolLayout;
-            std::shared_ptr<dtk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::Icon> icon;
+            std::shared_ptr<feather_tk::Label> label;
+            std::shared_ptr<feather_tk::ToolButton> closeButton;
+            std::shared_ptr<feather_tk::VerticalLayout> toolLayout;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
         };
 
         void IToolWidget::_init(
-            const std::shared_ptr<dtk::Context>& context,
+            const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             Tool tool,
             const std::string& objectName,
             const std::shared_ptr<IWidget>& parent)
         {
             IWidget::_init(context, objectName, parent);
-            DTK_P();
+            FEATHER_TK_P();
 
             _app = app;
 
@@ -47,28 +47,28 @@ namespace djv
 
             p.tool = tool;
 
-            p.icon = dtk::Icon::create(context, getIcon(tool));
-            p.icon->setMarginRole(dtk::SizeRole::MarginSmall);
+            p.icon = feather_tk::Icon::create(context, getIcon(tool));
+            p.icon->setMarginRole(feather_tk::SizeRole::MarginSmall);
 
-            p.label = dtk::Label::create(context, getText(tool));
-            p.label->setMarginRole(dtk::SizeRole::MarginSmall);
-            p.label->setHStretch(dtk::Stretch::Expanding);
+            p.label = feather_tk::Label::create(context, getText(tool));
+            p.label->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.label->setHStretch(feather_tk::Stretch::Expanding);
 
-            p.closeButton = dtk::ToolButton::create(context);
+            p.closeButton = feather_tk::ToolButton::create(context);
             p.closeButton->setIcon("Close");
 
-            p.layout = dtk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(dtk::SizeRole::None);
-            auto hLayout = dtk::HorizontalLayout::create(context, p.layout);
-            hLayout->setSpacingRole(dtk::SizeRole::None);
+            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::None);
+            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
+            hLayout->setSpacingRole(feather_tk::SizeRole::None);
             p.icon->setParent(hLayout);
             p.label->setParent(hLayout);
             p.closeButton->setParent(hLayout);
-            dtk::Divider::create(context, dtk::Orientation::Vertical, p.layout);
-            p.toolLayout = dtk::VerticalLayout::create(context, p.layout);
-            p.toolLayout->setSpacingRole(dtk::SizeRole::None);
-            p.toolLayout->setHStretch(dtk::Stretch::Expanding);
-            p.toolLayout->setVStretch(dtk::Stretch::Expanding);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            p.toolLayout = feather_tk::VerticalLayout::create(context, p.layout);
+            p.toolLayout->setSpacingRole(feather_tk::SizeRole::None);
+            p.toolLayout->setHStretch(feather_tk::Stretch::Expanding);
+            p.toolLayout->setVStretch(feather_tk::Stretch::Expanding);
 
             auto appWeak = std::weak_ptr<App>(app);
             p.closeButton->setClickedCallback(
@@ -88,23 +88,23 @@ namespace djv
         IToolWidget::~IToolWidget()
         {}
 
-        void IToolWidget::setGeometry(const dtk::Box2I & value)
+        void IToolWidget::setGeometry(const feather_tk::Box2I & value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void IToolWidget::sizeHintEvent(const dtk::SizeHintEvent & event)
+        void IToolWidget::sizeHintEvent(const feather_tk::SizeHintEvent & event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void IToolWidget::_loadSettings(const std::map<std::string, std::shared_ptr<dtk::Bellows> >& value)
+        void IToolWidget::_loadSettings(const std::map<std::string, std::shared_ptr<feather_tk::Bellows> >& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             nlohmann::json json;
-            p.settings->get(dtk::Format("/{0}/Bellows").arg(getLabel(p.tool)), json);
+            p.settings->get(feather_tk::Format("/{0}/Bellows").arg(getLabel(p.tool)), json);
             for (auto i = json.begin(); i != json.end(); ++i)
             {
                 auto j = value.find(i.key());
@@ -115,21 +115,21 @@ namespace djv
             }
         }
 
-        void IToolWidget::_saveSettings(const std::map<std::string, std::shared_ptr<dtk::Bellows> >& value)
+        void IToolWidget::_saveSettings(const std::map<std::string, std::shared_ptr<feather_tk::Bellows> >& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             nlohmann::json json;
             for (const auto& i : value)
             {
                 json[i.first] = i.second->isOpen();
             }
-            p.settings->set(dtk::Format("/{0}/Bellows").arg(getLabel(p.tool)), json);
+            p.settings->set(feather_tk::Format("/{0}/Bellows").arg(getLabel(p.tool)), json);
         }
 
-        void IToolWidget::_setWidget(const std::shared_ptr<dtk::IWidget>& value)
+        void IToolWidget::_setWidget(const std::shared_ptr<feather_tk::IWidget>& value)
         {
-            value->setHStretch(dtk::Stretch::Expanding);
-            value->setVStretch(dtk::Stretch::Expanding);
+            value->setHStretch(feather_tk::Stretch::Expanding);
+            value->setVStretch(feather_tk::Stretch::Expanding);
             value->setParent(_p->toolLayout);
         }
     }

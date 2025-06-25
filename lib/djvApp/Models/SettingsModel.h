@@ -10,9 +10,9 @@
 
 #include <tlTimeline/Player.h>
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/FileBrowser.h>
-#include <dtk/core/ObservableValue.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/FileBrowser.h>
+#include <feather-tk/core/ObservableValue.h>
 
 #include <tlIO/SequenceIO.h>
 #if defined(TLRENDER_FFMPEG)
@@ -24,7 +24,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace dtk
+namespace feather_tk
 {
     class Context;
     class Settings;
@@ -58,10 +58,10 @@ namespace djv
             Count,
             First = Default
         };
-        DTK_ENUM(ExportRenderSize);
+        FEATHER_TK_ENUM(ExportRenderSize);
 
         //! Get an export render size.
-        dtk::Size2I getSize(ExportRenderSize);
+        feather_tk::Size2I getSize(ExportRenderSize);
 
         //! Export file type.
         enum class ExportFileType
@@ -73,14 +73,14 @@ namespace djv
             Count,
             First = Image
         };
-        DTK_ENUM(ExportFileType);
+        FEATHER_TK_ENUM(ExportFileType);
 
         //! Export settings.
         struct ExportSettings
         {
             std::string directory;
             ExportRenderSize renderSize = ExportRenderSize::Default;
-            dtk::Size2I customSize = dtk::Size2I(1920, 1080);
+            feather_tk::Size2I customSize = feather_tk::Size2I(1920, 1080);
             ExportFileType fileType = ExportFileType::Image;
 
             std::string imageBaseName = "render.";
@@ -100,7 +100,7 @@ namespace djv
         {
             bool nativeFileDialog = true;
             std::string path;
-            dtk::FileBrowserOptions options;
+            feather_tk::FileBrowserOptions options;
             std::string extension;
 
             bool operator == (const FileBrowserSettings&) const;
@@ -141,17 +141,17 @@ namespace djv
             Count,
             First = ColorPicker
         };
-        DTK_ENUM(MouseAction);
+        FEATHER_TK_ENUM(MouseAction);
 
         //! Mouse settings.
         struct MouseSettings
         {
-            std::map<MouseAction, dtk::KeyModifier> actions =
+            std::map<MouseAction, feather_tk::KeyModifier> actions =
             {
-                { MouseAction::ColorPicker, dtk::KeyModifier::None },
-                { MouseAction::PanView, dtk::KeyModifier::Control },
-                { MouseAction::FrameShuttle, dtk::KeyModifier::Shift },
-                { MouseAction::CompareWipe, dtk::KeyModifier::Alt }
+                { MouseAction::ColorPicker, feather_tk::KeyModifier::None },
+                { MouseAction::PanView, feather_tk::KeyModifier::Control },
+                { MouseAction::FrameShuttle, feather_tk::KeyModifier::Shift },
+                { MouseAction::CompareWipe, feather_tk::KeyModifier::Alt }
             };
 
             bool operator == (const MouseSettings&) const;
@@ -173,9 +173,9 @@ namespace djv
         struct StyleSettings
         {
             float displayScale = 0.F;
-            dtk::ColorControls colorControls;
-            dtk::ColorStyle colorStyle = dtk::ColorStyle::Dark;
-            std::map<dtk::ColorRole, dtk::Color4F> customColorRoles = dtk::getCustomColorRoles();
+            feather_tk::ColorControls colorControls;
+            feather_tk::ColorStyle colorStyle = feather_tk::ColorStyle::Dark;
+            std::map<feather_tk::ColorRole, feather_tk::Color4F> customColorRoles = feather_tk::getCustomColorRoles();
 
             bool operator == (const StyleSettings&) const;
             bool operator != (const StyleSettings&) const;
@@ -186,7 +186,8 @@ namespace djv
         {
             bool editable = false;
             bool frameView = true;
-            bool scroll = true;
+            bool scrollBars = true;
+            bool autoScroll = true;
             bool stopOnScrub = false;
             tl::timelineui::ItemOptions item;
             tl::timelineui::DisplayOptions display;
@@ -199,7 +200,7 @@ namespace djv
         //! Window settings.
         struct WindowSettings
         {
-            dtk::Size2I size = dtk::Size2I(1920, 1080);
+            feather_tk::Size2I size = feather_tk::Size2I(1920, 1080);
             bool fileToolBar = true;
             bool compareToolBar = true;
             bool windowToolBar = true;
@@ -219,12 +220,12 @@ namespace djv
         //! Settings model.
         class SettingsModel : public std::enable_shared_from_this<SettingsModel>
         {
-            DTK_NON_COPYABLE(SettingsModel);
+            FEATHER_TK_NON_COPYABLE(SettingsModel);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
-                const std::shared_ptr<dtk::Settings>&);
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
             SettingsModel();
 
@@ -233,8 +234,8 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<SettingsModel> create(
-                const std::shared_ptr<dtk::Context>&,
-                const std::shared_ptr<dtk::Settings>&);
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
             //! Reset to default values.
             void reset();
@@ -243,7 +244,7 @@ namespace djv
             ///@{
 
             const AdvancedSettings& getAdvanced() const;
-            std::shared_ptr<dtk::IObservableValue<AdvancedSettings> > observeAdvanced() const;
+            std::shared_ptr<feather_tk::IObservableValue<AdvancedSettings> > observeAdvanced() const;
             void setAdvanced(const AdvancedSettings&);
 
             ///@}
@@ -252,7 +253,7 @@ namespace djv
             ///@{
 
             const tl::timeline::PlayerCacheOptions& getCache() const;
-            std::shared_ptr<dtk::IObservableValue<tl::timeline::PlayerCacheOptions> > observeCache() const;
+            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::PlayerCacheOptions> > observeCache() const;
             void setCache(const tl::timeline::PlayerCacheOptions&);
 
             ///@}
@@ -261,7 +262,7 @@ namespace djv
             ///@{
 
             const ExportSettings& getExport() const;
-            std::shared_ptr<dtk::IObservableValue<ExportSettings> > observeExport() const;
+            std::shared_ptr<feather_tk::IObservableValue<ExportSettings> > observeExport() const;
             void setExport(const ExportSettings&);
 
             ///@}
@@ -270,7 +271,7 @@ namespace djv
             ///@{
 
             const FileBrowserSettings& getFileBrowser() const;
-            std::shared_ptr<dtk::IObservableValue<FileBrowserSettings> > observeFileBrowser() const;
+            std::shared_ptr<feather_tk::IObservableValue<FileBrowserSettings> > observeFileBrowser() const;
             void setFileBrowser(const FileBrowserSettings&);
 
             ///@}
@@ -279,7 +280,7 @@ namespace djv
             ///@{
 
             const FileSequenceSettings& getFileSequence() const;
-            std::shared_ptr<dtk::IObservableValue<FileSequenceSettings> > observeFileSequence() const;
+            std::shared_ptr<feather_tk::IObservableValue<FileSequenceSettings> > observeFileSequence() const;
             void setFileSequence(const FileSequenceSettings&);
 
             ///@}
@@ -288,7 +289,7 @@ namespace djv
             ///@{
 
             const MiscSettings& getMisc() const;
-            std::shared_ptr<dtk::IObservableValue<MiscSettings> > observeMisc() const;
+            std::shared_ptr<feather_tk::IObservableValue<MiscSettings> > observeMisc() const;
             void setMisc(const MiscSettings&);
 
             ///@}
@@ -297,7 +298,7 @@ namespace djv
             ///@{
 
             const MouseSettings& getMouse() const;
-            std::shared_ptr<dtk::IObservableValue<MouseSettings> > observeMouse() const;
+            std::shared_ptr<feather_tk::IObservableValue<MouseSettings> > observeMouse() const;
             void setMouse(const MouseSettings&);
 
             ///@}
@@ -306,7 +307,7 @@ namespace djv
             ///@{
 
             const ShortcutsSettings& getShortcuts() const;
-            std::shared_ptr<dtk::IObservableValue<ShortcutsSettings> > observeShortcuts() const;
+            std::shared_ptr<feather_tk::IObservableValue<ShortcutsSettings> > observeShortcuts() const;
             void setShortcuts(const ShortcutsSettings&);
 
             ///@}
@@ -315,7 +316,7 @@ namespace djv
             ///@{
 
             const StyleSettings& getStyle() const;
-            std::shared_ptr<dtk::IObservableValue<StyleSettings> > observeStyle() const;
+            std::shared_ptr<feather_tk::IObservableValue<StyleSettings> > observeStyle() const;
             void setStyle(const StyleSettings&);
 
             ///@}
@@ -324,7 +325,7 @@ namespace djv
             ///@{
 
             const TimelineSettings& getTimeline() const;
-            std::shared_ptr<dtk::IObservableValue<TimelineSettings> > observeTimeline() const;
+            std::shared_ptr<feather_tk::IObservableValue<TimelineSettings> > observeTimeline() const;
             void setTimeline(const TimelineSettings&);
 
             ///@}
@@ -333,7 +334,7 @@ namespace djv
             ///@{
 
             const WindowSettings& getWindow() const;
-            std::shared_ptr<dtk::IObservableValue<WindowSettings> > observeWindow() const;
+            std::shared_ptr<feather_tk::IObservableValue<WindowSettings> > observeWindow() const;
             void setWindow(const WindowSettings&);
 
             ///@}
@@ -343,7 +344,7 @@ namespace djv
             ///@{
 
             const tl::ffmpeg::Options& getFFmpeg() const;
-            std::shared_ptr<dtk::IObservableValue<tl::ffmpeg::Options> > observeFFmpeg() const;
+            std::shared_ptr<feather_tk::IObservableValue<tl::ffmpeg::Options> > observeFFmpeg() const;
             void setFFmpeg(const tl::ffmpeg::Options&);
 
             ///@}
@@ -354,14 +355,14 @@ namespace djv
             ///@{
 
             const tl::usd::Options& getUSD() const;
-            std::shared_ptr<dtk::IObservableValue<tl::usd::Options> > observeUSD() const;
+            std::shared_ptr<feather_tk::IObservableValue<tl::usd::Options> > observeUSD() const;
             void setUSD(const tl::usd::Options&);
 
             ///@}
 #endif // TLRENDER_USD
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
 
         //! \name Serialize

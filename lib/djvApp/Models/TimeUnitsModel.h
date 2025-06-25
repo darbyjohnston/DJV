@@ -6,7 +6,7 @@
 
 #include <tlTimeline/TimeUnits.h>
 
-namespace dtk
+namespace feather_tk
 {
     class Settings;
 }
@@ -18,12 +18,12 @@ namespace djv
         //! Time units model.
         class TimeUnitsModel : public tl::timeline::TimeUnitsModel
         {
-            DTK_NON_COPYABLE(TimeUnitsModel);
+            FEATHER_TK_NON_COPYABLE(TimeUnitsModel);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
-                const std::shared_ptr<dtk::Settings>&);
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
             TimeUnitsModel();
 
@@ -32,11 +32,11 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<TimeUnitsModel> create(
-                const std::shared_ptr<dtk::Context>&,
-                const std::shared_ptr<dtk::Settings>&);
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }
