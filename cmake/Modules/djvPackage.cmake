@@ -422,9 +422,9 @@ install(
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_boost.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_CMake.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_CURL.txt
-    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_dtk.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_expat.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_FFmpeg.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_feather-tk.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libjpeg-turbo.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libjpeg.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_libpng.txt
