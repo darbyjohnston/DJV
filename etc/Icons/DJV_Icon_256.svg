@@ -26,7 +26,7 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:current-layer="svg24">
+     inkscape:current-layer="g7">
     <inkscape:page
        x="0"
        y="0"
@@ -238,7 +238,7 @@
        id="circle1"
        transform="rotate(-90)" />
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:url(#linearGradient18);stroke-width:3.60034;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#333333;fill-opacity:1;stroke:url(#linearGradient18);stroke-width:3.60034;stroke-dasharray:none;stroke-opacity:1"
        d="m 192.01822,222.37144 a 30.377886,30.377886 0 0 1 -30.37787,-30.37788 30.377886,30.377886 0 0 1 30.37787,-30.37788 30.377886,30.377886 0 0 1 30.37789,30.37788 30.377886,30.377886 0 0 1 -30.37789,30.37788 z"
        id="path7" />
     <rect

@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 set(TLRENDER_GIT_REPOSITORY "https://github.com/darbyjohnston/tlRender.git")
-set(TLRENDER_GIT_TAG "289194866c8fdffb367f3dbddaaeeb915554d056")
+set(TLRENDER_GIT_TAG "f5eb544335708c221b0b8120245d34adbc70b6ac")
 
 set(TLRENDER_DEPS)
 set(TLRENDER_ARGS
@@ -16,7 +16,7 @@ set(TLRENDER_ARGS
     -DTLRENDER_PROGRAMS=OFF
     -DTLRENDER_EXAMPLES=OFF
     -DTLRENDER_TESTS=OFF
-    -Ddtk_API=${dtk_API}
+    -Dfeather_tk_API=${feather_tk_API}
     ${DJV_EXTERNAL_ARGS})
 
 ExternalProject_Add(

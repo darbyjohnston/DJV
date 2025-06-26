@@ -17,7 +17,7 @@ set(TLRENDER_USD FALSE CACHE BOOL "Enable support for USD")
 set(TLRENDER_USD_PYTHON python3 CACHE STRING "Python executable for building USD")
 set(TLRENDER_BMD FALSE CACHE BOOL "Enable support for Blackmagic Design devices")
 set(TLRENDER_BMD_SDK "" CACHE PATH "Full path to the Blackmagic Design SDK")
-set(dtk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
+set(feather_tk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
 
 # Configure.
 #
