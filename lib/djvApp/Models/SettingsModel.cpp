@@ -89,7 +89,7 @@ namespace djv
             return !(*this == other);
         }
 
-        bool FileSequenceSettings::operator == (const FileSequenceSettings& other) const
+        bool ImageSequenceSettings::operator == (const ImageSequenceSettings& other) const
         {
             return
                 audio == other.audio &&
@@ -99,7 +99,7 @@ namespace djv
                 io == other.io;
         }
 
-        bool FileSequenceSettings::operator != (const FileSequenceSettings& other) const
+        bool ImageSequenceSettings::operator != (const ImageSequenceSettings& other) const
         {
             return !(*this == other);
         }
@@ -333,7 +333,7 @@ namespace djv
             std::shared_ptr<feather_tk::ObservableValue<tl::timeline::PlayerCacheOptions> > cache;
             std::shared_ptr<feather_tk::ObservableValue<ExportSettings> > exportSettings;
             std::shared_ptr<feather_tk::ObservableValue<FileBrowserSettings> > fileBrowser;
-            std::shared_ptr<feather_tk::ObservableValue<FileSequenceSettings> > fileSequence;
+            std::shared_ptr<feather_tk::ObservableValue<ImageSequenceSettings> > imageSequence;
             std::shared_ptr<feather_tk::ObservableValue<ShortcutsSettings> > Shortcuts;
             std::shared_ptr<feather_tk::ObservableValue<MiscSettings> > misc;
             std::shared_ptr<feather_tk::ObservableValue<MouseSettings> > mouse;
@@ -378,9 +378,9 @@ namespace djv
             fileBrowserSystem->setOptions(fileBrowser.options);
             fileBrowserSystem->setExtension(fileBrowser.extension);
 
-            FileSequenceSettings fileSequence;
-            settings->getT("/FileSequence", fileSequence);
-            p.fileSequence = feather_tk::ObservableValue<FileSequenceSettings>::create(fileSequence);
+            ImageSequenceSettings imageSequence;
+            settings->getT("/ImageSequence", imageSequence);
+            p.imageSequence = feather_tk::ObservableValue<ImageSequenceSettings>::create(imageSequence);
 
             ShortcutsSettings Shortcuts;
             settings->getT("/Shortcuts", Shortcuts);
@@ -442,7 +442,7 @@ namespace djv
             }
             p.settings->setT("/FileBrowser", fileBrowser);
 
-            p.settings->setT("/FileSequence", p.fileSequence->get());
+            p.settings->setT("/ImageSequence", p.imageSequence->get());
 
             p.settings->setT("/Shortcuts", p.Shortcuts->get());
 
@@ -480,7 +480,7 @@ namespace djv
             setCache(tl::timeline::PlayerCacheOptions());
             setExport(ExportSettings());
             setFileBrowser(FileBrowserSettings());
-            setFileSequence(FileSequenceSettings());
+            setImageSequence(ImageSequenceSettings());
             setShortcuts(ShortcutsSettings());
             MiscSettings miscSettings;
             miscSettings.showSetup = false;
@@ -565,19 +565,19 @@ namespace djv
             }
         }
 
-        const FileSequenceSettings& SettingsModel::getFileSequence() const
+        const ImageSequenceSettings& SettingsModel::getImageSequence() const
         {
-            return _p->fileSequence->get();
+            return _p->imageSequence->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<FileSequenceSettings> > SettingsModel::observeFileSequence() const
+        std::shared_ptr<feather_tk::IObservableValue<ImageSequenceSettings> > SettingsModel::observeImageSequence() const
         {
-            return _p->fileSequence;
+            return _p->imageSequence;
         }
 
-        void SettingsModel::setFileSequence(const FileSequenceSettings& value)
+        void SettingsModel::setImageSequence(const ImageSequenceSettings& value)
         {
-            _p->fileSequence->setIfChanged(value);
+            _p->imageSequence->setIfChanged(value);
         }
 
         const ShortcutsSettings& SettingsModel::getShortcuts() const
@@ -734,7 +734,7 @@ namespace djv
             json["Extension"] = value.extension;
         }
 
-        void to_json(nlohmann::json& json, const FileSequenceSettings& value)
+        void to_json(nlohmann::json& json, const ImageSequenceSettings& value)
         {
             json["Audio"] = tl::timeline::to_string(value.audio);
             json["AudioExtensions"] = value.audioExtensions;
@@ -837,7 +837,7 @@ namespace djv
             json.at("Extension").get_to(value.extension);
         }
 
-        void from_json(const nlohmann::json& json, FileSequenceSettings& value)
+        void from_json(const nlohmann::json& json, ImageSequenceSettings& value)
         {
             tl::timeline::from_string(json.at("Audio").get<std::string>(), value.audio);
             json.at("AudioExtensions").get_to(value.audioExtensions);

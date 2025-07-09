@@ -1,16 +1,16 @@
 # DJV ![Main Window](assets/DJV_Icon_32.svg)
 
-Professional playback and review software for image sequences, movies, and
-timelines.
-
-![Main Window](assets/djv_screenshot1.png)
+DJV is an application for playback and review of image sequences.
 
 Features include:
-* A/B comparison of multiple files with wipe, overlay, and difference modes.
+* Compare multiple files with wipe, overlay, and difference modes.
+* Timeline support with OpenTimelineIO.
 * Color management with OpenColorIO.
 * Multi-track audio with variable speed and reverse playback.
-* Cross-platform support for Linux, macOS, and Windows.
-* Experimental support for playback of USD files.
+* Experimental support for USD files.
+* Available for Linux, macOS, and Windows.
+
+![Main Window](assets/djv_screenshot1.png)
 
 
 <br><br>
@@ -25,16 +25,14 @@ Features include:
 7. [Exporting Files](#export)
 8. [Keyboard Shortcuts](#shortcuts)
 9. [Building from Source](#build)
-10. [Credits](#credits)
-11. [Legal](#legal)
 
 
 <br><br><a name="install"></a>
 ## Download and Install
 
-**NOTE**: Download packages only include a minimal set of video codecs. To
-enable full support for video codecs, either compile from source or replace
-the FFmpeg shared library files.
+**NOTE**: Download packages only include a minimal set of video and audio
+codecs. To enable full support, either compile from source or replace the
+FFmpeg shared libraries.
 
 ### Linux and Windows
 
@@ -101,16 +99,17 @@ display). The HUD can be enabled from the **View** menu.
 <br><br><a name="files"></a>
 ## Working with Files
 
-Image sequences, movie files, audio files, and timelines are supported:
+Supported formats:
 * Image sequences: Cineon, DPX, JPEG, OpenEXR, PNG, PPM, SGI, TGA, BMP, TIFF
-* Movie and audio files: Supported by FFmpeg
-* Timelines: OpenTimelineIO .otio and .otioz
+* Movie codecs: MJPEG
+* Audio codecs: FLAC, MP3, WAV
+* Timelines: OTIO, OTIOZ
 
 Files and folders can be opened from the **File** menu, by dragging and
 dropping onto the main window, or from the command line. Opening a folder will
 open all of the media files in the folder (non-recursively).
 
-The native file browser is be used by default on Windows and macOS. The
+The native file browser is enabled by default on Windows and macOS. The
 built-in file browser can be enabled in the **Settings** tool.
 
 The current file can be changed from the **File/Current** menu, the
@@ -121,8 +120,7 @@ The current file can be changed from the **File/Current** menu, the
 The memory cache can be configured in the **Settings** tool. There are
 separate values for video, audio, and "read behind". The "read behind"
 value is the number of seconds that are read before the current frame. This
-is useful when shuttling frames to ensure that frames before and after the
-current frame are cached.
+is useful to ensure frames are cached when scrubbing.
 
 Only the current file is stored in the cache. When the current file is
 changed, it is unloaded from the cache and the new file is loaded.
@@ -132,14 +130,14 @@ changed, it is unloaded from the cache and the new file is loaded.
 For files that contain multiple layers (i.e., OpenEXR), the current layer can
 be changed from the **File/Layers** menu or the **Files** tool.
 
-### Files Sequences and Audio
+### Image Sequences and Audio
 
 Audio can be added to image sequences either automatically or explicitly.
 
-To automatically add audio to image sequences, open the **Settings Tool**
-and the **File Sequences** section. Audio files can be found by either
-specifying the file extensions to search for (e.g., ".wav .mp3"), or
-providing a specific file name.
+To automatically add audio to image sequences, open the **Image Sequences**
+section in the **Settings Tool**. Audio files can be found by either specifying
+the file extensions to search for (e.g., ".wav .mp3"), or providing a specific
+file name.
 
 To explicitly add audio to an image sequence use the
 **File/Open With Separate Audio** menu.
@@ -301,57 +299,3 @@ set PATH=%CD%\Release\install\bin;%PATH%
 ```
 .\Release\DJV\src\DJV-build\bin\djv\Release\djv
 ```
-
-
-<br><br><a name="Credits"></a>
-## Credits
-
-### DJV 3.x Credits
-
-* Darby Johnston - Principal author
-* Siciliana Johnston - Web design, social media
-
-### DJV 1.x and DJV 2.x Credits
-
-* Darby Johnston - Principal author
-* Kent Oberheu (https://semafore.com) - Identity, iconography, UI / UX design
-* Siciliana Johnston - Web design, social media
-* Mikael Sundell - IFF image file format support, example images
-* CansecoGPC - Spanish translation
-* Jean-Francois Panisset - Azure Pipelines CI integration
-* Haryo Sukmawanto - Custom playback frame rate UI
-* Damien Picard - French translation
-* Stefan Ihringer - German translation
-* Kimball Thurston - OpenEXR 2.5.1 upgrade
-* Yushi Tone - Japanese translation
-
-<br><br><a name="legal"></a>
-## Legal
-
-Copyright (c) 2004-2025 Darby Johnston
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this
-  list of conditions, and the following disclaimer.
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions, and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-* Neither the names of the copyright holders nor the names of any
-  contributors may be used to endorse or promote products derived from this
-  software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
-

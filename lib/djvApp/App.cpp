@@ -209,7 +209,7 @@ namespace djv
         {
             FEATHER_TK_P();
             tl::file::PathOptions pathOptions;
-            pathOptions.maxNumberDigits = p.settingsModel->getFileSequence().maxDigits;
+            pathOptions.maxNumberDigits = p.settingsModel->getImageSequence().maxDigits;
             for (const auto& i : tl::timeline::getPaths(_context, path, pathOptions))
             {
                 auto item = std::make_shared<FilesModelItem>();
@@ -916,7 +916,7 @@ namespace djv
         {
             FEATHER_TK_P();
             tl::io::Options out;
-            out = tl::io::merge(out, tl::io::getOptions(p.settingsModel->getFileSequence().io));
+            out = tl::io::merge(out, tl::io::getOptions(p.settingsModel->getImageSequence().io));
 #if defined(TLRENDER_FFMPEG)
             out = tl::io::merge(out, tl::ffmpeg::getOptions(p.settingsModel->getFFmpeg()));
 #endif // TLRENDER_FFMPEG
@@ -947,16 +947,16 @@ namespace djv
                     try
                     {
                         tl::timeline::Options options;
-                        const FileSequenceSettings fileSequence = p.settingsModel->getFileSequence();
-                        options.fileSequenceAudio = fileSequence.audio;
-                        options.fileSequenceAudioExtensions = fileSequence.audioExtensions;
-                        options.fileSequenceAudioFileName = fileSequence.audioFileName;
+                        const ImageSequenceSettings imageSequence = p.settingsModel->getImageSequence();
+                        options.imageSequenceAudio = imageSequence.audio;
+                        options.imageSequenceAudioExtensions = imageSequence.audioExtensions;
+                        options.imageSequenceAudioFileName = imageSequence.audioFileName;
                         const AdvancedSettings advanced = p.settingsModel->getAdvanced();
                         options.compat = advanced.compat;
                         options.videoRequestMax = advanced.videoRequestMax;
                         options.audioRequestMax = advanced.audioRequestMax;
                         options.ioOptions = _getIOOptions();
-                        options.pathOptions.maxNumberDigits = fileSequence.maxDigits;
+                        options.pathOptions.maxNumberDigits = imageSequence.maxDigits;
                         auto otioTimeline = files[i]->audioPath.isEmpty() ?
                             tl::timeline::create(_context, files[i]->path, options) :
                             tl::timeline::create(_context, files[i]->path, files[i]->audioPath, options);

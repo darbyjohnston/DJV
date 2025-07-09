@@ -116,10 +116,10 @@ namespace djv
             FEATHER_TK_PRIVATE();
         };
 
-        //! File sequence settings widget.
-        class FileSequenceSettingsWidget : public ISettingsWidget
+        //! Image sequence settings widget.
+        class ImageSequenceSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(FileSequenceSettingsWidget);
+            FEATHER_TK_NON_COPYABLE(ImageSequenceSettingsWidget);
 
         protected:
             void _init(
@@ -127,12 +127,12 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
-            FileSequenceSettingsWidget();
+            ImageSequenceSettingsWidget();
 
         public:
-            virtual ~FileSequenceSettingsWidget();
+            virtual ~ImageSequenceSettingsWidget();
 
-            static std::shared_ptr<FileSequenceSettingsWidget> create(
+            static std::shared_ptr<ImageSequenceSettingsWidget> create(
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);

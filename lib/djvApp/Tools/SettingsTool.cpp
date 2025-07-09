@@ -362,7 +362,7 @@ namespace djv
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        struct FileSequenceSettingsWidget::Private
+        struct ImageSequenceSettingsWidget::Private
         {
             std::shared_ptr<SettingsModel> model;
 
@@ -374,22 +374,22 @@ namespace djv
             std::shared_ptr<feather_tk::IntEdit> threadsEdit;
             std::shared_ptr<feather_tk::FormLayout> layout;
 
-            std::shared_ptr<feather_tk::ValueObserver<FileSequenceSettings> > settingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<ImageSequenceSettings> > settingsObserver;
         };
 
-        void FileSequenceSettingsWidget::_init(
+        void ImageSequenceSettingsWidget::_init(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            ISettingsWidget::_init(context, "djv::app::FileSequenceSettingsWidget", parent);
+            ISettingsWidget::_init(context, "djv::app::ImageSequenceSettingsWidget", parent);
             FEATHER_TK_P();
 
             p.model = app->getSettingsModel();
 
-            p.audioComboBox = feather_tk::ComboBox::create(context, tl::timeline::getFileSequenceAudioLabels());
+            p.audioComboBox = feather_tk::ComboBox::create(context, tl::timeline::getImageSequenceAudioLabels());
             p.audioComboBox->setHStretch(feather_tk::Stretch::Expanding);
-            p.audioComboBox->setTooltip("Set how audio files are opened for image sequences.");
+            p.audioComboBox->setTooltip("How audio files are opened for image sequences.");
 
             p.audioExtensionsEdit = feather_tk::LineEdit::create(context);
             p.audioExtensionsEdit->setHStretch(feather_tk::Stretch::Expanding);
@@ -420,16 +420,16 @@ namespace djv
             p.layout->addRow("Default speed (FPS):", p.defaultSpeedEdit);
             p.layout->addRow("I/O threads:", p.threadsEdit);
 
-            p.settingsObserver = feather_tk::ValueObserver<FileSequenceSettings>::create(
-                p.model->observeFileSequence(),
-                [this](const FileSequenceSettings& value)
+            p.settingsObserver = feather_tk::ValueObserver<ImageSequenceSettings>::create(
+                p.model->observeImageSequence(),
+                [this](const ImageSequenceSettings& value)
                 {
                     FEATHER_TK_P();
                     p.audioComboBox->setCurrentIndex(static_cast<int>(value.audio));
                     p.audioExtensionsEdit->setText(feather_tk::join(value.audioExtensions, ' '));
-                    p.layout->setRowVisible(p.audioExtensionsEdit, tl::timeline::FileSequenceAudio::Extension == value.audio);
+                    p.layout->setRowVisible(p.audioExtensionsEdit, tl::timeline::ImageSequenceAudio::Extension == value.audio);
                     p.audioFileNameEdit->setText(value.audioFileName);
-                    p.layout->setRowVisible(p.audioFileNameEdit, tl::timeline::FileSequenceAudio::FileName == value.audio);
+                    p.layout->setRowVisible(p.audioFileNameEdit, tl::timeline::ImageSequenceAudio::FileName == value.audio);
                     p.maxDigitsEdit->setValue(value.maxDigits);
                     p.defaultSpeedEdit->setValue(value.io.defaultSpeed);
                     p.threadsEdit->setValue(value.io.threadCount);
@@ -439,86 +439,86 @@ namespace djv
                 [this](int value)
                 {
                     FEATHER_TK_P();
-                    FileSequenceSettings settings = p.model->getFileSequence();
-                    settings.audio = static_cast<tl::timeline::FileSequenceAudio>(value);
-                    p.model->setFileSequence(settings);
+                    ImageSequenceSettings settings = p.model->getImageSequence();
+                    settings.audio = static_cast<tl::timeline::ImageSequenceAudio>(value);
+                    p.model->setImageSequence(settings);
                 });
 
             p.audioExtensionsEdit->setTextCallback(
                 [this](const std::string& value)
                 {
                     FEATHER_TK_P();
-                    FileSequenceSettings settings = p.model->getFileSequence();
+                    ImageSequenceSettings settings = p.model->getImageSequence();
                     settings.audioExtensions = feather_tk::split(value, ' ');
-                    p.model->setFileSequence(settings);
+                    p.model->setImageSequence(settings);
                 });
 
             p.audioFileNameEdit->setTextCallback(
                 [this](const std::string& value)
                 {
                     FEATHER_TK_P();
-                    FileSequenceSettings settings = p.model->getFileSequence();
+                    ImageSequenceSettings settings = p.model->getImageSequence();
                     settings.audioFileName = value;
-                    p.model->setFileSequence(settings);
+                    p.model->setImageSequence(settings);
                 });
 
             p.maxDigitsEdit->setCallback(
                 [this](int value)
                 {
                     FEATHER_TK_P();
-                    FileSequenceSettings settings = p.model->getFileSequence();
+                    ImageSequenceSettings settings = p.model->getImageSequence();
                     settings.maxDigits = value;
-                    p.model->setFileSequence(settings);
+                    p.model->setImageSequence(settings);
                 });
 
             p.defaultSpeedEdit->setCallback(
                 [this](double value)
                 {
                     FEATHER_TK_P();
-                    FileSequenceSettings settings = p.model->getFileSequence();
+                    ImageSequenceSettings settings = p.model->getImageSequence();
                     settings.io.defaultSpeed = value;
-                    p.model->setFileSequence(settings);
+                    p.model->setImageSequence(settings);
                 });
 
             p.threadsEdit->setCallback(
                 [this](int value)
                 {
                     FEATHER_TK_P();
-                    FileSequenceSettings settings = p.model->getFileSequence();
+                    ImageSequenceSettings settings = p.model->getImageSequence();
                     settings.io.threadCount = value;
-                    p.model->setFileSequence(settings);
+                    p.model->setImageSequence(settings);
                 });
         }
 
-        FileSequenceSettingsWidget::FileSequenceSettingsWidget() :
+        ImageSequenceSettingsWidget::ImageSequenceSettingsWidget() :
             _p(new Private)
         {}
 
-        FileSequenceSettingsWidget::~FileSequenceSettingsWidget()
+        ImageSequenceSettingsWidget::~ImageSequenceSettingsWidget()
         {}
 
-        std::shared_ptr<FileSequenceSettingsWidget> FileSequenceSettingsWidget::create(
+        std::shared_ptr<ImageSequenceSettingsWidget> ImageSequenceSettingsWidget::create(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<FileSequenceSettingsWidget>(new FileSequenceSettingsWidget);
+            auto out = std::shared_ptr<ImageSequenceSettingsWidget>(new ImageSequenceSettingsWidget);
             out->_init(context, app, parent);
             return out;
         }
 
-        void FileSequenceSettingsWidget::setMarginRole(feather_tk::SizeRole value)
+        void ImageSequenceSettingsWidget::setMarginRole(feather_tk::SizeRole value)
         {
             _p->layout->setMarginRole(value);
         }
 
-        void FileSequenceSettingsWidget::setGeometry(const feather_tk::Box2I& value)
+        void ImageSequenceSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void FileSequenceSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
+        void ImageSequenceSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -1115,8 +1115,8 @@ namespace djv
             cacheWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto fileBrowserWidget = FileBrowserSettingsWidget::create(context, app);
             fileBrowserWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
-            auto fileSequenceWidget = FileSequenceSettingsWidget::create(context, app);
-            fileSequenceWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            auto imageSequenceWidget = ImageSequenceSettingsWidget::create(context, app);
+            imageSequenceWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto miscWidget = MiscSettingsWidget::create(context, app);
             miscWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto mouseWidget = MouseSettingsWidget::create(context, app);
@@ -1142,8 +1142,8 @@ namespace djv
             p.bellows["Cache"]->setWidget(cacheWidget);
             p.bellows["FileBrowser"] = feather_tk::Bellows::create(context, "File Browser", vLayout);
             p.bellows["FileBrowser"]->setWidget(fileBrowserWidget);
-            p.bellows["FileSequences"] = feather_tk::Bellows::create(context, "File Sequences", vLayout);
-            p.bellows["FileSequences"]->setWidget(fileSequenceWidget);
+            p.bellows["ImageSequences"] = feather_tk::Bellows::create(context, "Image Sequences", vLayout);
+            p.bellows["ImageSequences"]->setWidget(imageSequenceWidget);
             p.bellows["Misc"] = feather_tk::Bellows::create(context, "Miscellaneous", vLayout);
             p.bellows["Misc"]->setWidget(miscWidget);
             p.bellows["Mouse"] = feather_tk::Bellows::create(context, "Mouse", vLayout);

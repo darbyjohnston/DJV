@@ -107,17 +107,17 @@ namespace djv
             bool operator != (const FileBrowserSettings&) const;
         };
 
-        //! File sequence settings.
-        struct FileSequenceSettings
+        //! Image sequence settings.
+        struct ImageSequenceSettings
         {
-            tl::timeline::FileSequenceAudio audio = tl::timeline::FileSequenceAudio::Extension;
-            std::vector<std::string> audioExtensions;
-            std::string audioFileName;
+            tl::timeline::ImageSequenceAudio audio = tl::timeline::Options().imageSequenceAudio;
+            std::vector<std::string> audioExtensions = tl::timeline::Options().imageSequenceAudioExtensions;
+            std::string audioFileName = tl::timeline::Options().imageSequenceAudioFileName;
             size_t maxDigits = 9;
             tl::io::SequenceOptions io;
 
-            bool operator == (const FileSequenceSettings&) const;
-            bool operator != (const FileSequenceSettings&) const;
+            bool operator == (const ImageSequenceSettings&) const;
+            bool operator != (const ImageSequenceSettings&) const;
         };
 
         //! Miscellaneous settings.
@@ -276,12 +276,12 @@ namespace djv
 
             ///@}
 
-            //! \name File Sequences
+            //! \name Image Sequences
             ///@{
 
-            const FileSequenceSettings& getFileSequence() const;
-            std::shared_ptr<feather_tk::IObservableValue<FileSequenceSettings> > observeFileSequence() const;
-            void setFileSequence(const FileSequenceSettings&);
+            const ImageSequenceSettings& getImageSequence() const;
+            std::shared_ptr<feather_tk::IObservableValue<ImageSequenceSettings> > observeImageSequence() const;
+            void setImageSequence(const ImageSequenceSettings&);
 
             ///@}
 
@@ -371,7 +371,7 @@ namespace djv
         void to_json(nlohmann::json&, const AdvancedSettings&);
         void to_json(nlohmann::json&, const ExportSettings&);
         void to_json(nlohmann::json&, const FileBrowserSettings&);
-        void to_json(nlohmann::json&, const FileSequenceSettings&);
+        void to_json(nlohmann::json&, const ImageSequenceSettings&);
         void to_json(nlohmann::json&, const MiscSettings&);
         void to_json(nlohmann::json&, const MouseSettings&);
         void to_json(nlohmann::json&, const ShortcutsSettings&);
@@ -382,7 +382,7 @@ namespace djv
         void from_json(const nlohmann::json&, AdvancedSettings&);
         void from_json(const nlohmann::json&, ExportSettings&);
         void from_json(const nlohmann::json&, FileBrowserSettings&);
-        void from_json(const nlohmann::json&, FileSequenceSettings&);
+        void from_json(const nlohmann::json&, ImageSequenceSettings&);
         void from_json(const nlohmann::json&, MiscSettings&);
         void from_json(const nlohmann::json&, MouseSettings&);
         void from_json(const nlohmann::json&, ShortcutsSettings&);
