@@ -1,25 +1,17 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Build Status](https://github.com/darbyjohnston/DJV/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/darbyjohnston/DJV/actions/workflows/ci-workflow.yml)
 
-![DJV Icon](etc/Icons/DJV_Icon_64.svg) DJV
-===
-DJV provides professional media review software for visual effects, film, and animation.
+# ![DJV Icon](etc/Icons/DJV_Icon_32.svg) DJV
 
-Features:
-* Playback OpenTimelineIO files (.otio and .otioz), image sequences, and movies
-* A/B comparison with multiple modes including wipe, overlay, difference, and tile
-* Color management with OpenColorIO
-* Multi-track, variable speed, and reverse audio playback
-* Support for Linux, macOS, and Windows
+Professional playback and review software for image sequences, movies, and
+timelines.
 
-Experimental:
-* USD support
-
-[Download](https://darbyjohnston.github.io/DJV/index.html)
-
-**NOTE**: Download packages only include a minimal set of video codecs. To enable
-full support for video codeces, either compile from source or replace the
-FFmpeg shared library files.
+Features include:
+* A/B comparison of multiple files with wipe, overlay, and difference modes.
+* Color management with OpenColorIO.
+* Multi-track audio with variable speed and reverse playback.
+* Cross-platform support for Linux, macOS, and Windows.
+* Experimental support for playback of USD files.
 
 [Documentation](https://darbyjohnston.github.io/DJV/index.html)
 
@@ -32,8 +24,12 @@ with a wipe and horizontal layout:
 ![Screenshot](etc/Images/djv_screenshot2.png)
 
 
-Building
-========
+## Downloads
+
+**NOTE**: Download packages only include a minimal set of video codecs. To
+enable full support for video codecs, either compile from source or replace
+the FFmpeg shared library files.
+
 
 ## Building on Linux
 
@@ -73,8 +69,6 @@ Run the application:
 ```
 ./Release/DJV/src/DJV-build/bin/djv/djv
 ```
-
-### Notes for building on macOS
 
 The CMake variable `CMAKE_OSX_ARCHITECTURES` can be used to specify the build
 architecture:

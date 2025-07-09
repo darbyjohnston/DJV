@@ -389,6 +389,7 @@ namespace djv
 
             p.audioComboBox = feather_tk::ComboBox::create(context, tl::timeline::getFileSequenceAudioLabels());
             p.audioComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.audioComboBox->setTooltip("Set how audio files are opened for image sequences.");
 
             p.audioExtensionsEdit = feather_tk::LineEdit::create(context);
             p.audioExtensionsEdit->setHStretch(feather_tk::Stretch::Expanding);
@@ -399,8 +400,10 @@ namespace djv
 
             p.audioFileNameEdit = feather_tk::LineEdit::create(context);
             p.audioFileNameEdit->setHStretch(feather_tk::Stretch::Expanding);
+            p.audioFileNameEdit->setTooltip("Audio file name to open.");
 
             p.maxDigitsEdit = feather_tk::IntEdit::create(context);
+            p.maxDigitsEdit->setTooltip("Maximum number of digits allowed in a frame number.");
 
             p.defaultSpeedEdit = feather_tk::DoubleEdit::create(context);
             p.defaultSpeedEdit->setRange(feather_tk::RangeD(1.0, 120.0));
@@ -424,7 +427,9 @@ namespace djv
                     FEATHER_TK_P();
                     p.audioComboBox->setCurrentIndex(static_cast<int>(value.audio));
                     p.audioExtensionsEdit->setText(feather_tk::join(value.audioExtensions, ' '));
+                    p.layout->setRowVisible(p.audioExtensionsEdit, tl::timeline::FileSequenceAudio::Extension == value.audio);
                     p.audioFileNameEdit->setText(value.audioFileName);
+                    p.layout->setRowVisible(p.audioFileNameEdit, tl::timeline::FileSequenceAudio::FileName == value.audio);
                     p.maxDigitsEdit->setValue(value.maxDigits);
                     p.defaultSpeedEdit->setValue(value.io.defaultSpeed);
                     p.threadsEdit->setValue(value.io.threadCount);

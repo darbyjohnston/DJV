@@ -438,8 +438,8 @@ namespace djv
 
             p.cacheLabel->setText(
                 feather_tk::Format("Cache: {0}% V, {1}% A").
-                arg(p.cacheInfo.videoPercentage, 2, 5).
-                arg(p.cacheInfo.audioPercentage, 2, 5));
+                arg(p.cacheInfo.videoPercentage, 0, 3).
+                arg(p.cacheInfo.audioPercentage, 0, 3));
 
             p.hudLayout->setVisible(p.hud);
         }
