@@ -34,7 +34,7 @@ namespace djv
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             feather_tk::Label::create(context, feather_tk::Format("Welcome to DJV version {0}.").arg(DJV_VERSION), p.layout);
-            feather_tk::Label::create(context, "Start by configuring some common settings.", p.layout);
+            feather_tk::Label::create(context, "Start by configuring some settings.", p.layout);
             feather_tk::Label::create(context, "Changes can also be made later in the settings tool.", p.layout);
         }
 
@@ -110,7 +110,7 @@ namespace djv
             p.widgets.push_back(StyleSettingsWidget::create(context, app, vLayout));
             vLayout = feather_tk::VerticalLayout::create(context, p.stackLayout);
             vLayout->setSpacingRole(feather_tk::SizeRole::SpacingLarge);
-            feather_tk::Label::create(context, "Configure the cache:", vLayout);
+            feather_tk::Label::create(context, "Configure the memory cache:", vLayout);
             p.widgets.push_back(CacheSettingsWidget::create(context, app, vLayout));
             vLayout = feather_tk::VerticalLayout::create(context, p.stackLayout);
             vLayout->setSpacingRole(feather_tk::SizeRole::SpacingLarge);
