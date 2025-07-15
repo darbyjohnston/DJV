@@ -37,7 +37,6 @@ namespace djv
             std::shared_ptr<feather_tk::FloatEditSlider> wipeXSlider;
             std::shared_ptr<feather_tk::FloatEditSlider> wipeYSlider;
             std::shared_ptr<feather_tk::FloatEditSlider> wipeRotationSlider;
-            std::shared_ptr<feather_tk::Label> wipeLabel;
             std::shared_ptr<feather_tk::FloatEditSlider> overlaySlider;
             std::shared_ptr<feather_tk::FormLayout> compareLayout;
             std::map<std::string, std::shared_ptr<feather_tk::Bellows> > bellows;
@@ -101,7 +100,7 @@ namespace djv
             feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, layout);
 
             auto vLayout = feather_tk::VerticalLayout::create(context);
-            vLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            vLayout->setMarginRole(feather_tk::SizeRole::Margin);
             vLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.compareLayout = feather_tk::FormLayout::create(context, vLayout);
             p.compareLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
@@ -111,7 +110,6 @@ namespace djv
             p.compareLayout->addRow("Y:", p.wipeYSlider);
             p.compareLayout->addRow("Rotation:", p.wipeRotationSlider);
             p.compareLayout->addRow("Amount:", p.overlaySlider);
-            p.wipeLabel = feather_tk::Label::create(context, "Alt+click to move the wipe position", vLayout);
             p.bellows["Compare"] = feather_tk::Bellows::create(context, "Compare", layout);
             p.bellows["Compare"]->setWidget(vLayout);
 
@@ -378,7 +376,6 @@ namespace djv
             p.compareLayout->setRowVisible(p.wipeXSlider, value.compare == tl::timeline::Compare::Wipe);
             p.compareLayout->setRowVisible(p.wipeYSlider, value.compare == tl::timeline::Compare::Wipe);
             p.compareLayout->setRowVisible(p.wipeRotationSlider, value.compare == tl::timeline::Compare::Wipe);
-            p.wipeLabel->setVisible(value.compare == tl::timeline::Compare::Wipe);
             p.compareLayout->setRowVisible(p.overlaySlider, value.compare == tl::timeline::Compare::Overlay);
         }
     }

@@ -74,7 +74,7 @@ namespace djv
             p.lookComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             auto formLayout = feather_tk::FormLayout::create(context, p.layout);
             formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
@@ -214,7 +214,7 @@ namespace djv
             p.orderComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enabled:", p.enabledCheckBox);
             p.layout->addRow("File name:", p.fileEdit);
@@ -333,7 +333,7 @@ namespace djv
             p.invertCheckBox = feather_tk::CheckBox::create(context);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enabled:", p.enabledCheckBox);
             p.layout->addRow("Add:", p.sliders["Add"]);
@@ -542,7 +542,7 @@ namespace djv
             p.rangeEdits["OutMax"]->setValue(range.max());
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enabled:", p.enabledCheckBox);
             p.layout->addRow("In low:", p.sliders["InLow"]);
@@ -755,7 +755,7 @@ namespace djv
             p.sliders["KneeHigh"]->setDefaultValue(5.F);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enabled:", p.enabledCheckBox);
             p.layout->addRow("Exposure:", p.sliders["Exposure"]);
@@ -887,7 +887,7 @@ namespace djv
             p.sliders["SoftClip"]->setDefaultValue(0.F);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enabled:", p.enabledCheckBox);
             p.layout->addRow("Soft clip:", p.sliders["SoftClip"]);

@@ -76,6 +76,7 @@ namespace djv
             p.displayScaleComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Color style:", p.colorStyleComboBox);
             p.layout->addRow("Brightness:", p.brightnessSlider);
@@ -144,11 +145,6 @@ namespace djv
             auto out = std::shared_ptr<StyleSettingsWidget>(new StyleSettingsWidget);
             out->_init(context, app, parent);
             return out;
-        }
-
-        void StyleSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
         }
 
         void StyleSettingsWidget::setGeometry(const feather_tk::Box2I& value)

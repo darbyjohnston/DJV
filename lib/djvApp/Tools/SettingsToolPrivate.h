@@ -24,8 +24,6 @@ namespace djv
 
         public:
             virtual ~ISettingsWidget();
-
-            virtual void setMarginRole(feather_tk::SizeRole);
         };
 
         //! Advanced settings widget.
@@ -48,8 +46,6 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setMarginRole(feather_tk::SizeRole) override;
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
@@ -77,8 +73,6 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setMarginRole(feather_tk::SizeRole) override;
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
@@ -108,8 +102,6 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setMarginRole(feather_tk::SizeRole) override;
-
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
@@ -136,8 +128,6 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setMarginRole(feather_tk::SizeRole) override;
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
@@ -167,8 +157,6 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setMarginRole(feather_tk::SizeRole) override;
-
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
@@ -196,8 +184,6 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setMarginRole(feather_tk::SizeRole) override;
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
@@ -266,8 +252,6 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setMarginRole(feather_tk::SizeRole) override;
-
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
@@ -297,8 +281,6 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setMarginRole(feather_tk::SizeRole) override;
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
@@ -330,8 +312,6 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setMarginRole(feather_tk::SizeRole) override;
-
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
 
@@ -360,8 +340,6 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setMarginRole(feather_tk::SizeRole) override;
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
@@ -392,8 +370,6 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
-
-            void setMarginRole(feather_tk::SizeRole) override;
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;

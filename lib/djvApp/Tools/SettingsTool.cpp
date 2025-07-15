@@ -35,9 +35,6 @@ namespace djv
         ISettingsWidget::~ISettingsWidget()
         {}
 
-        void ISettingsWidget::setMarginRole(feather_tk::SizeRole)
-        {}
-
         struct AdvancedSettingsWidget::Private
         {
             std::shared_ptr<SettingsModel> model;
@@ -77,6 +74,7 @@ namespace djv
             p.audioRequestsEdit->setRange(feather_tk::RangeI(1, 64));
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             auto label = feather_tk::Label::create(context, "Changes are applied to new files.", p.layout);
             auto formLayout = feather_tk::FormLayout::create(context, p.layout);
@@ -151,11 +149,6 @@ namespace djv
             return out;
         }
 
-        void AdvancedSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
-        }
-
         void AdvancedSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
@@ -206,6 +199,7 @@ namespace djv
             p.readBehindEdit->setLargeStep(1.0);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Video cache (GB):", p.videoEdit);
             p.layout->addRow("Audio cache (GB):", p.audioEdit);
@@ -266,11 +260,6 @@ namespace djv
             return out;
         }
 
-        void CacheSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
-        }
-
         void CacheSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
@@ -307,6 +296,7 @@ namespace djv
             p.nfdCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Native file dialog:", p.nfdCheckBox);
 
@@ -343,11 +333,6 @@ namespace djv
             auto out = std::shared_ptr<FileBrowserSettingsWidget>(new FileBrowserSettingsWidget);
             out->_init(context, app, parent);
             return out;
-        }
-
-        void FileBrowserSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
         }
 
         void FileBrowserSettingsWidget::setGeometry(const feather_tk::Box2I& value)
@@ -412,6 +397,7 @@ namespace djv
             p.threadsEdit->setRange(feather_tk::RangeI(1, 64));
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Audio:", p.audioComboBox);
             p.layout->addRow("Audio extensions:", p.audioExtensionsEdit);
@@ -507,11 +493,6 @@ namespace djv
             return out;
         }
 
-        void ImageSequenceSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
-        }
-
         void ImageSequenceSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
@@ -552,6 +533,7 @@ namespace djv
             p.showSetupCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enable tooltips:", p.tooltipsCheckBox);
             p.layout->addRow("Show setup dialog:", p.showSetupCheckBox);
@@ -599,11 +581,6 @@ namespace djv
             auto out = std::shared_ptr<MiscSettingsWidget>(new MiscSettingsWidget);
             out->_init(context, app, parent);
             return out;
-        }
-
-        void MiscSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
         }
 
         void MiscSettingsWidget::setGeometry(const feather_tk::Box2I& value)
@@ -664,6 +641,7 @@ namespace djv
             }
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             for (const auto mouseAction : getMouseActionEnums())
             {
@@ -724,11 +702,6 @@ namespace djv
             return out;
         }
 
-        void MouseSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
-        }
-
         void MouseSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
@@ -764,6 +737,7 @@ namespace djv
             p.timeUnitsComboBox = feather_tk::ComboBox::create(context, tl::timeline::getTimeUnitsLabels());
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Time units:", p.timeUnitsComboBox);
 
@@ -797,11 +771,6 @@ namespace djv
             auto out = std::shared_ptr<TimeSettingsWidget>(new TimeSettingsWidget);
             out->_init(context, app, parent);
             return out;
-        }
-
-        void TimeSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
         }
 
         void TimeSettingsWidget::setGeometry(const feather_tk::Box2I& value)
@@ -845,6 +814,7 @@ namespace djv
             p.threadsEdit->setRange(feather_tk::RangeI(0, 64));
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             auto label = feather_tk::Label::create(context, "Changes are applied to new files.", p.layout);
             auto formLayout = feather_tk::FormLayout::create(context, p.layout);
@@ -895,11 +865,6 @@ namespace djv
             auto out = std::shared_ptr<FFmpegSettingsWidget>(new FFmpegSettingsWidget);
             out->_init(context, app, parent);
             return out;
-        }
-
-        void FFmpegSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
         }
 
         void FFmpegSettingsWidget::setGeometry(const feather_tk::Box2I& value)
@@ -964,6 +929,7 @@ namespace djv
             p.diskCacheEdit->setRange(feather_tk::RangeI(0, 1024));
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             auto label = feather_tk::Label::create(context, "Changes are applied to new files.", p.layout);
             auto formLayout = feather_tk::FormLayout::create(context, p.layout);
@@ -1071,11 +1037,6 @@ namespace djv
             return out;
         }
 
-        void USDSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
-        }
-
         void USDSettingsWidget::setGeometry(const feather_tk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
@@ -1110,30 +1071,19 @@ namespace djv
             FEATHER_TK_P();
 
             auto advancedWidget = AdvancedSettingsWidget::create(context, app);
-            advancedWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto cacheWidget = CacheSettingsWidget::create(context, app);
-            cacheWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto fileBrowserWidget = FileBrowserSettingsWidget::create(context, app);
-            fileBrowserWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto imageSequenceWidget = ImageSequenceSettingsWidget::create(context, app);
-            imageSequenceWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto miscWidget = MiscSettingsWidget::create(context, app);
-            miscWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto mouseWidget = MouseSettingsWidget::create(context, app);
-            mouseWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto shortcutsWidget = ShortcutsSettingsWidget::create(context, app);
-            shortcutsWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto styleWidget = StyleSettingsWidget::create(context, app);
-            styleWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
             auto timeWidget = TimeSettingsWidget::create(context, app);
-            timeWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
 #if defined(TLRENDER_FFMPEG)
             auto ffmpegWidget = FFmpegSettingsWidget::create(context, app);
-            ffmpegWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
 #endif // TLRENDER_FFMPEG
 #if defined(TLRENDER_USD)
             auto usdWidget = USDSettingsWidget::create(context, app);
-            usdWidget->setMarginRole(feather_tk::SizeRole::MarginSmall);
 #endif // TLRENDER_USD
 
             auto vLayout = feather_tk::VerticalLayout::create(context);
@@ -1165,7 +1115,7 @@ namespace djv
             p.bellows["Advanced"] = feather_tk::Bellows::create(context, "Advanced", vLayout);
             p.bellows["Advanced"]->setWidget(advancedWidget);
             auto hLayout = feather_tk::VerticalLayout::create(context, vLayout);
-            hLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            hLayout->setMarginRole(feather_tk::SizeRole::Margin);
             p.resetButton = feather_tk::PushButton::create(context, "Default Settings", hLayout);
 
             p.scrollWidget = feather_tk::ScrollWidget::create(context);

@@ -83,7 +83,7 @@ namespace djv
             p.colorBufferComboBox = feather_tk::ComboBox::create(context, items);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Minify:", p.minifyComboBox);
             p.layout->addRow("Magnify:", p.magnifyComboBox);
@@ -252,7 +252,7 @@ namespace djv
             p.gradientSwatch.second->setEditable(true);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Type:", p.typeComboBox);
             p.layout->addRow("Color:", p.solidSwatch);
@@ -426,7 +426,7 @@ namespace djv
             p.colorSwatch->setHAlign(feather_tk::HAlign::Left);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enabled:", p.enabledCheckBox);
             p.layout->addRow("Width:", p.widthSlider);
@@ -544,7 +544,7 @@ namespace djv
             p.colorSwatch->setHAlign(feather_tk::HAlign::Left);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.layout->addRow("Enabled:", p.enabledCheckBox);
             p.layout->addRow("Size:", p.sizeSlider);

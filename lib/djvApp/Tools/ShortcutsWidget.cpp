@@ -280,7 +280,7 @@ namespace djv
             p.model = app->getSettingsModel();
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(feather_tk::SizeRole::Spacing);
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
 
             p.settingsObserver = feather_tk::ValueObserver<ShortcutsSettings>::create(
                 p.model->observeShortcuts(),
@@ -305,11 +305,6 @@ namespace djv
             auto out = std::shared_ptr<ShortcutsSettingsWidget>(new ShortcutsSettingsWidget);
             out->_init(context, app, parent);
             return out;
-        }
-
-        void ShortcutsSettingsWidget::setMarginRole(feather_tk::SizeRole value)
-        {
-            _p->layout->setMarginRole(value);
         }
 
         void ShortcutsSettingsWidget::setGeometry(const feather_tk::Box2I& value)
