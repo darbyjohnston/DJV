@@ -1,14 +1,19 @@
-# DJV ![Main Window](assets/DJV_Icon_32.svg)
+# ![Main Window](assets/DJV_Icon_32.svg) DJV
 
-DJV is an application for playback and review of image sequences.
+DJV is an open source application for playback and review of image
+sequences. DJV can playback high resolution image sequences in real
+time, with audio, A/B comparison, and color management.
 
 Features include:
-* Compare multiple files with wipe, overlay, and difference modes.
-* Timeline support with OpenTimelineIO.
-* Color management with OpenColorIO.
-* Multi-track audio with variable speed and reverse playback.
-* Experimental support for USD files.
-* Available for Linux, macOS, and Windows.
+* Support for high resolution and high bit depth images
+* A/B comparison with wipe, overlay, and difference modes
+* Timeline support with OpenTimelineIO
+* Color management with OpenColorIO
+* Multi-track audio with variable speed and reverse playback
+* Experimental support for USD files
+* Available for Linux, macOS, and Windows
+
+<br>
 
 ![Main Window](assets/djv_screenshot1.png)
 
@@ -18,13 +23,16 @@ Features include:
 
 1. [Download and Install](#install)
 2. [Main Window](#main_window)
-3. [Working with Files](#files)
-4. [Playback and Frame Control](#playback)
-5. [A/B Comparison](#compare)
-6. [Color Management](#color)
-7. [Exporting Files](#export)
-8. [Keyboard Shortcuts](#shortcuts)
-9. [Building from Source](#build)
+3. [Viewport](#viewport)
+4. [Working with Files](#files)
+5. [Playback and Frame Control](#playback)
+6. [Timeline](#timeline)
+7. [A/B Comparison](#compare)
+8. [Color Controls](#color)
+9. [Exporting Files](#export)
+10. [Keyboard Shortcuts](#shortcuts)
+11. [Settings](#settings)
+12. [Building from Source](#build)
 
 
 <br><br><a name="install"></a>
@@ -49,44 +57,71 @@ DJV to the Applications folder.
 ## Main Window
 
 ![Main Window](assets/MainWindowAnnotated.svg)
-
 Main window components:
-
-1. Menu Bar - Menus and actions for controlling the application.
-2. Tool Bars - Access to commonly used actions.
-3. Tab Bar - Switch between currently opened files.
-4. Viewport - The view of the current file.
-5. Timeline - The timeline for the current file.
-6. Bottom Bar - Playback, frame, and audio controls.
-7. Tool Widget - The current tool widget.
-8. Status Bar - Errors and information about the current file.
+1. Menu Bar
+2. Tool Bars
+3. Tab Bar - Switch between currently opened files
+4. Viewport
+5. Timeline
+6. Bottom Tool Bar
+7. Tool Widget
+8. Status Bar - Errors and information about the current file
 
 Components can be toggled on and off from the **Window** menu.
 
-Splitters can be used to change the size of the components.
+Splitters can be used to change the size of the components:
+![Main Window](assets/MainWindowSplitters.svg)
 
 Full screen mode can be enabled from the **Window** menu.
 
 A secondary window can be shown to mirror the viewport on a separate monitor.
 The secondary window can be shown from the **Window** menu.
 
-### Viewport
+
+<br><br><a name="viewport"></a>
+## Viewport
+
+The viewport shows a view of the current file. The view can be panned, zoomed,
+or "framed" so the image fills the view.
 
 Viewport controls:
+* Pan - 'Ctrl' + mouse click and drag
 * Zoom - Mouse wheel or keyboard shortcuts '-' and '='
 * Frame view - Keyboard shortcut 'Backspace'
-* Pan  - 'Ctrl' + mouse click and drag
-* Compare wipe - 'Alt' + mouse click and drag
+* Wipe in compare mode - 'Alt' + mouse click and drag
 * Color picker - Mouse click
-* Frame shuttle: Mouse click and drag
+* Frame shuttle - Mouse click and drag
 
-Viewport controls can be customized in the **Settings** tool.
+The viewport controls can be customized in the **Settings** tool.
+
+The bit depth of the viewport can be set in the **View** tool with the buffer
+type option. The value "RGBA_U8" will use an 8-bit buffer which is useful for
+lower end GPUs. The values "RGBA_U16" and "RGBA_F32" will use 16-bit and
+floating point buffers respectively.
+
+The background color of the viewport can be set in the **View** tool. An
+outline can also be drawn around the image to disinguish it from the
+background, usefull for images with transparency.
+
+### Grid
+
+A grid can be enabled from the **View** tool.
+
+One example use for the grid is to disinguish individual pixels. Set the grid
+size to one, and the view options "Minify" and "Magnify" to "Nearest". Zoom
+into the viewport to see the grid.
+
+![View Pixel Grid](assets/ViewPixelGridAnnotated.svg)
+1. Set "Minify" and "Magnify" to "Nearest"
+2. Enable the grid
+3. Set the grid size to one pixel
+
+### HUD
 
 Information can be overlaid on the viewport by enabling the HUD (heads up
 display). The HUD can be enabled from the **View** menu.
 
 ![Viewport HUD](assets/ViewportHUDAnnotated.svg)
-
 1. Current file name
 2. Current frame
 3. Playback speed
@@ -99,7 +134,7 @@ display). The HUD can be enabled from the **View** menu.
 <br><br><a name="files"></a>
 ## Working with Files
 
-Supported formats:
+Supported file formats:
 * Image sequences: Cineon, DPX, JPEG, OpenEXR, PNG, PPM, SGI, TGA, BMP, TIFF
 * Movie codecs: MJPEG
 * Audio codecs: FLAC, MP3, WAV
@@ -107,7 +142,7 @@ Supported formats:
 
 Files and folders can be opened from the **File** menu, by dragging and
 dropping onto the main window, or from the command line. Opening a folder will
-open all of the media files in the folder (non-recursively).
+open all of the supported files in the folder (non-recursively).
 
 The native file browser is enabled by default on Windows and macOS. The
 built-in file browser can be enabled in the **Settings** tool.
@@ -128,7 +163,22 @@ changed, it is unloaded from the cache and the new file is loaded.
 ### Layers
 
 For files that contain multiple layers (i.e., OpenEXR), the current layer can
-be changed from the **File/Layers** menu or the **Files** tool.
+be changed from the **File/Layers** menu, or the **Files** tool.
+
+### Files Tool
+
+The **Files** tool can be used to set the current file, the current layers, and
+compare options.
+
+The **Files** tool can be shown from the **Tools** menu or the tool bar.
+
+![Files Tool](assets/FilesToolAnnotated.svg)
+1. The current, or "A", file
+2. The "B" file(s)
+3. The current layer for the file
+4. Compare mode
+5. Compare time
+6. Compare options
 
 ### Image Sequences and Audio
 
@@ -147,7 +197,6 @@ To explicitly add audio to an image sequence use the
 ## Playback and Frame Control
 
 ![Playback Controls](assets/PlaybackControlsAnnotated.svg)
-
 1. Playback controls
 2. Playback shuttle - Click and drag to change playback speed
 3. Frame controls
@@ -163,10 +212,11 @@ section of the timeline.
 The number of dropped frames during playback can be viewed in the HUD, which is
 available from the **View** menu.
 
-### Timeline
+
+<br><br><a name="timeline"></a>
+## Timeline
 
 ![Timeline](assets/TimelineAnnotated.svg)
-
 1. Current frame
 2. Video and audio cache display
 3. Video track
@@ -175,7 +225,7 @@ available from the **View** menu.
 6. Audio clips
 
 Controls:
-* Current frame: Mouse click and drag
+* Current frame - Mouse click and drag
 * Zoom - Mouse wheel or keyboard shortcuts '-' and '='
 * Frame view - Keyboard shortcut 'Backspace'
 * Pan - 'Ctrl' + mouse click and drag
@@ -187,7 +237,10 @@ Thumbnails can also be disabled to improve performance.
 <br><br><a name="compare"></a>
 ## A/B Comparison
 
-Two or more files can be compared:
+To compare files, open both files and set the "B" file from either the
+**Compare/B** menu or **Files** tool. The "A" file is the current file.
+
+Compare modes:
 * A - Show only the "A" file
 * B - Show only the "B" file
 * Wipe - Wipe between the "A" and "B" files
@@ -195,10 +248,19 @@ Two or more files can be compared:
 * Difference - Show the difference between the "A" and "B" files
 * Horizontal - Show the "A" and "B" files side by side
 * Vertical - Show the "A" and "B" files over and under
-* Tile - Show the "A" and multiple "B" files as tiles
+* Tile - Show the "A" and "B" files as tiles
 
-To compare files, open both files and set the "B" file from either the
-**Compare/B** menu or **Files** tool. The "A" file is the current file.
+Multiple "B" files can be viewed with "Tile" mode.
+
+One example use for "Tile" mode is to simultaneously view multiple layers
+within a file. Open the file multiple times and set the current layer for
+each instance. Set one of the files as current, or the "A" file, and the
+rest as "B" files, and enable "Tile" compare mode.
+
+![Tile Mode](assets/FilesToolTileAnnotated.svg)
+1. The current, or "A", file
+2. Multiple "B" files
+3. Tile compare mode
 
 Files can be compared in relative or absolute time mode. In relative time mode
 the time of the "B" file will be offset to match the start of the "A" file. In
@@ -206,19 +268,82 @@ absolute time mode the "A" and "B" times will be the same.
 
 
 <br><br><a name="color"></a>
-## Color Management
+## Color Controls
+
+The **Color Controls** tool can be used to set OpenColorIO options, specify a
+LUT (Look-Up Table), or apply other controls like brightness, contrast, and
+levels.
+
+The **Color Controls** tool can be shown from the **Tools** menu or the tool
+bar.
+
+OpenColorIO options:
+![Color Tool](assets/ColorToolAnnotated.svg)
+1. Enable OpenColorIO
+2. OpenColorIO configuration file
+3. Input color space
+4. Display color space
+5. View color space
+
+A LUT file can also be applied either before or after the OpenColorIO pass, by
+setting the LUT "Order" option to "PreColorConfig" or "PostColorConfig".
 
 
 <br><br><a name="export"></a>
 ## Exporting Files
 
+The **Export** tool can be used to export the current file as an image
+sequence, a movie, or the current frame as a still image.
+
+The **Export** tool can be shown from the **Tools** menu or the tool bar.
+
+![Export Tool](assets/ExportToolAnnotated.svg)
+1. Output directory
+2. Render size
+3. File type
+4. Base file name
+5. File extension
+6. Movie codec
+
+To export an image sequence set the file type to "Sequence". To export the
+current frame set the file type to "Image".
+
+Note that audio export is not yet supported.
+
+
+<br><br><a name="settings"></a>
+## Settings
+
+Settings are stored as a JSON file in the "Documents/DJV" folder in your home
+directory.
+
+If the application gets into a bad state or fails to start, try resetting:
+* Delete the settings file
+* Or pass the "-resetSettings" flag on the command line
+
 
 <br><br><a name="shortcuts"></a>
 ## Keyboard Shortcuts
 
+Keyboard shorcuts can be customized in the **Settings** tool.
+
+The **Settings** tool can be shown from the **Tools** menu or the tool bar.
+
+![Keyboard Shortcuts](assets/KeyboardShortcutsAnnotated.svg)
+1. Keyboard shortcuts settings
+2. Shortcut with keyboard focus
+3. Conflicting shortcuts
+
+To set a shortcut, click the shortcut widget or use the tab key to give it
+keyboard focus, then type the new shortcut. The widget will turn red if the
+shortcut conflicts with another one.
+
 
 <br><br><a name="build"></a>
 ## Building from Source
+
+A CMake "super build" script is provided to build DJV and all of the
+dependencies.
 
 ### Building on Linux
 

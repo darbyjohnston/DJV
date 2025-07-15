@@ -3,24 +3,29 @@
 
 # ![DJV Icon](etc/Icons/DJV_Icon_32.svg) DJV
 
-Professional playback and review software for image sequences, movies, and
-timelines.
+DJV is an open source application for playback and review of image
+sequences. DJV can playback high resolution image sequences in real
+time, with audio, A/B comparison, and color management.
 
 Features include:
-* A/B comparison of multiple files with wipe, overlay, and difference modes.
-* Color management with OpenColorIO.
-* Multi-track audio with variable speed and reverse playback.
-* Cross-platform support for Linux, macOS, and Windows.
-* Experimental support for playback of USD files.
+* Support for high resolution and high bit depth images
+* A/B comparison with wipe, overlay, and difference modes
+* Timeline support with OpenTimelineIO
+* Color management with OpenColorIO
+* Multi-track audio with variable speed and reverse playback
+* Experimental support for USD files
+* Available for Linux, macOS, and Windows
 
 [Documentation](https://darbyjohnston.github.io/DJV/index.html)
 
 DJV is built with the [tlRender](https://github.com/darbyjohnston/tlRender) library.
 
-These screenshots show two images being compared, a render and a wireframe,
-with a wipe and horizontal layout:
+Example of two images being compared with a wipe:
 
 ![Screenshot](etc/Images/djv_screenshot1.png)
+
+Example of two images being compared with a horizontal layout:
+
 ![Screenshot](etc/Images/djv_screenshot2.png)
 
 
