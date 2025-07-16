@@ -54,11 +54,11 @@ DJV to the Applications folder.
 
 The first time DJV is started there will be an error:
 <br>
-<img src="macOSSecurity1.png" alt="drawing" width="744"/>
+<img src="assets/macOSSecurity1.png" alt="drawing" width="744"/>
 
 Open the settings and click the **Open Anyway** button:
 <br>
-<img src="macOSSecurity2.png" alt="drawing" width="921"/>
+<img src="assets/macOSSecurity2.png" alt="drawing" width="921"/>
 
 
 <br><br><a name="main_window"></a>
