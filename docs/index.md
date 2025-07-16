@@ -13,7 +13,7 @@ Features include:
 * Experimental support for USD files
 * Available for Linux, macOS, and Windows
 
-GitHub: https://github.com/darbyjohnston/DJV
+[GitHub](https://github.com/darbyjohnston/DJV)
 
 <br>
 
@@ -39,6 +39,8 @@ GitHub: https://github.com/darbyjohnston/DJV
 
 <br><br><a name="install"></a>
 ## Download and Install
+
+[Downloads](https://github.com/darbyjohnston/DJV/releases/)
 
 **NOTE**: Download packages only include a minimal set of video and audio
 codecs. To enable full support, either compile from source or replace the
