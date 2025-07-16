@@ -18,7 +18,6 @@ namespace djv
         struct AboutDialog::Private
         {
             std::shared_ptr<feather_tk::PushButton> licenseButton;
-            std::shared_ptr<feather_tk::PushButton> creditsButton;
             std::shared_ptr<feather_tk::PushButton> closeButton;
             std::shared_ptr<feather_tk::VerticalLayout> layout;
         };
@@ -48,7 +47,6 @@ namespace djv
                 ).arg(DJV_VERSION));
 
             p.licenseButton = feather_tk::PushButton::create(context, "License");
-            p.creditsButton = feather_tk::PushButton::create(context, "Credits");
             p.closeButton = feather_tk::PushButton::create(context, "Close");
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
@@ -62,7 +60,6 @@ namespace djv
             auto vLayout2 = feather_tk::VerticalLayout::create(context, vLayout);
             vLayout2->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             p.licenseButton->setParent(vLayout2);
-            p.creditsButton->setParent(vLayout2);
             feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
             auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
             hLayout->setMarginRole(feather_tk::SizeRole::Margin);
@@ -78,13 +75,7 @@ namespace djv
             p.licenseButton->setClickedCallback(
                 [this]
                 {
-                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/legal.html");
-                });
-
-            p.creditsButton->setClickedCallback(
-                [this]
-                {
-                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/credits.html");
+                    feather_tk::openURL("https://github.com/darbyjohnston/DJV/blob/main/LICENSE.txt");
                 });
         }
 

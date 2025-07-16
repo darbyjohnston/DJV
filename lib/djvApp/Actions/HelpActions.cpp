@@ -29,7 +29,7 @@ namespace djv
                 "Documentation",
                 []
                 {
-                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/docs.html");
+                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/index.html");
                 });
 
             std::weak_ptr<MainWindow> mainWindowWeak(mainWindow);
