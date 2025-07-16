@@ -25,6 +25,10 @@ list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 set(CMAKE_CXX_STANDARD 17)
 
+if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+    add_definitions(-DFEATHER_TK_ASSERT)
+endif()
+
 if(WIN32)
 elseif(APPLE)
     set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
