@@ -52,6 +52,14 @@ folder to a convenient location.
 Packages are distributed as macOS disk images. Open the disk image and copy
 DJV to the Applications folder.
 
+The first time DJV is started there will be an error:
+<br>
+<img src="macOSSecurity1.png" alt="drawing" width="744"/>
+
+Open the settings and click the **Open Anyway** button:
+<br>
+<img src="macOSSecurity2.png" alt="drawing" width="921"/>
+
 
 <br><br><a name="main_window"></a>
 ## Main Window
@@ -85,18 +93,18 @@ The viewport shows a view of the current file. The view can be panned, zoomed,
 or "framed" so the image fills the view.
 
 Viewport controls:
-* Pan - 'Ctrl' + mouse click and drag
-* Zoom - Mouse wheel or keyboard shortcuts '-' and '='
-* Frame view - Keyboard shortcut 'Backspace'
-* Wipe in compare mode - 'Alt' + mouse click and drag
+* Pan - **Ctrl** + mouse click and drag
+* Zoom - Mouse wheel or keyboard shortcuts **-** and **=**
+* Frame view - Keyboard shortcut **Backspace**
+* Wipe in compare mode - **Alt** + mouse click and drag
 * Color picker - Mouse click
 * Frame shuttle - Mouse click and drag
 
 The viewport controls can be customized in the **Settings** tool.
 
 The bit depth of the viewport can be set in the **View** tool with the buffer
-type option. The value "RGBA_U8" will use an 8-bit buffer which is useful for
-lower end GPUs. The values "RGBA_U16" and "RGBA_F32" will use 16-bit and
+type option. The value **RGBA_U8** will use an 8-bit buffer which is useful for
+lower end GPUs. The values **RGBA_U16** and **RGBA_F32** will use 16-bit and
 floating point buffers respectively.
 
 The background color of the viewport can be set in the **View** tool. An
@@ -107,14 +115,11 @@ background, usefull for images with transparency.
 
 A grid can be enabled from the **View** tool.
 
-One example use for the grid is to disinguish individual pixels. Set the grid
-size to one, and the view options "Minify" and "Magnify" to "Nearest". Zoom
-into the viewport to see the grid.
-
+One example of using the grid is for examining individual pixels:
 ![View Pixel Grid](assets/ViewPixelGridAnnotated.svg)
-1. Set "Minify" and "Magnify" to "Nearest"
+1. Set **Minify** and **Magnify** to **Nearest**
 2. Enable the grid
-3. Set the grid size to one pixel
+3. Set the grid size to one
 
 ### HUD
 
@@ -122,6 +127,7 @@ Information can be overlaid on the viewport by enabling the HUD (heads up
 display). The HUD can be enabled from the **View** menu.
 
 ![Viewport HUD](assets/ViewportHUDAnnotated.svg)
+HUD components:
 1. Current file name
 2. Current frame
 3. Playback speed
@@ -139,6 +145,7 @@ Supported file formats:
 * Movie codecs: MJPEG
 * Audio codecs: FLAC, MP3, WAV
 * Timelines: OTIO, OTIOZ
+* Experimental: USD
 
 Files and folders can be opened from the **File** menu, by dragging and
 dropping onto the main window, or from the command line. Opening a folder will
@@ -173,9 +180,10 @@ compare options.
 The **Files** tool can be shown from the **Tools** menu or the tool bar.
 
 ![Files Tool](assets/FilesToolAnnotated.svg)
-1. The current, or "A", file
-2. The "B" file(s)
-3. The current layer for the file
+Files tool components:
+1. The current, or **A**, file
+2. The **B** file(s)
+3. The current layer of the file
 4. Compare mode
 5. Compare time
 6. Compare options
@@ -192,10 +200,22 @@ file name.
 To explicitly add audio to an image sequence use the
 **File/Open With Separate Audio** menu.
 
+### USD
+
+There is experimental support for USD files. The USD file is rendered to an
+image sequence with the Hydra renderer.
+
+The camera used to render the scene, in order of priority:
+1. If the USD file is referenced from an OTIO file, the name of the clip
+2. The primary camera in the scene
+3. The first camera found in the scene
+4. A temporary camera is created that frames the scene
+
 
 <br><br><a name="playback"></a>
 ## Playback and Frame Control
 
+Playback and frame controls on the bottom tool bar:
 ![Playback Controls](assets/PlaybackControlsAnnotated.svg)
 1. Playback controls
 2. Playback shuttle - Click and drag to change playback speed
@@ -217,18 +237,20 @@ available from the **View** menu.
 ## Timeline
 
 ![Timeline](assets/TimelineAnnotated.svg)
+Timeline components:
 1. Current frame
-2. Video and audio cache display
+2. Video cache display (green)
+2. Audio cache display (purple)
 3. Video track
 4. Video clips
 5. Audio track
 6. Audio clips
 
 Controls:
-* Current frame - Mouse click and drag
-* Zoom - Mouse wheel or keyboard shortcuts '-' and '='
-* Frame view - Keyboard shortcut 'Backspace'
-* Pan - 'Ctrl' + mouse click and drag
+* Change the current frame - Mouse click and drag
+* Zoom - Mouse wheel or keyboard shortcuts **-** and **=**
+* Frame view - Keyboard shortcut **Backspace**
+* Pan - **Ctrl** + mouse click and drag
 
 The size of the timeline thumbnails can be set from the **Timeline** menu.
 Thumbnails can also be disabled to improve performance.
@@ -237,34 +259,35 @@ Thumbnails can also be disabled to improve performance.
 <br><br><a name="compare"></a>
 ## A/B Comparison
 
-To compare files, open both files and set the "B" file from either the
-**Compare/B** menu or **Files** tool. The "A" file is the current file.
+To compare files, open both files and set the **B** file from either the
+**Compare/B** menu or **Files** tool. The **A** file is the current file.
 
 Compare modes:
-* A - Show only the "A" file
-* B - Show only the "B" file
-* Wipe - Wipe between the "A" and "B" files
-* Overlay - Show the "B" file over the "A" file
-* Difference - Show the difference between the "A" and "B" files
-* Horizontal - Show the "A" and "B" files side by side
-* Vertical - Show the "A" and "B" files over and under
-* Tile - Show the "A" and "B" files as tiles
+* A - Show only the **A** file
+* B - Show only the **B** file
+* Wipe - Wipe between the **A** and **B** files
+* Overlay - Show the **B** file over the **A** file
+* Difference - Show the difference between the **A** and **B** files
+* Horizontal - Show the **A** and **B** files side by side
+* Vertical - Show the **A** and **B** files over and under
+* Tile - Show the **A** and **B** files as tiles
 
-Multiple "B" files can be viewed with "Tile" mode.
+Multiple **B** files can be viewed with **Tile** mode.
 
-One example use for "Tile" mode is to simultaneously view multiple layers
+One example use for **Tile** mode is to simultaneously view multiple layers
 within a file. Open the file multiple times and set the current layer for
-each instance. Set one of the files as current, or the "A" file, and the
-rest as "B" files, and enable "Tile" compare mode.
+each instance. Set one of the files as current, or the **A** file, and the
+rest as **B** files, and enable **Tile** compare mode.
 
 ![Tile Mode](assets/FilesToolTileAnnotated.svg)
-1. The current, or "A", file
-2. Multiple "B" files
-3. Tile compare mode
+Compare multiple layers:
+1. Set the current, or **A**, file and layer
+2. Set multiple **B** files and their layers
+3. Set the compare mode to **Tile**
 
 Files can be compared in relative or absolute time mode. In relative time mode
-the time of the "B" file will be offset to match the start of the "A" file. In
-absolute time mode the "A" and "B" times will be the same.
+the time of the **B** file will be offset to match the start of the **A** file.
+In absolute time mode the **A** and **B** times will be the same.
 
 
 <br><br><a name="color"></a>
@@ -277,8 +300,8 @@ levels.
 The **Color Controls** tool can be shown from the **Tools** menu or the tool
 bar.
 
-OpenColorIO options:
 ![Color Tool](assets/ColorToolAnnotated.svg)
+OpenColorIO options:
 1. Enable OpenColorIO
 2. OpenColorIO configuration file
 3. Input color space
@@ -286,7 +309,7 @@ OpenColorIO options:
 5. View color space
 
 A LUT file can also be applied either before or after the OpenColorIO pass, by
-setting the LUT "Order" option to "PreColorConfig" or "PostColorConfig".
+setting the LUT **Order** option to **PreColorConfig** or **PostColorConfig**.
 
 
 <br><br><a name="export"></a>
@@ -298,6 +321,7 @@ sequence, a movie, or the current frame as a still image.
 The **Export** tool can be shown from the **Tools** menu or the tool bar.
 
 ![Export Tool](assets/ExportToolAnnotated.svg)
+Export components:
 1. Output directory
 2. Render size
 3. File type
@@ -305,8 +329,8 @@ The **Export** tool can be shown from the **Tools** menu or the tool bar.
 5. File extension
 6. Movie codec
 
-To export an image sequence set the file type to "Sequence". To export the
-current frame set the file type to "Image".
+To export an image sequence set the file type to **Sequence**. To export the
+current frame set the file type to **Image**.
 
 Note that audio export is not yet supported.
 
@@ -314,12 +338,13 @@ Note that audio export is not yet supported.
 <br><br><a name="settings"></a>
 ## Settings
 
-Settings are stored as a JSON file in the "Documents/DJV" folder in your home
+Settings are stored as a JSON file in the **DJV** folder in your **Documents**
 directory.
 
-If the application gets into a bad state or fails to start, try resetting:
+If the application gets into a bad state or fails to start, try resetting the
+settings:
 * Delete the settings file
-* Or pass the "-resetSettings" flag on the command line
+* Or pass the **-resetSettings** flag on the command line
 
 
 <br><br><a name="shortcuts"></a>
@@ -330,6 +355,7 @@ Keyboard shorcuts can be customized in the **Settings** tool.
 The **Settings** tool can be shown from the **Tools** menu or the tool bar.
 
 ![Keyboard Shortcuts](assets/KeyboardShortcutsAnnotated.svg)
+Keyboard shortcuts components:
 1. Keyboard shortcuts settings
 2. Shortcut with keyboard focus
 3. Conflicting shortcuts
