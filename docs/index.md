@@ -13,6 +13,8 @@ Features include:
 * Experimental support for USD files
 * Available for Linux, macOS, and Windows
 
+GitHub: https://github.com/darbyjohnston/DJV
+
 <br>
 
 ![Main Window](assets/djv_screenshot1.png)
@@ -42,10 +44,15 @@ Features include:
 codecs. To enable full support, either compile from source or replace the
 FFmpeg shared libraries.
 
-### Linux and Windows
+### Linux
 
-Packages are distributed as ZIP archives. Unzip the archive and move the DJV
-folder to a convenient location.
+Packages are distributed as tar archives. Uncompress the archive and move the
+DJV folder to a convenient location.
+
+### Windows
+
+Packages are distributed as ZIP archives. Uncompress the archive and move the
+DJV folder to a convenient location.
 
 ### macOS
 
