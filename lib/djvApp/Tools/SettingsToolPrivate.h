@@ -192,6 +192,46 @@ namespace djv
             FEATHER_TK_PRIVATE();
         };
 
+        //! Keyboard shortcut editor.
+        class ShortcutEdit : public feather_tk::IWidget
+        {
+            FEATHER_TK_NON_COPYABLE(ShortcutEdit);
+
+        protected:
+            void _init(
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<IWidget>& parent);
+
+            ShortcutEdit();
+
+        public:
+            virtual ~ShortcutEdit();
+
+            static std::shared_ptr<ShortcutEdit> create(
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<IWidget>& parent = nullptr);
+
+            void setShortcut(const Shortcut&);
+            void setCallback(const std::function<void(const Shortcut&)>&);
+            void setCollision(bool);
+
+            void setGeometry(const feather_tk::Box2I&) override;
+            feather_tk::Box2I getChildrenClipRect() const override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent&) override;
+            void mouseEnterEvent(feather_tk::MouseEnterEvent&) override;
+            void mouseLeaveEvent() override;
+            void mousePressEvent(feather_tk::MouseClickEvent&) override;
+            void keyFocusEvent(bool) override;
+            void keyPressEvent(feather_tk::KeyEvent&) override;
+            void keyReleaseEvent(feather_tk::KeyEvent&) override;
+
+        private:
+            void _widgetUpdate();
+
+            FEATHER_TK_PRIVATE();
+        };
+
         //! Keyboard shortcut widget.
         class ShortcutWidget : public feather_tk::IWidget
         {
@@ -217,13 +257,6 @@ namespace djv
 
             void setGeometry(const feather_tk::Box2I&) override;
             void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
-            void drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent&) override;
-            void mouseEnterEvent(feather_tk::MouseEnterEvent&) override;
-            void mouseLeaveEvent() override;
-            void mousePressEvent(feather_tk::MouseClickEvent&) override;
-            void keyFocusEvent(bool) override;
-            void keyPressEvent(feather_tk::KeyEvent&) override;
-            void keyReleaseEvent(feather_tk::KeyEvent&) override;
 
         private:
             void _widgetUpdate();

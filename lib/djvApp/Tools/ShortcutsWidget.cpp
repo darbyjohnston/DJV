@@ -11,12 +11,13 @@
 #include <feather-tk/ui/FormLayout.h>
 #include <feather-tk/ui/Label.h>
 #include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ToolButton.h>
 
 namespace djv
 {
     namespace app
     {
-        struct ShortcutWidget::Private
+        struct ShortcutEdit::Private
         {
             Shortcut shortcut;
             bool collision = false;
@@ -41,11 +42,11 @@ namespace djv
             std::optional<DrawData> draw;
         };
 
-        void ShortcutWidget::_init(
+        void ShortcutEdit::_init(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "djv::app::ShortcutWidget", parent);
+            IWidget::_init(context, "djv::app::ShortcutEdit", parent);
             FEATHER_TK_P();
             
             setHStretch(feather_tk::Stretch::Expanding);
@@ -59,23 +60,23 @@ namespace djv
             _widgetUpdate();
         }
 
-        ShortcutWidget::ShortcutWidget() :
+        ShortcutEdit::ShortcutEdit() :
             _p(new Private)
         {}
 
-        ShortcutWidget::~ShortcutWidget()
+        ShortcutEdit::~ShortcutEdit()
         {}
 
-        std::shared_ptr<ShortcutWidget> ShortcutWidget::create(
+        std::shared_ptr<ShortcutEdit> ShortcutEdit::create(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<ShortcutWidget>(new ShortcutWidget);
+            auto out = std::shared_ptr<ShortcutEdit>(new ShortcutEdit);
             out->_init(context, parent);
             return out;
         }
 
-        void ShortcutWidget::setShortcut(const Shortcut& value)
+        void ShortcutEdit::setShortcut(const Shortcut& value)
         {
             FEATHER_TK_P();
             if (value == p.shortcut)
@@ -84,12 +85,12 @@ namespace djv
             _widgetUpdate();
         }
 
-        void ShortcutWidget::setCallback(const std::function<void(const Shortcut&)>& value)
+        void ShortcutEdit::setCallback(const std::function<void(const Shortcut&)>& value)
         {
             _p->callback = value;
         }
 
-        void ShortcutWidget::setCollision(bool value)
+        void ShortcutEdit::setCollision(bool value)
         {
             FEATHER_TK_P();
             if (value == p.collision)
@@ -98,7 +99,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void ShortcutWidget::setGeometry(const feather_tk::Box2I& value)
+        void ShortcutEdit::setGeometry(const feather_tk::Box2I& value)
         {
             bool changed = value != getGeometry();
             IWidget::setGeometry(value);
@@ -113,7 +114,12 @@ namespace djv
             }
         }
 
-        void ShortcutWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
+        feather_tk::Box2I ShortcutEdit::getChildrenClipRect() const
+        {
+            return feather_tk::margin(getGeometry(), -_p->size.border);
+        }
+
+        void ShortcutEdit::sizeHintEvent(const feather_tk::SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
             FEATHER_TK_P();
@@ -129,7 +135,7 @@ namespace djv
             _setSizeHint(_p->label->getSizeHint() + p.size.border * 2);
         }
 
-        void ShortcutWidget::drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent& event)
+        void ShortcutEdit::drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent& event)
         {
             IWidget::drawEvent(drawRect, event);
             FEATHER_TK_P();
@@ -158,32 +164,32 @@ namespace djv
             }
         }
 
-        void ShortcutWidget::mouseEnterEvent(feather_tk::MouseEnterEvent& event)
+        void ShortcutEdit::mouseEnterEvent(feather_tk::MouseEnterEvent& event)
         {
             IWidget::mouseEnterEvent(event);
             _setDrawUpdate();
         }
 
-        void ShortcutWidget::mouseLeaveEvent()
+        void ShortcutEdit::mouseLeaveEvent()
         {
             IWidget::mouseLeaveEvent();
             _setDrawUpdate();
         }
 
-        void ShortcutWidget::mousePressEvent(feather_tk::MouseClickEvent& event)
+        void ShortcutEdit::mousePressEvent(feather_tk::MouseClickEvent& event)
         {
             IWidget::mousePressEvent(event);
             takeKeyFocus();
             _setDrawUpdate();
         }
 
-        void ShortcutWidget::keyFocusEvent(bool value)
+        void ShortcutEdit::keyFocusEvent(bool value)
         {
             IWidget::keyFocusEvent(value);
             _setDrawUpdate();
         }
 
-        void ShortcutWidget::keyPressEvent(feather_tk::KeyEvent& event)
+        void ShortcutEdit::keyPressEvent(feather_tk::KeyEvent& event)
         {
             IWidget::keyPressEvent(event);
             FEATHER_TK_P();
@@ -223,16 +229,104 @@ namespace djv
             }
         }
 
-        void ShortcutWidget::keyReleaseEvent(feather_tk::KeyEvent& event)
+        void ShortcutEdit::keyReleaseEvent(feather_tk::KeyEvent& event)
         {
             IWidget::keyReleaseEvent(event);
             event.accept = true;
         }
 
-        void ShortcutWidget::_widgetUpdate()
+        void ShortcutEdit::_widgetUpdate()
         {
             FEATHER_TK_P();
             p.label->setText(feather_tk::getShortcutLabel(p.shortcut.key, p.shortcut.modifiers));
+        }
+
+        struct ShortcutWidget::Private
+        {
+            Shortcut shortcut;
+            std::shared_ptr<ShortcutEdit> edit;
+            std::shared_ptr<feather_tk::ToolButton> clearButton;
+            std::shared_ptr<feather_tk::HorizontalLayout> layout;
+            std::function<void(const Shortcut&)> callback;
+        };
+
+        void ShortcutWidget::_init(
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<IWidget>& parent)
+        {
+            IWidget::_init(context, "djv::app::ShortcutWidget", parent);
+            FEATHER_TK_P();
+
+            setHStretch(feather_tk::Stretch::Expanding);
+
+            p.edit = ShortcutEdit::create(context);
+
+            p.clearButton = feather_tk::ToolButton::create(context);
+            p.clearButton->setIcon("Clear");
+
+            p.layout = feather_tk::HorizontalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
+            p.edit->setParent(p.layout);
+            p.clearButton->setParent(p.layout);
+
+            p.clearButton->setClickedCallback(
+                [this]
+                {
+                    FEATHER_TK_P();
+                    p.shortcut.key = feather_tk::Key::Unknown;
+                    p.edit->setShortcut(p.shortcut);
+                    if (p.callback)
+                    {
+                        p.callback(p.shortcut);
+                    }
+                });
+        }
+
+        ShortcutWidget::ShortcutWidget() :
+            _p(new Private)
+        {}
+
+        ShortcutWidget::~ShortcutWidget()
+        {}
+
+        std::shared_ptr<ShortcutWidget> ShortcutWidget::create(
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<IWidget>& parent)
+        {
+            auto out = std::shared_ptr<ShortcutWidget>(new ShortcutWidget);
+            out->_init(context, parent);
+            return out;
+        }
+
+        void ShortcutWidget::setShortcut(const Shortcut& value)
+        {
+            FEATHER_TK_P();
+            p.shortcut = value;
+            p.edit->setShortcut(value);
+        }
+
+        void ShortcutWidget::setCallback(const std::function<void(const Shortcut&)>& value)
+        {
+            FEATHER_TK_P();
+            p.callback = value;
+            p.edit->setCallback(value);
+        }
+
+        void ShortcutWidget::setCollision(bool value)
+        {
+            _p->edit->setCollision(value);
+        }
+
+        void ShortcutWidget::setGeometry(const feather_tk::Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            _p->layout->setGeometry(value);
+        }
+
+        void ShortcutWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
+        {
+            IWidget::sizeHintEvent(event);
+            _setSizeHint(_p->layout->getSizeHint());
         }
 
         struct ShortcutsSettingsWidget::Private
