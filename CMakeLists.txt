@@ -3,8 +3,8 @@ cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0091 NEW)
 
 set(DJV_VERSION_MAJOR "3")
-set(DJV_VERSION_MINOR "0")
-set(DJV_VERSION_PATCH "1")
+set(DJV_VERSION_MINOR "1")
+set(DJV_VERSION_PATCH "0")
 set(DJV_VERSION ${DJV_VERSION_MAJOR}.${DJV_VERSION_MINOR}.${DJV_VERSION_PATCH})
 add_definitions(-DDJV_VERSION_MAJOR=${DJV_VERSION_MAJOR})
 add_definitions(-DDJV_VERSION_MINOR=${DJV_VERSION_MINOR})
@@ -14,7 +14,7 @@ add_definitions(-DDJV_VERSION="${DJV_VERSION}")
 project(
     DJV
     VERSION ${DJV_VERSION}
-    DESCRIPTION "Professional review software for visual effects, film, and animation"
+    DESCRIPTION "DJV is an open source application for playback and review of image sequences."
     HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES CXX)
 
