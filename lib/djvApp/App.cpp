@@ -432,7 +432,7 @@ namespace djv
 
             p.recentFilesModel = RecentFilesModel::create(_context, p.settings);
             auto fileBrowserSystem = _context->getSystem<feather_tk::FileBrowserSystem>();
-            fileBrowserSystem->setExtensions(tl::timeline::getExtensions(_context));
+            fileBrowserSystem->getModel()->setExtensions(tl::timeline::getExtensions(_context));
             fileBrowserSystem->setRecentFilesModel(p.recentFilesModel);
 
             p.colorModel = ColorModel::create(_context);

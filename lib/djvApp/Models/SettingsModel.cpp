@@ -374,9 +374,9 @@ namespace djv
             p.fileBrowser = feather_tk::ObservableValue<FileBrowserSettings>::create(fileBrowser);
             auto fileBrowserSystem = context->getSystem<feather_tk::FileBrowserSystem>();
             fileBrowserSystem->setNativeFileDialog(fileBrowser.nativeFileDialog);
-            fileBrowserSystem->setPath(fileBrowser.path);
-            fileBrowserSystem->setOptions(fileBrowser.options);
-            fileBrowserSystem->setExtension(fileBrowser.extension);
+            fileBrowserSystem->getModel()->setPath(fileBrowser.path);
+            fileBrowserSystem->getModel()->setOptions(fileBrowser.options);
+            fileBrowserSystem->getModel()->setExtension(fileBrowser.extension);
 
             ImageSequenceSettings imageSequence;
             settings->getT("/ImageSequence", imageSequence);
@@ -436,9 +436,9 @@ namespace djv
             if (auto context = p.context.lock())
             {
                 auto fileBrowserSystem = context->getSystem<feather_tk::FileBrowserSystem>();
-                fileBrowser.path = fileBrowserSystem->getPath().u8string();
-                fileBrowser.options = fileBrowserSystem->getOptions();
-                fileBrowser.extension = fileBrowserSystem->getExtension();
+                fileBrowser.path = fileBrowserSystem->getModel()->getPath().u8string();
+                fileBrowser.options = fileBrowserSystem->getModel()->getOptions();
+                fileBrowser.extension = fileBrowserSystem->getModel()->getExtension();
             }
             p.settings->setT("/FileBrowser", fileBrowser);
 
