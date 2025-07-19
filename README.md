@@ -38,6 +38,9 @@ the FFmpeg shared library files.
 
 ## Building on Linux
 
+Dependencies:
+* CMake 3.31
+
 Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/DJV.git
@@ -57,6 +60,9 @@ Run the application:
 
 
 ## Building on macOS
+
+Dependencies:
+* CMake 3.31
 
 Clone the repository:
 ```
@@ -94,6 +100,7 @@ alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
 ## Building on Windows
 
 Dependencies:
+* CMake 3.31
 * Install MSYS2 (https://www.msys2.org) for compiling FFmpeg.
 * Install Strawberry Perl (https://strawberryperl.com/) for compiling network support.
 * Install Python 3.11 for compiling USD.

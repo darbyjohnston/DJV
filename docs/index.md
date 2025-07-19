@@ -34,6 +34,7 @@ Features include:
 9. [Exporting Files](#export)
 10. [Keyboard Shortcuts](#shortcuts)
 11. [Settings](#settings)
+11. [Troublehooting](#trouble_shoot)
 12. [Building from Source](#build)
 
 
@@ -346,8 +347,17 @@ Note that audio export is not yet supported.
 Settings are stored as a JSON file in the **DJV** folder in your **Documents**
 directory.
 
-If the application gets into a bad state or fails to start, try resetting the
-settings:
+
+<br><br><a name="trouble_shoot"></a>
+## Troublehooting
+
+If the application fails to start, try running from the command line to check
+for are any errors.
+
+Check the log file located in the **DJV** folder in your **Documents**
+directory.
+
+Try resetting the settings:
 * Delete the settings file
 * Or pass the **-resetSettings** flag on the command line
 
@@ -378,6 +388,9 @@ dependencies.
 
 ### Building on Linux
 
+Dependencies:
+* CMake 3.31
+
 Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/DJV.git
@@ -396,6 +409,9 @@ Run the application:
 ```
 
 ### Building on macOS
+
+Dependencies:
+* CMake 3.31
 
 Clone the repository:
 ```
@@ -432,6 +448,7 @@ alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
 ### Building on Windows
 
 Dependencies:
+* CMake 3.31
 * Install MSYS2 (https://www.msys2.org) for compiling FFmpeg.
 * Install Strawberry Perl (https://strawberryperl.com/) for compiling network support.
 * Install Python 3.11 for compiling USD.
