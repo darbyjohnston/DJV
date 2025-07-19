@@ -120,6 +120,7 @@ namespace djv
             std::shared_ptr<feather_tk::VerticalLayout> layout;
 
             std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareOptions> > compareOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<feather_tk::ImageType> > colorBufferObserver;
@@ -284,20 +285,22 @@ namespace djv
                     });
             }
 
+            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+                app->observePlayer(),
+                [this](const std::shared_ptr<tl::timeline::Player>& value)
+                {
+                    _playerUpdate(value);
+                });
+
             auto appWeak = std::weak_ptr<App>(app);
-            p.viewport->setCompareCallback(
+            p.compareOptionsObserver = feather_tk::ValueObserver<tl::timeline::CompareOptions>::create(
+                p.viewport->observeCompareOptions(),
                 [appWeak](const tl::timeline::CompareOptions& value)
                 {
                     if (auto app = appWeak.lock())
                     {
                         app->getFilesModel()->setCompareOptions(value);
                     }
-                });
-            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
-                app->observePlayer(),
-                [this](const std::shared_ptr<tl::timeline::Player>& value)
-                {
-                    _playerUpdate(value);
                 });
 
             p.ocioOptionsObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(

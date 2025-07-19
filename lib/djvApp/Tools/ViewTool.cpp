@@ -29,6 +29,9 @@ namespace djv
         {
             std::vector<feather_tk::ImageType> colorBuffers;
 
+            std::shared_ptr<feather_tk::ComboBox> posXComboBox;
+            std::shared_ptr<feather_tk::ComboBox> posYComboBox;
+            std::shared_ptr<feather_tk::ComboBox> zoomComboBox;
             std::shared_ptr<feather_tk::ComboBox> minifyComboBox;
             std::shared_ptr<feather_tk::ComboBox> magnifyComboBox;
             std::shared_ptr<feather_tk::ComboBox> videoLevelsComboBox;

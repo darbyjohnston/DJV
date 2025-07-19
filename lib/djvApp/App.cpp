@@ -117,6 +117,8 @@ namespace djv
             std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > activeObserver;
             std::shared_ptr<feather_tk::ListObserver<int> > layersObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareTime> > compareTimeObserver;
+            std::shared_ptr<feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> > > viewPosZoomObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > viewFramedObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::audio::DeviceID> > audioDeviceObserver;
             std::shared_ptr<feather_tk::ValueObserver<float> > volumeObserver;
             std::shared_ptr<feather_tk::ValueObserver<bool> > muteObserver;
@@ -697,15 +699,17 @@ namespace djv
             addWindow(p.mainWindow);
             p.mainWindow->show();
 
-            p.mainWindow->getViewport()->setViewPosAndZoomCallback(
-                [this](const feather_tk::V2I& pos, double zoom)
+            p.viewPosZoomObserver = feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> >::create(
+                p.mainWindow->getViewport()->observeViewPosAndZoom(),
+                [this](const std::pair<feather_tk::V2I, double>& value)
                 {
                     _viewUpdate(
-                        pos,
-                        zoom,
+                        value.first,
+                        value.second,
                         _p->mainWindow->getViewport()->hasFrameView());
                 });
-            p.mainWindow->getViewport()->setFrameViewCallback(
+            p.viewFramedObserver = feather_tk::ValueObserver<bool>::create(
+                p.mainWindow->getViewport()->observeFramed(),
                 [this](bool value)
                 {
                     _viewUpdate(
