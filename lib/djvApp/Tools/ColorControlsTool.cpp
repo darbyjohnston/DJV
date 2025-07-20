@@ -316,16 +316,16 @@ namespace djv
             p.enabledCheckBox = feather_tk::CheckBox::create(context);
 
             p.sliders["Add"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["Add"]->setRange(feather_tk::RangeF(-1.F, 1.F));
+            p.sliders["Add"]->setRange(-1.F, 1.F);
             p.sliders["Add"]->setDefaultValue(0.F);
             p.sliders["Brightness"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["Brightness"]->setRange(feather_tk::RangeF(0.F, 4.F));
+            p.sliders["Brightness"]->setRange(0.F, 4.F);
             p.sliders["Brightness"]->setDefaultValue(1.F);
             p.sliders["Contrast"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["Contrast"]->setRange(feather_tk::RangeF(0.F, 4.F));
+            p.sliders["Contrast"]->setRange(0.F, 4.F);
             p.sliders["Contrast"]->setDefaultValue(1.F);
             p.sliders["Saturation"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["Saturation"]->setRange(feather_tk::RangeF(0.F, 4.F));
+            p.sliders["Saturation"]->setRange(0.F, 4.F);
             p.sliders["Saturation"]->setDefaultValue(1.F);
             p.sliders["Tint"] = feather_tk::FloatEditSlider::create(context);
             p.sliders["Tint"]->setDefaultValue(1.F);
@@ -513,15 +513,15 @@ namespace djv
             p.sliders["InHigh"]->setDefaultValue(1.F);
 
             p.rangeEdits["InMin"] = feather_tk::FloatEdit::create(context);
-            p.rangeEdits["InMin"]->setRange(feather_tk::RangeF(-1000000.F, 1000000.F));
+            p.rangeEdits["InMin"]->setRange(-1000000.F, 1000000.F);
             p.rangeEdits["InMin"]->setValue(range.min());
 
             p.rangeEdits["InMax"] = feather_tk::FloatEdit::create(context);
-            p.rangeEdits["InMax"]->setRange(feather_tk::RangeF(-1000000.F, 1000000.F));
+            p.rangeEdits["InMax"]->setRange(-1000000.F, 1000000.F);
             p.rangeEdits["InMax"]->setValue(range.max());
 
             p.sliders["Gamma"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["Gamma"]->setRange(feather_tk::RangeF(.1F, 4.F));
+            p.sliders["Gamma"]->setRange(.1F, 4.F);
             p.sliders["Gamma"]->setDefaultValue(1.F);
 
             p.settings->getT("/ColorControls/Levels/OutRange", range);
@@ -534,11 +534,11 @@ namespace djv
             p.sliders["OutHigh"]->setDefaultValue(1.F);
 
             p.rangeEdits["OutMin"] = feather_tk::FloatEdit::create(context);
-            p.rangeEdits["OutMin"]->setRange(feather_tk::RangeF(-1000000.F, 1000000.F));
+            p.rangeEdits["OutMin"]->setRange(-1000000.F, 1000000.F);
             p.rangeEdits["OutMin"]->setValue(range.min());
 
             p.rangeEdits["OutMax"] = feather_tk::FloatEdit::create(context);
-            p.rangeEdits["OutMax"]->setRange(feather_tk::RangeF(-1000000.F, 1000000.F));
+            p.rangeEdits["OutMax"]->setRange(-1000000.F, 1000000.F);
             p.rangeEdits["OutMax"]->setValue(range.max());
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
@@ -743,15 +743,15 @@ namespace djv
             p.enabledCheckBox = feather_tk::CheckBox::create(context);
 
             p.sliders["Exposure"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["Exposure"]->setRange(feather_tk::RangeF(-10.F, 10.F));
+            p.sliders["Exposure"]->setRange(-10.F, 10.F);
             p.sliders["Exposure"]->setDefaultValue(0.F);
             p.sliders["Defog"] = feather_tk::FloatEditSlider::create(context);
             p.sliders["Defog"]->setDefaultValue(0.F);
             p.sliders["KneeLow"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["KneeLow"]->setRange(feather_tk::RangeF(-3.F, 3.F));
+            p.sliders["KneeLow"]->setRange(-3.F, 3.F);
             p.sliders["KneeLow"]->setDefaultValue(0.F);
             p.sliders["KneeHigh"] = feather_tk::FloatEditSlider::create(context);
-            p.sliders["KneeHigh"]->setRange(feather_tk::RangeF(3.5F, 7.5F));
+            p.sliders["KneeHigh"]->setRange(3.5F, 7.5F);
             p.sliders["KneeHigh"]->setDefaultValue(5.F);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());

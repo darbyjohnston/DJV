@@ -17,7 +17,6 @@ namespace djv
     {
         struct ViewActions::Private
         {
-
             std::shared_ptr<feather_tk::ValueObserver<bool> > frameViewObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<bool> > hudObserver;

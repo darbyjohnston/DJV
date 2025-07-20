@@ -63,7 +63,7 @@ namespace djv
             p.deviceComboBox->setTooltip("Audio output device");
 
             p.volumeSlider = feather_tk::IntEditSlider::create(context);
-            p.volumeSlider->setRange(feather_tk::RangeI(0, 100));
+            p.volumeSlider->setRange(0, 100);
             p.volumeSlider->setStep(1);
             p.volumeSlider->setLargeStep(10);
 
@@ -72,7 +72,7 @@ namespace djv
             p.channelMuteButtonGroup = feather_tk::ButtonGroup::create(context, feather_tk::ButtonGroupType::Toggle);
 
             p.syncOffsetSlider = feather_tk::DoubleEditSlider::create(context);
-            p.syncOffsetSlider->setRange(feather_tk::RangeD(-1.0, 1.0));
+            p.syncOffsetSlider->setRange(-1.0, 1.0);
             p.syncOffsetSlider->setDefaultValue(0.0);
 
             auto formLayout = feather_tk::FormLayout::create(context);

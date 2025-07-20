@@ -14,6 +14,33 @@ namespace djv
 {
     namespace app
     {
+        class ViewPosZoomWidget : public feather_tk::IWidget
+        {
+            FEATHER_TK_NON_COPYABLE(ViewPosZoomWidget);
+
+        protected:
+            void _init(
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<App>&,
+                const std::shared_ptr<IWidget>& parent);
+
+            ViewPosZoomWidget();
+
+        public:
+            virtual ~ViewPosZoomWidget();
+
+            static std::shared_ptr<ViewPosZoomWidget> create(
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<App>&,
+                const std::shared_ptr<IWidget>& parent = nullptr);
+
+            void setGeometry(const feather_tk::Box2I&) override;
+            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+
+        private:
+            FEATHER_TK_PRIVATE();
+        };
+
         class ViewOptionsWidget : public feather_tk::IWidget
         {
             FEATHER_TK_NON_COPYABLE(ViewOptionsWidget);

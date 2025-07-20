@@ -58,11 +58,11 @@ namespace djv
             p.colorStyleComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.brightnessSlider = feather_tk::FloatEditSlider::create(context);
-            p.brightnessSlider->setRange(feather_tk::RangeF(.5F, 1.5F));
+            p.brightnessSlider->setRange(.5F, 1.5F);
             p.brightnessSlider->setDefaultValue(1.F);
 
             p.contrastSlider = feather_tk::FloatEditSlider::create(context);
-            p.contrastSlider->setRange(feather_tk::RangeF(.5F, 1.5F));
+            p.contrastSlider->setRange(.5F, 1.5F);
             p.contrastSlider->setDefaultValue(1.F);
 
             std::vector<std::string> labels;

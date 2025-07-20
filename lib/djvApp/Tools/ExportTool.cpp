@@ -120,15 +120,15 @@ namespace djv
 
             p.renderSizeComboBox = feather_tk::ComboBox::create(context, getExportRenderSizeLabels());
             p.renderWidthEdit = feather_tk::IntEdit::create(context);
-            p.renderWidthEdit->setRange(feather_tk::RangeI(1, 16384));
+            p.renderWidthEdit->setRange(1, 16384);
             p.renderHeightEdit = feather_tk::IntEdit::create(context);
-            p.renderHeightEdit->setRange(feather_tk::RangeI(1, 16384));
+            p.renderHeightEdit->setRange(1, 16384);
 
             p.fileTypeComboBox = feather_tk::ComboBox::create(context, getExportFileTypeLabels());
 
             p.imageBaseNameEdit = feather_tk::LineEdit::create(context);
             p.imageZeroPadEdit = feather_tk::IntEdit::create(context);
-            p.imageZeroPadEdit->setRange(feather_tk::RangeI(0, 16));
+            p.imageZeroPadEdit->setRange(0, 16);
             p.imageExtensionComboBox = feather_tk::ComboBox::create(context, p.imageExtensions);
 
             p.movieBaseNameEdit = feather_tk::LineEdit::create(context);
@@ -470,7 +470,7 @@ namespace djv
                         context,
                         "Export",
                         "Rendering:");
-                    p.progressDialog->setRange(feather_tk::RangeD(0.0, p.exportData->range.duration().value() - 1.0));
+                    p.progressDialog->setRange(0.0, p.exportData->range.duration().value() - 1.0);
                     p.progressDialog->setMessage(feather_tk::Format("Frame: {0} / {1}").
                         arg(p.exportData->frame).
                         arg(p.exportData->range.end_time_inclusive().value()));

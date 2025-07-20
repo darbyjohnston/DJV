@@ -11,8 +11,10 @@
 #include <feather-tk/ui/CheckBox.h>
 #include <feather-tk/ui/ColorSwatch.h>
 #include <feather-tk/ui/ComboBox.h>
+#include <feather-tk/ui/DoubleEdit.h>
 #include <feather-tk/ui/FormLayout.h>
 #include <feather-tk/ui/GroupBox.h>
+#include <feather-tk/ui/IntEdit.h>
 #include <feather-tk/ui/IntEditSlider.h>
 #include <feather-tk/ui/Label.h>
 #include <feather-tk/ui/LineEdit.h>
@@ -25,13 +27,81 @@ namespace djv
 {
     namespace app
     {
+        struct ViewPosZoomWidget::Private
+        {
+            std::shared_ptr<feather_tk::IntEdit> posXEdit;
+            std::shared_ptr<feather_tk::IntEdit> posYEdit;
+            std::shared_ptr<feather_tk::DoubleEdit> zoomEdit;
+            std::shared_ptr<feather_tk::FormLayout> layout;
+
+            std::shared_ptr<feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> > > posZoomObserver;
+        };
+
+        void ViewPosZoomWidget::_init(
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<App>& app,
+            const std::shared_ptr<feather_tk::IWidget>& parent)
+        {
+            feather_tk::IWidget::_init(context, "djv::app::ViewPosZoomWidget", parent);
+            FEATHER_TK_P();
+
+            p.posXEdit = feather_tk::IntEdit::create(context);
+            p.posXEdit->setRange(-1000000, 1000000);
+
+            p.posYEdit = feather_tk::IntEdit::create(context);
+            p.posYEdit->setRange(-1000000, 1000000);
+
+            p.zoomEdit = feather_tk::DoubleEdit::create(context);
+            p.zoomEdit->setRange(-10000.0, 10000.0);
+
+            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
+            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            p.layout->addRow("Position X:", p.posXEdit);
+            p.layout->addRow("Position Y:", p.posYEdit);
+            p.layout->addRow("Zoom:", p.zoomEdit);
+
+            //p.posZoomObserver = feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> >::create(
+            //    app->getViewportModel()->observeImageOptions(),
+            //    [this](const feather_tk::ImageOptions& value)
+            //    {
+            //        _p->alphaBlendComboBox->setCurrentIndex(static_cast<int>(value.alphaBlend));
+            //    });
+        }
+
+        ViewPosZoomWidget::ViewPosZoomWidget() :
+            _p(new Private)
+        {}
+
+        ViewPosZoomWidget::~ViewPosZoomWidget()
+        {}
+
+        std::shared_ptr<ViewPosZoomWidget> ViewPosZoomWidget::create(
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<App>& app,
+            const std::shared_ptr<IWidget>& parent)
+        {
+            auto out = std::shared_ptr<ViewPosZoomWidget>(new ViewPosZoomWidget);
+            out->_init(context, app, parent);
+            return out;
+        }
+
+        void ViewPosZoomWidget::setGeometry(const feather_tk::Box2I& value)
+        {
+            IWidget::setGeometry(value);
+            _p->layout->setGeometry(value);
+        }
+
+        void ViewPosZoomWidget::sizeHintEvent(const feather_tk::SizeHintEvent& value)
+        {
+            IWidget::sizeHintEvent(value);
+            _setSizeHint(_p->layout->getSizeHint());
+        }
+
         struct ViewOptionsWidget::Private
         {
             std::vector<feather_tk::ImageType> colorBuffers;
 
-            std::shared_ptr<feather_tk::ComboBox> posXComboBox;
-            std::shared_ptr<feather_tk::ComboBox> posYComboBox;
-            std::shared_ptr<feather_tk::ComboBox> zoomComboBox;
             std::shared_ptr<feather_tk::ComboBox> minifyComboBox;
             std::shared_ptr<feather_tk::ComboBox> magnifyComboBox;
             std::shared_ptr<feather_tk::ComboBox> videoLevelsComboBox;
@@ -51,10 +121,6 @@ namespace djv
         {
             feather_tk::IWidget::_init(context, "djv::app::ViewOptionsWidget", parent);
             FEATHER_TK_P();
-
-            p.colorBuffers.push_back(feather_tk::ImageType::RGBA_U8);
-            p.colorBuffers.push_back(feather_tk::ImageType::RGBA_F16);
-            p.colorBuffers.push_back(feather_tk::ImageType::RGBA_F32);
 
             p.minifyComboBox = feather_tk::ComboBox::create(
                 context,
@@ -76,6 +142,9 @@ namespace djv
                 feather_tk::getAlphaBlendLabels());
             p.videoLevelsComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
+            p.colorBuffers.push_back(feather_tk::ImageType::RGBA_U8);
+            p.colorBuffers.push_back(feather_tk::ImageType::RGBA_F16);
+            p.colorBuffers.push_back(feather_tk::ImageType::RGBA_F32);
             std::vector<std::string> items;
             for (size_t i = 0; i < p.colorBuffers.size(); ++i)
             {
@@ -247,7 +316,7 @@ namespace djv
             p.checkersSwatch.second = feather_tk::ColorSwatch::create(context);
             p.checkersSwatch.second->setEditable(true);
             p.checkersSizeSlider = feather_tk::IntEditSlider::create(context);
-            p.checkersSizeSlider->setRange(feather_tk::RangeI(10, 100));
+            p.checkersSizeSlider->setRange(10, 100);
 
             p.gradientSwatch.first = feather_tk::ColorSwatch::create(context);
             p.gradientSwatch.first->setEditable(true);
@@ -422,7 +491,7 @@ namespace djv
             p.enabledCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.widthSlider = feather_tk::IntEditSlider::create(context);
-            p.widthSlider->setRange(feather_tk::RangeI(1, 100));
+            p.widthSlider->setRange(1, 100);
 
             p.colorSwatch = feather_tk::ColorSwatch::create(context);
             p.colorSwatch->setEditable(true);
@@ -537,10 +606,10 @@ namespace djv
             p.enabledCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.sizeSlider = feather_tk::IntEditSlider::create(context);
-            p.sizeSlider->setRange(feather_tk::RangeI(1, 1000));
+            p.sizeSlider->setRange(1, 1000);
 
             p.lineWidthSlider = feather_tk::IntEditSlider::create(context);
-            p.lineWidthSlider->setRange(feather_tk::RangeI(1, 10));
+            p.lineWidthSlider->setRange(1, 10);
 
             p.colorSwatch = feather_tk::ColorSwatch::create(context);
             p.colorSwatch->setEditable(true);
@@ -642,6 +711,7 @@ namespace djv
 
         struct ViewTool::Private
         {
+            std::shared_ptr<ViewPosZoomWidget> viewPosZoomWidget;
             std::shared_ptr<ViewOptionsWidget> viewOptionsWidget;
             std::shared_ptr<BackgroundWidget> backgroundWidget;
             std::shared_ptr<OutlineWidget> outlineWidget;
@@ -662,6 +732,7 @@ namespace djv
                 parent);
             FEATHER_TK_P();
 
+            p.viewPosZoomWidget = ViewPosZoomWidget::create(context, app);
             p.viewOptionsWidget = ViewOptionsWidget::create(context, app);
             p.backgroundWidget = BackgroundWidget::create(context, app);
             p.outlineWidget = OutlineWidget::create(context, app);
@@ -669,6 +740,8 @@ namespace djv
 
             auto layout = feather_tk::VerticalLayout::create(context);
             layout->setSpacingRole(feather_tk::SizeRole::None);
+            p.bellows["PosZoom"] = feather_tk::Bellows::create(context, "Position and Zoom", layout);
+            p.bellows["PosZoom"]->setWidget(p.viewPosZoomWidget);
             p.bellows["Options"] = feather_tk::Bellows::create(context, "Options", layout);
             p.bellows["Options"]->setWidget(p.viewOptionsWidget);
             p.bellows["Background"] = feather_tk::Bellows::create(context, "Background", layout);

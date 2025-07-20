@@ -82,7 +82,7 @@ namespace djv
             p.wipeYSlider = feather_tk::FloatEditSlider::create(context);
             p.wipeYSlider->setDefaultValue(.5F);
             p.wipeRotationSlider = feather_tk::FloatEditSlider::create(context);
-            p.wipeRotationSlider->setRange(feather_tk::RangeF(0.F, 360.F));
+            p.wipeRotationSlider->setRange(0.F, 360.F);
             p.wipeRotationSlider->setStep(1.F);
             p.wipeRotationSlider->setLargeStep(10.F);
             p.wipeRotationSlider->setDefaultValue(0.F);

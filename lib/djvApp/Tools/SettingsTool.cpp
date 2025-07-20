@@ -63,15 +63,15 @@ namespace djv
             p.compatCheckBox->setTooltip("Enable workarounds for timelines that may not conform exactly to specification.");
 
             p.audioBufferFramesEdit = feather_tk::IntEdit::create(context);
-            p.audioBufferFramesEdit->setRange(feather_tk::RangeI(1, 1000000));
+            p.audioBufferFramesEdit->setRange(1, 1000000);
             p.audioBufferFramesEdit->setStep(256);
             p.audioBufferFramesEdit->setLargeStep(1024);
 
             p.videoRequestsEdit = feather_tk::IntEdit::create(context);
-            p.videoRequestsEdit->setRange(feather_tk::RangeI(1, 64));
+            p.videoRequestsEdit->setRange(1, 64);
 
             p.audioRequestsEdit = feather_tk::IntEdit::create(context);
-            p.audioRequestsEdit->setRange(feather_tk::RangeI(1, 64));
+            p.audioRequestsEdit->setRange(1, 64);
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);
@@ -184,17 +184,17 @@ namespace djv
             p.model = app->getSettingsModel();
 
             p.videoEdit = feather_tk::FloatEdit::create(context);
-            p.videoEdit->setRange(feather_tk::RangeF(0.F, 1024.F));
+            p.videoEdit->setRange(0.F, 1024.F);
             p.videoEdit->setStep(1.0);
             p.videoEdit->setLargeStep(10.0);
 
             p.audioEdit = feather_tk::FloatEdit::create(context);
-            p.audioEdit->setRange(feather_tk::RangeF(0.F, 1024.F));
+            p.audioEdit->setRange(0.F, 1024.F);
             p.audioEdit->setStep(1.0);
             p.audioEdit->setLargeStep(10.0);
 
             p.readBehindEdit = feather_tk::FloatEdit::create(context);
-            p.readBehindEdit->setRange(feather_tk::RangeF(0.F, 10.F));
+            p.readBehindEdit->setRange(0.F, 10.F);
             p.readBehindEdit->setStep(0.1);
             p.readBehindEdit->setLargeStep(1.0);
 
@@ -391,10 +391,10 @@ namespace djv
             p.maxDigitsEdit->setTooltip("Maximum number of digits allowed in a frame number.");
 
             p.defaultSpeedEdit = feather_tk::DoubleEdit::create(context);
-            p.defaultSpeedEdit->setRange(feather_tk::RangeD(1.0, 120.0));
+            p.defaultSpeedEdit->setRange(1.0, 120.0);
 
             p.threadsEdit = feather_tk::IntEdit::create(context);
-            p.threadsEdit->setRange(feather_tk::RangeI(1, 64));
+            p.threadsEdit->setRange(1, 64);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);
@@ -811,7 +811,7 @@ namespace djv
             p.yuvToRGBCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.threadsEdit = feather_tk::IntEdit::create(context);
-            p.threadsEdit->setRange(feather_tk::RangeI(0, 64));
+            p.threadsEdit->setRange(0, 64);
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);
@@ -909,7 +909,7 @@ namespace djv
             p.model = app->getSettingsModel();
 
             p.renderWidthEdit = feather_tk::IntEdit::create(context);
-            p.renderWidthEdit->setRange(feather_tk::RangeI(1, 8192));
+            p.renderWidthEdit->setRange(1, 8192);
 
             p.complexitySlider = feather_tk::FloatEditSlider::create(context);
 
@@ -923,10 +923,10 @@ namespace djv
             p.sRGBCheckBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.stageCacheEdit = feather_tk::IntEdit::create(context);
-            p.stageCacheEdit->setRange(feather_tk::RangeI(0, 10));
+            p.stageCacheEdit->setRange(0, 10);
 
             p.diskCacheEdit = feather_tk::IntEdit::create(context);
-            p.diskCacheEdit->setRange(feather_tk::RangeI(0, 1024));
+            p.diskCacheEdit->setRange(0, 1024);
 
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);

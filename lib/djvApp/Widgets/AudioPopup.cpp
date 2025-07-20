@@ -33,7 +33,7 @@ namespace djv
             FEATHER_TK_P();
 
             p.volumeSlider = feather_tk::IntEditSlider::create(context);
-            p.volumeSlider->setRange(feather_tk::RangeI(0, 100));
+            p.volumeSlider->setRange(0, 100);
             p.volumeSlider->setStep(1);
             p.volumeSlider->setLargeStep(10);
             p.volumeSlider->setTooltip("Audio volume");

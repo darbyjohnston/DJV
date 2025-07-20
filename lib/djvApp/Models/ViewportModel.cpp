@@ -21,7 +21,6 @@ namespace djv
             std::shared_ptr<feather_tk::ObservableValue<tl::timeline::ForegroundOptions> > foregroundOptions;
             std::shared_ptr<feather_tk::ObservableValue<feather_tk::ImageType> > colorBuffer;
             std::shared_ptr<feather_tk::ObservableValue<bool> > hud;
-            std::shared_ptr<feather_tk::ObservableValue<std::string> > hudInfo;
         };
 
         void ViewportModel::_init(
@@ -62,10 +61,6 @@ namespace djv
             bool hud = false;
             p.settings->get("/Viewport/HUD/Enabled", hud);
             p.hud = feather_tk::ObservableValue<bool>::create(hud);
-
-            std::string hudInfo;
-            p.settings->get("/Viewport/HUD/Info", hudInfo);
-            p.hudInfo = feather_tk::ObservableValue<std::string>::create(hudInfo);
         }
 
         ViewportModel::ViewportModel() :
@@ -81,7 +76,6 @@ namespace djv
             p.settings->setT("/Viewport/Foreground", p.foregroundOptions->get());
             p.settings->set("/Viewport/ColorBuffer", feather_tk::to_string(p.colorBuffer->get()));
             p.settings->set("/Viewport/HUD/Enabled", p.hud->get());
-            p.settings->set("/Viewport/HUD/Info", p.hudInfo->get());
         }
 
         std::shared_ptr<ViewportModel> ViewportModel::create(
@@ -198,21 +192,6 @@ namespace djv
         void ViewportModel::setHUD(bool value)
         {
             _p->hud->setIfChanged(value);
-        }
-
-        const std::string& ViewportModel::getHUDInfo() const
-        {
-            return _p->hudInfo->get();
-        }
-
-        std::shared_ptr<feather_tk::IObservableValue<std::string> > ViewportModel::observeHUDInfo() const
-        {
-            return _p->hudInfo;
-        }
-
-        void ViewportModel::setHUDInfo(const std::string& value)
-        {
-            _p->hudInfo->setIfChanged(value);
         }
     }
 }
