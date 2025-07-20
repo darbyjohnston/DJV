@@ -11,6 +11,7 @@ namespace djv
     namespace app
     {
         class App;
+        class MainWindow;
 
         //! View tool.
         //!
@@ -23,6 +24,7 @@ namespace djv
             void _init(
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
+                const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent);
 
             ViewTool();
@@ -33,6 +35,7 @@ namespace djv
             static std::shared_ptr<ViewTool> create(
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
+                const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:

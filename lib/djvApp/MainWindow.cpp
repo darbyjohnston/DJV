@@ -160,7 +160,6 @@ namespace djv
 
             auto timeUnitsModel = app->getTimeUnitsModel();
             p.timelineWidget = tl::timelineui::TimelineWidget::create(context, timeUnitsModel);
-            //p.timelineWidget->setScrollBarsVisible(false);
 
             p.fileActions = FileActions::create(context, app);
             p.compareActions = CompareActions::create(context, app);

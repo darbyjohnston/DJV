@@ -22,6 +22,7 @@ namespace djv
             void _init(
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
+                const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent);
 
             ViewPosZoomWidget();
@@ -32,6 +33,7 @@ namespace djv
             static std::shared_ptr<ViewPosZoomWidget> create(
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
+                const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setGeometry(const feather_tk::Box2I&) override;

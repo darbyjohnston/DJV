@@ -20,6 +20,8 @@ project(
 
 set(TLRENDER_FFMPEG TRUE CACHE BOOL "Set whether FFmpeg support is enabled")
 set(TLRENDER_USD FALSE CACHE BOOL "Set whether USD support is enabled")
+set(TLRENDER_BMD FALSE CACHE BOOL "Enable support for Blackmagic Design devices")
+set(TLRENDER_BMD_SDK "" CACHE PATH "Full path to the Blackmagic Design SDK")
 
 list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 

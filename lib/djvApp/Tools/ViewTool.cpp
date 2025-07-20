@@ -5,7 +5,9 @@
 #include <djvApp/Tools/ViewToolPrivate.h>
 
 #include <djvApp/Models/ViewportModel.h>
+#include <djvApp/Widgets/Viewport.h>
 #include <djvApp/App.h>
+#include <djvApp/MainWindow.h>
 
 #include <feather-tk/ui/Bellows.h>
 #include <feather-tk/ui/CheckBox.h>
@@ -30,43 +32,119 @@ namespace djv
         struct ViewPosZoomWidget::Private
         {
             std::shared_ptr<feather_tk::IntEdit> posXEdit;
+            std::shared_ptr<feather_tk::IntResetButton> posXReset;
             std::shared_ptr<feather_tk::IntEdit> posYEdit;
+            std::shared_ptr<feather_tk::IntResetButton> posYReset;
             std::shared_ptr<feather_tk::DoubleEdit> zoomEdit;
+            std::shared_ptr<feather_tk::DoubleResetButton> zoomReset;
             std::shared_ptr<feather_tk::FormLayout> layout;
 
             std::shared_ptr<feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> > > posZoomObserver;
+            bool updating = false;
         };
 
         void ViewPosZoomWidget::_init(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
+            const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<feather_tk::IWidget>& parent)
         {
             feather_tk::IWidget::_init(context, "djv::app::ViewPosZoomWidget", parent);
             FEATHER_TK_P();
 
             p.posXEdit = feather_tk::IntEdit::create(context);
-            p.posXEdit->setRange(-1000000, 1000000);
+            p.posXEdit->setRange(-100000000, 100000000);
+            p.posXEdit->setDefaultValue(0.0);
+            p.posXReset = feather_tk::IntResetButton::create(context, p.posXEdit->getModel());
 
             p.posYEdit = feather_tk::IntEdit::create(context);
-            p.posYEdit->setRange(-1000000, 1000000);
+            p.posYEdit->setRange(-100000000, 100000000);
+            p.posYEdit->setDefaultValue(0.0);
+            p.posYReset = feather_tk::IntResetButton::create(context, p.posYEdit->getModel());
 
             p.zoomEdit = feather_tk::DoubleEdit::create(context);
-            p.zoomEdit->setRange(-10000.0, 10000.0);
+            p.zoomEdit->setRange(0.000001, 100000.0);
+            p.zoomEdit->setStep(1.0);
+            p.zoomEdit->setLargeStep(2.0);
+            p.zoomEdit->setDefaultValue(1.0);
+            p.zoomReset = feather_tk::DoubleResetButton::create(context, p.zoomEdit->getModel());
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
-            p.layout->addRow("Position X:", p.posXEdit);
-            p.layout->addRow("Position Y:", p.posYEdit);
-            p.layout->addRow("Zoom:", p.zoomEdit);
+            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
+            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
+            p.posXEdit->setParent(hLayout);
+            p.posXReset->setParent(hLayout);
+            p.layout->addRow("X:", hLayout);
+            hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
+            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
+            p.posYEdit->setParent(hLayout);
+            p.posYReset->setParent(hLayout);
+            p.layout->addRow("Y:", hLayout);
+            hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
+            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
+            p.zoomEdit->setParent(hLayout);
+            p.zoomReset->setParent(hLayout);
+            p.layout->addRow("Zoom:", hLayout);
 
-            //p.posZoomObserver = feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> >::create(
-            //    app->getViewportModel()->observeImageOptions(),
-            //    [this](const feather_tk::ImageOptions& value)
-            //    {
-            //        _p->alphaBlendComboBox->setCurrentIndex(static_cast<int>(value.alphaBlend));
-            //    });
+            std::weak_ptr<MainWindow> mainWindowWeak(mainWindow);
+            p.posXEdit->setCallback(
+                [this, mainWindowWeak](int value)
+                {
+                    if (!_p->updating)
+                    {
+                        if (auto mainWindow = mainWindowWeak.lock())
+                        {
+                            auto viewport = mainWindow->getViewport();
+                            const feather_tk::V2I& pos = viewport->getViewPos();
+                            const double zoom = viewport->getViewZoom();
+                            viewport->setViewPosAndZoom(feather_tk::V2I(value, pos.y), zoom);
+                        }
+                    }
+                });
+
+            p.posYEdit->setCallback(
+                [this, mainWindowWeak](int value)
+                {
+                    if (!_p->updating)
+                    {
+                        if (auto mainWindow = mainWindowWeak.lock())
+                        {
+                            auto viewport = mainWindow->getViewport();
+                            const feather_tk::V2I& pos = viewport->getViewPos();
+                            const double zoom = viewport->getViewZoom();
+                            viewport->setViewPosAndZoom(feather_tk::V2I(pos.x, value), zoom);
+                        }
+                    }
+                });
+
+            p.zoomEdit->setCallback(
+                [this, mainWindowWeak](double value)
+                {
+                    if (!_p->updating)
+                    {
+                        if (auto mainWindow = mainWindowWeak.lock())
+                        {
+                            auto viewport = mainWindow->getViewport();
+                            const feather_tk::Box2I& g = viewport->getGeometry();
+                            const feather_tk::V2I focus(g.w() / 2, g.h() / 2);
+                            mainWindow->getViewport()->setViewZoom(value, focus);
+                        }
+                    }
+                });
+
+            p.posZoomObserver = feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> >::create(
+                mainWindow->getViewport()->observeViewPosAndZoom(),
+                [this](const std::pair<feather_tk::V2I, double>& value)
+                {
+                    FEATHER_TK_P();
+                    p.updating = true;
+                    p.posXEdit->setValue(value.first.x);
+                    p.posYEdit->setValue(value.first.y);
+                    p.zoomEdit->setValue(value.second);
+                    p.updating = false;
+                });
         }
 
         ViewPosZoomWidget::ViewPosZoomWidget() :
@@ -79,10 +157,11 @@ namespace djv
         std::shared_ptr<ViewPosZoomWidget> ViewPosZoomWidget::create(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
+            const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<ViewPosZoomWidget>(new ViewPosZoomWidget);
-            out->_init(context, app, parent);
+            out->_init(context, app, mainWindow, parent);
             return out;
         }
 
@@ -722,6 +801,7 @@ namespace djv
         void ViewTool::_init(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
+            const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<IWidget>& parent)
         {
             IToolWidget::_init(
@@ -732,7 +812,7 @@ namespace djv
                 parent);
             FEATHER_TK_P();
 
-            p.viewPosZoomWidget = ViewPosZoomWidget::create(context, app);
+            p.viewPosZoomWidget = ViewPosZoomWidget::create(context, app, mainWindow);
             p.viewOptionsWidget = ViewOptionsWidget::create(context, app);
             p.backgroundWidget = BackgroundWidget::create(context, app);
             p.outlineWidget = OutlineWidget::create(context, app);
@@ -770,10 +850,11 @@ namespace djv
         std::shared_ptr<ViewTool> ViewTool::create(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
+            const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<ViewTool>(new ViewTool);
-            out->_init(context, app, parent);
+            out->_init(context, app, mainWindow, parent);
             return out;
         }
     }

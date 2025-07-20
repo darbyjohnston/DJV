@@ -53,7 +53,7 @@ namespace djv
             p.toolWidgets[Tool::Messages] = MessagesTool::create(context, app);
             p.toolWidgets[Tool::Settings] = SettingsTool::create(context, app);
             p.toolWidgets[Tool::SystemLog] = SystemLogTool::create(context, app);
-            p.toolWidgets[Tool::View] = ViewTool::create(context, app);
+            p.toolWidgets[Tool::View] = ViewTool::create(context, app, mainWindow);
 
             p.layout = feather_tk::StackLayout::create(context, shared_from_this());
             for (const auto& widget : p.toolWidgets)
