@@ -218,7 +218,10 @@ namespace djv
             p.compareToolBar = CompareToolBar::create(
                 context,
                 p.compareActions->getActions());
-            p.viewToolBar = ViewToolBar::create(context, p.viewActions);
+            p.viewToolBar = ViewToolBar::create(
+                context,
+                std::dynamic_pointer_cast<MainWindow>(shared_from_this()),
+                p.viewActions);
             p.windowToolBar = WindowToolBar::create(
                 context,
                 p.windowActions->getActions());

@@ -10,6 +10,7 @@ namespace djv
 {
     namespace app
     {
+        class MainWindow;
         class ViewActions;
 
         //! View tool bar.
@@ -20,18 +21,23 @@ namespace djv
         protected:
             void _init(
                 const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<ViewActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
-            ViewToolBar() = default;
+            ViewToolBar();
 
         public:
             ~ViewToolBar();
 
             static std::shared_ptr<ViewToolBar> create(
                 const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<ViewActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
+
+        private:
+            FEATHER_TK_PRIVATE();
         };
     }
 }
