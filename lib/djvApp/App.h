@@ -123,7 +123,7 @@ namespace djv
             const std::shared_ptr<BMDDevicesModel>& getBMDDevicesModel() const;
 
             //! Get the BMD output device.
-            const std::shared_ptr<bmd::OutputDevice>& getBMDOutputDevice() const;
+            const std::shared_ptr<tl::bmd::OutputDevice>& getBMDOutputDevice() const;
 #endif // TLRENDER_BMD
 
             void run() override;

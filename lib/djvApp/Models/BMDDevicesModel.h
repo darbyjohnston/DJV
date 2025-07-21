@@ -6,24 +6,24 @@
 
 #include <tlDevice/BMDDevicesModel.h>
 
-namespace dtk
+namespace feather_tk
 {
     class Settings;
 }
 
-namespace tl
+namespace djv
 {
-    namespace play
+    namespace app
     {
         //! BMD devices model.
-        class BMDDevicesModel : public bmd::DevicesModel
+        class BMDDevicesModel : public tl::bmd::DevicesModel
         {
-            DTK_NON_COPYABLE(BMDDevicesModel);
+            FEATHER_TK_NON_COPYABLE(BMDDevicesModel);
 
         protected:
             void _init(
-                const std::shared_ptr<dtk::Context>&,
-                const std::shared_ptr<dtk::Settings>&);
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
             BMDDevicesModel();
 
@@ -32,11 +32,11 @@ namespace tl
 
             //! Create a new model.
             static std::shared_ptr<BMDDevicesModel> create(
-                const std::shared_ptr<dtk::Context>&,
-                const std::shared_ptr<dtk::Settings>&);
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

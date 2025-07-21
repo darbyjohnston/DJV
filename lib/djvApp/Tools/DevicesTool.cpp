@@ -40,7 +40,7 @@ namespace djv
             std::shared_ptr<feather_tk::CheckBox> _444SDIVideoOutputCheckBox;
             std::shared_ptr<feather_tk::ComboBox> videoLevelsComboBox;
 
-            std::shared_ptr<feather_tk::ValueObserver<bmd::DevicesModelData> > dataObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::bmd::DevicesModelData> > dataObserver;
 #endif // TLRENDER_BMD
         };
 
@@ -128,7 +128,7 @@ namespace djv
                     if (auto app = appWeak.lock())
                     {
                         auto options = app->getBMDDevicesModel()->observeData()->get().boolOptions;
-                        options[bmd::Option::_444SDIVideoOutput] = value;
+                        options[tl::bmd::Option::_444SDIVideoOutput] = value;
                         app->getBMDDevicesModel()->setBoolOptions(options);
                     }
                 });
@@ -142,9 +142,9 @@ namespace djv
                     }
                 });
 
-            p.dataObserver = feather_tk::ValueObserver<bmd::DevicesModelData>::create(
+            p.dataObserver = feather_tk::ValueObserver<tl::bmd::DevicesModelData>::create(
                 app->getBMDDevicesModel()->observeData(),
-                [this](const bmd::DevicesModelData& value)
+                [this](const tl::bmd::DevicesModelData& value)
                 {
                     FEATHER_TK_P();
                     p.enabledCheckBox->setChecked(value.deviceEnabled);
@@ -163,7 +163,7 @@ namespace djv
                     p.pixelTypeComboBox->setItems(pixelTypes);
                     p.pixelTypeComboBox->setCurrentIndex(value.pixelTypeIndex);
 
-                    const auto i = value.boolOptions.find(bmd::Option::_444SDIVideoOutput);
+                    const auto i = value.boolOptions.find(tl::bmd::Option::_444SDIVideoOutput);
                     p._444SDIVideoOutputCheckBox->setChecked(i != value.boolOptions.end() ? i->second : false);
 
                     p.videoLevelsComboBox->setCurrentIndex(static_cast<int>(value.videoLevels));

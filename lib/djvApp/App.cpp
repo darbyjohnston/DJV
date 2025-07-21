@@ -108,7 +108,7 @@ namespace djv
             bool bmdDeviceActive = false;
 #if defined(TLRENDER_BMD)
             std::shared_ptr<BMDDevicesModel> bmdDevicesModel;
-            std::shared_ptr<bmd::OutputDevice> bmdOutputDevice;
+            std::shared_ptr<tl::bmd::OutputDevice> bmdOutputDevice;
             feather_tk::VideoLevels bmdOutputVideoLevels = feather_tk::VideoLevels::LegalRange;
 #endif // TLRENDER_BMD
 
@@ -379,7 +379,7 @@ namespace djv
             return _p->bmdDevicesModel;
         }
 
-        const std::shared_ptr<bmd::OutputDevice>& App::getBMDOutputDevice() const
+        const std::shared_ptr<tl::bmd::OutputDevice>& App::getBMDOutputDevice() const
         {
             return _p->bmdOutputDevice;
         }
@@ -452,7 +452,7 @@ namespace djv
         {
             FEATHER_TK_P();
 #if defined(TLRENDER_BMD)
-            p.bmdOutputDevice = bmd::OutputDevice::create(_context);
+            p.bmdOutputDevice = tl::bmd::OutputDevice::create(_context);
             p.bmdDevicesModel = BMDDevicesModel::create(_context, p.settings);
 #endif // TLRENDER_BMD
         }
@@ -553,23 +553,23 @@ namespace djv
                 });
 
 #if defined(TLRENDER_BMD)
-            p.bmdDevicesObserver = feather_tk::ValueObserver<bmd::DevicesModelData>::create(
+            p.bmdDevicesObserver = feather_tk::ValueObserver<tl::bmd::DevicesModelData>::create(
                 p.bmdDevicesModel->observeData(),
-                [this](const bmd::DevicesModelData& value)
+                [this](const tl::bmd::DevicesModelData& value)
                 {
                     FEATHER_TK_P();
-                    bmd::DeviceConfig config;
+                    tl::bmd::DeviceConfig config;
                     config.deviceIndex = value.deviceIndex - 1;
                     config.displayModeIndex = value.displayModeIndex - 1;
                     config.pixelType = value.pixelTypeIndex >= 0 &&
                         value.pixelTypeIndex < value.pixelTypes.size() ?
                         value.pixelTypes[value.pixelTypeIndex] :
-                        bmd::PixelType::None;
+                        tl::bmd::PixelType::None;
                     config.boolOptions = value.boolOptions;
                     p.bmdOutputDevice->setConfig(config);
                     p.bmdOutputDevice->setEnabled(value.deviceEnabled);
                     p.bmdOutputVideoLevels = value.videoLevels;
-                    timeline::DisplayOptions displayOptions = p.viewportModel->getDisplayOptions();
+                    tl::timeline::DisplayOptions displayOptions = p.viewportModel->getDisplayOptions();
                     displayOptions.videoLevels = p.bmdOutputVideoLevels;
                     p.bmdOutputDevice->setDisplayOptions({ displayOptions });
                     p.bmdOutputDevice->setHDR(value.hdrMode, value.hdrData);
@@ -587,9 +587,9 @@ namespace djv
                 {
                     //std::cout << "output device size: " << value << std::endl;
                 });
-            p.bmdFrameRateObserver = feather_tk::ValueObserver<bmd::FrameRate>::create(
+            p.bmdFrameRateObserver = feather_tk::ValueObserver<tl::bmd::FrameRate>::create(
                 p.bmdOutputDevice->observeFrameRate(),
-                [this](const bmd::FrameRate& value)
+                [this](const tl::bmd::FrameRate& value)
                 {
                     //std::cout << "output device frame rate: " <<
                     //    value.num << "/" <<
@@ -597,15 +597,15 @@ namespace djv
                     //    std::endl;
                 });
 
-            p.ocioOptionsObserver = feather_tk::ValueObserver<timeline::OCIOOptions>::create(
+            p.ocioOptionsObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 p.colorModel->observeOCIOOptions(),
-                [this](const timeline::OCIOOptions& value)
+                [this](const tl::timeline::OCIOOptions& value)
                 {
                     _p->bmdOutputDevice->setOCIOOptions(value);
                 });
-            p.lutOptionsObserver = feather_tk::ValueObserver<timeline::LUTOptions>::create(
+            p.lutOptionsObserver = feather_tk::ValueObserver<tl::timeline::LUTOptions>::create(
                 p.colorModel->observeLUTOptions(),
-                [this](const timeline::LUTOptions& value)
+                [this](const tl::timeline::LUTOptions& value)
                 {
                     _p->bmdOutputDevice->setLUTOptions(value);
                 });
@@ -615,32 +615,32 @@ namespace djv
                 {
                     _p->bmdOutputDevice->setImageOptions({ value });
                 });
-            p.displayOptionsObserver = feather_tk::ValueObserver<timeline::DisplayOptions>::create(
+            p.displayOptionsObserver = feather_tk::ValueObserver<tl::timeline::DisplayOptions>::create(
                 p.viewportModel->observeDisplayOptions(),
-                [this](const timeline::DisplayOptions& value)
+                [this](const tl::timeline::DisplayOptions& value)
                 {
-                    timeline::DisplayOptions tmp = value;
+                    tl::timeline::DisplayOptions tmp = value;
                     tmp.videoLevels = _p->bmdOutputVideoLevels;
                     _p->bmdOutputDevice->setDisplayOptions({ tmp });
                 });
 
-            p.compareOptionsObserver = feather_tk::ValueObserver<timeline::CompareOptions>::create(
+            p.compareOptionsObserver = feather_tk::ValueObserver<tl::timeline::CompareOptions>::create(
                 p.filesModel->observeCompareOptions(),
-                [this](const timeline::CompareOptions& value)
+                [this](const tl::timeline::CompareOptions& value)
                 {
                     _p->bmdOutputDevice->setCompareOptions(value);
                 });
 
-            p.bgOptionsObserver = feather_tk::ValueObserver<timeline::BackgroundOptions>::create(
+            p.bgOptionsObserver = feather_tk::ValueObserver<tl::timeline::BackgroundOptions>::create(
                 p.viewportModel->observeBackgroundOptions(),
-                [this](const timeline::BackgroundOptions& value)
+                [this](const tl::timeline::BackgroundOptions& value)
                 {
                     _p->bmdOutputDevice->setBackgroundOptions(value);
                 });
 
-            p.fgOptionsObserver = feather_tk::ValueObserver<timeline::ForegroundOptions>::create(
+            p.fgOptionsObserver = feather_tk::ValueObserver<tl::timeline::ForegroundOptions>::create(
                 p.viewportModel->observeForegroundOptions(),
-                [this](const timeline::ForegroundOptions& value)
+                [this](const tl::timeline::ForegroundOptions& value)
                 {
                     _p->bmdOutputDevice->setForegroundOptions(value);
                 });

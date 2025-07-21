@@ -2,29 +2,29 @@
 // Copyright (c) 2021-2025 Darby Johnston
 // All rights reserved.
 
-#include <tlPlayApp/Models/BMDDevicesModel.h>
+#include <djvApp/Models/BMDDevicesModel.h>
 
-#include <dtk/ui/Settings.h>
+#include <feather-tk/ui/Settings.h>
 
-namespace tl
+namespace djv
 {
-    namespace play
+    namespace app
     {
         struct BMDDevicesModel::Private
         {
-            std::shared_ptr<dtk::Settings> settings;
+            std::shared_ptr<feather_tk::Settings> settings;
         };
 
         void BMDDevicesModel::_init(
-            const std::shared_ptr<dtk::Context>& context,
-            const std::shared_ptr<dtk::Settings>& settings)
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<feather_tk::Settings>& settings)
         {
-            bmd::DevicesModel::_init(context);
-            DTK_P();
+            tl::bmd::DevicesModel::_init(context);
+            FEATHER_TK_P();
 
             p.settings = settings;
 
-            bmd::DevicesModelData data;
+            tl::bmd::DevicesModelData data;
             p.settings->getT("/BMD", data);
             setDeviceIndex(data.deviceIndex);
             setDisplayModeIndex(data.displayModeIndex);
@@ -41,13 +41,13 @@ namespace tl
 
         BMDDevicesModel::~BMDDevicesModel()
         {
-            DTK_P();
+            FEATHER_TK_P();
             p.settings->setT("/BMD", observeData()->get());
         }
 
         std::shared_ptr<BMDDevicesModel> BMDDevicesModel::create(
-            const std::shared_ptr<dtk::Context>& context,
-            const std::shared_ptr<dtk::Settings>& settings)
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<feather_tk::Settings>& settings)
         {
             auto out = std::shared_ptr<BMDDevicesModel>(new BMDDevicesModel);
             out->_init(context, settings);

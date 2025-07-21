@@ -27,6 +27,13 @@ list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 set(CMAKE_CXX_STANDARD 17)
 
+if(TLRENDER_USD)
+    add_definitions(-DTLRENDER_USD)
+endif()
+if(TLRENDER_BMD)
+    add_definitions(-DTLRENDER_BMD)
+endif()
+
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     add_definitions(-DFEATHER_TK_ASSERT)
 endif()
