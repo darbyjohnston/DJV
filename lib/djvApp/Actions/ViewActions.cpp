@@ -19,6 +19,7 @@ namespace djv
         {
             std::shared_ptr<feather_tk::ValueObserver<bool> > frameViewObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::ForegroundOptions> > fgOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<bool> > hudObserver;
         };
 
@@ -82,11 +83,11 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto displayOptions = app->getViewportModel()->getDisplayOptions();
-                        displayOptions.channels = value ?
+                        auto options = app->getViewportModel()->getDisplayOptions();
+                        options.channels = value ?
                             feather_tk::ChannelDisplay::Red :
                             feather_tk::ChannelDisplay::Color;
-                        app->getViewportModel()->setDisplayOptions(displayOptions);
+                        app->getViewportModel()->setDisplayOptions(options);
                     }
                 });
 
@@ -96,11 +97,11 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto displayOptions = app->getViewportModel()->getDisplayOptions();
-                        displayOptions.channels = value ?
+                        auto options = app->getViewportModel()->getDisplayOptions();
+                        options.channels = value ?
                             feather_tk::ChannelDisplay::Green :
                             feather_tk::ChannelDisplay::Color;
-                        app->getViewportModel()->setDisplayOptions(displayOptions);
+                        app->getViewportModel()->setDisplayOptions(options);
                     }
                 });
 
@@ -110,11 +111,11 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto displayOptions = app->getViewportModel()->getDisplayOptions();
-                        displayOptions.channels = value ?
+                        auto options = app->getViewportModel()->getDisplayOptions();
+                        options.channels = value ?
                             feather_tk::ChannelDisplay::Blue :
                             feather_tk::ChannelDisplay::Color;
-                        app->getViewportModel()->setDisplayOptions(displayOptions);
+                        app->getViewportModel()->setDisplayOptions(options);
                     }
                 });
 
@@ -124,11 +125,11 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto displayOptions = app->getViewportModel()->getDisplayOptions();
-                        displayOptions.channels = value ?
+                        auto options = app->getViewportModel()->getDisplayOptions();
+                        options.channels = value ?
                             feather_tk::ChannelDisplay::Alpha :
                             feather_tk::ChannelDisplay::Color;
-                        app->getViewportModel()->setDisplayOptions(displayOptions);
+                        app->getViewportModel()->setDisplayOptions(options);
                     }
                 });
 
@@ -138,9 +139,9 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto displayOptions = app->getViewportModel()->getDisplayOptions();
-                        displayOptions.mirror.x = value;
-                        app->getViewportModel()->setDisplayOptions(displayOptions);
+                        auto options = app->getViewportModel()->getDisplayOptions();
+                        options.mirror.x = value;
+                        app->getViewportModel()->setDisplayOptions(options);
                     }
                 });
 
@@ -150,9 +151,21 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto displayOptions = app->getViewportModel()->getDisplayOptions();
-                        displayOptions.mirror.y = value;
-                        app->getViewportModel()->setDisplayOptions(displayOptions);
+                        auto options = app->getViewportModel()->getDisplayOptions();
+                        options.mirror.y = value;
+                        app->getViewportModel()->setDisplayOptions(options);
+                    }
+                });
+
+            _actions["Grid"] = feather_tk::Action::create(
+                "Grid",
+                [appWeak](bool value)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        auto options = app->getViewportModel()->getForegroundOptions();
+                        options.grid.enabled = value;
+                        app->getViewportModel()->setForegroundOptions(options);
                     }
                 });
 
@@ -172,6 +185,7 @@ namespace djv
                 { "ZoomReset", "Reset the view zoom to 1:1." },
                 { "ZoomIn", "Zoom the view in." },
                 { "ZoomOut", "Zoom the view out." },
+                { "Grid", "Toggle the grid." },
                 { "HUD", "Toggle the HUD (Heads Up Display)." }
             };
 
@@ -195,6 +209,13 @@ namespace djv
 
                     _actions["MirrorHorizontal"]->setChecked(value.mirror.x);
                     _actions["MirrorVertical"]->setChecked(value.mirror.y);
+                });
+
+            p.fgOptionsObserver = feather_tk::ValueObserver<tl::timeline::ForegroundOptions>::create(
+                app->getViewportModel()->observeForegroundOptions(),
+                [this](const tl::timeline::ForegroundOptions& value)
+                {
+                    _actions["Grid"]->setChecked(value.grid.enabled);
                 });
 
             p.hudObserver = feather_tk::ValueObserver<bool>::create(

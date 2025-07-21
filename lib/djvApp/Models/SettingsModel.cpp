@@ -214,6 +214,7 @@ namespace djv
                 Shortcut("View/AlphaBlendNone", "Alpha blend none"),
                 Shortcut("View/AlphaBlendStraight", "Alpha blend straight"),
                 Shortcut("View/AlphaBlendPremultiplied", "Alpha blend premultiplied"),
+                Shortcut("View/Grid", "Grid", feather_tk::Key::G, static_cast<int>(feather_tk::KeyModifier::Control)),
                 Shortcut("View/HUD", "HUD", feather_tk::Key::H, static_cast<int>(feather_tk::KeyModifier::Control)),
 
                 Shortcut("Window/FullScreen", "Full screen", feather_tk::Key::U),

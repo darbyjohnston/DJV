@@ -31,6 +31,7 @@ namespace djv
             addAction(actions["MirrorHorizontal"]);
             addAction(actions["MirrorVertical"]);
             addDivider();
+            addAction(actions["Grid"]);
             addAction(actions["HUD"]);
         }
 
