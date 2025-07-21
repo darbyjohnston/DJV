@@ -228,7 +228,9 @@ namespace djv
                 Shortcut("Window/TabBar", "Tab bar"),
                 Shortcut("Window/Timeline", "Timeline"),
                 Shortcut("Window/BottomToolBar", "Bottom tool bar"),
-                Shortcut("Window/StatusToolBar", "Status tool bar")
+                Shortcut("Window/StatusToolBar", "Status tool bar"),
+
+                Shortcut("Color/OCIO", "Enable OCIO", feather_tk::Key::N, static_cast<int>(feather_tk::KeyModifier::Control))
             };
         }
 

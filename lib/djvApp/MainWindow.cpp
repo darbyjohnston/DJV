@@ -6,6 +6,7 @@
 #include <djvApp/MainWindow.h>
 
 #include <djvApp/Actions/AudioActions.h>
+#include <djvApp/Actions/ColorActions.h>
 #include <djvApp/Actions/CompareActions.h>
 #include <djvApp/Actions/FileActions.h>
 #include <djvApp/Actions/FrameActions.h>
@@ -16,6 +17,7 @@
 #include <djvApp/Actions/ViewActions.h>
 #include <djvApp/Actions/WindowActions.h>
 #include <djvApp/Menus/AudioMenu.h>
+#include <djvApp/Menus/ColorMenu.h>
 #include <djvApp/Menus/CompareMenu.h>
 #include <djvApp/Menus/FileMenu.h>
 #include <djvApp/Menus/FrameMenu.h>
@@ -90,6 +92,7 @@ namespace djv
             std::shared_ptr<AudioActions> audioActions;
             std::shared_ptr<ViewActions> viewActions;
             std::shared_ptr<WindowActions> windowActions;
+            std::shared_ptr<ColorActions> colorActions;
             std::shared_ptr<ToolsActions> toolsActions;
             std::shared_ptr<HelpActions> helpActions;
             std::shared_ptr<FileMenu> fileMenu;
@@ -100,6 +103,7 @@ namespace djv
             std::shared_ptr<AudioMenu> audioMenu;
             std::shared_ptr<ViewMenu> viewMenu;
             std::shared_ptr<WindowMenu> windowMenu;
+            std::shared_ptr<ColorMenu> colorMenu;
             std::shared_ptr<ToolsMenu> toolsMenu;
             std::shared_ptr<HelpMenu> helpMenu;
             std::shared_ptr<feather_tk::MenuBar> menuBar;
@@ -181,6 +185,7 @@ namespace djv
                 context,
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            p.colorActions = ColorActions::create(context, app);
             p.toolsActions = ToolsActions::create(context, app);
             p.helpActions = HelpActions::create(
                 context,
@@ -198,6 +203,7 @@ namespace djv
                 context,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()),
                 p.windowActions);
+            p.colorMenu = ColorMenu::create(context, p.colorActions);
             p.toolsMenu = ToolsMenu::create(context, p.toolsActions);
             p.helpMenu = HelpMenu::create(context, p.helpActions);
             p.menuBar = feather_tk::MenuBar::create(context);
@@ -209,6 +215,7 @@ namespace djv
             p.menuBar->addMenu("Audio", p.audioMenu);
             p.menuBar->addMenu("View", p.viewMenu);
             p.menuBar->addMenu("Window", p.windowMenu);
+            p.menuBar->addMenu("Color", p.colorMenu);
             p.menuBar->addMenu("Tools", p.toolsMenu);
             p.menuBar->addMenu("Help", p.helpMenu);
 

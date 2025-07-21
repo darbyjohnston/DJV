@@ -1,5 +1,6 @@
 set(HEADERS_ACTIONS
     Actions/AudioActions.h
+    Actions/ColorActions.h
     Actions/CompareActions.h
     Actions/FileActions.h
     Actions/FrameActions.h
@@ -12,6 +13,7 @@ set(HEADERS_ACTIONS
     Actions/WindowActions.h)
 set(HEADERS_MENUS
     Menus/AudioMenu.h
+    Menus/ColorMenu.h
     Menus/CompareMenu.h
     Menus/FileMenu.h
     Menus/FrameMenu.h
@@ -85,6 +87,7 @@ set(HEADERS_PRIVATE
 
 set(SOURCE_ACTIONS
     Actions/AudioActions.cpp
+    Actions/ColorActions.cpp
     Actions/CompareActions.cpp
     Actions/FileActions.cpp
     Actions/FrameActions.cpp
@@ -97,6 +100,7 @@ set(SOURCE_ACTIONS
     Actions/WindowActions.cpp)
 set(SOURCE_MENUS
     Menus/AudioMenu.cpp
+    Menus/ColorMenu.cpp
     Menus/CompareMenu.cpp
     Menus/FileMenu.cpp
     Menus/FrameMenu.cpp
