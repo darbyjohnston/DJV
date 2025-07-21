@@ -423,7 +423,7 @@ namespace djv
                 auto timeUnitsModel = app->getTimeUnitsModel();
                 s = timeUnitsModel->getLabel(p.currentTime);
             }
-            p.timeLabel->setText(feather_tk::Format("{0}, {1} FPS, {2} dropped").
+            p.timeLabel->setText(feather_tk::Format("Time: {0}, {1} FPS, {2} dropped").
                 arg(s).
                 arg(p.fps, 2, 4).
                 arg(p.droppedFrames));
@@ -438,8 +438,8 @@ namespace djv
 
             p.cacheLabel->setText(
                 feather_tk::Format("Cache: {0}% V, {1}% A").
-                arg(p.cacheInfo.videoPercentage, 0, 3).
-                arg(p.cacheInfo.audioPercentage, 0, 3));
+                arg(static_cast<int>(p.cacheInfo.videoPercentage)).
+                arg(static_cast<int>(p.cacheInfo.audioPercentage)));
 
             p.hudLayout->setVisible(p.hud);
         }
