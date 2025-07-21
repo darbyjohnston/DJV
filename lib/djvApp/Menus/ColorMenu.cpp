@@ -19,6 +19,7 @@ namespace djv
 
             auto actions = colorActions->getActions();
             addAction(actions["OCIO"]);
+            addAction(actions["LUT"]);
         }
 
         ColorMenu::~ColorMenu()

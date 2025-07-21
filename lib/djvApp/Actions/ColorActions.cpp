@@ -13,7 +13,8 @@ namespace djv
     {
         struct ColorActions::Private
         {
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > optionsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > ocioObserver;
+            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::LUTOptions> > lutObserver;
         };
 
         void ColorActions::_init(
@@ -35,19 +36,38 @@ namespace djv
                         app->getColorModel()->setOCIOOptions(options);
                     }
                 });
+            _actions["LUT"] = feather_tk::Action::create(
+                "Enable LUT",
+                [appWeak](bool value)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        auto options = app->getColorModel()->getLUTOptions();
+                        options.enabled = value;
+                        app->getColorModel()->setLUTOptions(options);
+                    }
+                });
 
             _tooltips =
             {
-                { "OCIO", "Toggle whether OCIO is enabled." }
+                { "OCIO", "Toggle whether OCIO is enabled." },
+                { "LUT", "Toggle whether the LUT is enabled." }
             };
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.optionsObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
+            p.ocioObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 app->getColorModel()->observeOCIOOptions(),
                 [this](const tl::timeline::OCIOOptions& value)
                 {
                     _actions["OCIO"]->setChecked(value.enabled);
+                });
+
+            p.lutObserver = feather_tk::ValueObserver<tl::timeline::LUTOptions>::create(
+                app->getColorModel()->observeLUTOptions(),
+                [this](const tl::timeline::LUTOptions& value)
+                {
+                    _actions["LUT"]->setChecked(value.enabled);
                 });
         }
 

@@ -230,7 +230,8 @@ namespace djv
                 Shortcut("Window/BottomToolBar", "Bottom tool bar"),
                 Shortcut("Window/StatusToolBar", "Status tool bar"),
 
-                Shortcut("Color/OCIO", "Enable OCIO", feather_tk::Key::N, static_cast<int>(feather_tk::KeyModifier::Control))
+                Shortcut("Color/OCIO", "Enable OCIO", feather_tk::Key::N, static_cast<int>(feather_tk::KeyModifier::Control)),
+                Shortcut("Color/LUT", "Enable LUT", feather_tk::Key::K, static_cast<int>(feather_tk::KeyModifier::Control))
             };
         }
 
