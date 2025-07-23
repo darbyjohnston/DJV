@@ -145,8 +145,6 @@ namespace djv
             std::filesystem::path _getSettingsPath(
                 const std::string& appName,
                 const std::filesystem::path& appDocsPath);
-            std::vector<std::shared_ptr<feather_tk::ICmdLineArg> > _getCmdLineArgs();
-            std::vector<std::shared_ptr<feather_tk::ICmdLineOption> > _getCmdLineOptions();
             tl::io::Options _getIOOptions() const;
 
             void _filesUpdate(const std::vector<std::shared_ptr<FilesModelItem> >&);

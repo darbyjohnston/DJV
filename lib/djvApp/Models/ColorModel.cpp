@@ -4,25 +4,34 @@
 
 #include <djvApp/Models/ColorModel.h>
 
+#include <feather-tk/ui/Settings.h>
+
 namespace djv
 {
     namespace app
     {
         struct ColorModel::Private
         {
-            std::weak_ptr<feather_tk::Context> context;
+            std::shared_ptr<feather_tk::Settings> settings;
             std::shared_ptr<feather_tk::ObservableValue<tl::timeline::OCIOOptions> > ocioOptions;
             std::shared_ptr<feather_tk::ObservableValue<tl::timeline::LUTOptions> > lutOptions;
         };
 
-        void ColorModel::_init(const std::shared_ptr<feather_tk::Context>& context)
+        void ColorModel::_init(
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<feather_tk::Settings>& settings)
         {
             FEATHER_TK_P();
 
-            p.context = context;
+            p.settings = settings;
 
-            p.ocioOptions = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create();
-            p.lutOptions = feather_tk::ObservableValue<tl::timeline::LUTOptions>::create();
+            tl::timeline::OCIOOptions ocioOptions;
+            p.settings->getT("/Color/OCIO", ocioOptions);
+            p.ocioOptions = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create(ocioOptions);
+
+            tl::timeline::LUTOptions lutOptions;
+            p.settings->getT("/Color/LUT", lutOptions);
+            p.lutOptions = feather_tk::ObservableValue<tl::timeline::LUTOptions>::create(lutOptions);
         }
 
         ColorModel::ColorModel() :
@@ -30,12 +39,18 @@ namespace djv
         {}
 
         ColorModel::~ColorModel()
-        {}
+        {
+            FEATHER_TK_P();
+            p.settings->setT("/Color/OCIO", p.ocioOptions->get());
+            p.settings->setT("/Color/LUT", p.lutOptions->get());
+        }
 
-        std::shared_ptr<ColorModel> ColorModel::create(const std::shared_ptr<feather_tk::Context>& context)
+        std::shared_ptr<ColorModel> ColorModel::create(
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<feather_tk::Settings>& settings)
         {
             auto out = std::shared_ptr<ColorModel>(new ColorModel);
-            out->_init(context);
+            out->_init(context, settings);
             return out;
         }
 

@@ -53,38 +53,46 @@ namespace djv
 {
     namespace app
     {
-        struct Options
+        struct CmdLine
         {
-            std::vector<std::string> fileNames;
-            std::string audioFileName;
-            std::string compareFileName;
-            tl::timeline::CompareOptions compareOptions;
-            double speed = 0.0;
-            tl::timeline::Playback playback = tl::timeline::Playback::Stop;
-            tl::timeline::Loop loop = tl::timeline::Loop::Loop;
-            OTIO_NS::RationalTime seek = tl::time::invalidTime;
-            OTIO_NS::TimeRange inOutRange = tl::time::invalidTimeRange;
-            tl::timeline::OCIOOptions ocioOptions;
-            tl::timeline::LUTOptions lutOptions;
-
+            std::shared_ptr<feather_tk::CmdLineListArg<std::string> > inputs;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > audioFileName;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > compareFileName;
+            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::Compare> > compare;
+            std::shared_ptr<feather_tk::CmdLineValueOption<feather_tk::V2F> > wipeCenter;
+            std::shared_ptr<feather_tk::CmdLineValueOption<float> > wipeRotation;
+            std::shared_ptr<feather_tk::CmdLineValueOption<double> > speed;
+            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::Playback> > playback;
+            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::Loop> > loop;
+            std::shared_ptr<feather_tk::CmdLineValueOption<OTIO_NS::RationalTime> > seek;
+            std::shared_ptr<feather_tk::CmdLineValueOption<OTIO_NS::TimeRange> > inOutRange;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioFileName;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioInput;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioDisplay;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioView;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioLook;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > lutFileName;
+            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::LUTOrder> > lutOrder;
 #if defined(TLRENDER_USD)
-            int usdRenderWidth = 1920;
-            float usdComplexity = 1.F;
-            tl::usd::DrawMode usdDrawMode = tl::usd::DrawMode::ShadedSmooth;
-            bool usdEnableLighting = true;
-            bool usdSRGB = true;
-            size_t usdStageCache = 10;
-            size_t usdDiskCache = 0;
+            std::shared_ptr<feather_tk::CmdLineValueOption<int> > usdRenderWidth;
+            std::shared_ptr<feather_tk::CmdLineValueOption<float> > usdComplexity;
+            std::shared_ptr<feather_tk::CmdLineValueOption<tl::usd::DrawMode> > usdDrawMode;
+            std::shared_ptr<feather_tk::CmdLineValueOption<bool> > usdEnableLighting;
+            std::shared_ptr<feather_tk::CmdLineValueOption<bool> > usdSRGB;
+            std::shared_ptr<feather_tk::CmdLineValueOption<size_t> > usdStageCache;
+            std::shared_ptr<feather_tk::CmdLineValueOption<size_t> > usdDiskCache;
 #endif // TLRENDER_USD
-
-            std::string logFile;
-            bool resetSettings = false;
-            std::string settingsFile;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > logFileName;
+            std::shared_ptr<feather_tk::CmdLineFlagOption> resetSettings;
+            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > settingsFileName;
         };
 
         struct App::Private
         {
-            Options options;
+            std::filesystem::path logFile;
+            std::filesystem::path settingsFile;
+            CmdLine cmdLine;
+
             std::shared_ptr<tl::file::FileLogSystem> fileLogSystem;
             std::shared_ptr<feather_tk::Settings> settings;
             std::shared_ptr<SettingsModel> settingsModel;
@@ -146,17 +154,183 @@ namespace djv
             std::vector<std::string>& argv)
         {
             FEATHER_TK_P();
+
             const std::string appName = "djv";
             const std::filesystem::path appDocsPath = _appDocsPath();
-            p.options.logFile = _getLogFilePath(appName, appDocsPath).u8string();
-            p.options.settingsFile = _getSettingsPath(appName, appDocsPath).u8string();
+            p.logFile = _getLogFilePath(appName, appDocsPath);
+            p.settingsFile = _getSettingsPath(appName, appDocsPath);
+
+            p.cmdLine.inputs = feather_tk::CmdLineListArg<std::string>::create(
+                "input",
+                "One or more timelines, movies, image sequences, or directories.",
+                true);
+            p.cmdLine.audioFileName = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-audio", "-a" },
+                "Audio file name.",
+                "Audio");
+            p.cmdLine.compareFileName = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-compare", "-b" },
+                "Compare \"B\" file name.",
+                "Compare");
+            p.cmdLine.compare = feather_tk::CmdLineValueOption<tl::timeline::Compare>::create(
+                { "-compareMode", "-c" },
+                "Compare mode.",
+                "Compare",
+                std::optional<tl::timeline::Compare>(),
+                feather_tk::quotes(tl::timeline::getCompareLabels()));
+            p.cmdLine.wipeCenter = feather_tk::CmdLineValueOption<feather_tk::V2F>::create(
+                { "-wipeCenter", "-wc" },
+                "Wipe center.",
+                "Compare",
+                tl::timeline::CompareOptions().wipeCenter);
+            p.cmdLine.wipeRotation = feather_tk::CmdLineValueOption<float>::create(
+                { "-wipeRotation", "-wr" },
+                "Wipe rotation.",
+                "Compare",
+                0.F);
+            p.cmdLine.speed = feather_tk::CmdLineValueOption<double>::create(
+                { "-speed" },
+                "Playback speed.",
+                "Playback");
+            p.cmdLine.playback = feather_tk::CmdLineValueOption<tl::timeline::Playback>::create(
+                { "-playback", "-p" },
+                "Playback mode.",
+                "Playback",
+                std::optional<tl::timeline::Playback>(),
+                feather_tk::quotes(tl::timeline::getPlaybackLabels()));
+            p.cmdLine.loop = feather_tk::CmdLineValueOption<tl::timeline::Loop>::create(
+                { "-loop" },
+                "Loop mode.",
+                "Playback",
+                std::optional<tl::timeline::Loop>(),
+                feather_tk::quotes(tl::timeline::getLoopLabels()));
+            p.cmdLine.seek = feather_tk::CmdLineValueOption<OTIO_NS::RationalTime>::create(
+                { "-seek" },
+                "Seek to the given time.",
+                "Playback");
+            p.cmdLine.inOutRange = feather_tk::CmdLineValueOption<OTIO_NS::TimeRange>::create(
+                { "-inOutRange" },
+                "Set the in/out points range.",
+                "Playback");
+            p.cmdLine.ocioFileName = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-ocio" },
+                "OCIO configuration file name (e.g., config.ocio).",
+                "Color");
+            p.cmdLine.ocioInput = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-ocioInput" },
+                "OCIO input name.",
+                "Color");
+            p.cmdLine.ocioDisplay = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-ocioDisplay" },
+                "OCIO display name.",
+                "Color");
+            p.cmdLine.ocioView = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-ocioView" },
+                "OCIO view name.",
+                "Color");
+            p.cmdLine.ocioLook = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-ocioLook" },
+                "OCIO look name.",
+                "Color");
+            p.cmdLine.lutFileName = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-lut" },
+                "LUT file name.",
+                "Color");
+            p.cmdLine.lutOrder = feather_tk::CmdLineValueOption<tl::timeline::LUTOrder>::create(
+                { "-lutOrder" },
+                "LUT operation order.",
+                "Color",
+                std::optional<tl::timeline::LUTOrder>(),
+                feather_tk::quotes(tl::timeline::getLUTOrderLabels()));
+#if defined(TLRENDER_USD)
+            p.cmdLine.usdRenderWidth = feather_tk::CmdLineValueOption<int>::create(
+                { "-usdRenderWidth" },
+                "Render width.",
+                "USD",
+                1920);
+            p.cmdLine.usdComplexity = feather_tk::CmdLineValueOption<float>::create(
+                { "-usdComplexity" },
+                "Render complexity setting.",
+                "USD",
+                1.F);
+            p.cmdLine.usdDrawMode = feather_tk::CmdLineValueOption<tl::usd::DrawMode>::create(
+                { "-usdDrawMode" },
+                "Draw mode.",
+                "USD",
+                tl::usd::DrawMode::ShadedSmooth,
+                feather_tk::quotes(tl::usd::getDrawModeLabels()));
+            p.cmdLine.usdEnableLighting = feather_tk::CmdLineValueOption<bool>::create(
+                { "-usdEnableLighting" },
+                "Enable lighting.",
+                "USD",
+                true);
+            p.cmdLine.usdSRGB = feather_tk::CmdLineValueOption<bool>::create(
+                { "-usdSRGB" },
+                "Enable sRGB color space.",
+                "USD",
+                true);
+            p.cmdLine.usdStageCache = feather_tk::CmdLineValueOption<size_t>::create(
+                { "-usdStageCache" },
+                "Stage cache size.",
+                "USD",
+                10);
+            p.cmdLine.usdDiskCache = feather_tk::CmdLineValueOption<size_t>::create(
+                { "-usdDiskCache" },
+                "Disk cache size in gigabytes. A size of zero disables the cache.",
+                "USD",
+                0);
+#endif // TLRENDER_USD
+            p.cmdLine.logFileName = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-logFile" },
+                "Log file name.",
+                std::string(),
+                feather_tk::Format("{0}").arg(p.logFile.u8string()));
+            p.cmdLine.resetSettings = feather_tk::CmdLineFlagOption::create(
+                { "-resetSettings" },
+                "Reset settings to defaults.");
+            p.cmdLine.settingsFileName = feather_tk::CmdLineValueOption<std::string>::create(
+                { "-settingsFile" },
+                "Settings file name.",
+                std::string(),
+                feather_tk::Format("{0}").arg(p.settingsFile.u8string()));
+
             feather_tk::App::_init(
                 context,
                 argv,
                 appName,
-                "Playback application.",
-                _getCmdLineArgs(),
-                _getCmdLineOptions());
+                "Playback and review image sequences.",
+                { p.cmdLine.inputs },
+                {
+                    p.cmdLine.audioFileName,
+                    p.cmdLine.compareFileName,
+                    p.cmdLine.compare,
+                    p.cmdLine.wipeCenter,
+                    p.cmdLine.wipeRotation,
+                    p.cmdLine.speed,
+                    p.cmdLine.playback,
+                    p.cmdLine.loop,
+                    p.cmdLine.seek,
+                    p.cmdLine.inOutRange,
+                    p.cmdLine.ocioFileName,
+                    p.cmdLine.ocioInput,
+                    p.cmdLine.ocioDisplay,
+                    p.cmdLine.ocioView,
+                    p.cmdLine.ocioLook,
+                    p.cmdLine.lutFileName,
+                    p.cmdLine.lutOrder,
+#if defined(TLRENDER_USD)
+                    p.cmdLine.usdRenderWidth,
+                    p.cmdLine.usdComplexity,
+                    p.cmdLine.usdDrawMode,
+                    p.cmdLine.usdEnableLighting,
+                    p.cmdLine.usdSRGB,
+                    p.cmdLine.usdStageCache,
+                    p.cmdLine.usdDiskCache,
+#endif // TLRENDER_USD
+                    p.cmdLine.logFileName,
+                    p.cmdLine.resetSettings,
+                    p.cmdLine.settingsFileName
+                });
         }
 
         App::App() :
@@ -389,14 +563,12 @@ namespace djv
         {
             FEATHER_TK_P();
 
-            p.fileLogSystem = tl::file::FileLogSystem::create(
-                _context,
-                std::filesystem::u8path(p.options.logFile));
+            p.fileLogSystem = tl::file::FileLogSystem::create(_context, p.logFile);
 
             p.settings = feather_tk::Settings::create(
                 _context,
-                std::filesystem::u8path(p.options.settingsFile),
-                p.options.resetSettings);
+                p.settingsFile,
+                p.cmdLine.resetSettings->found());
 
             _modelsInit();
             _devicesInit();
@@ -427,6 +599,21 @@ namespace djv
             FEATHER_TK_P();
 
             p.settingsModel = SettingsModel::create(_context, p.settings);
+            if (getColorStyleCmdLineOption()->hasValue() ||
+                getDisplayScaleCmdLineOption()->hasValue())
+            {
+                // Override settings with the command line.
+                auto style = p.settingsModel->getStyle();
+                if (getColorStyleCmdLineOption()->hasValue())
+                {
+                    style.colorStyle = getColorStyleCmdLineOption()->getValue();
+                }
+                if (getDisplayScaleCmdLineOption()->hasValue())
+                {
+                    style.displayScale = getDisplayScaleCmdLineOption()->getValue();
+                }
+                p.settingsModel->setStyle(style);
+            }
 
             p.timeUnitsModel = TimeUnitsModel::create(_context, p.settings);
             
@@ -437,9 +624,52 @@ namespace djv
             fileBrowserSystem->getModel()->setExtensions(tl::timeline::getExtensions(_context));
             fileBrowserSystem->setRecentFilesModel(p.recentFilesModel);
 
-            p.colorModel = ColorModel::create(_context);
-            p.colorModel->setOCIOOptions(p.options.ocioOptions);
-            p.colorModel->setLUTOptions(p.options.lutOptions);
+            p.colorModel = ColorModel::create(_context, p.settings);
+            if (p.cmdLine.ocioFileName->hasValue() ||
+                p.cmdLine.ocioInput->hasValue() ||
+                p.cmdLine.ocioDisplay->hasValue() ||
+                p.cmdLine.ocioView->hasValue() ||
+                p.cmdLine.ocioLook->hasValue())
+            {
+                tl::timeline::OCIOOptions options = p.colorModel->getOCIOOptions();
+                options.enabled = true;
+                if (p.cmdLine.ocioFileName->hasValue())
+                {
+                    options.fileName = p.cmdLine.ocioFileName->getValue();
+                }
+                if (p.cmdLine.ocioInput->hasValue())
+                {
+                    options.input = p.cmdLine.ocioInput->getValue();
+                }
+                if (p.cmdLine.ocioDisplay->hasValue())
+                {
+                    options.display = p.cmdLine.ocioDisplay->getValue();
+                }
+                if (p.cmdLine.ocioView->hasValue())
+                {
+                    options.view = p.cmdLine.ocioView->getValue();
+                }
+                if (p.cmdLine.ocioLook->hasValue())
+                {
+                    options.look = p.cmdLine.ocioLook->getValue();
+                }
+                p.colorModel->setOCIOOptions(options);
+            }
+            if (p.cmdLine.lutFileName->hasValue() ||
+                p.cmdLine.lutOrder->hasValue())
+            {
+                tl::timeline::LUTOptions options = p.colorModel->getLUTOptions();
+                options.enabled = true;
+                if (p.cmdLine.lutFileName->hasValue())
+                {
+                    options.fileName = p.cmdLine.lutFileName->getValue();
+                }
+                if (p.cmdLine.lutOrder->hasValue())
+                {
+                    options.order = p.cmdLine.lutOrder->getValue();
+                }
+                p.colorModel->setLUTOptions(options);
+            }
 
             p.viewportModel = ViewportModel::create(_context, p.settings);
 
@@ -650,38 +880,63 @@ namespace djv
         void App::_inputFilesInit()
         {
             FEATHER_TK_P();
-            if (!p.options.fileNames.empty())
+            if (!p.cmdLine.inputs->getList().empty())
             {
-                if (!p.options.compareFileName.empty())
+                if (p.cmdLine.compareFileName->hasValue())
                 {
-                    open(tl::file::Path(p.options.compareFileName));
-                    p.filesModel->setCompareOptions(p.options.compareOptions);
+                    open(tl::file::Path(p.cmdLine.compareFileName->getValue()));
+                    tl::timeline::CompareOptions options;
+                    if (p.cmdLine.compare->hasValue())
+                    {
+                        options.compare = p.cmdLine.compare->getValue();
+                    }
+                    if (p.cmdLine.wipeCenter->hasValue())
+                    {
+                        options.wipeCenter = p.cmdLine.wipeCenter->getValue();
+                    }
+                    if (p.cmdLine.wipeRotation->hasValue())
+                    {
+                        options.wipeRotation = p.cmdLine.wipeRotation->getValue();
+                    }
+                    p.filesModel->setCompareOptions(options);
                     p.filesModel->setB(0, true);
                 }
 
-                for (const auto& fileName : p.options.fileNames)
+                std::string audioFileName;
+                if (p.cmdLine.audioFileName->hasValue())
+                {
+                    audioFileName = p.cmdLine.audioFileName->getValue();
+                }
+                for (const auto& input : p.cmdLine.inputs->getList())
                 {
                     open(
-                        tl::file::Path(fileName),
-                        tl::file::Path(p.options.audioFileName));
+                        tl::file::Path(input),
+                        tl::file::Path(audioFileName));
 
                     if (auto player = p.player->get())
                     {
-                        if (p.options.speed > 0.0)
+                        if (p.cmdLine.speed->hasValue())
                         {
-                            player->setSpeed(p.options.speed);
+                            player->setSpeed(p.cmdLine.speed->getValue());
                         }
-                        if (tl::time::isValid(p.options.inOutRange))
+                        if (p.cmdLine.inOutRange->hasValue())
                         {
-                            player->setInOutRange(p.options.inOutRange);
-                            player->seek(p.options.inOutRange.start_time());
+                            const OTIO_NS::TimeRange& inOutRange = p.cmdLine.inOutRange->getValue();
+                            player->setInOutRange(inOutRange);
+                            player->seek(inOutRange.start_time());
                         }
-                        if (tl::time::isValid(p.options.seek))
+                        if (p.cmdLine.seek->hasValue())
                         {
-                            player->seek(p.options.seek);
+                            player->seek(p.cmdLine.seek->getValue());
                         }
-                        player->setLoop(p.options.loop);
-                        player->setPlayback(p.options.playback);
+                        if (p.cmdLine.loop->hasValue())
+                        {
+                            player->setLoop(p.cmdLine.loop->getValue());
+                        }
+                        if (p.cmdLine.playback->hasValue())
+                        {
+                            player->setPlayback(p.cmdLine.playback->getValue());
+                        }
                     }
                 }
             }
@@ -763,157 +1018,6 @@ namespace djv
                 arg(appName).
                 arg(DJV_VERSION).
                 str();
-        }
-
-        std::vector<std::shared_ptr<feather_tk::ICmdLineArg> > App::_getCmdLineArgs()
-        {
-            FEATHER_TK_P();
-            return
-            {
-                feather_tk::CmdLineListArg<std::string>::create(
-                    p.options.fileNames,
-                    "inputs",
-                    "Timelines, movies, image sequences, or folders.",
-                    true)
-            };
-        }
-
-        std::vector<std::shared_ptr<feather_tk::ICmdLineOption> > App::_getCmdLineOptions()
-        {
-            FEATHER_TK_P();
-            return
-            {
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.audioFileName,
-                    { "-audio", "-a" },
-                    "Audio file name."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.compareFileName,
-                    { "-b" },
-                    "A/B comparison \"B\" file name."),
-                feather_tk::CmdLineValueOption<tl::timeline::Compare>::create(
-                    p.options.compareOptions.compare,
-                    { "-compare", "-c" },
-                    "A/B comparison mode.",
-                    feather_tk::Format("{0}").arg(p.options.compareOptions.compare),
-                    feather_tk::join(tl::timeline::getCompareLabels(), ", ")),
-                feather_tk::CmdLineValueOption<feather_tk::V2F>::create(
-                    p.options.compareOptions.wipeCenter,
-                    { "-wipeCenter", "-wc" },
-                    "A/B comparison wipe center.",
-                    feather_tk::Format("{0}").arg(p.options.compareOptions.wipeCenter)),
-                feather_tk::CmdLineValueOption<float>::create(
-                    p.options.compareOptions.wipeRotation,
-                    { "-wipeRotation", "-wr" },
-                    "A/B comparison wipe rotation.",
-                    feather_tk::Format("{0}").arg(p.options.compareOptions.wipeRotation)),
-                feather_tk::CmdLineValueOption<double>::create(
-                    p.options.speed,
-                    { "-speed" },
-                    "Playback speed."),
-                feather_tk::CmdLineValueOption<tl::timeline::Playback>::create(
-                    p.options.playback,
-                    { "-playback", "-p" },
-                    "Playback mode.",
-                    feather_tk::Format("{0}").arg(p.options.playback),
-                    feather_tk::join(tl::timeline::getPlaybackLabels(), ", ")),
-                feather_tk::CmdLineValueOption<tl::timeline::Loop>::create(
-                    p.options.loop,
-                    { "-loop", "-lp" },
-                    "Playback loop mode.",
-                    feather_tk::Format("{0}").arg(p.options.loop),
-                    feather_tk::join(tl::timeline::getLoopLabels(), ", ")),
-                feather_tk::CmdLineValueOption<OTIO_NS::RationalTime>::create(
-                    p.options.seek,
-                    { "-seek" },
-                    "Seek to the given time."),
-                feather_tk::CmdLineValueOption<OTIO_NS::TimeRange>::create(
-                    p.options.inOutRange,
-                    { "-inOutRange" },
-                    "Set the in/out points range."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.ocioOptions.fileName,
-                    { "-ocio" },
-                    "OpenColorIO configuration file name (e.g., config.ocio)."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.ocioOptions.input,
-                    { "-ocioInput" },
-                    "OpenColorIO input name."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.ocioOptions.display,
-                    { "-ocioDisplay" },
-                    "OpenColorIO display name."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.ocioOptions.view,
-                    { "-ocioView" },
-                    "OpenColorIO view name."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.ocioOptions.look,
-                    { "-ocioLook" },
-                    "OpenColorIO look name."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.lutOptions.fileName,
-                    { "-lut" },
-                    "LUT file name."),
-                feather_tk::CmdLineValueOption<tl::timeline::LUTOrder>::create(
-                    p.options.lutOptions.order,
-                    { "-lutOrder" },
-                    "LUT operation order.",
-                    feather_tk::Format("{0}").arg(p.options.lutOptions.order),
-                    feather_tk::join(tl::timeline::getLUTOrderLabels(), ", ")),
-#if defined(TLRENDER_USD)
-                feather_tk::CmdLineValueOption<int>::create(
-                    p.options.usdRenderWidth,
-                    { "-usdRenderWidth" },
-                    "USD render width.",
-                    feather_tk::Format("{0}").arg(p.options.usdRenderWidth)),
-                feather_tk::CmdLineValueOption<float>::create(
-                    p.options.usdComplexity,
-                    { "-usdComplexity" },
-                    "USD render complexity setting.",
-                    feather_tk::Format("{0}").arg(p.options.usdComplexity)),
-                feather_tk::CmdLineValueOption<tl::usd::DrawMode>::create(
-                    p.options.usdDrawMode,
-                    { "-usdDrawMode" },
-                    "USD draw mode.",
-                    feather_tk::Format("{0}").arg(p.options.usdDrawMode),
-                    feather_tk::join(tl::usd::getDrawModeLabels(), ", ")),
-                feather_tk::CmdLineValueOption<bool>::create(
-                    p.options.usdEnableLighting,
-                    { "-usdEnableLighting" },
-                    "USD enable lighting.",
-                    feather_tk::Format("{0}").arg(p.options.usdEnableLighting)),
-                feather_tk::CmdLineValueOption<bool>::create(
-                    p.options.usdSRGB,
-                    { "-usdSRGB" },
-                    "USD enable sRGB color space.",
-                    feather_tk::Format("{0}").arg(p.options.usdSRGB)),
-                feather_tk::CmdLineValueOption<size_t>::create(
-                    p.options.usdStageCache,
-                    { "-usdStageCache" },
-                    "USD stage cache size.",
-                    feather_tk::Format("{0}").arg(p.options.usdStageCache)),
-                feather_tk::CmdLineValueOption<size_t>::create(
-                    p.options.usdDiskCache,
-                    { "-usdDiskCache" },
-                    "USD disk cache size in gigabytes. A size of zero disables the disk cache.",
-                    feather_tk::Format("{0}").arg(p.options.usdDiskCache)),
-#endif // TLRENDER_USD
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.logFile,
-                    { "-logFile" },
-                    "Log file name.",
-                    feather_tk::Format("{0}").arg(p.options.logFile)),
-                feather_tk::CmdLineFlagOption::create(
-                    p.options.resetSettings,
-                    { "-resetSettings" },
-                    "Reset settings to defaults."),
-                feather_tk::CmdLineValueOption<std::string>::create(
-                    p.options.settingsFile,
-                    { "-settingsFile" },
-                    "Settings file name.",
-                    feather_tk::Format("{0}").arg(p.options.settingsFile)),
-            };
         }
 
         tl::io::Options App::_getIOOptions() const

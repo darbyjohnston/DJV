@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 set(TLRENDER_GIT_REPOSITORY "https://github.com/darbyjohnston/tlRender.git")
-set(TLRENDER_GIT_TAG "1306efa37b08e186f9611d61ebefcf1dfaa2776a")
+set(TLRENDER_GIT_TAG "0390234b96bf8918e75bcb571d4b9157c463d85e")
 
 set(TLRENDER_DEPS)
 set(TLRENDER_ARGS

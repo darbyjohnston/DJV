@@ -11,6 +11,7 @@
 namespace feather_tk
 {
     class Context;
+    class Settings;
 }
 
 namespace djv
@@ -23,7 +24,9 @@ namespace djv
             FEATHER_TK_NON_COPYABLE(ColorModel);
 
         protected:
-            void _init(const std::shared_ptr<feather_tk::Context>&);
+            void _init(
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
             ColorModel();
 
@@ -31,7 +34,9 @@ namespace djv
             ~ColorModel();
 
             //! Create a new model.
-            static std::shared_ptr<ColorModel> create(const std::shared_ptr<feather_tk::Context>&);
+            static std::shared_ptr<ColorModel> create(
+                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<feather_tk::Settings>&);
 
             //! Get the OpenColorIO options.
             const tl::timeline::OCIOOptions& getOCIOOptions() const;
