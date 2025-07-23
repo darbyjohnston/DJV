@@ -21,6 +21,7 @@ namespace djv
         struct OCIOModelData
         {
             bool enabled = false;
+            tl::timeline::OCIOConfig config = tl::timeline::OCIOConfig::First;
             std::string fileName;
             std::vector<std::string> inputs;
             size_t inputIndex = 0;
@@ -57,14 +58,17 @@ namespace djv
             //! Set the options.
             void setOptions(const tl::timeline::OCIOOptions&);
 
+            //! Observe the model data.
+            std::shared_ptr<feather_tk::IObservableValue<OCIOModelData> > observeData() const;
+
             //! Set whether the color configuration is enabled.
             void setEnabled(bool);
 
             //! Set the color configuration.
-            void setConfig(const std::string& fileName);
+            void setConfig(tl::timeline::OCIOConfig);
 
-            //! Observe the model data.
-            std::shared_ptr<feather_tk::IObservableValue<OCIOModelData> > observeData() const;
+            //! Set the color configuration file.
+            void setFileName(const std::string& fileName);
 
             //! Set the input index.
             void setInputIndex(size_t);
@@ -80,6 +84,8 @@ namespace djv
 
         private:
             OCIOModelData _getData(const tl::timeline::OCIOOptions&) const;
+
+            void _configUpdate(tl::timeline::OCIOOptions&);
 
             FEATHER_TK_PRIVATE();
         };

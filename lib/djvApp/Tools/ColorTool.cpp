@@ -31,11 +31,13 @@ namespace djv
             std::shared_ptr<OCIOModel> ocioModel;
 
             std::shared_ptr<feather_tk::CheckBox> enabledCheckBox;
+            std::shared_ptr<feather_tk::ComboBox> configComboBox;
             std::shared_ptr<feather_tk::FileEdit> fileEdit;
             std::shared_ptr<feather_tk::ComboBox> inputComboBox;
             std::shared_ptr<feather_tk::ComboBox> displayComboBox;
             std::shared_ptr<feather_tk::ComboBox> viewComboBox;
             std::shared_ptr<feather_tk::ComboBox> lookComboBox;
+            std::shared_ptr<feather_tk::FormLayout> formLayout;
             std::shared_ptr<feather_tk::VerticalLayout> layout;
 
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > optionsObserver;
@@ -57,6 +59,9 @@ namespace djv
 
             p.ocioModel = OCIOModel::create(context);
 
+            p.configComboBox = feather_tk::ComboBox::create(context, tl::timeline::getOCIOConfigLabels());
+            p.configComboBox->setHStretch(feather_tk::Stretch::Expanding);
+
             p.enabledCheckBox = feather_tk::CheckBox::create(context);
 
             p.fileEdit = feather_tk::FileEdit::create(context);
@@ -76,21 +81,20 @@ namespace djv
             p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
-            auto formLayout = feather_tk::FormLayout::create(context, p.layout);
-            formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
-            formLayout->addRow("Enabled:", p.enabledCheckBox);
-            formLayout->addRow("File name:", p.fileEdit);
-            formLayout->addRow("Input:", p.inputComboBox);
-            formLayout->addRow("Display:", p.displayComboBox);
-            formLayout->addRow("View:", p.viewComboBox);
-            formLayout->addRow("Look:", p.lookComboBox);
+            p.formLayout = feather_tk::FormLayout::create(context, p.layout);
+            p.formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            p.formLayout->addRow("Enabled:", p.enabledCheckBox);
+            p.formLayout->addRow("Configuration:", p.configComboBox);
+            p.formLayout->addRow("File name:", p.fileEdit);
+            p.formLayout->addRow("Input:", p.inputComboBox);
+            p.formLayout->addRow("Display:", p.displayComboBox);
+            p.formLayout->addRow("View:", p.viewComboBox);
+            p.formLayout->addRow("Look:", p.lookComboBox);
 
             p.optionsObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 app->getColorModel()->observeOCIOOptions(),
                 [this](const tl::timeline::OCIOOptions& value)
                 {
-                    _p->enabledCheckBox->setChecked(value.enabled);
-                    _p->fileEdit->setPath(std::filesystem::u8path(value.fileName));
                     _p->ocioModel->setOptions(value);
                 });
 
@@ -109,16 +113,19 @@ namespace djv
                 p.ocioModel->observeData(),
                 [this](const OCIOModelData& value)
                 {
-                    _p->enabledCheckBox->setChecked(value.enabled);
-                    _p->fileEdit->setPath(std::filesystem::u8path(value.fileName));
-                    _p->inputComboBox->setItems(value.inputs);
-                    _p->inputComboBox->setCurrentIndex(value.inputIndex);
-                    _p->displayComboBox->setItems(value.displays);
-                    _p->displayComboBox->setCurrentIndex(value.displayIndex);
-                    _p->viewComboBox->setItems(value.views);
-                    _p->viewComboBox->setCurrentIndex(value.viewIndex);
-                    _p->lookComboBox->setItems(value.looks);
-                    _p->lookComboBox->setCurrentIndex(value.lookIndex);
+                    FEATHER_TK_P();
+                    p.enabledCheckBox->setChecked(value.enabled);
+                    p.configComboBox->setCurrentIndex(static_cast<int>(value.config));
+                    p.fileEdit->setPath(std::filesystem::u8path(value.fileName));
+                    p.formLayout->setRowVisible(p.fileEdit, tl::timeline::OCIOConfig::File == value.config);
+                    p.inputComboBox->setItems(value.inputs);
+                    p.inputComboBox->setCurrentIndex(value.inputIndex);
+                    p.displayComboBox->setItems(value.displays);
+                    p.displayComboBox->setCurrentIndex(value.displayIndex);
+                    p.viewComboBox->setItems(value.views);
+                    p.viewComboBox->setCurrentIndex(value.viewIndex);
+                    p.lookComboBox->setItems(value.looks);
+                    p.lookComboBox->setCurrentIndex(value.lookIndex);
                 });
 
             p.enabledCheckBox->setCheckedCallback(
@@ -127,10 +134,16 @@ namespace djv
                     _p->ocioModel->setEnabled(value);
                 });
 
+            p.configComboBox->setIndexCallback(
+                [this](int value)
+                {
+                    _p->ocioModel->setConfig(static_cast<tl::timeline::OCIOConfig>(value));
+                });
+
             p.fileEdit->setCallback(
                 [this](const std::filesystem::path& value)
                 {
-                    _p->ocioModel->setConfig(value.u8string());
+                    _p->ocioModel->setFileName(value.u8string());
                 });
 
             p.inputComboBox->setIndexCallback(

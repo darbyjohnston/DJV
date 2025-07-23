@@ -23,6 +23,7 @@ namespace djv
         {
             return
                 enabled == other.enabled &&
+                config == other.config &&
                 fileName == other.fileName &&
                 inputs == other.inputs &&
                 inputIndex == other.inputIndex &&
@@ -55,37 +56,11 @@ namespace djv
 
             p.context = context;
 
-            p.options = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create();
-            p.data = feather_tk::ObservableValue<OCIOModelData>::create();
+            tl::timeline::OCIOOptions options;
+            _configUpdate(options);
+            p.options = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create(options);
 
-#if defined(TLRENDER_OCIO)
-            std::string env;
-            if (feather_tk::getEnv("OCIO", env) && !env.empty())
-            {
-                try
-                {
-                    p.ocioConfig.reset();
-                    p.ocioConfig = OCIO::Config::CreateFromEnv();
-                    if (p.ocioConfig)
-                    {
-                        tl::timeline::OCIOOptions options;
-                        options.fileName = env;
-                        const char* display = p.ocioConfig->getDefaultDisplay();
-                        options.display = display;
-                        options.view = p.ocioConfig->getDefaultView(display);
-                        p.options->setIfChanged(options);
-                        p.data->setIfChanged(_getData(options));
-                    }
-                }
-                catch (const std::exception& e)
-                {
-                    if (const auto context = p.context.lock())
-                    {
-                        context->log(std::string(), e.what(), feather_tk::LogType::Error);
-                    }
-                }
-            }
-#endif // TLRENDER_OCIO
+            p.data = feather_tk::ObservableValue<OCIOModelData>::create();
         }
 
         OCIOModel::OCIOModel() :
@@ -110,29 +85,13 @@ namespace djv
         void OCIOModel::setOptions(const tl::timeline::OCIOOptions& value)
         {
             FEATHER_TK_P();
-            const bool changed = value.fileName != p.options->get().fileName;
-#if defined(TLRENDER_OCIO)
-            if (changed)
-            {
-                try
-                {
-                    p.ocioConfig.reset();
-                    p.ocioConfig = OCIO::Config::CreateFromFile(value.fileName.c_str());
-                }
-                catch (const std::exception& e)
-                {
-                }
-            }
-#endif // TLRENDER_OCIO
+            const bool configChanged = value.config != p.options->get().config;
+            const bool fileNameChanged = value.fileName != p.options->get().fileName;
             auto options = value;
-#if defined(TLRENDER_OCIO)
-            if (changed && p.ocioConfig)
+            if (configChanged || fileNameChanged)
             {
-                const char* display = p.ocioConfig->getDefaultDisplay();
-                options.display = display;
-                options.view = p.ocioConfig->getDefaultView(display);
+                _configUpdate(options);
             }
-#endif // TLRENDER_OCIO
             p.options->setIfChanged(options);
             p.data->setIfChanged(_getData(options));
         }
@@ -146,34 +105,33 @@ namespace djv
             p.data->setIfChanged(_getData(options));
         }
 
-        void OCIOModel::setConfig(const std::string& fileName)
+        void OCIOModel::setConfig(tl::timeline::OCIOConfig value)
+        {
+            FEATHER_TK_P();
+            const bool changed = value != p.options->get().config;
+            tl::timeline::OCIOOptions options;
+            options.enabled = true;
+            options.config = value;
+            options.fileName = p.options->get().fileName;
+            if (changed)
+            {
+                _configUpdate(options);
+            }
+            p.options->setIfChanged(options);
+            p.data->setIfChanged(_getData(options));
+        }
+
+        void OCIOModel::setFileName(const std::string& fileName)
         {
             FEATHER_TK_P();
             const bool changed = fileName != p.options->get().fileName;
-#if defined(TLRENDER_OCIO)
-            if (changed)
-            {
-                try
-                {
-                    p.ocioConfig.reset();
-                    p.ocioConfig = OCIO::Config::CreateFromFile(fileName.c_str());
-                }
-                catch (const std::exception&)
-                {
-                }
-            }
-#endif // TLRENDER_OCIO
-            tl::timeline::OCIOOptions options;
+            auto options = p.options->get();
             options.enabled = true;
             options.fileName = fileName;
-#if defined(TLRENDER_OCIO)
-            if (changed && p.ocioConfig)
+            if (changed)
             {
-                const char* display = p.ocioConfig->getDefaultDisplay();
-                options.display = display;
-                options.view = p.ocioConfig->getDefaultView(display);
+                _configUpdate(options);
             }
-#endif // TLRENDER_OCIO
             p.options->setIfChanged(options);
             p.data->setIfChanged(_getData(options));
         }
@@ -267,6 +225,7 @@ namespace djv
             FEATHER_TK_P();
             OCIOModelData out;
             out.enabled = options.enabled;
+            out.config = options.config;
             out.fileName = options.fileName;
 #if defined(TLRENDER_OCIO)
             if (p.ocioConfig)
@@ -318,6 +277,38 @@ namespace djv
             }
 #endif // TLRENDER_OCIO
             return out;
+        }
+
+        void OCIOModel::_configUpdate(tl::timeline::OCIOOptions& options)
+        {
+            FEATHER_TK_P();
+#if defined(TLRENDER_OCIO)
+            try
+            {
+                p.ocioConfig.reset();
+                switch (options.config)
+                {
+                case tl::timeline::OCIOConfig::BuiltIn:
+                    p.ocioConfig = OCIO::Config::CreateFromFile("ocio://default");
+                    break;
+                case tl::timeline::OCIOConfig::EnvVar:
+                    p.ocioConfig = OCIO::Config::CreateFromEnv();
+                    break;
+                case tl::timeline::OCIOConfig::File:
+                    p.ocioConfig = OCIO::Config::CreateFromFile(options.fileName.c_str());
+                    break;
+                default: break;
+                }
+            }
+            catch (const std::exception& e)
+            {}
+            if (p.ocioConfig)
+            {
+                const char* display = p.ocioConfig->getDefaultDisplay();
+                options.display = display;
+                options.view = p.ocioConfig->getDefaultView(display);
+            }
+#endif // TLRENDER_OCIO
         }
     }
 }

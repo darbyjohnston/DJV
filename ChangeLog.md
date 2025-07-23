@@ -1,5 +1,6 @@
 ## 3.1.0
 Features:
+* Add support for OCIO environment variable and built-in OCIO configurations.
 * Add 25 and 50 FPS speed options.
 * Add buttons to clear keyboard shortcuts.
 * Add a file browser option for showing hidden files.
@@ -10,5 +11,5 @@ Features:
 * Add a keyboard shortcut (Ctrl+K) for toggling whether the LUT is enabled.
 Fixes:
 * Fix for image sequences with uppercase file extensions.
-* Fixes for building with BMD support.
+* Fix for building with BMD support.
 * Fix for OCIO settings not saving.
