@@ -498,18 +498,21 @@ namespace djv
         void MainWindow::_settingsUpdate(const TimelineSettings& settings)
         {
             FEATHER_TK_P();
+
             p.timelineWidget->setEditable(settings.editable);
             p.timelineWidget->setFrameView(settings.frameView);
             p.timelineWidget->setScrollBarsVisible(settings.scrollBars);
             p.timelineWidget->setAutoScroll(settings.autoScroll);
             p.timelineWidget->setStopOnScrub(settings.stopOnScrub);
-            p.timelineWidget->setItemOptions(settings.item);
-            tl::timelineui::DisplayOptions display = settings.display;
+
+            auto display = p.timelineWidget->getDisplayOptions();
+            display.thumbnails = settings.thumbnails != TimelineThumbnails::None;
+            display.thumbnailHeight = getTimelineThumbnailsSize(settings.thumbnails);
+            display.waveformHeight = getTimelineWaveformSize(settings.thumbnails);
             if (settings.firstTrack)
             {
                 display.tracks = { 0 };
             }
-            display.waveformHeight = display.thumbnailHeight / 2;
             p.timelineWidget->setDisplayOptions(display);
         }
     }

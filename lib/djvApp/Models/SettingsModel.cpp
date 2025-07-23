@@ -288,6 +288,37 @@ namespace djv
             return !(*this == other);
         }
 
+        FEATHER_TK_ENUM_IMPL(
+            TimelineThumbnails,
+            "None",
+            "Small",
+            "Medium",
+            "Large");
+
+        int getTimelineThumbnailsSize(TimelineThumbnails value)
+        {
+            const std::array<int, static_cast<size_t>(TimelineThumbnails::Count)> data =
+            {
+                0,
+                50,
+                100,
+                200
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
+        int getTimelineWaveformSize(TimelineThumbnails value)
+        {
+            const std::array<int, static_cast<size_t>(TimelineThumbnails::Count)> data =
+            {
+                0,
+                50 / 2,
+                100 / 2,
+                200 / 2
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
         bool TimelineSettings::operator == (const TimelineSettings& other) const
         {
             return
@@ -296,8 +327,7 @@ namespace djv
                 scrollBars == other.scrollBars &&
                 autoScroll == other.autoScroll &&
                 stopOnScrub == other.stopOnScrub &&
-                item == other.item &&
-                display == other.display &&
+                thumbnails == other.thumbnails &&
                 firstTrack == other.firstTrack;
         }
 
@@ -787,8 +817,7 @@ namespace djv
             json["ScrollBars"] = value.scrollBars;
             json["AutoScroll"] = value.autoScroll;
             json["StopOnScrub"] = value.stopOnScrub;
-            json["Item"] = value.item;
-            json["Display"] = value.display;
+            json["Thumbnails"] = to_string(value.thumbnails);
             json["FirstTrack"] = value.firstTrack;
         }
 
@@ -909,8 +938,7 @@ namespace djv
             json.at("ScrollBars").get_to(value.scrollBars);
             json.at("AutoScroll").get_to(value.autoScroll);
             json.at("StopOnScrub").get_to(value.stopOnScrub);
-            json.at("Item").get_to(value.item);
-            json.at("Display").get_to(value.display);
+            from_string(json.at("Thumbnails").get<std::string>(), value.thumbnails);
             json.at("FirstTrack").get_to(value.firstTrack);
         }
 

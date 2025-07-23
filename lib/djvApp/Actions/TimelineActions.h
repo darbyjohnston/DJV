@@ -34,8 +34,6 @@ namespace djv
                 const std::shared_ptr<MainWindow>&);
 
         private:
-            void _thumbnailsSizeUpdate();
-
             FEATHER_TK_PRIVATE();
         };
     }

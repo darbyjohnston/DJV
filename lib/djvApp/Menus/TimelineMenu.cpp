@@ -15,9 +15,7 @@ namespace djv
     namespace app
     {
         struct TimelineMenu::Private
-        {
-            std::map<std::string, std::shared_ptr<feather_tk::Menu> > menus;
-        };
+        {};
 
         void TimelineMenu::_init(
             const std::shared_ptr<feather_tk::Context>& context,
@@ -32,11 +30,11 @@ namespace djv
             addAction(actions["ScrollBars"]);
             addAction(actions["AutoScroll"]);
             addAction(actions["StopOnScrub"]);
-            addAction(actions["Thumbnails"]);
-            p.menus["ThumbnailSize"] = addSubMenu("Thumbnails Size");
-            p.menus["ThumbnailSize"]->addAction(actions["ThumbnailsSmall"]);
-            p.menus["ThumbnailSize"]->addAction(actions["ThumbnailsMedium"]);
-            p.menus["ThumbnailSize"]->addAction(actions["ThumbnailsLarge"]);
+            addDivider();
+            addAction(actions["ThumbnailsNone"]);
+            addAction(actions["ThumbnailsSmall"]);
+            addAction(actions["ThumbnailsMedium"]);
+            addAction(actions["ThumbnailsLarge"]);
         }
 
         TimelineMenu::TimelineMenu() :

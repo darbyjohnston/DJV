@@ -181,6 +181,25 @@ namespace djv
             bool operator != (const StyleSettings&) const;
         };
 
+        //! Timeline thumbnails.
+        enum class TimelineThumbnails
+        {
+            None,
+            Small,
+            Medium,
+            Large,
+
+            Count,
+            First = None
+        };
+        FEATHER_TK_ENUM(TimelineThumbnails);
+
+        //! Get the timeline thumbnails size.
+        int getTimelineThumbnailsSize(TimelineThumbnails);
+
+        //! Get the timeline waveform size.
+        int getTimelineWaveformSize(TimelineThumbnails);
+
         //! Timeline settings.
         struct TimelineSettings
         {
@@ -189,8 +208,7 @@ namespace djv
             bool scrollBars = true;
             bool autoScroll = true;
             bool stopOnScrub = false;
-            tl::timelineui::ItemOptions item;
-            tl::timelineui::DisplayOptions display;
+            TimelineThumbnails thumbnails = TimelineThumbnails::Small;
             bool firstTrack = false;
 
             bool operator == (const TimelineSettings&) const;

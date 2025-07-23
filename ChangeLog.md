@@ -11,3 +11,4 @@ Features:
 Fixes:
 * Fix for image sequences with uppercase file extensions.
 * Fixes for building with BMD support.
+* Fix for OCIO settings not saving.

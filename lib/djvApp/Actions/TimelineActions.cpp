@@ -16,7 +16,6 @@ namespace djv
         struct TimelineActions::Private
         {
             std::weak_ptr<MainWindow> mainWindow;
-            std::map<int, std::shared_ptr<feather_tk::Action> > thumbnailsSizeItems;
 
             std::shared_ptr<feather_tk::ValueObserver<bool> > frameViewObserver;
             std::shared_ptr<feather_tk::ValueObserver<bool> > scrollBarsObserver;
@@ -84,53 +83,50 @@ namespace djv
                     }
                 });
 
-            _actions["Thumbnails"] = feather_tk::Action::create(
-                "Thumbnails",
-                [appWeak](bool value)
+            _actions["ThumbnailsNone"] = feather_tk::Action::create(
+                "No Thumbnails",
+                [appWeak]
                 {
                     if (auto app = appWeak.lock())
                     {
                         auto settings = app->getSettingsModel()->getTimeline();
-                        settings.display.thumbnails = value;
+                        settings.thumbnails = TimelineThumbnails::None;
                         app->getSettingsModel()->setTimeline(settings);
                     }
                 });
 
             _actions["ThumbnailsSmall"] = feather_tk::Action::create(
-                "Small",
+                "Small Thumbnails",
                 [appWeak]
                 {
                     if (auto app = appWeak.lock())
                     {
                         auto settings = app->getSettingsModel()->getTimeline();
-                        settings.display.thumbnailHeight = 100;
-                        settings.display.waveformHeight = settings.display.thumbnailHeight / 2;
+                        settings.thumbnails = TimelineThumbnails::Small;
                         app->getSettingsModel()->setTimeline(settings);
                     }
                 });
 
             _actions["ThumbnailsMedium"] = feather_tk::Action::create(
-                "Medium",
+                "Medium Thumbnails",
                 [appWeak]
                 {
                     if (auto app = appWeak.lock())
                     {
                         auto settings = app->getSettingsModel()->getTimeline();
-                        settings.display.thumbnailHeight = 200;
-                        settings.display.waveformHeight = settings.display.thumbnailHeight / 2;
+                        settings.thumbnails = TimelineThumbnails::Medium;
                         app->getSettingsModel()->setTimeline(settings);
                     }
                 });
 
             _actions["ThumbnailsLarge"] = feather_tk::Action::create(
-                "Large",
+                "Large Thumbnails",
                 [appWeak]
                 {
                     if (auto app = appWeak.lock())
                     {
                         auto settings = app->getSettingsModel()->getTimeline();
-                        settings.display.thumbnailHeight = 300;
-                        settings.display.waveformHeight = settings.display.thumbnailHeight / 2;
+                        settings.thumbnails = TimelineThumbnails::Large;
                         app->getSettingsModel()->setTimeline(settings);
                     }
                 });
@@ -146,10 +142,6 @@ namespace djv
                 { "ThumbnailsMedium", "Medium timeline thumbnails." },
                 { "ThumbnailsLarge", "Large timeline thumbnails." }
             };
-
-            p.thumbnailsSizeItems[100] = _actions["ThumbnailsSmall"];
-            p.thumbnailsSizeItems[200] = _actions["ThumbnailsMedium"];
-            p.thumbnailsSizeItems[300] = _actions["ThumbnailsLarge"];
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
@@ -185,8 +177,16 @@ namespace djv
                 mainWindow->getTimelineWidget()->observeDisplayOptions(),
                 [this](const tl::timelineui::DisplayOptions& value)
                 {
-                    _actions["Thumbnails"]->setChecked(value.thumbnails);
-                    _thumbnailsSizeUpdate();
+                    std::map<int, TimelineThumbnails> sizeToThumbnails;
+                    for (auto i : getTimelineThumbnailsEnums())
+                    {
+                        sizeToThumbnails[getTimelineThumbnailsSize(i)] = i;
+                    }
+                    auto j = sizeToThumbnails.find(value.thumbnailHeight);
+                    _actions["ThumbnailsNone"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::None == j->second);
+                    _actions["ThumbnailsSmall"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Small == j->second);
+                    _actions["ThumbnailsMedium"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Medium == j->second);
+                    _actions["ThumbnailsLarge"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Large == j->second);
                 });
         }
 
@@ -205,25 +205,6 @@ namespace djv
             auto out = std::shared_ptr<TimelineActions>(new TimelineActions);
             out->_init(context, app, mainWindow);
             return out;
-        }
-
-        void TimelineActions::_thumbnailsSizeUpdate()
-        {
-            FEATHER_TK_P();
-            if (auto mainWindow = p.mainWindow.lock())
-            {
-                const auto options = mainWindow->getTimelineWidget()->getDisplayOptions();
-                auto i = p.thumbnailsSizeItems.find(options.thumbnailHeight);
-                if (i == p.thumbnailsSizeItems.end())
-                {
-                    i = p.thumbnailsSizeItems.begin();
-                }
-                for (auto item : p.thumbnailsSizeItems)
-                {
-                    const bool checked = item == *i;
-                    item.second->setChecked(checked);
-                }
-            }
         }
     }
 }
