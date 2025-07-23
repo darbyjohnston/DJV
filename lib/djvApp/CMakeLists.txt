@@ -38,8 +38,8 @@ if(TLRENDER_BMD)
 endif()
 set(HEADERS_TOOLS
     Tools/AudioTool.h
-    Tools/ColorControlsTool.h
     Tools/ColorPickerTool.h
+    Tools/ColorTool.h
     Tools/DevicesTool.h
     Tools/ExportTool.h
     Tools/FilesTool.h
@@ -51,7 +51,7 @@ set(HEADERS_TOOLS
     Tools/ToolsWidget.h
     Tools/ViewTool.h)
 set(HEADERS_PRIVATE_TOOLS
-    Tools/ColorControlsPrivate.h
+    Tools/ColorToolPrivate.h
     Tools/FilesToolPrivate.h
     Tools/SettingsToolPrivate.h
     Tools/ViewToolPrivate.h)
@@ -125,8 +125,8 @@ if(TLRENDER_BMD)
 endif()
 set(SOURCE_TOOLS
     Tools/AudioTool.cpp
-    Tools/ColorControlsTool.cpp
     Tools/ColorPickerTool.cpp
+    Tools/ColorTool.cpp
     Tools/DevicesTool.cpp
     Tools/ExportTool.cpp
     Tools/FileButton.cpp

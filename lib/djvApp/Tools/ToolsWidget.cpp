@@ -5,8 +5,8 @@
 #include <djvApp/Tools/ToolsWidget.h>
 
 #include <djvApp/Tools/AudioTool.h>
-#include <djvApp/Tools/ColorControlsTool.h>
 #include <djvApp/Tools/ColorPickerTool.h>
+#include <djvApp/Tools/ColorTool.h>
 #include <djvApp/Tools/DevicesTool.h>
 #include <djvApp/Tools/ExportTool.h>
 #include <djvApp/Tools/FilesTool.h>
@@ -44,8 +44,8 @@ namespace djv
             FEATHER_TK_P();
 
             p.toolWidgets[Tool::Audio] = AudioTool::create(context, app);
+            p.toolWidgets[Tool::Color] = ColorTool::create(context, app);
             p.toolWidgets[Tool::ColorPicker] = ColorPickerTool::create(context, app);
-            p.toolWidgets[Tool::ColorControls] = ColorControlsTool::create(context, app);
             p.toolWidgets[Tool::Devices] = DevicesTool::create(context, app);
             p.toolWidgets[Tool::Export] = ExportTool::create(context, app);
             p.toolWidgets[Tool::Files] = FilesTool::create(context, app);

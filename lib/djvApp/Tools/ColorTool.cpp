@@ -2,7 +2,7 @@
 // Copyright (c) 2021-2025 Darby Johnston
 // All rights reserved.
 
-#include <djvApp/Tools/ColorControlsPrivate.h>
+#include <djvApp/Tools/ColorToolPrivate.h>
 
 #include <djvApp/Models/ColorModel.h>
 #include <djvApp/Models/ViewportModel.h>
@@ -503,7 +503,7 @@ namespace djv
             p.enabledCheckBox = feather_tk::CheckBox::create(context);
 
             feather_tk::RangeF range(0.F, 1.F);
-            p.settings->getT("/ColorControls/Levels/InRange", range);
+            p.settings->getT("/Color/Levels/InRange", range);
             p.sliders["InLow"] = feather_tk::FloatEditSlider::create(context);
             p.sliders["InLow"]->setRange(range);
             p.sliders["InLow"]->setDefaultValue(0.F);
@@ -524,7 +524,7 @@ namespace djv
             p.sliders["Gamma"]->setRange(.1F, 4.F);
             p.sliders["Gamma"]->setDefaultValue(1.F);
 
-            p.settings->getT("/ColorControls/Levels/OutRange", range);
+            p.settings->getT("/Color/Levels/OutRange", range);
             p.sliders["OutLow"] = feather_tk::FloatEditSlider::create(context);
             p.sliders["OutLow"]->setRange(range);
             p.sliders["OutLow"]->setDefaultValue(0.F);
@@ -695,10 +695,10 @@ namespace djv
             FEATHER_TK_P();
             float min = p.rangeEdits["InMin"]->getValue();
             float max = p.rangeEdits["InMax"]->getValue();
-            p.settings->setT("/ColorControls/Levels/InRange", feather_tk::RangeF(min, max));
+            p.settings->setT("/Color/Levels/InRange", feather_tk::RangeF(min, max));
             min = p.rangeEdits["OutMin"]->getValue();
             max = p.rangeEdits["OutMax"]->getValue();
-            p.settings->setT("/ColorControls/Levels/OutRange", feather_tk::RangeF(min, max));
+            p.settings->setT("/Color/Levels/OutRange", feather_tk::RangeF(min, max));
         }
 
         std::shared_ptr<LevelsWidget> LevelsWidget::create(
@@ -954,7 +954,7 @@ namespace djv
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        struct ColorControlsTool::Private
+        struct ColorTool::Private
         {
             std::shared_ptr<OCIOWidget> ocioWidget;
             std::shared_ptr<LUTWidget> lutWidget;
@@ -965,7 +965,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<feather_tk::Bellows> > bellows;
         };
 
-        void ColorControlsTool::_init(
+        void ColorTool::_init(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
@@ -973,8 +973,8 @@ namespace djv
             IToolWidget::_init(
                 context,
                 app,
-                Tool::ColorControls,
-                "djv::app::ColorControlsTool",
+                Tool::Color,
+                "djv::app::ColorTool",
                 parent);
             FEATHER_TK_P();
 
@@ -1007,21 +1007,21 @@ namespace djv
             _loadSettings(p.bellows);
         }
 
-        ColorControlsTool::ColorControlsTool() :
+        ColorTool::ColorTool() :
             _p(new Private)
         {}
 
-        ColorControlsTool::~ColorControlsTool()
+        ColorTool::~ColorTool()
         {
             _saveSettings(_p->bellows);
         }
 
-        std::shared_ptr<ColorControlsTool> ColorControlsTool::create(
+        std::shared_ptr<ColorTool> ColorTool::create(
             const std::shared_ptr<feather_tk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            auto out = std::shared_ptr<ColorControlsTool>(new ColorControlsTool);
+            auto out = std::shared_ptr<ColorTool>(new ColorTool);
             out->_init(context, app, parent);
             return out;
         }

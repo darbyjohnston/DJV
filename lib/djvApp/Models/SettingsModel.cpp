@@ -186,7 +186,7 @@ namespace djv
                 Shortcut("Tools/Export", "Export", feather_tk::Key::F2),
                 Shortcut("Tools/View", "View", feather_tk::Key::F3),
                 Shortcut("Tools/ColorPicker", "Color picker", feather_tk::Key::F4),
-                Shortcut("Tools/ColorControls", "Color controls", feather_tk::Key::F5),
+                Shortcut("Tools/Color", "Color", feather_tk::Key::F5),
                 Shortcut("Tools/Info", "Information", feather_tk::Key::F6),
                 Shortcut("Tools/Audio", "Audio", feather_tk::Key::F7),
                 Shortcut("Tools/Devices", "Devices", feather_tk::Key::F8),

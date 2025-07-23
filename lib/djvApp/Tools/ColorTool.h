@@ -12,10 +12,10 @@ namespace djv
     {
         class App;
 
-        //! Color controls tool.
-        class ColorControlsTool : public IToolWidget
+        //! Color tool.
+        class ColorTool : public IToolWidget
         {
-            FEATHER_TK_NON_COPYABLE(ColorControlsTool);
+            FEATHER_TK_NON_COPYABLE(ColorTool);
 
         protected:
             void _init(
@@ -23,12 +23,12 @@ namespace djv
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
-            ColorControlsTool();
+            ColorTool();
 
         public:
-            virtual ~ColorControlsTool();
+            virtual ~ColorTool();
 
-            static std::shared_ptr<ColorControlsTool> create(
+            static std::shared_ptr<ColorTool> create(
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);

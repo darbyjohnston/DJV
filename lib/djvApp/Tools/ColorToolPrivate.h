@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvApp/Tools/ColorControlsTool.h>
+#include <djvApp/Tools/ColorTool.h>
 
 #include <djvApp/Models/OCIOModel.h>
 
