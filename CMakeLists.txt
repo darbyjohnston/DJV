@@ -18,21 +18,9 @@ project(
     HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES CXX)
 
-set(TLRENDER_FFMPEG TRUE CACHE BOOL "Set whether FFmpeg support is enabled")
-set(TLRENDER_USD FALSE CACHE BOOL "Set whether USD support is enabled")
-set(TLRENDER_BMD FALSE CACHE BOOL "Enable support for Blackmagic Design devices")
-set(TLRENDER_BMD_SDK "" CACHE PATH "Full path to the Blackmagic Design SDK")
-
 list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 set(CMAKE_CXX_STANDARD 17)
-
-if(TLRENDER_USD)
-    add_definitions(-DTLRENDER_USD)
-endif()
-if(TLRENDER_BMD)
-    add_definitions(-DTLRENDER_BMD)
-endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     add_definitions(-DFEATHER_TK_ASSERT)
