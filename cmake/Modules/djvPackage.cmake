@@ -1,11 +1,15 @@
  set(CPACK_PACKAGE_FILE_NAME
     ${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR})
+set(CPACK_PACKAGE_DESCRIPTION "DJV is an open source application for playback and review of image sequences.")
+set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE.txt)
+set(CPACK_PACKAGE_EXECUTABLES djv DJV)
+set(CPACK_PACKAGE_VENDOR "Grizzly Peak 3D")
 
 if(WIN32)
-    set(CPACK_GENERATOR ZIP)
+    set(CPACK_GENERATOR ZIP NSIS)
     
     set(INSTALL_DLLS)
-    
+
     if(TLRENDER_FFMPEG)
         set(FFMPEG_DLLS
             ${CMAKE_INSTALL_PREFIX}/bin/avcodec-61.dll
@@ -102,6 +106,10 @@ if(WIN32)
     install(
         FILES ${INSTALL_DLLS}
         DESTINATION bin)
+
+    set(CPACK_NSIS_MUI_ICON ${PROJECT_SOURCE_DIR}/etc/Windows/DJV_Icon.ico)
+    set(CPACK_NSIS_MUI_UNIICON ${PROJECT_SOURCE_DIR}/etc/Windows/DJV_Icon.ico)
+    set(CPACK_NSIS_INSTALLED_ICON_NAME etc/Icons/DJV_Icon.ico)
 
 elseif(APPLE)
 

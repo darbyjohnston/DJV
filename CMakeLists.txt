@@ -57,5 +57,8 @@ add_subdirectory(lib)
 add_subdirectory(tests)
 add_subdirectory(bin)
 add_subdirectory(etc/Legal)
+if(WIN32)
+    add_subdirectory(etc/Windows)
+endif()
 
 include(CPack)

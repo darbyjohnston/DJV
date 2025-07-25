@@ -101,9 +101,10 @@ alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
 
 Dependencies:
 * CMake 3.31
-* Install MSYS2 (https://www.msys2.org) for compiling FFmpeg.
-* Install Strawberry Perl (https://strawberryperl.com/) for compiling network support.
-* Install Python 3.11 for compiling USD.
+* MSYS2 (https://www.msys2.org) for compiling FFmpeg.
+* Strawberry Perl (https://strawberryperl.com/) for compiling network support.
+* Python 3.11 for compiling USD.
+* NSIS (https://nsis.sourceforge.io/Main_Page) for packaging.
 
 Clone the repository:
 ```
