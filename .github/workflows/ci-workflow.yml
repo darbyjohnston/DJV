@@ -300,4 +300,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: DJV-Windows-Packages
-        path: build\DJV\src\DJV-build\DJV-*.zip
+        path: |
+          build\DJV\src\DJV-build\DJV-*.exe
+          build\DJV\src\DJV-build\DJV-*.zip
