@@ -29,6 +29,7 @@ namespace djv
             std::vector<std::string> videoLayers;
             size_t videoLayer = 0;
 
+            double speed = -1.0;
             OTIO_NS::RationalTime currentTime = tl::time::invalidTime;
             OTIO_NS::TimeRange inOutRange = tl::time::invalidTimeRange;
         };

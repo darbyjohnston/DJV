@@ -443,11 +443,12 @@ namespace djv
                         throw std::runtime_error(
                             feather_tk::Format("Cannot open: \"{0}\"").arg(p.exportData->path.get()));
                     }
+                    const double speed = p.player->getSpeed();
                     tl::io::Info outputInfo;
                     outputInfo.video.push_back(p.exportData->info);
                     outputInfo.videoTime = OTIO_NS::TimeRange(
-                        OTIO_NS::RationalTime(0.0, p.exportData->range.duration().rate()),
-                        p.exportData->range.duration());
+                        OTIO_NS::RationalTime(0.0, speed),
+                        p.exportData->range.duration().rescaled_to(speed));
                     tl::io::Options ioOptions;
                     ioOptions["FFmpeg/Codec"] = options.movieCodec;
                     p.exportData->writer = plugin->write(p.exportData->path, outputInfo, ioOptions);
@@ -478,8 +479,8 @@ namespace djv
                         [this]
                         {
                             FEATHER_TK_P();
-                            p.exportData.reset();
                             p.progressTimer->stop();
+                            p.exportData.reset();
                             p.progressDialog.reset();
                         });
                     p.progressDialog->open(getWindow());
@@ -488,18 +489,20 @@ namespace djv
                         [this]
                         {
                             FEATHER_TK_P();
-                            _exportFrame();
-                            p.progressDialog->setValue(p.exportData->frame - p.exportData->range.start_time().value());
-                            const int64_t end = p.exportData->range.end_time_inclusive().value();
-                            if (p.exportData->frame <= end)
+                            if (_exportFrame())
                             {
-                                p.progressDialog->setMessage(feather_tk::Format("Frame: {0} / {1}").
-                                    arg(p.exportData->frame).
-                                    arg(end));
-                            }
-                            else
-                            {
-                                p.progressDialog->close();
+                                p.progressDialog->setValue(p.exportData->frame - p.exportData->range.start_time().value());
+                                const int64_t end = p.exportData->range.end_time_inclusive().value();
+                                if (p.exportData->frame <= end)
+                                {
+                                    p.progressDialog->setMessage(feather_tk::Format("Frame: {0} / {1}").
+                                        arg(p.exportData->frame).
+                                        arg(end));
+                                }
+                                else
+                                {
+                                    p.progressDialog->close();
+                                }
                             }
                         });
                 }
@@ -509,7 +512,6 @@ namespace djv
                     {
                         p.progressDialog->close();
                     }
-                    p.exportData.reset();
                     context->getSystem<feather_tk::DialogSystem>()->message(
                         "ERROR",
                         feather_tk::Format("Error: {0}").arg(e.what()),
@@ -518,14 +520,17 @@ namespace djv
             }
         }
 
-        void ExportTool::_exportFrame()
+        bool ExportTool::_exportFrame()
         {
             FEATHER_TK_P();
+            bool out = false;
             try
             {
                 // Get the video.
-                OTIO_NS::RationalTime t(p.exportData->frame, p.exportData->range.duration().rate());
-                auto video = p.player->getTimeline()->getVideo(t).future.get();
+                const OTIO_NS::RationalTime t(p.exportData->frame, p.exportData->range.duration().rate());
+                auto ioOptions = p.player->getTimeline()->getOptions().ioOptions;
+                ioOptions["Layer"] = feather_tk::Format("{0}").arg(p.player->getVideoLayer());
+                auto video = p.player->getTimeline()->getVideo(t, ioOptions).future.get();
 
                 // Render the video.
                 feather_tk::gl::OffscreenBufferBinding binding(p.exportData->buffer);
@@ -555,9 +560,14 @@ namespace djv
                     p.exportData->glFormat,
                     p.exportData->glType,
                     image->getData());
-                p.exportData->writer->writeVideo(t, image);
+
+                const double speed = p.player->getSpeed();
+                const OTIO_NS::RationalTime t2 (p.exportData->frame, speed);
+                p.exportData->writer->writeVideo(t2, image);
 
                 ++p.exportData->frame;
+
+                out = true;
             }
             catch (const std::exception& e)
             {
@@ -565,7 +575,6 @@ namespace djv
                 {
                     p.progressDialog->close();
                 }
-                p.exportData.reset();
                 if (auto context = getContext())
                 {
                     context->getSystem<feather_tk::DialogSystem>()->message(
@@ -574,6 +583,7 @@ namespace djv
                         getWindow());
                 }
             }
+            return out;
         }
     }
 }

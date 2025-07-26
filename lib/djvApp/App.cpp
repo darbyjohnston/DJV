@@ -441,6 +441,7 @@ namespace djv
             {
                 if (auto player = p.player->get())
                 {
+                    activeFiles.front()->speed = player->getSpeed();
                     activeFiles.front()->currentTime = player->getCurrentTime();
                     activeFiles.front()->inOutRange = player->getInOutRange();
                 }
@@ -1093,6 +1094,7 @@ namespace djv
             {
                 if (auto player = p.player->get())
                 {
+                    p.activeFiles.front()->speed = player->getSpeed();
                     p.activeFiles.front()->currentTime = player->getCurrentTime();
                     p.activeFiles.front()->inOutRange = player->getInOutRange();
                 }
@@ -1137,12 +1139,17 @@ namespace djv
             }
             if (player)
             {
-                const OTIO_NS::RationalTime currentTime = activeFiles.front()->currentTime;
+                const double speed = activeFiles.front()->speed;
+                if (speed >= 0.0)
+                {
+                    player->setSpeed(speed);
+                }
                 const OTIO_NS::TimeRange inOutRange = activeFiles.front()->inOutRange;
                 if (!tl::time::compareExact(inOutRange, tl::time::invalidTimeRange))
                 {
                     player->setInOutRange(inOutRange);
                 }
+                const OTIO_NS::RationalTime currentTime = activeFiles.front()->currentTime;
                 if (!currentTime.strictly_equal(tl::time::invalidTime))
                 {
                     player->seek(currentTime);

@@ -38,7 +38,7 @@ namespace djv
         private:
             void _widgetUpdate(const ExportSettings&);
             void _export();
-            void _exportFrame();
+            bool _exportFrame();
 
             FEATHER_TK_PRIVATE();
         };

@@ -128,6 +128,7 @@ namespace djv
                 {
                     auto thumbnailSystem = context->getSystem<tl::timelineui::ThumbnailSystem>();
                     p.thumbnail.request = thumbnailSystem->getThumbnail(
+                        reinterpret_cast<intptr_t>(p.item.get()),
                         p.item->path,
                         p.thumbnail.height);
                 }

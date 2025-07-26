@@ -297,6 +297,7 @@ namespace djv
 #if !defined(FEATHER_TK_NFD)
             p.nfdCheckBox->setEnabled(false);
 #endif // feather_tk_NFD
+
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
