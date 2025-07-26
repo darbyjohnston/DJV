@@ -4,7 +4,7 @@
 
 #include <djvApp/Widgets/SpeedPopup.h>
 
-#include <feather-tk/ui/ListWidget.h>
+#include <feather-tk/ui/ListItemsWidget.h>
 
 #include <feather-tk/core/Format.h>
 
@@ -15,7 +15,7 @@ namespace djv
         struct SpeedPopup::Private
         {
             std::vector<double> speeds;
-            std::shared_ptr<feather_tk::ListWidget> listWidget;
+            std::shared_ptr<feather_tk::ListItemsWidget> listWidget;
             std::function<void(double)> callback;
         };
 
@@ -32,29 +32,29 @@ namespace djv
 
             p.speeds =
             {
-                defaultSpeed,
-                24000.0 / 1001.0,
-                24.0,
-                25.0,
-                30000.0 / 1001.0,
-                30.0,
-                48.0,
-                50.0,
-                60000.0 / 1001.0,
-                60.0,
-                90.0,
-                96.0,
-                120.0,
-                18.0,
-                16.0,
-                15.0,
-                12.0,
-                6.0,
+                1.0,
                 3.0,
-                1.0
+                6.0,
+                12.0,
+                15.0,
+                16.0,
+                18.0,
+                120.0,
+                96.0,
+                90.0,
+                60.0,
+                60000.0 / 1001.0,
+                50.0,
+                48.0,
+                30.0,
+                30000.0 / 1001.0,
+                25.0,
+                24.0,
+                24000.0 / 1001.0,
+                defaultSpeed
             };
 
-            p.listWidget = feather_tk::ListWidget::create(context, feather_tk::ButtonGroupType::Click);
+            p.listWidget = feather_tk::ListItemsWidget::create(context, feather_tk::ButtonGroupType::Click);
             setWidget(p.listWidget);
 
             _widgetUpdate();
@@ -102,9 +102,10 @@ namespace djv
         {
             FEATHER_TK_P();
             std::vector<std::string> items;
-            for (size_t i = 0; i < p.speeds.size(); ++i)
+            const size_t size = p.speeds.size();
+            for (size_t i = 0; i < size; ++i)
             {
-                items.push_back(0 == i ?
+                items.push_back((size - 1) == i ?
                     feather_tk::Format("Default: {0}").arg(p.speeds[i], 2) :
                     feather_tk::Format("{0}").arg(p.speeds[i], 2));
             }

@@ -491,13 +491,14 @@ namespace djv
                             FEATHER_TK_P();
                             if (_exportFrame())
                             {
-                                p.progressDialog->setValue(p.exportData->frame - p.exportData->range.start_time().value());
+                                const int64_t start = p.exportData->range.start_time().value();
+                                p.progressDialog->setValue(p.exportData->frame - start);
                                 const int64_t end = p.exportData->range.end_time_inclusive().value();
                                 if (p.exportData->frame <= end)
                                 {
                                     p.progressDialog->setMessage(feather_tk::Format("Frame: {0} / {1}").
-                                        arg(p.exportData->frame).
-                                        arg(end));
+                                        arg(p.exportData->frame - start).
+                                        arg(static_cast<int64_t>(p.exportData->range.duration().value())));
                                 }
                                 else
                                 {
