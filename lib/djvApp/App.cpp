@@ -30,7 +30,6 @@
 #include <tlDevice/BMDOutputDevice.h>
 #endif // TLRENDER_BMD
 
-#include <tlIO/Cache.h>
 #include <tlIO/System.h>
 #if defined(TLRENDER_FFMPEG)
 #include <tlIO/FFmpeg.h>
