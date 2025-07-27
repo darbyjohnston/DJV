@@ -62,6 +62,7 @@ Run the application:
 ## Building on macOS
 
 Dependencies:
+* Xcode
 * CMake 3.31
 
 Clone the repository:
@@ -100,11 +101,15 @@ alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
 ## Building on Windows
 
 Dependencies:
+* Visual Studio 2022
 * CMake 3.31
 * MSYS2 (https://www.msys2.org) for compiling FFmpeg.
 * Strawberry Perl (https://strawberryperl.com/) for compiling network support.
 * Python 3.11 for compiling USD.
 * NSIS (https://nsis.sourceforge.io/Main_Page) for packaging.
+
+Open the Visual Studio command console "x64 Native Tools Command Prompt for VS 2022".
+This can be found in the Start menu, in the "Visual Studio 2022" folder.
 
 Clone the repository:
 ```
