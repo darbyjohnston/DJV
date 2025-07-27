@@ -11,6 +11,8 @@ Features:
 * Add a keyboard shortcut (Ctrl+K) for toggling whether the LUT is enabled.
 * Add a Windows NSIS package.
 * Use the current playback speed and layer when exporting.
+* Add a setting for the mouse button used for panning, compare wipe, color picker, and frame shuttle.
+* Add a setting for scaling the mouse wheel zoom in the viewport and timeline.
 Fixes:
 * Fix for image sequences with uppercase file extensions.
 * Fix for building with BMD support.
