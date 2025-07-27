@@ -272,6 +272,9 @@ namespace djv
                 const std::shared_ptr<feather_tk::Context>&,
                 const std::shared_ptr<feather_tk::Settings>&);
 
+            //! Save the settings. Settings are also saved on exit.
+            void save();
+
             //! Reset to default values.
             void reset();
 

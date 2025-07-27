@@ -480,11 +480,23 @@ namespace djv
 
         SettingsModel::~SettingsModel()
         {
+            save();
+        }
+
+        std::shared_ptr<SettingsModel> SettingsModel::create(
+            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<feather_tk::Settings>& settings)
+        {
+            auto out = std::shared_ptr<SettingsModel>(new SettingsModel);
+            out->_init(context, settings);
+            return out;
+        }
+
+        void SettingsModel::save()
+        {
             FEATHER_TK_P();
             p.settings->setT("/Advanced", p.advanced->get());
-
             p.settings->setT("/Cache", p.cache->get());
-
             p.settings->setT("/Export", p.exportSettings->get());
 
             FileBrowserSettings fileBrowser = p.fileBrowser->get();
@@ -498,35 +510,21 @@ namespace djv
             p.settings->setT("/FileBrowser", fileBrowser);
 
             p.settings->setT("/ImageSequence", p.imageSequence->get());
-
             p.settings->setT("/Shortcuts", p.Shortcuts->get());
-
             p.settings->setT("/Misc", p.misc->get());
-
             p.settings->setT("/Mouse", p.mouse->get());
-
             p.settings->setT("/Style", p.style->get());
-
             p.settings->setT("/Timeline", p.timeline->get());
-
             p.settings->setT("/Window", p.window->get());
 
 #if defined(TLRENDER_FFMPEG)
             p.settings->setT("/FFmpeg", p.ffmpeg->get());
 #endif // TLRENDER_FFMPEG
-
 #if defined(TLRENDER_USD)
             p.settings->setT("/USD", p.usd->get());
 #endif // TLRENDER_USD
-        }
 
-        std::shared_ptr<SettingsModel> SettingsModel::create(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
-        {
-            auto out = std::shared_ptr<SettingsModel>(new SettingsModel);
-            out->_init(context, settings);
-            return out;
+            p.settings->save();
         }
 
         void SettingsModel::reset()

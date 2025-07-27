@@ -57,6 +57,7 @@ namespace djv
             std::shared_ptr<feather_tk::ValueObserver<double> > speedObserver;
             std::shared_ptr<feather_tk::ValueObserver<double> > speedObserver2;
             std::shared_ptr<feather_tk::ValueObserver<OTIO_NS::RationalTime> > currentTimeObserver;
+            std::shared_ptr<feather_tk::ValueObserver<OTIO_NS::TimeRange> > inOutRangeObserver;
         };
 
         void BottomToolBar::_init(
@@ -106,13 +107,13 @@ namespace djv
             p.durationLabel = tl::timelineui::TimeLabel::create(context, timeUnitsModel);
             p.durationLabel->setFontRole(feather_tk::FontRole::Mono);
             p.durationLabel->setMarginRole(feather_tk::SizeRole::MarginInside);
-            p.durationLabel->setTooltip("Duration");
+            p.durationLabel->setTooltip("Duration of timeline or in/out range");
 
             p.speedEdit = feather_tk::DoubleEdit::create(context, p.speedModel);
-            p.speedEdit->setTooltip("Current speed");
+            p.speedEdit->setTooltip("Current playback speed");
             p.speedButton = feather_tk::ToolButton::create(context, "FPS");
             p.speedButton->setIcon("MenuArrow");
-            p.speedButton->setTooltip("Speed menu");
+            p.speedButton->setTooltip("Playback speed");
 
             p.timeUnitsComboBox = feather_tk::ComboBox::create(context, tl::timeline::getTimeUnitsLabels());
             p.timeUnitsComboBox->setTooltip("Time units");
@@ -317,13 +318,9 @@ namespace djv
 
             p.speedObserver.reset();
             p.currentTimeObserver.reset();
+            p.inOutRangeObserver.reset();
 
             p.player = value;
-
-            p.durationLabel->setValue(
-                p.player ?
-                p.player->getTimeRange().duration() :
-                tl::time::invalidTime);
 
             if (p.player)
             {
@@ -340,11 +337,19 @@ namespace djv
                     {
                         _p->currentTimeEdit->setValue(value);
                     });
+
+                p.inOutRangeObserver = feather_tk::ValueObserver<OTIO_NS::TimeRange>::create(
+                    p.player->observeInOutRange(),
+                    [this](const OTIO_NS::TimeRange& value)
+                    {
+                        _p->durationLabel->setValue(value.duration());
+                    });
             }
             else
             {
                 p.speedModel->setValue(0.0);
                 p.currentTimeEdit->setValue(tl::time::invalidTime);
+                p.durationLabel->setValue(tl::time::invalidTime);
             }
 
             p.playbackShuttle->setEnabled(p.player.get());

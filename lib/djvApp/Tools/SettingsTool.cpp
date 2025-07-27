@@ -1095,7 +1095,8 @@ namespace djv
 
         struct SettingsTool::Private
         {
-            std::shared_ptr<feather_tk::ScrollWidget> scrollWidget;
+            std::shared_ptr<feather_tk::VerticalLayout> layout;
+            std::shared_ptr<feather_tk::PushButton> saveButton;
             std::shared_ptr<feather_tk::PushButton> resetButton;
             std::map<std::string, std::shared_ptr<feather_tk::Bellows> > bellows;
         };
@@ -1157,19 +1158,40 @@ namespace djv
 #endif // TLRENDER_USD
             p.bellows["Advanced"] = feather_tk::Bellows::create(context, "Advanced", vLayout);
             p.bellows["Advanced"]->setWidget(advancedWidget);
-            auto hLayout = feather_tk::VerticalLayout::create(context, vLayout);
-            hLayout->setMarginRole(feather_tk::SizeRole::Margin);
-            p.resetButton = feather_tk::PushButton::create(context, "Default Settings", hLayout);
 
-            p.scrollWidget = feather_tk::ScrollWidget::create(context);
-            p.scrollWidget->setWidget(vLayout);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->setVStretch(feather_tk::Stretch::Expanding);
-            _setWidget(p.scrollWidget);
+            p.saveButton = feather_tk::PushButton::create(context, "Save");
+            p.saveButton->setTooltip("Save the settings. Settings are also saved on exit.");
+
+            p.resetButton = feather_tk::PushButton::create(context, "Reset");
+            p.resetButton->setTooltip("Restore settings to default values.");
+
+            p.layout = feather_tk::VerticalLayout::create(context);
+            p.layout->setSpacingRole(feather_tk::SizeRole::None);
+            auto scrollWidget = feather_tk::ScrollWidget::create(context, feather_tk::ScrollType::Both, p.layout);
+            scrollWidget->setWidget(vLayout);
+            scrollWidget->setBorder(false);
+            scrollWidget->setVStretch(feather_tk::Stretch::Expanding);
+            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
+            hLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            p.saveButton->setParent(hLayout);
+            hLayout->addSpacer(feather_tk::Stretch::Expanding);
+            p.resetButton->setParent(hLayout);
+            _setWidget(p.layout);
 
             _loadSettings(p.bellows);
 
             std::weak_ptr<App> appWeak(app);
+            p.saveButton->setClickedCallback(
+                [this, appWeak]
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        app->getSettingsModel()->save();
+                    }
+                });
+
             p.resetButton->setClickedCallback(
                 [this, appWeak]
                 {

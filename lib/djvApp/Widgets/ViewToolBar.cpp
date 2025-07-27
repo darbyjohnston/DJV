@@ -42,7 +42,7 @@ namespace djv
             p.zoomEdit->setLargeStep(2.0);
             p.zoomEdit->setDefaultValue(1.0);
             p.zoomEdit->setBorderRole(feather_tk::ColorRole::None);
-            p.zoomEdit->setTooltip("View zoom value");
+            p.zoomEdit->setTooltip("View zoom");
             addWidget(p.zoomEdit);
 
             addAction(actions["ZoomReset"]);
