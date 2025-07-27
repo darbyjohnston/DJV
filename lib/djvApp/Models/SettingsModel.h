@@ -143,16 +143,33 @@ namespace djv
         };
         FEATHER_TK_ENUM(MouseAction);
 
+        //! Mouse action binding.
+        struct MouseActionBinding
+        {
+            MouseActionBinding() = default;
+            MouseActionBinding(
+                int button,
+                feather_tk::KeyModifier modifier = feather_tk::KeyModifier::None);
+
+            int button = 0;
+            feather_tk::KeyModifier modifier = feather_tk::KeyModifier::None;
+
+            bool operator == (const MouseActionBinding&) const;
+            bool operator != (const MouseActionBinding&) const;
+        };
+
         //! Mouse settings.
         struct MouseSettings
         {
-            std::map<MouseAction, feather_tk::KeyModifier> actions =
+            std::map<MouseAction, MouseActionBinding> bindings =
             {
-                { MouseAction::ColorPicker, feather_tk::KeyModifier::None },
-                { MouseAction::PanView, feather_tk::KeyModifier::Control },
-                { MouseAction::FrameShuttle, feather_tk::KeyModifier::Shift },
-                { MouseAction::CompareWipe, feather_tk::KeyModifier::Alt }
+                { MouseAction::ColorPicker, MouseActionBinding(0) },
+                { MouseAction::PanView, MouseActionBinding(0, feather_tk::KeyModifier::Control) },
+                { MouseAction::FrameShuttle, MouseActionBinding(0, feather_tk::KeyModifier::Shift) },
+                { MouseAction::CompareWipe, MouseActionBinding(0, feather_tk::KeyModifier::Alt) }
             };
+
+            float wheelScale = 1.1F;
 
             bool operator == (const MouseSettings&) const;
             bool operator != (const MouseSettings&) const;
@@ -391,6 +408,7 @@ namespace djv
         void to_json(nlohmann::json&, const FileBrowserSettings&);
         void to_json(nlohmann::json&, const ImageSequenceSettings&);
         void to_json(nlohmann::json&, const MiscSettings&);
+        void to_json(nlohmann::json&, const MouseActionBinding&);
         void to_json(nlohmann::json&, const MouseSettings&);
         void to_json(nlohmann::json&, const ShortcutsSettings&);
         void to_json(nlohmann::json&, const StyleSettings&);
@@ -402,6 +420,7 @@ namespace djv
         void from_json(const nlohmann::json&, FileBrowserSettings&);
         void from_json(const nlohmann::json&, ImageSequenceSettings&);
         void from_json(const nlohmann::json&, MiscSettings&);
+        void from_json(const nlohmann::json&, MouseActionBinding&);
         void from_json(const nlohmann::json&, MouseSettings&);
         void from_json(const nlohmann::json&, ShortcutsSettings&);
         void from_json(const nlohmann::json&, StyleSettings&);

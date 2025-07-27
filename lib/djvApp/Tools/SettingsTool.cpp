@@ -601,10 +601,12 @@ namespace djv
         struct MouseSettingsWidget::Private
         {
             std::shared_ptr<SettingsModel> model;
-            std::vector<std::string> actionLabels;
+            std::vector<std::string> buttonLabels;
             std::vector<feather_tk::KeyModifier> modifiers;
             std::vector<std::string> modifierLabels;
+            std::shared_ptr<feather_tk::FloatEdit> wheelScaleEdit;
 
+            std::map<MouseAction, std::shared_ptr<feather_tk::ComboBox> > buttonComboBoxes;
             std::map<MouseAction, std::shared_ptr<feather_tk::ComboBox> > modifierComboBoxes;
             std::shared_ptr<feather_tk::FormLayout> layout;
 
@@ -621,48 +623,68 @@ namespace djv
 
             p.model = app->getSettingsModel();
 
-            p.actionLabels.push_back("Pan view");
-            p.actionLabels.push_back("Compare wipe");
-            p.actionLabels.push_back("Color picker");
-            p.actionLabels.push_back("Frame shuttle");
+            std::vector<std::string> mouseActionLabels;
+            mouseActionLabels.push_back("Pan view");
+            mouseActionLabels.push_back("Compare wipe");
+            mouseActionLabels.push_back("Color picker");
+            mouseActionLabels.push_back("Frame shuttle");
+
+            p.buttonLabels.push_back("Left");
+            p.buttonLabels.push_back("Right");
+            p.buttonLabels.push_back("Middle");
 
             p.modifiers.push_back(feather_tk::KeyModifier::None);
             p.modifiers.push_back(feather_tk::KeyModifier::Shift);
             p.modifiers.push_back(feather_tk::KeyModifier::Control);
             p.modifiers.push_back(feather_tk::KeyModifier::Alt);
             p.modifiers.push_back(feather_tk::KeyModifier::Super);
-            p.modifierLabels.push_back("Click");
-            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Shift) + " + click");
-            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Control) + " + click");
-            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Alt) + " + click");
-            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Super) + " + click");
+            p.modifierLabels.push_back("None");
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Shift));
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Control));
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Alt));
+            p.modifierLabels.push_back(feather_tk::to_string(feather_tk::KeyModifier::Super));
 
             for (const auto mouseAction : getMouseActionEnums())
             {
+                p.buttonComboBoxes[mouseAction] = feather_tk::ComboBox::create(context, p.buttonLabels);
+                p.buttonComboBoxes[mouseAction]->setHStretch(feather_tk::Stretch::Expanding);
                 p.modifierComboBoxes[mouseAction] = feather_tk::ComboBox::create(context, p.modifierLabels);
                 p.modifierComboBoxes[mouseAction]->setHStretch(feather_tk::Stretch::Expanding);
             }
+
+            p.wheelScaleEdit = feather_tk::FloatEdit::create(context);
+            p.wheelScaleEdit->setRange(1.01F, 4.F);
 
             p.layout = feather_tk::FormLayout::create(context, shared_from_this());
             p.layout->setMarginRole(feather_tk::SizeRole::Margin);
             p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
             for (const auto mouseAction : getMouseActionEnums())
             {
-                p.modifierComboBoxes[mouseAction]->setParent(p.layout);
-                p.layout->addRow(feather_tk::Format("{0}:").arg(p.actionLabels[static_cast<size_t>(mouseAction)]), p.modifierComboBoxes[mouseAction]);
+                auto hLayout = feather_tk::HorizontalLayout::create(context);
+                hLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+                hLayout->setHStretch(feather_tk::Stretch::Expanding);
+                p.buttonComboBoxes[mouseAction]->setParent(hLayout);
+                p.modifierComboBoxes[mouseAction]->setParent(hLayout);
+                p.layout->addRow(feather_tk::Format("{0}:").arg(mouseActionLabels[static_cast<size_t>(mouseAction)]), hLayout);
             }
+            p.layout->addRow("Wheel scale:", p.wheelScaleEdit);
 
             p.settingsObserver = feather_tk::ValueObserver<MouseSettings>::create(
                 p.model->observeMouse(),
                 [this](const MouseSettings& value)
                 {
                     FEATHER_TK_P();
-                    for (const auto& i : value.actions)
+                    for (const auto& i : value.bindings)
                     {
-                        const auto j = p.modifierComboBoxes.find(i.first);
+                        auto j = p.buttonComboBoxes.find(i.first);
+                        if (j != p.buttonComboBoxes.end())
+                        {
+                            j->second->setCurrentIndex(i.second.button);
+                        }
+                        j = p.modifierComboBoxes.find(i.first);
                         if (j != p.modifierComboBoxes.end())
                         {
-                            const auto k = std::find(p.modifiers.begin(), p.modifiers.end(), i.second);
+                            const auto k = std::find(p.modifiers.begin(), p.modifiers.end(), i.second.modifier);
                             if (k != p.modifiers.end())
                             {
 
@@ -670,10 +692,19 @@ namespace djv
                             }
                         }
                     }
+                    p.wheelScaleEdit->setValue(value.wheelScale);
                 });
 
             for (const auto mouseAction : getMouseActionEnums())
             {
+                p.buttonComboBoxes[mouseAction]->setIndexCallback(
+                    [this, mouseAction](int index)
+                    {
+                        FEATHER_TK_P();
+                        auto settings = p.model->getMouse();
+                        settings.bindings[mouseAction].button = index;
+                        p.model->setMouse(settings);
+                    });
                 p.modifierComboBoxes[mouseAction]->setIndexCallback(
                     [this, mouseAction](int index)
                     {
@@ -681,11 +712,20 @@ namespace djv
                         if (index >= 0 && index < p.modifiers.size())
                         {
                             auto settings = p.model->getMouse();
-                            settings.actions[mouseAction] = p.modifiers[index];
+                            settings.bindings[mouseAction].modifier = p.modifiers[index];
                             p.model->setMouse(settings);
                         }
                     });
             }
+
+            p.wheelScaleEdit->setCallback(
+                [this](float value)
+                {
+                    FEATHER_TK_P();
+                    auto settings = p.model->getMouse();
+                    settings.wheelScale = value;
+                    p.model->setMouse(settings);
+                });
         }
 
         MouseSettingsWidget::MouseSettingsWidget() :

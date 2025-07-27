@@ -128,6 +128,7 @@ namespace djv
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<feather_tk::ImageType> > colorBufferObserver;
+            std::shared_ptr<feather_tk::ValueObserver<MouseSettings> > mouseSettingsObserver;
             std::shared_ptr<feather_tk::ValueObserver<TimelineSettings> > timelineSettingsObserver;
             std::shared_ptr<feather_tk::ValueObserver<WindowSettings> > windowSettingsObserver;
         };
@@ -296,9 +297,11 @@ namespace djv
 
             p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
-                [this](const std::shared_ptr<tl::timeline::Player>& value)
+                [this](const std::shared_ptr<tl::timeline::Player>& player)
                 {
-                    _playerUpdate(value);
+                    FEATHER_TK_P();
+                    p.viewport->setPlayer(player);
+                    p.timelineWidget->setPlayer(player);
                 });
 
             auto appWeak = std::weak_ptr<App>(app);
@@ -337,9 +340,9 @@ namespace djv
                     setFrameBufferType(value);
                 });
 
-            p.windowSettingsObserver = feather_tk::ValueObserver<WindowSettings>::create(
-                p.settingsModel->observeWindow(),
-                [this](const WindowSettings& value)
+            p.mouseSettingsObserver = feather_tk::ValueObserver<MouseSettings>::create(
+                p.settingsModel->observeMouse(),
+                [this](const MouseSettings& value)
                 {
                     _settingsUpdate(value);
                 });
@@ -347,6 +350,13 @@ namespace djv
             p.timelineSettingsObserver = feather_tk::ValueObserver<TimelineSettings>::create(
                 p.settingsModel->observeTimeline(),
                 [this](const TimelineSettings& value)
+                {
+                    _settingsUpdate(value);
+                });
+
+            p.windowSettingsObserver = feather_tk::ValueObserver<WindowSettings>::create(
+                p.settingsModel->observeWindow(),
+                [this](const WindowSettings& value)
                 {
                     _settingsUpdate(value);
                 });
@@ -449,11 +459,32 @@ namespace djv
             }
         }
 
-        void MainWindow::_playerUpdate(const std::shared_ptr<tl::timeline::Player>& player)
+        void MainWindow::_settingsUpdate(const MouseSettings& settings)
         {
             FEATHER_TK_P();
-            p.viewport->setPlayer(player);
-            p.timelineWidget->setPlayer(player);
+            p.timelineWidget->setMouseWheelScale(settings.wheelScale);
+            p.viewport->setMouseWheelScale(settings.wheelScale);
+        }
+
+        void MainWindow::_settingsUpdate(const TimelineSettings& settings)
+        {
+            FEATHER_TK_P();
+
+            p.timelineWidget->setEditable(settings.editable);
+            p.timelineWidget->setFrameView(settings.frameView);
+            p.timelineWidget->setScrollBarsVisible(settings.scrollBars);
+            p.timelineWidget->setAutoScroll(settings.autoScroll);
+            p.timelineWidget->setStopOnScrub(settings.stopOnScrub);
+
+            auto display = p.timelineWidget->getDisplayOptions();
+            display.thumbnails = settings.thumbnails != TimelineThumbnails::None;
+            display.thumbnailHeight = getTimelineThumbnailsSize(settings.thumbnails);
+            display.waveformHeight = getTimelineWaveformSize(settings.thumbnails);
+            if (settings.firstTrack)
+            {
+                display.tracks = { 0 };
+            }
+            p.timelineWidget->setDisplayOptions(display);
         }
 
         void MainWindow::_settingsUpdate(const WindowSettings& settings)
@@ -493,27 +524,6 @@ namespace djv
 
             p.splitter->setSplit(settings.splitter);
             p.splitter2->setSplit(settings.splitter2);
-        }
-
-        void MainWindow::_settingsUpdate(const TimelineSettings& settings)
-        {
-            FEATHER_TK_P();
-
-            p.timelineWidget->setEditable(settings.editable);
-            p.timelineWidget->setFrameView(settings.frameView);
-            p.timelineWidget->setScrollBarsVisible(settings.scrollBars);
-            p.timelineWidget->setAutoScroll(settings.autoScroll);
-            p.timelineWidget->setStopOnScrub(settings.stopOnScrub);
-
-            auto display = p.timelineWidget->getDisplayOptions();
-            display.thumbnails = settings.thumbnails != TimelineThumbnails::None;
-            display.thumbnailHeight = getTimelineThumbnailsSize(settings.thumbnails);
-            display.waveformHeight = getTimelineWaveformSize(settings.thumbnails);
-            if (settings.firstTrack)
-            {
-                display.tracks = { 0 };
-            }
-            p.timelineWidget->setDisplayOptions(display);
         }
     }
 }

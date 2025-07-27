@@ -65,9 +65,9 @@ namespace djv
             void _drop(const std::vector<std::string>&) override;
 
         private:
-            void _playerUpdate(const std::shared_ptr<tl::timeline::Player>&);
-            void _settingsUpdate(const WindowSettings&);
+            void _settingsUpdate(const MouseSettings&);
             void _settingsUpdate(const TimelineSettings&);
+            void _settingsUpdate(const WindowSettings&);
 
             FEATHER_TK_PRIVATE();
         };

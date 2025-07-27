@@ -264,9 +264,30 @@ namespace djv
             "ColorPicker",
             "FrameShuttle");
 
+        MouseActionBinding::MouseActionBinding(
+            int button,
+            feather_tk::KeyModifier modifier) :
+            button(button),
+            modifier(modifier)
+        {}
+
+        bool MouseActionBinding::operator == (const MouseActionBinding& other) const
+        {
+            return
+                button == other.button &&
+                modifier == other.modifier;
+        }
+
+        bool MouseActionBinding::operator != (const MouseActionBinding& other) const
+        {
+            return !(*this == other);
+        }
+
         bool MouseSettings::operator == (const MouseSettings& other) const
         {
-            return actions == other.actions;
+            return
+                bindings == other.bindings &&
+                wheelScale == other.wheelScale;
         }
 
         bool MouseSettings::operator != (const MouseSettings& other) const
@@ -791,12 +812,19 @@ namespace djv
             json["ShowSetup"] = value.showSetup;
         }
 
+        void to_json(nlohmann::json& json, const MouseActionBinding& value)
+        {
+            json["Button"] = value.button;
+            json["Modifier"] = to_string(value.modifier);
+        }
+
         void to_json(nlohmann::json& json, const MouseSettings& value)
         {
-            for (const auto& i : value.actions)
+            for (const auto& i : value.bindings)
             {
-                json["Actions"][to_string(i.first)] = to_string(i.second);
+                to_json(json["Bindings"][to_string(i.first)], i.second);
             }
+            json["WheelScale"] = value.wheelScale;
         }
 
         void to_json(nlohmann::json& json, const StyleSettings& value)
@@ -885,14 +913,21 @@ namespace djv
             json.at("ShowSetup").get_to(value.showSetup);
         }
 
+        void from_json(const nlohmann::json& json, MouseActionBinding& value)
+        {
+            json.at("Button").get_to(value.button);
+            from_string(json.at("Modifier").get<std::string>(), value.modifier);
+        }
+
         void from_json(const nlohmann::json& json, MouseSettings& value)
         {
-            for (auto i = json.at("Actions").begin(); i != json.at("Actions").end(); ++i)
+            for (auto i = json.at("Bindings").begin(); i != json.at("Bindings").end(); ++i)
             {
                 MouseAction mouseAction = MouseAction::First;
                 from_string(i.key(), mouseAction);
-                from_string(i.value().get<std::string>(), value.actions[mouseAction]);
+                from_json(i.value(), value.bindings[mouseAction]);
             }
+            json.at("WheelScale").get_to(value.wheelScale);
         }
 
         void from_json(const nlohmann::json& json, ShortcutsSettings& value)

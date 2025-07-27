@@ -39,8 +39,8 @@ namespace djv
             tl::timeline::DisplayOptions displayOptions;
             feather_tk::Color4F colorPicker;
             tl::timeline::PlayerCacheInfo cacheInfo;
-            feather_tk::KeyModifier colorPickerModifier = feather_tk::KeyModifier::None;
-            feather_tk::KeyModifier frameShuttleModifier = feather_tk::KeyModifier::Shift;
+            MouseActionBinding colorPickerBinding = MouseActionBinding(0);
+            MouseActionBinding frameShuttleBinding = MouseActionBinding(0, feather_tk::KeyModifier::Shift);
 
             std::shared_ptr<feather_tk::Label> fileNameLabel;
             std::shared_ptr<feather_tk::Label> timeLabel;
@@ -240,14 +240,18 @@ namespace djv
                 app->getSettingsModel()->observeMouse(),
                 [this](const MouseSettings& value)
                 {
-                    auto i = value.actions.find(MouseAction::PanView);
-                    setPanModifier(i != value.actions.end() ? i->second : feather_tk::KeyModifier::None);
-                    i = value.actions.find(MouseAction::CompareWipe);
-                    setWipeModifier(i != value.actions.end() ? i->second : feather_tk::KeyModifier::None);
-                    i = value.actions.find(MouseAction::ColorPicker);
-                    _p->colorPickerModifier = i != value.actions.end() ? i->second : feather_tk::KeyModifier::None;
-                    i = value.actions.find(MouseAction::FrameShuttle);
-                    _p->frameShuttleModifier = i != value.actions.end() ? i->second : feather_tk::KeyModifier::None;
+                    auto i = value.bindings.find(MouseAction::PanView);
+                    setPanBinding(
+                        i != value.bindings.end() ? i->second.button : 0,
+                        i != value.bindings.end() ? i->second.modifier : feather_tk::KeyModifier::None);
+                    i = value.bindings.find(MouseAction::CompareWipe);
+                    setWipeBinding(
+                        i != value.bindings.end() ? i->second.button : 0,
+                        i != value.bindings.end() ? i->second.modifier : feather_tk::KeyModifier::None);
+                    i = value.bindings.find(MouseAction::ColorPicker);
+                    _p->colorPickerBinding = i != value.bindings.end() ? i->second : MouseActionBinding();
+                    i = value.bindings.find(MouseAction::FrameShuttle);
+                    _p->frameShuttleBinding = i != value.bindings.end() ? i->second : MouseActionBinding();
                 });
         }
 
@@ -368,8 +372,8 @@ namespace djv
             tl::timelineui::Viewport::mousePressEvent(event);
             FEATHER_TK_P();
             takeKeyFocus();
-            if (0 == event.button &&
-                feather_tk::checkKeyModifier(p.colorPickerModifier, event.modifiers))
+            if (p.colorPickerBinding.button == event.button &&
+                feather_tk::checkKeyModifier(p.colorPickerBinding.modifier, event.modifiers))
             {
                 p.mouse.mode = Private::MouseMode::ColorPicker;
                 if (auto app = p.app.lock())
@@ -378,8 +382,8 @@ namespace djv
                     app->getViewportModel()->setColorPicker(color);
                 }
             }
-            else if (0 == event.button &&
-                feather_tk::checkKeyModifier(p.frameShuttleModifier, event.modifiers))
+            else if (p.frameShuttleBinding.button == event.button &&
+                feather_tk::checkKeyModifier(p.frameShuttleBinding.modifier, event.modifiers))
             {
                 p.mouse.mode = Private::MouseMode::Shuttle;
                 if (auto player = getPlayer())
