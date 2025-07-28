@@ -220,13 +220,13 @@ namespace djv
         //! Timeline settings.
         struct TimelineSettings
         {
+            bool minimize = false;
             bool editable = false;
             bool frameView = true;
             bool scrollBars = true;
             bool autoScroll = true;
             bool stopOnScrub = false;
             TimelineThumbnails thumbnails = TimelineThumbnails::Small;
-            bool firstTrack = false;
 
             bool operator == (const TimelineSettings&) const;
             bool operator != (const TimelineSettings&) const;

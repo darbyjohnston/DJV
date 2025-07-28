@@ -26,6 +26,7 @@ namespace djv
             FEATHER_TK_P();
 
             auto actions = timelineActions->getActions();
+            addAction(actions["Minimize"]);
             addAction(actions["FrameView"]);
             addAction(actions["ScrollBars"]);
             addAction(actions["AutoScroll"]);

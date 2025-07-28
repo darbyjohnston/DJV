@@ -121,6 +121,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<feather_tk::Divider> > dividers;
             std::shared_ptr<feather_tk::Splitter> splitter;
             std::shared_ptr<feather_tk::Splitter> splitter2;
+            std::shared_ptr<feather_tk::VerticalLayout> splitterLayout;
             std::shared_ptr<feather_tk::VerticalLayout> layout;
 
             std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
@@ -266,7 +267,10 @@ namespace djv
             p.dividers["View"] = feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, hLayout);
             p.toolsToolBar->setParent(hLayout);
             p.dividers["ToolBars"] = feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
-            p.splitter = feather_tk::Splitter::create(context, feather_tk::Orientation::Vertical, p.layout);
+            p.splitterLayout = feather_tk::VerticalLayout::create(context, p.layout);
+            p.splitterLayout->setSpacingRole(feather_tk::SizeRole::None);
+            p.splitterLayout->setVStretch(feather_tk::Stretch::Expanding);
+            p.splitter = feather_tk::Splitter::create(context, feather_tk::Orientation::Vertical, p.splitterLayout);
             p.splitter->setSplit(settings.splitter);
             p.splitter2 = feather_tk::Splitter::create(context, feather_tk::Orientation::Horizontal, p.splitter);
             p.splitter2->setSplit(settings.splitter2);
@@ -477,14 +481,25 @@ namespace djv
             p.timelineWidget->setStopOnScrub(settings.stopOnScrub);
 
             auto display = p.timelineWidget->getDisplayOptions();
+
+            display.minimize = settings.minimize;
             display.thumbnails = settings.thumbnails != TimelineThumbnails::None;
             display.thumbnailHeight = getTimelineThumbnailsSize(settings.thumbnails);
             display.waveformHeight = getTimelineWaveformSize(settings.thumbnails);
-            if (settings.firstTrack)
-            {
-                display.tracks = { 0 };
-            }
             p.timelineWidget->setDisplayOptions(display);
+
+            if (settings.minimize)
+            {
+                p.splitter->setParent(nullptr);
+                p.splitter2->setParent(p.splitterLayout);
+                p.timelineWidget->setParent(p.splitterLayout);
+            }
+            else
+            {
+                p.splitter->setParent(p.splitterLayout);
+                p.splitter2->setParent(p.splitter);
+                p.timelineWidget->setParent(p.splitter);
+            }
         }
 
         void MainWindow::_settingsUpdate(const WindowSettings& settings)

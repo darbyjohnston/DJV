@@ -22,6 +22,7 @@ namespace djv
             std::shared_ptr<feather_tk::ValueObserver<bool> > autoScrollObserver;
             std::shared_ptr<feather_tk::ValueObserver<bool> > stopOnScrubObserver;
             std::shared_ptr<feather_tk::ValueObserver<tl::timelineui::DisplayOptions> > displayOptionsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<TimelineSettings> > settingsObserver;
         };
 
         void TimelineActions::_init(
@@ -35,6 +36,18 @@ namespace djv
             p.mainWindow = mainWindow;
 
             auto appWeak = std::weak_ptr<App>(app);
+            _actions["Minimize"] = feather_tk::Action::create(
+                "Minimize Timeline",
+                [appWeak](bool value)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        auto settings = app->getSettingsModel()->getTimeline();
+                        settings.minimize = value;
+                        app->getSettingsModel()->setTimeline(settings);
+                    }
+                });
+
             _actions["FrameView"] = feather_tk::Action::create(
                 "Frame Timeline View",
                 [appWeak](bool value)
@@ -133,6 +146,7 @@ namespace djv
 
             _tooltips =
             {
+                { "Minimize", "Minimize the timeline." },
                 { "FrameView", "Frame the timeline view." },
                 { "ScrollBars", "Toggle the scroll bars." },
                 { "AutoScroll", "Automatically scroll the timeline to the current frame." },
@@ -187,6 +201,13 @@ namespace djv
                     _actions["ThumbnailsSmall"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Small == j->second);
                     _actions["ThumbnailsMedium"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Medium == j->second);
                     _actions["ThumbnailsLarge"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Large == j->second);
+                });
+
+            p.settingsObserver = feather_tk::ValueObserver<TimelineSettings>::create(
+                app->getSettingsModel()->observeTimeline(),
+                [this](const TimelineSettings& value)
+                {
+                    _actions["Minimize"]->setChecked(value.minimize);
                 });
         }
 
