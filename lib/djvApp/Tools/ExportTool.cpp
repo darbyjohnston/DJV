@@ -562,8 +562,9 @@ namespace djv
                     p.exportData->glType,
                     image->getData());
 
+                const int64_t start = p.exportData->range.start_time().value();
                 const double speed = p.player->getSpeed();
-                const OTIO_NS::RationalTime t2 (p.exportData->frame, speed);
+                const OTIO_NS::RationalTime t2(p.exportData->frame - start, speed);
                 p.exportData->writer->writeVideo(t2, image);
 
                 ++p.exportData->frame;
