@@ -30,12 +30,12 @@ Features include:
 5. [Playback and Frame Control](#playback)
 6. [Timeline](#timeline)
 7. [A/B Comparison](#compare)
-8. [Color Controls](#color)
+8. [Color](#color)
 9. [Exporting Files](#export)
-10. [Keyboard Shortcuts](#shortcuts)
-11. [Settings](#settings)
-11. [Troublehooting](#trouble_shoot)
-12. [Building from Source](#build)
+10. [Settings](#settings)
+11. [Keyboard Shortcuts](#shortcuts)
+12. [Troubleshooting](#trouble_shoot)
+13. [Building from Source](#build)
 
 
 <br><br><a name="install"></a>
@@ -85,6 +85,9 @@ Components can be toggled on and off from the **Window** menu.
 
 Splitters can be used to change the size of the components:
 ![Main Window](assets/MainWindowSplitters.svg)
+
+Note that the vertical splitter is only shown when the timeline is not
+minimized.
 
 Full screen mode can be enabled from the **Window** menu.
 
@@ -139,8 +142,8 @@ HUD components:
 3. Playback speed
 4. Number of frames dropped during playback
 5. Color picker
-6. Video cache usage
-7. Audio cache usage
+6. Video cache percentage
+7. Audio cache percentage
 
 
 <br><br><a name="files"></a>
@@ -148,7 +151,7 @@ HUD components:
 
 Supported file formats:
 * Image sequences: Cineon, DPX, JPEG, OpenEXR, PNG, PPM, SGI, TGA, BMP, TIFF
-* Movie codecs: MJPEG
+* Movie codecs: MJPEG, MPEG-2
 * Audio codecs: FLAC, MP3, WAV
 * Timelines: OTIO, OTIOZ
 * Experimental: USD
@@ -242,15 +245,20 @@ available from the **View** menu.
 <br><br><a name="timeline"></a>
 ## Timeline
 
+By default the timeline is minimized, showing only the first video and audio
+track. To see all of the tracks in the timeline, toggle the minimized state
+available from the **Timeline** menu.
+
 ![Timeline](assets/TimelineAnnotated.svg)
 Timeline components:
 1. Current frame
-2. Video cache display (green)
-2. Audio cache display (purple)
-3. Video track
-4. Video clips
-5. Audio track
-6. Audio clips
+2. In/out range (blue)
+3. Video cache display (green)
+4. Audio cache display (purple)
+5. Video track
+6. Video clips
+7. Audio track
+8. Audio clips
 
 Controls:
 * Change the current frame - Mouse click and drag
@@ -297,22 +305,25 @@ In absolute time mode the **A** and **B** times will be the same.
 
 
 <br><br><a name="color"></a>
-## Color Controls
+## Color
 
-The **Color Controls** tool can be used to set OpenColorIO options, specify a
+The **Color** tool can be used to set OpenColorIO options, specify a
 LUT (Look-Up Table), or apply other controls like brightness, contrast, and
 levels.
 
-The **Color Controls** tool can be shown from the **Tools** menu or the tool
-bar.
+The **Color** tool can be shown from the **Tools** menu or the tool bar.
 
 ![Color Tool](assets/ColorToolAnnotated.svg)
 OpenColorIO options:
 1. Enable OpenColorIO
-2. OpenColorIO configuration file
+2. OpenColorIO configuration
 3. Input color space
 4. Display color space
 5. View color space
+6. Look color space
+
+The OpenColorIO configuration can be set to a built-in configuration, the
+**OCIO** environment variable, or a file name.
 
 A LUT file can also be applied either before or after the OpenColorIO pass, by
 setting the LUT **Order** option to **PreColorConfig** or **PostColorConfig**.
@@ -334,9 +345,13 @@ Export components:
 4. Base file name
 5. File extension
 6. Movie codec
+7. Export button
 
 To export an image sequence set the file type to **Sequence**. To export the
 current frame set the file type to **Image**.
+
+The current layer, playback speed, in/out range, and color settings will be
+exported.
 
 Note that audio export is not yet supported.
 
@@ -346,20 +361,6 @@ Note that audio export is not yet supported.
 
 Settings are stored as a JSON file in the **DJV** folder in your **Documents**
 directory.
-
-
-<br><br><a name="trouble_shoot"></a>
-## Troublehooting
-
-If the application fails to start, try running from the command line to check
-for are any errors.
-
-Check the log file located in the **DJV** folder in your **Documents**
-directory.
-
-Try resetting the settings:
-* Delete the settings file
-* Or pass the **-resetSettings** flag on the command line
 
 
 <br><br><a name="shortcuts"></a>
@@ -380,6 +381,23 @@ keyboard focus, then type the new shortcut. The widget will turn red if the
 shortcut conflicts with another one.
 
 
+<br><br><a name="trouble_shoot"></a>
+## Troubleshooting
+
+Check the log file located in the **DJV** folder in your **Documents**
+directory.
+
+If the application fails to start, try running from the command line to check
+for are any errors:
+```
+djv -log
+```
+
+Try resetting the settings:
+* Delete the ****DJV** folder in your **Documents** directory
+* Or pass the **-resetSettings** flag on the command line
+
+
 <br><br><a name="build"></a>
 ## Building from Source
 
@@ -390,6 +408,16 @@ dependencies.
 
 Dependencies:
 * CMake 3.31
+
+Install system packages (Debian based systems):
+```
+sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev mesa-utils libasound2-dev libpulse-dev
+```
+
+Install system packages (Rocky 9):
+```
+sudo dnf install libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel mesa-libGL-devel
+```
 
 Clone the repository:
 ```
@@ -411,6 +439,7 @@ Run the application:
 ### Building on macOS
 
 Dependencies:
+* Xcode
 * CMake 3.31
 
 Clone the repository:
@@ -448,11 +477,15 @@ alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
 ### Building on Windows
 
 Dependencies:
+* Visual Studio 2022
 * CMake 3.31
 * MSYS2 (https://www.msys2.org) for compiling FFmpeg.
 * Strawberry Perl (https://strawberryperl.com/) for compiling network support.
 * Python 3.11 for compiling USD.
 * NSIS (https://nsis.sourceforge.io/Main_Page) for packaging.
+
+Open the Visual Studio command console "x64 Native Tools Command Prompt for VS 2022".
+This can be found in the Start menu, in the "Visual Studio 2022" folder.
 
 Clone the repository:
 ```

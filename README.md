@@ -41,6 +41,16 @@ the FFmpeg shared library files.
 Dependencies:
 * CMake 3.31
 
+Install system packages (Debian based systems):
+```
+sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev mesa-utils libasound2-dev libpulse-dev
+```
+
+Install system packages (Rocky 9):
+```
+sudo dnf install libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel mesa-libGL-devel
+```
+
 Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/DJV.git
