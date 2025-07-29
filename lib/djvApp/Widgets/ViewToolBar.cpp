@@ -37,10 +37,11 @@ namespace djv
             addAction(actions["Frame"]);
 
             p.zoomEdit = feather_tk::DoubleEdit::create(context);
-            p.zoomEdit->setRange(0.000001, 100000.0);
-            p.zoomEdit->setStep(1.0);
-            p.zoomEdit->setLargeStep(2.0);
+            p.zoomEdit->setRange(0.0001, 1000.0);
+            p.zoomEdit->setStep(0.1);
+            p.zoomEdit->setLargeStep(0.5);
             p.zoomEdit->setDefaultValue(1.0);
+            p.zoomEdit->setPrecision(4);
             p.zoomEdit->setBorderRole(feather_tk::ColorRole::None);
             p.zoomEdit->setTooltip("View zoom");
             addWidget(p.zoomEdit);
