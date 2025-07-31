@@ -1,3 +1,13 @@
+## 3.1.1
+
+Features:
+* Make the timeline minimized by default.
+* Add sample data for testing.
+
+Fixes:
+* Make the default color buffer RGBA_F32.
+
+
 ## 3.1.0
 
 Features:
