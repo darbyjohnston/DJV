@@ -220,7 +220,7 @@ namespace djv
         //! Timeline settings.
         struct TimelineSettings
         {
-            bool minimize = false;
+            bool minimize = true;
             bool editable = false;
             bool frameView = true;
             bool scrollBars = true;
