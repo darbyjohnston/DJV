@@ -456,5 +456,4 @@ install(
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_tlRender.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_yaml-cpp.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_zlib.txt
-    DESTINATION etc/DJV)
-
+    DESTINATION etc/Legal)
