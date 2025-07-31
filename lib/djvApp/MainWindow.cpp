@@ -131,6 +131,7 @@ namespace djv
             std::shared_ptr<feather_tk::ValueObserver<feather_tk::ImageType> > colorBufferObserver;
             std::shared_ptr<feather_tk::ValueObserver<MouseSettings> > mouseSettingsObserver;
             std::shared_ptr<feather_tk::ValueObserver<TimelineSettings> > timelineSettingsObserver;
+            std::shared_ptr<feather_tk::ValueObserver<bool> > timelineFrameViewObserver;
             std::shared_ptr<feather_tk::ValueObserver<WindowSettings> > windowSettingsObserver;
         };
 
@@ -356,6 +357,18 @@ namespace djv
                 [this](const TimelineSettings& value)
                 {
                     _settingsUpdate(value);
+                });
+
+            p.timelineFrameViewObserver = feather_tk::ValueObserver<bool>::create(
+                p.timelineWidget->observeFrameView(),
+                [appWeak](bool value)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        auto settings = app->getSettingsModel()->getTimeline();
+                        settings.frameView = value;
+                        app->getSettingsModel()->setTimeline(settings);
+                    }
                 });
 
             p.windowSettingsObserver = feather_tk::ValueObserver<WindowSettings>::create(

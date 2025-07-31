@@ -17,11 +17,6 @@ namespace djv
         {
             std::weak_ptr<MainWindow> mainWindow;
 
-            std::shared_ptr<feather_tk::ValueObserver<bool> > frameViewObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > scrollBarsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > autoScrollObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > stopOnScrubObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timelineui::DisplayOptions> > displayOptionsObserver;
             std::shared_ptr<feather_tk::ValueObserver<TimelineSettings> > settingsObserver;
         };
 
@@ -37,7 +32,7 @@ namespace djv
 
             auto appWeak = std::weak_ptr<App>(app);
             _actions["Minimize"] = feather_tk::Action::create(
-                "Minimize Timeline",
+                "Minimize",
                 [appWeak](bool value)
                 {
                     if (auto app = appWeak.lock())
@@ -49,7 +44,7 @@ namespace djv
                 });
 
             _actions["FrameView"] = feather_tk::Action::create(
-                "Frame Timeline View",
+                "Frame View",
                 [appWeak](bool value)
                 {
                     if (auto app = appWeak.lock())
@@ -159,55 +154,19 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.frameViewObserver = feather_tk::ValueObserver<bool>::create(
-                mainWindow->getTimelineWidget()->observeFrameView(),
-                [this](bool value)
-                {
-                    _actions["FrameView"]->setChecked(value);
-                });
-
-            p.autoScrollObserver = feather_tk::ValueObserver<bool>::create(
-                mainWindow->getTimelineWidget()->observeAutoScroll(),
-                [this](bool value)
-                {
-                    _actions["AutoScroll"]->setChecked(value);
-                });
-
-            p.scrollBarsObserver = feather_tk::ValueObserver<bool>::create(
-                mainWindow->getTimelineWidget()->observeScrollBarsVisible(),
-                [this](bool value)
-                {
-                    _actions["ScrollBars"]->setChecked(value);
-                });
-
-            p.stopOnScrubObserver = feather_tk::ValueObserver<bool>::create(
-                mainWindow->getTimelineWidget()->observeStopOnScrub(),
-                [this](bool value)
-                {
-                    _actions["StopOnScrub"]->setChecked(value);
-                });
-
-            p.displayOptionsObserver = feather_tk::ValueObserver<tl::timelineui::DisplayOptions>::create(
-                mainWindow->getTimelineWidget()->observeDisplayOptions(),
-                [this](const tl::timelineui::DisplayOptions& value)
-                {
-                    std::map<int, TimelineThumbnails> sizeToThumbnails;
-                    for (auto i : getTimelineThumbnailsEnums())
-                    {
-                        sizeToThumbnails[getTimelineThumbnailsSize(i)] = i;
-                    }
-                    auto j = sizeToThumbnails.find(value.thumbnailHeight);
-                    _actions["ThumbnailsNone"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::None == j->second);
-                    _actions["ThumbnailsSmall"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Small == j->second);
-                    _actions["ThumbnailsMedium"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Medium == j->second);
-                    _actions["ThumbnailsLarge"]->setChecked(j != sizeToThumbnails.end() && TimelineThumbnails::Large == j->second);
-                });
-
             p.settingsObserver = feather_tk::ValueObserver<TimelineSettings>::create(
                 app->getSettingsModel()->observeTimeline(),
                 [this](const TimelineSettings& value)
                 {
                     _actions["Minimize"]->setChecked(value.minimize);
+                    _actions["FrameView"]->setChecked(value.frameView);
+                    _actions["ScrollBars"]->setChecked(value.scrollBars);
+                    _actions["AutoScroll"]->setChecked(value.autoScroll);
+                    _actions["StopOnScrub"]->setChecked(value.stopOnScrub);
+                    _actions["ThumbnailsNone"]->setChecked(TimelineThumbnails::None == value.thumbnails);
+                    _actions["ThumbnailsSmall"]->setChecked(TimelineThumbnails::Small == value.thumbnails);
+                    _actions["ThumbnailsMedium"]->setChecked(TimelineThumbnails::Medium == value.thumbnails);
+                    _actions["ThumbnailsLarge"]->setChecked(TimelineThumbnails::Large == value.thumbnails);
                 });
         }
 
