@@ -52,7 +52,7 @@ namespace djv
             p.foregroundOptions = feather_tk::ObservableValue<tl::timeline::ForegroundOptions>::create(
                 foregroundOptions);
 
-            feather_tk::ImageType colorBuffer = feather_tk::ImageType::RGBA_U8;
+            feather_tk::ImageType colorBuffer = feather_tk::ImageType::RGBA_F32;
             std::string s = feather_tk::to_string(colorBuffer);
             p.settings->get("/Viewport/ColorBuffer", s);
             feather_tk::from_string(s, colorBuffer);
