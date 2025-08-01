@@ -503,15 +503,21 @@ namespace djv
 
             if (settings.minimize)
             {
-                p.splitter->setParent(nullptr);
-                p.splitter2->setParent(p.splitterLayout);
-                p.timelineWidget->setParent(p.splitterLayout);
+                if (p.splitter->getParent().lock())
+                {
+                    p.splitter->setParent(nullptr);
+                    p.splitter2->setParent(p.splitterLayout);
+                    p.timelineWidget->setParent(p.splitterLayout);
+                }
             }
             else
             {
-                p.splitter->setParent(p.splitterLayout);
-                p.splitter2->setParent(p.splitter);
-                p.timelineWidget->setParent(p.splitter);
+                if (!p.splitter->getParent().lock())
+                {
+                    p.splitter->setParent(p.splitterLayout);
+                    p.splitter2->setParent(p.splitter);
+                    p.timelineWidget->setParent(p.splitter);
+                }
             }
         }
 
