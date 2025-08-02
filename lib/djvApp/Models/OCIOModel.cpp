@@ -58,12 +58,14 @@ namespace djv
 
             tl::timeline::OCIOOptions options;
             _configUpdate(options);
+#if defined(TLRENDER_OCIO)
             if (p.ocioConfig)
             {
                 const char* display = p.ocioConfig->getDefaultDisplay();
                 options.display = display;
                 options.view = p.ocioConfig->getDefaultView(display);
             }
+#endif // TLRENDER_OCIO
             p.options = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create(options);
 
             p.data = feather_tk::ObservableValue<OCIOModelData>::create();
@@ -122,12 +124,14 @@ namespace djv
             if (changed)
             {
                 _configUpdate(options);
+#if defined(TLRENDER_OCIO)
                 if (p.ocioConfig)
                 {
                     const char* display = p.ocioConfig->getDefaultDisplay();
                     options.display = display;
                     options.view = p.ocioConfig->getDefaultView(display);
                 }
+#endif // TLRENDER_OCIO
             }
             p.options->setIfChanged(options);
             p.data->setIfChanged(_getData(options));
