@@ -6,7 +6,6 @@ Features:
 
 Fixes:
 * Make the default color buffer RGBA_F32.
-* Fix crash in timeline layout.
 
 
 ## 3.1.0
