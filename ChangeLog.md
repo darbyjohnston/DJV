@@ -6,6 +6,7 @@ Features:
 
 Fixes:
 * Make the default color buffer RGBA_F32.
+* More fixes for OpenColorIO settings.
 
 
 ## 3.1.0
