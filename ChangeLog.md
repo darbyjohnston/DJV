@@ -1,3 +1,10 @@
+## 3.1.2
+
+Features:
+* Library updates: OpenColorIO v2.4.2, OpenEXR v3.3.5, libpng v1.6.50,
+  libjpeg-turbo 3.1.1, SDL2 2.32.8, OpenSSL 3.5.2, curl 8_15_0
+
+
 ## 3.1.1
 
 Features:
