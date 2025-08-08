@@ -48,7 +48,7 @@ sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev mesa-utils libaso
 
 Install system packages (Rocky 9):
 ```
-sudo dnf install libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel mesa-libGL-devel
+sudo dnf install libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel mesa-libGL-devel pipewire-devel
 ```
 
 Clone the repository:
