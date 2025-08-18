@@ -144,7 +144,7 @@ namespace djv
                     static_cast<int>(feather_tk::KeyModifier::Shift) | static_cast<int>(feather_tk::commandKeyModifier)),
                 Shortcut("File/Next", "Next", feather_tk::Key::PageDown, static_cast<int>(feather_tk::KeyModifier::Control)),
                 Shortcut("File/Prev", "Previous", feather_tk::Key::PageUp, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("File/NextLayer", "Next layer", feather_tk::Key::Equal, static_cast<int>(feather_tk::KeyModifier::Control)),
+                Shortcut("File/NextLayer", "Next layer", feather_tk::Key::Equals, static_cast<int>(feather_tk::KeyModifier::Control)),
                 Shortcut("File/PrevLayer", "Previous layer", feather_tk::Key::Minus, static_cast<int>(feather_tk::KeyModifier::Control)),
                 Shortcut("File/Exit", "Exit", feather_tk::Key::Q, static_cast<int>(feather_tk::commandKeyModifier)),
 
@@ -196,7 +196,7 @@ namespace djv
 
                 Shortcut("View/Frame", "Frame", feather_tk::Key::Backspace),
                 Shortcut("View/ZoomReset", "Zoom reset", feather_tk::Key::_0),
-                Shortcut("View/ZoomIn", "Zoom in", feather_tk::Key::Equal),
+                Shortcut("View/ZoomIn", "Zoom in", feather_tk::Key::Equals),
                 Shortcut("View/ZoomOut", "Zoom out", feather_tk::Key::Minus),
                 Shortcut("View/Red", "Red", feather_tk::Key::R),
                 Shortcut("View/Green", "Green", feather_tk::Key::G),

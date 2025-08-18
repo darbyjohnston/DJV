@@ -68,9 +68,7 @@ namespace djv
             std::vector<std::string> labels;
             for (auto d : p.displayScales)
             {
-                labels.push_back(0.F == d ?
-                    std::string("Automatic") :
-                    feather_tk::Format("{0}").arg(d).operator std::string());
+                labels.push_back(feather_tk::Format("{0}").arg(d).operator std::string());
             }
             p.displayScaleComboBox = feather_tk::ComboBox::create(context, labels);
             p.displayScaleComboBox->setHStretch(feather_tk::Stretch::Expanding);

@@ -242,7 +242,7 @@ namespace djv
             {
                 switch (event.key)
                 {
-                case feather_tk::Key::Enter:
+                case feather_tk::Key::Return:
                     event.accept = true;
                     click();
                     break;

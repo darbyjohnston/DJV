@@ -189,7 +189,7 @@ namespace djv
         //! Style settings.
         struct StyleSettings
         {
-            float displayScale = 0.F;
+            float displayScale = 1.F;
             feather_tk::ColorControls colorControls;
             feather_tk::ColorStyle colorStyle = feather_tk::ColorStyle::Dark;
             std::map<feather_tk::ColorRole, feather_tk::Color4F> customColorRoles = feather_tk::getCustomColorRoles();

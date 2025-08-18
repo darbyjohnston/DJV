@@ -1,8 +1,18 @@
-## 3.1.2
+## 3.2.0
 
 Features:
-* Library updates: OpenColorIO v2.4.2, OpenEXR v3.3.5, libpng v1.6.50,
-  libjpeg-turbo 3.1.1, SDL2 2.32.8, OpenSSL 3.5.2, curl 8_15_0, freetype 2-13-3
+* Library updates:
+    - OpenColorIO v2.4.2
+    - OpenEXR v3.3.5
+    - libpng v1.6.50,
+    - libjpeg-turbo 3.1.1
+    - SDL2 2.32.8
+    - OpenSSL 3.5.2
+    - curl 8_15_0
+    - freetype 2-13-3
+
+Fixes:
+* Fixes for building with CMake 4.x versions.
 
 
 ## 3.1.1

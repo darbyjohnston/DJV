@@ -200,19 +200,11 @@ namespace djv
                 event.accept = true;
                 releaseKeyFocus();
                 break;
-            case feather_tk::Key::Enter: break;
+            case feather_tk::Key::Return: break;
             case feather_tk::Key::Tab: break;
             case feather_tk::Key::CapsLock: break;
             case feather_tk::Key::ScrollLock: break;
             case feather_tk::Key::NumLock: break;
-            case feather_tk::Key::LeftShift: break;
-            case feather_tk::Key::LeftControl: break;
-            case feather_tk::Key::LeftAlt: break;
-            case feather_tk::Key::LeftSuper: break;
-            case feather_tk::Key::RightShift: break;
-            case feather_tk::Key::RightControl: break;
-            case feather_tk::Key::RightAlt: break;
-            case feather_tk::Key::RightSuper: break;
             default:
                 if (hasKeyFocus())
                 {

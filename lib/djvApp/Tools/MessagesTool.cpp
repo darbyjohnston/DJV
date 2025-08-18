@@ -4,8 +4,9 @@
 
 #include <djvApp/Tools/MessagesTool.h>
 
+#include <djvApp/App.h>
+
 #include <feather-tk/ui/Divider.h>
-#include <feather-tk/ui/IClipboard.h>
 #include <feather-tk/ui/IWindow.h>
 #include <feather-tk/ui/Label.h>
 #include <feather-tk/ui/RowLayout.h>
@@ -74,18 +75,16 @@ namespace djv
             p.clearButton->setParent(hLayout);
             _setWidget(p.layout);
 
+            std::weak_ptr<App> appWeak(app);
             p.copyButton->setClickedCallback(
-                [this]
+                [this, appWeak]
                 {
-                    if (auto window = getWindow())
+                    if (auto app = appWeak.lock())
                     {
-                        if (auto clipboard = window->getClipboard())
-                        {
-                            const std::string text = feather_tk::join(
-                                { std::begin(_p->messages), std::end(_p->messages) },
-                                '\n');
-                            clipboard->setText(text);
-                        }
+                        const std::string text = feather_tk::join(
+                            { std::begin(_p->messages), std::end(_p->messages) },
+                            '\n');
+                        app->setClipboard(text);
                     }
                 });
 
