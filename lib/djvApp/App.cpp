@@ -569,7 +569,10 @@ namespace djv
         {
             FEATHER_TK_P();
 
-            p.settingsModel = SettingsModel::create(_context, p.settings);
+            p.settingsModel = SettingsModel::create(
+                _context,
+                p.settings,
+                getDefaultDisplayScale());
             if (getColorStyleCmdLineOption()->hasValue() ||
                 getDisplayScaleCmdLineOption()->hasValue())
             {

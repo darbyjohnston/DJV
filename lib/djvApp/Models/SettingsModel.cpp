@@ -383,6 +383,7 @@ namespace djv
         {
             std::weak_ptr<feather_tk::Context> context;
             std::shared_ptr<feather_tk::Settings> settings;
+            float defaultDisplayScale = 1.F;
 
             std::shared_ptr<feather_tk::ObservableValue<AdvancedSettings> > advanced;
             std::shared_ptr<feather_tk::ObservableValue<tl::timeline::PlayerCacheOptions> > cache;
@@ -405,12 +406,14 @@ namespace djv
 
         void SettingsModel::_init(
             const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<feather_tk::Settings>& settings,
+            float defaultDisplayScale)
         {
             FEATHER_TK_P();
 
             p.context = context;
             p.settings = settings;
+            p.defaultDisplayScale = defaultDisplayScale;
 
             AdvancedSettings advanced;
             settings->getT("/Advanced", advanced);
@@ -450,6 +453,7 @@ namespace djv
             p.mouse = feather_tk::ObservableValue<MouseSettings>::create(mouse);
 
             StyleSettings style;
+            style.displayScale = defaultDisplayScale;
             settings->getT("/Style", style);
             p.style = feather_tk::ObservableValue<StyleSettings>::create(style);
 
@@ -485,16 +489,18 @@ namespace djv
 
         std::shared_ptr<SettingsModel> SettingsModel::create(
             const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<feather_tk::Settings>& settings,
+            float defaultDisplayScale)
         {
             auto out = std::shared_ptr<SettingsModel>(new SettingsModel);
-            out->_init(context, settings);
+            out->_init(context, settings, defaultDisplayScale);
             return out;
         }
 
         void SettingsModel::save()
         {
             FEATHER_TK_P();
+
             p.settings->setT("/Advanced", p.advanced->get());
             p.settings->setT("/Cache", p.cache->get());
             p.settings->setT("/Export", p.exportSettings->get());
@@ -529,6 +535,7 @@ namespace djv
 
         void SettingsModel::reset()
         {
+            FEATHER_TK_P();
             setAdvanced(AdvancedSettings());
             setCache(tl::timeline::PlayerCacheOptions());
             setExport(ExportSettings());
@@ -539,7 +546,9 @@ namespace djv
             miscSettings.showSetup = false;
             setMisc(miscSettings);
             setMouse(MouseSettings());
-            setStyle(StyleSettings());
+            StyleSettings style;
+            style.displayScale = p.defaultDisplayScale;
+            setStyle(style);
             setTimeline(TimelineSettings());
             setWindow(WindowSettings());
 #if defined(TLRENDER_FFMPEG)

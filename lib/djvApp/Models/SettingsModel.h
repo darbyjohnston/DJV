@@ -260,7 +260,8 @@ namespace djv
         protected:
             void _init(
                 const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<feather_tk::Settings>&,
+                float defaultDisplayScale);
 
             SettingsModel();
 
@@ -270,7 +271,8 @@ namespace djv
             //! Create a new model.
             static std::shared_ptr<SettingsModel> create(
                 const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<feather_tk::Settings>&,
+                float defaultDisplayScale);
 
             //! Save the settings. Settings are also saved on exit.
             void save();
