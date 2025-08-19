@@ -450,8 +450,6 @@ install(
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenTimelineIO.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenUSD.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_pystring.txt
-    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_Qt.txt
-    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_SDL2.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_stb.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_tlRender.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_yaml-cpp.txt
