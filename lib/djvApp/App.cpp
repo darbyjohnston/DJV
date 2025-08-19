@@ -501,31 +501,6 @@ namespace djv
 
                 if (value)
                 {
-                    //! \bug macOS and Windows do not seem to like having an
-                    //! application with normal and fullscreen windows?
-                    int secondaryScreen = -1;
-#if defined(__APPLE__)
-#elif defined(_WINDOWS)
-#else
-                    std::vector<int> screens;
-                    for (int i = 0; i < getScreenCount(); ++i)
-                    {
-                        screens.push_back(i);
-                    }
-                    auto i = std::find(
-                        screens.begin(),
-                        screens.end(),
-                        p.mainWindow->getScreen());
-                    if (i != screens.end())
-                    {
-                        screens.erase(i);
-                    }
-                    if (!screens.empty())
-                    {
-                        secondaryScreen = screens.front();
-                    }
-#endif // __APPLE__
-
                     p.secondaryWindow = SecondaryWindow::create(
                         _context,
                         std::dynamic_pointer_cast<App>(shared_from_this()));
@@ -538,10 +513,6 @@ namespace djv
                             p.secondaryWindow.reset();
                         });
                     addWindow(p.secondaryWindow);
-                    if (secondaryScreen != -1)
-                    {
-                        p.secondaryWindow->setFullScreen(true, secondaryScreen);
-                    }
                     p.secondaryWindow->show();
                 }
             }
