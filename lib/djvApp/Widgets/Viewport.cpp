@@ -39,8 +39,8 @@ namespace djv
             tl::timeline::DisplayOptions displayOptions;
             feather_tk::Color4F colorPicker;
             tl::timeline::PlayerCacheInfo cacheInfo;
-            MouseActionBinding colorPickerBinding = MouseActionBinding(0);
-            MouseActionBinding frameShuttleBinding = MouseActionBinding(0, feather_tk::KeyModifier::Shift);
+            MouseActionBinding colorPickerBinding = MouseActionBinding(1);
+            MouseActionBinding frameShuttleBinding = MouseActionBinding(1, feather_tk::KeyModifier::Shift);
 
             std::shared_ptr<feather_tk::Label> fileNameLabel;
             std::shared_ptr<feather_tk::Label> timeLabel;

@@ -163,10 +163,10 @@ namespace djv
         {
             std::map<MouseAction, MouseActionBinding> bindings =
             {
-                { MouseAction::ColorPicker, MouseActionBinding(0) },
-                { MouseAction::PanView, MouseActionBinding(0, feather_tk::KeyModifier::Control) },
-                { MouseAction::FrameShuttle, MouseActionBinding(0, feather_tk::KeyModifier::Shift) },
-                { MouseAction::CompareWipe, MouseActionBinding(0, feather_tk::KeyModifier::Alt) }
+                { MouseAction::ColorPicker, MouseActionBinding(1) },
+                { MouseAction::PanView, MouseActionBinding(1, feather_tk::KeyModifier::Control) },
+                { MouseAction::FrameShuttle, MouseActionBinding(1, feather_tk::KeyModifier::Shift) },
+                { MouseAction::CompareWipe, MouseActionBinding(1, feather_tk::KeyModifier::Alt) }
             };
 
             float wheelScale = 1.1F;

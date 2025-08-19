@@ -140,7 +140,7 @@ namespace djv
             const std::shared_ptr<App>& app)
         {
             const WindowSettings& settings = app->getSettingsModel()->getWindow();
-            Window::_init(context, app, "djv", settings.size);
+            Window::_init(context, "djv", settings.size);
             FEATHER_TK_P();
 
             auto iconSystem = context->getSystem<feather_tk::IconSystem>();

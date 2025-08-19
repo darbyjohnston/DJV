@@ -34,7 +34,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<feather_tk::Window>& shared)
         {
-            Window::_init(context, app, "djv 2", feather_tk::Size2I(1920, 1080));
+            Window::_init(context, "djv 2", feather_tk::Size2I(1920, 1080));
             FEATHER_TK_P();
 
             p.viewport = tl::timelineui::Viewport::create(context);

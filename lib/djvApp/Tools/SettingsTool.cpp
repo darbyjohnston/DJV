@@ -629,6 +629,7 @@ namespace djv
             mouseActionLabels.push_back("Color picker");
             mouseActionLabels.push_back("Frame shuttle");
 
+            p.buttonLabels.push_back("None");
             p.buttonLabels.push_back("Left");
             p.buttonLabels.push_back("Right");
             p.buttonLabels.push_back("Middle");
