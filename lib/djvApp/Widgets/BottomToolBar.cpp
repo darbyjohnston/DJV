@@ -298,6 +298,7 @@ namespace djv
         void BottomToolBar::focusCurrentFrame()
         {
             _p->currentTimeEdit->takeKeyFocus();
+            _p->currentTimeEdit->selectAll();
         }
 
         void BottomToolBar::setGeometry(const feather_tk::Box2I& value)
