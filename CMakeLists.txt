@@ -31,6 +31,16 @@ if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     add_definitions(-DFEATHER_TK_ASSERT)
 endif()
 
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
+endif()
+
+if(APPLE)
+    set(CMAKE_FIND_FRAMEWORK LAST)
+endif()
+
 if(WIN32)
 elseif(APPLE)
     set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
@@ -39,6 +49,8 @@ elseif(APPLE)
 else()
     set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 endif()
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/lib)
 
