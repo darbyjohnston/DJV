@@ -17,6 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -24,14 +25,14 @@ jobs:
 
     - name: Setup environment
       run: |
-        echo "$PWD/build/install/bin" >> $GITHUB_PATH
-        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        echo "$PWD/install-Debug/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/install-Debug/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/install-Debug/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
 
     - name: Build DJV
-      run: bash etc/Linux/linux-build-gha.sh Debug
+      run: bash DJV/etc/Linux/linux-build-gha.sh Debug
 
   linux-gles2-build:
     runs-on: ubuntu-latest
@@ -47,6 +48,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -54,14 +56,14 @@ jobs:
 
     - name: Setup environment
       run: |
-        echo "$PWD/build/install/bin" >> $GITHUB_PATH
-        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        echo "$PWD/install-Debug/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/install-Debug/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/install-Debug/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
 
     - name: Build DJV
-      run: bash etc/Linux/linux-build-gha.sh Debug
+      run: bash DJV/etc/Linux/linux-build-gha.sh Debug
 
   linux-package:
     runs-on: ubuntu-22.04
@@ -77,6 +79,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -84,25 +87,22 @@ jobs:
 
     - name: Setup environment
       run: |
-        echo "$PWD/build/install/bin" >> $GITHUB_PATH
-        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        echo "$PWD/install-Release/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/install-Release/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/install-Release/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
 
     - name: Build DJV
-      run: bash etc/Linux/linux-build-gha.sh Release
+      run: bash DJV/etc/Linux/linux-build-gha.sh Release
 
     - name: Package
-      run: |
-        cd build
-        cd DJV/src/DJV-build
-        cmake --build . -j 4 --target package
+      run: cmake --build build-Release -j 4 --target package
 
     - uses: actions/upload-artifact@v4
       with:
         name: DJV-Linux-Packages
-        path: build/DJV/src/DJV-build/DJV-*.tar.gz
+        path: build-Releae/DJV-*.tar.gz
 
   macos-13-build:
     runs-on: macos-13
@@ -120,6 +120,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -128,16 +129,16 @@ jobs:
     # \bug DYLD_LIBRARY_PATH is not being set here?
     - name: Setup environment
       run: |
-        echo "$PWD/build/install/bin" >> $GITHUB_PATH
-        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        echo "$PWD/install-Debug/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/install-Debug/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/install-Debug/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
 
     - name: Build DJV
       run: |
-        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
-        bash etc/macOS/macos-build-gha.sh Debug
+        export DYLD_LIBRARY_PATH=$PWD/install-Debug/lib:$DYLD_LIBRARY_PATH
+        bash DJV/etc/macOS/macos-build-gha.sh Debug
 
   macos-build:
     runs-on: macos-latest
@@ -155,6 +156,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -163,16 +165,16 @@ jobs:
     # \bug DYLD_LIBRARY_PATH is not being set here?
     - name: Setup environment
       run: |
-        echo "$PWD/build/install/bin" >> $GITHUB_PATH
-        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        echo "$PWD/install-Debug/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/install-Debug/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/install-Debug/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
 
     - name: Build DJV
       run: |
-        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
-        bash etc/macOS/macos-build-gha.sh Debug
+        export DYLD_LIBRARY_PATH=$PWD/install-Debug/lib:$DYLD_LIBRARY_PATH
+        bash DJV/etc/macOS/macos-build-gha.sh Debug
 
   macos-package:
     runs-on: macos-latest
@@ -190,6 +192,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -198,27 +201,24 @@ jobs:
     # \bug DYLD_LIBRARY_PATH is not being set here?
     - name: Setup environment
       run: |
-        echo "$PWD/build/install/bin" >> $GITHUB_PATH
-        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
-        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        echo "$PWD/install-Release/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/install-Release/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/install-Release/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
 
     - name: Build DJV
       run: |
-        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
-        bash etc/macOS/macos-build-gha.sh Release
+        export DYLD_LIBRARY_PATH=$PWD/install-Release/lib:$DYLD_LIBRARY_PATH
+        bash DJV/etc/macOS/macos-build-gha.sh Release
 
     - name: Package
-      run: |
-        cd build
-        cd DJV/src/DJV-build
-        cmake --build . -j 4 --target package
+      run: cmake --build build-Release -j 4 --target package
 
     - uses: actions/upload-artifact@v4
       with:
         name: DJV-macOS-Packages
-        path: build/DJV/src/DJV-build/DJV-*.dmg
+        path: build-Release/DJV-*.dmg
 
   windows-build:
     runs-on: windows-latest
@@ -234,6 +234,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -244,16 +245,15 @@ jobs:
     - name: Setup environment
       shell: cmd
       run: |
-        echo %CD%\build\install\bin>> %GITHUB_PATH%
-        echo %CD%\build\install\lib>> %GITHUB_PATH%
+        echo %CD%\install-Debug\bin>> %GITHUB_PATH%
+        echo %CD%\install-Debug\lib>> %GITHUB_PATH%
         echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
         cmake --version
         python --version
         
     - name: Build DJV
       shell: cmd
-      run: |
-        etc\Windows\windows-build-gha.bat Debug
+      run: DJV\etc\Windows\windows-build-gha.bat Debug
 
   windows-package:
     runs-on: windows-latest
@@ -269,6 +269,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: DJV
         submodules: recursive
     - uses: actions/setup-python@v5
       with:
@@ -279,27 +280,23 @@ jobs:
     - name: Setup environment
       shell: cmd
       run: |
-        echo %CD%\build\install\bin>> %GITHUB_PATH%
-        echo %CD%\build\install\lib>> %GITHUB_PATH%
+        echo %CD%\install-Release\bin>> %GITHUB_PATH%
+        echo %CD%\install-Release\lib>> %GITHUB_PATH%
         echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
         cmake --version
         python --version
 
     - name: Build DJV
       shell: cmd
-      run: |
-        etc\Windows\windows-build-gha.bat Release
+      run: DJV\etc\Windows\windows-build-gha.bat Release
 
     - name: Package
       shell: cmd
-      run: |
-        cd build
-        cd DJV\src\DJV-build
-        cmake --build . -j 4 --target package
+      run: cmake --build build-Release -j 4 --target package
 
     - uses: actions/upload-artifact@v4
       with:
         name: DJV-Windows-Packages
         path: |
-          build\DJV\src\DJV-build\DJV-*.exe
-          build\DJV\src\DJV-build\DJV-*.zip
+          build-Release\DJV-*.exe
+          build-Release\DJV-*.zip

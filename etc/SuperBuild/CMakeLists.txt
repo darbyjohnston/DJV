@@ -4,7 +4,9 @@ cmake_policy(SET CMP0097 NEW)
 
 project(DJV-SuperBuild)
 
-# Build options.
+#-------------------------------------------------------------------------------
+# Build options
+
 if(APPLE)
     set(DJV_IGNORE_PREFIX_PATH_DEFAULT /opt/homebrew)
 endif()
@@ -19,8 +21,10 @@ set(TLRENDER_BMD FALSE CACHE BOOL "Enable support for Blackmagic Design devices"
 set(TLRENDER_BMD_SDK "" CACHE PATH "Full path to the Blackmagic Design SDK")
 set(feather_tk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
 
-# Configure.
-#
+
+#-------------------------------------------------------------------------------
+# Internal configuration
+
 # \bug Add the OpenColorIO cmake modules.
 list(PREPEND CMAKE_MODULE_PATH
     ${PROJECT_SOURCE_DIR}/../../cmake/Modules
@@ -72,4 +76,3 @@ string(REPLACE ";" " " DJV_EXTERNAL_ARGS_TMP "${DJV_EXTERNAL_ARGS}")
 message("DJV_EXTERNAL_ARGS: " ${DJV_EXTERNAL_ARGS_TMP})
 
 include(BuildtlRender)
-include(BuildDJV)

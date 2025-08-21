@@ -18,9 +18,14 @@ project(
     HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES CXX)
 
+#-------------------------------------------------------------------------------
+# Internal configuration
+
 list(PREPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
-set(CMAKE_CXX_STANDARD 17)
+if(NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 17)
+endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     add_definitions(-DFEATHER_TK_ASSERT)
@@ -35,12 +40,16 @@ else()
     set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
+include_directories(${CMAKE_SOURCE_DIR}/lib)
+
+#-------------------------------------------------------------------------------
+# Dependencies
+
 find_package(tlRender REQUIRED)
 
-include(djvPackage)
-include(InstallRequiredSystemLibraries)
+#-------------------------------------------------------------------------------
+# Sub-directories
 
-include_directories(${CMAKE_SOURCE_DIR}/lib)
 add_subdirectory(lib)
 add_subdirectory(tests)
 add_subdirectory(bin)
@@ -50,4 +59,11 @@ if(WIN32)
     add_subdirectory(etc/Windows)
 endif()
 
-include(CPack)
+#-------------------------------------------------------------------------------
+# Packaging
+
+if(CMAKE_BUILD_TYPE MATCHES "^Release$")
+    include(djvPackage)
+    include(CPack)
+    include(InstallRequiredSystemLibraries)
+endif()
