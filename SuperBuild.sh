@@ -14,12 +14,4 @@ export TLRENDER_FFMPEG_MINIMAL=OFF
 export TLRENDER_USD=OFF
 export FEATHER_TK_API=GL_4_1
 
-bash DJV/etc/Linux/linux-build-gha.bat $BUILD_TYPE
-
-cmake \
-    -S DJV/etc/SuperBuild \
-    -B superbuild-$BUILD_TYPE \
-    -DCMAKE_INSTALL_PREFIX=$PWD/install-$BUILD_TYPE \
-    -DCMAKE_PREFIX_PATH=$PWD/install-$BUILD_TYPE \
-    -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-cmake --build superbuild-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE
+DJV/etc/Linux/linux-build-gha.sh $BUILD_TYPE

@@ -55,17 +55,15 @@ Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/DJV.git
 ```
-Run CMake with the super build script:
+
+Run the super build script:
 ```
-cmake -S DJV/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
+DJV/SuperBuild.sh
 ```
-Start the build:
-```
-cmake --build Release -j 4 --config Release
-```
+
 Run the application:
 ```
-./Release/DJV/src/DJV-build/bin/djv/djv
+./build-Release/bin/djv/djv
 ```
 
 
@@ -79,26 +77,15 @@ Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/DJV.git
 ```
-Run CMake with the super build script:
+
+Run the super build script:
 ```
-cmake -S DJV/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
-```
-Start the build:
-```
-cmake --build Release -j 4 --config Release
-```
-Run the application:
-```
-./Release/DJV/src/DJV-build/bin/djv/djv
+DJV/SuperBuild.sh
 ```
 
-The CMake variable `CMAKE_OSX_ARCHITECTURES` can be used to specify the build
-architecture:
+Run the application:
 ```
--DCMAKE_OSX_ARCHITECTURES=x86_64
-```
-```
--DCMAKE_OSX_ARCHITECTURES=arm64
+./build-Release/bin/djv/djv
 ```
 
 These aliases are convenient for switching between architectures:
@@ -125,19 +112,16 @@ Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/DJV.git
 ```
-Run CMake with the super build script:
+
+Run the super build script:
 ```
-cmake -S DJV\etc\SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=%CD%\Release\install -DCMAKE_PREFIX_PATH=%CD%\Release\install -DCMAKE_BUILD_TYPE=Release
-```
-Start the build:
-```
-cmake --build Release -j 4 --config Release
-```
-Run the application:
-```
-set PATH=%CD%\Release\install\bin;%PATH%
-```
-```
-.\Release\DJV\src\DJV-build\bin\djv\Release\djv
+DJV\SuperBuild.bat
 ```
 
+Run the application:
+```
+set PATH=%CD%\install-Release\bin;%PATH%
+```
+```
+.\build-Release\bin\djv\Release\djv
+```
