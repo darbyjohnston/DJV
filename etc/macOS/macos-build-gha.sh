@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -x
 
@@ -17,7 +17,7 @@ cmake \
     -DTLRENDER_FFMPEG=$TLRENDER_FFMPEG \
     -DTLRENDER_FFMPEG_MINIMAL=$TLRENDER_FFMPEG_MINIMAL \
     -DTLRENDER_USD=$TLRENDER_USD \
-    -DFEATHER_TK_API=$FEATHER_TK_API
+    -Dfeather_tk_API=$FEATHER_TK_API
 cmake --build superbuild-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE
 
 cmake \
@@ -30,5 +30,5 @@ cmake \
     -DTLRENDER_OCIO=$TLRENDER_OCIO \
     -DTLRENDER_FFMPEG=$TLRENDER_FFMPEG \
     -DTLRENDER_USD=$TLRENDER_USD \
-    -DFEATHER_TK_API=$FEATHER_TK_API
+    -Dfeather_tk_API=$FEATHER_TK_API
 cmake --build build-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE

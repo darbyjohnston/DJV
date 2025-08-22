@@ -459,7 +459,7 @@ namespace djv
                     p.exportData->imageOptions = app->getViewportModel()->getImageOptions();
                     p.exportData->displayOptions = app->getViewportModel()->getDisplayOptions();
                     p.exportData->colorBuffer = app->getViewportModel()->getColorBuffer();
-                    p.exportData->render = tl::timeline_gl::Render::create(context);
+                    p.exportData->render = tl::timeline_gl::Render::create(context->getLogSystem());
                     feather_tk::gl::OffscreenBufferOptions offscreenBufferOptions;
                     offscreenBufferOptions.color = p.exportData->colorBuffer;
                     p.exportData->buffer = feather_tk::gl::OffscreenBuffer::create(

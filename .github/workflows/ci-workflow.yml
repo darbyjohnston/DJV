@@ -30,9 +30,10 @@ jobs:
         echo "PYTHONPATH=$PWD/install-Debug/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
+        sh DJV/etc/Linux/linux-setup-gha.sh
 
     - name: Build DJV
-      run: bash DJV/etc/Linux/linux-build-gha.sh Debug
+      run: sh DJV/etc/Linux/linux-build-gha.sh Debug
 
   linux-gles2-build:
     runs-on: ubuntu-latest
@@ -61,9 +62,11 @@ jobs:
         echo "PYTHONPATH=$PWD/install-Debug/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
+        python --version
+        sh DJV/etc/Linux/linux-setup-gha.sh
 
     - name: Build DJV
-      run: bash DJV/etc/Linux/linux-build-gha.sh Debug
+      run: sh DJV/etc/Linux/linux-build-gha.sh Debug
 
   linux-package:
     runs-on: ubuntu-22.04
@@ -92,9 +95,11 @@ jobs:
         echo "PYTHONPATH=$PWD/install-Release/lib:$PYTHONPATH" >> $GITHUB_ENV
         cmake --version
         python --version
+        python --version
+        sh DJV/etc/Linux/linux-setup-gha.sh
 
     - name: Build DJV
-      run: bash DJV/etc/Linux/linux-build-gha.sh Release
+      run: sh DJV/etc/Linux/linux-build-gha.sh Release
 
     - name: Package
       run: cmake --build build-Release -j 4 --target package
@@ -138,7 +143,7 @@ jobs:
     - name: Build DJV
       run: |
         export DYLD_LIBRARY_PATH=$PWD/install-Debug/lib:$DYLD_LIBRARY_PATH
-        bash DJV/etc/macOS/macos-build-gha.sh Debug
+        sh DJV/etc/macOS/macos-build-gha.sh Debug
 
   macos-build:
     runs-on: macos-latest
@@ -174,7 +179,7 @@ jobs:
     - name: Build DJV
       run: |
         export DYLD_LIBRARY_PATH=$PWD/install-Debug/lib:$DYLD_LIBRARY_PATH
-        bash DJV/etc/macOS/macos-build-gha.sh Debug
+        sh DJV/etc/macOS/macos-build-gha.sh Debug
 
   macos-package:
     runs-on: macos-latest
@@ -210,7 +215,7 @@ jobs:
     - name: Build DJV
       run: |
         export DYLD_LIBRARY_PATH=$PWD/install-Release/lib:$DYLD_LIBRARY_PATH
-        bash DJV/etc/macOS/macos-build-gha.sh Release
+        sh DJV/etc/macOS/macos-build-gha.sh Release
 
     - name: Package
       run: cmake --build build-Release -j 4 --target package

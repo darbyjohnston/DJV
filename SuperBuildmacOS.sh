@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -x
 
@@ -14,4 +14,4 @@ export TLRENDER_FFMPEG_MINIMAL=OFF
 export TLRENDER_USD=OFF
 export FEATHER_TK_API=GL_4_1
 
-DJV/etc/Linux/linux-build-gha.sh $BUILD_TYPE
+sh DJV/etc/macOS/macos-build-gha.sh $BUILD_TYPE
