@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 set(TLRENDER_GIT_REPOSITORY "https://github.com/darbyjohnston/tlRender.git")
-set(TLRENDER_GIT_TAG "d61ab0694d557abe7891cf0325a4eecb98a20979")
+set(TLRENDER_GIT_TAG "bdef9e8551afc59345e3a46f414849a288d89a78")
 
 set(TLRENDER_DEPS)
 set(TLRENDER_ARGS
@@ -20,8 +20,8 @@ set(TLRENDER_ARGS
     ${DJV_EXTERNAL_ARGS})
 
 ExternalProject_Add(
-    tlRender-SuperBuild
-    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/tlRender-SuperBuild
+    tlRender-sb
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/tlRender-sb
     DEPENDS ${TLRENDER_DEPS}
     GIT_REPOSITORY ${TLRENDER_GIT_REPOSITORY}
     GIT_TAG ${TLRENDER_GIT_TAG}
@@ -33,7 +33,7 @@ ExternalProject_Add(
 ExternalProject_Add(
     tlRender
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/tlRender
-    DEPENDS tlRender-SuperBuild
+    DEPENDS tlRender-sb
     GIT_REPOSITORY ${TLRENDER_GIT_REPOSITORY}
     GIT_TAG ${TLRENDER_GIT_TAG}
     LIST_SEPARATOR |
