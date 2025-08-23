@@ -4,7 +4,7 @@ set JOBS=4
 
 cmake ^
     -S DJV\etc\SuperBuild ^
-    -B superbuild-%BUILD_TYPE% ^
+    -B sb-%BUILD_TYPE% ^
     -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ^
     -DCMAKE_INSTALL_PREFIX=install-%BUILD_TYPE% ^
     -DCMAKE_PREFIX_PATH=install-%BUILD_TYPE% ^
@@ -14,7 +14,7 @@ cmake ^
     -DTLRENDER_FFMPEG_MINIMAL=%TLRENDER_FFMPEG_MINIMAL% ^
     -DTLRENDER_USD=%TLRENDER_USD% ^
     -Dfeather_tk_API=%FEATHER_TK_API%
-cmake --build superbuild-%BUILD_TYPE% -j %JOBS% --config %BUILD_TYPE%
+cmake --build sb-%BUILD_TYPE% -j %JOBS% --config %BUILD_TYPE%
 
 cmake ^
     -S DJV ^
