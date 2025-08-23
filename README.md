@@ -63,7 +63,7 @@ DJV/SuperBuild.sh
 
 Run the application:
 ```
-./build-Release/bin/djv/djv
+build-Release/bin/djv/djv DJV/etc/SampleData/BART_2021-02-07.0000.jpg
 ```
 
 
@@ -85,7 +85,7 @@ DJV/SuperBuild.sh
 
 Run the application:
 ```
-./build-Release/bin/djv/djv
+build-Release/bin/djv/djv DJV/etc/SampleData/BART_2021-02-07.0000.jpg
 ```
 
 These aliases are convenient for switching between architectures:
@@ -123,5 +123,5 @@ Run the application:
 set PATH=%CD%\install-Release\bin;%PATH%
 ```
 ```
-.\build-Release\bin\djv\Release\djv
+build-Release\bin\djv\Release\djv DJV\etc\SampleData\BART_2021-02-07.0000.jpg
 ```
