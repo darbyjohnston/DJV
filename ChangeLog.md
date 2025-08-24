@@ -4,6 +4,7 @@ Features:
 * Library updates:
     - OpenColorIO v2.4.2
     - OpenEXR v3.3.5
+    - FFmpeg 8.0
     - libpng v1.6.50,
     - libjpeg-turbo 3.1.1
     - SDL2 2.32.8
