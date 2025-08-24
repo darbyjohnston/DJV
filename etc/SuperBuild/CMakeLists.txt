@@ -30,22 +30,25 @@ list(PREPEND CMAKE_MODULE_PATH
     ${PROJECT_SOURCE_DIR}/../../cmake/Modules
     ${PROJECT_SOURCE_DIR}/cmake/Modules
     ${CMAKE_INSTALL_PREFIX}/share/OpenColorIO/cmake/modules)
+
 if(NOT CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 17)
 endif()
+
 if(NOT BUILD_SHARED_LIBS)
     set(BUILD_SHARED_LIBS OFF)
 endif()
+
 if(DJV_IGNORE_PREFIX_PATH)
     set(CMAKE_IGNORE_PREFIX_PATH ${DJV_IGNORE_PREFIX_PATH})
 endif()
-if(WIN32)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
-endif()
+
 if(APPLE)
     set(CMAKE_FIND_FRAMEWORK LAST)
 endif()
+
 if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
 endif()
