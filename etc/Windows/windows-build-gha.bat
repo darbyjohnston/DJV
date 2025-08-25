@@ -4,10 +4,10 @@ set JOBS=4
 
 cmake ^
     -S DJV\etc\SuperBuild ^
-    -B sb-%BUILD_TYPE% ^
+    -B sbuild-%BUILD_TYPE% ^
     -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ^
-    -DCMAKE_INSTALL_PREFIX=install-%BUILD_TYPE% ^
-    -DCMAKE_PREFIX_PATH=install-%BUILD_TYPE% ^
+    -DCMAKE_INSTALL_PREFIX=%CD%/install-%BUILD_TYPE% ^
+    -DCMAKE_PREFIX_PATH=%CD%/install-%BUILD_TYPE% ^
     -DTLRENDER_NET=%TLRENDER_NET% ^
     -DTLRENDER_OCIO=%TLRENDER_OCIO% ^
     -DTLRENDER_FFMPEG=%TLRENDER_FFMPEG% ^
@@ -16,14 +16,14 @@ cmake ^
     -DTLRENDER_BMD=%TLRENDER_BMD% ^
     -DTLRENDER_BMD_SDK=%TLRENDER_BMD_SDK% ^
     -Dfeather_tk_API=%FEATHER_TK_API%
-cmake --build sb-%BUILD_TYPE% -j %JOBS% --config %BUILD_TYPE%
+cmake --build sbuild-%BUILD_TYPE% -j %JOBS% --config %BUILD_TYPE%
 
 cmake ^
     -S DJV ^
     -B build-%BUILD_TYPE% ^
     -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ^
-    -DCMAKE_INSTALL_PREFIX=install-%BUILD_TYPE% ^
-    -DCMAKE_PREFIX_PATH=install-%BUILD_TYPE% ^
+    -DCMAKE_INSTALL_PREFIX=%CD%/install-%BUILD_TYPE% ^
+    -DCMAKE_PREFIX_PATH=%CD%/install-%BUILD_TYPE% ^
     -DTLRENDER_NET=%TLRENDER_NET% ^
     -DTLRENDER_OCIO=%TLRENDER_OCIO% ^
     -DTLRENDER_FFMPEG=%TLRENDER_FFMPEG% ^

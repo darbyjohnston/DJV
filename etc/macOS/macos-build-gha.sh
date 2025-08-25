@@ -8,7 +8,7 @@ JOBS=4
 
 cmake \
     -S DJV/etc/SuperBuild \
-    -B sb-$BUILD_TYPE \
+    -B sbuild-$BUILD_TYPE \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DCMAKE_INSTALL_PREFIX=$PWD/install-$BUILD_TYPE \
     -DCMAKE_PREFIX_PATH=$PWD/install-$BUILD_TYPE \
@@ -22,7 +22,7 @@ cmake \
     -DTLRENDER_BMD=$TLRENDER_BMD \
     -DTLRENDER_BMD_SDK=$TLRENDER_BMD_SDK \
     -Dfeather_tk_API=$FEATHER_TK_API
-cmake --build sb-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE
+cmake --build sbuild-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE
 
 cmake \
     -S DJV \
