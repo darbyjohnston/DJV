@@ -35,7 +35,9 @@ if(WIN32)
             ${CMAKE_INSTALL_PREFIX}/bin/MaterialXRenderHw.dll
             ${CMAKE_INSTALL_PREFIX}/bin/MaterialXRenderOsl.dll)
         set(TBB_DLLS
-            ${CMAKE_INSTALL_PREFIX}/bin/tbb.dll)
+            ${CMAKE_INSTALL_PREFIX}/bin/tbb12.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/tbbmalloc.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/tbbmalloc_proxy.dll)
         set(USD_DLLS
             ${CMAKE_INSTALL_PREFIX}/bin/usd_ar.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_arch.dll
