@@ -359,46 +359,45 @@ else()
             ${CMAKE_INSTALL_PREFIX}/lib/libMaterialXRender.so.1
             ${CMAKE_INSTALL_PREFIX}/lib/libMaterialXRender.so.1.39.3)
         set(TBB_LIBS
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.so.2
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.so.2.12
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.so.2
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.so.2.12
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbb.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbb.so.12
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbb.so.12.12)
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbbmalloc_proxy.so
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbbmalloc_proxy.so.2
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbbmalloc_proxy.so.2.12
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbbmalloc.so
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbbmalloc.so.2
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbbmalloc.so.2.12
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbb.so
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbb.so.12
+            ${CMAKE_INSTALL_PREFIX}/lib64/libtbb.so.12.12)
         set(OSD_LIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.so
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.so.3.6.0
             ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.so
             ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.so.3.6.0)
         set(USD_LIBS
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ar.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_arch.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ar.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_cameraUtil.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ef.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_esf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_esfUsd.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_exec.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_execGeom.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_exec.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_execUsd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_garch.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_geomUtil.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_gf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_glf.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdar.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdGp.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdMtlx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdsi.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdSt.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hf.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgi.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgiGL.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgiInterop.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgiMetal.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgi.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hio.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_js.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_kind.so
@@ -411,36 +410,36 @@ else()
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_tf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_trace.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ts.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdAppUtils.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdBakeMtlx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdGeom.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdGeomValidators.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdHydra.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImaging.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImagingGL.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImaging.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdLux.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdMedia.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdMtlx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdPhysics.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdPhysicsValidators.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProc.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProcImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProc.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRender.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRi.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRiPxrImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRi.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSemantics.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdShade.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdShadeValidators.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkel.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkelImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkel.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkelValidators.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUI.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUtils.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUtilsValidators.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdValidation.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVol.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVolImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVol.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_vdf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_vt.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_work.so)
