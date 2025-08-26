@@ -37,6 +37,7 @@ if(WIN32)
         set(TBB_DLLS
             ${CMAKE_INSTALL_PREFIX}/bin/tbb.dll)
         set(USD_DLLS
+
             ${CMAKE_INSTALL_PREFIX}/bin/usd_ar.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_arch.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_cameraUtil.dll
@@ -58,7 +59,6 @@ if(WIN32)
             ${CMAKE_INSTALL_PREFIX}/bin/usd_hio.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_js.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_kind.dll
-            ${CMAKE_INSTALL_PREFIX}/bin/usd_ndr.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_pcp.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_pegtl.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_plug.dll
@@ -180,11 +180,8 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libMaterialXRenderOsl.dylib)
         set(TBB_DYLIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libtbb.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbb_debug.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_debug.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy_debug.dylib)
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.dylib)
         set(OSD_DYLIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.3.6.0.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.dylib
@@ -194,16 +191,22 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ar.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_arch.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_cameraUtil.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ef.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_esf.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_esfUsd.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_exec.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_execGeom.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_execUsd.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_garch.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_geomUtil.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_gf.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_glf.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hd.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdar.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdGp.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdMtlx.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdSt.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdar.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdsi.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdSt.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdx.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hf.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgi.dylib
@@ -213,7 +216,6 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hio.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_js.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_kind.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ndr.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pcp.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pegtl.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_plug.dylib
@@ -227,6 +229,7 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdAppUtils.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdBakeMtlx.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdGeom.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdGeomValidators.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdHydra.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImaging.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImagingGL.dylib
@@ -234,18 +237,25 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdMedia.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdMtlx.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdPhysics.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdPhysicsValidators.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProc.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProcImaging.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRender.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRi.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRiPxrImaging.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSemantics.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdShade.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdShadeValidators.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkel.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkelImaging.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkelValidators.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUI.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUtils.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUtilsValidators.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdValidation.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVol.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVolImaging.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_vdf.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_vt.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_work.dylib)
         list(APPEND INSTALL_DYLIBS ${MATERIALX_DYLIBS} ${TBB_DYLIBS} ${OSD_DYLIBS} ${USD_DYLIBS})
@@ -373,7 +383,6 @@ else()
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hio.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_js.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_kind.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ndr.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pcp.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_pegtl.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_plug.so
