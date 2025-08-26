@@ -37,10 +37,15 @@ if(WIN32)
         set(TBB_DLLS
             ${CMAKE_INSTALL_PREFIX}/bin/tbb.dll)
         set(USD_DLLS
-
             ${CMAKE_INSTALL_PREFIX}/bin/usd_ar.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_arch.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_cameraUtil.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_ef.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_esf.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_esfUsd.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_exec.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_execGeom.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_execUsd.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_garch.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_geomUtil.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_gf.dll
@@ -72,6 +77,7 @@ if(WIN32)
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdAppUtils.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdBakeMtlx.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdGeom.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_usdGeomValidators.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdHydra.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdImaging.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdImagingGL.dll
@@ -79,18 +85,25 @@ if(WIN32)
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdMedia.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdMtlx.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdPhysics.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_usdPhysicsValidators.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdProc.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdProcImaging.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdRender.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdRi.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdRiPxrImaging.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_usdSemantics.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdShade.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_usdShadeValidators.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdSkel.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdSkelImaging.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_usdSkelValidators.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdUI.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdUtils.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_usdUtilsValidators.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_usdValidation.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdVol.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_usdVolImaging.dll
+            ${CMAKE_INSTALL_PREFIX}/bin/usd_vdf.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_vt.dll
             ${CMAKE_INSTALL_PREFIX}/bin/usd_work.dll)
         list(APPEND INSTALL_DLLS ${MATERIALX_DLLS} ${TBB_DLLS} ${USD_DLLS})
@@ -362,24 +375,31 @@ else()
             ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.so
             ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.so.3.6.0)
         set(USD_LIBS
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_arch.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ar.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_arch.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_cameraUtil.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_ef.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_esf.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_esfUsd.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_exec.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_execGeom.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_execUsd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_garch.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_geomUtil.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_gf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_glf.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdar.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdGp.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdMtlx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdsi.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdSt.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hdx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hf.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgi.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgiGL.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgiInterop.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgi.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_hgiMetal.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_hio.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_js.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_kind.so
@@ -392,29 +412,37 @@ else()
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_tf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_trace.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ts.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usd.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdAppUtils.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdBakeMtlx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdGeom.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdGeomValidators.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdHydra.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImagingGL.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdImagingGL.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdLux.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdMedia.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdMtlx.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdPhysics.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProcImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdPhysicsValidators.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProc.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdProcImaging.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRender.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRi.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdRiPxrImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSemantics.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdShade.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkelImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdShadeValidators.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkel.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usd.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkelImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdSkelValidators.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUI.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUtils.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVolImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdUtilsValidators.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdValidation.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVol.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_usdVolImaging.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libusd_vdf.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_vt.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_work.so)
         list(APPEND INSTALL_LIBS ${MATERIALX_LIBS} ${TBB_LIBS} ${OSD_LIBS} ${USD_LIBS})
