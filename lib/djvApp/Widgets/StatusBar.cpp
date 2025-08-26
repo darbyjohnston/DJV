@@ -15,6 +15,7 @@
 #include <feather-tk/ui/Icon.h>
 #include <feather-tk/ui/Label.h>
 #include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/Spacer.h>
 #include <feather-tk/core/Context.h>
 #include <feather-tk/core/Format.h>
 #include <feather-tk/core/String.h>
@@ -70,7 +71,7 @@ namespace djv
 
 #if defined(TLRENDER_BMD)
             p.deviceActiveIcon = feather_tk::Icon::create(context, "Devices");
-            p.deviceActiveIcon->setTooltip("Output device active");
+            p.deviceActiveIcon->setTooltip("Output device");
 #endif // TLRENDER_BMD
 
             p.layout = feather_tk::HorizontalLayout::create(context, shared_from_this());
@@ -81,6 +82,7 @@ namespace djv
 #if defined(TLRENDER_BMD)
             feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, p.layout);
             p.deviceActiveIcon->setParent(p.layout);
+            feather_tk::Spacer::create(context, feather_tk::Orientation::Horizontal, p.layout);
 #endif // TLRENDER_BMD
 
             _deviceUpdate(false);
