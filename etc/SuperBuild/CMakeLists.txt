@@ -11,16 +11,21 @@ if(APPLE)
     set(DJV_IGNORE_PREFIX_PATH_DEFAULT /opt/homebrew)
 endif()
 set(DJV_IGNORE_PREFIX_PATH ${DJV_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
+
+set(feather_tk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
+
 set(TLRENDER_NET FALSE CACHE BOOL "Enable network support")
-set(TLRENDER_OCIO TRUE CACHE BOOL "Enable support for OpenColorIO")
+set(TLRENDER_OCIO_DEFAULT ON)
+if(${feather_tk_API} STREQUAL GLES_2)
+    set(TLRENDER_OCIO_DEFAULT OFF)
+endif()
+set(TLRENDER_OCIO ${TLRENDER_OCIO_DEFAULT} CACHE BOOL "Enable support for OpenColorIO")
 set(TLRENDER_FFMPEG TRUE CACHE BOOL "Enable support for FFmpeg (see the README for building FFmpeg on Windows)")
 set(TLRENDER_FFMPEG_MINIMAL FALSE CACHE BOOL "Enable a minimal set of FFmpeg codecs")
 set(TLRENDER_USD FALSE CACHE BOOL "Enable support for USD")
 set(TLRENDER_USD_PYTHON python3 CACHE STRING "Python executable for building USD")
 set(TLRENDER_BMD FALSE CACHE BOOL "Enable support for Blackmagic Design devices")
 set(TLRENDER_BMD_SDK "" CACHE PATH "Full path to the Blackmagic Design SDK")
-set(feather_tk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
-
 
 #-------------------------------------------------------------------------------
 # Internal configuration
