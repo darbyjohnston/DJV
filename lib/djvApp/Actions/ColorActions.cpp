@@ -56,6 +56,11 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
+#if !defined(TLRENDER_OCIO)
+            _actions["OCIO"]->setEnabled(false);
+            _actions["LUT"]->setEnabled(false);
+#endif // TLRENDER_OCIO
+
             p.ocioObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 app->getColorModel()->observeOCIOOptions(),
                 [this](const tl::timeline::OCIOOptions& value)

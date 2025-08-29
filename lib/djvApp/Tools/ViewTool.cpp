@@ -222,8 +222,10 @@ namespace djv
             p.videoLevelsComboBox->setHStretch(feather_tk::Stretch::Expanding);
 
             p.colorBuffers.push_back(feather_tk::ImageType::RGBA_U8);
+#if defined(FEATHER_TK_API_GL_4_1)
             p.colorBuffers.push_back(feather_tk::ImageType::RGBA_F16);
             p.colorBuffers.push_back(feather_tk::ImageType::RGBA_F32);
+#endif // FEATHER_TK_API_GL_4_1
             std::vector<std::string> items;
             for (size_t i = 0; i < p.colorBuffers.size(); ++i)
             {
