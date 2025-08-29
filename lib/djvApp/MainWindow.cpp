@@ -144,20 +144,8 @@ namespace djv
             FEATHER_TK_P();
 
             auto iconSystem = context->getSystem<feather_tk::IconSystem>();
-            iconSystem->add("DJV_Icon_512", djv_resource::DJV_Icon_512);
-            iconSystem->add("DJV_Icon_256", djv_resource::DJV_Icon_256);
             iconSystem->add("DJV_Icon_128", djv_resource::DJV_Icon_128);
-            iconSystem->add("DJV_Icon_64", djv_resource::DJV_Icon_64);
-            iconSystem->add("DJV_Icon_32", djv_resource::DJV_Icon_32);
-            iconSystem->add("DJV_Icon_16", djv_resource::DJV_Icon_16);
-            std::vector<std::shared_ptr<feather_tk::Image> > icons;
-            icons.push_back(iconSystem->get("DJV_Icon_512", 1.0));
-            icons.push_back(iconSystem->get("DJV_Icon_256", 1.0));
-            icons.push_back(iconSystem->get("DJV_Icon_128", 1.0));
-            icons.push_back(iconSystem->get("DJV_Icon_64", 1.0));
-            icons.push_back(iconSystem->get("DJV_Icon_32", 1.0));
-            icons.push_back(iconSystem->get("DJV_Icon_16", 1.0));
-            setIcons(icons);
+            setIcon(iconSystem->get("DJV_Icon_128", 1.0));
             setBackgroundRole(feather_tk::ColorRole::Window);
 
             p.app = app;
