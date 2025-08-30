@@ -253,8 +253,12 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/install-Release/lib:$DYLD_LIBRARY_PATH
         sh DJV/etc/macOS/macos-build-gha.sh Release
 
+    # \bug Sometimes the CI runs out of disk space when building the macOS
+    # package, so free some up.
     - name: Package
-      run: cmake --build build-Release -j 4 --target package
+      run: |
+        rm -rf sbuild-Release
+        cmake --build build-Release -j 4 --target package
 
     - uses: actions/upload-artifact@v4
       with:
