@@ -15,21 +15,21 @@ namespace djv
         {
             std::weak_ptr<App> app;
 
-            std::vector<std::shared_ptr<feather_tk::Action> > bActions;
-            std::map<std::string, std::shared_ptr<feather_tk::Menu> > menus;
+            std::vector<std::shared_ptr<ftk::Action> > bActions;
+            std::map<std::string, std::shared_ptr<ftk::Menu> > menus;
 
-            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
-            std::shared_ptr<feather_tk::ListObserver<int> > bIndexesObserver;
+            std::shared_ptr<ftk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
+            std::shared_ptr<ftk::ListObserver<int> > bIndexesObserver;
         };
 
         void CompareMenu::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<CompareActions>& compareActions,
             const std::shared_ptr<IWidget>& parent)
         {
             Menu::_init(context, parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.app = app;
 
@@ -51,14 +51,14 @@ namespace djv
                 p.menus["Time"]->addAction(actions[label]);
             }
 
-            p.filesObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.filesObserver = ftk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeFiles(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
                     _filesUpdate(value);
                 });
 
-            p.bIndexesObserver = feather_tk::ListObserver<int>::create(
+            p.bIndexesObserver = ftk::ListObserver<int>::create(
                 app->getFilesModel()->observeBIndexes(),
                 [this](const std::vector<int>& value)
                 {
@@ -74,7 +74,7 @@ namespace djv
         {}
 
         std::shared_ptr<CompareMenu> CompareMenu::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<CompareActions>& compareActions,
             const std::shared_ptr<IWidget>& parent)
@@ -87,7 +87,7 @@ namespace djv
         void CompareMenu::close()
         {
             Menu::close();
-            FEATHER_TK_P();
+            FTK_P();
             for (const auto& menu : p.menus)
             {
                 menu.second->close();
@@ -97,7 +97,7 @@ namespace djv
         void CompareMenu::_filesUpdate(
             const std::vector<std::shared_ptr<FilesModelItem> >& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.menus["B"]->clear();
             p.bActions.clear();
             if (auto app = p.app.lock())
@@ -105,7 +105,7 @@ namespace djv
                 const auto bIndexes = app->getFilesModel()->getBIndexes();
                 for (size_t i = 0; i < value.size(); ++i)
                 {
-                    auto action = feather_tk::Action::create(
+                    auto action = ftk::Action::create(
                         value[i]->path.get(-1, tl::file::PathType::FileName),
                         [this, i]
                         {
@@ -125,7 +125,7 @@ namespace djv
 
         void CompareMenu::_bUpdate(const std::vector<int>& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             for (int i = 0; i < p.bActions.size(); ++i)
             {
                 const auto j = std::find(value.begin(), value.end(), i);

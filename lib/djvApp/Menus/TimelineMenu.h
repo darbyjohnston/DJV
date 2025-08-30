@@ -13,13 +13,13 @@ namespace djv
         class TimelineActions;
 
         //! Timeline menu.
-        class TimelineMenu : public feather_tk::Menu
+        class TimelineMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(TimelineMenu);
+            FTK_NON_COPYABLE(TimelineMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<TimelineActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,12 +29,12 @@ namespace djv
             ~TimelineMenu();
 
             static std::shared_ptr<TimelineMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<TimelineActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

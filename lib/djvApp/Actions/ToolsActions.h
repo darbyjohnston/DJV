@@ -13,11 +13,11 @@ namespace djv
         //! Tools actions.
         class ToolsActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(ToolsActions);
+            FTK_NON_COPYABLE(ToolsActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
             ToolsActions();
@@ -26,11 +26,11 @@ namespace djv
             ~ToolsActions();
 
             static std::shared_ptr<ToolsActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

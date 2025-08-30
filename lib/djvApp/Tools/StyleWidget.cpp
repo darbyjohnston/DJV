@@ -35,53 +35,53 @@ namespace djv
                 4.F
             };
 
-            std::shared_ptr<feather_tk::ComboBox> colorStyleComboBox;
-            std::shared_ptr<feather_tk::FloatEditSlider> brightnessSlider;
-            std::shared_ptr<feather_tk::FloatEditSlider> contrastSlider;
-            std::shared_ptr<feather_tk::ComboBox> displayScaleComboBox;
-            std::shared_ptr<feather_tk::FormLayout> layout;
+            std::shared_ptr<ftk::ComboBox> colorStyleComboBox;
+            std::shared_ptr<ftk::FloatEditSlider> brightnessSlider;
+            std::shared_ptr<ftk::FloatEditSlider> contrastSlider;
+            std::shared_ptr<ftk::ComboBox> displayScaleComboBox;
+            std::shared_ptr<ftk::FormLayout> layout;
 
-            std::shared_ptr<feather_tk::ValueObserver<StyleSettings> > settingsObserver;
+            std::shared_ptr<ftk::ValueObserver<StyleSettings> > settingsObserver;
         };
 
         void StyleSettingsWidget::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
             ISettingsWidget::_init(context, "djv::app::StyleSettingsWidget", parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.model = app->getSettingsModel();
 
-            p.colorStyleComboBox = feather_tk::ComboBox::create(context, feather_tk::getColorStyleLabels());
-            p.colorStyleComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.colorStyleComboBox = ftk::ComboBox::create(context, ftk::getColorStyleLabels());
+            p.colorStyleComboBox->setHStretch(ftk::Stretch::Expanding);
 
-            p.brightnessSlider = feather_tk::FloatEditSlider::create(context);
+            p.brightnessSlider = ftk::FloatEditSlider::create(context);
             p.brightnessSlider->setRange(.5F, 1.5F);
             p.brightnessSlider->setDefaultValue(1.F);
 
-            p.contrastSlider = feather_tk::FloatEditSlider::create(context);
+            p.contrastSlider = ftk::FloatEditSlider::create(context);
             p.contrastSlider->setRange(.5F, 1.5F);
             p.contrastSlider->setDefaultValue(1.F);
 
             std::vector<std::string> labels;
             for (auto d : p.displayScales)
             {
-                labels.push_back(feather_tk::Format("{0}").arg(d).operator std::string());
+                labels.push_back(ftk::Format("{0}").arg(d).operator std::string());
             }
-            p.displayScaleComboBox = feather_tk::ComboBox::create(context, labels);
-            p.displayScaleComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.displayScaleComboBox = ftk::ComboBox::create(context, labels);
+            p.displayScaleComboBox->setHStretch(ftk::Stretch::Expanding);
 
-            p.layout = feather_tk::FormLayout::create(context, shared_from_this());
-            p.layout->setMarginRole(feather_tk::SizeRole::Margin);
-            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            p.layout = ftk::FormLayout::create(context, shared_from_this());
+            p.layout->setMarginRole(ftk::SizeRole::Margin);
+            p.layout->setSpacingRole(ftk::SizeRole::SpacingSmall);
             p.layout->addRow("Color style:", p.colorStyleComboBox);
             p.layout->addRow("Brightness:", p.brightnessSlider);
             p.layout->addRow("Contrast:", p.contrastSlider);
             p.layout->addRow("Display scale:", p.displayScaleComboBox);
 
-            p.settingsObserver = feather_tk::ValueObserver<StyleSettings>::create(
+            p.settingsObserver = ftk::ValueObserver<StyleSettings>::create(
                 app->getSettingsModel()->observeStyle(),
                 [this](const StyleSettings& value)
                 {
@@ -91,16 +91,16 @@ namespace djv
             p.colorStyleComboBox->setIndexCallback(
                 [this](int value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     auto settings = p.model->getStyle();
-                    settings.colorStyle = static_cast<feather_tk::ColorStyle>(value);
+                    settings.colorStyle = static_cast<ftk::ColorStyle>(value);
                     p.model->setStyle(settings);
                 });
 
             p.brightnessSlider->setCallback(
                 [this](float value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     auto settings = p.model->getStyle();
                     settings.colorControls.brightness = value;
                     p.model->setStyle(settings);
@@ -109,7 +109,7 @@ namespace djv
             p.contrastSlider->setCallback(
                 [this](float value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     auto settings = p.model->getStyle();
                     settings.colorControls.contrast = value;
                     p.model->setStyle(settings);
@@ -118,7 +118,7 @@ namespace djv
             p.displayScaleComboBox->setIndexCallback(
                 [this](int value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     auto settings = p.model->getStyle();
                     if (value >= 0 && value < p.displayScales.size())
                     {
@@ -136,7 +136,7 @@ namespace djv
         {}
 
         std::shared_ptr<StyleSettingsWidget> StyleSettingsWidget::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -145,13 +145,13 @@ namespace djv
             return out;
         }
 
-        void StyleSettingsWidget::setGeometry(const feather_tk::Box2I& value)
+        void StyleSettingsWidget::setGeometry(const ftk::Box2I& value)
         {
             ISettingsWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void StyleSettingsWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
+        void StyleSettingsWidget::sizeHintEvent(const ftk::SizeHintEvent& event)
         {
             ISettingsWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -159,7 +159,7 @@ namespace djv
 
         void StyleSettingsWidget::_widgetUpdate(const StyleSettings& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.colorStyleComboBox->setCurrentIndex(static_cast<int>(value.colorStyle));
 

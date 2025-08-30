@@ -25,33 +25,33 @@ namespace djv
     {
         struct FilesTool::Private
         {
-            std::shared_ptr<feather_tk::Settings> settings;
+            std::shared_ptr<ftk::Settings> settings;
 
-            std::shared_ptr<feather_tk::ButtonGroup> aButtonGroup;
-            std::shared_ptr<feather_tk::ButtonGroup> bButtonGroup;
+            std::shared_ptr<ftk::ButtonGroup> aButtonGroup;
+            std::shared_ptr<ftk::ButtonGroup> bButtonGroup;
             std::map<std::shared_ptr<FilesModelItem>, std::shared_ptr<FileButton> > aButtons;
-            std::map<std::shared_ptr<FilesModelItem>, std::shared_ptr<feather_tk::ToolButton> > bButtons;
-            std::vector<std::shared_ptr<feather_tk::ComboBox> > layerComboBoxes;
-            std::shared_ptr<feather_tk::ComboBox> compareComboBox;
-            std::shared_ptr<feather_tk::ComboBox> compareTimeComboBox;
-            std::shared_ptr<feather_tk::FloatEditSlider> wipeXSlider;
-            std::shared_ptr<feather_tk::FloatEditSlider> wipeYSlider;
-            std::shared_ptr<feather_tk::FloatEditSlider> wipeRotationSlider;
-            std::shared_ptr<feather_tk::FloatEditSlider> overlaySlider;
-            std::shared_ptr<feather_tk::FormLayout> compareLayout;
-            std::map<std::string, std::shared_ptr<feather_tk::Bellows> > bellows;
-            std::shared_ptr<feather_tk::GridLayout> widgetLayout;
+            std::map<std::shared_ptr<FilesModelItem>, std::shared_ptr<ftk::ToolButton> > bButtons;
+            std::vector<std::shared_ptr<ftk::ComboBox> > layerComboBoxes;
+            std::shared_ptr<ftk::ComboBox> compareComboBox;
+            std::shared_ptr<ftk::ComboBox> compareTimeComboBox;
+            std::shared_ptr<ftk::FloatEditSlider> wipeXSlider;
+            std::shared_ptr<ftk::FloatEditSlider> wipeYSlider;
+            std::shared_ptr<ftk::FloatEditSlider> wipeRotationSlider;
+            std::shared_ptr<ftk::FloatEditSlider> overlaySlider;
+            std::shared_ptr<ftk::FormLayout> compareLayout;
+            std::map<std::string, std::shared_ptr<ftk::Bellows> > bellows;
+            std::shared_ptr<ftk::GridLayout> widgetLayout;
 
-            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
-            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<FilesModelItem> > > aObserver;
-            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > bObserver;
-            std::shared_ptr<feather_tk::ListObserver<int> > layersObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareOptions> > compareObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareTime> > compareTimeObserver;
+            std::shared_ptr<ftk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
+            std::shared_ptr<ftk::ValueObserver<std::shared_ptr<FilesModelItem> > > aObserver;
+            std::shared_ptr<ftk::ListObserver<std::shared_ptr<FilesModelItem> > > bObserver;
+            std::shared_ptr<ftk::ListObserver<int> > layersObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareOptions> > compareObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareTime> > compareTimeObserver;
         };
 
         void FilesTool::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -61,59 +61,59 @@ namespace djv
                 Tool::Files,
                 "djv::app::FilesTool",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.settings = app->getSettings();
 
-            p.aButtonGroup = feather_tk::ButtonGroup::create(context, feather_tk::ButtonGroupType::Radio);
-            p.bButtonGroup = feather_tk::ButtonGroup::create(context, feather_tk::ButtonGroupType::Check);
+            p.aButtonGroup = ftk::ButtonGroup::create(context, ftk::ButtonGroupType::Radio);
+            p.bButtonGroup = ftk::ButtonGroup::create(context, ftk::ButtonGroupType::Check);
 
-            p.compareComboBox = feather_tk::ComboBox::create(
+            p.compareComboBox = ftk::ComboBox::create(
                 context,
                 tl::timeline::getCompareLabels());
-            p.compareComboBox->setHStretch(feather_tk::Stretch::Expanding);
-            p.compareTimeComboBox = feather_tk::ComboBox::create(
+            p.compareComboBox->setHStretch(ftk::Stretch::Expanding);
+            p.compareTimeComboBox = ftk::ComboBox::create(
                 context,
                 tl::timeline::getCompareTimeLabels());
-            p.compareTimeComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.compareTimeComboBox->setHStretch(ftk::Stretch::Expanding);
 
-            p.wipeXSlider = feather_tk::FloatEditSlider::create(context);
+            p.wipeXSlider = ftk::FloatEditSlider::create(context);
             p.wipeXSlider->setDefaultValue(.5F);
-            p.wipeYSlider = feather_tk::FloatEditSlider::create(context);
+            p.wipeYSlider = ftk::FloatEditSlider::create(context);
             p.wipeYSlider->setDefaultValue(.5F);
-            p.wipeRotationSlider = feather_tk::FloatEditSlider::create(context);
+            p.wipeRotationSlider = ftk::FloatEditSlider::create(context);
             p.wipeRotationSlider->setRange(0.F, 360.F);
             p.wipeRotationSlider->setStep(1.F);
             p.wipeRotationSlider->setLargeStep(10.F);
             p.wipeRotationSlider->setDefaultValue(0.F);
 
-            p.overlaySlider = feather_tk::FloatEditSlider::create(context);
+            p.overlaySlider = ftk::FloatEditSlider::create(context);
             p.overlaySlider->setDefaultValue(.5F);
 
-            auto layout = feather_tk::VerticalLayout::create(context);
-            layout->setSpacingRole(feather_tk::SizeRole::None);
+            auto layout = ftk::VerticalLayout::create(context);
+            layout->setSpacingRole(ftk::SizeRole::None);
 
-            p.widgetLayout = feather_tk::GridLayout::create(context, layout);
-            p.widgetLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
-            p.widgetLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
+            p.widgetLayout = ftk::GridLayout::create(context, layout);
+            p.widgetLayout->setMarginRole(ftk::SizeRole::MarginSmall);
+            p.widgetLayout->setSpacingRole(ftk::SizeRole::SpacingTool);
 
-            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, layout);
+            ftk::Divider::create(context, ftk::Orientation::Vertical, layout);
 
-            auto vLayout = feather_tk::VerticalLayout::create(context);
-            vLayout->setMarginRole(feather_tk::SizeRole::Margin);
-            vLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
-            p.compareLayout = feather_tk::FormLayout::create(context, vLayout);
-            p.compareLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto vLayout = ftk::VerticalLayout::create(context);
+            vLayout->setMarginRole(ftk::SizeRole::Margin);
+            vLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
+            p.compareLayout = ftk::FormLayout::create(context, vLayout);
+            p.compareLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
             p.compareLayout->addRow("Mode:", p.compareComboBox);
             p.compareLayout->addRow("Time:", p.compareTimeComboBox);
             p.compareLayout->addRow("X:", p.wipeXSlider);
             p.compareLayout->addRow("Y:", p.wipeYSlider);
             p.compareLayout->addRow("Rotation:", p.wipeRotationSlider);
             p.compareLayout->addRow("Amount:", p.overlaySlider);
-            p.bellows["Compare"] = feather_tk::Bellows::create(context, "Compare", layout);
+            p.bellows["Compare"] = ftk::Bellows::create(context, "Compare", layout);
             p.bellows["Compare"]->setWidget(vLayout);
 
-            auto scrollWidget = feather_tk::ScrollWidget::create(context, feather_tk::ScrollType::Both);
+            auto scrollWidget = ftk::ScrollWidget::create(context, ftk::ScrollType::Both);
             scrollWidget->setBorder(false);
             scrollWidget->setWidget(layout);
             _setWidget(scrollWidget);
@@ -204,42 +204,42 @@ namespace djv
                     }
                 });
 
-            p.filesObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.filesObserver = ftk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeFiles(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
                     _filesUpdate(value);
                 });
 
-            p.aObserver = feather_tk::ValueObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.aObserver = ftk::ValueObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeA(),
                 [this](const std::shared_ptr<FilesModelItem>& value)
                 {
                     _aUpdate(value);
                 });
 
-            p.bObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.bObserver = ftk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeB(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
                     _bUpdate(value);
                 });
 
-            p.layersObserver = feather_tk::ListObserver<int>::create(
+            p.layersObserver = ftk::ListObserver<int>::create(
                 app->getFilesModel()->observeLayers(),
                 [this](const std::vector<int>& value)
                 {
                     _layersUpdate(value);
                 });
 
-            p.compareObserver = feather_tk::ValueObserver<tl::timeline::CompareOptions>::create(
+            p.compareObserver = ftk::ValueObserver<tl::timeline::CompareOptions>::create(
                 app->getFilesModel()->observeCompareOptions(),
                 [this](const tl::timeline::CompareOptions& value)
                 {
                     _compareUpdate(value);
                 });
 
-            p.compareTimeObserver = feather_tk::ValueObserver<tl::timeline::CompareTime>::create(
+            p.compareTimeObserver = ftk::ValueObserver<tl::timeline::CompareTime>::create(
                 app->getFilesModel()->observeCompareTime(),
                 [this](const tl::timeline::CompareTime& value)
                 {
@@ -257,7 +257,7 @@ namespace djv
         }
 
         std::shared_ptr<FilesTool> FilesTool::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -268,7 +268,7 @@ namespace djv
 
         void FilesTool::_filesUpdate(const std::vector<std::shared_ptr<FilesModelItem> >& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.aButtonGroup->clearButtons();
             p.bButtonGroup->clearButtons();
             p.layerComboBoxes.clear();
@@ -296,21 +296,21 @@ namespace djv
                         aButton->setParent(p.widgetLayout);
                         p.widgetLayout->setGridPos(aButton, row, 0);
 
-                        auto bButton = feather_tk::ToolButton::create(context);
+                        auto bButton = ftk::ToolButton::create(context);
                         bButton->setText("B");
                         const auto i = std::find(b.begin(), b.end(), item);
                         bButton->setChecked(i != b.end());
-                        bButton->setVAlign(feather_tk::VAlign::Center);
+                        bButton->setVAlign(ftk::VAlign::Center);
                         bButton->setTooltip("Set the B file(s)");
                         p.bButtons[item] = bButton;
                         p.bButtonGroup->addButton(bButton);
                         bButton->setParent(p.widgetLayout);
                         p.widgetLayout->setGridPos(bButton, row, 1);
 
-                        auto layerComboBox = feather_tk::ComboBox::create(context);
+                        auto layerComboBox = ftk::ComboBox::create(context);
                         layerComboBox->setItems(item->videoLayers);
                         layerComboBox->setCurrentIndex(item->videoLayer);
-                        layerComboBox->setVAlign(feather_tk::VAlign::Center);
+                        layerComboBox->setVAlign(ftk::VAlign::Center);
                         layerComboBox->setTooltip("Set the current layer");
                         p.layerComboBoxes.push_back(layerComboBox);
                         layerComboBox->setParent(p.widgetLayout);
@@ -329,7 +329,7 @@ namespace djv
                     }
                     if (value.empty())
                     {
-                        auto label = feather_tk::Label::create(context, "No files open", p.widgetLayout);
+                        auto label = ftk::Label::create(context, "No files open", p.widgetLayout);
                         p.widgetLayout->setGridPos(label, 0, 0);
                     }
                 }
@@ -338,7 +338,7 @@ namespace djv
 
         void FilesTool::_aUpdate(const std::shared_ptr<FilesModelItem>& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             for (const auto& button : p.aButtons)
             {
                 button.second->setChecked(button.first == value);
@@ -347,7 +347,7 @@ namespace djv
 
         void FilesTool::_bUpdate(const std::vector<std::shared_ptr<FilesModelItem> >& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             for (const auto& button : p.bButtons)
             {
                 const auto i = std::find(value.begin(), value.end(), button.first);
@@ -357,7 +357,7 @@ namespace djv
 
         void FilesTool::_layersUpdate(const std::vector<int>& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             for (size_t i = 0; i < value.size() && i < p.layerComboBoxes.size(); ++i)
             {
                 p.layerComboBoxes[i]->setCurrentIndex(value[i]);
@@ -366,7 +366,7 @@ namespace djv
 
         void FilesTool::_compareUpdate(const tl::timeline::CompareOptions& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.compareComboBox->setCurrentIndex(static_cast<int>(value.compare));
             p.wipeXSlider->setValue(value.wipeCenter.x);
             p.wipeYSlider->setValue(value.wipeCenter.y);

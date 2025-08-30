@@ -15,9 +15,9 @@ namespace djv
         class App;
 
         //! Base class for settings widgets.
-        class ISettingsWidget : public feather_tk::IWidget
+        class ISettingsWidget : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(ISettingsWidget);
+            FTK_NON_COPYABLE(ISettingsWidget);
 
         protected:
             ISettingsWidget() = default;
@@ -29,11 +29,11 @@ namespace djv
         //! Advanced settings widget.
         class AdvancedSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(AdvancedSettingsWidget);
+            FTK_NON_COPYABLE(AdvancedSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -43,24 +43,24 @@ namespace djv
             virtual ~AdvancedSettingsWidget();
 
             static std::shared_ptr<AdvancedSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Cache settings widget.
         class CacheSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(CacheSettingsWidget);
+            FTK_NON_COPYABLE(CacheSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -70,25 +70,25 @@ namespace djv
             virtual ~CacheSettingsWidget();
 
             static std::shared_ptr<CacheSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! File browser settings widget.
         class FileBrowserSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(FileBrowserSettingsWidget);
+            FTK_NON_COPYABLE(FileBrowserSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -98,24 +98,24 @@ namespace djv
             virtual ~FileBrowserSettingsWidget();
 
             static std::shared_ptr<FileBrowserSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Image sequence settings widget.
         class ImageSequenceSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(ImageSequenceSettingsWidget);
+            FTK_NON_COPYABLE(ImageSequenceSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -125,25 +125,25 @@ namespace djv
             virtual ~ImageSequenceSettingsWidget();
 
             static std::shared_ptr<ImageSequenceSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Miscellaneous settings widget.
         class MiscSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(MiscSettingsWidget);
+            FTK_NON_COPYABLE(MiscSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -153,25 +153,25 @@ namespace djv
             virtual ~MiscSettingsWidget();
 
             static std::shared_ptr<MiscSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Mouse settings widget.
         class MouseSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(MouseSettingsWidget);
+            FTK_NON_COPYABLE(MouseSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -181,25 +181,25 @@ namespace djv
             virtual ~MouseSettingsWidget();
 
             static std::shared_ptr<MouseSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Keyboard shortcut editor.
-        class ShortcutEdit : public feather_tk::IWidget
+        class ShortcutEdit : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(ShortcutEdit);
+            FTK_NON_COPYABLE(ShortcutEdit);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             ShortcutEdit();
@@ -208,38 +208,38 @@ namespace djv
             virtual ~ShortcutEdit();
 
             static std::shared_ptr<ShortcutEdit> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setShortcut(const Shortcut&);
             void setCallback(const std::function<void(const Shortcut&)>&);
             void setCollision(bool);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            feather_tk::Box2I getChildrenClipRect() const override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
-            void drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent&) override;
-            void mouseEnterEvent(feather_tk::MouseEnterEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            ftk::Box2I getChildrenClipRect() const override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
+            void drawEvent(const ftk::Box2I& drawRect, const ftk::DrawEvent&) override;
+            void mouseEnterEvent(ftk::MouseEnterEvent&) override;
             void mouseLeaveEvent() override;
-            void mousePressEvent(feather_tk::MouseClickEvent&) override;
+            void mousePressEvent(ftk::MouseClickEvent&) override;
             void keyFocusEvent(bool) override;
-            void keyPressEvent(feather_tk::KeyEvent&) override;
-            void keyReleaseEvent(feather_tk::KeyEvent&) override;
+            void keyPressEvent(ftk::KeyEvent&) override;
+            void keyReleaseEvent(ftk::KeyEvent&) override;
 
         private:
             void _widgetUpdate();
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Keyboard shortcut widget.
-        class ShortcutWidget : public feather_tk::IWidget
+        class ShortcutWidget : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(ShortcutWidget);
+            FTK_NON_COPYABLE(ShortcutWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             ShortcutWidget();
@@ -248,30 +248,30 @@ namespace djv
             virtual ~ShortcutWidget();
 
             static std::shared_ptr<ShortcutWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setShortcut(const Shortcut&);
             void setCallback(const std::function<void(const Shortcut&)>&);
             void setCollision(bool);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
             void _widgetUpdate();
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Keyboard shortcuts settings widget.
         class ShortcutsSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(ShortcutsSettingsWidget);
+            FTK_NON_COPYABLE(ShortcutsSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -281,27 +281,27 @@ namespace djv
             virtual ~ShortcutsSettingsWidget();
 
             static std::shared_ptr<ShortcutsSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
             void _widgetUpdate(const ShortcutsSettings&);
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Style settings widget.
         class StyleSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(StyleSettingsWidget);
+            FTK_NON_COPYABLE(StyleSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -311,27 +311,27 @@ namespace djv
             virtual ~StyleSettingsWidget();
 
             static std::shared_ptr<StyleSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
             void _widgetUpdate(const StyleSettings&);
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Time settings widget.
         class TimeSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(TimeSettingsWidget);
+            FTK_NON_COPYABLE(TimeSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -341,26 +341,26 @@ namespace djv
             virtual ~TimeSettingsWidget();
 
             static std::shared_ptr<TimeSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
 #if defined(TLRENDER_FFMPEG)
         //! FFmpeg settings widget.
         class FFmpegSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(FFmpegSettingsWidget);
+            FTK_NON_COPYABLE(FFmpegSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -370,15 +370,15 @@ namespace djv
             virtual ~FFmpegSettingsWidget();
 
             static std::shared_ptr<FFmpegSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 #endif // TLRENDER_FFMPEG
 
@@ -386,11 +386,11 @@ namespace djv
         //! USD settings widget.
         class USDSettingsWidget : public ISettingsWidget
         {
-            FEATHER_TK_NON_COPYABLE(USDSettingsWidget);
+            FTK_NON_COPYABLE(USDSettingsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -400,15 +400,15 @@ namespace djv
             virtual ~USDSettingsWidget();
 
             static std::shared_ptr<USDSettingsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 #endif // TLRENDER_USD
     }

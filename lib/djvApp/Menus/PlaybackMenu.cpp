@@ -11,7 +11,7 @@ namespace djv
     namespace app
     {
         void PlaybackMenu::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<PlaybackActions>& playbackActions,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -42,7 +42,7 @@ namespace djv
         {}
 
         std::shared_ptr<PlaybackMenu> PlaybackMenu::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<PlaybackActions>& playbackActions,
             const std::shared_ptr<IWidget>& parent)
         {

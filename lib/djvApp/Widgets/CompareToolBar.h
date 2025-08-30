@@ -11,14 +11,14 @@ namespace djv
     namespace app
     {
         //! Compare tool bar.
-        class CompareToolBar : public feather_tk::ToolBar
+        class CompareToolBar : public ftk::ToolBar
         {
-            FEATHER_TK_NON_COPYABLE(CompareToolBar);
+            FTK_NON_COPYABLE(CompareToolBar);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
+                const std::shared_ptr<ftk::Context>&,
+                const std::map<std::string, std::shared_ptr<ftk::Action> >&,
                 const std::shared_ptr<IWidget>& parent);
 
             CompareToolBar() = default;
@@ -27,8 +27,8 @@ namespace djv
             ~CompareToolBar();
 
             static std::shared_ptr<CompareToolBar> create(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
+                const std::shared_ptr<ftk::Context>&,
+                const std::map<std::string, std::shared_ptr<ftk::Action> >&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };
     }

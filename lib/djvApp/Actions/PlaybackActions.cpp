@@ -16,23 +16,23 @@ namespace djv
         {
             std::shared_ptr<tl::timeline::Player> player;
 
-            std::map<tl::timeline::Playback, std::shared_ptr<feather_tk::Action> > playbackItems;
-            std::map<tl::timeline::Loop, std::shared_ptr<feather_tk::Action> > loopItems;
+            std::map<tl::timeline::Playback, std::shared_ptr<ftk::Action> > playbackItems;
+            std::map<tl::timeline::Loop, std::shared_ptr<ftk::Action> > loopItems;
 
-            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::Playback> > playbackObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::Loop> > loopObserver;
+            std::shared_ptr<ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::Playback> > playbackObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::Loop> > loopObserver;
         };
 
         void PlaybackActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             IActions::_init(context, app, "Playback");
-            FEATHER_TK_P();
+            FTK_P();
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["Stop"] = feather_tk::Action::create(
+            _actions["Stop"] = ftk::Action::create(
                 "Stop",
                 "PlaybackStop",
                 [appWeak]
@@ -46,7 +46,7 @@ namespace djv
                     }
                 });
 
-            _actions["Forward"] = feather_tk::Action::create(
+            _actions["Forward"] = ftk::Action::create(
                 "Forward",
                 "PlaybackForward",
                 [appWeak]
@@ -60,7 +60,7 @@ namespace djv
                     }
                 });
 
-            _actions["Reverse"] = feather_tk::Action::create(
+            _actions["Reverse"] = ftk::Action::create(
                 "Reverse",
                 "PlaybackReverse",
                 [appWeak]
@@ -74,7 +74,7 @@ namespace djv
                     }
                 });
 
-            _actions["Toggle"] = feather_tk::Action::create(
+            _actions["Toggle"] = ftk::Action::create(
                 "Toggle Playback",
                 [this, appWeak]
                 {
@@ -95,7 +95,7 @@ namespace djv
                     }
                 });
 
-            _actions["JumpBack1s"] = feather_tk::Action::create(
+            _actions["JumpBack1s"] = ftk::Action::create(
                 "Jump Back 1s",
                 [appWeak]
                 {
@@ -108,7 +108,7 @@ namespace djv
                     }
                 });
 
-            _actions["JumpBack10s"] = feather_tk::Action::create(
+            _actions["JumpBack10s"] = ftk::Action::create(
                 "Jump Back 10s",
                 [appWeak]
                 {
@@ -121,7 +121,7 @@ namespace djv
                     }
                 });
 
-            _actions["JumpForward1s"] = feather_tk::Action::create(
+            _actions["JumpForward1s"] = ftk::Action::create(
                 "Jump Forward 1s",
                 [appWeak]
                 {
@@ -134,7 +134,7 @@ namespace djv
                     }
                 });
 
-            _actions["JumpForward10s"] = feather_tk::Action::create(
+            _actions["JumpForward10s"] = ftk::Action::create(
                 "Jump Forward 10s",
                 [appWeak]
                 {
@@ -147,7 +147,7 @@ namespace djv
                     }
                 });
 
-            _actions["Loop"] = feather_tk::Action::create(
+            _actions["Loop"] = ftk::Action::create(
                 "Loop Playback",
                 [appWeak]
                 {
@@ -160,7 +160,7 @@ namespace djv
                     }
                 });
 
-            _actions["Once"] = feather_tk::Action::create(
+            _actions["Once"] = ftk::Action::create(
                 "Playback Once",
                 [appWeak]
                 {
@@ -173,7 +173,7 @@ namespace djv
                     }
                 });
 
-            _actions["PingPong"] = feather_tk::Action::create(
+            _actions["PingPong"] = ftk::Action::create(
                 "Ping-Pong Playback",
                 [appWeak]
                 {
@@ -186,7 +186,7 @@ namespace djv
                     }
                 });
 
-            _actions["SetInPoint"] = feather_tk::Action::create(
+            _actions["SetInPoint"] = ftk::Action::create(
                 "Set In Point",
                 [appWeak]
                 {
@@ -199,7 +199,7 @@ namespace djv
                     }
                 });
 
-            _actions["ResetInPoint"] = feather_tk::Action::create(
+            _actions["ResetInPoint"] = ftk::Action::create(
                 "Reset In Point",
                 [appWeak]
                 {
@@ -212,7 +212,7 @@ namespace djv
                     }
                 });
 
-            _actions["SetOutPoint"] = feather_tk::Action::create(
+            _actions["SetOutPoint"] = ftk::Action::create(
                 "Set Out Point",
                 [appWeak]
                 {
@@ -225,7 +225,7 @@ namespace djv
                     }
                 });
 
-            _actions["ResetOutPoint"] = feather_tk::Action::create(
+            _actions["ResetOutPoint"] = ftk::Action::create(
                 "Reset Out Point",
                 [appWeak]
                 {
@@ -269,7 +269,7 @@ namespace djv
             _playbackUpdate();
             _loopUpdate();
 
-            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& value)
                 {
@@ -285,7 +285,7 @@ namespace djv
         {}
 
         std::shared_ptr<PlaybackActions> PlaybackActions::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             auto out = std::shared_ptr<PlaybackActions>(new PlaybackActions);
@@ -295,7 +295,7 @@ namespace djv
 
         void PlaybackActions::_setPlayer(const std::shared_ptr<tl::timeline::Player>& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.playbackObserver.reset();
             p.loopObserver.reset();
 
@@ -303,14 +303,14 @@ namespace djv
 
             if (p.player)
             {
-                p.playbackObserver = feather_tk::ValueObserver<tl::timeline::Playback>::create(
+                p.playbackObserver = ftk::ValueObserver<tl::timeline::Playback>::create(
                     p.player->observePlayback(),
                     [this](tl::timeline::Playback)
                     {
                         _playbackUpdate();
                     });
 
-                p.loopObserver = feather_tk::ValueObserver<tl::timeline::Loop>::create(
+                p.loopObserver = ftk::ValueObserver<tl::timeline::Loop>::create(
                     p.player->observeLoop(),
                     [this](tl::timeline::Loop)
                     {
@@ -337,7 +337,7 @@ namespace djv
 
         void PlaybackActions::_playbackUpdate()
         {
-            FEATHER_TK_P();
+            FTK_P();
             std::map<tl::timeline::Playback, bool> values;
             for (const auto& value : tl::timeline::getPlaybackEnums())
             {
@@ -354,7 +354,7 @@ namespace djv
 
         void PlaybackActions::_loopUpdate()
         {
-            FEATHER_TK_P();
+            FTK_P();
             std::map<tl::timeline::Loop, bool> values;
             for (const auto& value : tl::timeline::getLoopEnums())
             {

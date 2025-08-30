@@ -14,19 +14,19 @@ namespace djv
     {
         struct IActions::Private
         {
-            std::shared_ptr<feather_tk::ValueObserver<ShortcutsSettings> > shortcutsSettingsObserver;
+            std::shared_ptr<ftk::ValueObserver<ShortcutsSettings> > shortcutsSettingsObserver;
         };
 
         void IActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::string& name)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             _name = name;
 
-            p.shortcutsSettingsObserver = feather_tk::ValueObserver<ShortcutsSettings>::create(
+            p.shortcutsSettingsObserver = ftk::ValueObserver<ShortcutsSettings>::create(
                 app->getSettingsModel()->observeShortcuts(),
                 [this](const ShortcutsSettings& value)
                 {
@@ -41,7 +41,7 @@ namespace djv
         IActions::~IActions()
         {}
 
-        const std::map<std::string, std::shared_ptr<feather_tk::Action> >& IActions::getActions() const
+        const std::map<std::string, std::shared_ptr<ftk::Action> >& IActions::getActions() const
         {
             return _actions;
         }
@@ -50,7 +50,7 @@ namespace djv
         {
             for (const auto& i : _actions)
             {
-                const std::string name = feather_tk::Format("{0}/{1}").arg(_name).arg(i.first);
+                const std::string name = ftk::Format("{0}/{1}").arg(_name).arg(i.first);
                 const auto j = std::find_if(
                     value.shortcuts.begin(),
                     value.shortcuts.end(),
@@ -65,12 +65,12 @@ namespace djv
                     const auto k = _tooltips.find(i.first);
                     if (k != _tooltips.end())
                     {
-                        i.second->setTooltip(feather_tk::Format(
+                        i.second->setTooltip(ftk::Format(
                             "{0}\n"
                             "\n"
                             "Shortcut: {1}").
                             arg(k->second).
-                            arg(feather_tk::getShortcutLabel(j->key, j->modifiers)));
+                            arg(ftk::getShortcutLabel(j->key, j->modifiers)));
                     }
                 }
             }

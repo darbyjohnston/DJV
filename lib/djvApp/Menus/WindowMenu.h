@@ -14,13 +14,13 @@ namespace djv
         class WindowActions;
 
         //! Window menu.
-        class WindowMenu : public feather_tk::Menu
+        class WindowMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(WindowMenu);
+            FTK_NON_COPYABLE(WindowMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<WindowActions>&,
                 const std::shared_ptr<IWidget>& parent);
@@ -31,13 +31,13 @@ namespace djv
             ~WindowMenu();
 
             static std::shared_ptr<WindowMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<WindowActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

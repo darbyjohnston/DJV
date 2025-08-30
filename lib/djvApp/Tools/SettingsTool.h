@@ -13,11 +13,11 @@ namespace djv
         //! Settings tool.
         class SettingsTool : public IToolWidget
         {
-            FEATHER_TK_NON_COPYABLE(SettingsTool);
+            FTK_NON_COPYABLE(SettingsTool);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -27,12 +27,12 @@ namespace djv
             virtual ~SettingsTool();
 
             static std::shared_ptr<SettingsTool> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

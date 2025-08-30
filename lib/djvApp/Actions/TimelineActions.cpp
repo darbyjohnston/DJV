@@ -17,21 +17,21 @@ namespace djv
         {
             std::weak_ptr<MainWindow> mainWindow;
 
-            std::shared_ptr<feather_tk::ValueObserver<TimelineSettings> > settingsObserver;
+            std::shared_ptr<ftk::ValueObserver<TimelineSettings> > settingsObserver;
         };
 
         void TimelineActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
             IActions::_init(context, app, "Timeline");
-            FEATHER_TK_P();
+            FTK_P();
 
             p.mainWindow = mainWindow;
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["Minimize"] = feather_tk::Action::create(
+            _actions["Minimize"] = ftk::Action::create(
                 "Minimize",
                 [appWeak](bool value)
                 {
@@ -43,7 +43,7 @@ namespace djv
                     }
                 });
 
-            _actions["FrameView"] = feather_tk::Action::create(
+            _actions["FrameView"] = ftk::Action::create(
                 "Frame View",
                 [appWeak](bool value)
                 {
@@ -55,7 +55,7 @@ namespace djv
                     }
                 });
 
-            _actions["ScrollBars"] = feather_tk::Action::create(
+            _actions["ScrollBars"] = ftk::Action::create(
                 "Scroll Bars",
                 [appWeak](bool value)
                 {
@@ -67,7 +67,7 @@ namespace djv
                     }
                 });
 
-            _actions["AutoScroll"] = feather_tk::Action::create(
+            _actions["AutoScroll"] = ftk::Action::create(
                 "Auto Scroll",
                 [appWeak](bool value)
                 {
@@ -79,7 +79,7 @@ namespace djv
                     }
                 });
 
-            _actions["StopOnScrub"] = feather_tk::Action::create(
+            _actions["StopOnScrub"] = ftk::Action::create(
                 "Stop Playback When Scrubbing",
                 [appWeak](bool value)
                 {
@@ -91,7 +91,7 @@ namespace djv
                     }
                 });
 
-            _actions["ThumbnailsNone"] = feather_tk::Action::create(
+            _actions["ThumbnailsNone"] = ftk::Action::create(
                 "No Thumbnails",
                 [appWeak]
                 {
@@ -103,7 +103,7 @@ namespace djv
                     }
                 });
 
-            _actions["ThumbnailsSmall"] = feather_tk::Action::create(
+            _actions["ThumbnailsSmall"] = ftk::Action::create(
                 "Small Thumbnails",
                 [appWeak]
                 {
@@ -115,7 +115,7 @@ namespace djv
                     }
                 });
 
-            _actions["ThumbnailsMedium"] = feather_tk::Action::create(
+            _actions["ThumbnailsMedium"] = ftk::Action::create(
                 "Medium Thumbnails",
                 [appWeak]
                 {
@@ -127,7 +127,7 @@ namespace djv
                     }
                 });
 
-            _actions["ThumbnailsLarge"] = feather_tk::Action::create(
+            _actions["ThumbnailsLarge"] = ftk::Action::create(
                 "Large Thumbnails",
                 [appWeak]
                 {
@@ -154,7 +154,7 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.settingsObserver = feather_tk::ValueObserver<TimelineSettings>::create(
+            p.settingsObserver = ftk::ValueObserver<TimelineSettings>::create(
                 app->getSettingsModel()->observeTimeline(),
                 [this](const TimelineSettings& value)
                 {
@@ -178,7 +178,7 @@ namespace djv
         {}
 
         std::shared_ptr<TimelineActions> TimelineActions::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {

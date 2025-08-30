@@ -11,11 +11,11 @@ namespace djv
     namespace app
     {
         void ToolsToolBar::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::map<std::string, std::shared_ptr<feather_tk::Action> >& actions,
+            const std::shared_ptr<ftk::Context>& context,
+            const std::map<std::string, std::shared_ptr<ftk::Action> >& actions,
             const std::shared_ptr<IWidget>& parent)
         {
-            ToolBar::_init(context, feather_tk::Orientation::Horizontal, parent);
+            ToolBar::_init(context, ftk::Orientation::Horizontal, parent);
             auto tools = getToolsInToolbar();
             auto tmp = actions;
             for (const auto tool : tools)
@@ -28,8 +28,8 @@ namespace djv
         {}
 
         std::shared_ptr<ToolsToolBar> ToolsToolBar::create(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::map<std::string, std::shared_ptr<feather_tk::Action> >& actions,
+            const std::shared_ptr<ftk::Context>& context,
+            const std::map<std::string, std::shared_ptr<ftk::Action> >& actions,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<ToolsToolBar>(new ToolsToolBar);

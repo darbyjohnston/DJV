@@ -18,13 +18,13 @@ namespace djv
         class FileActions;
 
         //! File menu.
-        class FileMenu : public feather_tk::Menu
+        class FileMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(FileMenu);
+            FTK_NON_COPYABLE(FileMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<FileActions>&,
                 const std::shared_ptr<IWidget>& parent);
@@ -35,7 +35,7 @@ namespace djv
             ~FileMenu();
 
             static std::shared_ptr<FileMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<FileActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
@@ -49,7 +49,7 @@ namespace djv
             void _layersUpdate(const std::vector<int>&);
             void _recentUpdate(const std::vector<std::filesystem::path>&);
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

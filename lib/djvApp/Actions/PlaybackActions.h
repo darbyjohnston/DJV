@@ -13,11 +13,11 @@ namespace djv
         //! Playback actions.
         class PlaybackActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(PlaybackActions);
+            FTK_NON_COPYABLE(PlaybackActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
             PlaybackActions();
@@ -26,7 +26,7 @@ namespace djv
             ~PlaybackActions();
 
             static std::shared_ptr<PlaybackActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
         private:
@@ -36,7 +36,7 @@ namespace djv
 
             tl::timeline::Playback _playbackPrev = tl::timeline::Playback::Forward;
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

@@ -15,13 +15,13 @@ namespace djv
         class PlaybackActions;
 
         //! Playback menu.
-        class PlaybackMenu : public feather_tk::Menu
+        class PlaybackMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(PlaybackMenu);
+            FTK_NON_COPYABLE(PlaybackMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<PlaybackActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -31,7 +31,7 @@ namespace djv
             ~PlaybackMenu();
 
             static std::shared_ptr<PlaybackMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<PlaybackActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

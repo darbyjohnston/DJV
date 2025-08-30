@@ -11,7 +11,7 @@ namespace djv
     namespace app
     {
         void HelpMenu::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<HelpActions>& helpActions,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -26,7 +26,7 @@ namespace djv
         {}
 
         std::shared_ptr<HelpMenu> HelpMenu::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<HelpActions>& actions,
             const std::shared_ptr<IWidget>& parent)
         {

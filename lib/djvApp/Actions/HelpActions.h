@@ -15,11 +15,11 @@ namespace djv
         //! Help actions.
         class HelpActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(HelpActions);
+            FTK_NON_COPYABLE(HelpActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
@@ -29,12 +29,12 @@ namespace djv
             ~HelpActions();
 
             static std::shared_ptr<HelpActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

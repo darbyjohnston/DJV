@@ -18,13 +18,13 @@ namespace djv
         class PlaybackActions;
 
         //! Bottom tool bar.
-        class BottomToolBar : public feather_tk::IWidget
+        class BottomToolBar : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(BottomToolBar);
+            FTK_NON_COPYABLE(BottomToolBar);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<PlaybackActions>&,
                 const std::shared_ptr<FrameActions>&,
@@ -37,7 +37,7 @@ namespace djv
             ~BottomToolBar();
 
             static std::shared_ptr<BottomToolBar> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<PlaybackActions>&,
                 const std::shared_ptr<FrameActions>&,
@@ -47,15 +47,15 @@ namespace djv
             //! Focus the current frame widget.
             void focusCurrentFrame();
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
             void _playerUpdate(const std::shared_ptr<tl::timeline::Player>&);
             void _showSpeedPopup();
             void _showAudioPopup();
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

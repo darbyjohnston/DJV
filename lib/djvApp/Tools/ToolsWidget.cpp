@@ -27,12 +27,12 @@ namespace djv
         struct ToolsWidget::Private
         {
             std::map<Tool, std::shared_ptr<IToolWidget> > toolWidgets;
-            std::shared_ptr<feather_tk::StackLayout> layout;
-            std::shared_ptr<feather_tk::ValueObserver<Tool> > activeObserver;
+            std::shared_ptr<ftk::StackLayout> layout;
+            std::shared_ptr<ftk::ValueObserver<Tool> > activeObserver;
         };
 
         void ToolsWidget::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<IWidget>& parent)
@@ -41,7 +41,7 @@ namespace djv
                 context,
                 "djv::app::ToolsWidget",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.toolWidgets[Tool::Audio] = AudioTool::create(context, app);
             p.toolWidgets[Tool::Color] = ColorTool::create(context, app);
@@ -55,17 +55,17 @@ namespace djv
             p.toolWidgets[Tool::SystemLog] = SystemLogTool::create(context, app);
             p.toolWidgets[Tool::View] = ViewTool::create(context, app, mainWindow);
 
-            p.layout = feather_tk::StackLayout::create(context, shared_from_this());
+            p.layout = ftk::StackLayout::create(context, shared_from_this());
             for (const auto& widget : p.toolWidgets)
             {
                 widget.second->setParent(p.layout);
             }
 
-            p.activeObserver = feather_tk::ValueObserver<Tool>::create(
+            p.activeObserver = ftk::ValueObserver<Tool>::create(
                 app->getToolsModel()->observeActiveTool(),
                 [this](Tool value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     auto i = p.toolWidgets.find(value);
                     p.layout->setCurrentWidget(i != p.toolWidgets.end() ? i->second : nullptr);
                     setVisible(value != Tool::None);
@@ -80,7 +80,7 @@ namespace djv
         {}
 
         std::shared_ptr<ToolsWidget> ToolsWidget::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<IWidget>& parent)
@@ -90,13 +90,13 @@ namespace djv
             return out;
         }
 
-        void ToolsWidget::setGeometry(const feather_tk::Box2I & value)
+        void ToolsWidget::setGeometry(const ftk::Box2I & value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void ToolsWidget::sizeHintEvent(const feather_tk::SizeHintEvent & event)
+        void ToolsWidget::sizeHintEvent(const ftk::SizeHintEvent & event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());

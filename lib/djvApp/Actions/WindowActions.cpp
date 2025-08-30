@@ -13,22 +13,22 @@ namespace djv
     {
         struct WindowActions::Private
         {
-            std::shared_ptr<feather_tk::ValueObserver<bool> > fullScreenObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > floatOnTopObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > secondaryObserver;
-            std::shared_ptr<feather_tk::ValueObserver<WindowSettings> > settingsObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > fullScreenObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > floatOnTopObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > secondaryObserver;
+            std::shared_ptr<ftk::ValueObserver<WindowSettings> > settingsObserver;
         };
 
         void WindowActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
             IActions::_init(context, app, "Window");
-            FEATHER_TK_P();
+            FTK_P();
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["FullScreen"] = feather_tk::Action::create(
+            _actions["FullScreen"] = ftk::Action::create(
                 "Full Screen",
                 "WindowFullScreen",
                 [appWeak](bool value)
@@ -39,7 +39,7 @@ namespace djv
                     }
                 });
 
-            _actions["FloatOnTop"] = feather_tk::Action::create(
+            _actions["FloatOnTop"] = ftk::Action::create(
                 "Float On Top",
                 [appWeak](bool value)
                 {
@@ -49,7 +49,7 @@ namespace djv
                     }
                 });
 
-            _actions["Secondary"] = feather_tk::Action::create(
+            _actions["Secondary"] = ftk::Action::create(
                 "Secondary",
                 "WindowSecondary",
                 [appWeak](bool value)
@@ -60,7 +60,7 @@ namespace djv
                     }
                 });
 
-            _actions["FileToolBar"] = feather_tk::Action::create(
+            _actions["FileToolBar"] = ftk::Action::create(
                 "File Tool Bar",
                 [appWeak](bool value)
                 {
@@ -72,7 +72,7 @@ namespace djv
                     }
                 });
 
-            _actions["CompareToolBar"] = feather_tk::Action::create(
+            _actions["CompareToolBar"] = ftk::Action::create(
                 "Compare Tool Bar",
                 [appWeak](bool value)
                 {
@@ -84,7 +84,7 @@ namespace djv
                     }
                 });
 
-            _actions["WindowToolBar"] = feather_tk::Action::create(
+            _actions["WindowToolBar"] = ftk::Action::create(
                 "Window Tool Bar",
                 [appWeak](bool value)
                 {
@@ -96,7 +96,7 @@ namespace djv
                     }
                 });
 
-            _actions["ViewToolBar"] = feather_tk::Action::create(
+            _actions["ViewToolBar"] = ftk::Action::create(
                 "View Tool Bar",
                 [appWeak](bool value)
                 {
@@ -108,7 +108,7 @@ namespace djv
                     }
                 });
 
-            _actions["ToolsToolBar"] = feather_tk::Action::create(
+            _actions["ToolsToolBar"] = ftk::Action::create(
                 "Tools Tool Bar",
                 [appWeak](bool value)
                 {
@@ -120,7 +120,7 @@ namespace djv
                     }
                 });
 
-            _actions["TabBar"] = feather_tk::Action::create(
+            _actions["TabBar"] = ftk::Action::create(
                 "Tab Bar",
                 [appWeak](bool value)
                 {
@@ -132,7 +132,7 @@ namespace djv
                     }
                 });
 
-            _actions["Timeline"] = feather_tk::Action::create(
+            _actions["Timeline"] = ftk::Action::create(
                 "Timeline",
                 [appWeak](bool value)
                 {
@@ -144,7 +144,7 @@ namespace djv
                     }
                 });
 
-            _actions["BottomToolBar"] = feather_tk::Action::create(
+            _actions["BottomToolBar"] = ftk::Action::create(
                 "Bottom Tool Bar",
                 [appWeak](bool value)
                 {
@@ -156,7 +156,7 @@ namespace djv
                     }
                 });
 
-            _actions["StatusToolBar"] = feather_tk::Action::create(
+            _actions["StatusToolBar"] = ftk::Action::create(
                 "Status Tool Bar",
                 [appWeak](bool value)
                 {
@@ -176,28 +176,28 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.fullScreenObserver = feather_tk::ValueObserver<bool>::create(
+            p.fullScreenObserver = ftk::ValueObserver<bool>::create(
                 mainWindow->observeFullScreen(),
                 [this](bool value)
                 {
                     _actions["FullScreen"]->setChecked(value);
                 });
 
-            p.floatOnTopObserver = feather_tk::ValueObserver<bool>::create(
+            p.floatOnTopObserver = ftk::ValueObserver<bool>::create(
                 mainWindow->observeFloatOnTop(),
                 [this](bool value)
                 {
                     _actions["FloatOnTop"]->setChecked(value);
                 });
 
-            p.secondaryObserver = feather_tk::ValueObserver<bool>::create(
+            p.secondaryObserver = ftk::ValueObserver<bool>::create(
                 app->observeSecondaryWindow(),
                 [this](bool value)
                 {
                     _actions["Secondary"]->setChecked(value);
                 });
 
-            p.settingsObserver = feather_tk::ValueObserver<WindowSettings>::create(
+            p.settingsObserver = ftk::ValueObserver<WindowSettings>::create(
                 app->getSettingsModel()->observeWindow(),
                 [this](const WindowSettings& value)
                 {
@@ -221,7 +221,7 @@ namespace djv
         {}
 
         std::shared_ptr<WindowActions> WindowActions::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {

@@ -12,7 +12,7 @@ if(APPLE)
 endif()
 set(DJV_IGNORE_PREFIX_PATH ${DJV_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
 
-set(feather_tk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
+set(ftk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
 
 set(TLRENDER_NET OFF CACHE BOOL "Enable network support")
 set(TLRENDER_OCIO ON CACHE BOOL "Enable support for OpenColorIO")

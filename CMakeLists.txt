@@ -28,7 +28,7 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    add_definitions(-DFEATHER_TK_ASSERT)
+    add_definitions(-DFTK_ASSERT)
 endif()
 
 if(MSVC)

@@ -15,13 +15,13 @@ namespace djv
         class App;
 
         //! Separate audio widget.
-        class SeparateAudioWidget : public feather_tk::IWidget
+        class SeparateAudioWidget : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(SeparateAudioWidget);
+            FTK_NON_COPYABLE(SeparateAudioWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             SeparateAudioWidget();
@@ -30,7 +30,7 @@ namespace djv
             virtual ~SeparateAudioWidget();
 
             static std::shared_ptr<SeparateAudioWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setCallback(const std::function<void(
@@ -39,21 +39,21 @@ namespace djv
 
             void setCancelCallback(const std::function<void(void)>&);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Separate audio dialog.
-        class SeparateAudioDialog : public feather_tk::IDialog
+        class SeparateAudioDialog : public ftk::IDialog
         {
-            FEATHER_TK_NON_COPYABLE(SeparateAudioDialog);
+            FTK_NON_COPYABLE(SeparateAudioDialog);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             SeparateAudioDialog();
@@ -62,7 +62,7 @@ namespace djv
             virtual ~SeparateAudioDialog();
 
             static std::shared_ptr<SeparateAudioDialog> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set the callback.
@@ -71,7 +71,7 @@ namespace djv
                 const tl::file::Path&)>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

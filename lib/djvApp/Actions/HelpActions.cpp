@@ -18,22 +18,22 @@ namespace djv
         };
 
         void HelpActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
             IActions::_init(context, app, "Help");
-            FEATHER_TK_P();
+            FTK_P();
 
-            _actions["Documentation"] = feather_tk::Action::create(
+            _actions["Documentation"] = ftk::Action::create(
                 "Documentation",
                 []
                 {
-                    feather_tk::openURL("https://darbyjohnston.github.io/DJV/index.html");
+                    ftk::openURL("https://darbyjohnston.github.io/DJV/index.html");
                 });
 
             std::weak_ptr<MainWindow> mainWindowWeak(mainWindow);
-            _actions["About"] = feather_tk::Action::create(
+            _actions["About"] = ftk::Action::create(
                 "About",
                 [mainWindowWeak]
                 {
@@ -52,7 +52,7 @@ namespace djv
         {}
 
         std::shared_ptr<HelpActions> HelpActions::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {

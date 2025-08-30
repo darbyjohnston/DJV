@@ -24,7 +24,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace feather_tk
+namespace ftk
 {
     class Context;
     class Settings;
@@ -58,10 +58,10 @@ namespace djv
             Count,
             First = Default
         };
-        FEATHER_TK_ENUM(ExportRenderSize);
+        FTK_ENUM(ExportRenderSize);
 
         //! Get an export render size.
-        feather_tk::Size2I getSize(ExportRenderSize);
+        ftk::Size2I getSize(ExportRenderSize);
 
         //! Export file type.
         enum class ExportFileType
@@ -73,14 +73,14 @@ namespace djv
             Count,
             First = Image
         };
-        FEATHER_TK_ENUM(ExportFileType);
+        FTK_ENUM(ExportFileType);
 
         //! Export settings.
         struct ExportSettings
         {
             std::string directory;
             ExportRenderSize renderSize = ExportRenderSize::Default;
-            feather_tk::Size2I customSize = feather_tk::Size2I(1920, 1080);
+            ftk::Size2I customSize = ftk::Size2I(1920, 1080);
             ExportFileType fileType = ExportFileType::Image;
 
             std::string imageBaseName = "render.";
@@ -100,7 +100,7 @@ namespace djv
         {
             bool nativeFileDialog = true;
             std::string path;
-            feather_tk::FileBrowserOptions options;
+            ftk::FileBrowserOptions options;
             std::string extension;
 
             bool operator == (const FileBrowserSettings&) const;
@@ -141,7 +141,7 @@ namespace djv
             Count,
             First = ColorPicker
         };
-        FEATHER_TK_ENUM(MouseAction);
+        FTK_ENUM(MouseAction);
 
         //! Mouse action binding.
         struct MouseActionBinding
@@ -149,10 +149,10 @@ namespace djv
             MouseActionBinding() = default;
             MouseActionBinding(
                 int button,
-                feather_tk::KeyModifier modifier = feather_tk::KeyModifier::None);
+                ftk::KeyModifier modifier = ftk::KeyModifier::None);
 
             int button = 0;
-            feather_tk::KeyModifier modifier = feather_tk::KeyModifier::None;
+            ftk::KeyModifier modifier = ftk::KeyModifier::None;
 
             bool operator == (const MouseActionBinding&) const;
             bool operator != (const MouseActionBinding&) const;
@@ -164,9 +164,9 @@ namespace djv
             std::map<MouseAction, MouseActionBinding> bindings =
             {
                 { MouseAction::ColorPicker, MouseActionBinding(1) },
-                { MouseAction::PanView, MouseActionBinding(1, feather_tk::KeyModifier::Control) },
-                { MouseAction::FrameShuttle, MouseActionBinding(1, feather_tk::KeyModifier::Shift) },
-                { MouseAction::CompareWipe, MouseActionBinding(1, feather_tk::KeyModifier::Alt) }
+                { MouseAction::PanView, MouseActionBinding(1, ftk::KeyModifier::Control) },
+                { MouseAction::FrameShuttle, MouseActionBinding(1, ftk::KeyModifier::Shift) },
+                { MouseAction::CompareWipe, MouseActionBinding(1, ftk::KeyModifier::Alt) }
             };
 
             float wheelScale = 1.1F;
@@ -190,9 +190,9 @@ namespace djv
         struct StyleSettings
         {
             float displayScale = 1.F;
-            feather_tk::ColorControls colorControls;
-            feather_tk::ColorStyle colorStyle = feather_tk::ColorStyle::Dark;
-            std::map<feather_tk::ColorRole, feather_tk::Color4F> customColorRoles = feather_tk::getCustomColorRoles();
+            ftk::ColorControls colorControls;
+            ftk::ColorStyle colorStyle = ftk::ColorStyle::Dark;
+            std::map<ftk::ColorRole, ftk::Color4F> customColorRoles = ftk::getCustomColorRoles();
 
             bool operator == (const StyleSettings&) const;
             bool operator != (const StyleSettings&) const;
@@ -209,7 +209,7 @@ namespace djv
             Count,
             First = None
         };
-        FEATHER_TK_ENUM(TimelineThumbnails);
+        FTK_ENUM(TimelineThumbnails);
 
         //! Get the timeline thumbnails size.
         int getTimelineThumbnailsSize(TimelineThumbnails);
@@ -235,7 +235,7 @@ namespace djv
         //! Window settings.
         struct WindowSettings
         {
-            feather_tk::Size2I size = feather_tk::Size2I(1920, 1080);
+            ftk::Size2I size = ftk::Size2I(1920, 1080);
             bool fileToolBar = true;
             bool compareToolBar = true;
             bool windowToolBar = true;
@@ -255,12 +255,12 @@ namespace djv
         //! Settings model.
         class SettingsModel : public std::enable_shared_from_this<SettingsModel>
         {
-            FEATHER_TK_NON_COPYABLE(SettingsModel);
+            FTK_NON_COPYABLE(SettingsModel);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&,
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&,
                 float defaultDisplayScale);
 
             SettingsModel();
@@ -270,8 +270,8 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<SettingsModel> create(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&,
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&,
                 float defaultDisplayScale);
 
             //! Save the settings. Settings are also saved on exit.
@@ -284,7 +284,7 @@ namespace djv
             ///@{
 
             const AdvancedSettings& getAdvanced() const;
-            std::shared_ptr<feather_tk::IObservableValue<AdvancedSettings> > observeAdvanced() const;
+            std::shared_ptr<ftk::IObservableValue<AdvancedSettings> > observeAdvanced() const;
             void setAdvanced(const AdvancedSettings&);
 
             ///@}
@@ -293,7 +293,7 @@ namespace djv
             ///@{
 
             const tl::timeline::PlayerCacheOptions& getCache() const;
-            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::PlayerCacheOptions> > observeCache() const;
+            std::shared_ptr<ftk::IObservableValue<tl::timeline::PlayerCacheOptions> > observeCache() const;
             void setCache(const tl::timeline::PlayerCacheOptions&);
 
             ///@}
@@ -302,7 +302,7 @@ namespace djv
             ///@{
 
             const ExportSettings& getExport() const;
-            std::shared_ptr<feather_tk::IObservableValue<ExportSettings> > observeExport() const;
+            std::shared_ptr<ftk::IObservableValue<ExportSettings> > observeExport() const;
             void setExport(const ExportSettings&);
 
             ///@}
@@ -311,7 +311,7 @@ namespace djv
             ///@{
 
             const FileBrowserSettings& getFileBrowser() const;
-            std::shared_ptr<feather_tk::IObservableValue<FileBrowserSettings> > observeFileBrowser() const;
+            std::shared_ptr<ftk::IObservableValue<FileBrowserSettings> > observeFileBrowser() const;
             void setFileBrowser(const FileBrowserSettings&);
 
             ///@}
@@ -320,7 +320,7 @@ namespace djv
             ///@{
 
             const ImageSequenceSettings& getImageSequence() const;
-            std::shared_ptr<feather_tk::IObservableValue<ImageSequenceSettings> > observeImageSequence() const;
+            std::shared_ptr<ftk::IObservableValue<ImageSequenceSettings> > observeImageSequence() const;
             void setImageSequence(const ImageSequenceSettings&);
 
             ///@}
@@ -329,7 +329,7 @@ namespace djv
             ///@{
 
             const MiscSettings& getMisc() const;
-            std::shared_ptr<feather_tk::IObservableValue<MiscSettings> > observeMisc() const;
+            std::shared_ptr<ftk::IObservableValue<MiscSettings> > observeMisc() const;
             void setMisc(const MiscSettings&);
 
             ///@}
@@ -338,7 +338,7 @@ namespace djv
             ///@{
 
             const MouseSettings& getMouse() const;
-            std::shared_ptr<feather_tk::IObservableValue<MouseSettings> > observeMouse() const;
+            std::shared_ptr<ftk::IObservableValue<MouseSettings> > observeMouse() const;
             void setMouse(const MouseSettings&);
 
             ///@}
@@ -347,7 +347,7 @@ namespace djv
             ///@{
 
             const ShortcutsSettings& getShortcuts() const;
-            std::shared_ptr<feather_tk::IObservableValue<ShortcutsSettings> > observeShortcuts() const;
+            std::shared_ptr<ftk::IObservableValue<ShortcutsSettings> > observeShortcuts() const;
             void setShortcuts(const ShortcutsSettings&);
 
             ///@}
@@ -356,7 +356,7 @@ namespace djv
             ///@{
 
             const StyleSettings& getStyle() const;
-            std::shared_ptr<feather_tk::IObservableValue<StyleSettings> > observeStyle() const;
+            std::shared_ptr<ftk::IObservableValue<StyleSettings> > observeStyle() const;
             void setStyle(const StyleSettings&);
 
             ///@}
@@ -365,7 +365,7 @@ namespace djv
             ///@{
 
             const TimelineSettings& getTimeline() const;
-            std::shared_ptr<feather_tk::IObservableValue<TimelineSettings> > observeTimeline() const;
+            std::shared_ptr<ftk::IObservableValue<TimelineSettings> > observeTimeline() const;
             void setTimeline(const TimelineSettings&);
 
             ///@}
@@ -374,7 +374,7 @@ namespace djv
             ///@{
 
             const WindowSettings& getWindow() const;
-            std::shared_ptr<feather_tk::IObservableValue<WindowSettings> > observeWindow() const;
+            std::shared_ptr<ftk::IObservableValue<WindowSettings> > observeWindow() const;
             void setWindow(const WindowSettings&);
 
             ///@}
@@ -384,7 +384,7 @@ namespace djv
             ///@{
 
             const tl::ffmpeg::Options& getFFmpeg() const;
-            std::shared_ptr<feather_tk::IObservableValue<tl::ffmpeg::Options> > observeFFmpeg() const;
+            std::shared_ptr<ftk::IObservableValue<tl::ffmpeg::Options> > observeFFmpeg() const;
             void setFFmpeg(const tl::ffmpeg::Options&);
 
             ///@}
@@ -395,14 +395,14 @@ namespace djv
             ///@{
 
             const tl::usd::Options& getUSD() const;
-            std::shared_ptr<feather_tk::IObservableValue<tl::usd::Options> > observeUSD() const;
+            std::shared_ptr<ftk::IObservableValue<tl::usd::Options> > observeUSD() const;
             void setUSD(const tl::usd::Options&);
 
             ///@}
 #endif // TLRENDER_USD
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! \name Serialize

@@ -15,13 +15,13 @@ namespace djv
         class App;
 
         //! Base class for tool widgets.
-        class IToolWidget : public feather_tk::IWidget
+        class IToolWidget : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(IToolWidget);
+            FTK_NON_COPYABLE(IToolWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 Tool,
                 const std::string& objectName,
@@ -32,19 +32,19 @@ namespace djv
         public:
             virtual ~IToolWidget() = 0;
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         protected:
-            void _loadSettings(const std::map<std::string, std::shared_ptr<feather_tk::Bellows> >&);
-            void _saveSettings(const std::map<std::string, std::shared_ptr<feather_tk::Bellows> >&);
+            void _loadSettings(const std::map<std::string, std::shared_ptr<ftk::Bellows> >&);
+            void _saveSettings(const std::map<std::string, std::shared_ptr<ftk::Bellows> >&);
 
-            void _setWidget(const std::shared_ptr<feather_tk::IWidget>&);
+            void _setWidget(const std::shared_ptr<ftk::IWidget>&);
 
             std::weak_ptr<App> _app;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

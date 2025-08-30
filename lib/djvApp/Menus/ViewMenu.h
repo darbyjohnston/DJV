@@ -13,13 +13,13 @@ namespace djv
         class ViewActions;
 
         //! View menu.
-        class ViewMenu : public feather_tk::Menu
+        class ViewMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(ViewMenu);
+            FTK_NON_COPYABLE(ViewMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<ViewActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace djv
             ~ViewMenu();
 
             static std::shared_ptr<ViewMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<ViewActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

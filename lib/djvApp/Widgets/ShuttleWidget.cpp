@@ -15,7 +15,7 @@ namespace djv
         struct ShuttleWidget::Private
         {
             std::string iconPrefix;
-            std::vector<std::shared_ptr<feather_tk::Image> > iconImages;
+            std::vector<std::shared_ptr<ftk::Image> > iconImages;
             int iconIndex = 0;
             float iconScale = 1.F;
             std::function<void(bool)> activeCallback;
@@ -23,7 +23,7 @@ namespace djv
         };
 
         void ShuttleWidget::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::string& iconPrefix,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -31,7 +31,7 @@ namespace djv
                 context,
                 "djv::app::ShuttleWidget",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
@@ -47,7 +47,7 @@ namespace djv
         {}
 
         std::shared_ptr<ShuttleWidget> ShuttleWidget::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::string& iconPrefix,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -66,10 +66,10 @@ namespace djv
             _p->callback = value;
         }
 
-        void ShuttleWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
+        void ShuttleWidget::sizeHintEvent(const ftk::SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
-            FEATHER_TK_P();
+            FTK_P();
 
             if (event.displayScale != p.iconScale)
             {
@@ -81,14 +81,14 @@ namespace djv
                 for (int i = 0; i < 8; ++i)
                 {
                     p.iconImages.push_back(event.iconSystem->get(
-                        feather_tk::Format("{0}{1}").
+                        ftk::Format("{0}{1}").
                         arg(p.iconPrefix).
                         arg(i),
                         event.displayScale));
                 }
             }
 
-            feather_tk::Size2I sizeHint;
+            ftk::Size2I sizeHint;
             if (!p.iconImages.empty())
             {
                 sizeHint = p.iconImages.front()->getSize();
@@ -96,15 +96,15 @@ namespace djv
             _setSizeHint(sizeHint);
         }
 
-        void ShuttleWidget::drawEvent(const feather_tk::Box2I& drawRect, const feather_tk::DrawEvent& event)
+        void ShuttleWidget::drawEvent(const ftk::Box2I& drawRect, const ftk::DrawEvent& event)
         {
             IWidget::drawEvent(drawRect, event);
-            FEATHER_TK_P();
-            const feather_tk::Box2I& g = getGeometry();
+            FTK_P();
+            const ftk::Box2I& g = getGeometry();
             if (p.iconIndex >= 0 && p.iconIndex < p.iconImages.size())
             {
-                const feather_tk::Size2I& iconSize = p.iconImages.front()->getSize();
-                const feather_tk::Box2I g2(
+                const ftk::Size2I& iconSize = p.iconImages.front()->getSize();
+                const ftk::Box2I g2(
                     g.min.x + g.w() / 2 - iconSize.w / 2,
                     g.min.y + g.h() / 2 - iconSize.h / 2,
                     iconSize.w,
@@ -113,24 +113,24 @@ namespace djv
                     p.iconImages[p.iconIndex],
                     g2,
                     event.style->getColorRole(isEnabled() ?
-                        feather_tk::ColorRole::Text :
-                        feather_tk::ColorRole::TextDisabled));
+                        ftk::ColorRole::Text :
+                        ftk::ColorRole::TextDisabled));
             }
             if (_isMousePressed())
             {
                 event.render->drawRect(
                     g,
-                    event.style->getColorRole(feather_tk::ColorRole::Pressed));
+                    event.style->getColorRole(ftk::ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
                     g,
-                    event.style->getColorRole(feather_tk::ColorRole::Hover));
+                    event.style->getColorRole(ftk::ColorRole::Hover));
             }
         }
 
-        void ShuttleWidget::mouseEnterEvent(feather_tk::MouseEnterEvent& event)
+        void ShuttleWidget::mouseEnterEvent(ftk::MouseEnterEvent& event)
         {
             IWidget::mouseEnterEvent(event);
             _setDrawUpdate();
@@ -142,11 +142,11 @@ namespace djv
             _setDrawUpdate();
         }
 
-        void ShuttleWidget::mouseMoveEvent(feather_tk::MouseMoveEvent& event)
+        void ShuttleWidget::mouseMoveEvent(ftk::MouseMoveEvent& event)
         {
             IWidget::mouseMoveEvent(event);
-            FEATHER_TK_P();
-            const feather_tk::Box2I& g = getGeometry();
+            FTK_P();
+            const ftk::Box2I& g = getGeometry();
             if (_isMousePressed() && g.isValid())
             {
                 const int d = event.pos.x - _getMousePressPos().x;
@@ -163,10 +163,10 @@ namespace djv
             }
         }
 
-        void ShuttleWidget::mousePressEvent(feather_tk::MouseClickEvent& event)
+        void ShuttleWidget::mousePressEvent(ftk::MouseClickEvent& event)
         {
             IWidget::mousePressEvent(event);
-            FEATHER_TK_P();
+            FTK_P();
             _setDrawUpdate();
             if (p.activeCallback)
             {
@@ -174,10 +174,10 @@ namespace djv
             }
         }
 
-        void ShuttleWidget::mouseReleaseEvent(feather_tk::MouseClickEvent& event)
+        void ShuttleWidget::mouseReleaseEvent(ftk::MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            FEATHER_TK_P();
+            FTK_P();
             p.iconIndex = 0;
             _setDrawUpdate();
             if (p.activeCallback)

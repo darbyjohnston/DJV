@@ -17,12 +17,12 @@ namespace djv
             Shortcut(
                 const std::string& name,
                 const std::string& text,
-                feather_tk::Key = feather_tk::Key::Unknown,
+                ftk::Key = ftk::Key::Unknown,
                 int modifiers = 0);
 
             std::string     name;
             std::string     text;
-            feather_tk::Key key       = feather_tk::Key::Unknown;
+            ftk::Key key       = ftk::Key::Unknown;
             int             modifiers = 0;
 
             bool operator == (const Shortcut&) const;

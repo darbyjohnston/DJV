@@ -21,21 +21,21 @@ namespace djv
     {
         struct SetupStartWidget::Private
         {
-            std::shared_ptr<feather_tk::VerticalLayout> layout;
+            std::shared_ptr<ftk::VerticalLayout> layout;
         };
 
         void SetupStartWidget::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
-            const std::shared_ptr<feather_tk::IWidget>& parent)
+            const std::shared_ptr<ftk::IWidget>& parent)
         {
             IWidget::_init(context, "djv::app::SetupStartWidget", parent);
-            FEATHER_TK_P();
-            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
-            feather_tk::Label::create(context, feather_tk::Format("Welcome to DJV version {0}.").arg(DJV_VERSION), p.layout);
-            feather_tk::Label::create(context, "Start by configuring some settings.", p.layout);
-            feather_tk::Label::create(context, "Changes can also be made later in the settings tool.", p.layout);
+            FTK_P();
+            p.layout = ftk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(ftk::SizeRole::SpacingSmall);
+            ftk::Label::create(context, ftk::Format("Welcome to DJV version {0}.").arg(DJV_VERSION), p.layout);
+            ftk::Label::create(context, "Start by configuring some settings.", p.layout);
+            ftk::Label::create(context, "Changes can also be made later in the settings tool.", p.layout);
         }
 
         SetupStartWidget::SetupStartWidget() :
@@ -46,22 +46,22 @@ namespace djv
         {}
 
         std::shared_ptr<SetupStartWidget> SetupStartWidget::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
-            const std::shared_ptr<feather_tk::IWidget>& parent)
+            const std::shared_ptr<ftk::IWidget>& parent)
         {
             auto out = std::shared_ptr<SetupStartWidget>(new SetupStartWidget);
             out->_init(context, app, parent);
             return out;
         }
 
-        void SetupStartWidget::setGeometry(const feather_tk::Box2I& value)
+        void SetupStartWidget::setGeometry(const ftk::Box2I& value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void SetupStartWidget::sizeHintEvent(const feather_tk::SizeHintEvent& event)
+        void SetupStartWidget::sizeHintEvent(const ftk::SizeHintEvent& event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
@@ -69,19 +69,19 @@ namespace djv
 
         struct SetupDialog::Private
         {
-            std::shared_ptr<feather_tk::PushButton> nextButton;
-            std::shared_ptr<feather_tk::PushButton> prevButton;
-            std::shared_ptr<feather_tk::PushButton> closeButton;
-            std::shared_ptr<feather_tk::StackLayout> stackLayout;
-            std::vector<std::shared_ptr<feather_tk::IWidget> > widgets;
-            std::shared_ptr<feather_tk::VerticalLayout> layout;
+            std::shared_ptr<ftk::PushButton> nextButton;
+            std::shared_ptr<ftk::PushButton> prevButton;
+            std::shared_ptr<ftk::PushButton> closeButton;
+            std::shared_ptr<ftk::StackLayout> stackLayout;
+            std::vector<std::shared_ptr<ftk::IWidget> > widgets;
+            std::shared_ptr<ftk::VerticalLayout> layout;
 
-            std::shared_ptr<feather_tk::ValueObserver<bool> > nextObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > prevObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > nextObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > prevObserver;
         };
 
         void SetupDialog::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -89,45 +89,45 @@ namespace djv
                 context,
                 "djv::app::SetupDialog",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
-            auto label = feather_tk::Label::create(
+            auto label = ftk::Label::create(
                 context,
-                feather_tk::Format("Setup").arg(DJV_VERSION));
-            label->setFontRole(feather_tk::FontRole::Title);
-            label->setMarginRole(feather_tk::SizeRole::Margin);
+                ftk::Format("Setup").arg(DJV_VERSION));
+            label->setFontRole(ftk::FontRole::Title);
+            label->setMarginRole(ftk::SizeRole::Margin);
 
-            p.nextButton = feather_tk::PushButton::create(context, "Next");
-            p.prevButton = feather_tk::PushButton::create(context, "Previous");
-            p.closeButton = feather_tk::PushButton::create(context, "Close");
+            p.nextButton = ftk::PushButton::create(context, "Next");
+            p.prevButton = ftk::PushButton::create(context, "Previous");
+            p.closeButton = ftk::PushButton::create(context, "Close");
 
-            p.stackLayout = feather_tk::StackLayout::create(context);
-            p.stackLayout->setMarginRole(feather_tk::SizeRole::MarginDialog);
+            p.stackLayout = ftk::StackLayout::create(context);
+            p.stackLayout->setMarginRole(ftk::SizeRole::MarginDialog);
             p.widgets.push_back(SetupStartWidget::create(context, app, p.stackLayout));
-            auto vLayout = feather_tk::VerticalLayout::create(context, p.stackLayout);
-            vLayout->setSpacingRole(feather_tk::SizeRole::SpacingLarge);
-            feather_tk::Label::create(context, "Configure the style:", vLayout);
+            auto vLayout = ftk::VerticalLayout::create(context, p.stackLayout);
+            vLayout->setSpacingRole(ftk::SizeRole::SpacingLarge);
+            ftk::Label::create(context, "Configure the style:", vLayout);
             p.widgets.push_back(StyleSettingsWidget::create(context, app, vLayout));
-            vLayout = feather_tk::VerticalLayout::create(context, p.stackLayout);
-            vLayout->setSpacingRole(feather_tk::SizeRole::SpacingLarge);
-            feather_tk::Label::create(context, "Configure the memory cache:", vLayout);
+            vLayout = ftk::VerticalLayout::create(context, p.stackLayout);
+            vLayout->setSpacingRole(ftk::SizeRole::SpacingLarge);
+            ftk::Label::create(context, "Configure the memory cache:", vLayout);
             p.widgets.push_back(CacheSettingsWidget::create(context, app, vLayout));
-            vLayout = feather_tk::VerticalLayout::create(context, p.stackLayout);
-            vLayout->setSpacingRole(feather_tk::SizeRole::SpacingLarge);
-            feather_tk::Label::create(context, "Configure the time settings:", vLayout);
+            vLayout = ftk::VerticalLayout::create(context, p.stackLayout);
+            vLayout->setSpacingRole(ftk::SizeRole::SpacingLarge);
+            ftk::Label::create(context, "Configure the time settings:", vLayout);
             p.widgets.push_back(TimeSettingsWidget::create(context, app, vLayout));
 
-            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(feather_tk::SizeRole::None);
+            p.layout = ftk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(ftk::SizeRole::None);
             label->setParent(p.layout);
-            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
             p.stackLayout->setParent(p.layout);
-            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
-            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
-            hLayout->setMarginRole(feather_tk::SizeRole::Margin);
+            ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
+            auto hLayout = ftk::HorizontalLayout::create(context, p.layout);
+            hLayout->setMarginRole(ftk::SizeRole::Margin);
             p.prevButton->setParent(hLayout);
             p.nextButton->setParent(hLayout);
-            hLayout->addSpacer(feather_tk::SizeRole::Spacing, feather_tk::Stretch::Expanding);
+            hLayout->addSpacer(ftk::SizeRole::Spacing, ftk::Stretch::Expanding);
             p.closeButton->setParent(hLayout);
 
             p.nextButton->setClickedCallback(
@@ -148,14 +148,14 @@ namespace djv
                     close();
                 });
 
-            p.nextObserver = feather_tk::ValueObserver<bool>::create(
+            p.nextObserver = ftk::ValueObserver<bool>::create(
                 p.stackLayout->observeHasNextIndex(),
                 [this](bool value)
                 {
                     _p->nextButton->setEnabled(value);
                 });
 
-            p.prevObserver = feather_tk::ValueObserver<bool>::create(
+            p.prevObserver = ftk::ValueObserver<bool>::create(
                 p.stackLayout->observeHasPrevIndex(),
                 [this](bool value)
                 {
@@ -171,7 +171,7 @@ namespace djv
         {}
 
         std::shared_ptr<SetupDialog> SetupDialog::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

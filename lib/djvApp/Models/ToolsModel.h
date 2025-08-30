@@ -7,7 +7,7 @@
 #include <feather-tk/ui/Event.h>
 #include <feather-tk/core/ObservableValue.h>
 
-namespace feather_tk
+namespace ftk
 {
     class Settings;
 }
@@ -35,7 +35,7 @@ namespace djv
             Count,
             First = None
         };
-        FEATHER_TK_ENUM(Tool);
+        FTK_ENUM(Tool);
 
         //! Get the tool text.
         std::string getText(Tool);
@@ -49,10 +49,10 @@ namespace djv
         //! Tools model.
         class ToolsModel : public std::enable_shared_from_this<ToolsModel>
         {
-            FEATHER_TK_NON_COPYABLE(ToolsModel);
+            FTK_NON_COPYABLE(ToolsModel);
 
         protected:
-            void _init(const std::shared_ptr<feather_tk::Settings>&);
+            void _init(const std::shared_ptr<ftk::Settings>&);
 
             ToolsModel();
 
@@ -61,19 +61,19 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<ToolsModel> create(
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<ftk::Settings>&);
 
             //! Get the active tool.
             Tool getActiveTool() const;
 
             //! Observe the active tool.
-            std::shared_ptr<feather_tk::ObservableValue<Tool> > observeActiveTool() const;
+            std::shared_ptr<ftk::ObservableValue<Tool> > observeActiveTool() const;
 
             //! Set the active tool.
             void setActiveTool(Tool);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

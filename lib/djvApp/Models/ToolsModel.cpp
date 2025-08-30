@@ -16,7 +16,7 @@ namespace djv
 {
     namespace app
     {
-        FEATHER_TK_ENUM_IMPL(
+        FTK_ENUM_IMPL(
             Tool,
             "None",
             "Files",
@@ -91,14 +91,14 @@ namespace djv
 
         struct ToolsModel::Private
         {
-            std::shared_ptr<feather_tk::Settings> settings;
+            std::shared_ptr<ftk::Settings> settings;
 
-            std::shared_ptr<feather_tk::ObservableValue<Tool> > activeTool;
+            std::shared_ptr<ftk::ObservableValue<Tool> > activeTool;
         };
 
-        void ToolsModel::_init(const std::shared_ptr<feather_tk::Settings>& settings)
+        void ToolsModel::_init(const std::shared_ptr<ftk::Settings>& settings)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.settings = settings;
 
@@ -106,7 +106,7 @@ namespace djv
             p.settings->get("/Tools/Tool", s);
             Tool tool = Tool::None;
             from_string(s, tool);
-            p.activeTool = feather_tk::ObservableValue<Tool>::create(tool);
+            p.activeTool = ftk::ObservableValue<Tool>::create(tool);
         }
 
         ToolsModel::ToolsModel() :
@@ -115,11 +115,11 @@ namespace djv
 
         ToolsModel::~ToolsModel()
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.settings->set("/Tools/Tool", to_string(p.activeTool->get()));
         }
 
-        std::shared_ptr<ToolsModel> ToolsModel::create(const std::shared_ptr<feather_tk::Settings>& settings)
+        std::shared_ptr<ToolsModel> ToolsModel::create(const std::shared_ptr<ftk::Settings>& settings)
         {
             auto out = std::shared_ptr<ToolsModel>(new ToolsModel);
             out->_init(settings);
@@ -131,7 +131,7 @@ namespace djv
             return _p->activeTool->get();
         }
 
-        std::shared_ptr<feather_tk::ObservableValue<Tool> > ToolsModel::observeActiveTool() const
+        std::shared_ptr<ftk::ObservableValue<Tool> > ToolsModel::observeActiveTool() const
         {
             return _p->activeTool;
         }

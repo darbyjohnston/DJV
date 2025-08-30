@@ -29,24 +29,24 @@ namespace djv
         {
             std::weak_ptr<App> app;
 
-            std::shared_ptr<feather_tk::Label> logLabel;
-            std::shared_ptr<feather_tk::Label> infoLabel;
+            std::shared_ptr<ftk::Label> logLabel;
+            std::shared_ptr<ftk::Label> infoLabel;
 #if defined(TLRENDER_BMD)
-            std::shared_ptr<feather_tk::Icon> deviceActiveIcon;
+            std::shared_ptr<ftk::Icon> deviceActiveIcon;
 #endif // TLRENDER_BMD
-            std::shared_ptr<feather_tk::HorizontalLayout> layout;
+            std::shared_ptr<ftk::HorizontalLayout> layout;
 
-            std::shared_ptr<feather_tk::Timer> logTimer;
+            std::shared_ptr<ftk::Timer> logTimer;
 
-            std::shared_ptr<feather_tk::ListObserver<feather_tk::LogItem> > logObserver;
-            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<ftk::ListObserver<ftk::LogItem> > logObserver;
+            std::shared_ptr<ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
 #if defined(TLRENDER_BMD)
-            std::shared_ptr<feather_tk::ValueObserver<bool> > bmdActiveObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > bmdActiveObserver;
 #endif // TLRENDER_BMD
         };
 
         void StatusBar::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -54,49 +54,49 @@ namespace djv
                 context,
                 "djv::app::StatusBar",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
-            setHStretch(feather_tk::Stretch::Expanding);
+            setHStretch(ftk::Stretch::Expanding);
             _setMouseHoverEnabled(true);
             _setMousePressEnabled(true);
 
             p.app = app;
 
-            p.logLabel = feather_tk::Label::create(context);
-            p.logLabel->setMarginRole(feather_tk::SizeRole::MarginSmall, feather_tk::SizeRole::MarginInside);
-            p.logLabel->setHStretch(feather_tk::Stretch::Expanding);
+            p.logLabel = ftk::Label::create(context);
+            p.logLabel->setMarginRole(ftk::SizeRole::MarginSmall, ftk::SizeRole::MarginInside);
+            p.logLabel->setHStretch(ftk::Stretch::Expanding);
 
-            p.infoLabel = feather_tk::Label::create(context);
-            p.infoLabel->setMarginRole(feather_tk::SizeRole::MarginSmall, feather_tk::SizeRole::MarginInside);
+            p.infoLabel = ftk::Label::create(context);
+            p.infoLabel->setMarginRole(ftk::SizeRole::MarginSmall, ftk::SizeRole::MarginInside);
 
 #if defined(TLRENDER_BMD)
-            p.deviceActiveIcon = feather_tk::Icon::create(context, "Devices");
+            p.deviceActiveIcon = ftk::Icon::create(context, "Devices");
             p.deviceActiveIcon->setTooltip("Output device");
 #endif // TLRENDER_BMD
 
-            p.layout = feather_tk::HorizontalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(feather_tk::SizeRole::None);
+            p.layout = ftk::HorizontalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(ftk::SizeRole::None);
             p.logLabel->setParent(p.layout);
-            feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, p.layout);
+            ftk::Divider::create(context, ftk::Orientation::Horizontal, p.layout);
             p.infoLabel->setParent(p.layout);
 #if defined(TLRENDER_BMD)
-            feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, p.layout);
+            ftk::Divider::create(context, ftk::Orientation::Horizontal, p.layout);
             p.deviceActiveIcon->setParent(p.layout);
-            feather_tk::Spacer::create(context, feather_tk::Orientation::Horizontal, p.layout);
+            ftk::Spacer::create(context, ftk::Orientation::Horizontal, p.layout);
 #endif // TLRENDER_BMD
 
             _deviceUpdate(false);
 
-            p.logTimer = feather_tk::Timer::create(context);
+            p.logTimer = ftk::Timer::create(context);
 
-            p.logObserver = feather_tk::ListObserver<feather_tk::LogItem>::create(
+            p.logObserver = ftk::ListObserver<ftk::LogItem>::create(
                 context->getLogSystem()->observeLogItems(),
-                [this](const std::vector<feather_tk::LogItem>& value)
+                [this](const std::vector<ftk::LogItem>& value)
                 {
                     _logUpdate(value);
                 });
 
-            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& player)
                 {
@@ -106,7 +106,7 @@ namespace djv
                 });
 
 #if defined(TLRENDER_BMD)
-            p.bmdActiveObserver = feather_tk::ValueObserver<bool>::create(
+            p.bmdActiveObserver = ftk::ValueObserver<bool>::create(
                 app->getBMDOutputDevice()->observeActive(),
                 [this](bool value)
                 {
@@ -123,7 +123,7 @@ namespace djv
         {}
 
         std::shared_ptr<StatusBar> StatusBar::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -132,40 +132,40 @@ namespace djv
             return out;
         }
 
-        void StatusBar::setGeometry(const feather_tk::Box2I & value)
+        void StatusBar::setGeometry(const ftk::Box2I & value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void StatusBar::sizeHintEvent(const feather_tk::SizeHintEvent & event)
+        void StatusBar::sizeHintEvent(const ftk::SizeHintEvent & event)
         {
             IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void StatusBar::mousePressEvent(feather_tk::MouseClickEvent& event)
+        void StatusBar::mousePressEvent(ftk::MouseClickEvent& event)
         {
             IWidget::mousePressEvent(event);
             event.accept = true;
         }
 
-        void StatusBar::mouseReleaseEvent(feather_tk::MouseClickEvent& event)
+        void StatusBar::mouseReleaseEvent(ftk::MouseClickEvent& event)
         {
             IWidget::mouseReleaseEvent(event);
-            FEATHER_TK_P();
+            FTK_P();
             event.accept = true;
             Tool tool = Tool::None;
-            if (feather_tk::contains(p.logLabel->getGeometry(), event.pos))
+            if (ftk::contains(p.logLabel->getGeometry(), event.pos))
             {
                 tool = Tool::Messages;
             }
-            else if (feather_tk::contains(p.infoLabel->getGeometry(), event.pos))
+            else if (ftk::contains(p.infoLabel->getGeometry(), event.pos))
             {
                 tool = Tool::Info;
             }
 #if defined(TLRENDER_BMD)
-            else if (feather_tk::contains(p.deviceActiveIcon->getGeometry(), event.pos))
+            else if (ftk::contains(p.deviceActiveIcon->getGeometry(), event.pos))
             {
                 tool = Tool::Devices;
             }
@@ -181,16 +181,16 @@ namespace djv
             }
         }
 
-        void StatusBar::_logUpdate(const std::vector<feather_tk::LogItem>& value)
+        void StatusBar::_logUpdate(const std::vector<ftk::LogItem>& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             for (const auto& i : value)
             {
                 switch (i.type)
                 {
-                case feather_tk::LogType::Error:
+                case ftk::LogType::Error:
                 {
-                    const std::string s = feather_tk::toString(i);
+                    const std::string s = ftk::toString(i);
                     p.logLabel->setText(s);
                     p.logLabel->setTooltip(s);
                     p.logTimer->start(
@@ -209,13 +209,13 @@ namespace djv
 
         void StatusBar::_infoUpdate(const tl::file::Path& path, const tl::io::Info& info)
         {
-            FEATHER_TK_P();
+            FTK_P();
             std::vector<std::string> s;
-            s.push_back(feather_tk::elide(path.get(-1, tl::file::PathType::FileName)));
+            s.push_back(ftk::elide(path.get(-1, tl::file::PathType::FileName)));
             if (!info.video.empty())
             {
                 s.push_back(std::string(
-                    feather_tk::Format("video: {0}x{1}:{2} {3}").
+                    ftk::Format("video: {0}x{1}:{2} {3}").
                     arg(info.video[0].size.w).
                     arg(info.video[0].size.h).
                     arg(info.video[0].getAspect(), 2).
@@ -224,12 +224,12 @@ namespace djv
             if (info.audio.isValid())
             {
                 s.push_back(std::string(
-                    feather_tk::Format("audio: {0}ch {1} {2}kHz").
+                    ftk::Format("audio: {0}ch {1} {2}kHz").
                     arg(info.audio.channelCount).
                     arg(info.audio.dataType).
                     arg(info.audio.sampleRate / 1000)));
             }
-            const std::string text = feather_tk::join(s, ", ");
+            const std::string text = ftk::join(s, ", ");
             p.infoLabel->setText(text);
 
             std::vector<std::string> t;
@@ -237,7 +237,7 @@ namespace djv
             if (!info.video.empty())
             {
                 t.push_back(std::string(
-                    feather_tk::Format("Video: {0}x{1}:{2} {3}").
+                    ftk::Format("Video: {0}x{1}:{2} {3}").
                     arg(info.video[0].size.w).
                     arg(info.video[0].size.h).
                     arg(info.video[0].getAspect()).
@@ -246,21 +246,21 @@ namespace djv
             if (info.audio.isValid())
             {
                 t.push_back(std::string(
-                    feather_tk::Format("Audio: {0} {1} {2} {3}kHz").
+                    ftk::Format("Audio: {0} {1} {2} {3}kHz").
                     arg(info.audio.channelCount).
                     arg(1 == info.audio.channelCount ? "channel" : "channels").
                     arg(info.audio.dataType).
                     arg(info.audio.sampleRate / 1000)));
             }
-            const std::string tooltip = feather_tk::join(t, "\n");
+            const std::string tooltip = ftk::join(t, "\n");
             p.infoLabel->setTooltip(tooltip);
         }
 
         void StatusBar::_deviceUpdate(bool value)
         {
-            FEATHER_TK_P();
+            FTK_P();
 #if defined(TLRENDER_BMD)
-            p.deviceActiveIcon->setBackgroundRole(value ? feather_tk::ColorRole::Checked : feather_tk::ColorRole::None);
+            p.deviceActiveIcon->setBackgroundRole(value ? ftk::ColorRole::Checked : ftk::ColorRole::None);
 #endif // TLRENDER_BMD  
         }
     }

@@ -54,36 +54,36 @@ namespace djv
     {
         struct CmdLine
         {
-            std::shared_ptr<feather_tk::CmdLineListArg<std::string> > inputs;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > audioFileName;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > compareFileName;
-            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::Compare> > compare;
-            std::shared_ptr<feather_tk::CmdLineValueOption<feather_tk::V2F> > wipeCenter;
-            std::shared_ptr<feather_tk::CmdLineValueOption<float> > wipeRotation;
-            std::shared_ptr<feather_tk::CmdLineValueOption<double> > speed;
-            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::Playback> > playback;
-            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::Loop> > loop;
-            std::shared_ptr<feather_tk::CmdLineValueOption<OTIO_NS::RationalTime> > seek;
-            std::shared_ptr<feather_tk::CmdLineValueOption<OTIO_NS::TimeRange> > inOutRange;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioFileName;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioInput;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioDisplay;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioView;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > ocioLook;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > lutFileName;
-            std::shared_ptr<feather_tk::CmdLineValueOption<tl::timeline::LUTOrder> > lutOrder;
+            std::shared_ptr<ftk::CmdLineListArg<std::string> > inputs;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > audioFileName;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > compareFileName;
+            std::shared_ptr<ftk::CmdLineValueOption<tl::timeline::Compare> > compare;
+            std::shared_ptr<ftk::CmdLineValueOption<ftk::V2F> > wipeCenter;
+            std::shared_ptr<ftk::CmdLineValueOption<float> > wipeRotation;
+            std::shared_ptr<ftk::CmdLineValueOption<double> > speed;
+            std::shared_ptr<ftk::CmdLineValueOption<tl::timeline::Playback> > playback;
+            std::shared_ptr<ftk::CmdLineValueOption<tl::timeline::Loop> > loop;
+            std::shared_ptr<ftk::CmdLineValueOption<OTIO_NS::RationalTime> > seek;
+            std::shared_ptr<ftk::CmdLineValueOption<OTIO_NS::TimeRange> > inOutRange;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > ocioFileName;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > ocioInput;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > ocioDisplay;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > ocioView;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > ocioLook;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > lutFileName;
+            std::shared_ptr<ftk::CmdLineValueOption<tl::timeline::LUTOrder> > lutOrder;
 #if defined(TLRENDER_USD)
-            std::shared_ptr<feather_tk::CmdLineValueOption<int> > usdRenderWidth;
-            std::shared_ptr<feather_tk::CmdLineValueOption<float> > usdComplexity;
-            std::shared_ptr<feather_tk::CmdLineValueOption<tl::usd::DrawMode> > usdDrawMode;
-            std::shared_ptr<feather_tk::CmdLineValueOption<bool> > usdEnableLighting;
-            std::shared_ptr<feather_tk::CmdLineValueOption<bool> > usdSRGB;
-            std::shared_ptr<feather_tk::CmdLineValueOption<size_t> > usdStageCache;
-            std::shared_ptr<feather_tk::CmdLineValueOption<size_t> > usdDiskCache;
+            std::shared_ptr<ftk::CmdLineValueOption<int> > usdRenderWidth;
+            std::shared_ptr<ftk::CmdLineValueOption<float> > usdComplexity;
+            std::shared_ptr<ftk::CmdLineValueOption<tl::usd::DrawMode> > usdDrawMode;
+            std::shared_ptr<ftk::CmdLineValueOption<bool> > usdEnableLighting;
+            std::shared_ptr<ftk::CmdLineValueOption<bool> > usdSRGB;
+            std::shared_ptr<ftk::CmdLineValueOption<size_t> > usdStageCache;
+            std::shared_ptr<ftk::CmdLineValueOption<size_t> > usdDiskCache;
 #endif // TLRENDER_USD
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > logFileName;
-            std::shared_ptr<feather_tk::CmdLineFlagOption> resetSettings;
-            std::shared_ptr<feather_tk::CmdLineValueOption<std::string> > settingsFileName;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > logFileName;
+            std::shared_ptr<ftk::CmdLineFlagOption> resetSettings;
+            std::shared_ptr<ftk::CmdLineValueOption<std::string> > settingsFileName;
         };
 
         struct App::Private
@@ -93,7 +93,7 @@ namespace djv
             CmdLine cmdLine;
 
             std::shared_ptr<tl::file::FileLogSystem> fileLogSystem;
-            std::shared_ptr<feather_tk::Settings> settings;
+            std::shared_ptr<ftk::Settings> settings;
             std::shared_ptr<SettingsModel> settingsModel;
             std::shared_ptr<TimeUnitsModel> timeUnitsModel;
             std::shared_ptr<FilesModel> filesModel;
@@ -101,13 +101,13 @@ namespace djv
             std::vector<std::shared_ptr<FilesModelItem> > activeFiles;
             std::shared_ptr<RecentFilesModel> recentFilesModel;
             std::vector<std::shared_ptr<tl::timeline::Timeline> > timelines;
-            std::shared_ptr<feather_tk::ObservableValue<std::shared_ptr<tl::timeline::Player> > > player;
+            std::shared_ptr<ftk::ObservableValue<std::shared_ptr<tl::timeline::Player> > > player;
             std::shared_ptr<ColorModel> colorModel;
             std::shared_ptr<ViewportModel> viewportModel;
             std::shared_ptr<AudioModel> audioModel;
             std::shared_ptr<ToolsModel> toolsModel;
 
-            std::shared_ptr<feather_tk::ObservableValue<bool> > secondaryWindowActive;
+            std::shared_ptr<ftk::ObservableValue<bool> > secondaryWindowActive;
             std::shared_ptr<MainWindow> mainWindow;
             std::shared_ptr<SecondaryWindow> secondaryWindow;
             std::shared_ptr<SeparateAudioDialog> separateAudioDialog;
@@ -116,184 +116,184 @@ namespace djv
 #if defined(TLRENDER_BMD)
             std::shared_ptr<BMDDevicesModel> bmdDevicesModel;
             std::shared_ptr<tl::bmd::OutputDevice> bmdOutputDevice;
-            feather_tk::VideoLevels bmdOutputVideoLevels = feather_tk::VideoLevels::LegalRange;
+            ftk::VideoLevels bmdOutputVideoLevels = ftk::VideoLevels::LegalRange;
 #endif // TLRENDER_BMD
 
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::PlayerCacheOptions> > cacheObserver;
-            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
-            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > activeObserver;
-            std::shared_ptr<feather_tk::ListObserver<int> > layersObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareTime> > compareTimeObserver;
-            std::shared_ptr<feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> > > viewPosZoomObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > viewFramedObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::audio::DeviceID> > audioDeviceObserver;
-            std::shared_ptr<feather_tk::ValueObserver<float> > volumeObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > muteObserver;
-            std::shared_ptr<feather_tk::ListObserver<bool> > channelMuteObserver;
-            std::shared_ptr<feather_tk::ValueObserver<double> > syncOffsetObserver;
-            std::shared_ptr<feather_tk::ValueObserver<StyleSettings> > styleSettingsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<MiscSettings> > miscSettingsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::PlayerCacheOptions> > cacheObserver;
+            std::shared_ptr<ftk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
+            std::shared_ptr<ftk::ListObserver<std::shared_ptr<FilesModelItem> > > activeObserver;
+            std::shared_ptr<ftk::ListObserver<int> > layersObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareTime> > compareTimeObserver;
+            std::shared_ptr<ftk::ValueObserver<std::pair<ftk::V2I, double> > > viewPosZoomObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > viewFramedObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::audio::DeviceID> > audioDeviceObserver;
+            std::shared_ptr<ftk::ValueObserver<float> > volumeObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > muteObserver;
+            std::shared_ptr<ftk::ListObserver<bool> > channelMuteObserver;
+            std::shared_ptr<ftk::ValueObserver<double> > syncOffsetObserver;
+            std::shared_ptr<ftk::ValueObserver<StyleSettings> > styleSettingsObserver;
+            std::shared_ptr<ftk::ValueObserver<MiscSettings> > miscSettingsObserver;
 #if defined(TLRENDER_BMD)
-            std::shared_ptr<feather_tk::ValueObserver<tl::bmd::DevicesModelData> > bmdDevicesObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > bmdActiveObserver;
-            std::shared_ptr<feather_tk::ValueObserver<feather_tk::Size2I> > bmdSizeObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::bmd::FrameRate> > bmdFrameRateObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<feather_tk::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareOptions> > compareOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::BackgroundOptions> > bgOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::ForegroundOptions> > fgOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::bmd::DevicesModelData> > bmdDevicesObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > bmdActiveObserver;
+            std::shared_ptr<ftk::ValueObserver<ftk::Size2I> > bmdSizeObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::bmd::FrameRate> > bmdFrameRateObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<ftk::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareOptions> > compareOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::BackgroundOptions> > bgOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::ForegroundOptions> > fgOptionsObserver;
 #endif // TLRENDER_BMD
         };
 
         void App::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             std::vector<std::string>& argv)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             const std::string appName = "djv";
             const std::filesystem::path appDocsPath = _appDocsPath();
             p.logFile = _getLogFilePath(appName, appDocsPath);
             p.settingsFile = _getSettingsPath(appName, appDocsPath);
 
-            p.cmdLine.inputs = feather_tk::CmdLineListArg<std::string>::create(
+            p.cmdLine.inputs = ftk::CmdLineListArg<std::string>::create(
                 "input",
                 "One or more timelines, movies, image sequences, or directories.",
                 true);
-            p.cmdLine.audioFileName = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.audioFileName = ftk::CmdLineValueOption<std::string>::create(
                 { "-audio", "-a" },
                 "Audio file name.",
                 "Audio");
-            p.cmdLine.compareFileName = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.compareFileName = ftk::CmdLineValueOption<std::string>::create(
                 { "-compare", "-b" },
                 "Compare \"B\" file name.",
                 "Compare");
-            p.cmdLine.compare = feather_tk::CmdLineValueOption<tl::timeline::Compare>::create(
+            p.cmdLine.compare = ftk::CmdLineValueOption<tl::timeline::Compare>::create(
                 { "-compareMode", "-c" },
                 "Compare mode.",
                 "Compare",
                 std::optional<tl::timeline::Compare>(),
-                feather_tk::quotes(tl::timeline::getCompareLabels()));
-            p.cmdLine.wipeCenter = feather_tk::CmdLineValueOption<feather_tk::V2F>::create(
+                ftk::quotes(tl::timeline::getCompareLabels()));
+            p.cmdLine.wipeCenter = ftk::CmdLineValueOption<ftk::V2F>::create(
                 { "-wipeCenter", "-wc" },
                 "Wipe center.",
                 "Compare",
                 tl::timeline::CompareOptions().wipeCenter);
-            p.cmdLine.wipeRotation = feather_tk::CmdLineValueOption<float>::create(
+            p.cmdLine.wipeRotation = ftk::CmdLineValueOption<float>::create(
                 { "-wipeRotation", "-wr" },
                 "Wipe rotation.",
                 "Compare",
                 0.F);
-            p.cmdLine.speed = feather_tk::CmdLineValueOption<double>::create(
+            p.cmdLine.speed = ftk::CmdLineValueOption<double>::create(
                 { "-speed" },
                 "Playback speed.",
                 "Playback");
-            p.cmdLine.playback = feather_tk::CmdLineValueOption<tl::timeline::Playback>::create(
+            p.cmdLine.playback = ftk::CmdLineValueOption<tl::timeline::Playback>::create(
                 { "-playback", "-p" },
                 "Playback mode.",
                 "Playback",
                 std::optional<tl::timeline::Playback>(),
-                feather_tk::quotes(tl::timeline::getPlaybackLabels()));
-            p.cmdLine.loop = feather_tk::CmdLineValueOption<tl::timeline::Loop>::create(
+                ftk::quotes(tl::timeline::getPlaybackLabels()));
+            p.cmdLine.loop = ftk::CmdLineValueOption<tl::timeline::Loop>::create(
                 { "-loop" },
                 "Loop mode.",
                 "Playback",
                 std::optional<tl::timeline::Loop>(),
-                feather_tk::quotes(tl::timeline::getLoopLabels()));
-            p.cmdLine.seek = feather_tk::CmdLineValueOption<OTIO_NS::RationalTime>::create(
+                ftk::quotes(tl::timeline::getLoopLabels()));
+            p.cmdLine.seek = ftk::CmdLineValueOption<OTIO_NS::RationalTime>::create(
                 { "-seek" },
                 "Seek to the given time.",
                 "Playback");
-            p.cmdLine.inOutRange = feather_tk::CmdLineValueOption<OTIO_NS::TimeRange>::create(
+            p.cmdLine.inOutRange = ftk::CmdLineValueOption<OTIO_NS::TimeRange>::create(
                 { "-inOutRange" },
                 "Set the in/out points range.",
                 "Playback");
-            p.cmdLine.ocioFileName = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.ocioFileName = ftk::CmdLineValueOption<std::string>::create(
                 { "-ocio" },
                 "OCIO configuration file name (e.g., config.ocio).",
                 "Color");
-            p.cmdLine.ocioInput = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.ocioInput = ftk::CmdLineValueOption<std::string>::create(
                 { "-ocioInput" },
                 "OCIO input name.",
                 "Color");
-            p.cmdLine.ocioDisplay = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.ocioDisplay = ftk::CmdLineValueOption<std::string>::create(
                 { "-ocioDisplay" },
                 "OCIO display name.",
                 "Color");
-            p.cmdLine.ocioView = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.ocioView = ftk::CmdLineValueOption<std::string>::create(
                 { "-ocioView" },
                 "OCIO view name.",
                 "Color");
-            p.cmdLine.ocioLook = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.ocioLook = ftk::CmdLineValueOption<std::string>::create(
                 { "-ocioLook" },
                 "OCIO look name.",
                 "Color");
-            p.cmdLine.lutFileName = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.lutFileName = ftk::CmdLineValueOption<std::string>::create(
                 { "-lut" },
                 "LUT file name.",
                 "Color");
-            p.cmdLine.lutOrder = feather_tk::CmdLineValueOption<tl::timeline::LUTOrder>::create(
+            p.cmdLine.lutOrder = ftk::CmdLineValueOption<tl::timeline::LUTOrder>::create(
                 { "-lutOrder" },
                 "LUT operation order.",
                 "Color",
                 std::optional<tl::timeline::LUTOrder>(),
-                feather_tk::quotes(tl::timeline::getLUTOrderLabels()));
+                ftk::quotes(tl::timeline::getLUTOrderLabels()));
 #if defined(TLRENDER_USD)
-            p.cmdLine.usdRenderWidth = feather_tk::CmdLineValueOption<int>::create(
+            p.cmdLine.usdRenderWidth = ftk::CmdLineValueOption<int>::create(
                 { "-usdRenderWidth" },
                 "Render width.",
                 "USD",
                 1920);
-            p.cmdLine.usdComplexity = feather_tk::CmdLineValueOption<float>::create(
+            p.cmdLine.usdComplexity = ftk::CmdLineValueOption<float>::create(
                 { "-usdComplexity" },
                 "Render complexity setting.",
                 "USD",
                 1.F);
-            p.cmdLine.usdDrawMode = feather_tk::CmdLineValueOption<tl::usd::DrawMode>::create(
+            p.cmdLine.usdDrawMode = ftk::CmdLineValueOption<tl::usd::DrawMode>::create(
                 { "-usdDrawMode" },
                 "Draw mode.",
                 "USD",
                 tl::usd::DrawMode::ShadedSmooth,
-                feather_tk::quotes(tl::usd::getDrawModeLabels()));
-            p.cmdLine.usdEnableLighting = feather_tk::CmdLineValueOption<bool>::create(
+                ftk::quotes(tl::usd::getDrawModeLabels()));
+            p.cmdLine.usdEnableLighting = ftk::CmdLineValueOption<bool>::create(
                 { "-usdEnableLighting" },
                 "Enable lighting.",
                 "USD",
                 true);
-            p.cmdLine.usdSRGB = feather_tk::CmdLineValueOption<bool>::create(
+            p.cmdLine.usdSRGB = ftk::CmdLineValueOption<bool>::create(
                 { "-usdSRGB" },
                 "Enable sRGB color space.",
                 "USD",
                 true);
-            p.cmdLine.usdStageCache = feather_tk::CmdLineValueOption<size_t>::create(
+            p.cmdLine.usdStageCache = ftk::CmdLineValueOption<size_t>::create(
                 { "-usdStageCache" },
                 "Stage cache size.",
                 "USD",
                 10);
-            p.cmdLine.usdDiskCache = feather_tk::CmdLineValueOption<size_t>::create(
+            p.cmdLine.usdDiskCache = ftk::CmdLineValueOption<size_t>::create(
                 { "-usdDiskCache" },
                 "Disk cache size in gigabytes. A size of zero disables the cache.",
                 "USD",
                 0);
 #endif // TLRENDER_USD
-            p.cmdLine.logFileName = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.logFileName = ftk::CmdLineValueOption<std::string>::create(
                 { "-logFile" },
                 "Log file name.",
                 std::string(),
-                feather_tk::Format("{0}").arg(p.logFile.u8string()));
-            p.cmdLine.resetSettings = feather_tk::CmdLineFlagOption::create(
+                ftk::Format("{0}").arg(p.logFile.u8string()));
+            p.cmdLine.resetSettings = ftk::CmdLineFlagOption::create(
                 { "-resetSettings" },
                 "Reset settings to defaults.");
-            p.cmdLine.settingsFileName = feather_tk::CmdLineValueOption<std::string>::create(
+            p.cmdLine.settingsFileName = ftk::CmdLineValueOption<std::string>::create(
                 { "-settingsFile" },
                 "Settings file name.",
                 std::string(),
-                feather_tk::Format("{0}").arg(p.settingsFile.u8string()));
+                ftk::Format("{0}").arg(p.settingsFile.u8string()));
 
-            feather_tk::App::_init(
+            ftk::App::_init(
                 context,
                 argv,
                 appName,
@@ -340,7 +340,7 @@ namespace djv
         {}
 
         std::shared_ptr<App> App::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             std::vector<std::string>& argv)
         {
             auto out = std::shared_ptr<App>(new App);
@@ -350,8 +350,8 @@ namespace djv
 
         void App::openDialog()
         {
-            FEATHER_TK_P();
-            auto fileBrowserSystem = _context->getSystem<feather_tk::FileBrowserSystem>();
+            FTK_P();
+            auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
             fileBrowserSystem->open(
                 p.mainWindow,
                 [this](const std::filesystem::path& value)
@@ -359,12 +359,12 @@ namespace djv
                     open(tl::file::Path(value.u8string()));
                 },
                 std::filesystem::path(),
-                feather_tk::FileBrowserMode::File);
+                ftk::FileBrowserMode::File);
         }
 
         void App::openSeparateAudioDialog()
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.separateAudioDialog = SeparateAudioDialog::create(_context);
             p.separateAudioDialog->open(p.mainWindow);
             p.separateAudioDialog->setCallback(
@@ -382,7 +382,7 @@ namespace djv
 
         void App::open(const tl::file::Path& path, const tl::file::Path& audioPath)
         {
-            FEATHER_TK_P();
+            FTK_P();
             tl::file::PathOptions pathOptions;
             pathOptions.maxNumberDigits = p.settingsModel->getImageSequence().maxDigits;
             for (const auto& i : tl::timeline::getPaths(_context, path, pathOptions))
@@ -395,7 +395,7 @@ namespace djv
             }
         }
 
-        const std::shared_ptr<feather_tk::Settings>& App::getSettings() const
+        const std::shared_ptr<ftk::Settings>& App::getSettings() const
         {
             return _p->settings;
         }
@@ -422,7 +422,7 @@ namespace djv
 
         void App::reload()
         {
-            FEATHER_TK_P();
+            FTK_P();
             const auto activeFiles = p.activeFiles;
             const auto files = p.files;
             for (const auto& i : activeFiles)
@@ -453,7 +453,7 @@ namespace djv
             _activeUpdate(activeFiles);
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<std::shared_ptr<tl::timeline::Player> > > App::observePlayer() const
+        std::shared_ptr<ftk::IObservableValue<std::shared_ptr<tl::timeline::Player> > > App::observePlayer() const
         {
             return _p->player;
         }
@@ -483,14 +483,14 @@ namespace djv
             return _p->mainWindow;
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<bool> > App::observeSecondaryWindow() const
+        std::shared_ptr<ftk::IObservableValue<bool> > App::observeSecondaryWindow() const
         {
             return _p->secondaryWindowActive;
         }
 
         void App::setSecondaryWindow(bool value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             if (p.secondaryWindowActive->setIfChanged(value))
             {
                 if (p.secondaryWindow)
@@ -507,7 +507,7 @@ namespace djv
                     p.secondaryWindow->setCloseCallback(
                         [this]
                         {
-                            FEATHER_TK_P();
+                            FTK_P();
                             p.secondaryWindowActive->setIfChanged(false);
                             removeWindow(p.secondaryWindow);
                             p.secondaryWindow.reset();
@@ -532,11 +532,11 @@ namespace djv
 
         void App::run()
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.fileLogSystem = tl::file::FileLogSystem::create(_context, p.logFile);
 
-            p.settings = feather_tk::Settings::create(
+            p.settings = ftk::Settings::create(
                 _context,
                 p.settingsFile,
                 p.cmdLine.resetSettings->found());
@@ -547,12 +547,12 @@ namespace djv
             _inputFilesInit();
             _windowsInit();
 
-            feather_tk::App::run();
+            ftk::App::run();
         }
 
         void App::_tick()
         {
-            FEATHER_TK_P();
+            FTK_P();
             if (auto player = p.player->get())
             {
                 player->tick();
@@ -567,7 +567,7 @@ namespace djv
 
         void App::_modelsInit()
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.settingsModel = SettingsModel::create(
                 _context,
@@ -594,7 +594,7 @@ namespace djv
             p.filesModel = FilesModel::create(p.settings);
 
             p.recentFilesModel = RecentFilesModel::create(_context, p.settings);
-            auto fileBrowserSystem = _context->getSystem<feather_tk::FileBrowserSystem>();
+            auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
             fileBrowserSystem->getModel()->setExtensions(tl::timeline::getExtensions(_context));
             fileBrowserSystem->setRecentFilesModel(p.recentFilesModel);
 
@@ -654,7 +654,7 @@ namespace djv
 
         void App::_devicesInit()
         {
-            FEATHER_TK_P();
+            FTK_P();
 #if defined(TLRENDER_BMD)
             p.bmdOutputDevice = tl::bmd::OutputDevice::create(_context);
             p.bmdDevicesModel = BMDDevicesModel::create(_context, p.settings);
@@ -663,11 +663,11 @@ namespace djv
 
         void App::_observersInit()
         {
-            FEATHER_TK_P();
+            FTK_P();
 
-            p.player = feather_tk::ObservableValue<std::shared_ptr<tl::timeline::Player> >::create();
+            p.player = ftk::ObservableValue<std::shared_ptr<tl::timeline::Player> >::create();
 
-            p.cacheObserver = feather_tk::ValueObserver<tl::timeline::PlayerCacheOptions>::create(
+            p.cacheObserver = ftk::ValueObserver<tl::timeline::PlayerCacheOptions>::create(
                 p.settingsModel->observeCache(),
                 [this](const tl::timeline::PlayerCacheOptions& value)
                 {
@@ -677,25 +677,25 @@ namespace djv
                     }
                 });
 
-            p.filesObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.filesObserver = ftk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 p.filesModel->observeFiles(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
                     _filesUpdate(value);
                 });
-            p.activeObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.activeObserver = ftk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 p.filesModel->observeActive(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
                     _activeUpdate(value);
                 });
-            p.layersObserver = feather_tk::ListObserver<int>::create(
+            p.layersObserver = ftk::ListObserver<int>::create(
                 p.filesModel->observeLayers(),
                 [this](const std::vector<int>& value)
                 {
                     _layersUpdate(value);
                 });
-            p.compareTimeObserver = feather_tk::ValueObserver<tl::timeline::CompareTime>::create(
+            p.compareTimeObserver = ftk::ValueObserver<tl::timeline::CompareTime>::create(
                 p.filesModel->observeCompareTime(),
                 [this](tl::timeline::CompareTime value)
                 {
@@ -705,7 +705,7 @@ namespace djv
                     }
                 });
 
-            p.audioDeviceObserver = feather_tk::ValueObserver<tl::audio::DeviceID>::create(
+            p.audioDeviceObserver = ftk::ValueObserver<tl::audio::DeviceID>::create(
                 p.audioModel->observeDevice(),
                 [this](const tl::audio::DeviceID& value)
                 {
@@ -714,32 +714,32 @@ namespace djv
                         player->setAudioDevice(value);
                     }
                 });
-            p.volumeObserver = feather_tk::ValueObserver<float>::create(
+            p.volumeObserver = ftk::ValueObserver<float>::create(
                 p.audioModel->observeVolume(),
                 [this](float)
                 {
                     _audioUpdate();
                 });
-            p.muteObserver = feather_tk::ValueObserver<bool>::create(
+            p.muteObserver = ftk::ValueObserver<bool>::create(
                 p.audioModel->observeMute(),
                 [this](bool)
                 {
                     _audioUpdate();
                 });
-            p.channelMuteObserver = feather_tk::ListObserver<bool>::create(
+            p.channelMuteObserver = ftk::ListObserver<bool>::create(
                 p.audioModel->observeChannelMute(),
                 [this](const std::vector<bool>&)
                 {
                     _audioUpdate();
                 });
-            p.syncOffsetObserver = feather_tk::ValueObserver<double>::create(
+            p.syncOffsetObserver = ftk::ValueObserver<double>::create(
                 p.audioModel->observeSyncOffset(),
                 [this](double)
                 {
                     _audioUpdate();
                 });
 
-            p.styleSettingsObserver = feather_tk::ValueObserver<StyleSettings>::create(
+            p.styleSettingsObserver = ftk::ValueObserver<StyleSettings>::create(
                 p.settingsModel->observeStyle(),
                 [this](const StyleSettings& value)
                 {
@@ -749,7 +749,7 @@ namespace djv
                     setDisplayScale(value.displayScale);
                 });
 
-            p.miscSettingsObserver = feather_tk::ValueObserver<MiscSettings>::create(
+            p.miscSettingsObserver = ftk::ValueObserver<MiscSettings>::create(
                 p.settingsModel->observeMisc(),
                 [this](const MiscSettings& value)
                 {
@@ -757,11 +757,11 @@ namespace djv
                 });
 
 #if defined(TLRENDER_BMD)
-            p.bmdDevicesObserver = feather_tk::ValueObserver<tl::bmd::DevicesModelData>::create(
+            p.bmdDevicesObserver = ftk::ValueObserver<tl::bmd::DevicesModelData>::create(
                 p.bmdDevicesModel->observeData(),
                 [this](const tl::bmd::DevicesModelData& value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     tl::bmd::DeviceConfig config;
                     config.deviceIndex = value.deviceIndex - 1;
                     config.displayModeIndex = value.displayModeIndex - 1;
@@ -778,20 +778,20 @@ namespace djv
                     p.bmdOutputDevice->setDisplayOptions({ displayOptions });
                     p.bmdOutputDevice->setHDR(value.hdrMode, value.hdrData);
                 });
-            p.bmdActiveObserver = feather_tk::ValueObserver<bool>::create(
+            p.bmdActiveObserver = ftk::ValueObserver<bool>::create(
                 p.bmdOutputDevice->observeActive(),
                 [this](bool value)
                 {
                     _p->bmdDeviceActive = value;
                     _audioUpdate();
                 });
-            p.bmdSizeObserver = feather_tk::ValueObserver<feather_tk::Size2I>::create(
+            p.bmdSizeObserver = ftk::ValueObserver<ftk::Size2I>::create(
                 p.bmdOutputDevice->observeSize(),
-                [this](const feather_tk::Size2I& value)
+                [this](const ftk::Size2I& value)
                 {
                     //std::cout << "output device size: " << value << std::endl;
                 });
-            p.bmdFrameRateObserver = feather_tk::ValueObserver<tl::bmd::FrameRate>::create(
+            p.bmdFrameRateObserver = ftk::ValueObserver<tl::bmd::FrameRate>::create(
                 p.bmdOutputDevice->observeFrameRate(),
                 [this](const tl::bmd::FrameRate& value)
                 {
@@ -801,25 +801,25 @@ namespace djv
                     //    std::endl;
                 });
 
-            p.ocioOptionsObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
+            p.ocioOptionsObserver = ftk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 p.colorModel->observeOCIOOptions(),
                 [this](const tl::timeline::OCIOOptions& value)
                 {
                     _p->bmdOutputDevice->setOCIOOptions(value);
                 });
-            p.lutOptionsObserver = feather_tk::ValueObserver<tl::timeline::LUTOptions>::create(
+            p.lutOptionsObserver = ftk::ValueObserver<tl::timeline::LUTOptions>::create(
                 p.colorModel->observeLUTOptions(),
                 [this](const tl::timeline::LUTOptions& value)
                 {
                     _p->bmdOutputDevice->setLUTOptions(value);
                 });
-            p.imageOptionsObserver = feather_tk::ValueObserver<feather_tk::ImageOptions>::create(
+            p.imageOptionsObserver = ftk::ValueObserver<ftk::ImageOptions>::create(
                 p.viewportModel->observeImageOptions(),
-                [this](const feather_tk::ImageOptions& value)
+                [this](const ftk::ImageOptions& value)
                 {
                     _p->bmdOutputDevice->setImageOptions({ value });
                 });
-            p.displayOptionsObserver = feather_tk::ValueObserver<tl::timeline::DisplayOptions>::create(
+            p.displayOptionsObserver = ftk::ValueObserver<tl::timeline::DisplayOptions>::create(
                 p.viewportModel->observeDisplayOptions(),
                 [this](const tl::timeline::DisplayOptions& value)
                 {
@@ -828,21 +828,21 @@ namespace djv
                     _p->bmdOutputDevice->setDisplayOptions({ tmp });
                 });
 
-            p.compareOptionsObserver = feather_tk::ValueObserver<tl::timeline::CompareOptions>::create(
+            p.compareOptionsObserver = ftk::ValueObserver<tl::timeline::CompareOptions>::create(
                 p.filesModel->observeCompareOptions(),
                 [this](const tl::timeline::CompareOptions& value)
                 {
                     _p->bmdOutputDevice->setCompareOptions(value);
                 });
 
-            p.bgOptionsObserver = feather_tk::ValueObserver<tl::timeline::BackgroundOptions>::create(
+            p.bgOptionsObserver = ftk::ValueObserver<tl::timeline::BackgroundOptions>::create(
                 p.viewportModel->observeBackgroundOptions(),
                 [this](const tl::timeline::BackgroundOptions& value)
                 {
                     _p->bmdOutputDevice->setBackgroundOptions(value);
                 });
 
-            p.fgOptionsObserver = feather_tk::ValueObserver<tl::timeline::ForegroundOptions>::create(
+            p.fgOptionsObserver = ftk::ValueObserver<tl::timeline::ForegroundOptions>::create(
                 p.viewportModel->observeForegroundOptions(),
                 [this](const tl::timeline::ForegroundOptions& value)
                 {
@@ -853,7 +853,7 @@ namespace djv
 
         void App::_inputFilesInit()
         {
-            FEATHER_TK_P();
+            FTK_P();
             if (!p.cmdLine.inputs->getList().empty())
             {
                 if (p.cmdLine.compareFileName->hasValue())
@@ -918,9 +918,9 @@ namespace djv
 
         void App::_windowsInit()
         {
-            FEATHER_TK_P();
+            FTK_P();
 
-            p.secondaryWindowActive = feather_tk::ObservableValue<bool>::create(false);
+            p.secondaryWindowActive = ftk::ObservableValue<bool>::create(false);
 
             p.mainWindow = MainWindow::create(
                 _context,
@@ -928,16 +928,16 @@ namespace djv
             addWindow(p.mainWindow);
             p.mainWindow->show();
 
-            p.viewPosZoomObserver = feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> >::create(
+            p.viewPosZoomObserver = ftk::ValueObserver<std::pair<ftk::V2I, double> >::create(
                 p.mainWindow->getViewport()->observeViewPosAndZoom(),
-                [this](const std::pair<feather_tk::V2I, double>& value)
+                [this](const std::pair<ftk::V2I, double>& value)
                 {
                     _viewUpdate(
                         value.first,
                         value.second,
                         _p->mainWindow->getViewport()->hasFrameView());
                 });
-            p.viewFramedObserver = feather_tk::ValueObserver<bool>::create(
+            p.viewFramedObserver = ftk::ValueObserver<bool>::create(
                 p.mainWindow->getViewport()->observeFramed(),
                 [this](bool value)
                 {
@@ -949,7 +949,7 @@ namespace djv
             p.mainWindow->setCloseCallback(
                 [this]
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     if (p.secondaryWindow)
                     {
                         removeWindow(p.secondaryWindow);
@@ -961,7 +961,7 @@ namespace djv
 
         std::filesystem::path App::_appDocsPath()
         {
-            const std::filesystem::path documentsPath = feather_tk::getUserPath(feather_tk::UserPath::Documents);
+            const std::filesystem::path documentsPath = ftk::getUserPath(ftk::UserPath::Documents);
             if (!std::filesystem::exists(documentsPath))
             {
                 std::filesystem::create_directory(documentsPath);
@@ -978,7 +978,7 @@ namespace djv
             const std::string& appName,
             const std::filesystem::path& appDocsPath)
         {
-            return appDocsPath / feather_tk::Format("{0}.{1}.log").
+            return appDocsPath / ftk::Format("{0}.{1}.log").
                 arg(appName).
                 arg(DJV_VERSION).
                 str();
@@ -988,7 +988,7 @@ namespace djv
             const std::string& appName,
             const std::filesystem::path& appDocsPath)
         {
-            return appDocsPath / feather_tk::Format("{0}.{1}.json").
+            return appDocsPath / ftk::Format("{0}.{1}.json").
                 arg(appName).
                 arg(DJV_VERSION).
                 str();
@@ -996,7 +996,7 @@ namespace djv
 
         tl::io::Options App::_getIOOptions() const
         {
-            FEATHER_TK_P();
+            FTK_P();
             tl::io::Options out;
             out = tl::io::merge(out, tl::io::getOptions(p.settingsModel->getImageSequence().io));
 #if defined(TLRENDER_FFMPEG)
@@ -1010,7 +1010,7 @@ namespace djv
 
         void App::_filesUpdate(const std::vector<std::shared_ptr<FilesModelItem> >& files)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             std::vector<std::shared_ptr<tl::timeline::Timeline> > timelines(files.size());
             for (size_t i = 0; i < files.size(); ++i)
@@ -1050,7 +1050,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        _context->log("djv::app::App", e.what(), feather_tk::LogType::Error);
+                        _context->log("djv::app::App", e.what(), ftk::LogType::Error);
                     }
                 }
             }
@@ -1061,7 +1061,7 @@ namespace djv
 
         void App::_activeUpdate(const std::vector<std::shared_ptr<FilesModelItem> >& activeFiles)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             if (!p.activeFiles.empty())
             {
@@ -1104,7 +1104,7 @@ namespace djv
                             }
                             catch (const std::exception& e)
                             {
-                                _context->log("djv::app::App", e.what(), feather_tk::LogType::Error);
+                                _context->log("djv::app::App", e.what(), ftk::LogType::Error);
                             }
                         }
                     }
@@ -1153,7 +1153,7 @@ namespace djv
 
         void App::_layersUpdate(const std::vector<int>& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             if (auto player = p.player->get())
             {
                 int videoLayer = 0;
@@ -1179,14 +1179,14 @@ namespace djv
             }
         }
 
-        void App::_viewUpdate(const feather_tk::V2I& pos, double zoom, bool frame)
+        void App::_viewUpdate(const ftk::V2I& pos, double zoom, bool frame)
         {
-            FEATHER_TK_P();
-            const feather_tk::Box2I& g = p.mainWindow->getViewport()->getGeometry();
+            FTK_P();
+            const ftk::Box2I& g = p.mainWindow->getViewport()->getGeometry();
             float scale = 1.F;
             if (p.secondaryWindow)
             {
-                const feather_tk::Size2I& secondarySize = p.secondaryWindow->getViewport()->getGeometry().size();
+                const ftk::Size2I& secondarySize = p.secondaryWindow->getViewport()->getGeometry().size();
                 if (g.isValid() && secondarySize.isValid())
                 {
                     scale = secondarySize.w / static_cast<float>(g.w());
@@ -1195,7 +1195,7 @@ namespace djv
             }
 #if defined(TLRENDER_BMD)
             scale = 1.F;
-            const feather_tk::Size2I& bmdSize = p.bmdOutputDevice->getSize();
+            const ftk::Size2I& bmdSize = p.bmdOutputDevice->getSize();
             if (g.isValid() && bmdSize.isValid())
             {
                 scale = bmdSize.w / static_cast<float>(g.w());
@@ -1206,7 +1206,7 @@ namespace djv
 
         void App::_audioUpdate()
         {
-            FEATHER_TK_P();
+            FTK_P();
             const float volume = p.audioModel->getVolume();
             const bool mute = p.audioModel->isMuted();
             const std::vector<bool> channelMute = p.audioModel->getChannelMute();

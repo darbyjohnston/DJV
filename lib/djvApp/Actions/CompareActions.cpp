@@ -13,20 +13,20 @@ namespace djv
     {
         struct CompareActions::Private
         {
-            std::shared_ptr<feather_tk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareOptions> > optionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareTime> > timeObserver;
+            std::shared_ptr<ftk::ListObserver<std::shared_ptr<FilesModelItem> > > filesObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareOptions> > optionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareTime> > timeObserver;
         };
 
         void CompareActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             IActions::_init(context, app, "Compare");
-            FEATHER_TK_P();
+            FTK_P();
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["Next"] = feather_tk::Action::create(
+            _actions["Next"] = ftk::Action::create(
                 "Next",
                 "Next",
                 [appWeak]
@@ -37,7 +37,7 @@ namespace djv
                     }
                 });
 
-            _actions["Prev"] = feather_tk::Action::create(
+            _actions["Prev"] = ftk::Action::create(
                 "Previous",
                 "Prev",
                 [appWeak]
@@ -48,7 +48,7 @@ namespace djv
                     }
                 });
 
-            _actions["A"] = feather_tk::Action::create(
+            _actions["A"] = ftk::Action::create(
                 "A",
                 "CompareA",
                 [appWeak]
@@ -61,7 +61,7 @@ namespace djv
                     }
                 });
 
-            _actions["B"] = feather_tk::Action::create(
+            _actions["B"] = ftk::Action::create(
                 "B",
                 "CompareB",
                 [appWeak]
@@ -74,7 +74,7 @@ namespace djv
                     }
                 });
 
-            _actions["Wipe"] = feather_tk::Action::create(
+            _actions["Wipe"] = ftk::Action::create(
                 "Wipe",
                 "CompareWipe",
                 [appWeak]
@@ -87,7 +87,7 @@ namespace djv
                     }
                 });
 
-            _actions["Overlay"] = feather_tk::Action::create(
+            _actions["Overlay"] = ftk::Action::create(
                 "Overlay",
                 "CompareOverlay",
                 [appWeak]
@@ -100,7 +100,7 @@ namespace djv
                     }
                 });
 
-            _actions["Difference"] = feather_tk::Action::create(
+            _actions["Difference"] = ftk::Action::create(
                 "Difference",
                 "CompareDifference",
                 [appWeak]
@@ -113,7 +113,7 @@ namespace djv
                     }
                 });
 
-            _actions["Horizontal"] = feather_tk::Action::create(
+            _actions["Horizontal"] = ftk::Action::create(
                 "Horizontal",
                 "CompareHorizontal",
                 [appWeak]
@@ -126,7 +126,7 @@ namespace djv
                     }
                 });
 
-            _actions["Vertical"] = feather_tk::Action::create(
+            _actions["Vertical"] = ftk::Action::create(
                 "Vertical",
                 "CompareVertical",
                 [appWeak]
@@ -139,7 +139,7 @@ namespace djv
                     }
                 });
 
-            _actions["Tile"] = feather_tk::Action::create(
+            _actions["Tile"] = ftk::Action::create(
                 "Tile",
                 "CompareTile",
                 [appWeak]
@@ -152,7 +152,7 @@ namespace djv
                     }
                 });
 
-            _actions["Relative"] = feather_tk::Action::create(
+            _actions["Relative"] = ftk::Action::create(
                 "Relative",
                 [appWeak]
                 {
@@ -162,7 +162,7 @@ namespace djv
                     }
                 });
 
-            _actions["Absolute"] = feather_tk::Action::create(
+            _actions["Absolute"] = ftk::Action::create(
                 "Absolute",
                 [appWeak]
                 {
@@ -188,20 +188,20 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.filesObserver = feather_tk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
+            p.filesObserver = ftk::ListObserver<std::shared_ptr<FilesModelItem> >::create(
                 app->getFilesModel()->observeFiles(),
                 [this](const std::vector<std::shared_ptr<FilesModelItem> >& value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     _actions["Next"]->setEnabled(value.size() > 1);
                     _actions["Prev"]->setEnabled(value.size() > 1);
                 });
 
-            p.optionsObserver = feather_tk::ValueObserver<tl::timeline::CompareOptions>::create(
+            p.optionsObserver = ftk::ValueObserver<tl::timeline::CompareOptions>::create(
                 app->getFilesModel()->observeCompareOptions(),
                 [this](const tl::timeline::CompareOptions& value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     const auto enums = tl::timeline::getCompareEnums();
                     const auto labels = tl::timeline::getCompareLabels();
                     for (size_t i = 0; i < enums.size(); ++i)
@@ -210,7 +210,7 @@ namespace djv
                     }
                 });
 
-            p.timeObserver = feather_tk::ValueObserver<tl::timeline::CompareTime>::create(
+            p.timeObserver = ftk::ValueObserver<tl::timeline::CompareTime>::create(
                 app->getFilesModel()->observeCompareTime(),
                 [this](tl::timeline::CompareTime value)
                 {
@@ -231,7 +231,7 @@ namespace djv
         {}
 
         std::shared_ptr<CompareActions> CompareActions::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             auto out = std::shared_ptr<CompareActions>(new CompareActions);

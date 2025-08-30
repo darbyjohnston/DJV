@@ -15,11 +15,11 @@ namespace djv
         //! Viewport.
         class Viewport : public tl::timelineui::Viewport
         {
-            FEATHER_TK_NON_COPYABLE(Viewport);
+            FTK_NON_COPYABLE(Viewport);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,23 +29,23 @@ namespace djv
             virtual ~Viewport();
 
             static std::shared_ptr<Viewport> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setPlayer(const std::shared_ptr<tl::timeline::Player>&) override;
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
-            void mouseMoveEvent(feather_tk::MouseMoveEvent&) override;
-            void mousePressEvent(feather_tk::MouseClickEvent&) override;
-            void mouseReleaseEvent(feather_tk::MouseClickEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
+            void mouseMoveEvent(ftk::MouseMoveEvent&) override;
+            void mousePressEvent(ftk::MouseClickEvent&) override;
+            void mouseReleaseEvent(ftk::MouseClickEvent&) override;
 
         private:
             void _videoDataUpdate();
             void _hudUpdate();
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

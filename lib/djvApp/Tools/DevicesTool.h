@@ -15,11 +15,11 @@ namespace djv
         //! Devices tool.
         class DevicesTool : public IToolWidget
         {
-            FEATHER_TK_NON_COPYABLE(DevicesTool);
+            FTK_NON_COPYABLE(DevicesTool);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,12 +29,12 @@ namespace djv
             virtual ~DevicesTool();
 
             static std::shared_ptr<DevicesTool> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

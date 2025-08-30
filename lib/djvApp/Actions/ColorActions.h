@@ -13,11 +13,11 @@ namespace djv
         //! Color actions.
         class ColorActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(ColorActions);
+            FTK_NON_COPYABLE(ColorActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
             ColorActions();
@@ -26,11 +26,11 @@ namespace djv
             ~ColorActions();
 
             static std::shared_ptr<ColorActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

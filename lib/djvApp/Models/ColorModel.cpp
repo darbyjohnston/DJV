@@ -12,26 +12,26 @@ namespace djv
     {
         struct ColorModel::Private
         {
-            std::shared_ptr<feather_tk::Settings> settings;
-            std::shared_ptr<feather_tk::ObservableValue<tl::timeline::OCIOOptions> > ocioOptions;
-            std::shared_ptr<feather_tk::ObservableValue<tl::timeline::LUTOptions> > lutOptions;
+            std::shared_ptr<ftk::Settings> settings;
+            std::shared_ptr<ftk::ObservableValue<tl::timeline::OCIOOptions> > ocioOptions;
+            std::shared_ptr<ftk::ObservableValue<tl::timeline::LUTOptions> > lutOptions;
         };
 
         void ColorModel::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.settings = settings;
 
             tl::timeline::OCIOOptions ocioOptions;
             p.settings->getT("/Color/OCIO", ocioOptions);
-            p.ocioOptions = feather_tk::ObservableValue<tl::timeline::OCIOOptions>::create(ocioOptions);
+            p.ocioOptions = ftk::ObservableValue<tl::timeline::OCIOOptions>::create(ocioOptions);
 
             tl::timeline::LUTOptions lutOptions;
             p.settings->getT("/Color/LUT", lutOptions);
-            p.lutOptions = feather_tk::ObservableValue<tl::timeline::LUTOptions>::create(lutOptions);
+            p.lutOptions = ftk::ObservableValue<tl::timeline::LUTOptions>::create(lutOptions);
         }
 
         ColorModel::ColorModel() :
@@ -40,14 +40,14 @@ namespace djv
 
         ColorModel::~ColorModel()
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.settings->setT("/Color/OCIO", p.ocioOptions->get());
             p.settings->setT("/Color/LUT", p.lutOptions->get());
         }
 
         std::shared_ptr<ColorModel> ColorModel::create(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings)
         {
             auto out = std::shared_ptr<ColorModel>(new ColorModel);
             out->_init(context, settings);
@@ -59,7 +59,7 @@ namespace djv
             return _p->ocioOptions->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<tl::timeline::OCIOOptions> > ColorModel::observeOCIOOptions() const
+        std::shared_ptr<ftk::IObservableValue<tl::timeline::OCIOOptions> > ColorModel::observeOCIOOptions() const
         {
             return _p->ocioOptions;
         }
@@ -74,7 +74,7 @@ namespace djv
             return _p->lutOptions->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<tl::timeline::LUTOptions> > ColorModel::observeLUTOptions() const
+        std::shared_ptr<ftk::IObservableValue<tl::timeline::LUTOptions> > ColorModel::observeLUTOptions() const
         {
             return _p->lutOptions;
         }

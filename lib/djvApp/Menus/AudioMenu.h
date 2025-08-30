@@ -13,13 +13,13 @@ namespace djv
         class AudioActions;
 
         //! Audio menu.
-        class AudioMenu : public feather_tk::Menu
+        class AudioMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(AudioMenu);
+            FTK_NON_COPYABLE(AudioMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<AudioActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace djv
             ~AudioMenu();
 
             static std::shared_ptr<AudioMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<AudioActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

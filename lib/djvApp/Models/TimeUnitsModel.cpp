@@ -12,15 +12,15 @@ namespace djv
     {
         struct TimeUnitsModel::Private
         {
-            std::shared_ptr<feather_tk::Settings> settings;
+            std::shared_ptr<ftk::Settings> settings;
         };
 
         void TimeUnitsModel::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings)
         {
             tl::timeline::TimeUnitsModel::_init(context);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.settings = settings;
 
@@ -37,13 +37,13 @@ namespace djv
 
         TimeUnitsModel::~TimeUnitsModel()
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.settings->set("/TimeUnits", tl::timeline::to_string(getTimeUnits()));
         }
 
         std::shared_ptr<TimeUnitsModel> TimeUnitsModel::create(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings)
         {
             auto out = std::shared_ptr<TimeUnitsModel>(new TimeUnitsModel);
             out->_init(context, settings);

@@ -28,7 +28,7 @@ namespace djv
             return !(*this == other);
         }
 
-        FEATHER_TK_ENUM_IMPL(
+        FTK_ENUM_IMPL(
             ExportRenderSize,
             "Default",
             "1920x1080",
@@ -36,20 +36,20 @@ namespace djv
             "4096x2160",
             "Custom");
 
-        feather_tk::Size2I getSize(ExportRenderSize value)
+        ftk::Size2I getSize(ExportRenderSize value)
         {
-            const std::array<feather_tk::Size2I, static_cast<size_t>(ExportRenderSize::Count)> data =
+            const std::array<ftk::Size2I, static_cast<size_t>(ExportRenderSize::Count)> data =
             {
-                feather_tk::Size2I(),
-                feather_tk::Size2I(1920, 1080),
-                feather_tk::Size2I(3840, 2160),
-                feather_tk::Size2I(4096, 2160),
-                feather_tk::Size2I()
+                ftk::Size2I(),
+                ftk::Size2I(1920, 1080),
+                ftk::Size2I(3840, 2160),
+                ftk::Size2I(4096, 2160),
+                ftk::Size2I()
             };
             return data[static_cast<size_t>(value)];
         }
 
-        FEATHER_TK_ENUM_IMPL(
+        FTK_ENUM_IMPL(
             ExportFileType,
             "Image",
             "Sequence",
@@ -108,71 +108,71 @@ namespace djv
         {
             shortcuts =
             {
-                Shortcut("Audio/VolumeUp", "Volume up", feather_tk::Key::Period),
-                Shortcut("Audio/VolumeDown", "Volume down", feather_tk::Key::Comma),
-                Shortcut("Audio/Mute", "Mute", feather_tk::Key::M),
+                Shortcut("Audio/VolumeUp", "Volume up", ftk::Key::Period),
+                Shortcut("Audio/VolumeDown", "Volume down", ftk::Key::Comma),
+                Shortcut("Audio/Mute", "Mute", ftk::Key::M),
 
-                Shortcut("Compare/Next", "Next", feather_tk::Key::PageDown, static_cast<int>(feather_tk::KeyModifier::Shift)),
-                Shortcut("Compare/Prev", "Previous", feather_tk::Key::PageUp, static_cast<int>(feather_tk::KeyModifier::Shift)),
-                Shortcut("Compare/A", "A", feather_tk::Key::A, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("Compare/B", "B", feather_tk::Key::B, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("Compare/Wipe", "Wipe", feather_tk::Key::W, static_cast<int>(feather_tk::KeyModifier::Control)),
+                Shortcut("Compare/Next", "Next", ftk::Key::PageDown, static_cast<int>(ftk::KeyModifier::Shift)),
+                Shortcut("Compare/Prev", "Previous", ftk::Key::PageUp, static_cast<int>(ftk::KeyModifier::Shift)),
+                Shortcut("Compare/A", "A", ftk::Key::A, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("Compare/B", "B", ftk::Key::B, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("Compare/Wipe", "Wipe", ftk::Key::W, static_cast<int>(ftk::KeyModifier::Control)),
                 Shortcut("Compare/Overlay", "Overlay"),
                 Shortcut("Compare/Difference", "Difference"),
                 Shortcut("Compare/Horizontal", "Horizontal"),
                 Shortcut("Compare/Vertical", "Vertical"),
-                Shortcut("Compare/Tile", "Tile", feather_tk::Key::T, static_cast<int>(feather_tk::KeyModifier::Control)),
+                Shortcut("Compare/Tile", "Tile", ftk::Key::T, static_cast<int>(ftk::KeyModifier::Control)),
                 Shortcut("Compare/Relative", "Relative"),
                 Shortcut("Compare/Absolute", "Absolute"),
 
-                Shortcut("File/Open", "Open", feather_tk::Key::O, static_cast<int>(feather_tk::commandKeyModifier)),
+                Shortcut("File/Open", "Open", ftk::Key::O, static_cast<int>(ftk::commandKeyModifier)),
                 Shortcut(
                     "File/OpenSeparateAudio",
                     "Open separate audio",
-                    feather_tk::Key::O,
-                    static_cast<int>(feather_tk::KeyModifier::Shift) | static_cast<int>(feather_tk::commandKeyModifier)),
-                Shortcut("File/Close", "Close", feather_tk::Key::E, static_cast<int>(feather_tk::commandKeyModifier)),
+                    ftk::Key::O,
+                    static_cast<int>(ftk::KeyModifier::Shift) | static_cast<int>(ftk::commandKeyModifier)),
+                Shortcut("File/Close", "Close", ftk::Key::E, static_cast<int>(ftk::commandKeyModifier)),
                 Shortcut(
                     "File/CloseAll",
                     "Close all",
-                    feather_tk::Key::E,
-                    static_cast<int>(feather_tk::KeyModifier::Shift) | static_cast<int>(feather_tk::commandKeyModifier)),
+                    ftk::Key::E,
+                    static_cast<int>(ftk::KeyModifier::Shift) | static_cast<int>(ftk::commandKeyModifier)),
                 Shortcut(
                     "File/Reload",
                     "Reload",
-                    feather_tk::Key::R,
-                    static_cast<int>(feather_tk::KeyModifier::Shift) | static_cast<int>(feather_tk::commandKeyModifier)),
-                Shortcut("File/Next", "Next", feather_tk::Key::PageDown, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("File/Prev", "Previous", feather_tk::Key::PageUp, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("File/NextLayer", "Next layer", feather_tk::Key::Equals, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("File/PrevLayer", "Previous layer", feather_tk::Key::Minus, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("File/Exit", "Exit", feather_tk::Key::Q, static_cast<int>(feather_tk::commandKeyModifier)),
+                    ftk::Key::R,
+                    static_cast<int>(ftk::KeyModifier::Shift) | static_cast<int>(ftk::commandKeyModifier)),
+                Shortcut("File/Next", "Next", ftk::Key::PageDown, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("File/Prev", "Previous", ftk::Key::PageUp, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("File/NextLayer", "Next layer", ftk::Key::Equals, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("File/PrevLayer", "Previous layer", ftk::Key::Minus, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("File/Exit", "Exit", ftk::Key::Q, static_cast<int>(ftk::commandKeyModifier)),
 
-                Shortcut("Frame/Start", "Start", feather_tk::Key::Home),
-                Shortcut("Frame/End", "End", feather_tk::Key::End),
-                Shortcut("Frame/Prev", "Previous", feather_tk::Key::Left),
-                Shortcut("Frame/PrevX10", "Previous X10", feather_tk::Key::Left, static_cast<int>(feather_tk::KeyModifier::Shift)),
-                Shortcut("Frame/PrevX100", "Previous X100", feather_tk::Key::Left, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("Frame/Next", "Next", feather_tk::Key::Right),
-                Shortcut("Frame/NextX10", "Next X10", feather_tk::Key::Right, static_cast<int>(feather_tk::KeyModifier::Shift)),
-                Shortcut("Frame/NextX100", "Next X100", feather_tk::Key::Right, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("Frame/FocusCurrent", "Focus current", feather_tk::Key::F, static_cast<int>(feather_tk::KeyModifier::Control)),
+                Shortcut("Frame/Start", "Start", ftk::Key::Home),
+                Shortcut("Frame/End", "End", ftk::Key::End),
+                Shortcut("Frame/Prev", "Previous", ftk::Key::Left),
+                Shortcut("Frame/PrevX10", "Previous X10", ftk::Key::Left, static_cast<int>(ftk::KeyModifier::Shift)),
+                Shortcut("Frame/PrevX100", "Previous X100", ftk::Key::Left, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("Frame/Next", "Next", ftk::Key::Right),
+                Shortcut("Frame/NextX10", "Next X10", ftk::Key::Right, static_cast<int>(ftk::KeyModifier::Shift)),
+                Shortcut("Frame/NextX100", "Next X100", ftk::Key::Right, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("Frame/FocusCurrent", "Focus current", ftk::Key::F, static_cast<int>(ftk::KeyModifier::Control)),
 
-                Shortcut("Playback/Stop", "Stop", feather_tk::Key::K),
-                Shortcut("Playback/Forward", "Forward", feather_tk::Key::L),
-                Shortcut("Playback/Reverse", "Reverse", feather_tk::Key::J),
-                Shortcut("Playback/Toggle", "Toggle", feather_tk::Key::Space),
-                Shortcut("Playback/JumpBack1s", "Jump back 1s", feather_tk::Key::J, static_cast<int>(feather_tk::KeyModifier::Shift)),
-                Shortcut("Playback/JumpBack10s", "Jump back 10s", feather_tk::Key::J, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("Playback/JumpForward1s", "Jump forward 1s", feather_tk::Key::L, static_cast<int>(feather_tk::KeyModifier::Shift)),
-                Shortcut("Playback/JumpForward10s", "Jump forward 10s", feather_tk::Key::L, static_cast<int>(feather_tk::KeyModifier::Control)),
+                Shortcut("Playback/Stop", "Stop", ftk::Key::K),
+                Shortcut("Playback/Forward", "Forward", ftk::Key::L),
+                Shortcut("Playback/Reverse", "Reverse", ftk::Key::J),
+                Shortcut("Playback/Toggle", "Toggle", ftk::Key::Space),
+                Shortcut("Playback/JumpBack1s", "Jump back 1s", ftk::Key::J, static_cast<int>(ftk::KeyModifier::Shift)),
+                Shortcut("Playback/JumpBack10s", "Jump back 10s", ftk::Key::J, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("Playback/JumpForward1s", "Jump forward 1s", ftk::Key::L, static_cast<int>(ftk::KeyModifier::Shift)),
+                Shortcut("Playback/JumpForward10s", "Jump forward 10s", ftk::Key::L, static_cast<int>(ftk::KeyModifier::Control)),
                 Shortcut("Playback/Loop", "Loop"),
                 Shortcut("Playback/Once", "Once"),
                 Shortcut("Playback/PingPong", "Ping pong"),
-                Shortcut("Playback/SetInPoint", "Set in point", feather_tk::Key::I),
-                Shortcut("Playback/ResetInPoint", "Reset in point", feather_tk::Key::I, static_cast<int>(feather_tk::KeyModifier::Shift)),
-                Shortcut("Playback/SetOutPoint", "Set out point", feather_tk::Key::O),
-                Shortcut("Playback/ResetOutPoint", "Reset out point", feather_tk::Key::O, static_cast<int>(feather_tk::KeyModifier::Shift)),
+                Shortcut("Playback/SetInPoint", "Set in point", ftk::Key::I),
+                Shortcut("Playback/ResetInPoint", "Reset in point", ftk::Key::I, static_cast<int>(ftk::KeyModifier::Shift)),
+                Shortcut("Playback/SetOutPoint", "Set out point", ftk::Key::O),
+                Shortcut("Playback/ResetOutPoint", "Reset out point", ftk::Key::O, static_cast<int>(ftk::KeyModifier::Shift)),
 
                 Shortcut("Timeline/FrameView", "Frame view"),
                 Shortcut("Timeline/Scroll", "Scroll"),
@@ -182,28 +182,28 @@ namespace djv
                 Shortcut("Timeline/ThumbnailsMedium", "Thumbnails medium"),
                 Shortcut("Timeline/ThumbnailsLarge", "Thumbnails large"),
 
-                Shortcut("Tools/Files", "Files", feather_tk::Key::F1),
-                Shortcut("Tools/Export", "Export", feather_tk::Key::F2),
-                Shortcut("Tools/View", "View", feather_tk::Key::F3),
-                Shortcut("Tools/ColorPicker", "Color picker", feather_tk::Key::F4),
-                Shortcut("Tools/Color", "Color", feather_tk::Key::F5),
-                Shortcut("Tools/Info", "Information", feather_tk::Key::F6),
-                Shortcut("Tools/Audio", "Audio", feather_tk::Key::F7),
-                Shortcut("Tools/Devices", "Devices", feather_tk::Key::F8),
-                Shortcut("Tools/Settings", "Settings", feather_tk::Key::F9),
-                Shortcut("Tools/Messages", "Messages", feather_tk::Key::F10),
-                Shortcut("Tools/SystemLog", "System log", feather_tk::Key::F11),
+                Shortcut("Tools/Files", "Files", ftk::Key::F1),
+                Shortcut("Tools/Export", "Export", ftk::Key::F2),
+                Shortcut("Tools/View", "View", ftk::Key::F3),
+                Shortcut("Tools/ColorPicker", "Color picker", ftk::Key::F4),
+                Shortcut("Tools/Color", "Color", ftk::Key::F5),
+                Shortcut("Tools/Info", "Information", ftk::Key::F6),
+                Shortcut("Tools/Audio", "Audio", ftk::Key::F7),
+                Shortcut("Tools/Devices", "Devices", ftk::Key::F8),
+                Shortcut("Tools/Settings", "Settings", ftk::Key::F9),
+                Shortcut("Tools/Messages", "Messages", ftk::Key::F10),
+                Shortcut("Tools/SystemLog", "System log", ftk::Key::F11),
 
-                Shortcut("View/Frame", "Frame", feather_tk::Key::Backspace),
-                Shortcut("View/ZoomReset", "Zoom reset", feather_tk::Key::_0),
-                Shortcut("View/ZoomIn", "Zoom in", feather_tk::Key::Equals),
-                Shortcut("View/ZoomOut", "Zoom out", feather_tk::Key::Minus),
-                Shortcut("View/Red", "Red", feather_tk::Key::R),
-                Shortcut("View/Green", "Green", feather_tk::Key::G),
-                Shortcut("View/Blue", "Blue", feather_tk::Key::B),
-                Shortcut("View/Alpha", "Alpha", feather_tk::Key::A),
-                Shortcut("View/MirrorHorizontal", "Mirror horizontal", feather_tk::Key::H),
-                Shortcut("View/MirrorVertical", "Mirror vertical", feather_tk::Key::V),
+                Shortcut("View/Frame", "Frame", ftk::Key::Backspace),
+                Shortcut("View/ZoomReset", "Zoom reset", ftk::Key::_0),
+                Shortcut("View/ZoomIn", "Zoom in", ftk::Key::Equals),
+                Shortcut("View/ZoomOut", "Zoom out", ftk::Key::Minus),
+                Shortcut("View/Red", "Red", ftk::Key::R),
+                Shortcut("View/Green", "Green", ftk::Key::G),
+                Shortcut("View/Blue", "Blue", ftk::Key::B),
+                Shortcut("View/Alpha", "Alpha", ftk::Key::A),
+                Shortcut("View/MirrorHorizontal", "Mirror horizontal", ftk::Key::H),
+                Shortcut("View/MirrorVertical", "Mirror vertical", ftk::Key::V),
                 Shortcut("View/MinifyNearest", "Minify nearest"),
                 Shortcut("View/MinifyLinear", "Minify linear"),
                 Shortcut("View/MagnifyNearest", "Magnify nearest"),
@@ -214,12 +214,12 @@ namespace djv
                 Shortcut("View/AlphaBlendNone", "Alpha blend none"),
                 Shortcut("View/AlphaBlendStraight", "Alpha blend straight"),
                 Shortcut("View/AlphaBlendPremultiplied", "Alpha blend premultiplied"),
-                Shortcut("View/Grid", "Grid", feather_tk::Key::G, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("View/HUD", "HUD", feather_tk::Key::H, static_cast<int>(feather_tk::KeyModifier::Control)),
+                Shortcut("View/Grid", "Grid", ftk::Key::G, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("View/HUD", "HUD", ftk::Key::H, static_cast<int>(ftk::KeyModifier::Control)),
 
-                Shortcut("Window/FullScreen", "Full screen", feather_tk::Key::U),
+                Shortcut("Window/FullScreen", "Full screen", ftk::Key::U),
                 Shortcut("Window/FloatOnTop", "Float on top"),
-                Shortcut("Window/Secondary", "Secondary", feather_tk::Key::Y),
+                Shortcut("Window/Secondary", "Secondary", ftk::Key::Y),
                 Shortcut("Window/FileToolBar", "File tool bar"),
                 Shortcut("Window/CompareToolBar", "Compare tool bar"),
                 Shortcut("Window/WindowToolBar", "Window tool bar"),
@@ -230,8 +230,8 @@ namespace djv
                 Shortcut("Window/BottomToolBar", "Bottom tool bar"),
                 Shortcut("Window/StatusToolBar", "Status tool bar"),
 
-                Shortcut("Color/OCIO", "Enable OCIO", feather_tk::Key::N, static_cast<int>(feather_tk::KeyModifier::Control)),
-                Shortcut("Color/LUT", "Enable LUT", feather_tk::Key::K, static_cast<int>(feather_tk::KeyModifier::Control))
+                Shortcut("Color/OCIO", "Enable OCIO", ftk::Key::N, static_cast<int>(ftk::KeyModifier::Control)),
+                Shortcut("Color/LUT", "Enable LUT", ftk::Key::K, static_cast<int>(ftk::KeyModifier::Control))
             };
         }
 
@@ -257,7 +257,7 @@ namespace djv
             return !(*this == other);
         }
 
-        FEATHER_TK_ENUM_IMPL(
+        FTK_ENUM_IMPL(
             MouseAction,
             "PanView",
             "CompareWipe",
@@ -266,7 +266,7 @@ namespace djv
 
         MouseActionBinding::MouseActionBinding(
             int button,
-            feather_tk::KeyModifier modifier) :
+            ftk::KeyModifier modifier) :
             button(button),
             modifier(modifier)
         {}
@@ -309,7 +309,7 @@ namespace djv
             return !(*this == other);
         }
 
-        FEATHER_TK_ENUM_IMPL(
+        FTK_ENUM_IMPL(
             TimelineThumbnails,
             "None",
             "Small",
@@ -381,35 +381,35 @@ namespace djv
 
         struct SettingsModel::Private
         {
-            std::weak_ptr<feather_tk::Context> context;
-            std::shared_ptr<feather_tk::Settings> settings;
+            std::weak_ptr<ftk::Context> context;
+            std::shared_ptr<ftk::Settings> settings;
             float defaultDisplayScale = 1.F;
 
-            std::shared_ptr<feather_tk::ObservableValue<AdvancedSettings> > advanced;
-            std::shared_ptr<feather_tk::ObservableValue<tl::timeline::PlayerCacheOptions> > cache;
-            std::shared_ptr<feather_tk::ObservableValue<ExportSettings> > exportSettings;
-            std::shared_ptr<feather_tk::ObservableValue<FileBrowserSettings> > fileBrowser;
-            std::shared_ptr<feather_tk::ObservableValue<ImageSequenceSettings> > imageSequence;
-            std::shared_ptr<feather_tk::ObservableValue<ShortcutsSettings> > Shortcuts;
-            std::shared_ptr<feather_tk::ObservableValue<MiscSettings> > misc;
-            std::shared_ptr<feather_tk::ObservableValue<MouseSettings> > mouse;
-            std::shared_ptr<feather_tk::ObservableValue<StyleSettings> > style;
-            std::shared_ptr<feather_tk::ObservableValue<TimelineSettings> > timeline;
-            std::shared_ptr<feather_tk::ObservableValue<WindowSettings> > window;
+            std::shared_ptr<ftk::ObservableValue<AdvancedSettings> > advanced;
+            std::shared_ptr<ftk::ObservableValue<tl::timeline::PlayerCacheOptions> > cache;
+            std::shared_ptr<ftk::ObservableValue<ExportSettings> > exportSettings;
+            std::shared_ptr<ftk::ObservableValue<FileBrowserSettings> > fileBrowser;
+            std::shared_ptr<ftk::ObservableValue<ImageSequenceSettings> > imageSequence;
+            std::shared_ptr<ftk::ObservableValue<ShortcutsSettings> > Shortcuts;
+            std::shared_ptr<ftk::ObservableValue<MiscSettings> > misc;
+            std::shared_ptr<ftk::ObservableValue<MouseSettings> > mouse;
+            std::shared_ptr<ftk::ObservableValue<StyleSettings> > style;
+            std::shared_ptr<ftk::ObservableValue<TimelineSettings> > timeline;
+            std::shared_ptr<ftk::ObservableValue<WindowSettings> > window;
 #if defined(TLRENDER_FFMPEG)
-            std::shared_ptr<feather_tk::ObservableValue<tl::ffmpeg::Options> > ffmpeg;
+            std::shared_ptr<ftk::ObservableValue<tl::ffmpeg::Options> > ffmpeg;
 #endif // TLRENDER_FFMPEG
 #if defined(TLRENDER_USD)
-            std::shared_ptr<feather_tk::ObservableValue<tl::usd::Options> > usd;
+            std::shared_ptr<ftk::ObservableValue<tl::usd::Options> > usd;
 #endif // TLRENDER_USD
         };
 
         void SettingsModel::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings,
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings,
             float defaultDisplayScale)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.context = context;
             p.settings = settings;
@@ -417,20 +417,20 @@ namespace djv
 
             AdvancedSettings advanced;
             settings->getT("/Advanced", advanced);
-            p.advanced = feather_tk::ObservableValue<AdvancedSettings>::create(advanced);
+            p.advanced = ftk::ObservableValue<AdvancedSettings>::create(advanced);
 
             tl::timeline::PlayerCacheOptions cache;
             settings->getT("/Cache", cache);
-            p.cache = feather_tk::ObservableValue<tl::timeline::PlayerCacheOptions>::create(cache);
+            p.cache = ftk::ObservableValue<tl::timeline::PlayerCacheOptions>::create(cache);
 
             ExportSettings exportSettings;
             settings->getT("/Export", exportSettings);
-            p.exportSettings = feather_tk::ObservableValue<ExportSettings>::create(exportSettings);
+            p.exportSettings = ftk::ObservableValue<ExportSettings>::create(exportSettings);
 
             FileBrowserSettings fileBrowser;
             settings->getT("/FileBrowser", fileBrowser);
-            p.fileBrowser = feather_tk::ObservableValue<FileBrowserSettings>::create(fileBrowser);
-            auto fileBrowserSystem = context->getSystem<feather_tk::FileBrowserSystem>();
+            p.fileBrowser = ftk::ObservableValue<FileBrowserSettings>::create(fileBrowser);
+            auto fileBrowserSystem = context->getSystem<ftk::FileBrowserSystem>();
             fileBrowserSystem->setNativeFileDialog(fileBrowser.nativeFileDialog);
             fileBrowserSystem->getModel()->setPath(fileBrowser.path);
             fileBrowserSystem->getModel()->setOptions(fileBrowser.options);
@@ -438,43 +438,43 @@ namespace djv
 
             ImageSequenceSettings imageSequence;
             settings->getT("/ImageSequence", imageSequence);
-            p.imageSequence = feather_tk::ObservableValue<ImageSequenceSettings>::create(imageSequence);
+            p.imageSequence = ftk::ObservableValue<ImageSequenceSettings>::create(imageSequence);
 
             ShortcutsSettings Shortcuts;
             settings->getT("/Shortcuts", Shortcuts);
-            p.Shortcuts = feather_tk::ObservableValue<ShortcutsSettings>::create(Shortcuts);
+            p.Shortcuts = ftk::ObservableValue<ShortcutsSettings>::create(Shortcuts);
 
             MiscSettings misc;
             settings->getT("/Misc", misc);
-            p.misc = feather_tk::ObservableValue<MiscSettings>::create(misc);
+            p.misc = ftk::ObservableValue<MiscSettings>::create(misc);
 
             MouseSettings mouse;
             settings->getT("/Mouse", mouse);
-            p.mouse = feather_tk::ObservableValue<MouseSettings>::create(mouse);
+            p.mouse = ftk::ObservableValue<MouseSettings>::create(mouse);
 
             StyleSettings style;
             style.displayScale = defaultDisplayScale;
             settings->getT("/Style", style);
-            p.style = feather_tk::ObservableValue<StyleSettings>::create(style);
+            p.style = ftk::ObservableValue<StyleSettings>::create(style);
 
             TimelineSettings timeline;
             settings->getT("/Timeline", timeline);
-            p.timeline = feather_tk::ObservableValue<TimelineSettings>::create(timeline);
+            p.timeline = ftk::ObservableValue<TimelineSettings>::create(timeline);
 
             WindowSettings window;
             settings->getT("/Window", window);
-            p.window = feather_tk::ObservableValue<WindowSettings>::create(window);
+            p.window = ftk::ObservableValue<WindowSettings>::create(window);
 
 #if defined(TLRENDER_FFMPEG)
             tl::ffmpeg::Options ffmpeg;
             settings->getT("/FFmpeg", ffmpeg);
-            p.ffmpeg = feather_tk::ObservableValue<tl::ffmpeg::Options>::create(ffmpeg);
+            p.ffmpeg = ftk::ObservableValue<tl::ffmpeg::Options>::create(ffmpeg);
 #endif // TLRENDER_FFMPEG
 
 #if defined(TLRENDER_USD)
             tl::usd::Options usd;
             settings->getT("/USD", usd);
-            p.usd = feather_tk::ObservableValue<tl::usd::Options>::create(usd);
+            p.usd = ftk::ObservableValue<tl::usd::Options>::create(usd);
 #endif // TLRENDER_USD
         }
 
@@ -488,8 +488,8 @@ namespace djv
         }
 
         std::shared_ptr<SettingsModel> SettingsModel::create(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings,
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings,
             float defaultDisplayScale)
         {
             auto out = std::shared_ptr<SettingsModel>(new SettingsModel);
@@ -499,7 +499,7 @@ namespace djv
 
         void SettingsModel::save()
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.settings->setT("/Advanced", p.advanced->get());
             p.settings->setT("/Cache", p.cache->get());
@@ -508,7 +508,7 @@ namespace djv
             FileBrowserSettings fileBrowser = p.fileBrowser->get();
             if (auto context = p.context.lock())
             {
-                auto fileBrowserSystem = context->getSystem<feather_tk::FileBrowserSystem>();
+                auto fileBrowserSystem = context->getSystem<ftk::FileBrowserSystem>();
                 fileBrowser.path = fileBrowserSystem->getModel()->getPath().u8string();
                 fileBrowser.options = fileBrowserSystem->getModel()->getOptions();
                 fileBrowser.extension = fileBrowserSystem->getModel()->getExtension();
@@ -535,7 +535,7 @@ namespace djv
 
         void SettingsModel::reset()
         {
-            FEATHER_TK_P();
+            FTK_P();
             setAdvanced(AdvancedSettings());
             setCache(tl::timeline::PlayerCacheOptions());
             setExport(ExportSettings());
@@ -564,7 +564,7 @@ namespace djv
             return _p->advanced->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<AdvancedSettings> > SettingsModel::observeAdvanced() const
+        std::shared_ptr<ftk::IObservableValue<AdvancedSettings> > SettingsModel::observeAdvanced() const
         {
             return _p->advanced;
         }
@@ -579,7 +579,7 @@ namespace djv
             return _p->cache->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<tl::timeline::PlayerCacheOptions> > SettingsModel::observeCache() const
+        std::shared_ptr<ftk::IObservableValue<tl::timeline::PlayerCacheOptions> > SettingsModel::observeCache() const
         {
             return _p->cache;
         }
@@ -594,7 +594,7 @@ namespace djv
             return _p->exportSettings->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<ExportSettings> > SettingsModel::observeExport() const
+        std::shared_ptr<ftk::IObservableValue<ExportSettings> > SettingsModel::observeExport() const
         {
             return _p->exportSettings;
         }
@@ -609,19 +609,19 @@ namespace djv
             return _p->fileBrowser->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<FileBrowserSettings> > SettingsModel::observeFileBrowser() const
+        std::shared_ptr<ftk::IObservableValue<FileBrowserSettings> > SettingsModel::observeFileBrowser() const
         {
             return _p->fileBrowser;
         }
 
         void SettingsModel::setFileBrowser(const FileBrowserSettings& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             if (p.fileBrowser->setIfChanged(value))
             {
                 if (auto context = p.context.lock())
                 {
-                    auto fileBrowserSystem = context->getSystem<feather_tk::FileBrowserSystem>();
+                    auto fileBrowserSystem = context->getSystem<ftk::FileBrowserSystem>();
                     fileBrowserSystem->setNativeFileDialog(value.nativeFileDialog);
                 }
             }
@@ -632,7 +632,7 @@ namespace djv
             return _p->imageSequence->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<ImageSequenceSettings> > SettingsModel::observeImageSequence() const
+        std::shared_ptr<ftk::IObservableValue<ImageSequenceSettings> > SettingsModel::observeImageSequence() const
         {
             return _p->imageSequence;
         }
@@ -647,7 +647,7 @@ namespace djv
             return _p->Shortcuts->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<ShortcutsSettings> > SettingsModel::observeShortcuts() const
+        std::shared_ptr<ftk::IObservableValue<ShortcutsSettings> > SettingsModel::observeShortcuts() const
         {
             return _p->Shortcuts;
         }
@@ -662,7 +662,7 @@ namespace djv
             return _p->misc->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<MiscSettings> > SettingsModel::observeMisc() const
+        std::shared_ptr<ftk::IObservableValue<MiscSettings> > SettingsModel::observeMisc() const
         {
             return _p->misc;
         }
@@ -677,7 +677,7 @@ namespace djv
             return _p->mouse->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<MouseSettings> > SettingsModel::observeMouse() const
+        std::shared_ptr<ftk::IObservableValue<MouseSettings> > SettingsModel::observeMouse() const
         {
             return _p->mouse;
         }
@@ -692,7 +692,7 @@ namespace djv
             return _p->style->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<StyleSettings> > SettingsModel::observeStyle() const
+        std::shared_ptr<ftk::IObservableValue<StyleSettings> > SettingsModel::observeStyle() const
         {
             return _p->style;
         }
@@ -707,7 +707,7 @@ namespace djv
             return _p->timeline->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<TimelineSettings> > SettingsModel::observeTimeline() const
+        std::shared_ptr<ftk::IObservableValue<TimelineSettings> > SettingsModel::observeTimeline() const
         {
             return _p->timeline;
         }
@@ -722,7 +722,7 @@ namespace djv
             return _p->window->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<WindowSettings> > SettingsModel::observeWindow() const
+        std::shared_ptr<ftk::IObservableValue<WindowSettings> > SettingsModel::observeWindow() const
         {
             return _p->window;
         }
@@ -738,7 +738,7 @@ namespace djv
             return _p->ffmpeg->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<tl::ffmpeg::Options> > SettingsModel::observeFFmpeg() const
+        std::shared_ptr<ftk::IObservableValue<tl::ffmpeg::Options> > SettingsModel::observeFFmpeg() const
         {
             return _p->ffmpeg;
         }
@@ -755,7 +755,7 @@ namespace djv
             return _p->usd->get();
         }
 
-        std::shared_ptr<feather_tk::IObservableValue<tl::usd::Options> > SettingsModel::observeUSD() const
+        std::shared_ptr<ftk::IObservableValue<tl::usd::Options> > SettingsModel::observeUSD() const
         {
             return _p->usd;
         }
@@ -841,7 +841,7 @@ namespace djv
             json["ColorStyle"] = to_string(value.colorStyle);
             for (auto i : value.customColorRoles)
             {
-                json["CustomColorRoles"][feather_tk::getLabel(i.first)] = i.second;
+                json["CustomColorRoles"][ftk::getLabel(i.first)] = i.second;
             }
         }
 
@@ -967,7 +967,7 @@ namespace djv
             json.at("ColorControls").get_to(value.colorControls);
             for (auto i = json.at("CustomColorRoles").begin(); i != json.at("CustomColorRoles").end(); ++i)
             {
-                feather_tk::ColorRole colorRole = feather_tk::ColorRole::None;
+                ftk::ColorRole colorRole = ftk::ColorRole::None;
                 from_string(i.key(), colorRole);
                 i.value().get_to(value.customColorRoles[colorRole]);
             }

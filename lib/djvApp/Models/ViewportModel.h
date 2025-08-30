@@ -10,7 +10,7 @@
 
 #include <feather-tk/core/ObservableValue.h>
 
-namespace feather_tk
+namespace ftk
 {
     class Context;
     class Settings;
@@ -23,12 +23,12 @@ namespace djv
         //! Viewport model.
         class ViewportModel : public std::enable_shared_from_this<ViewportModel>
         {
-            FEATHER_TK_NON_COPYABLE(ViewportModel);
+            FTK_NON_COPYABLE(ViewportModel);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&);
 
             ViewportModel();
 
@@ -37,32 +37,32 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<ViewportModel> create(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&);
 
             //! Get the color picker.
-            const feather_tk::Color4F& getColorPicker() const;
+            const ftk::Color4F& getColorPicker() const;
 
             //! Observe the color picker.
-            std::shared_ptr<feather_tk::IObservableValue<feather_tk::Color4F> > observeColorPicker() const;
+            std::shared_ptr<ftk::IObservableValue<ftk::Color4F> > observeColorPicker() const;
 
             //! Set the color picker.
-            void setColorPicker(const feather_tk::Color4F&);
+            void setColorPicker(const ftk::Color4F&);
 
             //! Get the image options.
-            const feather_tk::ImageOptions& getImageOptions() const;
+            const ftk::ImageOptions& getImageOptions() const;
 
             //! Observe the image options.
-            std::shared_ptr<feather_tk::IObservableValue<feather_tk::ImageOptions> > observeImageOptions() const;
+            std::shared_ptr<ftk::IObservableValue<ftk::ImageOptions> > observeImageOptions() const;
 
             //! Set the image options.
-            void setImageOptions(const feather_tk::ImageOptions&);
+            void setImageOptions(const ftk::ImageOptions&);
 
             //! Get the display options.
             const tl::timeline::DisplayOptions& getDisplayOptions() const;
 
             //! Observe the display options.
-            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::DisplayOptions> > observeDisplayOptions() const;
+            std::shared_ptr<ftk::IObservableValue<tl::timeline::DisplayOptions> > observeDisplayOptions() const;
 
             //! Set the display options.
             void setDisplayOptions(const tl::timeline::DisplayOptions&);
@@ -71,7 +71,7 @@ namespace djv
             const tl::timeline::BackgroundOptions& getBackgroundOptions() const;
 
             //! Observe the background options.
-            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::BackgroundOptions> > observeBackgroundOptions() const;
+            std::shared_ptr<ftk::IObservableValue<tl::timeline::BackgroundOptions> > observeBackgroundOptions() const;
 
             //! Set the background options.
             void setBackgroundOptions(const tl::timeline::BackgroundOptions&);
@@ -80,31 +80,31 @@ namespace djv
             const tl::timeline::ForegroundOptions& getForegroundOptions() const;
 
             //! Observe the foreground options.
-            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::ForegroundOptions> > observeForegroundOptions() const;
+            std::shared_ptr<ftk::IObservableValue<tl::timeline::ForegroundOptions> > observeForegroundOptions() const;
 
             //! Set the foreground options.
             void setForegroundOptions(const tl::timeline::ForegroundOptions&);
 
             //! Get the color buffer type.
-            feather_tk::ImageType getColorBuffer() const;
+            ftk::ImageType getColorBuffer() const;
 
             //! Observe the color buffer type.
-            std::shared_ptr<feather_tk::IObservableValue<feather_tk::ImageType> > observeColorBuffer() const;
+            std::shared_ptr<ftk::IObservableValue<ftk::ImageType> > observeColorBuffer() const;
 
             //! Set the color buffer type.
-            void setColorBuffer(feather_tk::ImageType);
+            void setColorBuffer(ftk::ImageType);
 
             //! Get whether the HUD is enabled.
             bool getHUD() const;
 
             //! Observe whether the HUD is enabled.
-            std::shared_ptr<feather_tk::IObservableValue<bool> > observeHUD() const;
+            std::shared_ptr<ftk::IObservableValue<bool> > observeHUD() const;
 
             //! Set whether the HUD is enabled.
             void setHUD(bool);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

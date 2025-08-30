@@ -13,13 +13,13 @@ namespace djv
         class ToolsActions;
 
         //! Tools menu.
-        class ToolsMenu : public feather_tk::Menu
+        class ToolsMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(ToolsMenu);
+            FTK_NON_COPYABLE(ToolsMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<ToolsActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace djv
             ~ToolsMenu();
 
             static std::shared_ptr<ToolsMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<ToolsActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

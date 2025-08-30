@@ -13,15 +13,15 @@ namespace djv
         class App;
 
         //! Setup start widget.
-        class SetupStartWidget : public feather_tk::IWidget
+        class SetupStartWidget : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(SetupStartWidget);
+            FTK_NON_COPYABLE(SetupStartWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
-                const std::shared_ptr<feather_tk::IWidget>& parent);
+                const std::shared_ptr<ftk::IWidget>& parent);
 
             SetupStartWidget();
 
@@ -29,24 +29,24 @@ namespace djv
             virtual ~SetupStartWidget();
 
             static std::shared_ptr<SetupStartWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
-                const std::shared_ptr<feather_tk::IWidget>& parent = nullptr);
+                const std::shared_ptr<ftk::IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
 
         //! Setup dialog.
-        class SetupDialog : public feather_tk::IDialog
+        class SetupDialog : public ftk::IDialog
         {
-            FEATHER_TK_NON_COPYABLE(SetupDialog);
+            FTK_NON_COPYABLE(SetupDialog);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -56,12 +56,12 @@ namespace djv
             virtual ~SetupDialog();
 
             static std::shared_ptr<SetupDialog> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

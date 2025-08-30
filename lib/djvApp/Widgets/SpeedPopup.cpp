@@ -15,12 +15,12 @@ namespace djv
         struct SpeedPopup::Private
         {
             std::vector<double> speeds;
-            std::shared_ptr<feather_tk::ListItemsWidget> listWidget;
+            std::shared_ptr<ftk::ListItemsWidget> listWidget;
             std::function<void(double)> callback;
         };
 
         void SpeedPopup::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             double defaultSpeed,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -28,7 +28,7 @@ namespace djv
                 context,
                 "djv::app::SpeedPopup",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.speeds =
             {
@@ -54,7 +54,7 @@ namespace djv
                 defaultSpeed
             };
 
-            p.listWidget = feather_tk::ListItemsWidget::create(context, feather_tk::ButtonGroupType::Click);
+            p.listWidget = ftk::ListItemsWidget::create(context, ftk::ButtonGroupType::Click);
             setWidget(p.listWidget);
 
             _widgetUpdate();
@@ -84,7 +84,7 @@ namespace djv
         {}
 
         std::shared_ptr<SpeedPopup> SpeedPopup::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             double defaultSpeed,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -100,14 +100,14 @@ namespace djv
 
         void SpeedPopup::_widgetUpdate()
         {
-            FEATHER_TK_P();
+            FTK_P();
             std::vector<std::string> items;
             const size_t size = p.speeds.size();
             for (size_t i = 0; i < size; ++i)
             {
                 items.push_back((size - 1) == i ?
-                    feather_tk::Format("Default: {0}").arg(p.speeds[i], 2) :
-                    feather_tk::Format("{0}").arg(p.speeds[i], 2));
+                    ftk::Format("Default: {0}").arg(p.speeds[i], 2) :
+                    ftk::Format("{0}").arg(p.speeds[i], 2));
             }
             p.listWidget->setItems(items);
         }

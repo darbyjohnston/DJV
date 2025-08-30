@@ -18,11 +18,11 @@ namespace djv
         //! \todo Add a background grid.
         class ViewTool : public IToolWidget
         {
-            FEATHER_TK_NON_COPYABLE(ViewTool);
+            FTK_NON_COPYABLE(ViewTool);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent);
@@ -33,13 +33,13 @@ namespace djv
             virtual ~ViewTool();
 
             static std::shared_ptr<ViewTool> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

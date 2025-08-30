@@ -14,13 +14,13 @@ namespace djv
         class MainWindow;
 
         //! Tools widget.
-        class ToolsWidget : public feather_tk::IWidget
+        class ToolsWidget : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(ToolsWidget);
+            FTK_NON_COPYABLE(ToolsWidget);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent);
@@ -32,16 +32,16 @@ namespace djv
 
             //! Create a new widget.
             static std::shared_ptr<ToolsWidget> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

@@ -18,13 +18,13 @@ namespace djv
     {
         struct ColorPickerTool::Private
         {
-            std::shared_ptr<feather_tk::ColorWidget> colorWidget;
+            std::shared_ptr<ftk::ColorWidget> colorWidget;
 
-            std::shared_ptr<feather_tk::ValueObserver<feather_tk::Color4F> > colorPickerObserver;
+            std::shared_ptr<ftk::ValueObserver<ftk::Color4F> > colorPickerObserver;
         };
 
         void ColorPickerTool::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -34,24 +34,24 @@ namespace djv
                 Tool::ColorPicker,
                 "djv::app::ColorPickerTool",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
-            p.colorWidget = feather_tk::ColorWidget::create(context);
-            p.colorWidget->setColor(feather_tk::Color4F(0.F, 0.F, 0.F));
+            p.colorWidget = ftk::ColorWidget::create(context);
+            p.colorWidget->setColor(ftk::Color4F(0.F, 0.F, 0.F));
 
-            auto layout = feather_tk::VerticalLayout::create(context);
-            layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
-            layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto layout = ftk::VerticalLayout::create(context);
+            layout->setMarginRole(ftk::SizeRole::MarginSmall);
+            layout->setSpacingRole(ftk::SizeRole::SpacingSmall);
             p.colorWidget->setParent(layout);
 
-            auto scrollWidget = feather_tk::ScrollWidget::create(context);
+            auto scrollWidget = ftk::ScrollWidget::create(context);
             scrollWidget->setBorder(false);
             scrollWidget->setWidget(layout);
             _setWidget(scrollWidget);
 
-            p.colorPickerObserver = feather_tk::ValueObserver<feather_tk::Color4F>::create(
+            p.colorPickerObserver = ftk::ValueObserver<ftk::Color4F>::create(
                 app->getViewportModel()->observeColorPicker(),
-                [this](const feather_tk::Color4F& value)
+                [this](const ftk::Color4F& value)
                 {
                     _p->colorWidget->setColor(value);
                 });
@@ -65,7 +65,7 @@ namespace djv
         {}
 
         std::shared_ptr<ColorPickerTool> ColorPickerTool::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -76,7 +76,7 @@ namespace djv
 
         void ColorPickerTool::_widgetUpdate()
         {
-            FEATHER_TK_P();
+            FTK_P();
         }
     }
 }

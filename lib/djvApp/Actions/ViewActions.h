@@ -17,11 +17,11 @@ namespace djv
         //! \todo Add an action for toggling the UI visibility.
         class ViewActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(ViewActions);
+            FTK_NON_COPYABLE(ViewActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
@@ -31,12 +31,12 @@ namespace djv
             ~ViewActions();
 
             static std::shared_ptr<ViewActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

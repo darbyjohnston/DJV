@@ -12,15 +12,15 @@ namespace djv
     {
         struct RecentFilesModel::Private
         {
-            std::shared_ptr<feather_tk::Settings> settings;
+            std::shared_ptr<ftk::Settings> settings;
         };
 
         void RecentFilesModel::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings)
         {
-            feather_tk::RecentFilesModel::_init(context);
-            FEATHER_TK_P();
+            ftk::RecentFilesModel::_init(context);
+            FTK_P();
 
             p.settings = settings;
 
@@ -48,7 +48,7 @@ namespace djv
 
         RecentFilesModel::~RecentFilesModel()
         {
-            FEATHER_TK_P();
+            FTK_P();
             nlohmann::json json;
             for (const auto& path : getRecent())
             {
@@ -59,8 +59,8 @@ namespace djv
         }
 
         std::shared_ptr<RecentFilesModel> RecentFilesModel::create(
-            const std::shared_ptr<feather_tk::Context>& context,
-            const std::shared_ptr<feather_tk::Settings>& settings)
+            const std::shared_ptr<ftk::Context>& context,
+            const std::shared_ptr<ftk::Settings>& settings)
         {
             auto out = std::shared_ptr<RecentFilesModel>(new RecentFilesModel);
             out->_init(context, settings);

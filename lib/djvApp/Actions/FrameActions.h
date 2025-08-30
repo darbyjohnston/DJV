@@ -15,11 +15,11 @@ namespace djv
         //! Frame actions.
         class FrameActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(FrameActions);
+            FTK_NON_COPYABLE(FrameActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
@@ -29,12 +29,12 @@ namespace djv
             ~FrameActions();
 
             static std::shared_ptr<FrameActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

@@ -11,7 +11,7 @@ namespace djv
     namespace app
     {
         void ViewMenu::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<ViewActions>& viewActions,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -39,7 +39,7 @@ namespace djv
         {}
 
         std::shared_ptr<ViewMenu> ViewMenu::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<ViewActions>& viewActions,
             const std::shared_ptr<IWidget>& parent)
         {

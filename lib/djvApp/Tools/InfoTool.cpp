@@ -24,14 +24,14 @@ namespace djv
             tl::io::Info info;
             std::string search;
 
-            std::shared_ptr<feather_tk::SearchBox> searchBox;
-            std::shared_ptr<feather_tk::GridLayout> layout;
+            std::shared_ptr<ftk::SearchBox> searchBox;
+            std::shared_ptr<ftk::GridLayout> layout;
 
-            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
         };
 
         void InfoTool::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -41,30 +41,30 @@ namespace djv
                 Tool::Info,
                 "djv::app::InfoTool",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
-            p.searchBox = feather_tk::SearchBox::create(context);
-            p.searchBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.searchBox = ftk::SearchBox::create(context);
+            p.searchBox->setHStretch(ftk::Stretch::Expanding);
 
-            p.layout = feather_tk::GridLayout::create(context);
-            p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
-            p.layout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
-            auto scrollWidget = feather_tk::ScrollWidget::create(context);
+            p.layout = ftk::GridLayout::create(context);
+            p.layout->setMarginRole(ftk::SizeRole::MarginSmall);
+            p.layout->setSpacingRole(ftk::SizeRole::SpacingSmall);
+            auto scrollWidget = ftk::ScrollWidget::create(context);
             scrollWidget->setWidget(p.layout);
             scrollWidget->setBorder(false);
-            scrollWidget->setVStretch(feather_tk::Stretch::Expanding);
+            scrollWidget->setVStretch(ftk::Stretch::Expanding);
 
-            auto layout = feather_tk::VerticalLayout::create(context);
-            layout->setSpacingRole(feather_tk::SizeRole::None);
+            auto layout = ftk::VerticalLayout::create(context);
+            layout->setSpacingRole(ftk::SizeRole::None);
             scrollWidget->setParent(layout);
-            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, layout);
-            auto hLayout = feather_tk::HorizontalLayout::create(context, layout);
-            hLayout->setMarginRole(feather_tk::SizeRole::MarginInside);
-            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
+            ftk::Divider::create(context, ftk::Orientation::Vertical, layout);
+            auto hLayout = ftk::HorizontalLayout::create(context, layout);
+            hLayout->setMarginRole(ftk::SizeRole::MarginInside);
+            hLayout->setSpacingRole(ftk::SizeRole::SpacingTool);
             p.searchBox->setParent(hLayout);
             _setWidget(layout);
 
-            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& value)
                 {
@@ -88,7 +88,7 @@ namespace djv
         {}
 
         std::shared_ptr<InfoTool> InfoTool::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -99,7 +99,7 @@ namespace djv
 
         void InfoTool::_widgetUpdate()
         {
-            FEATHER_TK_P();
+            FTK_P();
             auto children = p.layout->getChildren();
             for (const auto& child : children)
             {
@@ -112,22 +112,22 @@ namespace djv
                 {
                     bool filter = false;
                     if (!p.search.empty() &&
-                        !feather_tk::contains(
+                        !ftk::contains(
                             tag.first,
                             p.search,
-                            feather_tk::CaseCompare::Insensitive) &&
-                        !feather_tk::contains(
+                            ftk::CaseCompare::Insensitive) &&
+                        !ftk::contains(
                             tag.second,
                             p.search,
-                            feather_tk::CaseCompare::Insensitive))
+                            ftk::CaseCompare::Insensitive))
                     {
                         filter = true;
                     }
                     if (!filter)
                     {
-                        auto label = feather_tk::Label::create(context, tag.first + ":", p.layout);
+                        auto label = ftk::Label::create(context, tag.first + ":", p.layout);
                         p.layout->setGridPos(label, row, 0);
-                        label = feather_tk::Label::create(context, tag.second, p.layout);
+                        label = ftk::Label::create(context, tag.second, p.layout);
                         p.layout->setGridPos(label, row, 1);
                         ++row;
                     }

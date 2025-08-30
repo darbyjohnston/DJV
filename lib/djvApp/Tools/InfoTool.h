@@ -17,11 +17,11 @@ namespace djv
         //! Information tool.
         class InfoTool : public IToolWidget
         {
-            FEATHER_TK_NON_COPYABLE(InfoTool);
+            FTK_NON_COPYABLE(InfoTool);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -31,14 +31,14 @@ namespace djv
             virtual ~InfoTool();
 
             static std::shared_ptr<InfoTool> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
             void _widgetUpdate();
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

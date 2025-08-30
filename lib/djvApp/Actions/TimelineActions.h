@@ -15,11 +15,11 @@ namespace djv
         //! Timeline actions.
         class TimelineActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(TimelineActions);
+            FTK_NON_COPYABLE(TimelineActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
@@ -29,12 +29,12 @@ namespace djv
             ~TimelineActions();
 
             static std::shared_ptr<TimelineActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<MainWindow>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

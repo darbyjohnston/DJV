@@ -18,11 +18,11 @@ namespace djv
         //! new log items are received.
         class SystemLogTool : public IToolWidget
         {
-            FEATHER_TK_NON_COPYABLE(SystemLogTool);
+            FTK_NON_COPYABLE(SystemLogTool);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -32,12 +32,12 @@ namespace djv
             virtual ~SystemLogTool();
 
             static std::shared_ptr<SystemLogTool> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

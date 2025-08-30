@@ -13,13 +13,13 @@ namespace djv
         class ColorActions;
 
         //! Color menu.
-        class ColorMenu : public feather_tk::Menu
+        class ColorMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(ColorMenu);
+            FTK_NON_COPYABLE(ColorMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<ColorActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace djv
             ~ColorMenu();
 
             static std::shared_ptr<ColorMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<ColorActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

@@ -15,13 +15,13 @@ namespace djv
         class FrameActions;
 
         //! Frame menu.
-        class FrameMenu : public feather_tk::Menu
+        class FrameMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(FrameMenu);
+            FTK_NON_COPYABLE(FrameMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<FrameActions>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -31,7 +31,7 @@ namespace djv
             ~FrameMenu();
 
             static std::shared_ptr<FrameMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<FrameActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };

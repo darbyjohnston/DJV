@@ -19,79 +19,79 @@ namespace djv
         {
             std::shared_ptr<tl::timelineui::Viewport> viewport;
 
-            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareOptions> > compareOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<feather_tk::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::BackgroundOptions> > backgroundOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<feather_tk::ImageType> > colorBufferObserver;
+            std::shared_ptr<ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareOptions> > compareOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<ftk::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::DisplayOptions> > displayOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::BackgroundOptions> > backgroundOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<ftk::ImageType> > colorBufferObserver;
         };
 
         void SecondaryWindow::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
-            const std::shared_ptr<feather_tk::Window>& shared)
+            const std::shared_ptr<ftk::Window>& shared)
         {
-            Window::_init(context, "djv 2", feather_tk::Size2I(1920, 1080));
-            FEATHER_TK_P();
+            Window::_init(context, "djv 2", ftk::Size2I(1920, 1080));
+            FTK_P();
 
             p.viewport = tl::timelineui::Viewport::create(context);
             p.viewport->setParent(shared_from_this());
 
-            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& value)
                 {
                     _p->viewport->setPlayer(value);
                 });
 
-            p.compareOptionsObserver = feather_tk::ValueObserver<tl::timeline::CompareOptions>::create(
+            p.compareOptionsObserver = ftk::ValueObserver<tl::timeline::CompareOptions>::create(
                 app->getFilesModel()->observeCompareOptions(),
                 [this](const tl::timeline::CompareOptions& value)
                 {
                     _p->viewport->setCompareOptions(value);
                 });
 
-            p.ocioOptionsObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
+            p.ocioOptionsObserver = ftk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 app->getColorModel()->observeOCIOOptions(),
                 [this](const tl::timeline::OCIOOptions& value)
                 {
                     _p->viewport->setOCIOOptions(value);
                 });
 
-            p.lutOptionsObserver = feather_tk::ValueObserver<tl::timeline::LUTOptions>::create(
+            p.lutOptionsObserver = ftk::ValueObserver<tl::timeline::LUTOptions>::create(
                 app->getColorModel()->observeLUTOptions(),
                 [this](const tl::timeline::LUTOptions& value)
                 {
                     _p->viewport->setLUTOptions(value);
                 });
 
-            p.imageOptionsObserver = feather_tk::ValueObserver<feather_tk::ImageOptions>::create(
+            p.imageOptionsObserver = ftk::ValueObserver<ftk::ImageOptions>::create(
                 app->getViewportModel()->observeImageOptions(),
-                [this](const feather_tk::ImageOptions& value)
+                [this](const ftk::ImageOptions& value)
                 {
                     _p->viewport->setImageOptions({ value });
                 });
 
-            p.displayOptionsObserver = feather_tk::ValueObserver<tl::timeline::DisplayOptions>::create(
+            p.displayOptionsObserver = ftk::ValueObserver<tl::timeline::DisplayOptions>::create(
                 app->getViewportModel()->observeDisplayOptions(),
                 [this](const tl::timeline::DisplayOptions& value)
                 {
                     _p->viewport->setDisplayOptions({ value });
                 });
 
-            p.backgroundOptionsObserver = feather_tk::ValueObserver<tl::timeline::BackgroundOptions>::create(
+            p.backgroundOptionsObserver = ftk::ValueObserver<tl::timeline::BackgroundOptions>::create(
                 app->getViewportModel()->observeBackgroundOptions(),
                 [this](const tl::timeline::BackgroundOptions& value)
                 {
                     _p->viewport->setBackgroundOptions(value);
                 });
 
-            p.colorBufferObserver = feather_tk::ValueObserver<feather_tk::ImageType>::create(
+            p.colorBufferObserver = ftk::ValueObserver<ftk::ImageType>::create(
                 app->getViewportModel()->observeColorBuffer(),
-                [this](feather_tk::ImageType value)
+                [this](ftk::ImageType value)
                 {
                     _p->viewport->setColorBuffer(value);
                 });
@@ -108,9 +108,9 @@ namespace djv
         }
 
         std::shared_ptr<SecondaryWindow> SecondaryWindow::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
-            const std::shared_ptr<feather_tk::Window>& shared)
+            const std::shared_ptr<ftk::Window>& shared)
         {
             auto out = std::shared_ptr<SecondaryWindow>(new SecondaryWindow);
             out->_init(context, app, shared);
@@ -123,11 +123,11 @@ namespace djv
         }
 
         void SecondaryWindow::setView(
-            const feather_tk::V2I& pos,
+            const ftk::V2I& pos,
             double zoom,
             bool frame)
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.viewport->setViewPosAndZoom(pos, zoom);
             p.viewport->setFrameView(frame);
         }

@@ -13,13 +13,13 @@ namespace djv
         class App;
 
         //! About dialog.
-        class AboutDialog : public feather_tk::IDialog
+        class AboutDialog : public ftk::IDialog
         {
-            FEATHER_TK_NON_COPYABLE(AboutDialog);
+            FTK_NON_COPYABLE(AboutDialog);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,12 +29,12 @@ namespace djv
             virtual ~AboutDialog();
 
             static std::shared_ptr<AboutDialog> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

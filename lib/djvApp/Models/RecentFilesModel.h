@@ -6,7 +6,7 @@
 
 #include <feather-tk/ui/RecentFilesModel.h>
 
-namespace feather_tk
+namespace ftk
 {
     class Settings;
 }
@@ -16,14 +16,14 @@ namespace djv
     namespace app
     {
         //! Recent files model.
-        class RecentFilesModel : public feather_tk::RecentFilesModel
+        class RecentFilesModel : public ftk::RecentFilesModel
         {
-            FEATHER_TK_NON_COPYABLE(RecentFilesModel);
+            FTK_NON_COPYABLE(RecentFilesModel);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&);
 
             RecentFilesModel();
 
@@ -32,11 +32,11 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<RecentFilesModel> create(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

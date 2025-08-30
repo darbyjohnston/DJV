@@ -15,30 +15,30 @@ namespace djv
     {
         struct WindowMenu::Private
         {
-            std::map<std::string, std::shared_ptr<feather_tk::Menu> > menus;
+            std::map<std::string, std::shared_ptr<ftk::Menu> > menus;
         };
 
         void WindowMenu::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<WindowActions>& windowActions,
             const std::shared_ptr<IWidget>& parent)
         {
             Menu::_init(context, parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.menus["Resize"] = addSubMenu("Resize");
             auto mainWindowWeak = std::weak_ptr<MainWindow>(mainWindow);
-            const std::vector<feather_tk::Size2I> sizes =
+            const std::vector<ftk::Size2I> sizes =
             {
-                feather_tk::Size2I(1280, 720),
-                feather_tk::Size2I(1920, 1080),
-                feather_tk::Size2I(3840, 2160)
+                ftk::Size2I(1280, 720),
+                ftk::Size2I(1920, 1080),
+                ftk::Size2I(3840, 2160)
             };
             for (const auto size : sizes)
             {
-                auto action = feather_tk::Action::create(
-                    feather_tk::Format("{0}x{1}").arg(size.w).arg(size.h),
+                auto action = ftk::Action::create(
+                    ftk::Format("{0}x{1}").arg(size.w).arg(size.h),
                     [mainWindowWeak, size]
                     {
                         if (auto mainWindow = mainWindowWeak.lock())
@@ -75,7 +75,7 @@ namespace djv
         {}
 
         std::shared_ptr<WindowMenu> WindowMenu::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<WindowActions>& windowActions,
             const std::shared_ptr<IWidget>& parent)

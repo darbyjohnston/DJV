@@ -17,11 +17,11 @@ namespace djv
         //! Files tool.
         class FilesTool : public IToolWidget
         {
-            FEATHER_TK_NON_COPYABLE(FilesTool);
+            FTK_NON_COPYABLE(FilesTool);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -31,7 +31,7 @@ namespace djv
             virtual ~FilesTool();
 
             static std::shared_ptr<FilesTool> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -42,7 +42,7 @@ namespace djv
             void _layersUpdate(const std::vector<int>&);
             void _compareUpdate(const tl::timeline::CompareOptions&);
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

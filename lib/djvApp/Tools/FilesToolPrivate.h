@@ -12,13 +12,13 @@ namespace djv
 {
     namespace app
     {
-        class FileButton : public feather_tk::IButton
+        class FileButton : public ftk::IButton
         {
-            FEATHER_TK_NON_COPYABLE(FileButton);
+            FTK_NON_COPYABLE(FileButton);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<FilesModelItem>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -28,22 +28,22 @@ namespace djv
             virtual ~FileButton();
 
             static std::shared_ptr<FileButton> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<FilesModelItem>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void tickEvent(
                 bool,
                 bool,
-                const feather_tk::TickEvent&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
-            void clipEvent(const feather_tk::Box2I&, bool) override;
-            void drawEvent(const feather_tk::Box2I&, const feather_tk::DrawEvent&) override;
-            void keyPressEvent(feather_tk::KeyEvent&) override;
-            void keyReleaseEvent(feather_tk::KeyEvent&) override;
+                const ftk::TickEvent&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
+            void clipEvent(const ftk::Box2I&, bool) override;
+            void drawEvent(const ftk::Box2I&, const ftk::DrawEvent&) override;
+            void keyPressEvent(ftk::KeyEvent&) override;
+            void keyReleaseEvent(ftk::KeyEvent&) override;
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

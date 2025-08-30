@@ -14,14 +14,14 @@ namespace djv
         };
 
         void SeparateAudioDialog::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
             IDialog::_init(
                 context,
                 "djv::app::SeparateAudioDialog",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             p.widget = SeparateAudioWidget::create(
                 context,
@@ -42,7 +42,7 @@ namespace djv
         {}
 
         std::shared_ptr<SeparateAudioDialog> SeparateAudioDialog::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<SeparateAudioDialog>(new SeparateAudioDialog);

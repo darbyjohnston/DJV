@@ -11,7 +11,7 @@ namespace djv
     namespace app
     {
         void ColorMenu::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<ColorActions>& colorActions,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -26,7 +26,7 @@ namespace djv
         {}
 
         std::shared_ptr<ColorMenu> ColorMenu::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<ColorActions>& actions,
             const std::shared_ptr<IWidget>& parent)
         {

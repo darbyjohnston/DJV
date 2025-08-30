@@ -17,32 +17,32 @@ namespace djv
     {
         struct ViewToolBar::Private
         {
-            std::shared_ptr<feather_tk::DoubleEdit> zoomEdit;
-            std::shared_ptr<feather_tk::DoubleResetButton> zoomReset;
+            std::shared_ptr<ftk::DoubleEdit> zoomEdit;
+            std::shared_ptr<ftk::DoubleResetButton> zoomReset;
 
-            std::shared_ptr<feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> > > posZoomObserver;
+            std::shared_ptr<ftk::ValueObserver<std::pair<ftk::V2I, double> > > posZoomObserver;
             bool updating = false;
         };
 
         void ViewToolBar::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<ViewActions>& viewActions,
             const std::shared_ptr<IWidget>& parent)
         {
-            ToolBar::_init(context, feather_tk::Orientation::Horizontal, parent);
-            FEATHER_TK_P();
+            ToolBar::_init(context, ftk::Orientation::Horizontal, parent);
+            FTK_P();
 
             auto actions = viewActions->getActions();
             addAction(actions["Frame"]);
 
-            p.zoomEdit = feather_tk::DoubleEdit::create(context);
+            p.zoomEdit = ftk::DoubleEdit::create(context);
             p.zoomEdit->setRange(0.0001, 1000.0);
             p.zoomEdit->setStep(0.1);
             p.zoomEdit->setLargeStep(0.5);
             p.zoomEdit->setDefaultValue(1.0);
             p.zoomEdit->setPrecision(4);
-            p.zoomEdit->setBorderRole(feather_tk::ColorRole::None);
+            p.zoomEdit->setBorderRole(ftk::ColorRole::None);
             p.zoomEdit->setTooltip("View zoom");
             addWidget(p.zoomEdit);
 
@@ -57,18 +57,18 @@ namespace djv
                         if (auto mainWindow = mainWindowWeak.lock())
                         {
                             auto viewport = mainWindow->getViewport();
-                            const feather_tk::Box2I& g = viewport->getGeometry();
-                            const feather_tk::V2I focus(g.w() / 2, g.h() / 2);
+                            const ftk::Box2I& g = viewport->getGeometry();
+                            const ftk::V2I focus(g.w() / 2, g.h() / 2);
                             mainWindow->getViewport()->setViewZoom(value, focus);
                         }
                     }
                 });
 
-            p.posZoomObserver = feather_tk::ValueObserver<std::pair<feather_tk::V2I, double> >::create(
+            p.posZoomObserver = ftk::ValueObserver<std::pair<ftk::V2I, double> >::create(
                 mainWindow->getViewport()->observeViewPosAndZoom(),
-                [this](const std::pair<feather_tk::V2I, double>& value)
+                [this](const std::pair<ftk::V2I, double>& value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     p.updating = true;
                     p.zoomEdit->setValue(value.second);
                     p.updating = false;
@@ -83,7 +83,7 @@ namespace djv
         {}
 
         std::shared_ptr<ViewToolBar> ViewToolBar::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<MainWindow>& mainWindow,
             const std::shared_ptr<ViewActions>& viewActions,
             const std::shared_ptr<IWidget>& parent)

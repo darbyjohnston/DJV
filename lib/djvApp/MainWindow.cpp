@@ -106,7 +106,7 @@ namespace djv
             std::shared_ptr<ColorMenu> colorMenu;
             std::shared_ptr<ToolsMenu> toolsMenu;
             std::shared_ptr<HelpMenu> helpMenu;
-            std::shared_ptr<feather_tk::MenuBar> menuBar;
+            std::shared_ptr<ftk::MenuBar> menuBar;
             std::shared_ptr<FileToolBar> fileToolBar;
             std::shared_ptr<CompareToolBar> compareToolBar;
             std::shared_ptr<ViewToolBar> viewToolBar;
@@ -118,35 +118,35 @@ namespace djv
             std::shared_ptr<ToolsWidget> toolsWidget;
             std::shared_ptr<SetupDialog> setupDialog;
             std::shared_ptr<AboutDialog> aboutDialog;
-            std::map<std::string, std::shared_ptr<feather_tk::Divider> > dividers;
-            std::shared_ptr<feather_tk::Splitter> splitter;
-            std::shared_ptr<feather_tk::Splitter> splitter2;
-            std::shared_ptr<feather_tk::VerticalLayout> splitterLayout;
-            std::shared_ptr<feather_tk::VerticalLayout> layout;
+            std::map<std::string, std::shared_ptr<ftk::Divider> > dividers;
+            std::shared_ptr<ftk::Splitter> splitter;
+            std::shared_ptr<ftk::Splitter> splitter2;
+            std::shared_ptr<ftk::VerticalLayout> splitterLayout;
+            std::shared_ptr<ftk::VerticalLayout> layout;
 
-            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::CompareOptions> > compareOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<feather_tk::ImageType> > colorBufferObserver;
-            std::shared_ptr<feather_tk::ValueObserver<MouseSettings> > mouseSettingsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<TimelineSettings> > timelineSettingsObserver;
-            std::shared_ptr<feather_tk::ValueObserver<bool> > timelineFrameViewObserver;
-            std::shared_ptr<feather_tk::ValueObserver<WindowSettings> > windowSettingsObserver;
+            std::shared_ptr<ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::CompareOptions> > compareOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::OCIOOptions> > ocioOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::LUTOptions> > lutOptionsObserver;
+            std::shared_ptr<ftk::ValueObserver<ftk::ImageType> > colorBufferObserver;
+            std::shared_ptr<ftk::ValueObserver<MouseSettings> > mouseSettingsObserver;
+            std::shared_ptr<ftk::ValueObserver<TimelineSettings> > timelineSettingsObserver;
+            std::shared_ptr<ftk::ValueObserver<bool> > timelineFrameViewObserver;
+            std::shared_ptr<ftk::ValueObserver<WindowSettings> > windowSettingsObserver;
         };
 
         void MainWindow::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             const WindowSettings& settings = app->getSettingsModel()->getWindow();
             Window::_init(context, "djv", settings.size);
-            FEATHER_TK_P();
+            FTK_P();
 
-            auto iconSystem = context->getSystem<feather_tk::IconSystem>();
+            auto iconSystem = context->getSystem<ftk::IconSystem>();
             iconSystem->add("DJV_Icon_128", djv_resource::DJV_Icon_128);
             setIcon(iconSystem->get("DJV_Icon_128", 1.0));
-            setBackgroundRole(feather_tk::ColorRole::Window);
+            setBackgroundRole(ftk::ColorRole::Window);
 
             p.app = app;
             p.settingsModel = app->getSettingsModel();
@@ -197,7 +197,7 @@ namespace djv
             p.colorMenu = ColorMenu::create(context, p.colorActions);
             p.toolsMenu = ToolsMenu::create(context, p.toolsActions);
             p.helpMenu = HelpMenu::create(context, p.helpActions);
-            p.menuBar = feather_tk::MenuBar::create(context);
+            p.menuBar = ftk::MenuBar::create(context);
             p.menuBar->addMenu("File", p.fileMenu);
             p.menuBar->addMenu("Compare", p.compareMenu);
             p.menuBar->addMenu("Playback", p.playbackMenu);
@@ -240,38 +240,38 @@ namespace djv
                 app,
                 std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
 
-            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(feather_tk::SizeRole::None);
+            p.layout = ftk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(ftk::SizeRole::None);
             p.menuBar->setParent(p.layout);
-            p.dividers["MenuBar"] = feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
-            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
-            hLayout->setSpacingRole(feather_tk::SizeRole::None);
+            p.dividers["MenuBar"] = ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
+            auto hLayout = ftk::HorizontalLayout::create(context, p.layout);
+            hLayout->setSpacingRole(ftk::SizeRole::None);
             p.fileToolBar->setParent(hLayout);
-            p.dividers["File"] = feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, hLayout);
+            p.dividers["File"] = ftk::Divider::create(context, ftk::Orientation::Horizontal, hLayout);
             p.compareToolBar->setParent(hLayout);
-            p.dividers["Compare"] = feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, hLayout);
+            p.dividers["Compare"] = ftk::Divider::create(context, ftk::Orientation::Horizontal, hLayout);
             p.windowToolBar->setParent(hLayout);
-            p.dividers["Window"] = feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, hLayout);
+            p.dividers["Window"] = ftk::Divider::create(context, ftk::Orientation::Horizontal, hLayout);
             p.viewToolBar->setParent(hLayout);
-            p.dividers["View"] = feather_tk::Divider::create(context, feather_tk::Orientation::Horizontal, hLayout);
+            p.dividers["View"] = ftk::Divider::create(context, ftk::Orientation::Horizontal, hLayout);
             p.toolsToolBar->setParent(hLayout);
-            p.dividers["ToolBars"] = feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
-            p.splitterLayout = feather_tk::VerticalLayout::create(context, p.layout);
-            p.splitterLayout->setSpacingRole(feather_tk::SizeRole::None);
-            p.splitterLayout->setVStretch(feather_tk::Stretch::Expanding);
-            p.splitter = feather_tk::Splitter::create(context, feather_tk::Orientation::Vertical, p.splitterLayout);
+            p.dividers["ToolBars"] = ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
+            p.splitterLayout = ftk::VerticalLayout::create(context, p.layout);
+            p.splitterLayout->setSpacingRole(ftk::SizeRole::None);
+            p.splitterLayout->setVStretch(ftk::Stretch::Expanding);
+            p.splitter = ftk::Splitter::create(context, ftk::Orientation::Vertical, p.splitterLayout);
             p.splitter->setSplit(settings.splitter);
-            p.splitter2 = feather_tk::Splitter::create(context, feather_tk::Orientation::Horizontal, p.splitter);
+            p.splitter2 = ftk::Splitter::create(context, ftk::Orientation::Horizontal, p.splitter);
             p.splitter2->setSplit(settings.splitter2);
-            auto vLayout = feather_tk::VerticalLayout::create(context, p.splitter2);
-            vLayout->setSpacingRole(feather_tk::SizeRole::None);
+            auto vLayout = ftk::VerticalLayout::create(context, p.splitter2);
+            vLayout->setSpacingRole(ftk::SizeRole::None);
             p.tabBar->setParent(vLayout);
             p.viewport->setParent(vLayout);
             p.toolsWidget->setParent(p.splitter2);
             p.timelineWidget->setParent(p.splitter);
-            p.dividers["Bottom"] = feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            p.dividers["Bottom"] = ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
             p.bottomToolBar->setParent(p.layout);
-            p.dividers["Status"] = feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
+            p.dividers["Status"] = ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
             p.statusBar->setParent(p.layout);
 
             auto miscSettings = app->getSettingsModel()->getMisc();
@@ -288,17 +288,17 @@ namespace djv
                     });
             }
 
-            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& player)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     p.viewport->setPlayer(player);
                     p.timelineWidget->setPlayer(player);
                 });
 
             auto appWeak = std::weak_ptr<App>(app);
-            p.compareOptionsObserver = feather_tk::ValueObserver<tl::timeline::CompareOptions>::create(
+            p.compareOptionsObserver = ftk::ValueObserver<tl::timeline::CompareOptions>::create(
                 p.viewport->observeCompareOptions(),
                 [appWeak](const tl::timeline::CompareOptions& value)
                 {
@@ -308,7 +308,7 @@ namespace djv
                     }
                 });
 
-            p.ocioOptionsObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
+            p.ocioOptionsObserver = ftk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 app->getColorModel()->observeOCIOOptions(),
                 [this](const tl::timeline::OCIOOptions& value)
                 {
@@ -317,7 +317,7 @@ namespace djv
                     _p->timelineWidget->setDisplayOptions(options);
                 });
 
-            p.lutOptionsObserver = feather_tk::ValueObserver<tl::timeline::LUTOptions>::create(
+            p.lutOptionsObserver = ftk::ValueObserver<tl::timeline::LUTOptions>::create(
                 app->getColorModel()->observeLUTOptions(),
                 [this](const tl::timeline::LUTOptions& value)
                 {
@@ -326,28 +326,28 @@ namespace djv
                     _p->timelineWidget->setDisplayOptions(options);
                 });
 
-            p.colorBufferObserver = feather_tk::ValueObserver<feather_tk::ImageType>::create(
+            p.colorBufferObserver = ftk::ValueObserver<ftk::ImageType>::create(
                 app->getViewportModel()->observeColorBuffer(),
-                [this](feather_tk::ImageType value)
+                [this](ftk::ImageType value)
                 {
                     setFrameBufferType(value);
                 });
 
-            p.mouseSettingsObserver = feather_tk::ValueObserver<MouseSettings>::create(
+            p.mouseSettingsObserver = ftk::ValueObserver<MouseSettings>::create(
                 p.settingsModel->observeMouse(),
                 [this](const MouseSettings& value)
                 {
                     _settingsUpdate(value);
                 });
 
-            p.timelineSettingsObserver = feather_tk::ValueObserver<TimelineSettings>::create(
+            p.timelineSettingsObserver = ftk::ValueObserver<TimelineSettings>::create(
                 p.settingsModel->observeTimeline(),
                 [this](const TimelineSettings& value)
                 {
                     _settingsUpdate(value);
                 });
 
-            p.timelineFrameViewObserver = feather_tk::ValueObserver<bool>::create(
+            p.timelineFrameViewObserver = ftk::ValueObserver<bool>::create(
                 p.timelineWidget->observeFrameView(),
                 [appWeak](bool value)
                 {
@@ -359,7 +359,7 @@ namespace djv
                     }
                 });
 
-            p.windowSettingsObserver = feather_tk::ValueObserver<WindowSettings>::create(
+            p.windowSettingsObserver = ftk::ValueObserver<WindowSettings>::create(
                 p.settingsModel->observeWindow(),
                 [this](const WindowSettings& value)
                 {
@@ -373,7 +373,7 @@ namespace djv
 
         MainWindow::~MainWindow()
         {
-            FEATHER_TK_P();
+            FTK_P();
             _makeCurrent();
             p.viewport->setParent(nullptr);
             p.timelineWidget->setParent(nullptr);
@@ -394,7 +394,7 @@ namespace djv
         }
 
         std::shared_ptr<MainWindow> MainWindow::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             auto out = std::shared_ptr<MainWindow>(new MainWindow);
@@ -419,7 +419,7 @@ namespace djv
 
         void MainWindow::showAboutDialog()
         {
-            FEATHER_TK_P();
+            FTK_P();
             if (auto context = getContext())
             {
                 if (auto app = p.app.lock())
@@ -435,26 +435,26 @@ namespace djv
             }
         }
 
-        void MainWindow::setGeometry(const feather_tk::Box2I& value)
+        void MainWindow::setGeometry(const ftk::Box2I& value)
         {
             Window::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
-        void MainWindow::keyPressEvent(feather_tk::KeyEvent& event)
+        void MainWindow::keyPressEvent(ftk::KeyEvent& event)
         {
-            FEATHER_TK_P();
+            FTK_P();
             event.accept = p.menuBar->shortcut(event.key, event.modifiers);
         }
 
-        void MainWindow::keyReleaseEvent(feather_tk::KeyEvent& event)
+        void MainWindow::keyReleaseEvent(ftk::KeyEvent& event)
         {
             event.accept = true;
         }
 
         void MainWindow::_drop(const std::vector<std::string>& value)
         {
-            FEATHER_TK_P();
+            FTK_P();
             if (auto app = p.app.lock())
             {
                 for (const auto& i : value)
@@ -466,14 +466,14 @@ namespace djv
 
         void MainWindow::_settingsUpdate(const MouseSettings& settings)
         {
-            FEATHER_TK_P();
+            FTK_P();
             p.timelineWidget->setMouseWheelScale(settings.wheelScale);
             p.viewport->setMouseWheelScale(settings.wheelScale);
         }
 
         void MainWindow::_settingsUpdate(const TimelineSettings& settings)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.timelineWidget->setEditable(settings.editable);
             p.timelineWidget->setFrameView(settings.frameView);
@@ -511,7 +511,7 @@ namespace djv
 
         void MainWindow::_settingsUpdate(const WindowSettings& settings)
         {
-            FEATHER_TK_P();
+            FTK_P();
 
             p.fileToolBar->setVisible(settings.fileToolBar);
             p.dividers["File"]->setVisible(settings.fileToolBar);

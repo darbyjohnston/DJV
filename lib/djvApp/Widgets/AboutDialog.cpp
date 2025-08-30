@@ -17,13 +17,13 @@ namespace djv
     {
         struct AboutDialog::Private
         {
-            std::shared_ptr<feather_tk::PushButton> licenseButton;
-            std::shared_ptr<feather_tk::PushButton> closeButton;
-            std::shared_ptr<feather_tk::VerticalLayout> layout;
+            std::shared_ptr<ftk::PushButton> licenseButton;
+            std::shared_ptr<ftk::PushButton> closeButton;
+            std::shared_ptr<ftk::VerticalLayout> layout;
         };
 
         void AboutDialog::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -31,39 +31,39 @@ namespace djv
                 context,
                 "djv::app::AboutDialog",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
-            auto titleLabel = feather_tk::Label::create(context, "About", p.layout);
-            titleLabel->setFontRole(feather_tk::FontRole::Title);
-            titleLabel->setMarginRole(feather_tk::SizeRole::Margin);
+            auto titleLabel = ftk::Label::create(context, "About", p.layout);
+            titleLabel->setFontRole(ftk::FontRole::Title);
+            titleLabel->setMarginRole(ftk::SizeRole::Margin);
 
-            auto copyrightLabel = feather_tk::Label::create(
+            auto copyrightLabel = ftk::Label::create(
                 context,
-                feather_tk::Format(
+                ftk::Format(
                     "DJV\n"
                     "Version {0}\n"
                     "Copyright (c) 2004-2025 Darby Johnston\n"
                     "All rights reserved."
                 ).arg(DJV_VERSION));
 
-            p.licenseButton = feather_tk::PushButton::create(context, "License");
-            p.closeButton = feather_tk::PushButton::create(context, "Close");
+            p.licenseButton = ftk::PushButton::create(context, "License");
+            p.closeButton = ftk::PushButton::create(context, "Close");
 
-            p.layout = feather_tk::VerticalLayout::create(context, shared_from_this());
-            p.layout->setSpacingRole(feather_tk::SizeRole::None);
+            p.layout = ftk::VerticalLayout::create(context, shared_from_this());
+            p.layout->setSpacingRole(ftk::SizeRole::None);
             titleLabel->setParent(p.layout);
-            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
-            auto vLayout = feather_tk::VerticalLayout::create(context, p.layout);
-            vLayout->setMarginRole(feather_tk::SizeRole::MarginDialog);
-            vLayout->setSpacingRole(feather_tk::SizeRole::SpacingLarge);
+            ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
+            auto vLayout = ftk::VerticalLayout::create(context, p.layout);
+            vLayout->setMarginRole(ftk::SizeRole::MarginDialog);
+            vLayout->setSpacingRole(ftk::SizeRole::SpacingLarge);
             copyrightLabel->setParent(vLayout);
-            auto vLayout2 = feather_tk::VerticalLayout::create(context, vLayout);
-            vLayout2->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto vLayout2 = ftk::VerticalLayout::create(context, vLayout);
+            vLayout2->setSpacingRole(ftk::SizeRole::SpacingSmall);
             p.licenseButton->setParent(vLayout2);
-            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
-            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
-            hLayout->setMarginRole(feather_tk::SizeRole::Margin);
-            hLayout->addSpacer(feather_tk::SizeRole::Spacing, feather_tk::Stretch::Expanding);
+            ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
+            auto hLayout = ftk::HorizontalLayout::create(context, p.layout);
+            hLayout->setMarginRole(ftk::SizeRole::Margin);
+            hLayout->addSpacer(ftk::SizeRole::Spacing, ftk::Stretch::Expanding);
             p.closeButton->setParent(hLayout);
 
             p.closeButton->setClickedCallback(
@@ -75,7 +75,7 @@ namespace djv
             p.licenseButton->setClickedCallback(
                 [this]
                 {
-                    feather_tk::openURL("https://github.com/darbyjohnston/DJV/blob/main/LICENSE.txt");
+                    ftk::openURL("https://github.com/darbyjohnston/DJV/blob/main/LICENSE.txt");
                 });
         }
 
@@ -87,7 +87,7 @@ namespace djv
         {}
 
         std::shared_ptr<AboutDialog> AboutDialog::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

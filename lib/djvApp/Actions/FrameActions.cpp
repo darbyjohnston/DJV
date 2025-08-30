@@ -13,19 +13,19 @@ namespace djv
     {
         struct FrameActions::Private
         {
-            std::shared_ptr<feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
+            std::shared_ptr<ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> > > playerObserver;
         };
 
         void FrameActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {
             IActions::_init(context, app, "Frame");
-            FEATHER_TK_P();
+            FTK_P();
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["Start"] = feather_tk::Action::create(
+            _actions["Start"] = ftk::Action::create(
                 "Goto Start",
                 "TimeStart",
                 [appWeak]
@@ -39,7 +39,7 @@ namespace djv
                     }
                 });
 
-            _actions["End"] = feather_tk::Action::create(
+            _actions["End"] = ftk::Action::create(
                 "Goto End",
                 "TimeEnd",
                 [appWeak]
@@ -53,7 +53,7 @@ namespace djv
                     }
                 });
 
-            _actions["Prev"] = feather_tk::Action::create(
+            _actions["Prev"] = ftk::Action::create(
                 "Previous Frame",
                 "FramePrev",
                 [appWeak]
@@ -67,7 +67,7 @@ namespace djv
                     }
                 });
 
-            _actions["PrevX10"] = feather_tk::Action::create(
+            _actions["PrevX10"] = ftk::Action::create(
                 "Previous Frame X10",
                 [appWeak]
                 {
@@ -80,7 +80,7 @@ namespace djv
                     }
                 });
 
-            _actions["PrevX100"] = feather_tk::Action::create(
+            _actions["PrevX100"] = ftk::Action::create(
                 "Previous Frame X100",
                 [appWeak]
                 {
@@ -93,7 +93,7 @@ namespace djv
                     }
                 });
 
-            _actions["Next"] = feather_tk::Action::create(
+            _actions["Next"] = ftk::Action::create(
                 "Next Frame",
                 "FrameNext",
                 [appWeak]
@@ -107,7 +107,7 @@ namespace djv
                     }
                 });
 
-            _actions["NextX10"] = feather_tk::Action::create(
+            _actions["NextX10"] = ftk::Action::create(
                 "Next Frame X10",
                 [appWeak]
                 {
@@ -120,7 +120,7 @@ namespace djv
                     }
                 });
 
-            _actions["NextX100"] = feather_tk::Action::create(
+            _actions["NextX100"] = ftk::Action::create(
                 "Next Frame X100",
                 [appWeak]
                 {
@@ -134,7 +134,7 @@ namespace djv
                 });
 
             auto mainWindowWeak = std::weak_ptr<MainWindow>(mainWindow);
-            _actions["FocusCurrent"] = feather_tk::Action::create(
+            _actions["FocusCurrent"] = ftk::Action::create(
                 "Focus Current Frame",
                 [mainWindowWeak]
                 {
@@ -159,7 +159,7 @@ namespace djv
 
             _shortcutsUpdate(app->getSettingsModel()->getShortcuts());
 
-            p.playerObserver = feather_tk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
+            p.playerObserver = ftk::ValueObserver<std::shared_ptr<tl::timeline::Player> >::create(
                 app->observePlayer(),
                 [this](const std::shared_ptr<tl::timeline::Player>& value)
                 {
@@ -183,7 +183,7 @@ namespace djv
         {}
 
         std::shared_ptr<FrameActions> FrameActions::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<MainWindow>& mainWindow)
         {

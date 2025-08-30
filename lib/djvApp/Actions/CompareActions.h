@@ -13,11 +13,11 @@ namespace djv
         //! Compare actions.
         class CompareActions : public IActions
         {
-            FEATHER_TK_NON_COPYABLE(CompareActions);
+            FTK_NON_COPYABLE(CompareActions);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
             CompareActions();
@@ -26,11 +26,11 @@ namespace djv
             ~CompareActions();
 
             static std::shared_ptr<CompareActions> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

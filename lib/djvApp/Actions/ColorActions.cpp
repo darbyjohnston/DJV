@@ -13,19 +13,19 @@ namespace djv
     {
         struct ColorActions::Private
         {
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::OCIOOptions> > ocioObserver;
-            std::shared_ptr<feather_tk::ValueObserver<tl::timeline::LUTOptions> > lutObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::OCIOOptions> > ocioObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::LUTOptions> > lutObserver;
         };
 
         void ColorActions::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             IActions::_init(context, app, "Color");
-            FEATHER_TK_P();
+            FTK_P();
 
             auto appWeak = std::weak_ptr<App>(app);
-            _actions["OCIO"] = feather_tk::Action::create(
+            _actions["OCIO"] = ftk::Action::create(
                 "Enable OCIO",
                 [appWeak](bool value)
                 {
@@ -36,7 +36,7 @@ namespace djv
                         app->getColorModel()->setOCIOOptions(options);
                     }
                 });
-            _actions["LUT"] = feather_tk::Action::create(
+            _actions["LUT"] = ftk::Action::create(
                 "Enable LUT",
                 [appWeak](bool value)
                 {
@@ -61,14 +61,14 @@ namespace djv
             _actions["LUT"]->setEnabled(false);
 #endif // TLRENDER_OCIO
 
-            p.ocioObserver = feather_tk::ValueObserver<tl::timeline::OCIOOptions>::create(
+            p.ocioObserver = ftk::ValueObserver<tl::timeline::OCIOOptions>::create(
                 app->getColorModel()->observeOCIOOptions(),
                 [this](const tl::timeline::OCIOOptions& value)
                 {
                     _actions["OCIO"]->setChecked(value.enabled);
                 });
 
-            p.lutObserver = feather_tk::ValueObserver<tl::timeline::LUTOptions>::create(
+            p.lutObserver = ftk::ValueObserver<tl::timeline::LUTOptions>::create(
                 app->getColorModel()->observeLUTOptions(),
                 [this](const tl::timeline::LUTOptions& value)
                 {
@@ -84,7 +84,7 @@ namespace djv
         {}
 
         std::shared_ptr<ColorActions> ColorActions::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app)
         {
             auto out = std::shared_ptr<ColorActions>(new ColorActions);

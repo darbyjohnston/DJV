@@ -11,14 +11,14 @@ namespace djv
     namespace app
     {
         //! Tools tool bar.
-        class ToolsToolBar : public feather_tk::ToolBar
+        class ToolsToolBar : public ftk::ToolBar
         {
-            FEATHER_TK_NON_COPYABLE(ToolsToolBar);
+            FTK_NON_COPYABLE(ToolsToolBar);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
+                const std::shared_ptr<ftk::Context>&,
+                const std::map<std::string, std::shared_ptr<ftk::Action> >&,
                 const std::shared_ptr<IWidget>& parent);
 
             ToolsToolBar() = default;
@@ -27,8 +27,8 @@ namespace djv
             ~ToolsToolBar();
 
             static std::shared_ptr<ToolsToolBar> create(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::map<std::string, std::shared_ptr<feather_tk::Action> >&,
+                const std::shared_ptr<ftk::Context>&,
+                const std::map<std::string, std::shared_ptr<ftk::Action> >&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };
     }

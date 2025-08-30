@@ -33,19 +33,19 @@ namespace djv
         struct DevicesTool::Private
         {
 #if defined(TLRENDER_BMD)
-            std::shared_ptr<feather_tk::CheckBox> enabledCheckBox;
-            std::shared_ptr<feather_tk::ComboBox> deviceComboBox;
-            std::shared_ptr<feather_tk::ComboBox> displayModeComboBox;
-            std::shared_ptr<feather_tk::ComboBox> pixelTypeComboBox;
-            std::shared_ptr<feather_tk::CheckBox> _444SDIVideoOutputCheckBox;
-            std::shared_ptr<feather_tk::ComboBox> videoLevelsComboBox;
+            std::shared_ptr<ftk::CheckBox> enabledCheckBox;
+            std::shared_ptr<ftk::ComboBox> deviceComboBox;
+            std::shared_ptr<ftk::ComboBox> displayModeComboBox;
+            std::shared_ptr<ftk::ComboBox> pixelTypeComboBox;
+            std::shared_ptr<ftk::CheckBox> _444SDIVideoOutputCheckBox;
+            std::shared_ptr<ftk::ComboBox> videoLevelsComboBox;
 
-            std::shared_ptr<feather_tk::ValueObserver<tl::bmd::DevicesModelData> > dataObserver;
+            std::shared_ptr<ftk::ValueObserver<tl::bmd::DevicesModelData> > dataObserver;
 #endif // TLRENDER_BMD
         };
 
         void DevicesTool::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -55,26 +55,26 @@ namespace djv
                 Tool::Devices,
                 "djv::app::DevicesTool",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
 #if defined(TLRENDER_BMD)
-            p.enabledCheckBox = feather_tk::CheckBox::create(context);
+            p.enabledCheckBox = ftk::CheckBox::create(context);
 
-            p.deviceComboBox = feather_tk::ComboBox::create(context);
-            p.deviceComboBox->setHStretch(feather_tk::Stretch::Expanding);
-            p.displayModeComboBox = feather_tk::ComboBox::create(context);
-            p.displayModeComboBox->setHStretch(feather_tk::Stretch::Expanding);
-            p.pixelTypeComboBox = feather_tk::ComboBox::create(context);
-            p.pixelTypeComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.deviceComboBox = ftk::ComboBox::create(context);
+            p.deviceComboBox->setHStretch(ftk::Stretch::Expanding);
+            p.displayModeComboBox = ftk::ComboBox::create(context);
+            p.displayModeComboBox->setHStretch(ftk::Stretch::Expanding);
+            p.pixelTypeComboBox = ftk::ComboBox::create(context);
+            p.pixelTypeComboBox->setHStretch(ftk::Stretch::Expanding);
 
-            p._444SDIVideoOutputCheckBox = feather_tk::CheckBox::create(context);
+            p._444SDIVideoOutputCheckBox = ftk::CheckBox::create(context);
 
-            p.videoLevelsComboBox = feather_tk::ComboBox::create(context, feather_tk::getVideoLevelsLabels());
-            p.videoLevelsComboBox->setHStretch(feather_tk::Stretch::Expanding);
+            p.videoLevelsComboBox = ftk::ComboBox::create(context, ftk::getVideoLevelsLabels());
+            p.videoLevelsComboBox->setHStretch(ftk::Stretch::Expanding);
 
-            auto formLayout = feather_tk::FormLayout::create(context);
-            formLayout->setMarginRole(feather_tk::SizeRole::MarginSmall);
-            formLayout->setSpacingRole(feather_tk::SizeRole::SpacingSmall);
+            auto formLayout = ftk::FormLayout::create(context);
+            formLayout->setMarginRole(ftk::SizeRole::MarginSmall);
+            formLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
             formLayout->addRow("Enabled:", p.enabledCheckBox);
             formLayout->addRow("Device:", p.deviceComboBox);
             formLayout->addRow("Display mode:", p.displayModeComboBox);
@@ -82,7 +82,7 @@ namespace djv
             formLayout->addRow("444 SDI:", p._444SDIVideoOutputCheckBox);
             formLayout->addRow("Video levels:", p.videoLevelsComboBox);
 
-            auto scrollWidget = feather_tk::ScrollWidget::create(context);
+            auto scrollWidget = ftk::ScrollWidget::create(context);
             scrollWidget->setBorder(false);
             scrollWidget->setWidget(formLayout);
             _setWidget(scrollWidget);
@@ -138,15 +138,15 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        app->getBMDDevicesModel()->setVideoLevels(static_cast<feather_tk::VideoLevels>(value));
+                        app->getBMDDevicesModel()->setVideoLevels(static_cast<ftk::VideoLevels>(value));
                     }
                 });
 
-            p.dataObserver = feather_tk::ValueObserver<tl::bmd::DevicesModelData>::create(
+            p.dataObserver = ftk::ValueObserver<tl::bmd::DevicesModelData>::create(
                 app->getBMDDevicesModel()->observeData(),
                 [this](const tl::bmd::DevicesModelData& value)
                 {
-                    FEATHER_TK_P();
+                    FTK_P();
                     p.enabledCheckBox->setChecked(value.deviceEnabled);
 
                     p.deviceComboBox->setItems(value.devices);
@@ -179,7 +179,7 @@ namespace djv
         {}
 
         std::shared_ptr<DevicesTool> DevicesTool::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

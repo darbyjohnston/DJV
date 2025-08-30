@@ -30,16 +30,16 @@ namespace djv
         struct MessagesTool::Private
         {
             std::list<std::string> messages;
-            std::shared_ptr<feather_tk::Label> label;
-            std::shared_ptr<feather_tk::ScrollWidget> scrollWidget;
-            std::shared_ptr<feather_tk::ToolButton> copyButton;
-            std::shared_ptr<feather_tk::ToolButton> clearButton;
-            std::shared_ptr<feather_tk::VerticalLayout> layout;
-            std::shared_ptr<feather_tk::ListObserver<feather_tk::LogItem> > logObserver;
+            std::shared_ptr<ftk::Label> label;
+            std::shared_ptr<ftk::ScrollWidget> scrollWidget;
+            std::shared_ptr<ftk::ToolButton> copyButton;
+            std::shared_ptr<ftk::ToolButton> clearButton;
+            std::shared_ptr<ftk::VerticalLayout> layout;
+            std::shared_ptr<ftk::ListObserver<ftk::LogItem> > logObserver;
         };
 
         void MessagesTool::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
@@ -49,29 +49,29 @@ namespace djv
                 Tool::Messages,
                 "djv::app::MessagesTool",
                 parent);
-            FEATHER_TK_P();
+            FTK_P();
 
-            p.label = feather_tk::Label::create(context);
-            p.label->setFontRole(feather_tk::FontRole::Mono);
-            p.label->setMarginRole(feather_tk::SizeRole::MarginSmall);
-            p.label->setVAlign(feather_tk::VAlign::Top);
+            p.label = ftk::Label::create(context);
+            p.label->setFontRole(ftk::FontRole::Mono);
+            p.label->setMarginRole(ftk::SizeRole::MarginSmall);
+            p.label->setVAlign(ftk::VAlign::Top);
 
-            p.scrollWidget = feather_tk::ScrollWidget::create(context);
+            p.scrollWidget = ftk::ScrollWidget::create(context);
             p.scrollWidget->setWidget(p.label);
             p.scrollWidget->setBorder(false);
-            p.scrollWidget->setVStretch(feather_tk::Stretch::Expanding);
+            p.scrollWidget->setVStretch(ftk::Stretch::Expanding);
 
-            p.copyButton = feather_tk::ToolButton::create(context, "Copy");
+            p.copyButton = ftk::ToolButton::create(context, "Copy");
 
-            p.clearButton = feather_tk::ToolButton::create(context, "Clear");
+            p.clearButton = ftk::ToolButton::create(context, "Clear");
 
-            p.layout = feather_tk::VerticalLayout::create(context);
-            p.layout->setSpacingRole(feather_tk::SizeRole::None);
+            p.layout = ftk::VerticalLayout::create(context);
+            p.layout->setSpacingRole(ftk::SizeRole::None);
             p.scrollWidget->setParent(p.layout);
-            feather_tk::Divider::create(context, feather_tk::Orientation::Vertical, p.layout);
-            auto hLayout = feather_tk::HorizontalLayout::create(context, p.layout);
-            hLayout->setMarginRole(feather_tk::SizeRole::MarginInside);
-            hLayout->setSpacingRole(feather_tk::SizeRole::SpacingTool);
+            ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
+            auto hLayout = ftk::HorizontalLayout::create(context, p.layout);
+            hLayout->setMarginRole(ftk::SizeRole::MarginInside);
+            hLayout->setSpacingRole(ftk::SizeRole::SpacingTool);
             p.copyButton->setParent(hLayout);
             p.clearButton->setParent(hLayout);
             _setWidget(p.layout);
@@ -81,10 +81,10 @@ namespace djv
                 {
                     if (auto context = getContext())
                     {
-                        const std::string text = feather_tk::join(
+                        const std::string text = ftk::join(
                             { std::begin(_p->messages), std::end(_p->messages) },
                             '\n');
-                        auto clipboardSystem = context->getSystem<feather_tk::ClipboardSystem>();
+                        auto clipboardSystem = context->getSystem<ftk::ClipboardSystem>();
                         clipboardSystem->setText(text);
                     }
                 });
@@ -96,17 +96,17 @@ namespace djv
                 _p->label->setText(std::string());
                 });
 
-            p.logObserver = feather_tk::ListObserver<feather_tk::LogItem>::create(
+            p.logObserver = ftk::ListObserver<ftk::LogItem>::create(
                 context->getLogSystem()->observeLogItems(),
-                [this](const std::vector<feather_tk::LogItem>& value)
+                [this](const std::vector<ftk::LogItem>& value)
                 {
                     for (const auto& i : value)
                     {
                         switch (i.type)
                         {
-                        case feather_tk::LogType::Warning:
-                        case feather_tk::LogType::Error:
-                            _p->messages.push_back(feather_tk::toString(i));
+                        case ftk::LogType::Warning:
+                        case ftk::LogType::Error:
+                            _p->messages.push_back(ftk::toString(i));
                             break;
                         default: break;
                         }
@@ -115,7 +115,7 @@ namespace djv
                     {
                         _p->messages.pop_front();
                     }
-                    _p->label->setText(feather_tk::join(
+                    _p->label->setText(ftk::join(
                         { std::begin(_p->messages), std::end(_p->messages) },
                         '\n'));
                 });
@@ -129,7 +129,7 @@ namespace djv
         {}
 
         std::shared_ptr<MessagesTool> MessagesTool::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {

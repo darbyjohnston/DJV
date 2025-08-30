@@ -19,13 +19,13 @@ namespace djv
         class App;
 
         //! Status bar widget.
-        class StatusBar : public feather_tk::IWidget
+        class StatusBar : public ftk::IWidget
         {
-            FEATHER_TK_NON_COPYABLE(StatusBar);
+            FTK_NON_COPYABLE(StatusBar);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -36,21 +36,21 @@ namespace djv
 
             //! Create a new widget.
             static std::shared_ptr<StatusBar> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const feather_tk::Box2I&) override;
-            void sizeHintEvent(const feather_tk::SizeHintEvent&) override;
-            void mousePressEvent(feather_tk::MouseClickEvent&) override;
-            void mouseReleaseEvent(feather_tk::MouseClickEvent&) override;
+            void setGeometry(const ftk::Box2I&) override;
+            void sizeHintEvent(const ftk::SizeHintEvent&) override;
+            void mousePressEvent(ftk::MouseClickEvent&) override;
+            void mouseReleaseEvent(ftk::MouseClickEvent&) override;
 
         private:
-            void _logUpdate(const std::vector<feather_tk::LogItem>&);
+            void _logUpdate(const std::vector<ftk::LogItem>&);
             void _infoUpdate(const tl::file::Path&, const tl::io::Info&);
             void _deviceUpdate(bool);
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

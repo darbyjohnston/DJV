@@ -18,12 +18,12 @@ namespace djv
         {};
 
         void TimelineMenu::_init(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<TimelineActions>& timelineActions,
             const std::shared_ptr<IWidget>& parent)
         {
             Menu::_init(context, parent);
-            FEATHER_TK_P();
+            FTK_P();
 
             auto actions = timelineActions->getActions();
             addAction(actions["Minimize"]);
@@ -46,7 +46,7 @@ namespace djv
         {}
 
         std::shared_ptr<TimelineMenu> TimelineMenu::create(
-            const std::shared_ptr<feather_tk::Context>& context,
+            const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<TimelineActions>& timelineActions,
             const std::shared_ptr<IWidget>& parent)
         {

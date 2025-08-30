@@ -8,7 +8,7 @@
 
 #include <feather-tk/core/ObservableValue.h>
 
-namespace feather_tk
+namespace ftk
 {
     class Context;
 }
@@ -39,10 +39,10 @@ namespace djv
         //! OpenColorIO model.
         class OCIOModel : public std::enable_shared_from_this<OCIOModel>
         {
-            FEATHER_TK_NON_COPYABLE(OCIOModel);
+            FTK_NON_COPYABLE(OCIOModel);
 
         protected:
-            void _init(const std::shared_ptr<feather_tk::Context>&);
+            void _init(const std::shared_ptr<ftk::Context>&);
 
             OCIOModel();
 
@@ -50,16 +50,16 @@ namespace djv
             ~OCIOModel();
 
             //! Create a new model.
-            static std::shared_ptr<OCIOModel> create(const std::shared_ptr<feather_tk::Context>&);
+            static std::shared_ptr<OCIOModel> create(const std::shared_ptr<ftk::Context>&);
 
             //! Observe the options.
-            std::shared_ptr<feather_tk::IObservableValue<tl::timeline::OCIOOptions> > observeOptions() const;
+            std::shared_ptr<ftk::IObservableValue<tl::timeline::OCIOOptions> > observeOptions() const;
 
             //! Set the options.
             void setOptions(const tl::timeline::OCIOOptions&);
 
             //! Observe the model data.
-            std::shared_ptr<feather_tk::IObservableValue<OCIOModelData> > observeData() const;
+            std::shared_ptr<ftk::IObservableValue<OCIOModelData> > observeData() const;
 
             //! Set whether the color configuration is enabled.
             void setEnabled(bool);
@@ -87,7 +87,7 @@ namespace djv
 
             void _configUpdate(tl::timeline::OCIOOptions&);
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }

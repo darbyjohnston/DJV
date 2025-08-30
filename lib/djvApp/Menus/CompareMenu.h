@@ -16,13 +16,13 @@ namespace djv
         class CompareActions;
 
         //! Compare menu.
-        class CompareMenu : public feather_tk::Menu
+        class CompareMenu : public ftk::Menu
         {
-            FEATHER_TK_NON_COPYABLE(CompareMenu);
+            FTK_NON_COPYABLE(CompareMenu);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<CompareActions>&,
                 const std::shared_ptr<IWidget>& parent);
@@ -33,7 +33,7 @@ namespace djv
             ~CompareMenu();
 
             static std::shared_ptr<CompareMenu> create(
-                const std::shared_ptr<feather_tk::Context>&,
+                const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<CompareActions>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
@@ -44,7 +44,7 @@ namespace djv
             void _filesUpdate(const std::vector<std::shared_ptr<FilesModelItem> >&);
             void _bUpdate(const std::vector<int>&);
 
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }
