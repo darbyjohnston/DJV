@@ -58,7 +58,7 @@ git clone https://github.com/darbyjohnston/DJV.git
 
 Run the super build script:
 ```
-DJV/SuperBuild.sh
+sh DJV/SuperBuild_Linux.sh
 ```
 
 Run the application:
@@ -80,7 +80,7 @@ git clone https://github.com/darbyjohnston/DJV.git
 
 Run the super build script:
 ```
-DJV/SuperBuild.sh
+sh DJV/SuperBuild_macOS.sh
 ```
 
 Run the application:
