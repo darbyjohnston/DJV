@@ -254,7 +254,7 @@ jobs:
         sh DJV/etc/macOS/macos-build-gha.sh Release
 
     # \bug Sometimes the CI runs out of disk space when building the macOS
-    # package, so free some up.
+    # package, so free some up by removing the super build directory.
     - name: Package
       run: |
         rm -rf sbuild-Release
