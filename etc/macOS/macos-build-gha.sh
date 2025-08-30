@@ -25,7 +25,7 @@ cmake \
     -DTLRENDER_USD=$TLRENDER_USD \
     -DTLRENDER_BMD=$TLRENDER_BMD \
     -DTLRENDER_BMD_SDK=$TLRENDER_BMD_SDK \
-    -Dfeather_tk_API=$FEATHER_TK_API
+    -Dftk_API=$FTK_API
 cmake --build sbuild-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE
 
 cmake \
@@ -46,5 +46,5 @@ cmake \
     -DTLRENDER_USD=$TLRENDER_USD \
     -DTLRENDER_BMD=$TLRENDER_BMD \
     -DTLRENDER_BMD_SDK=$TLRENDER_BMD_SDK \
-    -Dfeather_tk_API=$FEATHER_TK_API
+    -Dftk_API=$FTK_API
 cmake --build build-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE
