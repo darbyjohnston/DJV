@@ -48,3 +48,4 @@ cmake \
     -DTLRENDER_BMD_SDK=$TLRENDER_BMD_SDK \
     -Dftk_API=$FTK_API
 cmake --build build-$BUILD_TYPE -j $JOBS --config $BUILD_TYPE
+cmake --build build-$BUILD_TYPE --config $BUILD_TYPE --target install
