@@ -115,7 +115,7 @@ git clone https://github.com/darbyjohnston/DJV.git
 
 Run the super build script:
 ```
-DJV\sbuild.bat
+DJV\sbuild-win.bat
 ```
 
 Run the application:
