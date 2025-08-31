@@ -475,7 +475,6 @@ namespace djv
         {
             FTK_P();
 
-            p.timelineWidget->setEditable(settings.editable);
             p.timelineWidget->setFrameView(settings.frameView);
             p.timelineWidget->setScrollBarsVisible(settings.scrollBars);
             p.timelineWidget->setAutoScroll(settings.autoScroll);

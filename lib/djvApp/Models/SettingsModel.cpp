@@ -344,7 +344,6 @@ namespace djv
         {
             return
                 minimize == other.minimize &&
-                editable == other.editable &&
                 frameView == other.frameView &&
                 scrollBars == other.scrollBars &&
                 autoScroll == other.autoScroll &&
@@ -848,7 +847,6 @@ namespace djv
         void to_json(nlohmann::json& json, const TimelineSettings& value)
         {
             json["Minimize"] = value.minimize;
-            json["Editable"] = value.editable;
             json["FrameView"] = value.frameView;
             json["ScrollBars"] = value.scrollBars;
             json["AutoScroll"] = value.autoScroll;
@@ -976,7 +974,6 @@ namespace djv
         void from_json(const nlohmann::json& json, TimelineSettings& value)
         {
             json.at("Minimize").get_to(value.minimize);
-            json.at("Editable").get_to(value.editable);
             json.at("FrameView").get_to(value.frameView);
             json.at("ScrollBars").get_to(value.scrollBars);
             json.at("AutoScroll").get_to(value.autoScroll);
