@@ -146,7 +146,6 @@ namespace djv
             auto iconSystem = context->getSystem<ftk::IconSystem>();
             iconSystem->add("DJV_Icon_128", djv_resource::DJV_Icon_128);
             setIcon(iconSystem->get("DJV_Icon_128", 1.0));
-            setBackgroundRole(ftk::ColorRole::Window);
 
             p.app = app;
             p.settingsModel = app->getSettingsModel();
