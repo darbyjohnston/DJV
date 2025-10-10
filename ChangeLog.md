@@ -1,7 +1,7 @@
 ## 3.2.0
 
 Features:
-* SDL2 used for window creation
+* SDL2 is now used for window creation
 * Library updates:
     - OpenColorIO v2.4.2
     - OpenEXR v3.3.5
