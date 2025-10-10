@@ -300,7 +300,7 @@ jobs:
         echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
         cmake --version
         python --version
-        winget install NSIS.NSIS --accept-package-agreements --disable-interactivity
+        winget install NSIS.NSIS --disable-interactivity
 
     - name: Build DJV
       shell: cmd
