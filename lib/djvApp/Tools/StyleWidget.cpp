@@ -25,13 +25,18 @@ namespace djv
 
             const std::vector<float> displayScales =
             {
-                0.F,
                 1.F,
+                1.25F,
                 1.5F,
+                1.75F,
                 2.F,
+                2.25F,
                 2.5F,
+                2.75F,
                 3.F,
+                3.25F,
                 3.5F,
+                3.75F,
                 4.F
             };
 
