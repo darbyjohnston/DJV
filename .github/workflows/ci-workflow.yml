@@ -300,6 +300,7 @@ jobs:
         echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
         cmake --version
         python --version
+        winget install NSIS.NSIS
 
     - name: Build DJV
       shell: cmd
