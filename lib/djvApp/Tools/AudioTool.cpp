@@ -84,7 +84,7 @@ namespace djv
             p.channelMuteLayout = ftk::HorizontalLayout::create(context);
             p.channelMuteLayout->setSpacingRole(ftk::SizeRole::SpacingTool);
             formLayout->addRow("Channel mute:", p.channelMuteLayout);
-            formLayout->addRow("Sync offset:", p.syncOffsetSlider);
+            formLayout->addRow("Sync offset (seconds):", p.syncOffsetSlider);
 
             auto scrollWidget = ftk::ScrollWidget::create(context);
             scrollWidget->setBorder(false);
