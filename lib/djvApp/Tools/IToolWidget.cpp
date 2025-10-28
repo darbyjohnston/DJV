@@ -6,13 +6,13 @@
 
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/Divider.h>
-#include <feather-tk/ui/Icon.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/ToolButton.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/Settings.h>
-#include <feather-tk/core/Format.h>
+#include <ftk/UI/Divider.h>
+#include <ftk/UI/Icon.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/ToolButton.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/Settings.h>
+#include <ftk/Core/Format.h>
 
 namespace djv
 {

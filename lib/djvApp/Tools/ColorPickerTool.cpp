@@ -7,10 +7,10 @@
 #include <djvApp/Models/ViewportModel.h>
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/ColorWidget.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ScrollWidget.h>
+#include <ftk/UI/ColorWidget.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScrollWidget.h>
 
 namespace djv
 {

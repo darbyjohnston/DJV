@@ -6,7 +6,7 @@
 
 #include <djvApp/Models/FilesModel.h>
 
-#include <feather-tk/ui/ToolBar.h>
+#include <ftk/UI/ToolBar.h>
 
 namespace djv
 {

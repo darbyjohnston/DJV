@@ -7,8 +7,8 @@
 #include <djvApp/Models/AudioModel.h>
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/IntEditSlider.h>
-#include <feather-tk/ui/RowLayout.h>
+#include <ftk/UI/IntEditSlider.h>
+#include <ftk/UI/RowLayout.h>
 
 namespace djv
 {

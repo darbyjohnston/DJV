@@ -11,15 +11,15 @@
 #include <tlDevice/BMDOutputDevice.h>
 #endif // TLRENDER_BMD
 
-#include <feather-tk/ui/Divider.h>
-#include <feather-tk/ui/Icon.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/Spacer.h>
-#include <feather-tk/core/Context.h>
-#include <feather-tk/core/Format.h>
-#include <feather-tk/core/String.h>
-#include <feather-tk/core/Timer.h>
+#include <ftk/UI/Divider.h>
+#include <ftk/UI/Icon.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/Spacer.h>
+#include <ftk/Core/Context.h>
+#include <ftk/Core/Format.h>
+#include <ftk/Core/String.h>
+#include <ftk/Core/Timer.h>
 
 namespace djv
 {
@@ -50,7 +50,7 @@ namespace djv
             const std::shared_ptr<App>& app,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(
+            IMouseWidget::_init(
                 context,
                 "djv::app::StatusBar",
                 parent);
@@ -134,25 +134,24 @@ namespace djv
 
         void StatusBar::setGeometry(const ftk::Box2I & value)
         {
-            IWidget::setGeometry(value);
+            IMouseWidget::setGeometry(value);
             _p->layout->setGeometry(value);
         }
 
         void StatusBar::sizeHintEvent(const ftk::SizeHintEvent & event)
         {
-            IWidget::sizeHintEvent(event);
             _setSizeHint(_p->layout->getSizeHint());
         }
 
         void StatusBar::mousePressEvent(ftk::MouseClickEvent& event)
         {
-            IWidget::mousePressEvent(event);
+            IMouseWidget::mousePressEvent(event);
             event.accept = true;
         }
 
         void StatusBar::mouseReleaseEvent(ftk::MouseClickEvent& event)
         {
-            IWidget::mouseReleaseEvent(event);
+            IMouseWidget::mouseReleaseEvent(event);
             FTK_P();
             event.accept = true;
             Tool tool = Tool::None;

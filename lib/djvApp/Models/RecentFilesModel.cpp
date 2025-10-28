@@ -4,7 +4,7 @@
 
 #include <djvApp/Models/RecentFilesModel.h>
 
-#include <feather-tk/ui/Settings.h>
+#include <ftk/UI/Settings.h>
 
 namespace djv
 {

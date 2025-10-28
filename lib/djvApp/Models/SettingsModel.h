@@ -10,9 +10,9 @@
 
 #include <tlTimeline/Player.h>
 
-#include <feather-tk/ui/App.h>
-#include <feather-tk/ui/FileBrowser.h>
-#include <feather-tk/core/ObservableValue.h>
+#include <ftk/UI/App.h>
+#include <ftk/UI/FileBrowser.h>
+#include <ftk/Core/ObservableValue.h>
 
 #include <tlIO/SequenceIO.h>
 #if defined(TLRENDER_FFMPEG)

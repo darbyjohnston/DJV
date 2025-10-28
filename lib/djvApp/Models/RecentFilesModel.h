@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <feather-tk/ui/RecentFilesModel.h>
+#include <ftk/UI/RecentFilesModel.h>
 
 namespace ftk
 {

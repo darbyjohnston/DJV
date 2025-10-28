@@ -6,8 +6,8 @@
 
 #include <tlTimelineUI/ThumbnailSystem.h>
 
-#include <feather-tk/ui/DrawUtil.h>
-#include <feather-tk/core/Context.h>
+#include <ftk/UI/DrawUtil.h>
+#include <ftk/Core/Context.h>
 
 #include <optional>
 

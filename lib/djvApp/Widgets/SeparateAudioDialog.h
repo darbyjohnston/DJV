@@ -6,7 +6,7 @@
 
 #include <tlCore/Path.h>
 
-#include <feather-tk/ui/IDialog.h>
+#include <ftk/UI/IDialog.h>
 
 namespace djv
 {
@@ -15,7 +15,7 @@ namespace djv
         class App;
 
         //! Separate audio widget.
-        class SeparateAudioWidget : public ftk::IWidget
+        class SeparateAudioWidget : public ftk::IMouseWidget
         {
             FTK_NON_COPYABLE(SeparateAudioWidget);
 

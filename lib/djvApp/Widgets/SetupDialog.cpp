@@ -7,13 +7,13 @@
 #include <djvApp/Tools/SettingsToolPrivate.h>
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/ComboBox.h>
-#include <feather-tk/ui/Divider.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/PushButton.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/StackLayout.h>
-#include <feather-tk/core/Format.h>
+#include <ftk/UI/ComboBox.h>
+#include <ftk/UI/Divider.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/PushButton.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/StackLayout.h>
+#include <ftk/Core/Format.h>
 
 namespace djv
 {

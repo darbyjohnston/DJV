@@ -9,19 +9,19 @@
 #include <djvApp/App.h>
 #include <djvApp/MainWindow.h>
 
-#include <feather-tk/ui/Bellows.h>
-#include <feather-tk/ui/CheckBox.h>
-#include <feather-tk/ui/ColorSwatch.h>
-#include <feather-tk/ui/ComboBox.h>
-#include <feather-tk/ui/DoubleEdit.h>
-#include <feather-tk/ui/FormLayout.h>
-#include <feather-tk/ui/GroupBox.h>
-#include <feather-tk/ui/IntEdit.h>
-#include <feather-tk/ui/IntEditSlider.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/LineEdit.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ScrollWidget.h>
+#include <ftk/UI/Bellows.h>
+#include <ftk/UI/CheckBox.h>
+#include <ftk/UI/ColorSwatch.h>
+#include <ftk/UI/ComboBox.h>
+#include <ftk/UI/DoubleEdit.h>
+#include <ftk/UI/FormLayout.h>
+#include <ftk/UI/GroupBox.h>
+#include <ftk/UI/IntEdit.h>
+#include <ftk/UI/IntEditSlider.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/LineEdit.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScrollWidget.h>
 
 #include <sstream>
 
@@ -557,7 +557,7 @@ namespace djv
             std::shared_ptr<ftk::ColorSwatch> colorSwatch;
             std::shared_ptr<ftk::FormLayout> layout;
 
-            std::shared_ptr<ftk::ValueObserver<tl::timeline::BackgroundOptions> > optionsObservers;
+            std::shared_ptr<ftk::ValueObserver<tl::timeline::ForegroundOptions> > optionsObservers;
         };
 
         void OutlineWidget::_init(
@@ -585,9 +585,9 @@ namespace djv
             p.layout->addRow("Width:", p.widthSlider);
             p.layout->addRow("Color:", p.colorSwatch);
 
-            p.optionsObservers = ftk::ValueObserver<tl::timeline::BackgroundOptions>::create(
-                app->getViewportModel()->observeBackgroundOptions(),
-                [this](const tl::timeline::BackgroundOptions& value)
+            p.optionsObservers = ftk::ValueObserver<tl::timeline::ForegroundOptions>::create(
+                app->getViewportModel()->observeForegroundOptions(),
+                [this](const tl::timeline::ForegroundOptions& value)
                 {
                     _optionsUpdate(value);
                 });
@@ -598,9 +598,9 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto options = app->getViewportModel()->getBackgroundOptions();
+                        auto options = app->getViewportModel()->getForegroundOptions();
                         options.outline.enabled = value;
-                        app->getViewportModel()->setBackgroundOptions(options);
+                        app->getViewportModel()->setForegroundOptions(options);
                     }
                 });
 
@@ -609,9 +609,9 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto options = app->getViewportModel()->getBackgroundOptions();
+                        auto options = app->getViewportModel()->getForegroundOptions();
                         options.outline.width = value;
-                        app->getViewportModel()->setBackgroundOptions(options);
+                        app->getViewportModel()->setForegroundOptions(options);
                     }
                 });
 
@@ -620,9 +620,9 @@ namespace djv
                 {
                     if (auto app = appWeak.lock())
                     {
-                        auto options = app->getViewportModel()->getBackgroundOptions();
+                        auto options = app->getViewportModel()->getForegroundOptions();
                         options.outline.color = value;
-                        app->getViewportModel()->setBackgroundOptions(options);
+                        app->getViewportModel()->setForegroundOptions(options);
                     }
                 });
         }
@@ -656,7 +656,7 @@ namespace djv
             _setSizeHint(_p->layout->getSizeHint());
         }
 
-        void OutlineWidget::_optionsUpdate(const tl::timeline::BackgroundOptions& value)
+        void OutlineWidget::_optionsUpdate(const tl::timeline::ForegroundOptions& value)
         {
             FTK_P();
             p.enabledCheckBox->setChecked(value.outline.enabled);

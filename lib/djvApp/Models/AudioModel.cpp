@@ -6,9 +6,9 @@
 
 #include <tlCore/AudioSystem.h>
 
-#include <feather-tk/ui/Settings.h>
-#include <feather-tk/core/Context.h>
-#include <feather-tk/core/Math.h>
+#include <ftk/UI/Settings.h>
+#include <ftk/Core/Context.h>
+#include <ftk/Core/Math.h>
 
 namespace djv
 {

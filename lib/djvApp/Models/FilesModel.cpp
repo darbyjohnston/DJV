@@ -4,8 +4,8 @@
 
 #include <djvApp/Models/FilesModel.h>
 
-#include <feather-tk/ui/Settings.h>
-#include <feather-tk/core/Math.h>
+#include <ftk/UI/Settings.h>
+#include <ftk/Core/Math.h>
 
 namespace djv
 {

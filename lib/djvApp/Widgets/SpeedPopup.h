@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <feather-tk/ui/IMenuPopup.h>
+#include <ftk/UI/IMenuPopup.h>
 
 namespace djv
 {

@@ -4,7 +4,7 @@
 
 #include <djvApp/Widgets/ShuttleWidget.h>
 
-#include <feather-tk/core/Format.h>
+#include <ftk/Core/Format.h>
 
 #include <optional>
 
@@ -27,7 +27,7 @@ namespace djv
             const std::string& iconPrefix,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(
+            IMouseWidget::_init(
                 context,
                 "djv::app::ShuttleWidget",
                 parent);
@@ -68,7 +68,6 @@ namespace djv
 
         void ShuttleWidget::sizeHintEvent(const ftk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
             FTK_P();
 
             if (event.displayScale != p.iconScale)
@@ -98,7 +97,7 @@ namespace djv
 
         void ShuttleWidget::drawEvent(const ftk::Box2I& drawRect, const ftk::DrawEvent& event)
         {
-            IWidget::drawEvent(drawRect, event);
+            IMouseWidget::drawEvent(drawRect, event);
             FTK_P();
             const ftk::Box2I& g = getGeometry();
             if (p.iconIndex >= 0 && p.iconIndex < p.iconImages.size())
@@ -132,19 +131,19 @@ namespace djv
 
         void ShuttleWidget::mouseEnterEvent(ftk::MouseEnterEvent& event)
         {
-            IWidget::mouseEnterEvent(event);
+            IMouseWidget::mouseEnterEvent(event);
             _setDrawUpdate();
         }
 
         void ShuttleWidget::mouseLeaveEvent()
         {
-            IWidget::mouseLeaveEvent();
+            IMouseWidget::mouseLeaveEvent();
             _setDrawUpdate();
         }
 
         void ShuttleWidget::mouseMoveEvent(ftk::MouseMoveEvent& event)
         {
-            IWidget::mouseMoveEvent(event);
+            IMouseWidget::mouseMoveEvent(event);
             FTK_P();
             const ftk::Box2I& g = getGeometry();
             if (_isMousePressed() && g.isValid())
@@ -165,7 +164,7 @@ namespace djv
 
         void ShuttleWidget::mousePressEvent(ftk::MouseClickEvent& event)
         {
-            IWidget::mousePressEvent(event);
+            IMouseWidget::mousePressEvent(event);
             FTK_P();
             _setDrawUpdate();
             if (p.activeCallback)
@@ -176,7 +175,7 @@ namespace djv
 
         void ShuttleWidget::mouseReleaseEvent(ftk::MouseClickEvent& event)
         {
-            IWidget::mouseReleaseEvent(event);
+            IMouseWidget::mouseReleaseEvent(event);
             FTK_P();
             p.iconIndex = 0;
             _setDrawUpdate();

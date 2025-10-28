@@ -7,8 +7,8 @@
 #include <tlTimelineUI/Init.h>
 #include <tlDevice/Init.h>
 
-#include <feather-tk/core/Context.h>
-#include <feather-tk/core/Error.h>
+#include <ftk/Core/Context.h>
+#include <ftk/Core/Error.h>
 
 #include <iostream>
 

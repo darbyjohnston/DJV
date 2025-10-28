@@ -20,21 +20,21 @@
 #include <tlIO/FFmpeg.h>
 #endif // TLRENDER_FFMPEG
 
-#include <feather-tk/ui/ComboBox.h>
-#include <feather-tk/ui/DialogSystem.h>
-#include <feather-tk/ui/FileEdit.h>
-#include <feather-tk/ui/FormLayout.h>
-#include <feather-tk/ui/IntEdit.h>
-#include <feather-tk/ui/LineEdit.h>
-#include <feather-tk/ui/ProgressDialog.h>
-#include <feather-tk/ui/PushButton.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ScrollWidget.h>
-#include <feather-tk/gl/GL.h>
-#include <feather-tk/gl/OffscreenBuffer.h>
-#include <feather-tk/gl/Util.h>
-#include <feather-tk/core/Format.h>
-#include <feather-tk/core/Timer.h>
+#include <ftk/UI/ComboBox.h>
+#include <ftk/UI/DialogSystem.h>
+#include <ftk/UI/FileEdit.h>
+#include <ftk/UI/FormLayout.h>
+#include <ftk/UI/IntEdit.h>
+#include <ftk/UI/LineEdit.h>
+#include <ftk/UI/ProgressDialog.h>
+#include <ftk/UI/PushButton.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScrollWidget.h>
+#include <ftk/GL/GL.h>
+#include <ftk/GL/OffscreenBuffer.h>
+#include <ftk/GL/Util.h>
+#include <ftk/Core/Format.h>
+#include <ftk/Core/Timer.h>
 
 namespace djv
 {

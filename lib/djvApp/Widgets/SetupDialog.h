@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <feather-tk/ui/IDialog.h>
+#include <ftk/UI/IDialog.h>
 
 namespace djv
 {

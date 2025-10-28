@@ -6,7 +6,7 @@
 
 #include <djvApp/Models/SettingsModel.h>
 
-#include <feather-tk/ui/Action.h>
+#include <ftk/UI/Action.h>
 
 namespace djv
 {

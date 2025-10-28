@@ -7,16 +7,16 @@
 #include <djvApp/Models/AudioModel.h>
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/Bellows.h>
-#include <feather-tk/ui/ButtonGroup.h>
-#include <feather-tk/ui/CheckBox.h>
-#include <feather-tk/ui/ComboBox.h>
-#include <feather-tk/ui/DoubleEditSlider.h>
-#include <feather-tk/ui/FormLayout.h>
-#include <feather-tk/ui/IntEditSlider.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ScrollWidget.h>
-#include <feather-tk/core/Format.h>
+#include <ftk/UI/Bellows.h>
+#include <ftk/UI/ButtonGroup.h>
+#include <ftk/UI/CheckBox.h>
+#include <ftk/UI/ComboBox.h>
+#include <ftk/UI/DoubleEditSlider.h>
+#include <ftk/UI/FormLayout.h>
+#include <ftk/UI/IntEditSlider.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScrollWidget.h>
+#include <ftk/Core/Format.h>
 
 namespace djv
 {

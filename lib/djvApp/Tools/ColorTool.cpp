@@ -8,19 +8,19 @@
 #include <djvApp/Models/ViewportModel.h>
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/Bellows.h>
-#include <feather-tk/ui/ButtonGroup.h>
-#include <feather-tk/ui/CheckBox.h>
-#include <feather-tk/ui/ComboBox.h>
-#include <feather-tk/ui/FileEdit.h>
-#include <feather-tk/ui/FloatEdit.h>
-#include <feather-tk/ui/FloatEditSlider.h>
-#include <feather-tk/ui/FormLayout.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ScrollWidget.h>
-#include <feather-tk/ui/Settings.h>
-#include <feather-tk/ui/StackLayout.h>
+#include <ftk/UI/Bellows.h>
+#include <ftk/UI/ButtonGroup.h>
+#include <ftk/UI/CheckBox.h>
+#include <ftk/UI/ComboBox.h>
+#include <ftk/UI/FileEdit.h>
+#include <ftk/UI/FloatEdit.h>
+#include <ftk/UI/FloatEditSlider.h>
+#include <ftk/UI/FormLayout.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScrollWidget.h>
+#include <ftk/UI/Settings.h>
+#include <ftk/UI/StackLayout.h>
 
 namespace djv
 {

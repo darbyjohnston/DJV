@@ -8,7 +8,7 @@
 #include <tlTimeline/DisplayOptions.h>
 #include <tlTimeline/ForegroundOptions.h>
 
-#include <feather-tk/core/ObservableValue.h>
+#include <ftk/Core/ObservableValue.h>
 
 namespace ftk
 {

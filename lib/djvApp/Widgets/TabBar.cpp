@@ -7,8 +7,8 @@
 #include <djvApp/Models/FilesModel.h>
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/TabBar.h>
-#include <feather-tk/core/String.h>
+#include <ftk/UI/TabBar.h>
+#include <ftk/Core/String.h>
 
 namespace djv
 {

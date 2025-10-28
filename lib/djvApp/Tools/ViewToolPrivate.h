@@ -123,7 +123,7 @@ namespace djv
             void sizeHintEvent(const ftk::SizeHintEvent&) override;
 
         private:
-            void _optionsUpdate(const tl::timeline::BackgroundOptions&);
+            void _optionsUpdate(const tl::timeline::ForegroundOptions&);
 
             FTK_PRIVATE();
         };

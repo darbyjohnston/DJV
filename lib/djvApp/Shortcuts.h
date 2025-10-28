@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <feather-tk/ui/Event.h>
+#include <ftk/UI/Event.h>
 
 namespace djv
 {

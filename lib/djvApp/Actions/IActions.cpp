@@ -6,7 +6,7 @@
 
 #include <djvApp/App.h>
 
-#include <feather-tk/core/Format.h>
+#include <ftk/Core/Format.h>
 
 namespace djv
 {

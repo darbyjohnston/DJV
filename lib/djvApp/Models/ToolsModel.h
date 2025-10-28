@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <feather-tk/ui/Event.h>
-#include <feather-tk/core/ObservableValue.h>
+#include <ftk/UI/Event.h>
+#include <ftk/Core/ObservableValue.h>
 
 namespace ftk
 {

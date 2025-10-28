@@ -19,12 +19,12 @@
 
 #include <tlTimeline/Player.h>
 
-#include <feather-tk/ui/ComboBox.h>
-#include <feather-tk/ui/DoubleEdit.h>
-#include <feather-tk/ui/DoubleModel.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/Spacer.h>
-#include <feather-tk/ui/ToolButton.h>
+#include <ftk/UI/ComboBox.h>
+#include <ftk/UI/DoubleEdit.h>
+#include <ftk/UI/DoubleModel.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/Spacer.h>
+#include <ftk/UI/ToolButton.h>
 
 namespace djv
 {

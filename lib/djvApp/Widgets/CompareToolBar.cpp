@@ -6,8 +6,8 @@
 
 #include <tlTimeline/CompareOptions.h>
 
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ToolButton.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ToolButton.h>
 
 namespace djv
 {

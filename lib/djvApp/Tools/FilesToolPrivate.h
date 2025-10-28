@@ -6,7 +6,7 @@
 
 #include <djvApp/Tools/FilesTool.h>
 
-#include <feather-tk/ui/IButton.h>
+#include <ftk/UI/IButton.h>
 
 namespace djv
 {

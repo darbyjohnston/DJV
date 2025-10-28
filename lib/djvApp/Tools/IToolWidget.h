@@ -6,7 +6,7 @@
 
 #include <djvApp/Models/ToolsModel.h>
 
-#include <feather-tk/ui/Bellows.h>
+#include <ftk/UI/Bellows.h>
 
 namespace djv
 {

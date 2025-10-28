@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <feather-tk/ui/IWidget.h>
+#include <ftk/UI/IMouseWidget.h>
 
 namespace djv
 {
     namespace app
     {
         //! Shuttle widget.
-        class ShuttleWidget : public ftk::IWidget
+        class ShuttleWidget : public ftk::IMouseWidget
         {
             FTK_NON_COPYABLE(ShuttleWidget);
 

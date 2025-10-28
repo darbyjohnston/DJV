@@ -8,8 +8,8 @@
 #include <djvApp/Widgets/Viewport.h>
 #include <djvApp/MainWindow.h>
 
-#include <feather-tk/ui/DoubleEdit.h>
-#include <feather-tk/ui/RowLayout.h>
+#include <ftk/UI/DoubleEdit.h>
+#include <ftk/UI/RowLayout.h>
 
 namespace djv
 {

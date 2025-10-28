@@ -193,7 +193,7 @@ namespace djv
         };
 
         //! Keyboard shortcut editor.
-        class ShortcutEdit : public ftk::IWidget
+        class ShortcutEdit : public ftk::IMouseWidget
         {
             FTK_NON_COPYABLE(ShortcutEdit);
 

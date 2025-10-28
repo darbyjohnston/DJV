@@ -11,22 +11,22 @@
 #include <tlIO/USD.h>
 #endif // TLRENDER_USD
 
-#include <feather-tk/ui/Bellows.h>
-#include <feather-tk/ui/CheckBox.h>
-#include <feather-tk/ui/ComboBox.h>
-#include <feather-tk/ui/DialogSystem.h>
-#include <feather-tk/ui/Divider.h>
-#include <feather-tk/ui/DoubleEdit.h>
-#include <feather-tk/ui/FloatEdit.h>
-#include <feather-tk/ui/FloatEditSlider.h>
-#include <feather-tk/ui/FormLayout.h>
-#include <feather-tk/ui/IntEdit.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/LineEdit.h>
-#include <feather-tk/ui/PushButton.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ScrollWidget.h>
-#include <feather-tk/core/Format.h>
+#include <ftk/UI/Bellows.h>
+#include <ftk/UI/CheckBox.h>
+#include <ftk/UI/ComboBox.h>
+#include <ftk/UI/DialogSystem.h>
+#include <ftk/UI/Divider.h>
+#include <ftk/UI/DoubleEdit.h>
+#include <ftk/UI/FloatEdit.h>
+#include <ftk/UI/FloatEditSlider.h>
+#include <ftk/UI/FormLayout.h>
+#include <ftk/UI/IntEdit.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/LineEdit.h>
+#include <ftk/UI/PushButton.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScrollWidget.h>
+#include <ftk/Core/Format.h>
 
 namespace djv
 {

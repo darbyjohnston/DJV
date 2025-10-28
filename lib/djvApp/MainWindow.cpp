@@ -48,15 +48,15 @@
 
 #include <tlTimelineGL/Render.h>
 
-#include <feather-tk/ui/ButtonGroup.h>
-#include <feather-tk/ui/Divider.h>
-#include <feather-tk/ui/IconSystem.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/Menu.h>
-#include <feather-tk/ui/MenuBar.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/Splitter.h>
-#include <feather-tk/ui/ToolButton.h>
+#include <ftk/UI/ButtonGroup.h>
+#include <ftk/UI/Divider.h>
+#include <ftk/UI/IconSystem.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/Menu.h>
+#include <ftk/UI/MenuBar.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/Splitter.h>
+#include <ftk/UI/ToolButton.h>
 
 #if defined(TLRENDER_BMD)
 #include <tlDevice/BMDOutputDevice.h>

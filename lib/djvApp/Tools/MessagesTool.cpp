@@ -6,17 +6,17 @@
 
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/ClipboardSystem.h>
-#include <feather-tk/ui/Divider.h>
-#include <feather-tk/ui/IWindow.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ScrollWidget.h>
-#include <feather-tk/ui/ToolButton.h>
+#include <ftk/UI/ClipboardSystem.h>
+#include <ftk/UI/Divider.h>
+#include <ftk/UI/IWindow.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScrollWidget.h>
+#include <ftk/UI/ToolButton.h>
 
-#include <feather-tk/core/Context.h>
-#include <feather-tk/core/Format.h>
-#include <feather-tk/core/String.h>
+#include <ftk/Core/Context.h>
+#include <ftk/Core/Format.h>
+#include <ftk/Core/String.h>
 
 namespace djv
 {

@@ -6,7 +6,7 @@
 
 #include <tlTimeline/Player.h>
 
-#include <feather-tk/ui/App.h>
+#include <ftk/UI/App.h>
 
 #include <filesystem>
 

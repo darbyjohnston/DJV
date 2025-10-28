@@ -6,12 +6,12 @@
 
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/GroupBox.h>
-#include <feather-tk/ui/DrawUtil.h>
-#include <feather-tk/ui/FormLayout.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ToolButton.h>
+#include <ftk/UI/GroupBox.h>
+#include <ftk/UI/DrawUtil.h>
+#include <ftk/UI/FormLayout.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ToolButton.h>
 
 namespace djv
 {
@@ -46,7 +46,7 @@ namespace djv
             const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<IWidget>& parent)
         {
-            IWidget::_init(context, "djv::app::ShortcutEdit", parent);
+            IMouseWidget::_init(context, "djv::app::ShortcutEdit", parent);
             FTK_P();
             
             setHStretch(ftk::Stretch::Expanding);
@@ -102,7 +102,7 @@ namespace djv
         void ShortcutEdit::setGeometry(const ftk::Box2I& value)
         {
             bool changed = value != getGeometry();
-            IWidget::setGeometry(value);
+            IMouseWidget::setGeometry(value);
             FTK_P();
 
             const ftk::Box2I g = ftk::margin(value, -p.size.border);
@@ -121,7 +121,6 @@ namespace djv
 
         void ShortcutEdit::sizeHintEvent(const ftk::SizeHintEvent& event)
         {
-            IWidget::sizeHintEvent(event);
             FTK_P();
 
             if (!p.size.displayScale.has_value() ||
@@ -137,7 +136,7 @@ namespace djv
 
         void ShortcutEdit::drawEvent(const ftk::Box2I& drawRect, const ftk::DrawEvent& event)
         {
-            IWidget::drawEvent(drawRect, event);
+            IMouseWidget::drawEvent(drawRect, event);
             FTK_P();
 
             if (!p.draw.has_value())
@@ -166,32 +165,32 @@ namespace djv
 
         void ShortcutEdit::mouseEnterEvent(ftk::MouseEnterEvent& event)
         {
-            IWidget::mouseEnterEvent(event);
+            IMouseWidget::mouseEnterEvent(event);
             _setDrawUpdate();
         }
 
         void ShortcutEdit::mouseLeaveEvent()
         {
-            IWidget::mouseLeaveEvent();
+            IMouseWidget::mouseLeaveEvent();
             _setDrawUpdate();
         }
 
         void ShortcutEdit::mousePressEvent(ftk::MouseClickEvent& event)
         {
-            IWidget::mousePressEvent(event);
+            IMouseWidget::mousePressEvent(event);
             takeKeyFocus();
             _setDrawUpdate();
         }
 
         void ShortcutEdit::keyFocusEvent(bool value)
         {
-            IWidget::keyFocusEvent(value);
+            IMouseWidget::keyFocusEvent(value);
             _setDrawUpdate();
         }
 
         void ShortcutEdit::keyPressEvent(ftk::KeyEvent& event)
         {
-            IWidget::keyPressEvent(event);
+            IMouseWidget::keyPressEvent(event);
             FTK_P();
             switch (event.key)
             {
@@ -223,7 +222,7 @@ namespace djv
 
         void ShortcutEdit::keyReleaseEvent(ftk::KeyEvent& event)
         {
-            IWidget::keyReleaseEvent(event);
+            IMouseWidget::keyReleaseEvent(event);
             event.accept = true;
         }
 

@@ -7,7 +7,7 @@
 #include <djvApp/App.h>
 #include <djvApp/MainWindow.h>
 
-#include <feather-tk/core/OS.h>
+#include <ftk/Core/OS.h>
 
 namespace djv
 {

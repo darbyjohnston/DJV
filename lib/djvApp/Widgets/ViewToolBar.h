@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <feather-tk/ui/ToolBar.h>
+#include <ftk/UI/ToolBar.h>
 
 namespace djv
 {

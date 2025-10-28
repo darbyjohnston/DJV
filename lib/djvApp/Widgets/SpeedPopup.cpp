@@ -4,9 +4,9 @@
 
 #include <djvApp/Widgets/SpeedPopup.h>
 
-#include <feather-tk/ui/ListItemsWidget.h>
+#include <ftk/UI/ListItemsWidget.h>
 
-#include <feather-tk/core/Format.h>
+#include <ftk/Core/Format.h>
 
 namespace djv
 {

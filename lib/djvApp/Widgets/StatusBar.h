@@ -8,9 +8,9 @@
 
 #include <tlCore/Path.h>
 
-#include <feather-tk/ui/IWidget.h>
+#include <ftk/UI/IMouseWidget.h>
 
-#include <feather-tk/core/LogSystem.h>
+#include <ftk/Core/LogSystem.h>
 
 namespace djv
 {
@@ -19,7 +19,7 @@ namespace djv
         class App;
 
         //! Status bar widget.
-        class StatusBar : public ftk::IWidget
+        class StatusBar : public ftk::IMouseWidget
         {
             FTK_NON_COPYABLE(StatusBar);
 

@@ -13,12 +13,12 @@
 
 #include <tlTimeline/Util.h>
 
-#include <feather-tk/ui/ColorSwatch.h>
-#include <feather-tk/ui/GridLayout.h>
-#include <feather-tk/ui/Label.h>
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/Spacer.h>
-#include <feather-tk/core/Format.h>
+#include <ftk/UI/ColorSwatch.h>
+#include <ftk/UI/GridLayout.h>
+#include <ftk/UI/Label.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/Spacer.h>
+#include <ftk/Core/Format.h>
 
 #include <regex>
 

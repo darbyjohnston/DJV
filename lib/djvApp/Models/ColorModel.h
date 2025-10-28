@@ -6,7 +6,7 @@
 
 #include <tlTimeline/ColorOptions.h>
 
-#include <feather-tk/core/ObservableValue.h>
+#include <ftk/Core/ObservableValue.h>
 
 namespace ftk
 {

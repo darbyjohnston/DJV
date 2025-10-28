@@ -4,9 +4,9 @@
 
 #include <djvApp/Models/ToolsModel.h>
 
-#include <feather-tk/ui/Settings.h>
-#include <feather-tk/core/Error.h>
-#include <feather-tk/core/String.h>
+#include <ftk/UI/Settings.h>
+#include <ftk/Core/Error.h>
+#include <ftk/Core/String.h>
 
 #include <array>
 #include <iostream>

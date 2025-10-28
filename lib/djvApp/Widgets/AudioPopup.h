@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <feather-tk/ui/IWidgetPopup.h>
+#include <ftk/UI/IWidgetPopup.h>
 
 namespace djv
 {

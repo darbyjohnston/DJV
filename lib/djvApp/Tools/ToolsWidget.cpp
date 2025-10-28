@@ -17,8 +17,8 @@
 #include <djvApp/Tools/ViewTool.h>
 #include <djvApp/App.h>
 
-#include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/StackLayout.h>
+#include <ftk/UI/RowLayout.h>
+#include <ftk/UI/StackLayout.h>
 
 namespace djv
 {

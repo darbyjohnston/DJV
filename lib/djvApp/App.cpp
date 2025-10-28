@@ -40,11 +40,11 @@
 
 #include <tlCore/FileLogSystem.h>
 
-#include <feather-tk/ui/FileBrowser.h>
-#include <feather-tk/ui/Settings.h>
-#include <feather-tk/core/CmdLine.h>
-#include <feather-tk/core/File.h>
-#include <feather-tk/core/Format.h>
+#include <ftk/UI/FileBrowser.h>
+#include <ftk/UI/Settings.h>
+#include <ftk/Core/CmdLine.h>
+#include <ftk/Core/File.h>
+#include <ftk/Core/Format.h>
 
 #include <filesystem>
 
@@ -357,9 +357,7 @@ namespace djv
                 [this](const std::filesystem::path& value)
                 {
                     open(tl::file::Path(value.u8string()));
-                },
-                std::filesystem::path(),
-                ftk::FileBrowserMode::File);
+                });
         }
 
         void App::openSeparateAudioDialog()
