@@ -1,7 +1,6 @@
 ## 3.2.0
 
 Features:
-* SDL2 is now used for window creation
 * Library updates:
     - OpenColorIO v2.4.2
     - OpenEXR v3.3.5
@@ -12,7 +11,8 @@ Features:
     - SDL2 2.32.8
     - OpenSSL 3.5.2
     - curl 8_15_0
-    - freetype 2-13-3
+    - freetype 2-14-1
+    - minizip 4.0.10
 
 Fixes:
 * Fixes for building with CMake 4.x versions.
