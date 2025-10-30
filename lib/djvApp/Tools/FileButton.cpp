@@ -92,8 +92,8 @@ namespace djv
                 p.thumbnail.request.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 p.thumbnail.image = p.thumbnail.request.future.get();
-                _setSizeUpdate();
-                _setDrawUpdate();
+                setSizeUpdate();
+                setDrawUpdate();
             }
         }
 

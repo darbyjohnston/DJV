@@ -89,9 +89,6 @@ namespace djv
             tl::timelineui::Viewport::_init(context, parent);
             FTK_P();
 
-            _setMouseHoverEnabled(true);
-            _setMousePressEnabled(true);
-
             p.app = app;
 
             p.fileNameLabel = ftk::Label::create(context);
@@ -371,7 +368,6 @@ namespace djv
         {
             tl::timelineui::Viewport::mousePressEvent(event);
             FTK_P();
-            takeKeyFocus();
             if (p.colorPickerBinding.button == event.button &&
                 ftk::checkKeyModifier(p.colorPickerBinding.modifier, event.modifiers))
             {

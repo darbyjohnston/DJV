@@ -132,13 +132,13 @@ namespace djv
         void ShuttleWidget::mouseEnterEvent(ftk::MouseEnterEvent& event)
         {
             IMouseWidget::mouseEnterEvent(event);
-            _setDrawUpdate();
+            setDrawUpdate();
         }
 
         void ShuttleWidget::mouseLeaveEvent()
         {
             IMouseWidget::mouseLeaveEvent();
-            _setDrawUpdate();
+            setDrawUpdate();
         }
 
         void ShuttleWidget::mouseMoveEvent(ftk::MouseMoveEvent& event)
@@ -153,7 +153,7 @@ namespace djv
                 if (i != p.iconIndex)
                 {
                     p.iconIndex = i % p.iconImages.size();
-                    _setDrawUpdate();
+                    setDrawUpdate();
                     if (p.callback)
                     {
                         p.callback(i);
@@ -166,7 +166,7 @@ namespace djv
         {
             IMouseWidget::mousePressEvent(event);
             FTK_P();
-            _setDrawUpdate();
+            setDrawUpdate();
             if (p.activeCallback)
             {
                 p.activeCallback(true);
@@ -178,7 +178,7 @@ namespace djv
             IMouseWidget::mouseReleaseEvent(event);
             FTK_P();
             p.iconIndex = 0;
-            _setDrawUpdate();
+            setDrawUpdate();
             if (p.activeCallback)
             {
                 p.activeCallback(false);

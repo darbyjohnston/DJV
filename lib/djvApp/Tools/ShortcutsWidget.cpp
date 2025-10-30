@@ -166,26 +166,26 @@ namespace djv
         void ShortcutEdit::mouseEnterEvent(ftk::MouseEnterEvent& event)
         {
             IMouseWidget::mouseEnterEvent(event);
-            _setDrawUpdate();
+            setDrawUpdate();
         }
 
         void ShortcutEdit::mouseLeaveEvent()
         {
             IMouseWidget::mouseLeaveEvent();
-            _setDrawUpdate();
+            setDrawUpdate();
         }
 
         void ShortcutEdit::mousePressEvent(ftk::MouseClickEvent& event)
         {
             IMouseWidget::mousePressEvent(event);
             takeKeyFocus();
-            _setDrawUpdate();
+            setDrawUpdate();
         }
 
         void ShortcutEdit::keyFocusEvent(bool value)
         {
             IMouseWidget::keyFocusEvent(value);
-            _setDrawUpdate();
+            setDrawUpdate();
         }
 
         void ShortcutEdit::keyPressEvent(ftk::KeyEvent& event)

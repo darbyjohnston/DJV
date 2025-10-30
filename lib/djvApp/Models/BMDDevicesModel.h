@@ -6,7 +6,7 @@
 
 #include <tlDevice/BMDDevicesModel.h>
 
-namespace feather_tk
+namespace ftk
 {
     class Settings;
 }
@@ -18,12 +18,12 @@ namespace djv
         //! BMD devices model.
         class BMDDevicesModel : public tl::bmd::DevicesModel
         {
-            FEATHER_TK_NON_COPYABLE(BMDDevicesModel);
+            FTK_NON_COPYABLE(BMDDevicesModel);
 
         protected:
             void _init(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&);
 
             BMDDevicesModel();
 
@@ -32,11 +32,11 @@ namespace djv
 
             //! Create a new model.
             static std::shared_ptr<BMDDevicesModel> create(
-                const std::shared_ptr<feather_tk::Context>&,
-                const std::shared_ptr<feather_tk::Settings>&);
+                const std::shared_ptr<ftk::Context>&,
+                const std::shared_ptr<ftk::Settings>&);
 
         private:
-            FEATHER_TK_PRIVATE();
+            FTK_PRIVATE();
         };
     }
 }
