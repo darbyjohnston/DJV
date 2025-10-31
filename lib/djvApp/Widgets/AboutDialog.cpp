@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2021-2025 Darby Johnston
-// All rights reserved.
+// Copyright Contributors to the DJV project.
 
 #include <djvApp/Widgets/AboutDialog.h>
 
@@ -42,8 +41,7 @@ namespace djv
                 ftk::Format(
                     "DJV\n"
                     "Version {0}\n"
-                    "Copyright (c) 2004-2025 Darby Johnston\n"
-                    "All rights reserved."
+                    "Copyright Contributors to the DJV project."
                 ).arg(DJV_VERSION));
 
             p.licenseButton = ftk::PushButton::create(context, "License");
