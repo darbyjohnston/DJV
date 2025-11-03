@@ -41,6 +41,7 @@ jobs:
     - name: Build DJV
       run: sh DJV/etc/Linux/linux-build-gha.sh Debug
 
+  # \bug Disable building OIIO; it seems there is an error when OCIO is disabled.
   linux-gles2-build:
     runs-on: ubuntu-latest
 
@@ -52,7 +53,7 @@ jobs:
       TLRENDER_EXR: ON
       TLRENDER_FFMPEG: OFF
       TLRENDER_FFMPEG_MINIMAL: ON
-      TLRENDER_OIIO: ON
+      TLRENDER_OIIO: OFF
       TLRENDER_USD: OFF
       TLRENDER_BMD: OFF
       TLRENDER_BMD_SDK:
