@@ -485,12 +485,12 @@ install(
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_oneTBB.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenColorIO.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenEXR.txt
+    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenImageIO.md
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenSSL.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenSubdiv.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenTimelineIO.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_OpenUSD.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_pystring.txt
-    ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_stb.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_tlRender.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_yaml-cpp.txt
     ${CMAKE_INSTALL_PREFIX}/etc/tlRender/LICENSE_zlib.txt
