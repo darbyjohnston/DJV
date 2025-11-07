@@ -73,7 +73,7 @@ namespace djv
             p.licenseButton->setClickedCallback(
                 [this]
                 {
-                    ftk::openURL("https://github.com/darbyjohnston/DJV/blob/main/LICENSE.txt");
+                    ftk::openURL("https://github.com/grizzlypeak3d/DJV/blob/main/LICENSE.txt");
                 });
         }
 

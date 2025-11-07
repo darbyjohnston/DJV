@@ -28,7 +28,7 @@ namespace djv
                 "Documentation",
                 []
                 {
-                    ftk::openURL("https://darbyjohnston.github.io/DJV/index.html");
+                    ftk::openURL("https://grizzlypeak3d.github.io/DJV/index.html");
                 });
 
             std::weak_ptr<MainWindow> mainWindowWeak(mainWindow);

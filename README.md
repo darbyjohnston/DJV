@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Build Status](https://github.com/darbyjohnston/DJV/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/darbyjohnston/DJV/actions/workflows/ci-workflow.yml)
+[![Build Status](https://github.com/grizzlypeak3d/DJV/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/grizzlypeak3d/DJV/actions/workflows/ci-workflow.yml)
 
 # ![DJV Icon](etc/Icons/DJV_Icon_32.svg) DJV
 
@@ -16,9 +16,10 @@ Features include:
 * Experimental support for USD files
 * Available for Linux, macOS, and Windows
 
-[Documentation](https://darbyjohnston.github.io/DJV/index.html)
+[Documentation](https://grizzlypeak3d.github.io/DJV/index.html)
 
-DJV is built with the [tlRender](https://github.com/darbyjohnston/tlRender) library.
+DJV is built with the [tlRender](https://github.com/grizzlypeak3d/tlRender) and
+[feather-tk](https://github.com/grizzlypeak3d/feather-tk) libraries.
 
 Example of two images being compared with a wipe:
 
@@ -53,7 +54,7 @@ sudo dnf install libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/DJV.git
+git clone https://github.com/grizzlypeak3d/DJV.git
 ```
 
 Run the super build script:
@@ -75,7 +76,7 @@ Dependencies:
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/DJV.git
+git clone https://github.com/grizzlypeak3d/DJV.git
 ```
 
 Run the super build script:
@@ -110,7 +111,7 @@ This can be found in the Start menu, in the "Visual Studio 2022" folder.
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/DJV.git
+git clone https://github.com/grizzlypeak3d/DJV.git
 ```
 
 Run the super build script:

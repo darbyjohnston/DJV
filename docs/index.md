@@ -13,7 +13,7 @@ Features include:
 * Experimental support for USD files
 * Available for Linux, macOS, and Windows
 
-[GitHub](https://github.com/darbyjohnston/DJV)
+[GitHub](https://github.com/grizzlypeak3d/DJV)
 
 <br>
 
@@ -41,7 +41,7 @@ Features include:
 <br><br><a name="install"></a>
 ## Download and Install
 
-[Downloads](https://github.com/darbyjohnston/DJV/releases/)
+[Downloads](https://github.com/grizzlypeak3d/DJV/releases/)
 
 **NOTE**: Download packages only include a minimal set of video and audio
 codecs. To enable full support, either compile from source or replace the
@@ -421,19 +421,17 @@ sudo dnf install libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/DJV.git
+git clone https://github.com/grizzlypeak3d/DJV.git
 ```
-Run CMake with the super build script:
+
+Run the super build script:
 ```
-cmake -S DJV/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
+sh DJV/sbuild-linux.sh
 ```
-Start the build:
-```
-cmake --build Release -j 4 --config Release
-```
+
 Run the application:
 ```
-./Release/DJV/src/DJV-build/bin/djv/djv
+build-Release/bin/djv/djv DJV/etc/SampleData/BART_2021-02-07.0000.jpg
 ```
 
 ### Building on macOS
@@ -444,19 +442,17 @@ Dependencies:
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/DJV.git
+git clone https://github.com/grizzlypeak3d/DJV.git
 ```
-Run CMake with the super build script:
+
+Run the super build script:
 ```
-cmake -S DJV/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
+sh DJV/sbuild-macos.sh
 ```
-Start the build:
-```
-cmake --build Release -j 4 --config Release
-```
+
 Run the application:
 ```
-./Release/DJV/src/DJV-build/bin/djv/djv
+build-Release/bin/djv/djv DJV/etc/SampleData/BART_2021-02-07.0000.jpg
 ```
 
 The CMake variable `CMAKE_OSX_ARCHITECTURES` can be used to specify the build
@@ -489,20 +485,18 @@ This can be found in the Start menu, in the "Visual Studio 2022" folder.
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/DJV.git
+git clone https://github.com/grizzlypeak3d/DJV.git
 ```
-Run CMake with the super build script:
+
+Run the super build script:
 ```
-cmake -S DJV\etc\SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=%CD%\Release\install -DCMAKE_PREFIX_PATH=%CD%\Release\install -DCMAKE_BUILD_TYPE=Release
+DJV\sbuild-win.bat
 ```
-Start the build:
-```
-cmake --build Release -j 4 --config Release
-```
+
 Run the application:
 ```
-set PATH=%CD%\Release\install\bin;%PATH%
+set PATH=%CD%\install-Release\bin;%PATH%
 ```
 ```
-.\Release\DJV\src\DJV-build\bin\djv\Release\djv
+build-Release\bin\djv\Release\djv DJV\etc\SampleData\BART_2021-02-07.0000.jpg
 ```

@@ -15,7 +15,7 @@ project(
     DJV
     VERSION ${DJV_VERSION}
     DESCRIPTION "DJV is an open source application for playback and review of image sequences."
-    HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
+    HOMEPAGE_URL "https://github.com/grizzlypeak3d/DJV"
     LANGUAGES CXX)
 
 #-------------------------------------------------------------------------------
