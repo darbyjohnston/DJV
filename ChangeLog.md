@@ -2,7 +2,9 @@
 
 Features:
 * Library updates:
+    - OpenTimelineIO v0.18.0
     - OpenColorIO v2.4.2
+    - OpenImageIO v3.1.7.0
     - OpenEXR v3.3.5
     - FFmpeg 8.0
     - USD v25.08
