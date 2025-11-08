@@ -490,12 +490,6 @@ namespace djv
             FTK_P();
             if (p.secondaryWindowActive->setIfChanged(value))
             {
-                if (p.secondaryWindow)
-                {
-                    removeWindow(p.secondaryWindow);
-                    p.secondaryWindow.reset();
-                }
-
                 if (value)
                 {
                     p.secondaryWindow = SecondaryWindow::create(
@@ -506,11 +500,14 @@ namespace djv
                         {
                             FTK_P();
                             p.secondaryWindowActive->setIfChanged(false);
-                            removeWindow(p.secondaryWindow);
                             p.secondaryWindow.reset();
                         });
-                    addWindow(p.secondaryWindow);
                     p.secondaryWindow->show();
+                }
+                else if (p.secondaryWindow)
+                {
+                    p.secondaryWindow->close();
+                    p.secondaryWindow.reset();
                 }
             }
         }
@@ -922,8 +919,6 @@ namespace djv
             p.mainWindow = MainWindow::create(
                 _context,
                 std::dynamic_pointer_cast<App>(shared_from_this()));
-            addWindow(p.mainWindow);
-            p.mainWindow->show();
 
             p.viewPosZoomObserver = ftk::ValueObserver<std::pair<ftk::V2I, double> >::create(
                 p.mainWindow->getViewport()->observeViewPosAndZoom(),
@@ -949,7 +944,7 @@ namespace djv
                     FTK_P();
                     if (p.secondaryWindow)
                     {
-                        removeWindow(p.secondaryWindow);
+                        p.secondaryWindow->close();
                         p.secondaryWindow.reset();
                     }
                 });
