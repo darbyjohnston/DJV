@@ -3,12 +3,13 @@
 Features:
 * Library updates:
     - OpenTimelineIO v0.18.0
-    - OpenColorIO v2.4.2
+    - OpenColorIO v2.5.0
     - OpenImageIO v3.1.7.0
-    - OpenEXR v3.3.5
+    - OpenEXR v3.3.6
+    - Imath 3.2.1
     - FFmpeg 8.0
-    - USD v25.08
-    - libpng v1.6.50,
+    - USD v25.11
+    - libpng v1.6.50
     - libjpeg-turbo 3.1.1
     - SDL2 2.32.8
     - OpenSSL 3.5.2
@@ -17,6 +18,13 @@ Features:
     - minizip 4.0.10
 
 Fixes:
+* Fix application closing when window is minimized.
+* Fix outline with alpha blend modes.
+* Fix outline rendering underneath grid.
+* Fix display scale values.
+* Add the units to the audio sync offset label.
+* Fix opening file associations on macOS.
+* Fixes for keyboard mapping and numpad.
 * Fixes for building with CMake 4.x versions.
 
 
