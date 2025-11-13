@@ -1,17 +1,17 @@
 ## 3.2.0
 
 Features:
+* Use SDL2 for window creation and input handling.
+* Add support for OpenImageIO.
 * Library updates:
     - OpenTimelineIO v0.18.0
     - OpenColorIO v2.5.0
-    - OpenImageIO v3.1.7.0
     - OpenEXR v3.3.6
     - Imath 3.2.1
     - FFmpeg 8.0
     - USD v25.11
     - libpng v1.6.50
     - libjpeg-turbo 3.1.1
-    - SDL2 2.32.8
     - OpenSSL 3.5.2
     - curl 8_15_0
     - freetype 2-14-1
@@ -24,7 +24,7 @@ Fixes:
 * Fix display scale values.
 * Add the units to the audio sync offset label.
 * Fix opening file associations on macOS.
-* Fixes for keyboard mapping and numpad.
+* Fixes for keyboard mapping and number pad.
 * Fixes for building with CMake 4.x versions.
 
 
