@@ -49,7 +49,7 @@ namespace djv
             p.icon = ftk::Icon::create(context, getIcon(tool));
             p.icon->setMarginRole(ftk::SizeRole::MarginSmall);
 
-            p.label = ftk::Label::create(context, getText(tool));
+            p.label = ftk::Label::create(context, to_string(tool));
             p.label->setMarginRole(ftk::SizeRole::MarginSmall);
             p.label->setHStretch(ftk::Stretch::Expanding);
 

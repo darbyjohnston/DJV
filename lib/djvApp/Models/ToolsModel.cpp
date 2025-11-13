@@ -22,33 +22,13 @@ namespace djv
             "Export",
             "View",
             "Color",
-            "ColorPicker",
-            "Info",
+            "Color Picker",
+            "Information",
             "Audio",
             "Devices",
             "Settings",
             "Messages",
-            "SystemLog");
-
-        std::string getText(Tool value)
-        {
-            const std::array<std::string, static_cast<size_t>(Tool::Count)> data =
-            {
-                "",
-                "Files",
-                "Export",
-                "View",
-                "Color",
-                "Color Picker",
-                "Information",
-                "Audio",
-                "Devices",
-                "Settings",
-                "Messages",
-                "System Log"
-            };
-            return data[static_cast<size_t>(value)];
-        }
+            "System Log");
 
         std::string getIcon(Tool value)
         {

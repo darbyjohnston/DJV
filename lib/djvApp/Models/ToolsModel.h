@@ -36,9 +36,6 @@ namespace djv
         };
         FTK_ENUM(Tool);
 
-        //! Get the tool text.
-        std::string getText(Tool);
-
         //! Get the tool icon.
         std::string getIcon(Tool);
 

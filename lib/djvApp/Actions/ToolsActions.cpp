@@ -29,7 +29,7 @@ namespace djv
             {
                 const auto tool = enums[i];
                 auto action = ftk::Action::create(
-                    getText(tool),
+                    to_string(tool),
                     getIcon(tool),
                     [appWeak, tool](bool value)
                     {

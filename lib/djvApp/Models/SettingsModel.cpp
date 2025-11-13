@@ -258,10 +258,10 @@ namespace djv
 
         FTK_ENUM_IMPL(
             MouseAction,
-            "PanView",
-            "CompareWipe",
-            "ColorPicker",
-            "FrameShuttle");
+            "Pan View",
+            "Compare Wipe",
+            "Color Picker",
+            "Frame Shuttle");
 
         MouseActionBinding::MouseActionBinding(
             int button,
