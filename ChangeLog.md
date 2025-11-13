@@ -4,6 +4,8 @@ Features:
 * Use SDL2 for window creation and input handling.
 * Add support for OpenImageIO.
 * Library updates:
+    - tlRender 0.11.0
+    - feather-tk 0.5.0
     - OpenTimelineIO v0.18.0
     - OpenColorIO v2.5.0
     - OpenEXR v3.3.6
