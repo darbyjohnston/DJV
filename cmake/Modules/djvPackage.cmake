@@ -202,9 +202,9 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.dylib)
         set(OSD_DYLIBS
-            ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.3.6.0.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.3.6.1.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.3.6.0.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.3.6.1.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.dylib)
         set(USD_DYLIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ar.dylib
@@ -375,9 +375,9 @@ else()
             ${CMAKE_INSTALL_FULL_LIBDIR}/libtbb.so.12.12)
         set(OSD_LIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.so.3.6.0
+            ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.so.3.6.1
             ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.so.3.6.0)
+            ${CMAKE_INSTALL_PREFIX}/lib/libosdGPU.so.3.6.1)
         set(USD_LIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_arch.so
             ${CMAKE_INSTALL_PREFIX}/lib/libusd_ar.so
