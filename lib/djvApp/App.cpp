@@ -77,8 +77,8 @@ namespace djv
             std::shared_ptr<ftk::CmdLineValueOption<tl::usd::DrawMode> > usdDrawMode;
             std::shared_ptr<ftk::CmdLineValueOption<bool> > usdEnableLighting;
             std::shared_ptr<ftk::CmdLineValueOption<bool> > usdSRGB;
-            std::shared_ptr<ftk::CmdLineValueOption<size_t> > usdStageCache;
-            std::shared_ptr<ftk::CmdLineValueOption<size_t> > usdDiskCache;
+            std::shared_ptr<ftk::CmdLineValueOption<int> > usdStageCache;
+            std::shared_ptr<ftk::CmdLineValueOption<int> > usdDiskCache;
 #endif // TLRENDER_USD
             std::shared_ptr<ftk::CmdLineValueOption<std::string> > logFileName;
             std::shared_ptr<ftk::CmdLineFlagOption> resetSettings;
@@ -267,12 +267,12 @@ namespace djv
                 "Enable sRGB color space.",
                 "USD",
                 true);
-            p.cmdLine.usdStageCache = ftk::CmdLineValueOption<size_t>::create(
+            p.cmdLine.usdStageCache = ftk::CmdLineValueOption<int>::create(
                 { "-usdStageCache" },
                 "Stage cache size.",
                 "USD",
                 10);
-            p.cmdLine.usdDiskCache = ftk::CmdLineValueOption<size_t>::create(
+            p.cmdLine.usdDiskCache = ftk::CmdLineValueOption<int>::create(
                 { "-usdDiskCache" },
                 "Disk cache size in gigabytes. A size of zero disables the cache.",
                 "USD",
@@ -582,6 +582,47 @@ namespace djv
                 }
                 p.settingsModel->setStyle(style);
             }
+#if defined(TLRENDER_USD)
+            if (p.cmdLine.usdRenderWidth->hasValue() ||
+                p.cmdLine.usdComplexity->hasValue() ||
+                p.cmdLine.usdDrawMode->hasValue() ||
+                p.cmdLine.usdEnableLighting->hasValue() ||
+                p.cmdLine.usdSRGB->hasValue() ||
+                p.cmdLine.usdStageCache->hasValue() ||
+                p.cmdLine.usdDiskCache->hasValue())
+            {
+                tl::usd::Options options = p.settingsModel->getUSD();
+                if (p.cmdLine.usdRenderWidth->hasValue())
+                {
+                    options.renderWidth = p.cmdLine.usdRenderWidth->getValue();
+                }
+                if (p.cmdLine.usdComplexity->hasValue())
+                {
+                    options.complexity = p.cmdLine.usdComplexity->getValue();
+                }
+                if (p.cmdLine.usdDrawMode->hasValue())
+                {
+                    options.drawMode = p.cmdLine.usdDrawMode->getValue();
+                }
+                if (p.cmdLine.usdEnableLighting->hasValue())
+                {
+                    options.enableLighting = p.cmdLine.usdEnableLighting->getValue();
+                }
+                if (p.cmdLine.usdSRGB->hasValue())
+                {
+                    options.sRGB = p.cmdLine.usdSRGB->getValue();
+                }
+                if (p.cmdLine.usdStageCache->hasValue())
+                {
+                    options.stageCache = std::max(0, p.cmdLine.usdStageCache->getValue());
+                }
+                if (p.cmdLine.usdDiskCache->hasValue())
+                {
+                    options.diskCache = std::max(0, p.cmdLine.usdDiskCache->getValue());
+                }
+                p.settingsModel->setUSD(options);
+            }
+#endif // TLRENDER_USD
 
             p.timeUnitsModel = TimeUnitsModel::create(_context, p.settings);
             
