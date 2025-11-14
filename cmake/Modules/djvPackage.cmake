@@ -199,8 +199,14 @@ elseif(APPLE)
             ${CMAKE_INSTALL_PREFIX}/lib/libMaterialXRenderOsl.dylib)
         set(TBB_DYLIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libtbb.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbb.12.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbb.12.12.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.dylib)
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.2.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc.2.12.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.2.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libtbbmalloc_proxy.2.12.dylib)
         set(OSD_DYLIBS
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.3.6.1.dylib
             ${CMAKE_INSTALL_PREFIX}/lib/libosdCPU.dylib
