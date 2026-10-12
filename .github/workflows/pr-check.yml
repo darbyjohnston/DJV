@@ -20,33 +20,8 @@ jobs:
   build:
     runs-on: ubuntu-24.04
 
-    # Kept the same as the CI workflow's linux-build job: the cache key covers
-    # this file, so these have to match for the cache to be shared.
     env:
-      JOBS: 4
-      DJV_TESTS: ON
-      TLRENDER_NET: OFF
-      TLRENDER_OCIO: ON
-      TLRENDER_JPEG: ON
-      TLRENDER_TIFF: ON
-      TLRENDER_EXR: ON
-      TLRENDER_AOM: ON
-      TLRENDER_SVTAV1: ON
-      TLRENDER_FFMPEG: ON
-      TLRENDER_FFMPEG_MINIMAL: OFF
-      TLRENDER_FFMPEG_PLUGIN: ON
-      TLRENDER_FFMPEG_CMD: OFF
-      TLRENDER_NASM: ON
-      TLRENDER_OIIO: ON
-      TLRENDER_USD: OFF
-      TLRENDER_PYTHON: OFF
-      TLRENDER_PROGRAMS: OFF
-      TLRENDER_EXAMPLES: OFF
-      TLRENDER_TESTS: OFF
-      FTK_API: GL_4_1
-      FTK_EXAMPLES: OFF
-      FTK_TESTS: OFF
-      BUILD_SHARED_LIBS: OFF
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
 
     steps:
     - uses: actions/checkout@v6
@@ -84,11 +59,14 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha.sh
 
+    # The configuration with the tests on, as the CI workflow's linux-build
+    # job builds; without it the default configuration builds no tests and
+    # the check below would pass with nothing run, which it did for a month.
     - name: Build
       run: |
-        sh djv/etc/Linux/sbuild.sh djv Debug
+        sh djv/etc/Linux/sbuild.sh djv Debug ci-linux
 
     - name: Run tests
       run: |
         cd build-Debug
-        xvfb-run ctest --verbose --rerun-failed --output-on-failure -C Debug
+        xvfb-run ctest --verbose --rerun-failed --output-on-failure --no-tests=error --timeout 600 -C Debug
