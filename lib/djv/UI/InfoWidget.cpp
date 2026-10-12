@@ -364,21 +364,34 @@ namespace djv
             // they do not: the keys are foreign and can be very long, and a
             // single camera tag should not push every value to the right
             // margin.
+            // Each word of the search stands on its own, and a row is kept
+            // when any of them is in its name or its value: "name duration"
+            // shows both rows (#316).
+            const std::vector<std::string> words = ftk::split(
+                p.search, { ' ', '\t' });
             std::map<std::string, Pairs> kept;
             size_t sharedSize = 0;
             for (const auto& name : p.sectionNames)
             {
                 for (const auto& tag : sections.at(name))
                 {
-                    if (!p.search.empty() &&
-                        !ftk::contains(
-                            tag.first,
-                            p.search,
-                            ftk::CaseCompare::Insensitive) &&
-                        !ftk::contains(
-                            tag.second,
-                            p.search,
-                            ftk::CaseCompare::Insensitive))
+                    bool match = words.empty();
+                    for (const auto& word : words)
+                    {
+                        if (ftk::contains(
+                                tag.first,
+                                word,
+                                ftk::CaseCompare::Insensitive) ||
+                            ftk::contains(
+                                tag.second,
+                                word,
+                                ftk::CaseCompare::Insensitive))
+                        {
+                            match = true;
+                            break;
+                        }
+                    }
+                    if (!match)
                     {
                         continue;
                     }
