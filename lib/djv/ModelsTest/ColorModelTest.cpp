@@ -81,6 +81,13 @@ namespace djv
                 { { "Color Primaries", "bt709" },
                   { "Color Transfer", "iec61966-2-1" } }).empty());
 
+            // Primaries alone are not a declaration: what the transfer
+            // would be is for the configuration's rules to say, not for
+            // a guess here, so the file resolves as an untagged one.
+            FTK_CHECK(model->resolveInput(
+                "clip.xyz", { { "Color Primaries", "bt709" } }) ==
+                model->resolveInput("clip.xyz"));
+
             // A file that declares nothing and matches no other rule takes
             // the configuration's default rule.
             FTK_CHECK(!model->resolveInput("image.png").empty());
