@@ -113,6 +113,7 @@ namespace djv
         private:
             void _resolvedUpdate();
             tl::OCIOOptions _resolvedOCIOOptions();
+            void _logInput(const std::string& path, const std::string& label) const;
             std::string _resolveInput(
                 const std::string& path,
                 const ftk::ImageTags&,

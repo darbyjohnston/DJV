@@ -108,6 +108,10 @@ namespace djv
             // Set beside the resolved options: the input color space and
             // where it came from, for display.
             std::string resolvedInputLabel;
+            // What the log was last told for each path, so that a
+            // resolution is logged when it is made or changes and not on
+            // every draw that asks.
+            mutable std::map<std::string, std::string> loggedInputs;
 #if defined(TLRENDER_OCIO)
             OCIO_NAMESPACE::ConstConfigRcPtr ocioConfig;
 #endif // TLRENDER_OCIO
@@ -248,7 +252,10 @@ namespace djv
             const std::string& path,
             const ftk::ImageTags& tags) const
         {
-            return _resolveInput(path, tags, nullptr);
+            std::string label;
+            const std::string out = _resolveInput(path, tags, &label);
+            _logInput(path, label);
+            return out;
         }
 
         std::shared_ptr<ftk::IObservable<std::vector<std::string> > > ColorModel::observeResolvedInputs() const
@@ -343,8 +350,36 @@ namespace djv
                 // declaration labels itself, so the row can say why the
                 // image is unmanaged rather than saying nothing.
                 p.resolvedInputLabel = label;
+                _logInput(p.activeFiles[0].first, label);
             }
             return out;
+        }
+
+        void ColorModel::_logInput(
+            const std::string& path,
+            const std::string& label) const
+        {
+            FTK_P();
+            // How each file's color was decided, in the log, where the
+            // Color tool's resolved row cannot say it for every clip of a
+            // timeline: the timeline itself resolves per clip and is not
+            // logged. A file that resolves nothing is said to be
+            // unmanaged.
+            if (path.empty() || "Per clip" == label)
+                return;
+            const std::string text = !label.empty() ? label : "unmanaged";
+            const auto i = p.loggedInputs.find(path);
+            if (i != p.loggedInputs.end() && i->second == text)
+                return;
+            p.loggedInputs[path] = text;
+            if (auto logSystem = p.logSystem.lock())
+            {
+                logSystem->print(
+                    "djv::models::ColorModel",
+                    ftk::Format("Input color space for \"{0}\": {1}").
+                        arg(path).
+                        arg(text));
+            }
         }
 
         std::string ColorModel::_resolveInput(
