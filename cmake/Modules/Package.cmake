@@ -323,6 +323,12 @@ endif()
 set(CPACK_INSTALL_CMAKE_PROJECTS
     "${CMAKE_BINARY_DIR};${PROJECT_NAME};runtime;/"
     "${CMAKE_BINARY_DIR};${PROJECT_NAME};docs;/")
+
+# One package of both, with nothing to choose. The Windows installer
+# otherwise shows a page of components to tick -- "runtime", "docs" -- and
+# someone installing an application should not have to know that the first
+# is the application.
+set(CPACK_MONOLITHIC_INSTALL ON)
 if(APPLE AND DJV_MACOS_PACKAGE)
     # The bundle alone. A full install is a Unix prefix with the application
     # sitting inside it, and a full install is what the bundle rules opt out
