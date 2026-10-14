@@ -549,7 +549,9 @@ jobs:
         signing-account-name: ${{ vars.AZURE_SIGNING_ACCOUNT }}
         certificate-profile-name: ${{ vars.AZURE_SIGNING_PROFILE }}
         files-folder: ${{ github.workspace }}\build-Release\bin
-        files-folder-filter: exe,dll
+        # "com" as well: the console launcher is a program with that
+        # extension, and was going out unsigned.
+        files-folder-filter: exe,dll,com
         files-folder-recurse: true
         file-digest: SHA256
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
