@@ -80,6 +80,9 @@ if(WIN32)
     
     djv_install_dep(FILES ${INSTALL_DLLS} DESTINATION bin)
 
+    # The uninstaller is signed when CI asks for it; see the file.
+    set(CPACK_PROJECT_CONFIG_FILE ${PROJECT_SOURCE_DIR}/cmake/CPackProjectConfig.cmake)
+
     set(CPACK_NSIS_MUI_ICON ${PROJECT_SOURCE_DIR}/etc/Windows/DJV_Icon.ico)
     set(CPACK_NSIS_MUI_UNIICON ${PROJECT_SOURCE_DIR}/etc/Windows/DJV_Icon.ico)
     set(CPACK_NSIS_INSTALLED_ICON_NAME bin/djv.exe)

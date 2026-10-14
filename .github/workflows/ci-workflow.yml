@@ -567,6 +567,40 @@ jobs:
         exclude-azure-developer-cli-credential: true
         exclude-interactive-browser-credential: true
 
+    # The uninstaller is made while the installer is compiled, by the
+    # packaging step below, so it is signed there: with the signing tool and
+    # the Artifact Signing client the step above put on the runner, and the
+    # Azure login still current. See cmake/CPackProjectConfig.cmake.
+    - name: Prepare to sign the uninstaller
+      if: env.SIGN == 'true'
+      shell: pwsh
+      run: |
+        $root = Join-Path $env:LOCALAPPDATA 'ArtifactSigning'
+        $signtool = Get-ChildItem $root -Recurse -Filter signtool.exe |
+          Where-Object { $_.FullName -match '\\x64\\' } | Select-Object -First 1
+        $dlib = Get-ChildItem $root -Recurse -Filter Azure.CodeSigning.Dlib.dll |
+          Where-Object { $_.FullName -match '\\x64\\' } | Select-Object -First 1
+        if (-not $signtool -or -not $dlib) {
+          Write-Host "::error::The signing tools are not under $root"
+          exit 1
+        }
+        $metadata = Join-Path $env:RUNNER_TEMP 'signing-metadata.json'
+        @{
+          Endpoint = '${{ vars.AZURE_SIGNING_ENDPOINT }}'
+          CodeSigningAccountName = '${{ vars.AZURE_SIGNING_ACCOUNT }}'
+          CertificateProfileName = '${{ vars.AZURE_SIGNING_PROFILE }}'
+          ExcludeCredentials = @(
+            'EnvironmentCredential', 'WorkloadIdentityCredential',
+            'ManagedIdentityCredential', 'SharedTokenCacheCredential',
+            'VisualStudioCredential', 'VisualStudioCodeCredential',
+            'AzurePowerShellCredential', 'AzureDeveloperCliCredential',
+            'InteractiveBrowserCredential')
+        } | ConvertTo-Json | Set-Content -Encoding utf8 $metadata
+        $command = '"{0}" sign /v /fd SHA256 /tr http://timestamp.acs.microsoft.com /td SHA256 /dlib "{1}" /dmdf "{2}"' -f `
+          $signtool.FullName, $dlib.FullName, $metadata
+        Write-Host $command
+        "DJV_NSIS_SIGN_COMMAND=$command" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
+
     - name: Package
       shell: cmd
       run: |
@@ -606,6 +640,23 @@ jobs:
           $s = Get-AuthenticodeSignature $_.FullName
           Write-Host $_.Name $s.Status $s.SignerCertificate.Subject
           if ($s.Status -ne 'Valid') { $failed = $true }
+
+          # The uninstaller only exists once the installer has run, so
+          # install quietly here (the runner is thrown away) and check the
+          # one it wrote, and the program it put in place.
+          $dir = Join-Path $env:RUNNER_TEMP 'installed'
+          Start-Process -Wait -FilePath $_.FullName -ArgumentList '/S', "/D=$dir"
+          foreach ($f in @('Uninstall.exe', 'bin\djv.exe')) {
+            $path = Join-Path $dir $f
+            if (-not (Test-Path $path)) {
+              Write-Host "::error::The installer did not write $f"
+              $failed = $true
+              continue
+            }
+            $s = Get-AuthenticodeSignature $path
+            Write-Host $f $s.Status $s.SignerCertificate.Subject
+            if ($s.Status -ne 'Valid') { $failed = $true }
+          }
         }
         if ($failed) { exit 1 }
 

@@ -90,7 +90,10 @@ pushes and tags nothing. The change log is still written by hand.
       `DJV_MACOS_NOTARY_PROFILE` or `DJV_MACOS_USER_ID` and
       `DJV_MACOS_USER_PASSWORD`.
 - [ ] The **Windows packages of a tag are signed** in CI, by Azure Artifact
-      Signing: the programs and then the installer. The `windows-package`
+      Signing: the programs, the uninstaller (as NSIS compiles the
+      installer; see `cmake/CPackProjectConfig.cmake`) and then the
+      installer. The job installs the package on the runner and checks the
+      uninstaller it wrote. The `windows-package`
       job waits in the `signing` environment for a reviewer's approval
       before it starts, so approve it in the run's page. Its "Check the
       signature" step lists the installer as `Valid`; check on a Windows
