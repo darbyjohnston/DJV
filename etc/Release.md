@@ -89,6 +89,14 @@ pushes and tags nothing. The change log is still written by hand.
       `DJV_MACOS_TEAM_ID`, and for notarization either
       `DJV_MACOS_NOTARY_PROFILE` or `DJV_MACOS_USER_ID` and
       `DJV_MACOS_USER_PASSWORD`.
+- [ ] The **Windows packages of a tag are signed** in CI, by Azure Artifact
+      Signing: the programs and then the installer. The `windows-package`
+      job waits in the `signing` environment for a reviewer's approval
+      before it starts, so approve it in the run's page. Its "Check the
+      signature" step lists the installer as `Valid`; check on a Windows
+      machine as well (Properties > Digital Signatures on the installer,
+      and on `djv.exe` once installed). A push that is not a tag is built
+      unsigned. See "Signing (Windows)" below.
 - [ ] To build a package here all the same: `package-macos.sh` and
       `package-win.bat` take the source directory and build type, and
       choose the config themselves. The Intel Mac package is a second run
@@ -105,6 +113,43 @@ pushes and tags nothing. The change log is still written by hand.
       sbuild, or the line that makes the package is never reached.
 - [ ] Install the package and open About: bare version, no `-dev`, no
       `-dirty`, and a commit that exists on the remote.
+
+## Signing (Windows)
+
+The key stays in Azure and GitHub holds nothing secret. The Windows package
+job proves who it is with a token GitHub issues for the run (OpenID Connect),
+which Azure accepts only from this repository's `signing` environment. Only a
+tag, or a run started by hand with "Sign the Windows packages" ticked, uses
+the environment; a pull request from a fork cannot.
+
+To make a signed package without a release: Actions > CI > Run workflow, with
+the box ticked. To find out in a few minutes whether signing is set up at
+all: Actions > Signing check > Run workflow.
+
+One-time setup. In the Azure portal, on the app registration that already
+signs DJV Studio:
+
+- [ ] Certificates & secrets > Federated credentials > Add credential, with
+      the scenario **Other issuer** (the GitHub scenario saves a subject
+      GitHub does not send): issuer
+      `https://token.actions.githubusercontent.com`, subject identifier
+      `repo:grizzlypeak3d/DJV:environment:signing`, audience left as
+      `api://AzureADTokenExchange`.
+
+The role on the Artifact Signing account belongs to the app registration,
+so it is already there.
+
+In GitHub, Settings > Environments > New environment, named `signing`:
+
+- [ ] Required reviewers: on, with whoever releases.
+- [ ] Deployment branches and tags: `main`, and tags.
+- [ ] Environment variables (not secrets -- none is one), the same values
+      as DJV Studio's: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`,
+      `AZURE_SUBSCRIPTION_ID`, `AZURE_SIGNING_ENDPOINT`,
+      `AZURE_SIGNING_ACCOUNT`, `AZURE_SIGNING_PROFILE`.
+
+The actions the job uses are pinned to commits: whatever runs in that job
+can ask for the token that signs, and a tag can be moved to different code.
 
 ## Tags
 
