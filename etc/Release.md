@@ -217,9 +217,13 @@ Pushing a version tag builds that repository's wheels and publishes them
 
 ## Worth knowing
 
-- Editing `.github/workflows/ci-workflow.yml` busts the dependency cache and
-  costs about a 20 minute rebuild, because the cache key hashes it. Batch CI
-  edits into one change.
+- Each CI job caches its installed dependencies (`install-<type>`, a few
+  hundred megabytes) and skips building them when its key matches: the
+  superbuild files, `etc/Config/**`, the platform's `sbuild` script, and on
+  Linux the setup scripts, plus the job's config. Editing the workflow does
+  not bust it any more; changing any of those does, for about a 20 minute
+  rebuild of the jobs affected. The `sbuild` scripts take
+  `SBUILD_STAGES=deps` or `project` to build one half.
 - FFmpeg is pinned in
   `deps/tlRender/etc/SuperBuild/cmake/Modules/BuildFFmpeg.cmake`. Moving that
   pin also means updating the library versions written out in the macOS

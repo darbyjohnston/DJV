@@ -23,23 +23,19 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-linux-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
-
-    # Writes the dependency cache that the pull request check reads. Only this
-    # job caches: an entry is around 2.5GB compressed, and the 10GB limit is
-    # repository-wide with least-recently-used eviction, so caching the rest of
-    # the matrix could evict this entry and silently return the gate to a cold
-    # twenty minute build.
-    - name: Cache dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          install-Debug
-          ftk-Debug
-          tl-Debug
-        key: deps-${{ runner.os }}-Debug-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/.github/workflows/ci-workflow.yml') }}
 
     - name: Setup environment
       run: |
@@ -49,7 +45,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Debug ci-linux
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Debug ci-linux
 
@@ -123,6 +137,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-linux-python-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -135,7 +159,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-python
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-python
 
@@ -160,6 +202,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-linux-gles3-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -173,7 +225,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-gles3
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-gles3
 
@@ -204,6 +274,15 @@ jobs:
         path: djv
         submodules: recursive
 
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Release
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Release-package-linux-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - name: Setup environment
       run: |
         echo "$PWD/install-Release/bin" >> $GITHUB_PATH
@@ -212,7 +291,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha-rocky.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Release package-linux
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Release
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Release package-linux
 
@@ -243,6 +340,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-macos-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/macOS/sbuild.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -254,7 +361,25 @@ jobs:
         cmake --version
         python --version
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/macOS/sbuild.sh djv Debug ci-macos
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/macOS/sbuild.sh djv Debug ci-macos
 
@@ -276,6 +401,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-macos-python-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/macOS/sbuild.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -287,7 +422,25 @@ jobs:
         cmake --version
         python --version
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/macOS/sbuild.sh djv Debug ci-macos-python
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/macOS/sbuild.sh djv Debug ci-macos-python
 
@@ -319,6 +472,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Release
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Release-${{ matrix.config }}-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/macOS/sbuild.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -330,7 +493,25 @@ jobs:
         cmake --version
         python --version
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/macOS/sbuild.sh djv Release ${{ matrix.config }}
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Release
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/macOS/sbuild.sh djv Release ${{ matrix.config }}
 
@@ -361,15 +542,27 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-windows-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Windows/sbuild.bat') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
     - uses: ilammy/setup-nasm@v1
+      if: steps.deps.outputs.cache-hit != 'true'
     # FFmpeg builds with MSYS2: a fresh one from its GitHub release, with the
     # packages the build needs, kept between runs. The build would otherwise
     # download them from the package mirror every time, and the mirror has
     # been the thing to fail.
     - uses: msys2/setup-msys2@v2
+      if: steps.deps.outputs.cache-hit != 'true'
       id: msys2
       with:
         msystem: MSYS
@@ -385,10 +578,28 @@ jobs:
         cmake --version
         python --version
         
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      shell: cmd
+      env:
+        SBUILD_STAGES: deps
+        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+      run: |
+        djv\etc\Windows\sbuild.bat djv Debug ci-windows
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
       shell: cmd
       env:
-        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+        SBUILD_STAGES: project
       run: |
         djv\etc\Windows\sbuild.bat djv Debug ci-windows
 
@@ -411,15 +622,27 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-windows-python-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Windows/sbuild.bat') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
     - uses: ilammy/setup-nasm@v1
+      if: steps.deps.outputs.cache-hit != 'true'
     # FFmpeg builds with MSYS2: a fresh one from its GitHub release, with the
     # packages the build needs, kept between runs. The build would otherwise
     # download them from the package mirror every time, and the mirror has
     # been the thing to fail.
     - uses: msys2/setup-msys2@v2
+      if: steps.deps.outputs.cache-hit != 'true'
       id: msys2
       with:
         msystem: MSYS
@@ -435,10 +658,28 @@ jobs:
         cmake --version
         python --version
         
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      shell: cmd
+      env:
+        SBUILD_STAGES: deps
+        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+      run: |
+        djv\etc\Windows\sbuild.bat djv Debug ci-windows-python
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
       shell: cmd
       env:
-        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+        SBUILD_STAGES: project
       run: |
         djv\etc\Windows\sbuild.bat djv Debug ci-windows-python
 
@@ -481,15 +722,27 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: install-Release
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Release-package-windows-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Windows/sbuild.bat') }}
+
     - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
       with:
         python-version: '3.12'
     - uses: ilammy/setup-nasm@72793074d3c8cdda771dba85f6deafe00623038b # v1
+      if: steps.deps.outputs.cache-hit != 'true'
     # FFmpeg builds with MSYS2: a fresh one from its GitHub release, with the
     # packages the build needs, kept between runs. The build would otherwise
     # download them from the package mirror every time, and the mirror has
     # been the thing to fail.
     - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+      if: steps.deps.outputs.cache-hit != 'true'
       id: msys2
       with:
         msystem: MSYS
@@ -506,10 +759,28 @@ jobs:
         python --version
         winget install NSIS.NSIS --accept-package-agreements --accept-source-agreements --disable-interactivity
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      shell: cmd
+      env:
+        SBUILD_STAGES: deps
+        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+      run: |
+        djv\etc\Windows\sbuild.bat djv Release package-windows
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: install-Release
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
       shell: cmd
       env:
-        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+        SBUILD_STAGES: project
       run: |
         djv\etc\Windows\sbuild.bat djv Release package-windows
 

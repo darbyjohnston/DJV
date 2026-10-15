@@ -1,8 +1,8 @@
 # Answers one question about a pull request: does it build and pass the tests
 # against the pinned dependencies? The full matrix still runs on push.
 #
-# The dependencies are not built here. This reads the cache written by the
-# linux-build job of the CI workflow on the default branch; a pull request from
+# The dependencies are not built here. This reads the installed dependencies
+# cached by the linux-build job of the CI workflow on the default branch; a pull request from
 # a fork can read that cache but cannot write one. If the cache is missed the
 # job builds the dependencies itself, which takes about half an hour.
 name: PR
@@ -36,16 +36,13 @@ jobs:
       id: deps
       uses: actions/cache/restore@v4
       with:
-        path: |
-          install-Debug
-          ftk-Debug
-          tl-Debug
-        # No restore-keys on purpose. A near match would give a prefix built
-        # from different dependency versions, and the superbuild would rebuild
-        # only what it thinks is stale, so a stale library could be linked
-        # while everything looked green. Either the dependencies are the ones
-        # this commit expects, or they get built.
-        key: deps-${{ runner.os }}-Debug-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/.github/workflows/ci-workflow.yml') }}
+        path: install-Debug
+        # No restore-keys on purpose. A near match would give dependencies
+        # built from different versions, linked while everything looked
+        # green. Either the dependencies are the ones this commit expects, or
+        # they get built. The key is the CI workflow's linux-build key, which
+        # has to stay the same as this one.
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-linux-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
 
     - name: Report the cache
       run: |
@@ -63,6 +60,10 @@ jobs:
     # job builds; without it the default configuration builds no tests and
     # the check below would pass with nothing run, which it did for a month.
     - name: Build
+      env:
+        # With the dependencies from the cache only DJV is built; without
+        # them, everything.
+        SBUILD_STAGES: ${{ steps.deps.outputs.cache-hit == 'true' && 'project' || '' }}
       run: |
         sh djv/etc/Linux/sbuild.sh djv Debug ci-linux
 
