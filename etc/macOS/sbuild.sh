@@ -28,8 +28,18 @@ if [ ! -f $SOURCE_DIR/deps/tlRender/CMakeLists.txt ]; then
     git -C $SOURCE_DIR submodule update --init --recursive
 fi
 
+# SBUILD_STAGES picks the stages: "deps" builds only the dependencies, into
+# install-<type>, and "project" only DJV, against dependencies already
+# there. Unset, all of them. CI caches the dependencies' install directory
+# between the two, which is all the project needs of them.
 for STAGE in "deps/tlRender/deps/ftk/etc/SuperBuild ftk" "deps/tlRender/etc/SuperBuild tl" ". build"; do
     set -- $STAGE
+    if [ "$2" = "build" ] && [ "$SBUILD_STAGES" = "deps" ]; then
+        exit 0
+    fi
+    if [ "$2" != "build" ] && [ "$SBUILD_STAGES" = "project" ]; then
+        continue
+    fi
     cmake \
         -S $SOURCE_DIR/$1 \
         -B $2-$BUILD_TYPE \

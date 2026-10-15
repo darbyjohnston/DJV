@@ -1,6 +1,15 @@
 name: CI
 
-on: [push]
+# Every push; and by hand from the Actions tab, which is how a signed Windows
+# package is made without a release (see the windows-package job).
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      sign:
+        description: Sign the Windows packages
+        type: boolean
+        default: false
 
 jobs:
   linux-build:
@@ -14,23 +23,19 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-linux-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
-
-    # Writes the dependency cache that the pull request check reads. Only this
-    # job caches: an entry is around 2.5GB compressed, and the 10GB limit is
-    # repository-wide with least-recently-used eviction, so caching the rest of
-    # the matrix could evict this entry and silently return the gate to a cold
-    # twenty minute build.
-    - name: Cache dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          install-Debug
-          ftk-Debug
-          tl-Debug
-        key: deps-${{ runner.os }}-Debug-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/.github/workflows/ci-workflow.yml') }}
 
     - name: Setup environment
       run: |
@@ -40,7 +45,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Debug ci-linux
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Debug ci-linux
 
@@ -114,6 +137,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-linux-python-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -126,7 +159,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-python
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-python
 
@@ -151,6 +202,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-linux-gles3-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -164,7 +225,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-gles3
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Debug ci-linux-gles3
 
@@ -195,6 +274,15 @@ jobs:
         path: djv
         submodules: recursive
 
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Release
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Release-package-linux-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Linux/sbuild.sh', 'djv/etc/Linux/setup-gha*.sh') }}
+
     - name: Setup environment
       run: |
         echo "$PWD/install-Release/bin" >> $GITHUB_PATH
@@ -203,7 +291,25 @@ jobs:
         python --version
         sh djv/etc/Linux/setup-gha-rocky.sh
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/Linux/sbuild.sh djv Release package-linux
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Release
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/Linux/sbuild.sh djv Release package-linux
 
@@ -234,6 +340,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-macos-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/macOS/sbuild.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -245,7 +361,25 @@ jobs:
         cmake --version
         python --version
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/macOS/sbuild.sh djv Debug ci-macos
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/macOS/sbuild.sh djv Debug ci-macos
 
@@ -267,6 +401,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-macos-python-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/macOS/sbuild.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -278,7 +422,25 @@ jobs:
         cmake --version
         python --version
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/macOS/sbuild.sh djv Debug ci-macos-python
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/macOS/sbuild.sh djv Debug ci-macos-python
 
@@ -310,6 +472,16 @@ jobs:
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Release
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Release-${{ matrix.config }}-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/macOS/sbuild.sh') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
@@ -321,7 +493,25 @@ jobs:
         cmake --version
         python --version
 
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      env:
+        SBUILD_STAGES: deps
+      run: |
+        sh djv/etc/macOS/sbuild.sh djv Release ${{ matrix.config }}
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Release
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
+      env:
+        SBUILD_STAGES: project
       run: |
         sh djv/etc/macOS/sbuild.sh djv Release ${{ matrix.config }}
 
@@ -345,22 +535,36 @@ jobs:
     runs-on: windows-latest
 
     env:
-      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      # The Windows runners have four cores for a public repository, as the
+      # others do.
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
 
     steps:
     - uses: actions/checkout@v6
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-windows-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Windows/sbuild.bat') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
     - uses: ilammy/setup-nasm@v1
+      if: steps.deps.outputs.cache-hit != 'true'
     # FFmpeg builds with MSYS2: a fresh one from its GitHub release, with the
     # packages the build needs, kept between runs. The build would otherwise
     # download them from the package mirror every time, and the mirror has
     # been the thing to fail.
     - uses: msys2/setup-msys2@v2
+      if: steps.deps.outputs.cache-hit != 'true'
       id: msys2
       with:
         msystem: MSYS
@@ -376,10 +580,28 @@ jobs:
         cmake --version
         python --version
         
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      shell: cmd
+      env:
+        SBUILD_STAGES: deps
+        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+      run: |
+        djv\etc\Windows\sbuild.bat djv Debug ci-windows
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
       shell: cmd
       env:
-        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+        SBUILD_STAGES: project
       run: |
         djv\etc\Windows\sbuild.bat djv Debug ci-windows
 
@@ -395,22 +617,36 @@ jobs:
     runs-on: windows-latest
 
     env:
-      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      # The Windows runners have four cores for a public repository, as the
+      # others do.
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
 
     steps:
     - uses: actions/checkout@v6
       with:
         path: djv
         submodules: recursive
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@v4
+      with:
+        path: install-Debug
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Debug-ci-windows-python-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Windows/sbuild.bat') }}
+
     - uses: actions/setup-python@v6
       with:
         python-version: '3.12'
     - uses: ilammy/setup-nasm@v1
+      if: steps.deps.outputs.cache-hit != 'true'
     # FFmpeg builds with MSYS2: a fresh one from its GitHub release, with the
     # packages the build needs, kept between runs. The build would otherwise
     # download them from the package mirror every time, and the mirror has
     # been the thing to fail.
     - uses: msys2/setup-msys2@v2
+      if: steps.deps.outputs.cache-hit != 'true'
       id: msys2
       with:
         msystem: MSYS
@@ -426,10 +662,28 @@ jobs:
         cmake --version
         python --version
         
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      shell: cmd
+      env:
+        SBUILD_STAGES: deps
+        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+      run: |
+        djv\etc\Windows\sbuild.bat djv Debug ci-windows-python
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: install-Debug
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
     - name: Build
       shell: cmd
       env:
-        MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
+        SBUILD_STAGES: project
       run: |
         djv\etc\Windows\sbuild.bat djv Debug ci-windows-python
 
@@ -442,23 +696,59 @@ jobs:
   windows-package:
     runs-on: windows-latest
 
+    # The packages of a release are signed, and those of a run started by
+    # hand that asks for it; a push is not, so that pushing is never held up
+    # and the signing service sees only what is released. Signing is done by
+    # Azure Artifact Signing: the key stays in Azure and nothing secret is
+    # kept here. The job proves who it is with a token GitHub issues for the
+    # run (OpenID Connect), which Azure accepts only from this repository's
+    # "signing" environment, and the environment asks for a reviewer's
+    # approval before the job starts. The identifiers the steps use are
+    # variables of that environment, not secrets. See "Signing (Windows)" in
+    # etc/Release.md.
+    #
+    # Every action in this job is pinned to a commit rather than a tag: a
+    # tag can be moved, and whatever runs in this job can ask for the token
+    # that signs. To update one, look up the commit its tag points to
+    # (git ls-remote https://github.com/<owner>/<action> 'refs/tags/<tag>*')
+    # and change the hash and the comment beside it together.
+    environment: ${{ (github.ref_type == 'tag' || inputs.sign) && 'signing' || '' }}
+    permissions:
+      id-token: write
+      contents: read
+
     env:
-      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      # The Windows runners have four cores for a public repository, as the
+      # others do.
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
+      SIGN: ${{ github.ref_type == 'tag' || inputs.sign }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       with:
         path: djv
         submodules: recursive
-    - uses: actions/setup-python@v6
+
+    # The installed dependencies are cached, keyed on what decides
+    # them and this job's config; on a hit their build is skipped.
+    - name: Restore dependencies
+      id: deps
+      uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: install-Release
+        key: deps-${{ runner.os }}-${{ runner.arch }}-Release-package-windows-${{ hashFiles('djv/deps/tlRender/deps/ftk/etc/SuperBuild/**', 'djv/deps/tlRender/etc/SuperBuild/**', 'djv/etc/Config/**', 'djv/etc/Windows/sbuild.bat') }}
+
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
       with:
         python-version: '3.12'
-    - uses: ilammy/setup-nasm@v1
+    - uses: ilammy/setup-nasm@72793074d3c8cdda771dba85f6deafe00623038b # v1
+      if: steps.deps.outputs.cache-hit != 'true'
     # FFmpeg builds with MSYS2: a fresh one from its GitHub release, with the
     # packages the build needs, kept between runs. The build would otherwise
     # download them from the package mirror every time, and the mirror has
     # been the thing to fail.
-    - uses: msys2/setup-msys2@v2
+    - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+      if: steps.deps.outputs.cache-hit != 'true'
       id: msys2
       with:
         msystem: MSYS
@@ -475,19 +765,179 @@ jobs:
         python --version
         winget install NSIS.NSIS --accept-package-agreements --accept-source-agreements --disable-interactivity
 
-    - name: Build
+    - name: Build dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
       shell: cmd
       env:
+        SBUILD_STAGES: deps
         MSYS_INSTALL_PATH: ${{ steps.msys2.outputs.msys2-location }}
       run: |
         djv\etc\Windows\sbuild.bat djv Release package-windows
+
+    # Saved before the project is built and installed into the same
+    # directory, so that the cache holds only the dependencies.
+    - name: Save dependencies
+      if: steps.deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: install-Release
+        key: ${{ steps.deps.outputs.cache-primary-key }}
+
+    - name: Build
+      shell: cmd
+      env:
+        SBUILD_STAGES: project
+      run: |
+        djv\etc\Windows\sbuild.bat djv Release package-windows
+
+    # A run that is meant to sign and cannot is a failed run: an unsigned
+    # package must not go out as a release because a variable was missing.
+    - name: Check the signing variables
+      if: env.SIGN == 'true'
+      shell: pwsh
+      run: |
+        $missing = @()
+        if ('${{ vars.AZURE_CLIENT_ID }}' -eq '') { $missing += 'AZURE_CLIENT_ID' }
+        if ('${{ vars.AZURE_TENANT_ID }}' -eq '') { $missing += 'AZURE_TENANT_ID' }
+        if ('${{ vars.AZURE_SUBSCRIPTION_ID }}' -eq '') { $missing += 'AZURE_SUBSCRIPTION_ID' }
+        if ('${{ vars.AZURE_SIGNING_ENDPOINT }}' -eq '') { $missing += 'AZURE_SIGNING_ENDPOINT' }
+        if ('${{ vars.AZURE_SIGNING_ACCOUNT }}' -eq '') { $missing += 'AZURE_SIGNING_ACCOUNT' }
+        if ('${{ vars.AZURE_SIGNING_PROFILE }}' -eq '') { $missing += 'AZURE_SIGNING_PROFILE' }
+        if ($missing.Count -gt 0) {
+          Write-Host "::error::Not set in the signing environment: $($missing -join ', ')"
+          exit 1
+        }
+
+    - name: Azure login
+      if: env.SIGN == 'true'
+      uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3
+      with:
+        client-id: ${{ vars.AZURE_CLIENT_ID }}
+        tenant-id: ${{ vars.AZURE_TENANT_ID }}
+        subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+    # The programs first, so that the installer and the archive are made
+    # from signed files; then the installer itself, below.
+    - name: Sign the programs
+      if: env.SIGN == 'true'
+      uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2
+      with:
+        endpoint: ${{ vars.AZURE_SIGNING_ENDPOINT }}
+        signing-account-name: ${{ vars.AZURE_SIGNING_ACCOUNT }}
+        certificate-profile-name: ${{ vars.AZURE_SIGNING_PROFILE }}
+        files-folder: ${{ github.workspace }}\build-Release\bin
+        # "com" as well: the console launcher is a program with that
+        # extension, and was going out unsigned.
+        files-folder-filter: exe,dll,com
+        files-folder-recurse: true
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+        exclude-environment-credential: true
+        exclude-workload-identity-credential: true
+        exclude-managed-identity-credential: true
+        exclude-shared-token-cache-credential: true
+        exclude-visual-studio-credential: true
+        exclude-visual-studio-code-credential: true
+        exclude-azure-cli-credential: false
+        exclude-azure-powershell-credential: true
+        exclude-azure-developer-cli-credential: true
+        exclude-interactive-browser-credential: true
+
+    # The uninstaller is made while the installer is compiled, by the
+    # packaging step below, so it is signed there: with the signing tool and
+    # the Artifact Signing client the step above put on the runner, and the
+    # Azure login still current. See cmake/CPackProjectConfig.cmake.
+    - name: Prepare to sign the uninstaller
+      if: env.SIGN == 'true'
+      shell: pwsh
+      run: |
+        $root = Join-Path $env:LOCALAPPDATA 'ArtifactSigning'
+        $signtool = Get-ChildItem $root -Recurse -Filter signtool.exe |
+          Where-Object { $_.FullName -match '\\x64\\' } | Select-Object -First 1
+        $dlib = Get-ChildItem $root -Recurse -Filter Azure.CodeSigning.Dlib.dll |
+          Where-Object { $_.FullName -match '\\x64\\' } | Select-Object -First 1
+        if (-not $signtool -or -not $dlib) {
+          Write-Host "::error::The signing tools are not under $root"
+          exit 1
+        }
+        $metadata = Join-Path $env:RUNNER_TEMP 'signing-metadata.json'
+        @{
+          Endpoint = '${{ vars.AZURE_SIGNING_ENDPOINT }}'
+          CodeSigningAccountName = '${{ vars.AZURE_SIGNING_ACCOUNT }}'
+          CertificateProfileName = '${{ vars.AZURE_SIGNING_PROFILE }}'
+          ExcludeCredentials = @(
+            'EnvironmentCredential', 'WorkloadIdentityCredential',
+            'ManagedIdentityCredential', 'SharedTokenCacheCredential',
+            'VisualStudioCredential', 'VisualStudioCodeCredential',
+            'AzurePowerShellCredential', 'AzureDeveloperCliCredential',
+            'InteractiveBrowserCredential')
+        } | ConvertTo-Json | Set-Content -Encoding utf8 $metadata
+        $command = '"{0}" sign /v /fd SHA256 /tr http://timestamp.acs.microsoft.com /td SHA256 /dlib "{1}" /dmdf "{2}"' -f `
+          $signtool.FullName, $dlib.FullName, $metadata
+        Write-Host $command
+        "DJV_NSIS_SIGN_COMMAND=$command" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
 
     - name: Package
       shell: cmd
       run: |
         cmake --build build-Release --config Release --target package
 
-    - uses: actions/upload-artifact@v7
+    - name: Sign the installer
+      if: env.SIGN == 'true'
+      uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2
+      with:
+        endpoint: ${{ vars.AZURE_SIGNING_ENDPOINT }}
+        signing-account-name: ${{ vars.AZURE_SIGNING_ACCOUNT }}
+        certificate-profile-name: ${{ vars.AZURE_SIGNING_PROFILE }}
+        files-folder: ${{ github.workspace }}\build-Release
+        files-folder-filter: djv-*.exe
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+        exclude-environment-credential: true
+        exclude-workload-identity-credential: true
+        exclude-managed-identity-credential: true
+        exclude-shared-token-cache-credential: true
+        exclude-visual-studio-credential: true
+        exclude-visual-studio-code-credential: true
+        exclude-azure-cli-credential: false
+        exclude-azure-powershell-credential: true
+        exclude-azure-developer-cli-credential: true
+        exclude-interactive-browser-credential: true
+
+    # A signature that did not take is a failed run, not a quiet one: the
+    # installer is what people download.
+    - name: Check the signature
+      if: env.SIGN == 'true'
+      shell: pwsh
+      run: |
+        $failed = $false
+        Get-ChildItem build-Release -Filter 'djv-*.exe' | ForEach-Object {
+          $s = Get-AuthenticodeSignature $_.FullName
+          Write-Host $_.Name $s.Status $s.SignerCertificate.Subject
+          if ($s.Status -ne 'Valid') { $failed = $true }
+
+          # The uninstaller only exists once the installer has run, so
+          # install quietly here (the runner is thrown away) and check the
+          # one it wrote, and the program it put in place.
+          $dir = Join-Path $env:RUNNER_TEMP 'installed'
+          Start-Process -Wait -FilePath $_.FullName -ArgumentList '/S', "/D=$dir"
+          foreach ($f in @('Uninstall.exe', 'bin\djv.exe')) {
+            $path = Join-Path $dir $f
+            if (-not (Test-Path $path)) {
+              Write-Host "::error::The installer did not write $f"
+              $failed = $true
+              continue
+            }
+            $s = Get-AuthenticodeSignature $path
+            Write-Host $f $s.Status $s.SignerCertificate.Subject
+            if ($s.Status -ne 'Valid') { $failed = $true }
+          }
+        }
+        if ($failed) { exit 1 }
+
+    - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
         name: DJV-Windows-Packages
         path: |

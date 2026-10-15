@@ -32,6 +32,24 @@ if(APPLE AND DJV_MACOS_PACKAGE)
         </dict>
 ")
     endif()
+    # The oldest macOS the application runs on, so that Finder says so on an
+    # older one instead of the application failing to open: the deployment
+    # target the build was made for, and on Apple silicon no older than 11,
+    # the first release there. A build that names no target is for the
+    # system doing the building.
+    set(DJV_MACOS_MINIMUM "${CMAKE_OSX_DEPLOYMENT_TARGET}")
+    if(NOT DJV_MACOS_MINIMUM)
+        execute_process(
+            COMMAND sw_vers -productVersion
+            OUTPUT_VARIABLE DJV_MACOS_MINIMUM
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
+    endif()
+    if(CMAKE_OSX_ARCHITECTURES STREQUAL "arm64" OR
+        (NOT CMAKE_OSX_ARCHITECTURES AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"))
+        if(DJV_MACOS_MINIMUM VERSION_LESS 11)
+            set(DJV_MACOS_MINIMUM 11.0)
+        endif()
+    endif()
     configure_file(
         ${PROJECT_SOURCE_DIR}/etc/macOS/Info.plist.in
         ${CMAKE_CURRENT_BINARY_DIR}/djv.plist)

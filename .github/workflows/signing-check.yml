@@ -1,0 +1,83 @@
+name: Signing check
+
+# Started by hand only. A few minutes on a Windows runner to find out whether
+# signing is set up, where the CI workflow takes an hour to reach the
+# same steps: it logs in to Azure the way the Windows package job does, signs
+# a program made on the spot, and checks the signature. Nothing is kept. See
+# "Signing (Windows)" in etc/Release.md.
+on:
+  workflow_dispatch:
+
+jobs:
+  signing-check:
+    runs-on: windows-latest
+
+    # As the Windows package job: the "signing" environment, a token for this
+    # run and nothing secret, and every action pinned to a commit.
+    environment: signing
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+    - name: Say what is set
+      shell: pwsh
+      run: |
+        Write-Host "Client ID set:       ${{ vars.AZURE_CLIENT_ID != '' }}"
+        Write-Host "Tenant ID set:       ${{ vars.AZURE_TENANT_ID != '' }}"
+        Write-Host "Subscription ID set: ${{ vars.AZURE_SUBSCRIPTION_ID != '' }}"
+        Write-Host "Endpoint:            ${{ vars.AZURE_SIGNING_ENDPOINT }}"
+        Write-Host "Account:             ${{ vars.AZURE_SIGNING_ACCOUNT }}"
+        Write-Host "Profile:             ${{ vars.AZURE_SIGNING_PROFILE }}"
+
+    # Windows PowerShell, which can still compile a program; PowerShell 7
+    # cannot.
+    - name: Make a program to sign
+      shell: powershell
+      run: |
+        New-Item -ItemType Directory -Force signing-check | Out-Null
+        Add-Type `
+          -TypeDefinition 'public class SigningCheck { public static void Main() {} }' `
+          -OutputAssembly signing-check\signing-check.exe `
+          -OutputType ConsoleApplication
+        Get-Item signing-check\signing-check.exe
+
+    - name: Azure login
+      uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3
+      with:
+        client-id: ${{ vars.AZURE_CLIENT_ID }}
+        tenant-id: ${{ vars.AZURE_TENANT_ID }}
+        subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Sign the program
+      uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2
+      with:
+        endpoint: ${{ vars.AZURE_SIGNING_ENDPOINT }}
+        signing-account-name: ${{ vars.AZURE_SIGNING_ACCOUNT }}
+        certificate-profile-name: ${{ vars.AZURE_SIGNING_PROFILE }}
+        files-folder: ${{ github.workspace }}\signing-check
+        files-folder-filter: exe
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+        exclude-environment-credential: true
+        exclude-workload-identity-credential: true
+        exclude-managed-identity-credential: true
+        exclude-shared-token-cache-credential: true
+        exclude-visual-studio-credential: true
+        exclude-visual-studio-code-credential: true
+        exclude-azure-cli-credential: false
+        exclude-azure-powershell-credential: true
+        exclude-azure-developer-cli-credential: true
+        exclude-interactive-browser-credential: true
+
+    - name: Check the signature
+      shell: pwsh
+      run: |
+        $s = Get-AuthenticodeSignature signing-check\signing-check.exe
+        Write-Host "Status: $($s.Status)"
+        Write-Host "Signer: $($s.SignerCertificate.Subject)"
+        Write-Host "Issuer: $($s.SignerCertificate.Issuer)"
+        Write-Host "Valid until: $($s.SignerCertificate.NotAfter)"
+        Write-Host "Timestamp: $($s.TimeStamperCertificate.Subject)"
+        if ($s.Status -ne 'Valid') { exit 1 }

@@ -89,6 +89,17 @@ pushes and tags nothing. The change log is still written by hand.
       `DJV_MACOS_TEAM_ID`, and for notarization either
       `DJV_MACOS_NOTARY_PROFILE` or `DJV_MACOS_USER_ID` and
       `DJV_MACOS_USER_PASSWORD`.
+- [ ] The **Windows packages of a tag are signed** in CI, by Azure Artifact
+      Signing: the programs, the uninstaller (as NSIS compiles the
+      installer; see `cmake/CPackProjectConfig.cmake`) and then the
+      installer. The job installs the package on the runner and checks the
+      uninstaller it wrote. The `windows-package`
+      job waits in the `signing` environment for a reviewer's approval
+      before it starts, so approve it in the run's page. Its "Check the
+      signature" step lists the installer as `Valid`; check on a Windows
+      machine as well (Properties > Digital Signatures on the installer,
+      and on `djv.exe` once installed). A push that is not a tag is built
+      unsigned. See "Signing (Windows)" below.
 - [ ] To build a package here all the same: `package-macos.sh` and
       `package-win.bat` take the source directory and build type, and
       choose the config themselves. The Intel Mac package is a second run
@@ -105,6 +116,43 @@ pushes and tags nothing. The change log is still written by hand.
       sbuild, or the line that makes the package is never reached.
 - [ ] Install the package and open About: bare version, no `-dev`, no
       `-dirty`, and a commit that exists on the remote.
+
+## Signing (Windows)
+
+The key stays in Azure and GitHub holds nothing secret. The Windows package
+job proves who it is with a token GitHub issues for the run (OpenID Connect),
+which Azure accepts only from this repository's `signing` environment. Only a
+tag, or a run started by hand with "Sign the Windows packages" ticked, uses
+the environment; a pull request from a fork cannot.
+
+To make a signed package without a release: Actions > CI > Run workflow, with
+the box ticked. To find out in a few minutes whether signing is set up at
+all: Actions > Signing check > Run workflow.
+
+One-time setup. In the Azure portal, on the app registration that already
+signs DJV Studio:
+
+- [ ] Certificates & secrets > Federated credentials > Add credential, with
+      the scenario **Other issuer** (the GitHub scenario saves a subject
+      GitHub does not send): issuer
+      `https://token.actions.githubusercontent.com`, subject identifier
+      `repo:grizzlypeak3d/DJV:environment:signing`, audience left as
+      `api://AzureADTokenExchange`.
+
+The role on the Artifact Signing account belongs to the app registration,
+so it is already there.
+
+In GitHub, Settings > Environments > New environment, named `signing`:
+
+- [ ] Required reviewers: on, with whoever releases.
+- [ ] Deployment branches and tags: `main`, and tags.
+- [ ] Environment variables (not secrets -- none is one), the same values
+      as DJV Studio's: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`,
+      `AZURE_SUBSCRIPTION_ID`, `AZURE_SIGNING_ENDPOINT`,
+      `AZURE_SIGNING_ACCOUNT`, `AZURE_SIGNING_PROFILE`.
+
+The actions the job uses are pinned to commits: whatever runs in that job
+can ask for the token that signs, and a tag can be moved to different code.
 
 ## Tags
 
@@ -145,6 +193,16 @@ Pushing a version tag builds that repository's wheels and publishes them
       time and watching the index, which lags the release by minutes and
       whose servers do not catch up together: tags pushed minutes too soon
       failed a wheel job, and the sdist.
+- [ ] **Build the wheels by hand before tagging**: Actions > Wheels > Run
+      workflow on main, with "Publish to TestPyPI" left off. A wheel build
+      on main only runs when the packaging files change, so a change to the
+      C++ can break the wheel without anything noticing until the tag; the
+      CI workflow compiles against tlRender's source tree, a wheel against
+      the installed tlRender wheel, which lacks the optional formats'
+      headers. 3.7.5's first tag failed this way, on an unguarded include
+      of `tlRender/IO/USD.h`, and the tag had to be moved. The pins have to
+      be on PyPI for this, so for DJV it runs once feather-tk's and
+      tlRender's tags have published; tag DJV after it is green.
 - [ ] Should a job fail that way, wait for the rest of the run to finish and
       use "Re-run failed jobs".
 - [ ] Should only the publish job fail, say from a publisher set up wrongly
@@ -159,9 +217,13 @@ Pushing a version tag builds that repository's wheels and publishes them
 
 ## Worth knowing
 
-- Editing `.github/workflows/ci-workflow.yml` busts the dependency cache and
-  costs about a 20 minute rebuild, because the cache key hashes it. Batch CI
-  edits into one change.
+- Each CI job caches its installed dependencies (`install-<type>`, a few
+  hundred megabytes) and skips building them when its key matches: the
+  superbuild files, `etc/Config/**`, the platform's `sbuild` script, and on
+  Linux the setup scripts, plus the job's config. Editing the workflow does
+  not bust it any more; changing any of those does, for about a 20 minute
+  rebuild of the jobs affected. The `sbuild` scripts take
+  `SBUILD_STAGES=deps` or `project` to build one half.
 - FFmpeg is pinned in
   `deps/tlRender/etc/SuperBuild/cmake/Modules/BuildFFmpeg.cmake`. Moving that
   pin also means updating the library versions written out in the macOS

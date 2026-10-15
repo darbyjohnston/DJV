@@ -22,6 +22,12 @@ IF NOT EXIST %SOURCE_DIR%/deps/tlRender/CMakeLists.txt (
     if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 
+rem SBUILD_STAGES picks the stages: "deps" builds only the dependencies, into
+rem install-<type>, and "project" only DJV, against dependencies already
+rem there. Unset, all of them. CI caches the dependencies' install directory
+rem between the two, which is all the project needs of them.
+if "%SBUILD_STAGES%"=="project" goto project
+
 cmake ^
     -S %SOURCE_DIR%/deps/tlRender/deps/ftk/etc/SuperBuild ^
     -B ftk-%BUILD_TYPE% ^
@@ -43,6 +49,10 @@ cmake ^
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 cmake --build tl-%BUILD_TYPE% --config %BUILD_TYPE%
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
+if "%SBUILD_STAGES%"=="deps" exit /b 0
+
+:project
 
 cmake ^
     -S %SOURCE_DIR% ^
