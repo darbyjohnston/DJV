@@ -7,7 +7,11 @@
 #include <djv/App/SecondaryWindow.h>
 #include <djv/Models/SettingsKeys.h>
 #include <djv/Models/Playlist.h>
+// Guarded like every other optional format's header: the tlRender a wheel is
+// built against has no USD, and so does not install this header at all.
+#if defined(TLRENDER_USD)
 #include <tlRender/IO/USD.h>
+#endif // TLRENDER_USD
 #include <ftk/UI/FileBrowser.h>
 
 #include <djv/UI/ColorResetDialog.h>
