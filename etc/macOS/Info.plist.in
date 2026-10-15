@@ -20,6 +20,8 @@
 	<string>@DJV_VERSION_FULL@</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright Contributors to the DJV project.</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>@DJV_MACOS_MINIMUM@</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
     <key>LSApplicationCategoryType</key>
