@@ -193,6 +193,16 @@ Pushing a version tag builds that repository's wheels and publishes them
       time and watching the index, which lags the release by minutes and
       whose servers do not catch up together: tags pushed minutes too soon
       failed a wheel job, and the sdist.
+- [ ] **Build the wheels by hand before tagging**: Actions > Wheels > Run
+      workflow on main, with "Publish to TestPyPI" left off. A wheel build
+      on main only runs when the packaging files change, so a change to the
+      C++ can break the wheel without anything noticing until the tag; the
+      CI workflow compiles against tlRender's source tree, a wheel against
+      the installed tlRender wheel, which lacks the optional formats'
+      headers. 3.7.5's first tag failed this way, on an unguarded include
+      of `tlRender/IO/USD.h`, and the tag had to be moved. The pins have to
+      be on PyPI for this, so for DJV it runs once feather-tk's and
+      tlRender's tags have published; tag DJV after it is green.
 - [ ] Should a job fail that way, wait for the rest of the run to finish and
       use "Re-run failed jobs".
 - [ ] Should only the publish job fail, say from a publisher set up wrongly
