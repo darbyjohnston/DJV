@@ -9,6 +9,8 @@
 #include <ftk/UI/RowLayout.h>
 #include <ftk/Core/Format.h>
 
+#include <optional>
+
 namespace djv
 {
     namespace ui

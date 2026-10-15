@@ -22,6 +22,10 @@
 #include <ftk/UI/Settings.h>
 #include <ftk/Core/Format.h>
 
+#include <algorithm>
+#include <array>
+#include <sstream>
+
 namespace djv
 {
     namespace ui
