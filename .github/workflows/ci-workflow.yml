@@ -535,7 +535,9 @@ jobs:
     runs-on: windows-latest
 
     env:
-      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      # The Windows runners have four cores for a public repository, as the
+      # others do.
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
 
     steps:
     - uses: actions/checkout@v6
@@ -615,7 +617,9 @@ jobs:
     runs-on: windows-latest
 
     env:
-      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      # The Windows runners have four cores for a public repository, as the
+      # others do.
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
 
     steps:
     - uses: actions/checkout@v6
@@ -714,7 +718,9 @@ jobs:
       contents: read
 
     env:
-      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      # The Windows runners have four cores for a public repository, as the
+      # others do.
+      CMAKE_BUILD_PARALLEL_LEVEL: 4
       SIGN: ${{ github.ref_type == 'tag' || inputs.sign }}
 
     steps:
