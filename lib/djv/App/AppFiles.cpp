@@ -52,6 +52,30 @@ namespace djv
     {
         void App::openDialog()
         {
+            _openDialog(std::filesystem::path(), false);
+        }
+
+        void App::openFolderDialog()
+        {
+            FTK_P();
+            ftk::FileBrowserOpenOptions options;
+            options.title = "Open Folder";
+            options.mode = ftk::FileBrowserMode::Dir;
+            auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
+            fileBrowserSystem->open(
+                p.mainWindow,
+                [this](const std::vector<ftk::Path>& value)
+                {
+                    if (!value.empty())
+                    {
+                        _openDialog(ftk::toFileSystem(value.front().get()), true);
+                    }
+                },
+                options);
+        }
+
+        void App::_openDialog(const std::filesystem::path& path, bool builtIn)
+        {
             FTK_P();
 
             // More than one at a time: opening a shot and the two versions
@@ -59,6 +83,8 @@ namespace djv
             // each arrives as its own file the way it would have alone.
             ftk::FileBrowserOpenOptions options;
             options.multiple = true;
+            options.path = path;
+            options.builtIn = builtIn;
             auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
             fileBrowserSystem->open(
                 p.mainWindow,

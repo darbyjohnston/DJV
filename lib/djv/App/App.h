@@ -175,6 +175,12 @@ namespace djv
             //! Open a file dialog.
             DJV_APP_API void openDialog();
 
+            //! Open the folder dialog: the system's picker for a folder, and
+            //! then the built-in browser inside it. On a tablet a folder is
+            //! what the system grants access to, and the built-in browser is
+            //! what shows an image sequence as one entry.
+            DJV_APP_API void openFolderDialog();
+
             //! Open a file and separate audio file dialog.
             DJV_APP_API void openSeparateAudioDialog();
 
@@ -385,6 +391,7 @@ namespace djv
             //! Where the previous run's log was moved to; see ftk::App.
             std::filesystem::path _previousLogPath() const;
             //! What the session amounted to, written to the log as it ends.
+            void _openDialog(const std::filesystem::path&, bool builtIn);
             void _logSessionSummary();
             void _importReviewTimeline(const std::filesystem::path&);
             void _exportReviewMarkers(const std::filesystem::path&);

@@ -71,6 +71,17 @@ namespace djv
                 });
 
             _addCommand(
+                "OpenFolder",
+                "Open a folder: the system's picker for the folder, then the built-in browser inside it.",
+                [appWeak](const nlohmann::json&)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        app->openFolderDialog();
+                    }
+                });
+
+            _addCommand(
                 "OpenAudio",
                 "Open a file with a separate audio file.",
                 [appWeak](const nlohmann::json&)
@@ -331,6 +342,13 @@ namespace djv
                 "Open With Audio",
                 "FileOpenAudio",
                 _command("OpenAudio"));
+            _actions["OpenFolder"] = ftk::Action::create(
+                "Open Folder",
+                "Directory",
+                _command("OpenFolder"));
+            _actions["OpenFolder"]->setTooltip(
+                "Pick a folder with the system's dialog, then choose from it\n"
+                "in the built-in browser, where an image sequence is one entry.");
             _actions["RecentFiles"] = ftk::Action::create(
                 "Recent Files",
                 _command("RecentFiles"));
