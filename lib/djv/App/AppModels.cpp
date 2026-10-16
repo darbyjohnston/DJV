@@ -470,6 +470,19 @@ namespace djv
                 {
                     _exportMovieCommand(args);
                 });
+
+            // A tablet ends the application by suspending it, with no quit
+            // to save at: everything is written as it goes to the
+            // background, as it is at the clean quit.
+            p.suspendedObserver = ftk::Observer<bool>::create(
+                observeSuspended(),
+                [this](bool value)
+                {
+                    if (value)
+                    {
+                        _saveSettings();
+                    }
+                });
         }
 
         void App::_observersInit()

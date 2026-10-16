@@ -328,6 +328,13 @@ namespace djv
             p.playback = ftk::Observable<PlaybackSettings>::create(playback);
 
             StyleSettings style;
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // A quarter larger than the display's own scale, which is the
+            // desktop's size under a finger: the iPad's displays are all
+            // at two, and two and a half was the size that felt right on
+            // a 10.5 inch one, with room left to lay the window out.
+            style.displayScale = 2.5F;
+#endif // TARGET_OS_IPHONE
             settings->getT(keys["Style"], style);
             p.style = ftk::Observable<StyleSettings>::create(style);
 

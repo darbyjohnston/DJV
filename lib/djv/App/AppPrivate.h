@@ -210,6 +210,7 @@ namespace djv
             std::shared_ptr<ftk::Observer<int> > channelObserver;
             std::shared_ptr<ftk::Observer<double> > syncOffsetObserver;
             std::shared_ptr<ftk::Observer<models::StyleSettings> > styleSettingsObserver;
+            std::shared_ptr<ftk::Observer<bool> > suspendedObserver;
             std::shared_ptr<ftk::Observer<models::MiscSettings> > miscSettingsObserver;
 
             std::shared_ptr<ftk::Timer> debugTimer;

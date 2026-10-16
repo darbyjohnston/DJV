@@ -10,6 +10,10 @@
 #include <tlRender/Timeline/Util.h>
 #include <tlRender/IO/System.h>
 
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
+
 namespace djv
 {
     namespace app
@@ -78,8 +82,13 @@ namespace djv
             addDivider();
             p.menus["MediaReferences"] = addSubMenu("Media References");
             addAction(actions["NextMediaReference"]);
+#if !(defined(__APPLE__) && TARGET_OS_IPHONE)
+            // A tablet's applications are not quit from inside: the
+            // system suspends and ends them, and a loop that returned
+            // left a black screen.
             addDivider();
             addAction(actions["Exit"]);
+#endif // TARGET_OS_IPHONE
 
             p.filesObserver = ftk::ListObserver<std::shared_ptr<models::FilesModelItem> >::create(
                 app->getFilesModel()->observeFiles(),
