@@ -298,6 +298,10 @@ namespace djv
                         static_cast<double>(inputFrames->min()),
                         p.settingsModel->getImageSeq().io.defaultSpeed);
                 }
+                item->framesListed =
+                    dirListOptions.seq &&
+                    !frames.has_value() &&
+                    i.isSeq();
                 first = false;
                 item->audioPath = audioPath;
                 items.push_back(item);
@@ -761,7 +765,7 @@ namespace djv
                 // that were there when it was opened, and findSeq() is what
                 // goes and looks.
                 ftk::Path path = item->path;
-                if (!item->framesStated && path.isSeq())
+                if (!item->framesStated && !item->framesListed && path.isSeq())
                 {
                     const auto seq = ftk::findSeq(path, options.pathOptions);
                     if (!seq.empty())
@@ -772,6 +776,7 @@ namespace djv
                         path.setSeq(seq);
                     }
                 }
+                item->framesListed = false;
                 auto timeline = tl::Timeline::create(
                     _context,
                     path,

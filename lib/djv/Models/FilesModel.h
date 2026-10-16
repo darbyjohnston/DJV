@@ -74,6 +74,13 @@ namespace djv
             //! since last time are picked up.
             bool                     framesStated = false;
 
+            //! Whether the frames on the path were just listed from disk,
+            //! as the item was made: the first timeline takes them as they
+            //! are rather than listing the directory a second time, which on
+            //! a network share is seconds. Cleared once used, so a reopen
+            //! looks again.
+            bool                     framesListed = false;
+
             bool                     newFile = true;
 
             //! Metadata carried from the playlist clip this item came from,

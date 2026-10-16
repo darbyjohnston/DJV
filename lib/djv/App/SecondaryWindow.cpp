@@ -27,7 +27,8 @@ namespace djv
         void SecondaryWindow::_init(
             const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
-            const std::shared_ptr<ftk::Window>& shared)
+            const std::shared_ptr<ftk::Window>& shared,
+            int screen)
         {
             Window::_init(
                 context,
@@ -36,7 +37,8 @@ namespace djv
                     arg(app->getAppInfoModel()->getFullName()).
                     arg(app->getAppInfoModel()->getVersion()).
                     arg("Secondary"),
-                ftk::Size2I(1280, 960));
+                ftk::Size2I(1280, 960),
+                screen);
             FTK_P();
 
             p.app = app;
@@ -74,10 +76,11 @@ namespace djv
         std::shared_ptr<SecondaryWindow> SecondaryWindow::create(
             const std::shared_ptr<ftk::Context>& context,
             const std::shared_ptr<App>& app,
-            const std::shared_ptr<ftk::Window>& shared)
+            const std::shared_ptr<ftk::Window>& shared,
+            int screen)
         {
             auto out = std::shared_ptr<SecondaryWindow>(new SecondaryWindow);
-            out->_init(context, app, shared);
+            out->_init(context, app, shared, screen);
             return out;
         }
 

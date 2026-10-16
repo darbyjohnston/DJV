@@ -3,6 +3,10 @@
 
 #include <djv/App/AppPrivate.h>
 #include <djv/App/ShellAssociations.h>
+
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
 #include <djv/UI/SysInfoDialog.h>
 #include <djv/UI/Viewport.h>
 #include <djv/Models/Version.h>
@@ -623,9 +627,30 @@ namespace djv
             {
                 if (value)
                 {
+                    int screen = -1;
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+                    // On a tablet the second window is the second screen,
+                    // a television or a monitor on the adapter: with one
+                    // screen it would only cover the first. The screen is
+                    // decided as the window is made, so it is asked for
+                    // here.
+                    const auto monitors = observeMonitors()->get();
+                    if (monitors.size() < 2)
+                    {
+                        _context->log(
+                            "djv::app::App",
+                            "No second screen for the secondary window",
+                            ftk::LogType::Warning);
+                        p.secondaryWindowActive->setIfChanged(false);
+                        return;
+                    }
+                    screen = 1;
+#endif // TARGET_OS_IPHONE
                     p.secondaryWindow = SecondaryWindow::create(
                         _context,
-                        std::dynamic_pointer_cast<App>(shared_from_this()));
+                        std::dynamic_pointer_cast<App>(shared_from_this()),
+                        nullptr,
+                        screen);
                     p.secondaryWindow->setCloseCallback(
                         [this]
                         {

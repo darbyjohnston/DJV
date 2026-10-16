@@ -30,17 +30,21 @@ namespace djv
             void _init(
                 const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
-                const std::shared_ptr<ftk::Window>& shared);
+                const std::shared_ptr<ftk::Window>& shared,
+                int screen);
 
             SecondaryWindow();
 
         public:
             DJV_APP_API virtual ~SecondaryWindow();
 
+            //! The screen is an index into the monitors, or -1 for wherever
+            //! the system puts a window.
             DJV_APP_API static std::shared_ptr<SecondaryWindow> create(
                 const std::shared_ptr<ftk::Context>&,
                 const std::shared_ptr<App>&,
-                const std::shared_ptr<ftk::Window>& shared = nullptr);
+                const std::shared_ptr<ftk::Window>& shared = nullptr,
+                int screen = -1);
 
             //! Get the viewport.
             DJV_APP_API const std::shared_ptr<ui::Viewport>& getViewport() const;
