@@ -10,6 +10,9 @@
 #include <tlRender/Timeline/Util.h>
 #include <tlRender/IO/System.h>
 
+#include <filesystem>
+#include <map>
+
 #if defined(__APPLE__)
 #include <TargetConditionals.h>
 #endif // __APPLE__
@@ -294,16 +297,52 @@ namespace djv
             }
         }
 
+        namespace
+        {
+            // The items are the file names, with the whole path in the
+            // tooltip: a path is long, and on a tablet it is a container
+            // or a share's mount that means nothing to anyone. A name that
+            // appears twice gets its directory's name in front, so that
+            // two shots' "plate.mov" can be told apart.
+            std::vector<std::string> recentLabels(const std::vector<ftk::Path>& value)
+            {
+                std::vector<std::string> names;
+                std::map<std::string, size_t> counts;
+                for (const auto& path : value)
+                {
+                    const std::string name = std::filesystem::path(path.get()).filename().string();
+                    names.push_back(name);
+                    ++counts[name];
+                }
+                std::vector<std::string> out;
+                for (size_t i = 0; i < value.size(); ++i)
+                {
+                    std::string label = names[i];
+                    if (counts[names[i]] > 1)
+                    {
+                        const std::string dir = std::filesystem::path(value[i].get()).parent_path().filename().string();
+                        if (!dir.empty())
+                        {
+                            label = dir + "/" + label;
+                        }
+                    }
+                    out.push_back(label);
+                }
+                return out;
+            }
+        }
+
         void FileMenu::_recentPlaylistsUpdate(const std::vector<ftk::Path>& value)
         {
             FTK_P();
             p.menus["RecentPlaylists"]->clear();
+            const auto labels = recentLabels(value);
             for (auto i = value.rbegin(); i != value.rend(); ++i)
             {
                 const auto path = *i;
                 auto weak = std::weak_ptr<FileMenu>(std::dynamic_pointer_cast<FileMenu>(shared_from_this()));
                 auto action = ftk::Action::create(
-                    path.get(),
+                    labels[value.rend() - i - 1],
                     [weak, path]
                     {
                         if (auto widget = weak.lock())
@@ -315,6 +354,7 @@ namespace djv
                             widget->close();
                         }
                     });
+                action->setTooltip(path.get());
                 p.menus["RecentPlaylists"]->addAction(action);
             }
         }
@@ -324,13 +364,14 @@ namespace djv
             FTK_P();
             p.menus["Recent"]->clear();
             // The newest ten; the recent files dialog has the rest.
+            const auto labels = recentLabels(value);
             size_t count = 0;
             for (auto i = value.rbegin(); i != value.rend() && count < 10; ++i, ++count)
             {
                 const auto path = *i;
                 auto weak = std::weak_ptr<FileMenu>(std::dynamic_pointer_cast<FileMenu>(shared_from_this()));
                 auto action = ftk::Action::create(
-                    path.get(),
+                    labels[value.rend() - i - 1],
                     [weak, path]
                     {
                         if (auto widget = weak.lock())
@@ -342,6 +383,7 @@ namespace djv
                             widget->close();
                         }
                     });
+                action->setTooltip(path.get());
                 p.menus["Recent"]->addAction(action);
             }
         }
