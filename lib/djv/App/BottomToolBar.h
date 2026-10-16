@@ -52,6 +52,9 @@ namespace djv
             //! Focus the current frame widget.
             DJV_APP_API void focusCurrentFrame();
 
+            DJV_APP_API void setGeometry(const ftk::Box2I&) override;
+            DJV_APP_API void sizeHintEvent(const ftk::SizeHintEvent&) override;
+
         private:
             OTIO_NS::RationalTime _mediaDuration(const OTIO_NS::TimeRange&) const;
             void _playerUpdate(const std::shared_ptr<tl::Player>&);

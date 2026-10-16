@@ -58,8 +58,17 @@ namespace djv
             std::shared_ptr<ui::AudioPopup> audioPopup;
             std::shared_ptr<ui::StatusIndicator> indicator;
             std::shared_ptr<ftk::ToolBar> reviewToolBar;
+            std::shared_ptr<ftk::ToolBar> indicatorToolBar;
             std::shared_ptr<ftk::HorizontalLayout> groupsLayout;
             std::shared_ptr<ftk::HorizontalLayout> layout;
+            // Compact when the width has no room for the whole bar: the
+            // shuttles, the duration, the time units, the speed and the
+            // indicator go, and the transport, the frame buttons, the
+            // current time and the audio stay. The width the whole bar
+            // wants is remembered from when it was whole, so that going
+            // compact does not change what is measured against.
+            bool compact = false;
+            int fullWidth = 0;
 
             // Whether media time means anything across the whole timeline,
             // which it only does when the timeline plays one media through.
@@ -207,9 +216,9 @@ namespace djv
             audio->setSpacingRole(ftk::SizeRole::None);
             audio->addWidget(p.audioButton);
             ftk::Divider::create(context, ftk::Orientation::Horizontal, p.layout);
-            auto indicator = ftk::ToolBar::create(context, ftk::Orientation::Horizontal, p.layout);
-            indicator->setSpacingRole(ftk::SizeRole::None);
-            indicator->addWidget(p.indicator);
+            p.indicatorToolBar = ftk::ToolBar::create(context, ftk::Orientation::Horizontal, p.layout);
+            p.indicatorToolBar->setSpacingRole(ftk::SizeRole::None);
+            p.indicatorToolBar->addWidget(p.indicator);
 
             p.loopWidget->setCallback(
                 [this](tl::Loop value)
@@ -362,6 +371,34 @@ namespace djv
             auto out = std::shared_ptr<BottomToolBar>(new BottomToolBar);
             out->_init(context, app, playbackActions, frameActions, reviewActions, audioActions, parent);
             return out;
+        }
+
+        void BottomToolBar::setGeometry(const ftk::Box2I& value)
+        {
+            FTK_P();
+            const bool compact = p.fullWidth > 0 && value.w() < p.fullWidth;
+            if (compact != p.compact)
+            {
+                p.compact = compact;
+                p.playbackShuttle->setVisible(!compact);
+                p.frameShuttle->setVisible(!compact);
+                p.durationLabel->setVisible(!compact);
+                p.timeUnitsWidget->setVisible(!compact);
+                p.speedButton->setVisible(!compact);
+                p.indicatorToolBar->setVisible(!compact);
+                ftk::updateDividers(p.layout);
+            }
+            IContainer::setGeometry(value);
+        }
+
+        void BottomToolBar::sizeHintEvent(const ftk::SizeHintEvent& event)
+        {
+            FTK_P();
+            IContainer::sizeHintEvent(event);
+            if (!p.compact)
+            {
+                p.fullWidth = p.layout->getSizeHint().w;
+            }
         }
 
         void BottomToolBar::focusCurrentFrame()
