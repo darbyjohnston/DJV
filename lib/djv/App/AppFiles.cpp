@@ -27,6 +27,10 @@
 #include <ftk/Core/CmdLine.h>
 #include <ftk/Core/Format.h>
 #include <ftk/Core/OS.h>
+
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
 #include <ftk/Core/Timer.h>
 
 #include <ctime>
@@ -1008,6 +1012,13 @@ namespace djv
                                 playerOptions.cache = p.settingsModel->getCache();
                                 playerOptions.audioBufferFrameCount =
                                     p.settingsModel->getAudio().bufferFrameCount;
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+                                // A second of cache before the clock runs:
+                                // the picture moves when it does, rather
+                                // than standing while the playhead runs
+                                // ahead of a reader that cannot keep up.
+                                playerOptions.preroll = 1.F;
+#endif // TARGET_OS_IPHONE
                                 player = tl::Player::create(_context, timeline, playerOptions);
                             }
                             catch (const std::exception& e)

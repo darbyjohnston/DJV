@@ -159,6 +159,8 @@ if(IOS)
     add_subdirectory(lib/djv/Resource)
     add_subdirectory(lib/djv/Models)
     add_subdirectory(lib/djv/C)
+    add_subdirectory(lib/djv/UI)
+    add_subdirectory(lib/djv/App)
     return()
 endif()
 

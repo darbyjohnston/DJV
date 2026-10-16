@@ -7,6 +7,10 @@
 #include <ftk/UI/ColorWidgetSystem.h>
 
 #include <ftk/Core/OS.h>
+
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
 #include <ftk/UI/Settings.h>
 #include <ftk/Core/Error.h>
 #include <ftk/Core/Path.h>
@@ -337,6 +341,11 @@ namespace djv
 
 #if defined(TLRENDER_FFMPEG_PLUGIN)
             tl::ffmpeg::Options ffmpeg;
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // The GPU decodes what it can: on a tablet that is the
+            // difference between playing and not.
+            ffmpeg.hwAccel = true;
+#endif // TARGET_OS_IPHONE
             settings->getT(keys["FFmpeg"], ffmpeg);
             p.ffmpeg = ftk::Observable<tl::ffmpeg::Options>::create(ffmpeg);
 #endif // TLRENDER_FFMPEG_PLUGIN
@@ -490,10 +499,21 @@ namespace djv
         tl::PlayerCacheOptions SettingsModel::getDefaultCache()
         {
             tl::PlayerCacheOptions out;
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // iOS kills an application that takes much of the memory. An
+            // eighth of it for video: the hardware decoders' frame pools
+            // can hold as much again, and the whole must stay under the
+            // limit, about three quarters of the memory. Audio in
+            // proportion.
+            const float ramGB = static_cast<float>(ftk::getSysInfo().ramGB);
+            out.videoGB = std::max(ramGB / 8.F, .25F);
+            out.audioGB = std::max(ramGB / 32.F, .0625F);
+#else // TARGET_OS_IPHONE
             // A quarter of what is there for it, which is a cache worth
             // having on a workstation and not a problem on a laptop; the
             // default was the same four gigabytes whatever the machine had.
             out.videoGB = std::max(getMaxCacheGB() / 4.F, 1.F);
+#endif // TARGET_OS_IPHONE
             return out;
         }
 
@@ -823,6 +843,16 @@ namespace djv
 #if defined(TLRENDER_USD)
             out = tl::merge(out, tl::usd::getOptions(p.usd->get()));
 #endif // TLRENDER_USD
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // The decoded frames stay on the GPU, where the renderer
+            // draws the decoder's own buffer; see the "Texture" option.
+            // Two frames read ahead in each reader rather than four: a
+            // 4K frame is twelve megabytes, there are as many readers as
+            // clips played lately, and the player's cache is the one
+            // that matters.
+            out["Texture"] = "1";
+            out["FFmpeg/VideoBufferSize"] = "2";
+#endif // TARGET_OS_IPHONE
             return out;
         }
 
