@@ -61,14 +61,17 @@ namespace djv
             std::shared_ptr<ftk::ToolBar> indicatorToolBar;
             std::shared_ptr<ftk::HorizontalLayout> groupsLayout;
             std::shared_ptr<ftk::HorizontalLayout> layout;
-            // Compact when the width has no room for the whole bar: the
-            // shuttles, the duration, the time units, the speed and the
-            // indicator go, and the transport, the frame buttons, the
-            // current time and the audio stay. The width the whole bar
-            // wants is remembered from when it was whole, so that going
-            // compact does not change what is measured against.
-            bool compact = false;
+            // Compact, in steps, where the width has no room for the
+            // whole bar: the shuttles and the indicator go first, then the
+            // time units, a preference set once, then the duration, which
+            // the ruler shows too, and last the speed, a control reached
+            // for in review; the transport, the frame buttons, the current
+            // time and the audio stay. The width the whole bar wants and
+            // what each step saves are remembered from when it was whole,
+            // so that going compact changes nothing it is measured by.
+            int compact = 0;
             int fullWidth = 0;
+            int stepWidths[4] = { 0, 0, 0, 0 };
 
             // Whether media time means anything across the whole timeline,
             // which it only does when the timeline plays one media through.
@@ -376,16 +379,25 @@ namespace djv
         void BottomToolBar::setGeometry(const ftk::Box2I& value)
         {
             FTK_P();
-            const bool compact = p.fullWidth > 0 && value.w() < p.fullWidth;
+            int compact = 0;
+            if (p.fullWidth > 0)
+            {
+                int need = p.fullWidth;
+                while (compact < 4 && value.w() < need)
+                {
+                    need -= p.stepWidths[compact];
+                    ++compact;
+                }
+            }
             if (compact != p.compact)
             {
                 p.compact = compact;
-                p.playbackShuttle->setVisible(!compact);
-                p.frameShuttle->setVisible(!compact);
-                p.durationLabel->setVisible(!compact);
-                p.timeUnitsWidget->setVisible(!compact);
-                p.speedButton->setVisible(!compact);
-                p.indicatorToolBar->setVisible(!compact);
+                p.playbackShuttle->setVisible(compact < 1);
+                p.frameShuttle->setVisible(compact < 1);
+                p.indicatorToolBar->setVisible(compact < 1);
+                p.timeUnitsWidget->setVisible(compact < 2);
+                p.durationLabel->setVisible(compact < 3);
+                p.speedButton->setVisible(compact < 4);
                 ftk::updateDividers(p.layout);
             }
             IContainer::setGeometry(value);
@@ -395,9 +407,16 @@ namespace djv
         {
             FTK_P();
             IContainer::sizeHintEvent(event);
-            if (!p.compact)
+            if (0 == p.compact)
             {
                 p.fullWidth = p.layout->getSizeHint().w;
+                p.stepWidths[0] =
+                    p.playbackShuttle->getSizeHint().w +
+                    p.frameShuttle->getSizeHint().w +
+                    p.indicatorToolBar->getSizeHint().w;
+                p.stepWidths[1] = p.timeUnitsWidget->getSizeHint().w;
+                p.stepWidths[2] = p.durationLabel->getSizeHint().w;
+                p.stepWidths[3] = p.speedButton->getSizeHint().w;
             }
         }
 
