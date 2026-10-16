@@ -24,6 +24,8 @@
 #include <ftk/UI/ScreenshotTag.h>
 #include <ftk/UI/Spacer.h>
 #include <ftk/Core/Format.h>
+
+#include <chrono>
 #include <ftk/Core/String.h>
 #include <ftk/Core/Timer.h>
 
@@ -75,6 +77,10 @@ namespace djv
             models::MouseActionBinding frameShuttleBinding =
                 models::MouseActionBinding(ftk::MouseButton::Left, ftk::KeyModifier::Shift);
             float frameShuttleScale = 1.F;
+            // The last plain left press, for the double click that frames
+            // the view.
+            std::chrono::steady_clock::time_point lastPressTime;
+            ftk::V2I lastPressPos;
 
             std::shared_ptr<ftk::Label> fileNameLabel;
             std::shared_ptr<ftk::Label> cacheLabel;
@@ -734,6 +740,28 @@ namespace djv
             if (!isInputEnabled())
             {
                 return;
+            }
+
+            // A double click, or a double tap, frames the view: the
+            // convention of every touch screen, and the frame key's
+            // equivalent for a mouse. Not while drawing, where two quick
+            // dots are two dots.
+            if (ftk::MouseButton::Left == event.button &&
+                0 == event.modifiers &&
+                !p.drawModel->isEnabled())
+            {
+                const auto now = std::chrono::steady_clock::now();
+                const bool doubleClick =
+                    now - p.lastPressTime < std::chrono::milliseconds(400) &&
+                    ftk::length(event.pos - p.lastPressPos) < 24;
+                p.lastPressTime = doubleClick ? std::chrono::steady_clock::time_point() : now;
+                p.lastPressPos = event.pos;
+                if (doubleClick)
+                {
+                    event.accept = true;
+                    setFrameView(true);
+                    return;
+                }
             }
 
             // Drawing owns the plain left button while it is enabled, which is
