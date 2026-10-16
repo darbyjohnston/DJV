@@ -204,6 +204,7 @@ namespace djv
             std::shared_ptr<ftk::Observer<tl::CompareTime> > compareTimeObserver;
             std::shared_ptr<ftk::Observer<std::pair<ftk::V2I, double> > > viewPosZoomObserver;
             std::shared_ptr<ftk::Observer<bool> > viewFramedObserver;
+            std::shared_ptr<ftk::ListObserver<ftk::MonitorInfo> > monitorsObserver;
             std::shared_ptr<ftk::Observer<tl::AudioDeviceID> > audioDeviceObserver;
             std::shared_ptr<ftk::Observer<float> > volumeObserver;
             std::shared_ptr<ftk::Observer<bool> > muteObserver;

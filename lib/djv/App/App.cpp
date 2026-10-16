@@ -628,6 +628,7 @@ namespace djv
                 if (value)
                 {
                     int screen = -1;
+                    ftk::Size2I size(1280, 960);
 #if defined(__APPLE__) && TARGET_OS_IPHONE
                     // On a tablet the second window is the second screen,
                     // a television or a monitor on the adapter: with one
@@ -645,12 +646,15 @@ namespace djv
                         return;
                     }
                     screen = 1;
+                    // The whole of it: a television shows one window.
+                    size = monitors[1].size;
 #endif // TARGET_OS_IPHONE
                     p.secondaryWindow = SecondaryWindow::create(
                         _context,
                         std::dynamic_pointer_cast<App>(shared_from_this()),
                         nullptr,
-                        screen);
+                        screen,
+                        size);
                     p.secondaryWindow->setCloseCallback(
                         [this]
                         {
@@ -1178,6 +1182,23 @@ namespace djv
                         _p->mainWindow->getViewport()->getZoom(),
                         value);
                 });
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // The secondary window lives on the second screen, and goes
+            // with it: the adapter pulled, or AirPlay ended, leaves a
+            // window drawing to a screen that is gone.
+            p.monitorsObserver = ftk::ListObserver<ftk::MonitorInfo>::create(
+                observeMonitors(),
+                [this](const std::vector<ftk::MonitorInfo>& value)
+                {
+                    if (value.size() < 2 && _p->secondaryWindowActive->get())
+                    {
+                        _context->log(
+                            "djv::app::App",
+                            "Second screen gone, closing the secondary window");
+                        setSecondaryWindow(false);
+                    }
+                });
+#endif // TARGET_OS_IPHONE
 
             // Apply any view state from a review opened before the window existed
             // (e.g. a ".djvr" passed on the command line).
