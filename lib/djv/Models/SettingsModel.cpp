@@ -343,6 +343,23 @@ namespace djv
             p.timeline = ftk::Observable<TimelineSettings>::create(timeline);
 
             WindowSettings window;
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // The tablet's layout: the menu bar, the picture, the timeline
+            // and the playback controls, with the tool bars, the tab bar
+            // and the status bar off, since a 10 inch screen at a touch
+            // scale has no room for a row of each. Every one of them can
+            // be turned on from the Window menu. The tools take more of
+            // the width, since what is left at the desktop's split is too
+            // narrow for a form.
+            window.fileToolBar = false;
+            window.compareToolBar = false;
+            window.windowToolBar = false;
+            window.viewToolBar = false;
+            window.toolsToolBar = false;
+            window.tabBar = false;
+            window.statusToolBar = false;
+            window.splitter2 = .6F;
+#endif // TARGET_OS_IPHONE
             settings->getT(keys["Window"], window);
             p.window = ftk::Observable<WindowSettings>::create(window);
 
