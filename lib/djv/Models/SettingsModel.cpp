@@ -66,6 +66,14 @@ namespace djv
             "Frame Shuttle");
 
         FTK_ENUM_IMPL(
+            MouseTool,
+            "None",
+            "Pan View",
+            "Compare Wipe",
+            "Pick",
+            "Frame Shuttle");
+
+        FTK_ENUM_IMPL(
             WheelAction,
             "Zoom",
             "Scrub");
@@ -344,19 +352,19 @@ namespace djv
 
             WindowSettings window;
 #if defined(__APPLE__) && TARGET_OS_IPHONE
-            // The tablet's layout: the menu bar, the picture, the timeline
-            // and the playback controls, with the tool bars, the tab bar
-            // and the status bar off, since a 10 inch screen at a touch
-            // scale has no room for a row of each. Every one of them can
-            // be turned on from the Window menu. The tools take more of
-            // the width, since what is left at the desktop's split is too
-            // narrow for a form.
+            // The tablet's layout: the menu bar, the view tool bar, which
+            // holds the mouse tools a touch screen chooses in place of
+            // modifier keys, the tab bar, the picture, the timeline and
+            // the playback controls, with the other tool bars and the
+            // status bar off, since a 10 inch screen at a touch scale has
+            // no room for a row of each. Every one of them can be turned
+            // on from the Window menu. The tools take more of the width,
+            // since what is left at the desktop's split is too narrow for
+            // a form.
             window.fileToolBar = false;
             window.compareToolBar = false;
             window.windowToolBar = false;
-            window.viewToolBar = false;
             window.toolsToolBar = false;
-            window.tabBar = false;
             window.statusToolBar = false;
             window.splitter2 = .6F;
 #endif // TARGET_OS_IPHONE
@@ -1066,6 +1074,7 @@ namespace djv
             {
                 to_json(json["Bindings"][to_string(i.first)], i.second);
             }
+            json["Tool"] = to_string(value.tool);
             for (const auto& i : value.wheelBindings)
             {
                 json["WheelBindings"][to_string(i.first)] = to_string(i.second);
@@ -1270,6 +1279,12 @@ namespace djv
                 MouseAction mouseAction = MouseAction::First;
                 from_string(i.key(), mouseAction);
                 from_json(i.value(), value.bindings[mouseAction]);
+            }
+            // Not required: settings written before the tool existed
+            // still load.
+            if (json.contains("Tool"))
+            {
+                from_string(json.at("Tool").get<std::string>(), value.tool);
             }
             // Not required: settings written before the wheel bindings
             // existed still load.

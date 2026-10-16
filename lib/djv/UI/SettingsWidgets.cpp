@@ -776,6 +776,7 @@ namespace djv
             std::vector<std::string> buttonLabels;
             std::vector<ftk::KeyModifier> modifiers;
             std::vector<std::string> modifierLabels;
+            std::shared_ptr<ftk::ComboBox> toolComboBox;
             std::shared_ptr<ftk::FloatEdit> wheelScaleEdit;
             std::shared_ptr<ftk::FloatEdit> frameShuttleScaleEdit;
             std::map<models::MouseAction, std::shared_ptr<ftk::ComboBox> > buttonComboBoxes;
@@ -830,6 +831,16 @@ namespace djv
                 p.wheelComboBoxes[wheelAction]->setHStretch(ftk::Stretch::Expanding);
             }
 
+            p.toolComboBox = ftk::ComboBox::create(context, models::getMouseToolLabels());
+            p.toolComboBox->setHStretch(ftk::Stretch::Expanding);
+            p.toolComboBox->setTooltip(
+                "What the plain left button, or a finger, does: the tool,\n"
+                "or none for the bindings below as they are. With a tool set,\n"
+                "an action bound to the plain left button gives it up, and\n"
+                "the rest keep their bindings. Also in the View menu and\n"
+                "the view tool bar.");
+            ftk::setScreenshotTag(p.toolComboBox, "Mouse.Tool");
+
             p.wheelScaleEdit = ftk::FloatEdit::create(context);
             p.wheelScaleEdit->setRange(.5F, 5.F);
             p.wheelScaleEdit->setTooltip(
@@ -843,9 +854,9 @@ namespace djv
             ftk::setScreenshotTag(p.frameShuttleScaleEdit, "Mouse.FrameShuttleScale");
 
             p.layout = ftk::FormLayout::create(context);
-
             _setWidget(p.layout);
             p.layout->setSpacingRole(ftk::SizeRole::SpacingSmall);
+            p.layout->addRow("Tool:", p.toolComboBox);
             std::map<models::MouseAction, std::string> mouseActionLabels =
             {
                 { models::MouseAction::PanView, "Pan view" },
@@ -899,6 +910,7 @@ namespace djv
                 [this](const models::MouseSettings& value)
                 {
                     FTK_P();
+                    p.toolComboBox->setCurrentIndex(static_cast<int>(value.tool));
                     for (const auto& i : value.bindings)
                     {
                         if (auto j = p.buttonComboBoxes.find(i.first);
@@ -933,6 +945,17 @@ namespace djv
                     p.frameShuttleScaleEdit->setValue(value.frameShuttleScale);
                 });
 
+            p.toolComboBox->setIndexCallback(
+                [this](int index)
+                {
+                    FTK_P();
+                    if (index >= 0 && index < static_cast<int>(models::MouseTool::Count))
+                    {
+                        auto settings = p.settings->getMouse();
+                        settings.tool = static_cast<models::MouseTool>(index);
+                        p.settings->setMouse(settings);
+                    }
+                });
             for (const auto mouseAction : models::getMouseActionEnums())
             {
                 p.buttonComboBoxes[mouseAction]->setIndexCallback(

@@ -230,6 +230,24 @@ namespace djv
         };
         FTK_ENUM(DJV_MODELS_API, WheelAction);
 
+        //! Mouse tools: what the plain left button does, chosen rather than
+        //! held. A touch screen has no modifier keys, and a pen tablet is
+        //! easier without them; with a tool set, the plain left button is
+        //! the tool's, and any other action bound to it gives it up. None
+        //! leaves the bindings as they are.
+        enum class DJV_MODELS_API_TYPE MouseTool
+        {
+            None,
+            PanView,
+            CompareWipe,
+            Pick,
+            FrameShuttle,
+
+            Count,
+            First = None
+        };
+        FTK_ENUM(DJV_MODELS_API, MouseTool);
+
         //! Mouse action binding.
         struct DJV_MODELS_API_TYPE MouseActionBinding
         {
@@ -267,6 +285,7 @@ namespace djv
                 }
             };
 
+            MouseTool tool = MouseTool::None;
             std::map<WheelAction, ftk::KeyModifier> wheelBindings =
             {
                 { WheelAction::Zoom, ftk::KeyModifier::None },

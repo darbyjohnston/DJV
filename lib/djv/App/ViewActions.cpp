@@ -24,6 +24,7 @@ namespace djv
             std::shared_ptr<ftk::Observer<tl::BackgroundOptions> > bgOptionsObserver;
             std::shared_ptr<ftk::Observer<tl::ForegroundOptions> > fgOptionsObserver;
             std::shared_ptr<ftk::Observer<models::HUDOptions> > hudOptionsObserver;
+            std::shared_ptr<ftk::Observer<models::MouseSettings> > mouseObserver;
             std::shared_ptr<ftk::Observer<std::shared_ptr<tl::Player> > > playerObserver;
         };
 
@@ -310,6 +311,26 @@ namespace djv
                     ftk::Format("Custom Aspect Ratio {0}").arg(i));
             }
 
+            // The mouse tools, one check command each: checking one sets
+            // it, and unchecking the one set leaves none.
+            for (size_t i = 0; i < static_cast<size_t>(models::MouseTool::Count); ++i)
+            {
+                const auto tool = static_cast<models::MouseTool>(i);
+                _addCheckCommand(
+                    ftk::Format("MouseTool_{0}").arg(i),
+                    ftk::Format("Set the mouse tool: {0}.").arg(models::to_string(tool)),
+                    [appWeak, tool](const nlohmann::json& args)
+                    {
+                        const bool value = args.at("value").get<bool>();
+                        if (auto app = appWeak.lock())
+                        {
+                            auto mouse = app->getSettingsModel()->getMouse();
+                            mouse.tool = value ? tool : models::MouseTool::None;
+                            app->getSettingsModel()->setMouse(mouse);
+                        }
+                    });
+            }
+
             // Create the actions.
             _actions["Frame"] = ftk::Action::create(
                 "Frame",
@@ -369,6 +390,29 @@ namespace djv
             _actions["HUD"] = ftk::Action::create(
                 "HUD / Information Display",
                 _checkCommand("HUD"));
+
+            {
+                const std::vector<std::string> icons =
+                {
+                    "",
+                    "ViewPan",
+                    "CompareWipe",
+                    "ColorPicker",
+                    "Shuttle0"
+                };
+                for (size_t i = 0; i < static_cast<size_t>(models::MouseTool::Count); ++i)
+                {
+                    const auto tool = static_cast<models::MouseTool>(i);
+                    const std::string name = ftk::Format("MouseTool_{0}").arg(i);
+                    const std::string text = models::to_string(tool);
+                    _actions[name] = icons[i].empty() ?
+                        ftk::Action::create(text, _checkCommand(name)) :
+                        ftk::Action::create(text, icons[i], _checkCommand(name));
+                    _actions[name]->setTooltip(ftk::Format(
+                        "Mouse tool: {0}. What the plain left button, or a finger,\n"
+                        "does; the modifier keys keep their actions beside it.").arg(text));
+                }
+            }
 
             // Register the shortcuts.
             _addShortcut("Frame", ftk::Key::Backspace);
@@ -440,6 +484,17 @@ namespace djv
                     _actions["Grid"]->setChecked(value.grid.enabled);
                     _actions["CenterMarker"]->setChecked(value.centerMarker.enabled);
                     _actions["ClippingWarning"]->setChecked(value.clippingWarning.enabled);
+                });
+
+            p.mouseObserver = ftk::Observer<models::MouseSettings>::create(
+                app->getSettingsModel()->observeMouse(),
+                [this](const models::MouseSettings& value)
+                {
+                    for (size_t i = 0; i < static_cast<size_t>(models::MouseTool::Count); ++i)
+                    {
+                        _actions[ftk::Format("MouseTool_{0}").arg(i)]->setChecked(
+                            static_cast<models::MouseTool>(i) == value.tool);
+                    }
                 });
 
             p.hudOptionsObserver = ftk::Observer<models::HUDOptions>::create(

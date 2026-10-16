@@ -2,6 +2,7 @@
 // Copyright Contributors to the DJV project.
 
 #include <djv/App/ViewMenu.h>
+#include <djv/Models/SettingsModel.h>
 
 #include <djv/App/App.h>
 #include <djv/App/ViewActions.h>
@@ -15,6 +16,7 @@ namespace djv
         struct ViewMenu::Private
         {
             std::shared_ptr<ftk::Menu> aspectRatioMenu;
+            std::shared_ptr<ftk::Menu> mouseToolMenu;
         };
 
         void ViewMenu::_init(
@@ -48,6 +50,12 @@ namespace djv
             for (size_t i = 0; i < aspectRatioOptions.options.size(); ++i)
             {
                 p.aspectRatioMenu->addAction(actions[ftk::Format("AspectRatio_{0}").arg(i)]);
+            }
+            addDivider();
+            p.mouseToolMenu = addSubMenu("Mouse Tool");
+            for (size_t i = 0; i < static_cast<size_t>(models::MouseTool::Count); ++i)
+            {
+                p.mouseToolMenu->addAction(actions[ftk::Format("MouseTool_{0}").arg(i)]);
             }
             addDivider();
             addAction(actions["Grid"]);

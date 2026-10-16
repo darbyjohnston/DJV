@@ -2,6 +2,9 @@
 // Copyright Contributors to the DJV project.
 
 #include <djv/App/ViewToolBar.h>
+#include <djv/Models/SettingsModel.h>
+#include <ftk/UI/Divider.h>
+#include <ftk/Core/Format.h>
 
 #include <djv/App/App.h>
 #include <djv/App/MainWindow.h>
@@ -52,6 +55,14 @@ namespace djv
             addWidget(p.zoomEdit);
 
             addAction(actions["ZoomReset"]);
+
+            // The mouse tools, after a divider: what a finger or a pen
+            // does on the picture, chosen here in place of a modifier key.
+            addWidget(ftk::Divider::create(context, ftk::Orientation::Horizontal));
+            for (size_t i = 1; i < static_cast<size_t>(models::MouseTool::Count); ++i)
+            {
+                addAction(actions[ftk::Format("MouseTool_{0}").arg(i)]);
+            }
 
             std::weak_ptr<MainWindow> mainWindowWeak(mainWindow);
             p.zoomEdit->setCallback(

@@ -442,20 +442,39 @@ namespace djv
                 [this](const models::MouseSettings& value)
                 {
                     FTK_P();
-                    auto i = value.bindings.find(models::MouseAction::PanView);
-                    setPanBinding(
-                        i != value.bindings.end() ? i->second.button : ftk::MouseButton::None,
-                        i != value.bindings.end() ? i->second.modifier : ftk::KeyModifier::None);
-                    i = value.bindings.find(models::MouseAction::CompareWipe);
-                    setWipeBinding(
-                        i != value.bindings.end() ? i->second.button : ftk::MouseButton::None,
-                        i != value.bindings.end() ? i->second.modifier : ftk::KeyModifier::None);
-                    i = value.bindings.find(models::MouseAction::Pick);
-                    setPickBinding(
-                        i != value.bindings.end() ? i->second.button : ftk::MouseButton::None,
-                        i != value.bindings.end() ? i->second.modifier : ftk::KeyModifier::None);
-                    i = value.bindings.find(models::MouseAction::FrameShuttle);
-                    p.frameShuttleBinding = i != value.bindings.end() ? i->second : models::MouseActionBinding();
+                    // The tool, when one is set, takes the plain left
+                    // button, and any other action bound to that gives
+                    // it up; the rest keep their bindings, so the
+                    // modifier keys still work beside the tool.
+                    const auto binding = [&value](models::MouseAction action, models::MouseTool tool)
+                    {
+                        models::MouseActionBinding out;
+                        const auto i = value.bindings.find(action);
+                        if (i != value.bindings.end())
+                        {
+                            out = i->second;
+                        }
+                        if (models::MouseTool::None != value.tool)
+                        {
+                            if (tool == value.tool)
+                            {
+                                out = models::MouseActionBinding(ftk::MouseButton::Left);
+                            }
+                            else if (ftk::MouseButton::Left == out.button &&
+                                ftk::KeyModifier::None == out.modifier)
+                            {
+                                out = models::MouseActionBinding();
+                            }
+                        }
+                        return out;
+                    };
+                    auto b = binding(models::MouseAction::PanView, models::MouseTool::PanView);
+                    setPanBinding(b.button, b.modifier);
+                    b = binding(models::MouseAction::CompareWipe, models::MouseTool::CompareWipe);
+                    setWipeBinding(b.button, b.modifier);
+                    b = binding(models::MouseAction::Pick, models::MouseTool::Pick);
+                    setPickBinding(b.button, b.modifier);
+                    p.frameShuttleBinding = binding(models::MouseAction::FrameShuttle, models::MouseTool::FrameShuttle);
                     p.frameShuttleScale = value.frameShuttleScale;
                     // Here with the other mouse settings rather than set by the
                     // main window, which left a secondary window's viewport
