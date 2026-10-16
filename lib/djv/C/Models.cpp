@@ -1,0 +1,677 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright Contributors to the DJV project.
+
+#include <djv/C/Models.h>
+
+#include <djv/Models/AudioModel.h>
+#include <djv/Models/ColorModel.h>
+#include <djv/Models/OCIOModel.h>
+#include <djv/Models/ViewportModel.h>
+
+#include <tlRender/C/EngineCpp.h>
+
+#include <ftk/UI/Settings.h>
+#include <ftk/Core/Observable.h>
+
+#include <string>
+#include <vector>
+
+using namespace djv;
+
+struct djv_models
+{
+    std::shared_ptr<ftk::Context> context;
+    std::shared_ptr<ftk::Settings> settings;
+    std::shared_ptr<models::ColorModel> colorModel;
+    std::shared_ptr<models::OCIOModel> ocioModel;
+    std::shared_ptr<models::AudioModel> audioModel;
+    std::shared_ptr<models::ViewportModel> viewportModel;
+
+    tl_view* view = nullptr;
+    tl_player* player = nullptr;
+    uint64_t generation = 0;
+
+    // What the strings handed out point into.
+    models::OCIOModelData ocioData;
+    std::string resolvedInput;
+
+    std::shared_ptr<ftk::Observer<tl::OCIOOptions> > ocioOptionsObserver;
+    std::shared_ptr<ftk::Observer<tl::OCIOOptions> > colorOCIOOptionsObserver;
+    std::shared_ptr<ftk::Observer<tl::OCIOOptions> > resolvedOCIOOptionsObserver;
+    std::shared_ptr<ftk::Observer<models::OCIOModelData> > ocioDataObserver;
+    std::shared_ptr<ftk::Observer<std::string> > resolvedInputObserver;
+    std::shared_ptr<ftk::Observer<tl::LUTOptions> > lutOptionsObserver;
+    std::shared_ptr<ftk::Observer<float> > volumeObserver;
+    std::shared_ptr<ftk::Observer<bool> > muteObserver;
+    std::shared_ptr<ftk::Observer<double> > syncOffsetObserver;
+    std::shared_ptr<ftk::Observer<ftk::ImageOptions> > imageOptionsObserver;
+    std::shared_ptr<ftk::Observer<tl::DisplayOptions> > displayOptionsObserver;
+    std::shared_ptr<ftk::Observer<tl::BackgroundOptions> > backgroundOptionsObserver;
+    std::shared_ptr<ftk::Observer<tl::ForegroundOptions> > foregroundOptionsObserver;
+
+    // The options as the view and the player should have them now.
+    void applyToView()
+    {
+        if (!view)
+            return;
+        tl::c::setOCIOOptions(view, colorModel->observeResolvedOCIOOptions()->get());
+        tl::c::setOCIOInputResolver(
+            view,
+            [this](const std::string& path, const ftk::ImageTags& tags)
+            {
+                return colorModel->resolveInput(path, tags);
+            });
+        tl::c::setLUTOptions(view, colorModel->getLUTOptions());
+        tl::c::setImageOptions(view, viewportModel->getImageOptions());
+        tl::c::setDisplayOptions(view, viewportModel->getDisplayOptions());
+        tl::c::setBackgroundOptions(view, viewportModel->getBackgroundOptions());
+        tl::c::setForegroundOptions(view, viewportModel->getForegroundOptions());
+    }
+
+    void applyToPlayer()
+    {
+        if (auto p = tl::c::getPlayer(player))
+        {
+            p->setVolume(audioModel->getVolume());
+            p->setMute(audioModel->isMuted());
+            p->setAudioOffset(audioModel->getSyncOffset());
+        }
+    }
+};
+
+djv_models* djv_models_create(tl_engine* engine, const char* settingsPath)
+{
+    auto context = tl::c::getContext(engine);
+    if (!context || !settingsPath)
+        return nullptr;
+    auto out = new djv_models;
+    try
+    {
+        out->context = context;
+        out->settings = ftk::Settings::create(context, settingsPath);
+        out->colorModel = models::ColorModel::create(context, out->settings);
+        out->ocioModel = models::OCIOModel::create(context);
+        out->audioModel = models::AudioModel::create(context, out->settings);
+        out->viewportModel = models::ViewportModel::create(context, out->settings);
+    }
+    catch (const std::exception&)
+    {
+        delete out;
+        return nullptr;
+    }
+
+    // The OpenColorIO model offers the configuration's choices and keeps
+    // the color model's options, each following the other, as the
+    // desktop's color widgets have them.
+    out->ocioModel->setOptions(out->colorModel->getOCIOOptions());
+    out->ocioOptionsObserver = ftk::Observer<tl::OCIOOptions>::create(
+        out->ocioModel->observeOptions(),
+        [out](const tl::OCIOOptions& value)
+        {
+            out->colorModel->setOCIOOptions(value);
+        });
+    out->colorOCIOOptionsObserver = ftk::Observer<tl::OCIOOptions>::create(
+        out->colorModel->observeOCIOOptions(),
+        [out](const tl::OCIOOptions& value)
+        {
+            out->ocioModel->setOptions(value);
+            ++out->generation;
+        });
+    out->ocioDataObserver = ftk::Observer<models::OCIOModelData>::create(
+        out->ocioModel->observeData(),
+        [out](const models::OCIOModelData& value)
+        {
+            out->ocioData = value;
+            ++out->generation;
+        });
+    out->resolvedOCIOOptionsObserver = ftk::Observer<tl::OCIOOptions>::create(
+        out->colorModel->observeResolvedOCIOOptions(),
+        [out](const tl::OCIOOptions& value)
+        {
+            if (out->view)
+            {
+                tl::c::setOCIOOptions(out->view, value);
+            }
+            ++out->generation;
+        });
+    out->resolvedInputObserver = ftk::Observer<std::string>::create(
+        out->colorModel->observeResolvedInput(),
+        [out](const std::string& value)
+        {
+            out->resolvedInput = value;
+            ++out->generation;
+        });
+    out->lutOptionsObserver = ftk::Observer<tl::LUTOptions>::create(
+        out->colorModel->observeLUTOptions(),
+        [out](const tl::LUTOptions& value)
+        {
+            if (out->view)
+            {
+                tl::c::setLUTOptions(out->view, value);
+            }
+            ++out->generation;
+        });
+    out->volumeObserver = ftk::Observer<float>::create(
+        out->audioModel->observeVolume(),
+        [out](float)
+        {
+            out->applyToPlayer();
+            ++out->generation;
+        });
+    out->muteObserver = ftk::Observer<bool>::create(
+        out->audioModel->observeMute(),
+        [out](bool)
+        {
+            out->applyToPlayer();
+            ++out->generation;
+        });
+    out->syncOffsetObserver = ftk::Observer<double>::create(
+        out->audioModel->observeSyncOffset(),
+        [out](double)
+        {
+            out->applyToPlayer();
+            ++out->generation;
+        });
+    out->imageOptionsObserver = ftk::Observer<ftk::ImageOptions>::create(
+        out->viewportModel->observeImageOptions(),
+        [out](const ftk::ImageOptions& value)
+        {
+            if (out->view)
+            {
+                tl::c::setImageOptions(out->view, value);
+            }
+            ++out->generation;
+        });
+    out->displayOptionsObserver = ftk::Observer<tl::DisplayOptions>::create(
+        out->viewportModel->observeDisplayOptions(),
+        [out](const tl::DisplayOptions& value)
+        {
+            if (out->view)
+            {
+                tl::c::setDisplayOptions(out->view, value);
+            }
+            ++out->generation;
+        });
+    out->backgroundOptionsObserver = ftk::Observer<tl::BackgroundOptions>::create(
+        out->viewportModel->observeBackgroundOptions(),
+        [out](const tl::BackgroundOptions& value)
+        {
+            if (out->view)
+            {
+                tl::c::setBackgroundOptions(out->view, value);
+            }
+            ++out->generation;
+        });
+    out->foregroundOptionsObserver = ftk::Observer<tl::ForegroundOptions>::create(
+        out->viewportModel->observeForegroundOptions(),
+        [out](const tl::ForegroundOptions& value)
+        {
+            if (out->view)
+            {
+                tl::c::setForegroundOptions(out->view, value);
+            }
+            ++out->generation;
+        });
+    return out;
+}
+
+void djv_models_destroy(djv_models* models)
+{
+    if (!models)
+        return;
+    // The observers first: they hold the models.
+    models->foregroundOptionsObserver.reset();
+    models->backgroundOptionsObserver.reset();
+    models->displayOptionsObserver.reset();
+    models->imageOptionsObserver.reset();
+    models->syncOffsetObserver.reset();
+    models->muteObserver.reset();
+    models->volumeObserver.reset();
+    models->lutOptionsObserver.reset();
+    models->resolvedInputObserver.reset();
+    models->resolvedOCIOOptionsObserver.reset();
+    models->ocioDataObserver.reset();
+    models->colorOCIOOptionsObserver.reset();
+    models->ocioOptionsObserver.reset();
+    delete models;
+}
+
+void djv_models_save(djv_models* models)
+{
+    if (!models)
+        return;
+    models->colorModel->save();
+    models->audioModel->save();
+    models->viewportModel->save();
+    models->settings->save();
+}
+
+void djv_models_bind_view(djv_models* models, tl_view* view)
+{
+    if (!models)
+        return;
+    models->view = view;
+    models->applyToView();
+}
+
+void djv_models_set_player(djv_models* models, tl_player* player)
+{
+    if (!models)
+        return;
+    models->player = player;
+    std::vector<std::pair<std::string, ftk::ImageTags> > files;
+    if (auto timeline = tl::c::getTimeline(player))
+    {
+        files.push_back({ timeline->getPath().get(), timeline->getIOInfo().tags });
+    }
+    models->colorModel->setActiveFiles(files);
+    models->applyToPlayer();
+    ++models->generation;
+}
+
+uint64_t djv_models_get_generation(djv_models* models)
+{
+    return models ? models->generation : 0;
+}
+
+// OpenColorIO.
+
+int djv_ocio_is_available(void)
+{
+    return models::getOCIOVersion().empty() ? 0 : 1;
+}
+
+int djv_ocio_is_enabled(djv_models* models)
+{
+    return models ? (models->ocioData.enabled ? 1 : 0) : 0;
+}
+
+void djv_ocio_set_enabled(djv_models* models, int value)
+{
+    if (models)
+        models->ocioModel->setEnabled(value != 0);
+}
+
+djv_ocio_config djv_ocio_get_config(djv_models* models)
+{
+    if (!models)
+        return DJV_OCIO_CONFIG_BUILT_IN;
+    switch (models->ocioData.config)
+    {
+    case tl::OCIOConfig::EnvVar: return DJV_OCIO_CONFIG_ENV;
+    case tl::OCIOConfig::File: return DJV_OCIO_CONFIG_FILE;
+    default: break;
+    }
+    return DJV_OCIO_CONFIG_BUILT_IN;
+}
+
+void djv_ocio_set_config(djv_models* models, djv_ocio_config value)
+{
+    if (!models)
+        return;
+    tl::OCIOConfig config = tl::OCIOConfig::BuiltIn;
+    switch (value)
+    {
+    case DJV_OCIO_CONFIG_ENV: config = tl::OCIOConfig::EnvVar; break;
+    case DJV_OCIO_CONFIG_FILE: config = tl::OCIOConfig::File; break;
+    default: break;
+    }
+    models->ocioModel->setConfig(config);
+}
+
+const char* djv_ocio_get_file_name(djv_models* models)
+{
+    return models ? models->ocioData.fileName.c_str() : "";
+}
+
+void djv_ocio_set_file_name(djv_models* models, const char* value)
+{
+    if (models && value)
+        models->ocioModel->setFileName(value);
+}
+
+const char* djv_ocio_get_name(djv_models* models)
+{
+    return models ? models->ocioData.name.c_str() : "";
+}
+
+namespace
+{
+    const char* item(const std::vector<std::string>& list, size_t i)
+    {
+        return i < list.size() ? list[i].c_str() : "";
+    }
+}
+
+size_t djv_ocio_get_input_count(djv_models* models)
+{
+    return models ? models->ocioData.inputs.size() : 0;
+}
+
+const char* djv_ocio_get_input(djv_models* models, size_t i)
+{
+    return models ? item(models->ocioData.inputs, i) : "";
+}
+
+size_t djv_ocio_get_input_index(djv_models* models)
+{
+    return models ? models->ocioData.inputIndex : 0;
+}
+
+void djv_ocio_set_input_index(djv_models* models, size_t value)
+{
+    if (models)
+        models->ocioModel->setInputIndex(value);
+}
+
+size_t djv_ocio_get_display_count(djv_models* models)
+{
+    return models ? models->ocioData.displays.size() : 0;
+}
+
+const char* djv_ocio_get_display(djv_models* models, size_t i)
+{
+    return models ? item(models->ocioData.displays, i) : "";
+}
+
+size_t djv_ocio_get_display_index(djv_models* models)
+{
+    return models ? models->ocioData.displayIndex : 0;
+}
+
+void djv_ocio_set_display_index(djv_models* models, size_t value)
+{
+    if (models)
+        models->ocioModel->setDisplayIndex(value);
+}
+
+size_t djv_ocio_get_view_count(djv_models* models)
+{
+    return models ? models->ocioData.views.size() : 0;
+}
+
+const char* djv_ocio_get_view(djv_models* models, size_t i)
+{
+    return models ? item(models->ocioData.views, i) : "";
+}
+
+size_t djv_ocio_get_view_index(djv_models* models)
+{
+    return models ? models->ocioData.viewIndex : 0;
+}
+
+void djv_ocio_set_view_index(djv_models* models, size_t value)
+{
+    if (models)
+        models->ocioModel->setViewIndex(value);
+}
+
+size_t djv_ocio_get_look_count(djv_models* models)
+{
+    return models ? models->ocioData.looks.size() : 0;
+}
+
+const char* djv_ocio_get_look(djv_models* models, size_t i)
+{
+    return models ? item(models->ocioData.looks, i) : "";
+}
+
+size_t djv_ocio_get_look_index(djv_models* models)
+{
+    return models ? models->ocioData.lookIndex : 0;
+}
+
+void djv_ocio_set_look_index(djv_models* models, size_t value)
+{
+    if (models)
+        models->ocioModel->setLookIndex(value);
+}
+
+const char* djv_color_get_resolved_input(djv_models* models)
+{
+    return models ? models->resolvedInput.c_str() : "";
+}
+
+// LUT.
+
+int djv_lut_is_enabled(djv_models* models)
+{
+    return models ? (models->colorModel->getLUTOptions().enabled ? 1 : 0) : 0;
+}
+
+void djv_lut_set_enabled(djv_models* models, int value)
+{
+    if (!models)
+        return;
+    auto options = models->colorModel->getLUTOptions();
+    options.enabled = value != 0;
+    models->colorModel->setLUTOptions(options);
+}
+
+const char* djv_lut_get_file_name(djv_models* models)
+{
+    return models ? models->colorModel->getLUTOptions().fileName.c_str() : "";
+}
+
+void djv_lut_set_file_name(djv_models* models, const char* value)
+{
+    if (!models || !value)
+        return;
+    auto options = models->colorModel->getLUTOptions();
+    options.fileName = value;
+    models->colorModel->setLUTOptions(options);
+}
+
+djv_lut_order djv_lut_get_order(djv_models* models)
+{
+    return models && tl::LUTOrder::PreConfig == models->colorModel->getLUTOptions().order ?
+        DJV_LUT_ORDER_PRE_CONFIG :
+        DJV_LUT_ORDER_POST_CONFIG;
+}
+
+void djv_lut_set_order(djv_models* models, djv_lut_order value)
+{
+    if (!models)
+        return;
+    auto options = models->colorModel->getLUTOptions();
+    options.order = DJV_LUT_ORDER_PRE_CONFIG == value ?
+        tl::LUTOrder::PreConfig :
+        tl::LUTOrder::PostConfig;
+    models->colorModel->setLUTOptions(options);
+}
+
+djv_lut_direction djv_lut_get_direction(djv_models* models)
+{
+    return models && tl::LUTDirection::Inverse == models->colorModel->getLUTOptions().direction ?
+        DJV_LUT_DIRECTION_INVERSE :
+        DJV_LUT_DIRECTION_FORWARD;
+}
+
+void djv_lut_set_direction(djv_models* models, djv_lut_direction value)
+{
+    if (!models)
+        return;
+    auto options = models->colorModel->getLUTOptions();
+    options.direction = DJV_LUT_DIRECTION_INVERSE == value ?
+        tl::LUTDirection::Inverse :
+        tl::LUTDirection::Forward;
+    models->colorModel->setLUTOptions(options);
+}
+
+// Audio.
+
+float djv_audio_get_volume(djv_models* models)
+{
+    return models ? models->audioModel->getVolume() : 0.F;
+}
+
+void djv_audio_set_volume(djv_models* models, float value)
+{
+    if (models)
+        models->audioModel->setVolume(value);
+}
+
+int djv_audio_is_muted(djv_models* models)
+{
+    return models ? (models->audioModel->isMuted() ? 1 : 0) : 0;
+}
+
+void djv_audio_set_muted(djv_models* models, int value)
+{
+    if (models)
+        models->audioModel->setMute(value != 0);
+}
+
+double djv_audio_get_sync_offset(djv_models* models)
+{
+    return models ? models->audioModel->getSyncOffset() : 0.0;
+}
+
+void djv_audio_set_sync_offset(djv_models* models, double value)
+{
+    if (models)
+        models->audioModel->setSyncOffset(value);
+}
+
+// Viewport.
+
+namespace
+{
+    void toC(const ftk::V3F& v, float* out)
+    {
+        out[0] = v.x;
+        out[1] = v.y;
+        out[2] = v.z;
+    }
+
+    ftk::V3F fromC3(const float* v)
+    {
+        return ftk::V3F(v[0], v[1], v[2]);
+    }
+
+    void toC(const ftk::Color4F& c, float* out)
+    {
+        out[0] = c.r;
+        out[1] = c.g;
+        out[2] = c.b;
+        out[3] = c.a;
+    }
+
+    ftk::Color4F fromC4(const float* c)
+    {
+        return ftk::Color4F(c[0], c[1], c[2], c[3]);
+    }
+}
+
+djv_display_options djv_viewport_get_display(djv_models* models)
+{
+    djv_display_options out = {};
+    if (!models)
+        return out;
+    const tl::DisplayOptions& o = models->viewportModel->getDisplayOptions();
+    out.channels = static_cast<int>(o.channels);
+    out.mirrorX = o.mirror.x ? 1 : 0;
+    out.mirrorY = o.mirror.y ? 1 : 0;
+    out.negative = o.negative ? 1 : 0;
+    out.colorEnabled = o.color.enabled ? 1 : 0;
+    toC(o.color.add, out.add);
+    toC(o.color.brightness, out.brightness);
+    toC(o.color.contrast, out.contrast);
+    toC(o.color.saturation, out.saturation);
+    out.hue = o.color.hue;
+    out.levelsEnabled = o.levels.enabled ? 1 : 0;
+    out.levelsInLow = o.levels.inLow;
+    out.levelsInHigh = o.levels.inHigh;
+    out.levelsGamma = o.levels.gamma;
+    out.levelsOutLow = o.levels.outLow;
+    out.levelsOutHigh = o.levels.outHigh;
+    out.exposureEnabled = o.exposure.enabled ? 1 : 0;
+    out.exposure = o.exposure.exposure;
+    out.softClipEnabled = o.softClip.enabled ? 1 : 0;
+    out.softClip = o.softClip.value;
+    return out;
+}
+
+void djv_viewport_set_display(djv_models* models, djv_display_options value)
+{
+    if (!models)
+        return;
+    tl::DisplayOptions o = models->viewportModel->getDisplayOptions();
+    o.channels = static_cast<ftk::ChannelDisplay>(value.channels);
+    o.mirror.x = value.mirrorX != 0;
+    o.mirror.y = value.mirrorY != 0;
+    o.negative = value.negative != 0;
+    o.color.enabled = value.colorEnabled != 0;
+    o.color.add = fromC3(value.add);
+    o.color.brightness = fromC3(value.brightness);
+    o.color.contrast = fromC3(value.contrast);
+    o.color.saturation = fromC3(value.saturation);
+    o.color.hue = value.hue;
+    o.levels.enabled = value.levelsEnabled != 0;
+    o.levels.inLow = value.levelsInLow;
+    o.levels.inHigh = value.levelsInHigh;
+    o.levels.gamma = value.levelsGamma;
+    o.levels.outLow = value.levelsOutLow;
+    o.levels.outHigh = value.levelsOutHigh;
+    o.exposure.enabled = value.exposureEnabled != 0;
+    o.exposure.exposure = value.exposure;
+    o.softClip.enabled = value.softClipEnabled != 0;
+    o.softClip.value = value.softClip;
+    models->viewportModel->setDisplayOptions(o);
+}
+
+djv_image_options djv_viewport_get_image(djv_models* models)
+{
+    djv_image_options out = {};
+    if (!models)
+        return out;
+    const ftk::ImageOptions& o = models->viewportModel->getImageOptions();
+    out.videoLevels = static_cast<int>(o.videoLevels);
+    out.alphaBlend = static_cast<int>(o.alphaBlend);
+    out.minify = static_cast<int>(o.imageFilters.minify);
+    out.magnify = static_cast<int>(o.imageFilters.magnify);
+    return out;
+}
+
+void djv_viewport_set_image(djv_models* models, djv_image_options value)
+{
+    if (!models)
+        return;
+    ftk::ImageOptions o = models->viewportModel->getImageOptions();
+    o.videoLevels = static_cast<ftk::InputVideoLevels>(value.videoLevels);
+    o.alphaBlend = static_cast<ftk::AlphaBlend>(value.alphaBlend);
+    o.imageFilters.minify = static_cast<ftk::ImageFilter>(value.minify);
+    o.imageFilters.magnify = static_cast<ftk::ImageFilter>(value.magnify);
+    models->viewportModel->setImageOptions(o);
+}
+
+djv_background_options djv_viewport_get_background(djv_models* models)
+{
+    djv_background_options out = {};
+    if (!models)
+        return out;
+    const tl::BackgroundOptions& o = models->viewportModel->getBackgroundOptions();
+    out.type = static_cast<int>(o.type);
+    toC(o.solidColor, out.solid);
+    toC(o.checkersColor.first, out.checkers0);
+    toC(o.checkersColor.second, out.checkers1);
+    out.checkersSize = o.checkersSize.w;
+    toC(o.gradientColor.first, out.gradient0);
+    toC(o.gradientColor.second, out.gradient1);
+    return out;
+}
+
+void djv_viewport_set_background(djv_models* models, djv_background_options value)
+{
+    if (!models)
+        return;
+    tl::BackgroundOptions o = models->viewportModel->getBackgroundOptions();
+    o.type = static_cast<tl::Background>(value.type);
+    o.solidColor = fromC4(value.solid);
+    o.checkersColor.first = fromC4(value.checkers0);
+    o.checkersColor.second = fromC4(value.checkers1);
+    o.checkersSize = ftk::Size2I(value.checkersSize, value.checkersSize);
+    o.gradientColor.first = fromC4(value.gradient0);
+    o.gradientColor.second = fromC4(value.gradient1);
+    models->viewportModel->setBackgroundOptions(o);
+}

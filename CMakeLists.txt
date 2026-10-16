@@ -146,6 +146,22 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 find_package(ZLIB REQUIRED)
 
+# The iPad: tlRender, the resources, the models and the C interface over
+# them for DJV Studio's Swift application, and none of the desktop. Built
+# through feather-tk's iOS toolchain file by DJV Studio's build.
+if(IOS)
+    add_subdirectory(deps/tlRender)
+    add_library(tlRender::tlCore ALIAS tlCore)
+    add_library(tlRender::tlGL ALIAS tlGL)
+    add_library(tlRender::tlIO ALIAS tlIO)
+    add_library(tlRender::tlTimeline ALIAS tlTimeline)
+    add_library(tlRender::tlUI ALIAS tlUI)
+    add_subdirectory(lib/djv/Resource)
+    add_subdirectory(lib/djv/Models)
+    add_subdirectory(lib/djv/C)
+    return()
+endif()
+
 # Python dependencies
 #
 # The djv module is built the way feather-tk's is, the stable ABI or not and
