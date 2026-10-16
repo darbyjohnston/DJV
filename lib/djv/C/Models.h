@@ -188,9 +188,53 @@ typedef struct djv_background_options
     int checkersSize;
     float gradient0[4];
     float gradient1[4];
+    //! The outline around the picture.
+    int outlineEnabled;
+    int outlineWidth;
+    float outlineColor[4];
 } djv_background_options;
 TL_TIMELINE_API djv_background_options djv_viewport_get_background(djv_models*);
 TL_TIMELINE_API void djv_viewport_set_background(djv_models*, djv_background_options);
+
+//! What is drawn over the picture: the grid, the center marker, the
+//! indicator for a missing frame, the clipping warning.
+typedef struct djv_foreground_options
+{
+    int gridEnabled;
+    //! 0 cells of a size, 1 a count of cells.
+    int gridCellMode;
+    int gridCellSize;
+    int gridCellCountX;
+    int gridCellCountY;
+    int gridLineWidth;
+    float gridColor[4];
+    //! 0 none, 1 pixels, 2 alphanumeric.
+    int gridLabels;
+
+    int centerMarkerEnabled;
+    int centerMarkerSize;
+    int centerMarkerWidth;
+    float centerMarkerColor[4];
+
+    int missingEnabled;
+    int missingWidth;
+    float missingColor[4];
+
+    int clippingEnabled;
+    //! 0 any channel, 1 all channels, 2 luminance.
+    int clippingMode;
+    float clippingLow;
+    float clippingHigh;
+} djv_foreground_options;
+TL_TIMELINE_API djv_foreground_options djv_viewport_get_foreground(djv_models*);
+TL_TIMELINE_API void djv_viewport_set_foreground(djv_models*, djv_foreground_options);
+
+//! The aspect ratios offered, as labels, and which is chosen; the first
+//! is the picture's own.
+TL_TIMELINE_API size_t djv_viewport_get_aspect_ratio_count(djv_models*);
+TL_TIMELINE_API const char* djv_viewport_get_aspect_ratio(djv_models*, size_t);
+TL_TIMELINE_API size_t djv_viewport_get_aspect_ratio_index(djv_models*);
+TL_TIMELINE_API void djv_viewport_set_aspect_ratio_index(djv_models*, size_t);
 
 ///@}
 

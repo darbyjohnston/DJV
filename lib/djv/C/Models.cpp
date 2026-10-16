@@ -13,6 +13,7 @@
 #include <ftk/UI/Settings.h>
 #include <ftk/Core/Observable.h>
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -34,6 +35,7 @@ struct djv_models
     // What the strings handed out point into.
     models::OCIOModelData ocioData;
     std::string resolvedInput;
+    std::vector<std::string> aspectRatios;
 
     std::shared_ptr<ftk::Observer<tl::OCIOOptions> > ocioOptionsObserver;
     std::shared_ptr<ftk::Observer<tl::OCIOOptions> > colorOCIOOptionsObserver;
@@ -658,6 +660,9 @@ djv_background_options djv_viewport_get_background(djv_models* models)
     out.checkersSize = o.checkersSize.w;
     toC(o.gradientColor.first, out.gradient0);
     toC(o.gradientColor.second, out.gradient1);
+    out.outlineEnabled = o.outline.enabled ? 1 : 0;
+    out.outlineWidth = o.outline.width;
+    toC(o.outline.color, out.outlineColor);
     return out;
 }
 
@@ -673,5 +678,107 @@ void djv_viewport_set_background(djv_models* models, djv_background_options valu
     o.checkersSize = ftk::Size2I(value.checkersSize, value.checkersSize);
     o.gradientColor.first = fromC4(value.gradient0);
     o.gradientColor.second = fromC4(value.gradient1);
+    o.outline.enabled = value.outlineEnabled != 0;
+    o.outline.width = value.outlineWidth;
+    o.outline.color = fromC4(value.outlineColor);
     models->viewportModel->setBackgroundOptions(o);
+}
+
+djv_foreground_options djv_viewport_get_foreground(djv_models* models)
+{
+    djv_foreground_options out = {};
+    if (!models)
+        return out;
+    const tl::ForegroundOptions& o = models->viewportModel->getForegroundOptions();
+    out.gridEnabled = o.grid.enabled ? 1 : 0;
+    out.gridCellMode = static_cast<int>(o.grid.cellMode);
+    out.gridCellSize = o.grid.cellSize;
+    out.gridCellCountX = o.grid.cellCount.x;
+    out.gridCellCountY = o.grid.cellCount.y;
+    out.gridLineWidth = o.grid.lineWidth;
+    toC(o.grid.color, out.gridColor);
+    out.gridLabels = static_cast<int>(o.grid.labels);
+    out.centerMarkerEnabled = o.centerMarker.enabled ? 1 : 0;
+    out.centerMarkerSize = o.centerMarker.size;
+    out.centerMarkerWidth = o.centerMarker.width;
+    toC(o.centerMarker.color, out.centerMarkerColor);
+    out.missingEnabled = o.missingIndicator.enabled ? 1 : 0;
+    out.missingWidth = o.missingIndicator.width;
+    toC(o.missingIndicator.color, out.missingColor);
+    out.clippingEnabled = o.clippingWarning.enabled ? 1 : 0;
+    out.clippingMode = static_cast<int>(o.clippingWarning.mode);
+    out.clippingLow = o.clippingWarning.low;
+    out.clippingHigh = o.clippingWarning.high;
+    return out;
+}
+
+void djv_viewport_set_foreground(djv_models* models, djv_foreground_options value)
+{
+    if (!models)
+        return;
+    tl::ForegroundOptions o = models->viewportModel->getForegroundOptions();
+    o.grid.enabled = value.gridEnabled != 0;
+    o.grid.cellMode = static_cast<tl::GridCellMode>(value.gridCellMode);
+    o.grid.cellSize = value.gridCellSize;
+    o.grid.cellCount = ftk::V2I(value.gridCellCountX, value.gridCellCountY);
+    o.grid.lineWidth = value.gridLineWidth;
+    o.grid.color = fromC4(value.gridColor);
+    o.grid.labels = static_cast<tl::GridLabels>(value.gridLabels);
+    o.centerMarker.enabled = value.centerMarkerEnabled != 0;
+    o.centerMarker.size = value.centerMarkerSize;
+    o.centerMarker.width = value.centerMarkerWidth;
+    o.centerMarker.color = fromC4(value.centerMarkerColor);
+    o.missingIndicator.enabled = value.missingEnabled != 0;
+    o.missingIndicator.width = value.missingWidth;
+    o.missingIndicator.color = fromC4(value.missingColor);
+    o.clippingWarning.enabled = value.clippingEnabled != 0;
+    o.clippingWarning.mode = static_cast<tl::ClippingWarningMode>(value.clippingMode);
+    o.clippingWarning.low = value.clippingLow;
+    o.clippingWarning.high = value.clippingHigh;
+    models->viewportModel->setForegroundOptions(o);
+}
+
+namespace
+{
+    void aspectRatios(djv_models* models)
+    {
+        models->aspectRatios.clear();
+        for (const auto& i : models->viewportModel->getAspectRatioOptions().options)
+        {
+            models->aspectRatios.push_back(tl::getLabel(i));
+        }
+    }
+}
+
+size_t djv_viewport_get_aspect_ratio_count(djv_models* models)
+{
+    if (!models)
+        return 0;
+    aspectRatios(models);
+    return models->aspectRatios.size();
+}
+
+const char* djv_viewport_get_aspect_ratio(djv_models* models, size_t i)
+{
+    if (!models)
+        return "";
+    if (models->aspectRatios.empty())
+    {
+        aspectRatios(models);
+    }
+    return item(models->aspectRatios, i);
+}
+
+size_t djv_viewport_get_aspect_ratio_index(djv_models* models)
+{
+    return models ? static_cast<size_t>(std::max(models->viewportModel->getAspectRatioOptions().index, 0)) : 0;
+}
+
+void djv_viewport_set_aspect_ratio_index(djv_models* models, size_t value)
+{
+    if (!models)
+        return;
+    auto options = models->viewportModel->getAspectRatioOptions();
+    options.index = static_cast<int>(value);
+    models->viewportModel->setAspectRatioOptions(options);
 }
