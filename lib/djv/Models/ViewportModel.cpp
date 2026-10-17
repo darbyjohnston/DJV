@@ -11,6 +11,10 @@
 #include <ftk/GL/OffscreenBuffer.h>
 #include <ftk/Core/String.h>
 
+#include <algorithm>
+#include <array>
+#include <sstream>
+
 namespace djv
 {
     namespace models

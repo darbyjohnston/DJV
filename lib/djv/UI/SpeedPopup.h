@@ -9,6 +9,8 @@
 #include <ftk/UI/DoubleModel.h>
 #include <ftk/UI/IWidgetPopup.h>
 
+#include <optional>
+
 namespace djv
 {
     namespace ui

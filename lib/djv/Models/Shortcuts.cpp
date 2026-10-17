@@ -3,6 +3,8 @@
 
 #include <djv/Models/Shortcuts.h>
 
+#include <nlohmann/json.hpp>
+
 namespace djv
 {
     namespace models

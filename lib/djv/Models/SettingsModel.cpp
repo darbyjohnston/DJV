@@ -17,6 +17,7 @@
 #include <ftk/Core/String.h>
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <filesystem>
 #include <sstream>

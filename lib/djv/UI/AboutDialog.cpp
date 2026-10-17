@@ -36,7 +36,7 @@ namespace djv
             setTitle("About");
 
 
-            auto licensesButton = ftk::PushButton::create(context, "Additional Licenses");
+            auto licensesButton = ftk::PushButton::create(context, "Legal Notices");
             p.closeButton = ftk::PushButton::create(context, "Close");
 
             auto layout = ftk::VerticalLayout::create(context, shared_from_this());
