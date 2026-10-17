@@ -1040,6 +1040,10 @@ namespace djv
             get("ext", settings.movieExt);
             get("preset", settings.moviePreset);
             get("audioCodec", settings.movieAudioCodec);
+            if (args.is_object() && args.contains("burnAnnotations"))
+            {
+                settings.burnAnnotations = getBool("burnAnnotations");
+            }
 
             const std::string path = ftk::Path(
                 settings.dir,
@@ -1181,6 +1185,14 @@ namespace djv
                         _p->mainWindow->getViewport()->getViewPos(),
                         _p->mainWindow->getViewport()->getZoom(),
                         value);
+                });
+            // The markers and drawings are signed with the author from the
+            // settings, or the user name where that is empty.
+            p.reviewSettingsObserver = ftk::Observer<models::ReviewSettings>::create(
+                p.settingsModel->observeReview(),
+                [](const models::ReviewSettings& value)
+                {
+                    models::setReviewAuthor(value.author);
                 });
 #if defined(__APPLE__) && TARGET_OS_IPHONE
             // The secondary window lives on the second screen, and goes

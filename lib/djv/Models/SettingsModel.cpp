@@ -131,6 +131,7 @@ namespace djv
             std::shared_ptr<ftk::Observable<MiscSettings> > misc;
             std::shared_ptr<ftk::Observable<MouseSettings> > mouse;
             std::shared_ptr<ftk::Observable<PlaybackSettings> > playback;
+            std::shared_ptr<ftk::Observable<ReviewSettings> > review;
             std::shared_ptr<ftk::Observable<StyleSettings> > style;
             std::shared_ptr<ftk::Observable<TimelineSettings> > timeline;
             std::shared_ptr<ftk::Observable<WindowSettings> > window;
@@ -199,6 +200,9 @@ namespace djv
                 { "Misc", settingsKeys::misc },
                 { "Mouse", settingsKeys::mouse },
                 { "Playback", settingsKeys::playback },
+                // Not "/Review": the recent reviews already live under it,
+                // and a group written there as a whole took them with it.
+                { "Review", settingsKeys::reviewSettings },
                 { "Style", settingsKeys::style },
                 { "Timeline", settingsKeys::timeline },
                 { "Window", settingsKeys::window },
@@ -334,6 +338,9 @@ namespace djv
             PlaybackSettings playback;
             settings->getT(keys["Playback"], playback);
             p.playback = ftk::Observable<PlaybackSettings>::create(playback);
+            ReviewSettings review;
+            settings->getT(keys["Review"], review);
+            p.review = ftk::Observable<ReviewSettings>::create(review);
 
             StyleSettings style;
 #if defined(__APPLE__) && TARGET_OS_IPHONE
@@ -471,6 +478,7 @@ namespace djv
             p.settings->setT(keys["Misc"], p.misc->get());
             p.settings->setT(keys["Mouse"], p.mouse->get());
             p.settings->setT(keys["Playback"], p.playback->get());
+            p.settings->setT(keys["Review"], p.review->get());
             p.settings->setT(keys["Style"], p.style->get());
             p.settings->setT(keys["Timeline"], p.timeline->get());
             p.settings->setT(keys["Window"], p.window->get());
@@ -754,6 +762,21 @@ namespace djv
             _p->playback->setIfChanged(value);
         }
 
+        const ReviewSettings& SettingsModel::getReview() const
+        {
+            return _p->review->get();
+        }
+
+        std::shared_ptr<ftk::IObservable<ReviewSettings> > SettingsModel::observeReview() const
+        {
+            return _p->review;
+        }
+
+        void SettingsModel::setReview(const ReviewSettings& value)
+        {
+            _p->review->setIfChanged(value);
+        }
+
         const StyleSettings& SettingsModel::getStyle() const
         {
             return _p->style->get();
@@ -1016,6 +1039,7 @@ namespace djv
             json["ImageExt"] = value.imageExt;
             json["MovieExt"] = value.movieExt;
             json["MoviePreset"] = value.moviePreset;
+            json["BurnAnnotations"] = value.burnAnnotations;
             json["MovieAudioCodec"] = value.movieAudioCodec;
             json["SeqExt"] = value.seqExt;
         }
@@ -1086,6 +1110,11 @@ namespace djv
         void to_json(nlohmann::json& json, const PlaybackSettings& value)
         {
             json["StartPlayback"] = value.startPlayback;
+        }
+
+        void to_json(nlohmann::json& json, const ReviewSettings& value)
+        {
+            json["Author"] = value.author;
         }
 
         void to_json(nlohmann::json& json, const StyleSettings& value)
@@ -1213,6 +1242,10 @@ namespace djv
             {
                 json.at("MoviePreset").get_to(value.moviePreset);
             }
+            if (json.contains("BurnAnnotations"))
+            {
+                json.at("BurnAnnotations").get_to(value.burnAnnotations);
+            }
             json.at("MovieAudioCodec").get_to(value.movieAudioCodec);
         }
 
@@ -1308,6 +1341,11 @@ namespace djv
         void from_json(const nlohmann::json& json, PlaybackSettings& value)
         {
             json.at("StartPlayback").get_to(value.startPlayback);
+        }
+
+        void from_json(const nlohmann::json& json, ReviewSettings& value)
+        {
+            json.at("Author").get_to(value.author);
         }
 
         void from_json(const nlohmann::json& json, ShortcutsSettings& value)

@@ -188,6 +188,7 @@ namespace djv
             std::shared_ptr<ftk::ListObserver<models::ReviewMarker> > markersObserver;
             std::shared_ptr<ftk::ListObserver<models::ReviewAnnotation> > annotationsObserver;
             std::shared_ptr<ftk::ListObserver<std::string> > drawToolsObserver;
+            std::shared_ptr<ftk::Observer<models::ReviewSettings> > reviewSettingsObserver;
 
             std::shared_ptr<ftk::Observer<tl::PlayerCacheOptions> > cacheObserver;
             std::shared_ptr<ftk::Observer<models::AudioSettings> > audioSettingsObserver;

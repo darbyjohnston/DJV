@@ -146,6 +146,9 @@ namespace djv
             //! line writer's options are for.
             std::string moviePreset = "MJPEG";
 
+            //! Whether the drawings are written into the picture.
+            bool burnAnnotations = false;
+
             bool operator == (const ExportSettings&) const = default;
         };
 
@@ -304,6 +307,16 @@ namespace djv
             bool startPlayback = false;
 
             bool operator == (const PlaybackSettings&) const = default;
+        };
+
+        //! Review settings.
+        struct DJV_MODELS_API_TYPE ReviewSettings
+        {
+            //! Who the markers and drawings are by. Empty is the user name
+            //! the system gives.
+            std::string author;
+
+            bool operator == (const ReviewSettings&) const = default;
         };
 
         //! Keyboard shortcuts settings.
@@ -526,6 +539,10 @@ namespace djv
             DJV_MODELS_API std::shared_ptr<ftk::IObservable<PlaybackSettings> > observePlayback() const;
             DJV_MODELS_API void setPlayback(const PlaybackSettings&);
 
+            DJV_MODELS_API const ReviewSettings& getReview() const;
+            DJV_MODELS_API std::shared_ptr<ftk::IObservable<ReviewSettings> > observeReview() const;
+            DJV_MODELS_API void setReview(const ReviewSettings&);
+
             ///@}
 
             //! \name Keyboard Shortcuts
@@ -628,6 +645,7 @@ namespace djv
         DJV_MODELS_API void to_json(nlohmann::json&, const MouseActionBinding&);
         DJV_MODELS_API void to_json(nlohmann::json&, const MouseSettings&);
         DJV_MODELS_API void to_json(nlohmann::json&, const PlaybackSettings&);
+        DJV_MODELS_API void to_json(nlohmann::json&, const ReviewSettings&);
         DJV_MODELS_API void to_json(nlohmann::json&, const ShortcutsSettings&);
         DJV_MODELS_API void to_json(nlohmann::json&, const StyleSettings&);
         DJV_MODELS_API void to_json(nlohmann::json&, const TimelineSettings&);
@@ -642,6 +660,7 @@ namespace djv
         DJV_MODELS_API void from_json(const nlohmann::json&, MouseActionBinding&);
         DJV_MODELS_API void from_json(const nlohmann::json&, MouseSettings&);
         DJV_MODELS_API void from_json(const nlohmann::json&, PlaybackSettings&);
+        DJV_MODELS_API void from_json(const nlohmann::json&, ReviewSettings&);
         DJV_MODELS_API void from_json(const nlohmann::json&, ShortcutsSettings&);
         DJV_MODELS_API void from_json(const nlohmann::json&, StyleSettings&);
         DJV_MODELS_API void from_json(const nlohmann::json&, TimelineSettings&);

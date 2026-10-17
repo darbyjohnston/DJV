@@ -23,6 +23,7 @@ namespace djv
         class SettingsModel;
         class TimeUnitsModel;
         class ViewportModel;
+        struct ReviewStroke;
     }
 
     namespace ui
@@ -83,6 +84,9 @@ namespace djv
             DJV_UI_API void mouseMoveEvent(ftk::MouseMoveEvent&) override;
             DJV_UI_API void mousePressEvent(ftk::MouseClickEvent&) override;
             DJV_UI_API void mouseReleaseEvent(ftk::MouseClickEvent&) override;
+            DJV_UI_API void keyPressEvent(ftk::KeyEvent&) override;
+            DJV_UI_API void textEvent(ftk::TextEvent&) override;
+            DJV_UI_API void keyFocusEvent(bool) override;
             DJV_UI_API void mouseEnterEvent(ftk::MouseEnterEvent&) override;
             DJV_UI_API void mouseLeaveEvent() override;
 
@@ -104,6 +108,11 @@ namespace djv
             //! Map a widget-local position to a source and its image pixels.
             SourceHit _hitTest(const ftk::V2I& widgetPos) const;
 
+            //! Map a widget-local position to the image pixels of a given
+            //! source, held inside the image: a drag that leaves the picture
+            //! goes on at its edge rather than stopping there.
+            std::optional<ftk::V2F> _imagePosClamped(int index, const ftk::V2I& widgetPos) const;
+
             //! Map a position in a source's image pixels back to widget-local
             //! coordinates.
             ftk::V2F _imageToWidget(int index, const ftk::V2F& imagePos) const;
@@ -117,9 +126,42 @@ namespace djv
             bool _sourceShown(int index) const;
 
             void _drawBegin(const ftk::V2I& widgetPos);
-            void _drawContinue(const ftk::V2I& widgetPos);
+            void _drawContinue(const ftk::V2I& widgetPos, int modifiers);
             void _drawEnd();
             void _erase(const ftk::V2I& widgetPos);
+
+            //! Text is typed into the viewport where it was clicked, until
+            //! Return commits it or Escape lets it go.
+            void _textBegin(const ftk::V2I& widgetPos);
+            void _textEnd(bool commit);
+
+            //! The select tool: a press picks the stroke under it and starts
+            //! moving it, a press on nothing lets the selection go.
+            void _selectPress(const ftk::V2I& widgetPos);
+            void _selectMove(const ftk::V2I& widgetPos, int modifiers);
+            void _selectRelease(bool cancel);
+            void _selectionClear();
+            //! Type the selected text again, in place.
+            void _selectionEditText();
+            //! Apply a change of color or size to the selected stroke.
+            void _selectionUpdate(const std::function<void(models::ReviewStroke&)>&);
+
+            //! Draw the frame around the selected stroke.
+            void _drawSelection(
+                const ftk::DrawEvent&,
+                int index,
+                const models::ReviewStroke&,
+                float scale);
+
+            //! Draw one stroke of a source, with the alpha the onion skin
+            //! asks for.
+            void _drawStroke(
+                const ftk::DrawEvent&,
+                int index,
+                const models::ReviewStroke&,
+                float scale,
+                float alpha,
+                bool caret);
 
             //! The cursor follows the drawing mode: a crosshair while the
             //! pointer is inside and drawing is enabled.

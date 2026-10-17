@@ -10,6 +10,32 @@ namespace djv
 {
     namespace models
     {
+        FTK_ENUM_IMPL(
+            DrawTool,
+            "Pen",
+            "Eraser",
+            "Line",
+            "Arrow",
+            "Rectangle",
+            "Ellipse",
+            "Text",
+            "Select");
+
+        ReviewStrokeKind getStrokeKind(DrawTool value)
+        {
+            ReviewStrokeKind out = ReviewStrokeKind::Freehand;
+            switch (value)
+            {
+            case DrawTool::Line: out = ReviewStrokeKind::Line; break;
+            case DrawTool::Arrow: out = ReviewStrokeKind::Arrow; break;
+            case DrawTool::Rectangle: out = ReviewStrokeKind::Rectangle; break;
+            case DrawTool::Ellipse: out = ReviewStrokeKind::Ellipse; break;
+            case DrawTool::Text: out = ReviewStrokeKind::Text; break;
+            default: break;
+            }
+            return out;
+        }
+
         struct DrawModel::Private
         {
             std::shared_ptr<ftk::Settings> settings;
@@ -17,6 +43,8 @@ namespace djv
             std::shared_ptr<ftk::Observable<DrawTool> > tool;
             std::shared_ptr<ftk::Observable<ftk::Color4F> > color;
             std::shared_ptr<ftk::Observable<float> > size;
+            std::shared_ptr<ftk::Observable<float> > textSize;
+            std::shared_ptr<ftk::Observable<bool> > onionSkin;
         };
 
         void DrawModel::_init(const std::shared_ptr<ftk::Settings>& settings)
@@ -38,6 +66,12 @@ namespace djv
             float size = 4.F;
             p.settings->get(settingsKeys::drawSize, size);
             p.size = ftk::Observable<float>::create(size > 0.F ? size : 4.F);
+            float textSize = 48.F;
+            p.settings->get(settingsKeys::drawTextSize, textSize);
+            p.textSize = ftk::Observable<float>::create(textSize > 0.F ? textSize : 48.F);
+            bool onionSkin = false;
+            p.settings->get(settingsKeys::drawOnionSkin, onionSkin);
+            p.onionSkin = ftk::Observable<bool>::create(onionSkin);
         }
 
         DrawModel::DrawModel() :
@@ -49,6 +83,8 @@ namespace djv
             FTK_P();
             p.settings->setT(settingsKeys::drawColor, p.color->get());
             p.settings->set(settingsKeys::drawSize, p.size->get());
+            p.settings->set(settingsKeys::drawTextSize, p.textSize->get());
+            p.settings->set(settingsKeys::drawOnionSkin, p.onionSkin->get());
         }
 
         std::shared_ptr<DrawModel> DrawModel::create(
@@ -118,6 +154,36 @@ namespace djv
         {
             // A zero width would draw nothing.
             _p->size->setIfChanged(std::max(.5F, value));
+        }
+
+        float DrawModel::getTextSize() const
+        {
+            return _p->textSize->get();
+        }
+
+        std::shared_ptr<ftk::IObservable<float> > DrawModel::observeTextSize() const
+        {
+            return _p->textSize;
+        }
+
+        void DrawModel::setTextSize(float value)
+        {
+            _p->textSize->setIfChanged(std::max(4.F, value));
+        }
+
+        bool DrawModel::isOnionSkin() const
+        {
+            return _p->onionSkin->get();
+        }
+
+        std::shared_ptr<ftk::IObservable<bool> > DrawModel::observeOnionSkin() const
+        {
+            return _p->onionSkin;
+        }
+
+        void DrawModel::setOnionSkin(bool value)
+        {
+            _p->onionSkin->setIfChanged(value);
         }
     }
 }

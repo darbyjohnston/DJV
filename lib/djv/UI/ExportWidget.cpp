@@ -3,6 +3,10 @@
 
 #include <djv/UI/ExportWidget.h>
 
+#include <djv/UI/StrokeDraw.h>
+
+#include <djv/Models/AnnotationsModel.h>
+
 #include <djv/UI/ExportWidgets.h>
 #include <djv/Models/ColorModel.h>
 #include <djv/Models/FilesModel.h>
@@ -20,6 +24,7 @@
 
 #include <tlRender/Core/Audio.h>
 
+#include <ftk/UI/CheckBox.h>
 #include <ftk/UI/ComboBox.h>
 #include <ftk/UI/DialogSystem.h>
 #include <ftk/UI/FileEdit.h>
@@ -91,6 +96,7 @@ namespace djv
             std::weak_ptr<models::FilesModel> filesModel;
             std::weak_ptr<models::ColorModel> colorModel;
             std::weak_ptr<models::ViewportModel> viewportModel;
+            std::weak_ptr<models::AnnotationsModel> annotationsModel;
 
             struct ExportData
             {
@@ -125,6 +131,13 @@ namespace djv
                 ftk::ImageType colorBuffer = tl::ui::getViewportColorBufferDefault();
                 std::shared_ptr<ftk::gl::OffscreenBuffer> buffer;
                 std::shared_ptr<tl::IRender> render;
+                //! The drawings written into the picture, with the sources
+                //! they are on, in the order of the boxes, and the sizes
+                //! their points are in. Taken once, like the layout.
+                bool burnAnnotations = false;
+                std::vector<models::ReviewAnnotation> annotations;
+                std::vector<std::string> sourceIds;
+                std::vector<ftk::ImageInfo> infos;
             };
             std::unique_ptr<ExportData> exportData;
 
@@ -137,6 +150,7 @@ namespace djv
             // The edits report every change, including the ones made here
             // to show the custom size, which must not read as typed.
             bool sizeUpdating = false;
+            std::shared_ptr<ftk::CheckBox> burnAnnotationsCheckBox;
             std::shared_ptr<ImageExportWidget> imageWidget;
             std::shared_ptr<SeqExportWidget> seqWidget;
             std::shared_ptr<MovieExportWidget> movieWidget;
@@ -168,12 +182,14 @@ namespace djv
             const std::shared_ptr<models::ViewportModel>& viewportModel,
             const std::shared_ptr<models::SettingsModel>& settingsModel,
             const std::shared_ptr<models::TimeUnitsModel>& timeUnitsModel,
+            const std::shared_ptr<models::AnnotationsModel>& annotationsModel,
             const std::shared_ptr<IWidget>& parent)
         {
             ftk::IContainer::_init(context, "djv::ui::ExportWidget", parent);
             FTK_P();
 
             p.settings = settingsModel;
+            p.annotationsModel = annotationsModel;
             p.filesModel = filesModel;
             p.colorModel = colorModel;
             p.viewportModel = viewportModel;
@@ -210,6 +226,11 @@ namespace djv
                 "codecs need even numbers; the export says if the codec "
                 "cannot take the size.");
             ftk::setScreenshotTag(p.heightEdit, "Export.Height");
+            p.burnAnnotationsCheckBox = ftk::CheckBox::create(context);
+            p.burnAnnotationsCheckBox->setTooltip(
+                "Write the drawings into the picture, on the frames they "
+                "are on.");
+            ftk::setScreenshotTag(p.burnAnnotationsCheckBox, "Export.BurnAnnotations");
 
             p.imageWidget = ImageExportWidget::create(
                 context, settingsModel);
@@ -235,6 +256,7 @@ namespace djv
             p.sizeLabel->setParent(p.sizeEditLayout);
             p.sizeLabel->setVAlign(ftk::VAlign::Center);
             p.formLayout->addRow("Size:", p.sizeEditLayout);
+            p.formLayout->addRow("Burn in drawings:", p.burnAnnotationsCheckBox);
             // Under both of the ways of giving a width, since it is what
             // either of them comes to, and it is worth saying for the
             // default and the presets as much as for a typed width.
@@ -290,6 +312,15 @@ namespace djv
                     FTK_P();
                     auto options = p.settings->getExport();
                     options.renderSize = static_cast<models::ExportRenderSize>(value);
+                    p.settings->setExport(options);
+                });
+
+            p.burnAnnotationsCheckBox->setCheckedCallback(
+                [this](bool value)
+                {
+                    FTK_P();
+                    auto options = p.settings->getExport();
+                    options.burnAnnotations = value;
                     p.settings->setExport(options);
                 });
 
@@ -360,6 +391,7 @@ namespace djv
             const std::shared_ptr<models::ViewportModel>& viewportModel,
             const std::shared_ptr<models::SettingsModel>& settingsModel,
             const std::shared_ptr<models::TimeUnitsModel>& timeUnitsModel,
+            const std::shared_ptr<models::AnnotationsModel>& annotationsModel,
             const std::shared_ptr<IWidget>& parent)
         {
             auto out = std::shared_ptr<ExportWidget>(new ExportWidget);
@@ -370,6 +402,7 @@ namespace djv
                 viewportModel,
                 settingsModel,
                 timeUnitsModel,
+                annotationsModel,
                 parent);
             return out;
         }
@@ -419,6 +452,73 @@ namespace djv
             p.imageWidget->setPlayer(value);
             p.seqWidget->setPlayer(value);
             p.movieWidget->setPlayer(value);
+        }
+
+        void ExportWidget::_drawAnnotations(const OTIO_NS::RationalTime& time)
+        {
+            FTK_P();
+            auto context = getContext();
+            if (!context)
+            {
+                return;
+            }
+            auto fontSystem = context->getSystem<ftk::FontSystem>();
+            const auto& compare = p.player->getCompare();
+            for (const auto& annotation : p.exportData->annotations)
+            {
+                // The source's place in the layout, and the frame it is
+                // showing at this time, which for a compared source is
+                // the player's mapping of it.
+                int index = -1;
+                for (size_t i = 0; i < p.exportData->sourceIds.size(); ++i)
+                {
+                    if (p.exportData->sourceIds[i] == annotation.sourceId)
+                    {
+                        index = static_cast<int>(i);
+                        break;
+                    }
+                }
+                if (index < 0 ||
+                    index >= static_cast<int>(p.exportData->boxes.size()) ||
+                    index >= static_cast<int>(p.exportData->infos.size()))
+                {
+                    continue;
+                }
+                OTIO_NS::RationalTime sourceTime = time;
+                if (index > 0 && index - 1 < static_cast<int>(compare.size()))
+                {
+                    sourceTime = tl::getCompareTime(
+                        time,
+                        p.player->getTimeRange(),
+                        compare[index - 1]->getTimeRange(),
+                        p.player->getCompareTime());
+                }
+                if (!models::sameTime(annotation.time, sourceTime))
+                {
+                    continue;
+                }
+                const ftk::Box2I& box = p.exportData->boxes[index];
+                const ftk::Size2I& imageSize = p.exportData->infos[index].size;
+                if (!imageSize.isValid())
+                {
+                    continue;
+                }
+                const float scale = box.w() / static_cast<float>(imageSize.w);
+                for (const auto& stroke : annotation.strokes)
+                {
+                    drawStroke(
+                        p.exportData->render,
+                        fontSystem,
+                        stroke,
+                        [&box, scale](const ftk::V2F& point)
+                        {
+                            return ftk::V2F(
+                                box.min.x + point.x * scale,
+                                box.min.y + point.y * scale);
+                        },
+                        scale);
+                }
+            }
         }
 
         std::vector<ftk::ImageInfo> ExportWidget::_getInfos() const
@@ -555,6 +655,7 @@ namespace djv
             p.widthEdit->setValue(settings.customWidth);
             p.heightEdit->setValue(settings.customHeight);
             p.sizeUpdating = false;
+            p.burnAnnotationsCheckBox->setChecked(settings.burnAnnotations);
         }
 
         void ExportWidget::_widgetUpdate(const models::ExportSettings& settings)
@@ -761,6 +862,19 @@ namespace djv
                     if (ftk::ImageType::None == p.exportData->info.type)
                     {
                         p.exportData->info.type = ftk::ImageType::RGBA_U8;
+                    }
+                    p.exportData->burnAnnotations = options.burnAnnotations;
+                    if (options.burnAnnotations)
+                    {
+                        if (auto annotationsModel = p.annotationsModel.lock())
+                        {
+                            p.exportData->annotations = annotationsModel->getAnnotations();
+                        }
+                        for (const auto& item : p.filesModel.lock()->getActive())
+                        {
+                            p.exportData->sourceIds.push_back(item->id);
+                        }
+                        p.exportData->infos = infos;
                     }
                     p.exportData->boxes = scaleBoxes(
                         tl::getBoxes(
@@ -1061,6 +1175,10 @@ namespace djv
                     p.exportData->displayOptions,
                     p.exportData->compareOptions,
                     p.exportData->colorBuffer);
+                if (p.exportData->burnAnnotations)
+                {
+                    _drawAnnotations(t);
+                }
                 p.exportData->render->end();
 
                 // Write the output image.

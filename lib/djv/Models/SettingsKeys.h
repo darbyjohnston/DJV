@@ -40,6 +40,8 @@ namespace djv
             constexpr const char* shortcutsPrevious = "/Shortcuts.3";
             constexpr const char* misc = "/Misc.3";
             constexpr const char* mouse = "/Mouse.1";
+            //! Not "/Review": the recent reviews live under that.
+            constexpr const char* reviewSettings = "/ReviewSettings";
             constexpr const char* playback = "/Playback.1";
             constexpr const char* style = "/Style.2";
             constexpr const char* timeline = "/Timeline";
@@ -58,6 +60,8 @@ namespace djv
             constexpr const char* colorWidgetMode = "/ColorWidget/Mode";
             constexpr const char* drawColor = "/Draw/Color";
             constexpr const char* drawSize = "/Draw/Size";
+            constexpr const char* drawTextSize = "/Draw/TextSize";
+            constexpr const char* drawOnionSkin = "/Draw/OnionSkin";
             constexpr const char* filesCompareDifferenceGain = "/Files/Compare/DifferenceGain";
             constexpr const char* filesCompareOverlay = "/Files/Compare/Overlay";
             constexpr const char* filesCompareSameSize = "/Files/Compare/SameSize";

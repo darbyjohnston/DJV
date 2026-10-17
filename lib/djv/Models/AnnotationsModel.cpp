@@ -3,6 +3,8 @@
 
 #include <djv/Models/AnnotationsModel.h>
 
+#include <djv/Models/Stroke.h>
+
 #include <ftk/Core/Command.h>
 
 #include <algorithm>
@@ -40,50 +42,6 @@ namespace djv
                 std::vector<ReviewAnnotation> _before;
                 std::vector<ReviewAnnotation> _after;
             };
-
-            //! The distance from a point to a segment.
-            float distanceToSegment(
-                const ftk::V2F& p,
-                const ftk::V2F& a,
-                const ftk::V2F& b)
-            {
-                const float dx = b.x - a.x;
-                const float dy = b.y - a.y;
-                const float lengthSquared = dx * dx + dy * dy;
-                float t = 0.F;
-                if (lengthSquared > 0.F)
-                {
-                    t = ((p.x - a.x) * dx + (p.y - a.y) * dy) / lengthSquared;
-                    t = std::max(0.F, std::min(1.F, t));
-                }
-                const float x = a.x + t * dx;
-                const float y = a.y + t * dy;
-                return std::sqrt((p.x - x) * (p.x - x) + (p.y - y) * (p.y - y));
-            }
-
-            //! Does the stroke pass within the radius of the position?
-            bool strokeHit(const ReviewStroke& stroke, const ftk::V2F& pos, float radius)
-            {
-                // Include the stroke's own width, so a thick stroke is as easy to
-                // hit as it looks.
-                const float threshold = radius + stroke.width / 2.F;
-                if (stroke.points.empty())
-                {
-                    return false;
-                }
-                if (1 == stroke.points.size())
-                {
-                    return distanceToSegment(pos, stroke.points[0], stroke.points[0]) <= threshold;
-                }
-                for (size_t i = 0; i + 1 < stroke.points.size(); ++i)
-                {
-                    if (distanceToSegment(pos, stroke.points[i], stroke.points[i + 1]) <= threshold)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
         }
 
         struct AnnotationsModel::Private
@@ -224,6 +182,78 @@ namespace djv
             if (changed)
             {
                 _push(annotations);
+            }
+        }
+
+        std::optional<size_t> AnnotationsModel::findStroke(
+            const std::string& sourceId,
+            const OTIO_NS::RationalTime& time,
+            const ftk::V2F& pos,
+            float radius) const
+        {
+            std::optional<size_t> out;
+            const std::vector<ReviewStroke> strokes = getStrokes(sourceId, time);
+            // Back to front: the last drawn is on top, and is what a click
+            // on two strokes means.
+            for (size_t i = strokes.size(); i > 0; --i)
+            {
+                if (strokeHit(strokes[i - 1], pos, radius))
+                {
+                    out = i - 1;
+                    break;
+                }
+            }
+            return out;
+        }
+
+        void AnnotationsModel::setStroke(
+            const std::string& sourceId,
+            const OTIO_NS::RationalTime& time,
+            size_t index,
+            const ReviewStroke& stroke)
+        {
+            FTK_P();
+            auto annotations = p.annotations->get();
+            for (auto& annotation : annotations)
+            {
+                if (annotation.sourceId == sourceId &&
+                    sameTime(annotation.time, time) &&
+                    index < annotation.strokes.size())
+                {
+                    if (annotation.strokes[index] == stroke)
+                    {
+                        return;
+                    }
+                    annotation.strokes[index] = stroke;
+                    _push(annotations);
+                    return;
+                }
+            }
+        }
+
+        void AnnotationsModel::removeStroke(
+            const std::string& sourceId,
+            const OTIO_NS::RationalTime& time,
+            size_t index)
+        {
+            FTK_P();
+            auto annotations = p.annotations->get();
+            for (auto i = annotations.begin(); i != annotations.end(); ++i)
+            {
+                if (i->sourceId == sourceId &&
+                    sameTime(i->time, time) &&
+                    index < i->strokes.size())
+                {
+                    i->strokes.erase(i->strokes.begin() + index);
+                    // The last stroke takes the annotation with it, as the
+                    // eraser does.
+                    if (i->strokes.empty())
+                    {
+                        annotations.erase(i);
+                    }
+                    _push(annotations);
+                    return;
+                }
             }
         }
 

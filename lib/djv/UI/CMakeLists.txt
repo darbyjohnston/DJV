@@ -20,6 +20,7 @@ set(HEADERS
     InfoWidget.h
     MagnifyWidget.h
     ViewWidgets.h
+    StrokeDraw.h
     Viewport.h
     ViewportBinding.h)
 set(HEADERS_PRIVATE)
@@ -48,6 +49,7 @@ set(SOURCE
     InfoWidget.cpp
     MagnifyWidget.cpp
     ViewWidgets.cpp
+    StrokeDraw.cpp
     Viewport.cpp
     ViewportBinding.cpp)
 
