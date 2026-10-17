@@ -299,7 +299,11 @@ class ModelsTest(unittest.TestCase):
         path = os.path.join(self.tempDir, "test.djvr")
         djv.models.reviewSave(path, review)
         review2 = djv.models.reviewOpen(path)
-        self.assertEqual(djv.models.reviewVersion, review2.version)
+        # Written at the lowest version that holds what it holds: one
+        # with no shapes or text is version 1, which older readers open.
+        self.assertEqual(djv.models.reviewVersionFor(review), review2.version)
+        self.assertEqual(1, review2.version)
+        self.assertTrue(djv.models.reviewVersionSupported(review2.version))
         self.assertEqual("shot/comp.mov", review2.files[0].path)
         self.assertEqual([marker], review2.markers)
         self.assertEqual([], review2.unreadSections)

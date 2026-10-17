@@ -31,6 +31,7 @@ namespace djv
 
             m.attr("reviewVersion") = reviewVersion;
             m.def("reviewVersionSupported", &reviewVersionSupported, nb::arg("version"));
+            m.def("reviewVersionFor", &reviewVersionFor, nb::arg("review"));
             m.def("reviewExtension", &reviewExtension);
             m.def("sameTime", &sameTime);
             m.def("sameRange", &sameRange);
