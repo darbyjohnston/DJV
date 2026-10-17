@@ -93,6 +93,13 @@ namespace djv
             DJV_MODELS_API std::shared_ptr<ftk::IObservable<bool> > observeOnionSkin() const;
             DJV_MODELS_API void setOnionSkin(bool);
 
+            //! Whether a shape is held square or round, and a line or an
+            //! arrow to a multiple of forty-five degrees, as Shift holds it:
+            //! for a touch screen, which has no Shift to hold.
+            DJV_MODELS_API bool isConstrain() const;
+            DJV_MODELS_API std::shared_ptr<ftk::IObservable<bool> > observeConstrain() const;
+            DJV_MODELS_API void setConstrain(bool);
+
         private:
             FTK_PRIVATE();
         };

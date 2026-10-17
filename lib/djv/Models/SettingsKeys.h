@@ -62,6 +62,7 @@ namespace djv
             constexpr const char* drawSize = "/Draw/Size";
             constexpr const char* drawTextSize = "/Draw/TextSize";
             constexpr const char* drawOnionSkin = "/Draw/OnionSkin";
+            constexpr const char* drawConstrain = "/Draw/Constrain";
             constexpr const char* filesCompareDifferenceGain = "/Files/Compare/DifferenceGain";
             constexpr const char* filesCompareOverlay = "/Files/Compare/Overlay";
             constexpr const char* filesCompareSameSize = "/Files/Compare/SameSize";

@@ -19,6 +19,7 @@
 
 #include <ftk/UI/ColorSwatch.h>
 #include <ftk/UI/IWindow.h>
+#include <ftk/Core/FontSystem.h>
 #include <ftk/UI/Label.h>
 #include <ftk/UI/SysLogModel.h>
 #include <ftk/UI/RowLayout.h>
@@ -156,6 +157,11 @@ namespace djv
             //! is the selected stroke written again rather than a new one.
             bool textEditing = false;
             bool textEditingSelection = false;
+            //! Whether the press under way is a finger's.
+            bool touchInput = false;
+            //! How many undo steps the eraser has made since the press, to
+            //! take back if the press is cancelled.
+            size_t eraseSteps = 0;
 
             //! The selected stroke: the source and frame it is on, and its
             //! index among that frame's strokes. While it is moved, a copy
@@ -372,6 +378,11 @@ namespace djv
                     {
                         _selectionClear();
                     }
+                    // A finger draws from where it lands, rather than after
+                    // the touch screen's wait for a second finger; a second
+                    // finger still cancels the stroke, as it cancels any
+                    // press (see mouseReleaseEvent).
+                    setTouchImmediate(value);
                     _mouseBindingsUpdate();
                     _cursorUpdate();
                 });
@@ -747,13 +758,13 @@ namespace djv
             switch (p.mouse.mode)
             {
             case Private::MouseMode::Draw:
-                _drawContinue(event.pos - getGeometry().min, event.modifiers, event.pressure);
+                _drawContinue(event.pos - getGeometry().min, event.keyModifiers, event.pressure);
                 break;
             case Private::MouseMode::Erase:
                 _erase(event.pos - getGeometry().min);
                 break;
             case Private::MouseMode::Select:
-                _selectMove(event.pos - getGeometry().min, event.modifiers);
+                _selectMove(event.pos - getGeometry().min, event.keyModifiers);
                 break;
             case Private::MouseMode::Shuttle:
                 if (auto player = getPlayer())
@@ -824,6 +835,7 @@ namespace djv
                 ftk::MouseButton::Left == event.button &&
                 0 == event.modifiers)
             {
+                p.touchInput = event.touch;
                 // Claim the button, as the shuttle does below. Without this
                 // the release never reaches us: the stroke is never
                 // committed, keeps growing on every move, and the undo that
@@ -841,6 +853,7 @@ namespace djv
                 {
                 case models::DrawTool::Eraser:
                     p.mouse.mode = Private::MouseMode::Erase;
+                    p.eraseSteps = 0;
                     _erase(pos);
                     break;
                 case models::DrawTool::Text:
@@ -899,6 +912,15 @@ namespace djv
             else if (Private::MouseMode::Select == p.mouse.mode)
             {
                 _selectRelease(event.cancel);
+            }
+            else if (Private::MouseMode::Erase == p.mouse.mode && event.cancel)
+            {
+                // The first finger of a pinch was not erasing: what it
+                // took is put back.
+                for (; p.eraseSteps > 0; --p.eraseSteps)
+                {
+                    p.annotationsModel->undo();
+                }
             }
             else if (Private::MouseMode::Shuttle == p.mouse.mode && event.cancel)
             {
@@ -1218,16 +1240,16 @@ namespace djv
                     models::ReviewStrokeKind::Ellipse == kind;
             }
 
-            //! One point of a shape against its other point: with Shift,
+            //! One point of a shape against its other point, constrained:
             //! square or round, or at a multiple of forty-five degrees.
             ftk::V2F constrainShape(
                 models::ReviewStrokeKind kind,
                 const ftk::V2F& anchor,
                 const ftk::V2F& pos,
-                int modifiers)
+                bool constrain)
             {
                 ftk::V2F out = pos;
-                if (!(modifiers & static_cast<int>(ftk::KeyModifier::Shift)))
+                if (!constrain)
                 {
                     return out;
                 }
@@ -1259,9 +1281,16 @@ namespace djv
                 return out;
             }
 
-            //! The size of a handle on the screen, and how near a press has
-            //! to be to take it.
+            //! The size of a handle on the screen, in pixels at a display
+            //! scale of one.
             const float handleSize = 8.F;
+
+            //! How near a press has to be to take a handle or a stroke, and
+            //! the least an eraser reaches, in pixels at a display scale of
+            //! one: a pointer's, and a fingertip's, which covers far more
+            //! than it hits.
+            const float pointerReach = 8.F;
+            const float fingerReach = 22.F;
         }
 
         void Viewport::_drawBegin(const ftk::V2I& widgetPos, bool pen, float pressure)
@@ -1309,7 +1338,7 @@ namespace djv
                     return;
                 }
                 p.stroke.points.resize(2);
-                p.stroke.points[1] = constrainShape(p.stroke.kind, p.stroke.points.front(), *clamped, modifiers);
+                p.stroke.points[1] = constrainShape(p.stroke.kind, p.stroke.points.front(), *clamped, _isConstrained(modifiers));
                 setDrawUpdate();
                 return;
             }
@@ -1390,17 +1419,51 @@ namespace djv
             // tells it, or the keys arrive and the characters never do.
             setAcceptsKeyFocus(true);
             takeKeyFocus();
+            // Where the text is, then the keyboard: iOS works out how far to
+            // lift the window as the keyboard is asked for, and with the
+            // place told after it the first keyboard covered the text.
+            _textInputAreaUpdate();
             if (auto window = getWindow())
             {
                 window->setTextInput(true);
-                const ftk::Box2I& g = getGeometry();
-                window->setTextInputArea(ftk::Box2I(
-                    g.min.x + widgetPos.x,
-                    g.min.y + widgetPos.y,
-                    1,
-                    static_cast<int>(drawModel->getTextSize() * hit.scale * getZoom())));
             }
             setDrawUpdate();
+        }
+
+        void Viewport::_textInputAreaUpdate()
+        {
+            FTK_P();
+            auto window = getWindow();
+            if (!window || p.strokeSource < 0 || p.stroke.points.empty())
+            {
+                return;
+            }
+            // The text's top left and the height of its line on the screen:
+            // the line, not the font size, which leaves out what hangs below
+            // the baseline, and a large size lost the bottom of its letters
+            // under the keyboard. A little room below it besides.
+            const ftk::V2F& a = p.stroke.points.front();
+            const ftk::V2F top = _imageToWidget(p.strokeSource, a);
+            const ftk::V2F bottom = _imageToWidget(
+                p.strokeSource,
+                ftk::V2F(a.x, a.y + p.stroke.textSize));
+            const float size = std::abs(bottom.y - top.y);
+            float lineHeight = size * 1.4F;
+            if (auto context = getContext())
+            {
+                if (auto fontSystem = context->getSystem<ftk::FontSystem>())
+                {
+                    ftk::FontInfo fontInfo;
+                    fontInfo.size = std::max(1, static_cast<int>(std::round(size)));
+                    lineHeight = fontSystem->getMetrics(fontInfo).lineHeight;
+                }
+            }
+            const ftk::Box2I& g = getGeometry();
+            window->setTextInputArea(ftk::Box2I(
+                g.min.x + static_cast<int>(top.x),
+                g.min.y + static_cast<int>(std::min(top.y, bottom.y)),
+                1,
+                std::max(1, static_cast<int>(std::round(lineHeight + 8.F * _displayScale())))));
         }
 
         void Viewport::_textEnd(bool commit)
@@ -1473,8 +1536,9 @@ namespace djv
                     for (int i = 0; i < 2; ++i)
                     {
                         const ftk::V2F s = _imageToWidget(p.selection->source, stroke.points[i]);
-                        if (std::abs(s.x - widgetPos.x) <= handleSize &&
-                            std::abs(s.y - widgetPos.y) <= handleSize)
+                        const float reach = _reach();
+                        if (std::abs(s.x - widgetPos.x) <= reach &&
+                            std::abs(s.y - widgetPos.y) <= reach)
                         {
                             p.handle = i;
                             p.moving = stroke;
@@ -1488,9 +1552,9 @@ namespace djv
             std::optional<size_t> found;
             if (hit.index >= 0 && p.currentTime.has_value())
             {
-                // Within a few screen pixels, whatever the zoom.
+                // Within reach on the screen, whatever the zoom.
                 const double zoom = getZoom();
-                const float radius = 6.F / std::max(.001F, hit.scale * static_cast<float>(zoom));
+                const float radius = _reach() / std::max(.001F, hit.scale * static_cast<float>(zoom));
                 const auto& active = p.filesModel->getActive();
                 if (hit.index < static_cast<int>(active.size()))
                 {
@@ -1561,7 +1625,7 @@ namespace djv
                 if (p.handle < static_cast<int>(stroke.points.size()))
                 {
                     const ftk::V2F& other = stroke.points[1 - p.handle];
-                    stroke.points[p.handle] = constrainShape(stroke.kind, other, *clamped, modifiers);
+                    stroke.points[p.handle] = constrainShape(stroke.kind, other, *clamped, _isConstrained(modifiers));
                     p.moving = stroke;
                     setDrawUpdate();
                 }
@@ -1669,6 +1733,8 @@ namespace djv
             p.textEditingSelection = true;
             setAcceptsKeyFocus(true);
             takeKeyFocus();
+            // Where this text is, not where the last was; see _textBegin().
+            _textInputAreaUpdate();
             if (auto window = getWindow())
             {
                 window->setTextInput(true);
@@ -1697,6 +1763,27 @@ namespace djv
                 stroke);
         }
 
+        float Viewport::_displayScale()
+        {
+            if (auto window = getWindow())
+            {
+                return window->getDisplayScale();
+            }
+            return 1.F;
+        }
+
+        float Viewport::_reach()
+        {
+            return (_p->touchInput ? fingerReach : pointerReach) * _displayScale();
+        }
+
+        bool Viewport::_isConstrained(int modifiers) const
+        {
+            return
+                (modifiers & static_cast<int>(ftk::KeyModifier::Shift)) ||
+                _p->drawModel->isConstrain();
+        }
+
         void Viewport::_erase(const ftk::V2I& widgetPos)
         {
             FTK_P();
@@ -1710,12 +1797,30 @@ namespace djv
                 if (hit.index < static_cast<int>(active.size()))
                 {
                     // The eraser removes whole strokes it touches; its reach
-                    // follows the tool size.
+                    // follows the tool size, and is never less than a
+                    // fingertip's for a finger.
+                    float radius = p.drawModel->getSize();
+                    if (p.touchInput)
+                    {
+                        const float zoom = static_cast<float>(getZoom());
+                        radius = std::max(
+                            radius,
+                            _reach() / std::max(.001F, hit.scale * zoom));
+                    }
+                    const size_t before = p.annotationsModel->getStrokes(
+                        active[hit.index]->id,
+                        *p.currentTime).size();
                     p.annotationsModel->eraseStrokes(
                         active[hit.index]->id,
                         *p.currentTime,
                         hit.pos,
-                        p.drawModel->getSize());
+                        radius);
+                    if (p.annotationsModel->getStrokes(
+                        active[hit.index]->id,
+                        *p.currentTime).size() < before)
+                    {
+                        ++p.eraseSteps;
+                    }
                 }
             }
         }
@@ -1985,7 +2090,7 @@ namespace djv
                     ftk::V2F s = _imageToWidget(index, stroke.points[i]);
                     s.x += g.min.x;
                     s.y += g.min.y;
-                    const float h = handleSize;
+                    const float h = handleSize * _displayScale();
                     event.render->drawRect(
                         ftk::Box2F(s.x - h / 2.F - 1.F, s.y - h / 2.F - 1.F, h + 2.F, h + 2.F),
                         ftk::Color4F(0.F, 0.F, 0.F, .6F));

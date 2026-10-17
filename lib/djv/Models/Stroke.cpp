@@ -434,6 +434,78 @@ namespace djv
             }
         }
 
+        namespace
+        {
+            //! The ribbon around a closed path, given without its last point
+            //! repeated: every corner mitred, the one where the path started
+            //! included, and no caps. Stroked as an open path, a rectangle's
+            //! first corner was the round cap at each end of it, and a
+            //! translucent ellipse blended twice where its caps overlapped.
+            ftk::TriMesh2F closedStrokeMesh(const std::vector<ftk::V2F>& points, float width)
+            {
+                ftk::TriMesh2F out;
+                const size_t size = points.size();
+                if (size < 3)
+                {
+                    return strokeMesh(points, width);
+                }
+                const float radius = std::max(.5F, width / 2.F);
+                const auto direction = [](const ftk::V2F& a, const ftk::V2F& b)
+                {
+                    const float dx = b.x - a.x;
+                    const float dy = b.y - a.y;
+                    const float length = std::sqrt(dx * dx + dy * dy);
+                    return length > 0.F ?
+                        ftk::V2F(dx / length, dy / length) :
+                        ftk::V2F(0.F, 0.F);
+                };
+                for (size_t i = 0; i < size; ++i)
+                {
+                    const ftk::V2F dirPrev = direction(points[(i + size - 1) % size], points[i]);
+                    const ftk::V2F dirNext = direction(points[i], points[(i + 1) % size]);
+                    ftk::V2F tangent(dirPrev.x + dirNext.x, dirPrev.y + dirNext.y);
+                    const float length = std::sqrt(tangent.x * tangent.x + tangent.y * tangent.y);
+                    if (length > 0.F)
+                    {
+                        tangent.x /= length;
+                        tangent.y /= length;
+                    }
+                    else
+                    {
+                        tangent = dirNext;
+                    }
+                    float offset = radius;
+                    const float cosHalf = dirNext.x * tangent.x + dirNext.y * tangent.y;
+                    if (cosHalf > .25F)
+                    {
+                        offset = std::min(radius / cosHalf, radius * 3.F);
+                    }
+                    const ftk::V2F normal(-tangent.y * offset, tangent.x * offset);
+                    out.v.push_back(ftk::V2F(points[i].x + normal.x, points[i].y + normal.y));
+                    out.v.push_back(ftk::V2F(points[i].x - normal.x, points[i].y - normal.y));
+                }
+                for (size_t i = 0; i < size; ++i)
+                {
+                    // One-based indices: left(i) = 2i+1, right(i) = 2i+2.
+                    const size_t j = (i + 1) % size;
+                    const size_t left = i * 2 + 1;
+                    const size_t right = left + 1;
+                    const size_t leftNext = j * 2 + 1;
+                    const size_t rightNext = leftNext + 1;
+                    ftk::Triangle2 triangle;
+                    triangle.v[0].v = left;
+                    triangle.v[1].v = leftNext;
+                    triangle.v[2].v = rightNext;
+                    out.triangles.push_back(triangle);
+                    triangle.v[0].v = left;
+                    triangle.v[1].v = rightNext;
+                    triangle.v[2].v = right;
+                    out.triangles.push_back(triangle);
+                }
+                return out;
+            }
+        }
+
         ftk::TriMesh2F shapeMesh(ReviewStrokeKind kind, const std::vector<ftk::V2F>& points, float width)
         {
             ftk::TriMesh2F out;
@@ -471,7 +543,16 @@ namespace djv
             {
                 return out;
             }
-            return strokeMesh(shapePath(kind, points), width);
+            std::vector<ftk::V2F> path = shapePath(kind, points);
+            if ((ReviewStrokeKind::Rectangle == kind || ReviewStrokeKind::Ellipse == kind) &&
+                path.size() > 3 &&
+                path.front().x == path.back().x &&
+                path.front().y == path.back().y)
+            {
+                path.pop_back();
+                return closedStrokeMesh(path, width);
+            }
+            return strokeMesh(path, width);
         }
 
         namespace

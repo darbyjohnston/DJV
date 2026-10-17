@@ -63,7 +63,9 @@ namespace djv
                 .def_prop_rw("textSize", &DrawModel::getTextSize, &DrawModel::setTextSize)
                 .def_prop_ro("observeTextSize", &DrawModel::observeTextSize)
                 .def_prop_rw("onionSkin", &DrawModel::isOnionSkin, &DrawModel::setOnionSkin)
-                .def_prop_ro("observeOnionSkin", &DrawModel::observeOnionSkin);
+                .def_prop_ro("observeOnionSkin", &DrawModel::observeOnionSkin)
+                .def_prop_rw("constrain", &DrawModel::isConstrain, &DrawModel::setConstrain)
+                .def_prop_ro("observeConstrain", &DrawModel::observeConstrain);
         }
     }
 }

@@ -130,6 +130,10 @@ namespace djv
             void _drawContinue(const ftk::V2I& widgetPos, int modifiers, float pressure);
             void _drawEnd();
             void _erase(const ftk::V2I& widgetPos);
+            float _displayScale();
+            void _textInputAreaUpdate();
+            float _reach();
+            bool _isConstrained(int modifiers) const;
 
             //! Text is typed into the viewport where it was clicked, until
             //! Return commits it or Escape lets it go.

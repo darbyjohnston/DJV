@@ -28,6 +28,8 @@ namespace djv
             std::shared_ptr<ftk::ListObserver<std::shared_ptr<models::FilesModelItem> > > filesObserver;
             std::shared_ptr<ftk::Observer<models::DrawTool> > toolObserver;
             std::shared_ptr<ftk::Observer<bool> > enabledObserver;
+            std::shared_ptr<ftk::Observer<bool> > onionSkinObserver;
+            std::shared_ptr<ftk::Observer<bool> > constrainObserver;
             std::shared_ptr<ftk::Observer<bool> > hasUndoObserver;
             std::shared_ptr<ftk::Observer<bool> > hasRedoObserver;
             std::shared_ptr<ftk::ListObserver<int> > markersObserver;
@@ -191,6 +193,17 @@ namespace djv
                     if (auto app = appWeak.lock())
                     {
                         app->getDrawModel()->setOnionSkin(args.at("value").get<bool>());
+                    }
+                });
+
+            _addCheckCommand(
+                "Constrain",
+                "Hold shapes square or round, and lines to multiples of 45 degrees.",
+                [appWeak](const nlohmann::json& args)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        app->getDrawModel()->setConstrain(args.at("value").get<bool>());
                     }
                 });
 
@@ -367,6 +380,9 @@ namespace djv
             _actions["OnionSkin"] = ftk::Action::create(
                 "Onion Skin",
                 _checkCommand("OnionSkin"));
+            _actions["Constrain"] = ftk::Action::create(
+                "Constrain Shapes",
+                _checkCommand("Constrain"));
             _actions["Undo"] = ftk::Action::create(
                 "Undo Drawing",
                 "Undo",
@@ -449,6 +465,9 @@ namespace djv
             _tooltips["OnionSkin"] =
                 "Show the drawings on the frames before and after, faded, "
                 "behind this frame's.";
+            _tooltips["Constrain"] =
+                "Hold rectangles square, ellipses round, and lines and arrows\n"
+                "to multiples of 45 degrees, as Shift does.";
             _tooltips["ClearDrawing"] = "Remove every stroke on this frame.";
             _tooltips["AddNote"] =
                 "Add a marker about the current frame, written in place.";
@@ -490,6 +509,7 @@ namespace djv
             _addShortcut("Erase", "Erase strokes");
             _addShortcut("Select", "Select strokes");
             _addShortcut("OnionSkin", "Onion skin");
+            _addShortcut("Constrain", "Constrain shapes");
             _addShortcut(
                 "Undo",
                 "Undo drawing",
@@ -543,6 +563,20 @@ namespace djv
                 });
 
             auto drawModel = app->getDrawModel();
+            // The menu's checks follow the settings however they change.
+            p.onionSkinObserver = ftk::Observer<bool>::create(
+                drawModel->observeOnionSkin(),
+                [this](bool value)
+                {
+                    _actions["OnionSkin"]->setChecked(value);
+                });
+            p.constrainObserver = ftk::Observer<bool>::create(
+                drawModel->observeConstrain(),
+                [this](bool value)
+                {
+                    _actions["Constrain"]->setChecked(value);
+                });
+
             p.toolObserver = ftk::Observer<models::DrawTool>::create(
                 drawModel->observeTool(),
                 [this, appWeak](models::DrawTool)

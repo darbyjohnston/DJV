@@ -224,6 +224,7 @@ namespace djv
             std::shared_ptr<ftk::IntEditSlider> sizeSlider;
             std::shared_ptr<ftk::IntEditSlider> textSizeSlider;
             std::shared_ptr<ftk::CheckBox> onionSkinCheckBox;
+            std::shared_ptr<ftk::CheckBox> constrainCheckBox;
             std::shared_ptr<ftk::ToolButton> undoButton;
             std::shared_ptr<ftk::ToolButton> redoButton;
             std::shared_ptr<ftk::ToolButton> clearDrawingButton;
@@ -263,6 +264,7 @@ namespace djv
             std::shared_ptr<ftk::Observer<float> > sizeObserver;
             std::shared_ptr<ftk::Observer<float> > textSizeObserver;
             std::shared_ptr<ftk::Observer<bool> > onionSkinObserver;
+            std::shared_ptr<ftk::Observer<bool> > constrainObserver;
             std::shared_ptr<ftk::Observer<bool> > hasUndoObserver;
             std::shared_ptr<ftk::Observer<bool> > hasRedoObserver;
         };
@@ -407,6 +409,9 @@ namespace djv
 
             p.onionSkinCheckBox = ftk::CheckBox::create(context, "Onion skin", drawingWidget);
             p.onionSkinCheckBox->setChecked(drawModel->isOnionSkin());
+            p.constrainCheckBox = ftk::CheckBox::create(context, "Constrain shapes", drawingWidget);
+            p.constrainCheckBox->setChecked(drawModel->isConstrain());
+            ftk::setScreenshotTag(p.constrainCheckBox, "Review.Constrain");
 
             ftk::setScreenshotTag(p.addNoteButton, "Review.AddNote");
             ftk::setScreenshotTag(p.addRangeButton, "Review.AddRange");
@@ -473,6 +478,7 @@ namespace djv
             bindTooltip(p.textButton, reviewActions.at("Text"));
             bindTooltip(p.eraserButton, reviewActions.at("Erase"));
             bindTooltip(p.onionSkinCheckBox, reviewActions.at("OnionSkin"));
+            bindTooltip(p.constrainCheckBox, reviewActions.at("Constrain"));
             bindTooltip(p.undoButton, reviewActions.at("Undo"));
             bindTooltip(p.redoButton, reviewActions.at("Redo"));
             bindTooltip(p.clearDrawingButton, reviewActions.at("ClearDrawing"));
@@ -534,6 +540,14 @@ namespace djv
                     if (auto app = appWeak.lock())
                     {
                         app->getDrawModel()->setOnionSkin(value);
+                    }
+                });
+            p.constrainCheckBox->setCheckedCallback(
+                [appWeak](bool value)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        app->getDrawModel()->setConstrain(value);
                     }
                 });
 
@@ -623,6 +637,12 @@ namespace djv
                 [this](bool value)
                 {
                     _p->onionSkinCheckBox->setChecked(value);
+                });
+            p.constrainObserver = ftk::Observer<bool>::create(
+                drawModel->observeConstrain(),
+                [this](bool value)
+                {
+                    _p->constrainCheckBox->setChecked(value);
                 });
 
             p.hasUndoObserver = ftk::Observer<bool>::create(

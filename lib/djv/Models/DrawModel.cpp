@@ -45,6 +45,7 @@ namespace djv
             std::shared_ptr<ftk::Observable<float> > size;
             std::shared_ptr<ftk::Observable<float> > textSize;
             std::shared_ptr<ftk::Observable<bool> > onionSkin;
+            std::shared_ptr<ftk::Observable<bool> > constrain;
         };
 
         void DrawModel::_init(const std::shared_ptr<ftk::Settings>& settings)
@@ -72,6 +73,9 @@ namespace djv
             bool onionSkin = false;
             p.settings->get(settingsKeys::drawOnionSkin, onionSkin);
             p.onionSkin = ftk::Observable<bool>::create(onionSkin);
+            bool constrain = false;
+            p.settings->get(settingsKeys::drawConstrain, constrain);
+            p.constrain = ftk::Observable<bool>::create(constrain);
         }
 
         DrawModel::DrawModel() :
@@ -85,6 +89,7 @@ namespace djv
             p.settings->set(settingsKeys::drawSize, p.size->get());
             p.settings->set(settingsKeys::drawTextSize, p.textSize->get());
             p.settings->set(settingsKeys::drawOnionSkin, p.onionSkin->get());
+            p.settings->set(settingsKeys::drawConstrain, p.constrain->get());
         }
 
         std::shared_ptr<DrawModel> DrawModel::create(
@@ -184,6 +189,21 @@ namespace djv
         void DrawModel::setOnionSkin(bool value)
         {
             _p->onionSkin->setIfChanged(value);
+        }
+
+        bool DrawModel::isConstrain() const
+        {
+            return _p->constrain->get();
+        }
+
+        std::shared_ptr<ftk::IObservable<bool> > DrawModel::observeConstrain() const
+        {
+            return _p->constrain;
+        }
+
+        void DrawModel::setConstrain(bool value)
+        {
+            _p->constrain->setIfChanged(value);
         }
     }
 }

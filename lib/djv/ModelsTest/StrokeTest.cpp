@@ -7,6 +7,7 @@
 
 #include <ftk/Core/Assert.h>
 
+#include <algorithm>
 #include <cmath>
 
 namespace djv
@@ -258,6 +259,26 @@ namespace djv
                 FTK_CHECK(!mesh.triangles.empty());
                 _checkIndices(mesh);
                 _checkFinite(mesh.v);
+            }
+            {
+                // A rectangle is a closed loop: four mitred corners, two
+                // triangles a side, and no caps, which rounded the corner
+                // it started from. Its outline reaches past every corner by
+                // half the width.
+                const auto mesh = models::shapeMesh(models::ReviewStrokeKind::Rectangle, corners, 4.F);
+                FTK_CHECK(8 == mesh.v.size());
+                FTK_CHECK(8 == mesh.triangles.size());
+                float minX = mesh.v.front().x;
+                float minY = mesh.v.front().y;
+                for (const auto& v : mesh.v)
+                {
+                    minX = std::min(minX, v.x);
+                    minY = std::min(minY, v.y);
+                }
+                const float x = std::min(corners[0].x, corners[1].x);
+                const float y = std::min(corners[0].y, corners[1].y);
+                FTK_CHECK(std::abs(minX - (x - 2.F)) < .01F);
+                FTK_CHECK(std::abs(minY - (y - 2.F)) < .01F);
             }
             {
                 // A cap is left off where asked; an arrow is a shaft with no

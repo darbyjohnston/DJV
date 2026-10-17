@@ -50,6 +50,7 @@ namespace djv
             addAction(actions["Text"]);
             addAction(actions["Erase"]);
             addAction(actions["OnionSkin"]);
+            addAction(actions["Constrain"]);
             addAction(actions["Undo"]);
             addAction(actions["Redo"]);
             addAction(actions["ClearDrawing"]);

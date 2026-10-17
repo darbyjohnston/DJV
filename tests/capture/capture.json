@@ -84,6 +84,27 @@
       ]
     },
     {
+      "id": "review-constrain",
+      "strict": true,
+      "window": { "w": 1000, "h": 600, "splitter2": 0.55 },
+      "setup": [
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "frame": 4 },
+        { "tool": "Review" },
+        { "expect": "Review.Constrain", "checked": false },
+        { "click": "Review.Constrain" },
+        { "expect": "Review.Constrain", "checked": true },
+        { "click": "Review.Rectangle" },
+        { "drag": [["MainWindow.Viewport", 0.2, 0.3], ["MainWindow.Viewport", 0.45, 0.5]] },
+        { "expect": "Review.Undo", "enabled": true },
+        { "command": "Review/Constrain", "args": { "value": false } },
+        { "expect": "Review.Constrain", "checked": false },
+        { "click": "Review.Ellipse" },
+        { "drag": [["MainWindow.Viewport", 0.55, 0.3], ["MainWindow.Viewport", 0.8, 0.5]], "hold": "Shift" },
+        { "expect": "Review.Undo", "enabled": true }
+      ]
+    },
+    {
       "id": "review-shapes",
       "strict": true,
       "window": { "w": 1000, "h": 600, "splitter2": 0.55 },
