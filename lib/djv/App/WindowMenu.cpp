@@ -58,8 +58,8 @@ namespace djv
             addDivider();
             addAction(actions["FileToolBar"]);
             addAction(actions["CompareToolBar"]);
-            addAction(actions["WindowToolBar"]);
             addAction(actions["ViewToolBar"]);
+            addAction(actions["WindowToolBar"]);
             addAction(actions["ToolsToolBar"]);
             addAction(actions["TabBar"]);
             addAction(actions["Timeline"]);

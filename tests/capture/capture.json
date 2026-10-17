@@ -55,6 +55,30 @@
       ]
     },
     {
+      "id": "toolbar-fits",
+      "strict": true,
+      "window": { "w": 1920, "h": 600 },
+      "setup": [
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "expect": "ToolBarRow.Overflow", "visible": false },
+        { "expect": "View.MouseTool", "checked": false },
+        { "click": "View.MouseTool" },
+        { "expect": "View.MouseTool", "checked": true },
+        { "click": "View.MouseTool" },
+        { "expect": "View.MouseTool", "checked": false }
+      ]
+    },
+    {
+      "id": "toolbar-overflow",
+      "strict": true,
+      "window": { "w": 480, "h": 600 },
+      "setup": [
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "expect": "ToolBarRow.Overflow", "visible": true },
+        { "click": "ToolBarRow.Overflow" }
+      ]
+    },
+    {
       "id": "review-shapes",
       "strict": true,
       "window": { "w": 1000, "h": 600, "splitter2": 0.55 },

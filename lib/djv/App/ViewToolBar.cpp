@@ -11,8 +11,12 @@
 #include <djv/App/ViewActions.h>
 #include <djv/UI/Viewport.h>
 
+#include <ftk/UI/Action.h>
 #include <ftk/UI/DoubleEdit.h>
+#include <ftk/UI/Menu.h>
 #include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ScreenshotTag.h>
+#include <ftk/UI/ToolButton.h>
 
 namespace djv
 {
@@ -22,6 +26,14 @@ namespace djv
         {
             std::shared_ptr<ftk::DoubleEdit> zoomEdit;
             std::shared_ptr<ftk::DoubleResetButton> zoomReset;
+
+            // The mouse tools: one button that turns the last tool chosen
+            // on and off, and an arrow beside it for the list.
+            std::shared_ptr<ftk::ToolButton> mouseToolButton;
+            std::shared_ptr<ftk::ToolButton> mouseToolMenuButton;
+            std::shared_ptr<ftk::Menu> mouseToolMenu;
+            models::MouseTool lastMouseTool = models::MouseTool::PanView;
+            std::shared_ptr<ftk::Observer<models::MouseSettings> > mouseObserver;
 
             std::shared_ptr<ftk::Observer<std::pair<ftk::V2I, double> > > posZoomObserver;
             std::shared_ptr<ftk::Observer<std::shared_ptr<tl::Player> > > playerObserver;
@@ -58,11 +70,92 @@ namespace djv
 
             // The mouse tools, after a divider: what a finger or a pen
             // does on the picture, chosen here in place of a modifier key.
+            // They are one choice, so they take one place: a button for the
+            // last tool chosen, on or off, and an arrow for the list. Four
+            // buttons crowded a row that is short of room on a tablet.
             addWidget(ftk::Divider::create(context, ftk::Orientation::Horizontal));
+            auto mouseToolLayout = ftk::HorizontalLayout::create(context);
+            mouseToolLayout->setSpacingRole(ftk::SizeRole::None);
+            p.mouseToolButton = ftk::ToolButton::create(context, mouseToolLayout);
+            p.mouseToolButton->setCheckable(true);
+            ftk::setScreenshotTag(p.mouseToolButton, "View.MouseTool");
+            p.mouseToolMenuButton = ftk::ToolButton::create(context, mouseToolLayout);
+            p.mouseToolMenuButton->setPopupIcon(true);
+            p.mouseToolMenuButton->setTooltip("Choose the mouse tool");
+            ftk::setScreenshotTag(p.mouseToolMenuButton, "View.MouseToolMenu");
+            addWidget(mouseToolLayout);
+            // Listed when the tool bar does not fit, which a widget cannot be.
             for (size_t i = 1; i < static_cast<size_t>(models::MouseTool::Count); ++i)
             {
-                addAction(actions[ftk::Format("MouseTool_{0}").arg(i)]);
+                addOverflowAction(actions[ftk::Format("MouseTool_{0}").arg(i)]);
             }
+
+            std::weak_ptr<App> appWeak(app);
+            p.mouseToolButton->setCheckedCallback(
+                [this, appWeak](bool value)
+                {
+                    if (auto app = appWeak.lock())
+                    {
+                        auto mouse = app->getSettingsModel()->getMouse();
+                        mouse.tool = value ? _p->lastMouseTool : models::MouseTool::None;
+                        app->getSettingsModel()->setMouse(mouse);
+                    }
+                });
+            p.mouseToolMenuButton->setPressedCallback(
+                [this, actions]
+                {
+                    FTK_P();
+                    if (p.mouseToolMenu)
+                    {
+                        p.mouseToolMenu->close();
+                        return;
+                    }
+                    auto context = getContext();
+                    auto window = getWindow();
+                    if (!context || !window)
+                    {
+                        return;
+                    }
+                    p.mouseToolMenu = ftk::Menu::create(context);
+                    for (size_t i = 1; i < static_cast<size_t>(models::MouseTool::Count); ++i)
+                    {
+                        const auto j = actions.find(ftk::Format("MouseTool_{0}").arg(i));
+                        if (j != actions.end())
+                        {
+                            p.mouseToolMenu->addAction(j->second);
+                        }
+                    }
+                    std::weak_ptr<ViewToolBar> weak(
+                        std::dynamic_pointer_cast<ViewToolBar>(shared_from_this()));
+                    p.mouseToolMenu->setCloseCallback(
+                        [weak]
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->mouseToolMenu.reset();
+                            }
+                        });
+                    p.mouseToolMenu->open(window, p.mouseToolMenuButton->getGeometry());
+                });
+
+            p.mouseObserver = ftk::Observer<models::MouseSettings>::create(
+                app->getSettingsModel()->observeMouse(),
+                [this, actions](const models::MouseSettings& value)
+                {
+                    FTK_P();
+                    if (value.tool != models::MouseTool::None)
+                    {
+                        p.lastMouseTool = value.tool;
+                    }
+                    const auto j = actions.find(ftk::Format("MouseTool_{0}").arg(
+                        static_cast<size_t>(p.lastMouseTool)));
+                    if (j != actions.end())
+                    {
+                        p.mouseToolButton->setIcon(j->second->getIcon());
+                        p.mouseToolButton->setTooltip(j->second->getTooltip());
+                    }
+                    p.mouseToolButton->setChecked(value.tool != models::MouseTool::None);
+                });
 
             std::weak_ptr<MainWindow> mainWindowWeak(mainWindow);
             p.zoomEdit->setCallback(

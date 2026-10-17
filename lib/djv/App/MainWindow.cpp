@@ -65,6 +65,7 @@
 #include <ftk/UI/Menu.h>
 #include <ftk/UI/MenuBar.h>
 #include <ftk/UI/RowLayout.h>
+#include <ftk/UI/ToolBarRow.h>
 #include <ftk/UI/ScreenshotTag.h>
 #include <ftk/UI/Splitter.h>
 #include <ftk/UI/ToolButton.h>
@@ -157,7 +158,7 @@ namespace djv
             std::shared_ptr<ui::SetupDialog> setupDialog;
             std::shared_ptr<ui::AboutDialog> aboutDialog;
             std::shared_ptr<ui::SysInfoDialog> sysInfoDialog;
-            std::shared_ptr<ftk::HorizontalLayout> toolBarLayout;
+            std::shared_ptr<ftk::ToolBarRow> toolBarLayout;
             std::shared_ptr<ftk::Splitter> splitter;
             std::shared_ptr<ftk::Splitter> splitter2;
             std::shared_ptr<ftk::VerticalLayout> splitterLayout;
@@ -389,7 +390,7 @@ namespace djv
             p.layout->setSpacingRole(ftk::SizeRole::None);
             p.menuBar->setParent(p.layout);
             p.menuBarDivider = ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
-            p.toolBarLayout = ftk::HorizontalLayout::create(context, p.layout);
+            p.toolBarLayout = ftk::ToolBarRow::create(context, p.layout);
             p.toolBarLayout->setMarginRole(ftk::SizeRole::MarginSmall);
             p.toolBarLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
             ftk::setScreenshotTag(p.toolBarLayout, "MainWindow.ToolBar");
@@ -397,23 +398,23 @@ namespace djv
             // a group touch, and nothing is drawn behind them but what a
             // button draws for itself, hovered or checked. Space alone
             // either left the groups hard to tell apart or, wide enough to
-            // tell, no longer fit a small window.
-            bool first = true;
-            for (const std::shared_ptr<ftk::ToolBar>& toolBar :
+            // tell, no longer fit a small window. When they do not fit,
+            // whole groups go behind the row's menu button from the end of
+            // the row, the tool panels kept: they are how a tablet reaches
+            // the review tools at all. So the order is also the order of
+            // need, the window's two buttons, which have shortcuts and
+            // menu items, beside the tool panels and first to go.
+            p.toolBarLayout->setKeepLast(true);
+            for (const auto& toolBar :
                 std::vector<std::shared_ptr<ftk::ToolBar> >{
                     p.fileToolBar,
                     p.compareToolBar,
-                    p.windowToolBar,
                     p.viewToolBar,
+                    p.windowToolBar,
                     p.toolsToolBar })
             {
-                if (!first)
-                {
-                    ftk::Divider::create(context, ftk::Orientation::Horizontal, p.toolBarLayout);
-                }
-                first = false;
                 toolBar->setSpacingRole(ftk::SizeRole::None);
-                toolBar->setParent(p.toolBarLayout);
+                p.toolBarLayout->addToolBar(toolBar);
             }
             p.splitterLayout = ftk::VerticalLayout::create(context, p.layout);
             p.splitterLayout->setSpacingRole(ftk::SizeRole::None);
@@ -442,8 +443,8 @@ namespace djv
                 {
                     "FileToolBar",
                     "CompareToolBar",
-                    "WindowToolBar",
                     "ViewToolBar",
+                    "WindowToolBar",
                     "ToolsToolBar"
                 }));
 
@@ -474,8 +475,8 @@ namespace djv
                 {
                     "FileToolBar",
                     "CompareToolBar",
-                    "WindowToolBar",
                     "ViewToolBar",
+                    "WindowToolBar",
                     "ToolsToolBar",
                     "TabBar",
                     "Timeline",
@@ -1171,7 +1172,7 @@ namespace djv
 
                 p.toolsToolBar->setVisible(settings.toolsToolBar && !presentMode);
 
-                ftk::updateDividers(p.toolBarLayout);
+                // The row puts its own dividers between what it shows.
 
                 // The row goes when all of its tool bars do, rather than
                 // leaving its margin behind.
