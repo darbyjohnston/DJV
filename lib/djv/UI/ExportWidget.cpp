@@ -12,7 +12,6 @@
 #include <djv/Models/FilesModel.h>
 #include <djv/Models/ViewportModel.h>
 
-#include <tlRender/GL/Render.h>
 #include <tlRender/UI/Viewport.h>
 #include <tlRender/Timeline/CompareOptions.h>
 #include <tlRender/Timeline/IRender.h>
@@ -36,10 +35,7 @@
 #include <ftk/UI/ScreenshotTag.h>
 #include <ftk/UI/TabBar.h>
 #include <ftk/UI/TabWidget.h>
-#include <ftk/GL/Init.h>
-#include <ftk/GL/GL.h>
-#include <ftk/GL/OffscreenBuffer.h>
-#include <ftk/GL/Util.h>
+#include <tlRender/UI/OffscreenRender.h>
 #include <ftk/Core/Format.h>
 #include <ftk/Core/Timer.h>
 #include <ftk/Core/Path.h>
@@ -129,7 +125,9 @@ namespace djv
                 //! frame at a time into a file that may well be asked to
                 //! hold it, so it takes the most this build has.
                 ftk::ImageType colorBuffer = tl::ui::getViewportColorBufferDefault();
-                std::shared_ptr<ftk::gl::OffscreenBuffer> buffer;
+                //! Where the frames are rendered, with whichever renderer the
+                //! windows draw with.
+                std::shared_ptr<tl::ui::OffscreenRender> offscreen;
                 std::shared_ptr<tl::IRender> render;
                 //! The drawings written into the picture, with the sources
                 //! they are on, in the order of the boxes, and the sizes
@@ -883,7 +881,7 @@ namespace djv
                             infos),
                         compareSize,
                         p.exportData->info.size);
-                    if (!ftk::gl::OffscreenBuffer::canRead(p.exportData->info.type))
+                    if (!tl::ui::OffscreenRender::canRead(p.exportData->info.type))
                     {
                         throw std::runtime_error(
                             ftk::Format("Cannot open: \"{0}\"").arg(p.exportData->path.get()));
@@ -1016,9 +1014,11 @@ namespace djv
                     {
                         p.exportData->displayOptions[i].ocioInput = resolvedInputs[i];
                     }
-                    p.exportData->render = tl::gl::Render::create(
-                        context->getLogSystem(),
-                        context->getSystem<ftk::FontSystem>());
+                    p.exportData->offscreen = tl::ui::OffscreenRender::create(
+                        context,
+                        p.exportData->info.size,
+                        p.exportData->colorBuffer);
+                    p.exportData->render = p.exportData->offscreen->getRender();
                     {
                         // The same per layer resolution as the viewport, so
                         // the export bakes what the viewport shows.
@@ -1031,20 +1031,6 @@ namespace djv
                                     std::string();
                             });
                     }
-                    ftk::gl::OffscreenBufferOptions offscreenBufferOptions;
-                    // The wipe comparison masks with the stencil buffer, so
-                    // the buffer needs one. Paired with depth, as the
-                    // viewport does, for the combined format rather than a
-                    // stencil-only attachment.
-                    if (!ftk::gl::isGLES())
-                    {
-                        offscreenBufferOptions.depth = ftk::gl::OffscreenDepth::_24;
-                    }
-                    offscreenBufferOptions.stencil = ftk::gl::OffscreenStencil::_8;
-                    p.exportData->buffer = ftk::gl::OffscreenBuffer::create(
-                        p.exportData->info.size,
-                        ftk::gl::getRenderableType(ftk::gl::getTextureType(p.exportData->colorBuffer)),
-                        offscreenBufferOptions);
 
                     // Create the progress dialog.
                     p.progressDialog = ftk::ProgressDialog::create(
@@ -1164,8 +1150,7 @@ namespace djv
                 }
 
                 // Render the video.
-                ftk::gl::OffscreenBufferBinding binding(p.exportData->buffer);
-                p.exportData->render->begin(p.exportData->info.size);
+                p.exportData->offscreen->begin();
                 p.exportData->render->setOCIOOptions(p.exportData->ocioOptions);
                 p.exportData->render->setLUTOptions(p.exportData->lutOptions);
                 p.exportData->render->drawVideo(
@@ -1179,10 +1164,10 @@ namespace djv
                 {
                     _drawAnnotations(t);
                 }
-                p.exportData->render->end();
+                p.exportData->offscreen->end();
 
                 // Write the output image.
-                auto image = p.exportData->buffer->read(p.exportData->info);
+                auto image = p.exportData->offscreen->read(p.exportData->info);
 
                 // The sequence writers name each file from the time it is
                 // written at, so those keep the frame numbers of the timeline
