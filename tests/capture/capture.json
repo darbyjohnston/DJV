@@ -33,6 +33,28 @@
       ]
     },
     {
+      "id": "review-pen-mouse-tool",
+      "strict": true,
+      "window": { "w": 1000, "h": 600, "splitter2": 0.55 },
+      "setup": [
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "frame": 5 },
+        { "tool": "Review" },
+        { "command": "View/MouseTool_1", "args": { "value": true } },
+        { "click": "Review.Pen" },
+        { "expect": "Review.Pen", "checked": true },
+        { "drag": [
+            ["MainWindow.Viewport", 0.3, 0.6],
+            ["MainWindow.Viewport", 0.5, 0.4],
+            ["MainWindow.Viewport", 0.6, 0.6] ] },
+        { "expect": "Review.Undo", "enabled": true },
+        { "command": "View/MouseTool_2", "args": { "value": true } },
+        { "expect": "Review.Pen", "checked": false },
+        { "click": "Review.Pen" },
+        { "expect": "Review.Pen", "checked": true }
+      ]
+    },
+    {
       "id": "review-shapes",
       "strict": true,
       "window": { "w": 1000, "h": 600, "splitter2": 0.55 },

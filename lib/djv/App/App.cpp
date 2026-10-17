@@ -1186,6 +1186,31 @@ namespace djv
                         _p->mainWindow->getViewport()->getZoom(),
                         value);
                 });
+            // The plain left button has one owner: a drawing tool or a mouse
+            // tool, whichever was chosen last. Both took it before, and one
+            // drag drew while it panned, wiped or picked.
+            p.mouseToolDrawObserver = ftk::Observer<models::MouseSettings>::create(
+                p.settingsModel->observeMouse(),
+                [this](const models::MouseSettings& value)
+                {
+                    if (value.tool != models::MouseTool::None &&
+                        _p->drawModel->isEnabled())
+                    {
+                        _p->drawModel->setEnabled(false);
+                    }
+                });
+            p.drawEnabledToolObserver = ftk::Observer<bool>::create(
+                p.drawModel->observeEnabled(),
+                [this](bool value)
+                {
+                    auto mouse = _p->settingsModel->getMouse();
+                    if (value && mouse.tool != models::MouseTool::None)
+                    {
+                        mouse.tool = models::MouseTool::None;
+                        _p->settingsModel->setMouse(mouse);
+                    }
+                });
+
             // The markers and drawings are signed with the author from the
             // settings, or the user name where that is empty.
             p.reviewSettingsObserver = ftk::Observer<models::ReviewSettings>::create(

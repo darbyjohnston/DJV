@@ -124,6 +124,7 @@ namespace djv
             std::shared_ptr<ftk::ListObserver<ftk::LogItem> > messagesObserver;
             std::shared_ptr<ftk::Observer<models::HUDOptions> > hudOptionsObserver;
             std::shared_ptr<ftk::Observer<tl::TimeUnits> > timeUnitsObserver;
+            models::MouseSettings mouseSettings;
             std::shared_ptr<ftk::Observer<models::MouseSettings> > mouseSettingsObserver;
             std::shared_ptr<ftk::Observer<std::optional<ftk::V2I> > > pickObserver;
             std::shared_ptr<ftk::Observer<std::optional<ftk::Color4F> > > colorSampleObserver;
@@ -371,6 +372,7 @@ namespace djv
                     {
                         _selectionClear();
                     }
+                    _mouseBindingsUpdate();
                     _cursorUpdate();
                 });
 
@@ -539,53 +541,8 @@ namespace djv
                 settingsModel->observeMouse(),
                 [this](const models::MouseSettings& value)
                 {
-                    FTK_P();
-                    // The tool, when one is set, takes the plain left
-                    // button, and any other action bound to that gives
-                    // it up; the rest keep their bindings, so the
-                    // modifier keys still work beside the tool.
-                    const auto binding = [&value](models::MouseAction action, models::MouseTool tool)
-                    {
-                        models::MouseActionBinding out;
-                        const auto i = value.bindings.find(action);
-                        if (i != value.bindings.end())
-                        {
-                            out = i->second;
-                        }
-                        if (models::MouseTool::None != value.tool)
-                        {
-                            if (tool == value.tool)
-                            {
-                                out = models::MouseActionBinding(ftk::MouseButton::Left);
-                            }
-                            else if (ftk::MouseButton::Left == out.button &&
-                                ftk::KeyModifier::None == out.modifier)
-                            {
-                                out = models::MouseActionBinding();
-                            }
-                        }
-                        return out;
-                    };
-                    auto b = binding(models::MouseAction::PanView, models::MouseTool::PanView);
-                    setPanBinding(b.button, b.modifier);
-                    b = binding(models::MouseAction::CompareWipe, models::MouseTool::CompareWipe);
-                    setWipeBinding(b.button, b.modifier);
-                    b = binding(models::MouseAction::Pick, models::MouseTool::Pick);
-                    setPickBinding(b.button, b.modifier);
-                    p.frameShuttleBinding = binding(models::MouseAction::FrameShuttle, models::MouseTool::FrameShuttle);
-                    p.frameShuttleScale = value.frameShuttleScale;
-                    // Here with the other mouse settings rather than set by the
-                    // main window, which left a secondary window's viewport
-                    // zooming at the default scale.
-                    setMouseWheelScale(value.wheelScale);
-                    auto j = value.wheelBindings.find(models::WheelAction::Zoom);
-                    setWheelZoomBinding(j != value.wheelBindings.end() ?
-                        j->second :
-                        ftk::KeyModifier::None);
-                    j = value.wheelBindings.find(models::WheelAction::Scrub);
-                    setWheelScrubBinding(j != value.wheelBindings.end() ?
-                        j->second :
-                        ftk::KeyModifier::Control);
+                    _p->mouseSettings = value;
+                    _mouseBindingsUpdate();
                 });
 
             p.pickObserver = ftk::Observer<std::optional<ftk::V2I> >::create(
@@ -1879,6 +1836,71 @@ namespace djv
 
             event.render->setClipRectEnabled(clipRectEnabledPrev);
             event.render->setClipRect(clipRectPrev);
+        }
+
+        void Viewport::_mouseBindingsUpdate()
+        {
+            FTK_P();
+            const models::MouseSettings& value = p.mouseSettings;
+            // The tool, when one is set, takes the plain left
+            // button, and any other action bound to that gives
+            // it up; the rest keep their bindings, so the
+            // modifier keys still work beside the tool.
+            // Drawing, while it is on, owns the plain left button the same
+            // way a tool does (see mousePressEvent): no tool takes it, and
+            // any action bound to it gives it up. The app turns the tool
+            // off when drawing is turned on; this holds whatever the order.
+            const bool drawing = p.drawModel->isEnabled();
+            const auto binding = [&value, drawing](models::MouseAction action, models::MouseTool tool)
+            {
+                models::MouseActionBinding out;
+                const auto i = value.bindings.find(action);
+                if (i != value.bindings.end())
+                {
+                    out = i->second;
+                }
+                if (drawing)
+                {
+                    if (ftk::MouseButton::Left == out.button &&
+                        ftk::KeyModifier::None == out.modifier)
+                    {
+                        out = models::MouseActionBinding();
+                    }
+                }
+                else if (models::MouseTool::None != value.tool)
+                {
+                    if (tool == value.tool)
+                    {
+                        out = models::MouseActionBinding(ftk::MouseButton::Left);
+                    }
+                    else if (ftk::MouseButton::Left == out.button &&
+                        ftk::KeyModifier::None == out.modifier)
+                    {
+                        out = models::MouseActionBinding();
+                    }
+                }
+                return out;
+            };
+            auto b = binding(models::MouseAction::PanView, models::MouseTool::PanView);
+            setPanBinding(b.button, b.modifier);
+            b = binding(models::MouseAction::CompareWipe, models::MouseTool::CompareWipe);
+            setWipeBinding(b.button, b.modifier);
+            b = binding(models::MouseAction::Pick, models::MouseTool::Pick);
+            setPickBinding(b.button, b.modifier);
+            p.frameShuttleBinding = binding(models::MouseAction::FrameShuttle, models::MouseTool::FrameShuttle);
+            p.frameShuttleScale = value.frameShuttleScale;
+            // Here with the other mouse settings rather than set by the
+            // main window, which left a secondary window's viewport
+            // zooming at the default scale.
+            setMouseWheelScale(value.wheelScale);
+            auto j = value.wheelBindings.find(models::WheelAction::Zoom);
+            setWheelZoomBinding(j != value.wheelBindings.end() ?
+                j->second :
+                ftk::KeyModifier::None);
+            j = value.wheelBindings.find(models::WheelAction::Scrub);
+            setWheelScrubBinding(j != value.wheelBindings.end() ?
+                j->second :
+                ftk::KeyModifier::Control);
         }
 
         void Viewport::_drawStroke(
