@@ -790,7 +790,7 @@ namespace djv
             switch (p.mouse.mode)
             {
             case Private::MouseMode::Draw:
-                _drawContinue(event.pos - getGeometry().min, event.modifiers);
+                _drawContinue(event.pos - getGeometry().min, event.modifiers, event.pressure);
                 break;
             case Private::MouseMode::Erase:
                 _erase(event.pos - getGeometry().min);
@@ -895,7 +895,7 @@ namespace djv
                     break;
                 default:
                     p.mouse.mode = Private::MouseMode::Draw;
-                    _drawBegin(pos);
+                    _drawBegin(pos, event.pen, event.pressure);
                     break;
                 }
                 return;
@@ -1307,7 +1307,7 @@ namespace djv
             const float handleSize = 8.F;
         }
 
-        void Viewport::_drawBegin(const ftk::V2I& widgetPos)
+        void Viewport::_drawBegin(const ftk::V2I& widgetPos, bool pen, float pressure)
         {
             FTK_P();
             const SourceHit hit = _hitTest(widgetPos);
@@ -1324,11 +1324,17 @@ namespace djv
                 p.stroke.color = drawModel->getColor();
                 p.stroke.width = drawModel->getSize();
                 p.stroke.points.push_back(hit.pos);
+                // A pen's pressure is kept with a freehand stroke; see
+                // ReviewStroke::pressures.
+                if (pen && models::ReviewStrokeKind::Freehand == p.stroke.kind)
+                {
+                    p.stroke.pressures.push_back(pressure);
+                }
                 setDrawUpdate();
             }
         }
 
-        void Viewport::_drawContinue(const ftk::V2I& widgetPos, int modifiers)
+        void Viewport::_drawContinue(const ftk::V2I& widgetPos, int modifiers, float pressure)
         {
             FTK_P();
             if (p.strokeSource < 0)
@@ -1369,6 +1375,10 @@ namespace djv
                 }
             }
             p.stroke.points.push_back(hit.pos);
+            if (!p.stroke.pressures.empty())
+            {
+                p.stroke.pressures.push_back(pressure);
+            }
             setDrawUpdate();
         }
 

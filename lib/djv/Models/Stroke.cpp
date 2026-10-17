@@ -15,30 +15,110 @@ namespace djv
         //! Freehand input arrives in dense clusters, and clustered control points
         //! make a Catmull-Rom spline overshoot; thinning first is what keeps the
         //! curve clean.
-        std::vector<ftk::V2F> simplifyPath(const std::vector<ftk::V2F>& points, float minDistance)
+        void simplifyPath(
+            const std::vector<ftk::V2F>& points,
+            const std::vector<float>& values,
+            float minDistance,
+            std::vector<ftk::V2F>& outPoints,
+            std::vector<float>& outValues)
         {
-            std::vector<ftk::V2F> out;
+            outPoints.clear();
+            outValues.clear();
             if (points.empty())
             {
-                return out;
+                return;
             }
-            out.push_back(points.front());
+            const bool carry = values.size() == points.size();
+            outPoints.push_back(points.front());
+            if (carry)
+            {
+                outValues.push_back(values.front());
+            }
             const float minSquared = minDistance * minDistance;
             for (size_t i = 1; i + 1 < points.size(); ++i)
             {
-                const float dx = points[i].x - out.back().x;
-                const float dy = points[i].y - out.back().y;
+                const float dx = points[i].x - outPoints.back().x;
+                const float dy = points[i].y - outPoints.back().y;
                 if (dx * dx + dy * dy >= minSquared)
                 {
-                    out.push_back(points[i]);
+                    outPoints.push_back(points[i]);
+                    if (carry)
+                    {
+                        outValues.push_back(values[i]);
+                    }
                 }
             }
             if (points.size() > 1)
             {
-                out.push_back(points.back());
+                outPoints.push_back(points.back());
+                if (carry)
+                {
+                    outValues.push_back(values.back());
+                }
             }
+        }
+
+        std::vector<ftk::V2F> simplifyPath(const std::vector<ftk::V2F>& points, float minDistance)
+        {
+            std::vector<ftk::V2F> out;
+            std::vector<float> values;
+            simplifyPath(points, {}, minDistance, out, values);
             return out;
         }
+
+        void smoothPath(
+            const std::vector<ftk::V2F>& points,
+            const std::vector<float>& values,
+            int subdivisions,
+            std::vector<ftk::V2F>& outPoints,
+            std::vector<float>& outValues)
+        {
+            outPoints = smoothPath(points, subdivisions);
+            outValues.clear();
+            if (values.size() != points.size())
+            {
+                return;
+            }
+            if (points.size() < 3)
+            {
+                outValues = values;
+                return;
+            }
+            // The value goes between the control points the way the curve
+            // does: the same subdivisions per span, walked in step with the
+            // spans that made the curve, and the last point its own.
+            outValues.reserve(outPoints.size());
+            auto knot = [](float t, const ftk::V2F& a, const ftk::V2F& b)
+            {
+                const float dx = b.x - a.x;
+                const float dy = b.y - a.y;
+                return t + std::pow(std::sqrt(dx * dx + dy * dy), .5F);
+            };
+            const size_t size = points.size();
+            for (size_t i = 0; i + 1 < size; ++i)
+            {
+                const ftk::V2F& p0 = points[i > 0 ? i - 1 : 0];
+                const ftk::V2F& p1 = points[i];
+                const ftk::V2F& p2 = points[i + 1];
+                const float t1 = knot(0.F, p0, p1);
+                const float t2 = knot(t1, p1, p2);
+                if (t2 - t1 <= 0.F)
+                {
+                    continue;
+                }
+                for (int j = 0; j < subdivisions; ++j)
+                {
+                    const float u = j / static_cast<float>(subdivisions);
+                    outValues.push_back(values[i] + (values[i + 1] - values[i]) * u);
+                }
+            }
+            outValues.push_back(values.back());
+            if (outValues.size() != outPoints.size())
+            {
+                outValues.resize(outPoints.size(), values.back());
+            }
+        }
+
 
         //! Smooth a path with a centripetal Catmull-Rom spline.
         //!
@@ -160,8 +240,25 @@ namespace djv
         //! so a sharp corner cannot spike. Round caps close the two ends.
         ftk::TriMesh2F strokeMesh(const std::vector<ftk::V2F>& points, float width, bool capStart, bool capEnd)
         {
+            return strokeMesh(points, std::vector<float>(points.size(), width), capStart, capEnd);
+        }
+
+        ftk::TriMesh2F strokeMesh(
+            const std::vector<ftk::V2F>& points,
+            const std::vector<float>& widths,
+            bool capStart,
+            bool capEnd)
+        {
             ftk::TriMesh2F out;
-            const float radius = std::max(.5F, width / 2.F);
+            if (widths.size() != points.size())
+            {
+                return out;
+            }
+            const auto radiusAt = [&widths](size_t i)
+            {
+                return std::max(.5F, widths[i] / 2.F);
+            };
+            const float radius = points.empty() ? .5F : radiusAt(0);
             if (points.empty())
             {
                 return out;
@@ -204,11 +301,12 @@ namespace djv
                     tangent = dirNext;
                 }
 
-                float offset = radius;
+                const float r = radiusAt(i);
+                float offset = r;
                 const float cosHalf = dirNext.x * tangent.x + dirNext.y * tangent.y;
                 if (cosHalf > .25F)
                 {
-                    offset = std::min(radius / cosHalf, radius * 3.F);
+                    offset = std::min(r / cosHalf, r * 3.F);
                 }
                 const ftk::V2F normal(-tangent.y * offset, tangent.x * offset);
 
@@ -246,7 +344,7 @@ namespace djv
                 }
                 if (capEnd && (d1.x != 0.F || d1.y != 0.F))
                 {
-                    addDisc(out, points.back(), radius, std::atan2(d1.y, d1.x) - pi / 2.F, pi);
+                    addDisc(out, points.back(), radiusAt(size - 1), std::atan2(d1.y, d1.x) - pi / 2.F, pi);
                 }
             }
             return out;

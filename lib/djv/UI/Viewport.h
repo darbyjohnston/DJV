@@ -125,8 +125,8 @@ namespace djv
             //! on sources that are shown.
             bool _sourceShown(int index) const;
 
-            void _drawBegin(const ftk::V2I& widgetPos);
-            void _drawContinue(const ftk::V2I& widgetPos, int modifiers);
+            void _drawBegin(const ftk::V2I& widgetPos, bool pen, float pressure);
+            void _drawContinue(const ftk::V2I& widgetPos, int modifiers, float pressure);
             void _drawEnd();
             void _erase(const ftk::V2I& widgetPos);
 

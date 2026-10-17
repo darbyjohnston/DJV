@@ -23,6 +23,29 @@ namespace djv
         //! Freehand input arrives in dense clusters, and clustered control
         //! points make a Catmull-Rom spline overshoot; thinning first is what
         //! keeps the curve clean.
+        //! simplifyPath() and smoothPath() with a value carried at each
+        //! point, a pen's pressure: dropped and interpolated as the points
+        //! are. The output values are empty when the input ones are.
+        DJV_MODELS_API void simplifyPath(
+            const std::vector<ftk::V2F>& points,
+            const std::vector<float>& values,
+            float minDistance,
+            std::vector<ftk::V2F>& outPoints,
+            std::vector<float>& outValues);
+        DJV_MODELS_API void smoothPath(
+            const std::vector<ftk::V2F>& points,
+            const std::vector<float>& values,
+            int subdivisions,
+            std::vector<ftk::V2F>& outPoints,
+            std::vector<float>& outValues);
+
+        //! The ribbon with a width at each point.
+        DJV_MODELS_API ftk::TriMesh2F strokeMesh(
+            const std::vector<ftk::V2F>& points,
+            const std::vector<float>& widths,
+            bool capStart = true,
+            bool capEnd = true);
+
         DJV_MODELS_API std::vector<ftk::V2F> simplifyPath(
             const std::vector<ftk::V2F>& points,
             float minDistance);

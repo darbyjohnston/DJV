@@ -21,6 +21,7 @@
 #include <ftk/UI/DialogSystem.h>
 #include <ftk/UI/Divider.h>
 #include <ftk/UI/FloatEditSlider.h>
+#include <ftk/UI/FormLayout.h>
 #include <ftk/UI/IntEditSlider.h>
 #include <ftk/UI/IWindow.h>
 #include <ftk/UI/ItemButton.h>
@@ -388,25 +389,21 @@ namespace djv
             p.clearDrawingButton = ftk::ToolButton::create(context, drawingToolLayout);
             p.clearDrawingButton->setIcon("Remove");
 
-            auto sizeLayout = ftk::HorizontalLayout::create(context, drawingWidget);
+            // The two sizes in a form, so their labels line up.
+            auto sizeLayout = ftk::FormLayout::create(context, drawingWidget);
             sizeLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
-            auto sizeLabel = ftk::Label::create(context, "Size:", sizeLayout);
-            sizeLabel->setVAlign(ftk::VAlign::Center);
             // Whole pixels: the sizes are in source pixels, where a
             // fraction is nothing anyone can see.
-            p.sizeSlider = ftk::IntEditSlider::create(context, sizeLayout);
+            p.sizeSlider = ftk::IntEditSlider::create(context);
             p.sizeSlider->setRange(1, 50);
             p.sizeSlider->setValue(static_cast<int>(std::round(drawModel->getSize())));
             p.sizeSlider->setTooltip("The stroke width, in source pixels.");
-
-            auto textSizeLayout = ftk::HorizontalLayout::create(context, drawingWidget);
-            textSizeLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
-            auto textSizeLabel = ftk::Label::create(context, "Text size:", textSizeLayout);
-            textSizeLabel->setVAlign(ftk::VAlign::Center);
-            p.textSizeSlider = ftk::IntEditSlider::create(context, textSizeLayout);
+            sizeLayout->addRow("Size:", p.sizeSlider);
+            p.textSizeSlider = ftk::IntEditSlider::create(context);
             p.textSizeSlider->setRange(8, 400);
             p.textSizeSlider->setValue(static_cast<int>(std::round(drawModel->getTextSize())));
             p.textSizeSlider->setTooltip("The height of text, in source pixels.");
+            sizeLayout->addRow("Text size:", p.textSizeSlider);
 
             p.onionSkinCheckBox = ftk::CheckBox::create(context, "Onion skin", drawingWidget);
             p.onionSkinCheckBox->setChecked(drawModel->isOnionSkin());

@@ -421,6 +421,10 @@ namespace djv
                 points.push_back(point.y);
             }
             json["points"] = points;
+            if (!in.pressures.empty())
+            {
+                json["pressures"] = in.pressures;
+            }
         }
 
         void from_json(const nlohmann::json& json, ReviewStroke& out)
@@ -442,6 +446,11 @@ namespace djv
             if (json.contains("textSize")) json.at("textSize").get_to(out.textSize);
             if (json.contains("color")) json.at("color").get_to(out.color);
             if (json.contains("width")) json.at("width").get_to(out.width);
+            out.pressures.clear();
+            if (json.contains("pressures"))
+            {
+                json.at("pressures").get_to(out.pressures);
+            }
             out.points.clear();
             if (json.contains("points"))
             {

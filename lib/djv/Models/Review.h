@@ -185,6 +185,11 @@ namespace djv
             ftk::Color4F          color = ftk::Color4F(1.F, .365F, .02F, 1.F);
             float                 width = 4.F;
             std::vector<ftk::V2F> points;
+            //! How hard a pen pressed at each point, zero to one, for a
+            //! freehand stroke drawn with one; empty for a mouse or a
+            //! finger, which draw at the width as it is. A reader that
+            //! does not know it draws the stroke at its width.
+            std::vector<float>    pressures;
 
             //! The text, for a text stroke, and its height in the pixels of
             //! the source image.

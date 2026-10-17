@@ -7,6 +7,8 @@
 
 #include <cmath>
 
+#include <algorithm>
+
 namespace djv
 {
     namespace ui
@@ -38,12 +40,34 @@ namespace djv
             switch (stroke.kind)
             {
             case models::ReviewStrokeKind::Freehand:
+            {
                 // Thin the captured points before smoothing, then subdivide:
                 // clustered controls are what make the spline overshoot.
-                render->drawMesh(
-                    models::strokeMesh(models::smoothPath(models::simplifyPath(path, 3.F), 12), width),
-                    color);
+                // A pen's pressure goes along, and sets the width at each
+                // point: from a third of the width at the lightest touch
+                // to a third over it at the hardest.
+                std::vector<ftk::V2F> simplified;
+                std::vector<float> simplifiedPressures;
+                models::simplifyPath(path, stroke.pressures, 3.F, simplified, simplifiedPressures);
+                std::vector<ftk::V2F> smoothed;
+                std::vector<float> smoothedPressures;
+                models::smoothPath(simplified, simplifiedPressures, 12, smoothed, smoothedPressures);
+                if (!smoothed.empty() && smoothedPressures.size() == smoothed.size())
+                {
+                    std::vector<float> widths;
+                    widths.reserve(smoothed.size());
+                    for (float pressure : smoothedPressures)
+                    {
+                        widths.push_back(width * std::clamp(.35F + pressure, .35F, 1.35F));
+                    }
+                    render->drawMesh(models::strokeMesh(smoothed, widths), color);
+                }
+                else
+                {
+                    render->drawMesh(models::strokeMesh(smoothed, width), color);
+                }
                 break;
+            }
             case models::ReviewStrokeKind::Text:
             {
                 // The text is laid out at the size it has where it is drawn,
