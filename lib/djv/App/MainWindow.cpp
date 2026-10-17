@@ -399,12 +399,10 @@ namespace djv
             // button draws for itself, hovered or checked. Space alone
             // either left the groups hard to tell apart or, wide enough to
             // tell, no longer fit a small window. When they do not fit,
-            // whole groups go behind the row's menu button from the end of
-            // the row, the tool panels kept: they are how a tablet reaches
-            // the review tools at all. So the order is also the order of
-            // need, the window's two buttons, which have shortcuts and
-            // menu items, beside the tool panels and first to go.
-            p.toolBarLayout->setKeepLast(true);
+            // buttons go behind the row's menu button one at a time from
+            // the end of the row, so dragging the window's edge in takes
+            // the buttons nearest it. Nothing is kept out of turn: what
+            // goes is a tap away in the menu, the review tools included.
             for (const auto& toolBar :
                 std::vector<std::shared_ptr<ftk::ToolBar> >{
                     p.fileToolBar,
