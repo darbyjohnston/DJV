@@ -65,7 +65,12 @@
         { "click": "View.MouseTool" },
         { "expect": "View.MouseTool", "checked": true },
         { "click": "View.MouseTool" },
-        { "expect": "View.MouseTool", "checked": false }
+        { "expect": "View.MouseTool", "checked": false },
+        { "expect": "Compare.Mode", "checked": false },
+        { "click": "Compare.Mode" },
+        { "expect": "Compare.Mode", "checked": true },
+        { "click": "Compare.Mode" },
+        { "expect": "Compare.Mode", "checked": false }
       ]
     },
     {
