@@ -37,8 +37,8 @@
       "strict": true,
       "window": { "w": 1000, "h": 600, "splitter2": 0.55 },
       "setup": [
-        { "open": "etc/SampleData/BART_2021-02-07.#.jpg" },
-        { "frame": 40 },
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "frame": 4 },
         { "tool": "Review" },
         { "click": "Review.Rectangle" },
         { "expect": "Review.Rectangle", "checked": true },
