@@ -161,6 +161,11 @@ if(IOS)
     add_subdirectory(lib/djv/C)
     add_subdirectory(lib/djv/UI)
     add_subdirectory(lib/djv/App)
+    # The documentation goes inside the iPad application, and with it
+    # the legal notices, which have to be reachable from it: the notices
+    # first, since the documentation installs the page they make.
+    add_subdirectory(etc/Legal)
+    add_subdirectory(docs)
     return()
 endif()
 

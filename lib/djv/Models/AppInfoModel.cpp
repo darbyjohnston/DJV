@@ -139,12 +139,14 @@ namespace djv
             const std::filesystem::path dir =
                 ftk::toFileSystem(searchPath);
             // The install trees the packages make: bin/ beside share/ on
-            // Linux, bin/ beside docs/ in the Windows package, and the
-            // "Resources" of a macOS bundle.
+            // Linux, bin/ beside docs/ in the Windows package, the
+            // "Resources" of a macOS bundle, and beside the executable in
+            // an iOS application, whose bundle is flat.
             for (const auto& relative : {
                 "../share/djv/docs",
                 "../docs",
-                "../Resources/docs" })
+                "../Resources/docs",
+                "docs" })
             {
                 std::error_code ec;
                 const std::filesystem::path docs =
