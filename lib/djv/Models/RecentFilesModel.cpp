@@ -7,10 +7,52 @@
 
 #include <ftk/UI/Settings.h>
 
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
+
+#include <algorithm>
+#include <cstdlib>
+
 namespace djv
 {
     namespace models
     {
+        std::string moveToContainer(
+            const std::string& path,
+            const std::string& home)
+        {
+            // ".../Containers/Data/Application/<id>/...": the identifier is
+            // what changes, and the rest -- "/private" or not in front, the
+            // documents behind -- is kept as the path had it.
+            const std::string marker = "/Containers/Data/Application/";
+            const auto id = [&marker](const std::string& value,
+                size_t& start, size_t& size)
+            {
+                const size_t i = value.find(marker);
+                if (std::string::npos == i)
+                {
+                    return false;
+                }
+                start = i + marker.size();
+                const size_t end = value.find('/', start);
+                size = (std::string::npos == end ? value.size() : end) - start;
+                return size > 0;
+            };
+            size_t pathStart = 0;
+            size_t pathSize = 0;
+            size_t homeStart = 0;
+            size_t homeSize = 0;
+            if (!id(path, pathStart, pathSize) ||
+                !id(home, homeStart, homeSize))
+            {
+                return path;
+            }
+            std::string out = path;
+            out.replace(pathStart, pathSize, home.substr(homeStart, homeSize));
+            return out;
+        }
+
         struct RecentFilesModel::Private
         {
             std::shared_ptr<ftk::Settings> settings;
@@ -59,8 +101,34 @@ namespace djv
             {
                 max = recentMax;
             }
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // Into this installation's container: see moveToContainer().
+            if (const char* home = std::getenv("HOME"))
+            {
+                for (auto& path : recent)
+                {
+                    const std::string dir = path.getDir();
+                    const std::string moved = moveToContainer(dir, home);
+                    if (moved != dir)
+                    {
+                        path.setDir(moved);
+                    }
+                }
+            }
+#endif // TARGET_OS_IPHONE
+            // Once each, at its newest place, the end of the list: moved,
+            // every installation's copy of a file is the same file, and
+            // each one had been added again under its own container.
+            std::vector<ftk::Path> unique;
+            for (auto i = recent.rbegin(); i != recent.rend(); ++i)
+            {
+                if (std::find(unique.begin(), unique.end(), *i) == unique.end())
+                {
+                    unique.insert(unique.begin(), *i);
+                }
+            }
             setRecentMax(max);
-            setRecent(recent);
+            setRecent(unique);
         }
 
         RecentFilesModel::RecentFilesModel() :

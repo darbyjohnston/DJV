@@ -23,6 +23,7 @@ namespace djv
         private:
             void _behavior();
             void _persistence();
+            void _containers();
         };
     }
 }

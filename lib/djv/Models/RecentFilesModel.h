@@ -50,5 +50,14 @@ namespace djv
         private:
             FTK_PRIVATE();
         };
+
+        //! A path into an earlier installation's container, moved into
+        //! this one's. iOS gives the application a new container at each
+        //! install and update, so a path into its documents saved by an
+        //! earlier one leads nowhere. The home is this installation's home
+        //! directory; a path outside the containers comes back as it was.
+        DJV_MODELS_API std::string moveToContainer(
+            const std::string& path,
+            const std::string& home);
     }
 }

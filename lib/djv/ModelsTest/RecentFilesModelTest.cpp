@@ -6,6 +6,7 @@
 #include <djv/ModelsTest/ModelsTestUtil.h>
 
 #include <djv/Models/RecentFilesModel.h>
+#include <djv/Models/SettingsKeys.h>
 
 #include <ftk/UI/Settings.h>
 
@@ -33,6 +34,7 @@ namespace djv
         {
             _behavior();
             _persistence();
+            _containers();
         }
 
         void RecentFilesModelTest::_behavior()
@@ -126,6 +128,55 @@ namespace djv
             }
 
             std::filesystem::remove(path);
+        }
+
+        void RecentFilesModelTest::_containers()
+        {
+            typedef std::vector<ftk::Path> Paths;
+
+            // iOS gives each installation a container of its own; a path
+            // into an earlier one is moved into this one, "/private" in
+            // front or not, and anything else is left alone.
+            const std::string home =
+                "/var/mobile/Containers/Data/Application/NEW-ID";
+            FTK_CHECK(
+                "/private/var/mobile/Containers/Data/Application/NEW-ID/Documents/a.mov" ==
+                models::moveToContainer(
+                    "/private/var/mobile/Containers/Data/Application/OLD-ID/Documents/a.mov",
+                    home));
+            FTK_CHECK(
+                "/var/mobile/Containers/Data/Application/NEW-ID/Documents/" ==
+                models::moveToContainer(
+                    "/var/mobile/Containers/Data/Application/OLD-ID/Documents/",
+                    home));
+            const std::string share =
+                "/private/var/mobile/Library/LiveFiles/com.apple.filesystems.smbclientd/Media/a.mov";
+            FTK_CHECK(share == models::moveToContainer(share, home));
+            FTK_CHECK(
+                "/Users/someone/a.mov" ==
+                models::moveToContainer("/Users/someone/a.mov", home));
+            FTK_CHECK(
+                "/var/mobile/Containers/Data/Application/OLD-ID/a.mov" ==
+                models::moveToContainer(
+                    "/var/mobile/Containers/Data/Application/OLD-ID/a.mov",
+                    "/Users/someone"));
+
+            // A file saved more than once, each time under another
+            // installation's container, loads once, at its newest place.
+            const std::filesystem::path dir = std::filesystem::temp_directory_path();
+            const ftk::Path a(ftk::fromFileSystem(std::filesystem::absolute(dir / "djv-recent-a.txt")));
+            const ftk::Path b(ftk::fromFileSystem(std::filesystem::absolute(dir / "djv-recent-b.txt")));
+            auto settings = createTestSettings(_context);
+            nlohmann::json json;
+            for (const auto& path : { a, b, a })
+            {
+                nlohmann::json item;
+                to_json(item, path);
+                json.push_back(item);
+            }
+            settings->set(models::settingsKeys::recent(models::settingsKeys::recentFilesGroup), json);
+            auto model = models::RecentFilesModel::create(_context, settings);
+            FTK_CHECK(Paths({ b, a }) == model->getRecent());
         }
     }
 }
