@@ -12,6 +12,9 @@
 #include <TargetConditionals.h>
 #endif // __APPLE__
 #include <ftk/UI/Settings.h>
+#if defined(FTK_GPU)
+#include <ftk/GPU/System.h>
+#endif // FTK_GPU
 #include <ftk/Core/Error.h>
 #include <ftk/Core/Path.h>
 #include <ftk/Core/String.h>
@@ -908,6 +911,15 @@ namespace djv
             // that matters.
             out["Texture"] = "1";
             out["FFmpeg/VideoBufferSize"] = "2";
+#elif defined(__APPLE__) && defined(FTK_GPU)
+            // On the Mac as well, when the GPU renderer draws: it makes
+            // its textures over the decoder's buffer the same way, where
+            // OpenGL has no way to. Asked each time rather than kept,
+            // since the renderer is chosen after the settings are read.
+            if (ftk::gpu::isEnabled())
+            {
+                out["Texture"] = "1";
+            }
 #endif // TARGET_OS_IPHONE
             return out;
         }
