@@ -360,15 +360,20 @@ namespace djv
             ftk::setScreenshotTag(p.statusBar, "MainWindow.StatusBar");
 
             // The highlighted menu item's tooltip shows in the status bar,
-            // flattened to the one line there is.
+            // flattened to the one line there is, unless tooltips are
+            // turned off: it is the same text, and turning them off is
+            // asking not to be told it.
             auto statusBarWeak = std::weak_ptr<StatusBar>(p.statusBar);
+            auto windowWeak = std::weak_ptr<ftk::IWindow>(
+                std::dynamic_pointer_cast<ftk::IWindow>(shared_from_this()));
             p.menuBar->setCurrentCallback(
-                [statusBarWeak](const std::shared_ptr<ftk::Action>& action)
+                [statusBarWeak, windowWeak](const std::shared_ptr<ftk::Action>& action)
                 {
                     if (auto statusBar = statusBarWeak.lock())
                     {
                         std::string text;
-                        if (action)
+                        auto window = windowWeak.lock();
+                        if (action && window && window->getTooltipsEnabled())
                         {
                             for (const auto& line :
                                 ftk::split(action->getTooltip(), '\n'))
