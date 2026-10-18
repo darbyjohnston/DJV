@@ -70,6 +70,7 @@ namespace djv
 
         private:
             void _tick();
+            void _note(const std::string&);
             void _report();
 
             FTK_PRIVATE();

@@ -863,20 +863,25 @@ namespace djv
 
             if (p.cmdLine.benchmark->found())
             {
-                auto benchmark = Benchmark::create(
+                p.benchmark = Benchmark::create(
                     _context, std::dynamic_pointer_cast<App>(shared_from_this()),
                     p.cmdLine.benchmark->getValue());
-                if (!benchmark->begin())
+                if (!p.benchmark->begin())
                 {
                     throw std::runtime_error("Cannot set up the benchmark");
                 }
                 ftk::App::run();
                 _logSessionSummary();
                 _saveSettings();
-                if (!benchmark->succeeded())
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+                // run() has only started the loop here; the benchmark
+                // reports to the log when its time is up.
+#else // TARGET_OS_IPHONE
+                if (!p.benchmark->succeeded())
                 {
                     throw std::runtime_error("The benchmark produced no measurement");
                 }
+#endif // TARGET_OS_IPHONE
                 return;
             }
 

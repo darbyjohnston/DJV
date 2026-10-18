@@ -32,10 +32,6 @@ namespace djv
             // cold one, so they are thrown away.
             const double warmupSeconds = 1.0;
 
-            void note(const std::string& msg)
-            {
-                std::cerr << "djv benchmark: " << msg << std::endl;
-            }
         }
 
         struct Benchmark::Private
@@ -91,7 +87,7 @@ namespace djv
             auto player = app->observePlayer()->get();
             if (!player)
             {
-                note("no file to play");
+                _note("no file to play");
                 return false;
             }
 
@@ -158,6 +154,17 @@ namespace djv
             }
         }
 
+        void Benchmark::_note(const std::string& msg)
+        {
+            // The console, and the log as well: on a device with no console
+            // -- the iPad -- the log is the only place the report reaches.
+            std::cerr << "djv benchmark: " << msg << std::endl;
+            if (auto context = _p->context.lock())
+            {
+                context->log("djv::app::Benchmark", msg);
+            }
+        }
+
         void Benchmark::_report()
         {
             FTK_P();
@@ -167,7 +174,7 @@ namespace djv
             auto player = app->observePlayer()->get();
             if (!player || p.fps.empty())
             {
-                note("no samples");
+                _note("no samples");
                 return;
             }
 
@@ -190,14 +197,14 @@ namespace djv
             const double low = lowTotal / static_cast<double>(lowCount);
 
             const size_t dropped = player->getDroppedFrames() - p.droppedStart;
-            note(ftk::Format("{0} samples over {1}s").
+            _note(ftk::Format("{0} samples over {1}s").
                 arg(sorted.size()).
                 arg(p.seconds, 1).str());
-            note(ftk::Format("playback {0} FPS of {1} requested (slowest tenth {2})").
+            _note(ftk::Format("playback {0} FPS of {1} requested (slowest tenth {2})").
                 arg(mean, 2).
                 arg(player->getSpeed(), 2).
                 arg(low, 2).str());
-            note(ftk::Format("dropped frames {0}").arg(dropped).str());
+            _note(ftk::Format("dropped frames {0}").arg(dropped).str());
             p.success = true;
         }
     }
