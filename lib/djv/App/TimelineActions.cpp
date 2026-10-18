@@ -103,7 +103,9 @@ namespace djv
 
             _addCheckCommand(
                 "StopOnScrub",
-                "Stop playback when scrubbing the timeline.",
+                "Stop playback when scrubbing the timeline, so that it stays "
+                "stopped after the drag; otherwise it is paused while the "
+                "button is held and resumes from where the drag ends.",
                 [appWeak](const nlohmann::json& args)
                 {
                     const bool value = args.at("value").get<bool>();
