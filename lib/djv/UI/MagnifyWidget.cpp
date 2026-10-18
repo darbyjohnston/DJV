@@ -189,6 +189,7 @@ namespace djv
                 viewportModel,
                 p.viewport);
 
+
             p.settingsObserver = ftk::Observer<models::MouseSettings>::create(
                 settingsModel->observeMouse(),
                 [this](const models::MouseSettings& value)

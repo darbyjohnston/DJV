@@ -1080,6 +1080,10 @@
           "caption": "Picked color"
         },
         {
+          "id": "ColorPicker.Luminance",
+          "caption": "Luminance"
+        },
+        {
           "id": "ColorPicker.Pixel",
           "caption": "Pixel location"
         },

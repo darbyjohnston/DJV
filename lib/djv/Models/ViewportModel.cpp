@@ -47,6 +47,9 @@ namespace djv
             std::shared_ptr<ftk::Observable<tl::BackgroundOptions> > backgroundOptions;
             std::shared_ptr<ftk::Observable<tl::ForegroundOptions> > foregroundOptions;
             std::shared_ptr<ftk::Observable<ftk::ImageType> > colorBuffer;
+            std::shared_ptr<ftk::Observable<tl::HDR_EOTF> > hdrTransfer;
+            std::shared_ptr<ftk::Observable<float> > hdrWhite;
+            std::shared_ptr<ftk::Observable<bool> > dither;
             std::shared_ptr<ftk::Observable<HUDOptions> > hudOptions;
         };
 
@@ -99,6 +102,21 @@ namespace djv
             ftk::from_string(s, colorBuffer);
             p.colorBuffer = ftk::Observable<ftk::ImageType>::create(colorBuffer);
 
+            tl::HDR_EOTF hdrTransfer = tl::HDR_EOTF::SDR;
+            s = tl::to_string(hdrTransfer);
+            p.settings->get(settingsKeys::viewportHDRTransfer, s);
+            tl::from_string(s, hdrTransfer);
+            p.hdrTransfer = ftk::Observable<tl::HDR_EOTF>::create(hdrTransfer);
+            // 203 nits is the reference white for HDR: a picture's white is
+            // then as bright as the user interface's.
+            float hdrWhite = 203.F;
+            p.settings->get(settingsKeys::viewportHDRWhite, hdrWhite);
+            p.hdrWhite = ftk::Observable<float>::create(hdrWhite);
+
+            bool dither = false;
+            p.settings->get(settingsKeys::viewportDither, dither);
+            p.dither = ftk::Observable<bool>::create(dither);
+
             HUDOptions hudOptions;
             hudOptions.items[HUDItem::FileName] = HUDPos::TopLeft;
             hudOptions.items[HUDItem::Cache] = HUDPos::BottomRight;
@@ -126,6 +144,9 @@ namespace djv
             p.settings->setT(settingsKeys::viewportBackground, p.backgroundOptions->get());
             p.settings->setT(settingsKeys::viewportForeground, p.foregroundOptions->get());
             p.settings->set(settingsKeys::viewportColorBuffer, ftk::to_string(p.colorBuffer->get()));
+            p.settings->set(settingsKeys::viewportHDRTransfer, tl::to_string(p.hdrTransfer->get()));
+            p.settings->set(settingsKeys::viewportHDRWhite, p.hdrWhite->get());
+            p.settings->set(settingsKeys::viewportDither, p.dither->get());
             p.settings->setT(settingsKeys::viewportHUD, p.hudOptions->get());
         }
 
@@ -245,6 +266,51 @@ namespace djv
         void ViewportModel::setColorBuffer(ftk::ImageType value)
         {
             _p->colorBuffer->setIfChanged(value);
+        }
+
+        tl::HDR_EOTF ViewportModel::getHDRTransfer() const
+        {
+            return _p->hdrTransfer->get();
+        }
+
+        std::shared_ptr<ftk::IObservable<tl::HDR_EOTF> > ViewportModel::observeHDRTransfer() const
+        {
+            return _p->hdrTransfer;
+        }
+
+        void ViewportModel::setHDRTransfer(tl::HDR_EOTF value)
+        {
+            _p->hdrTransfer->setIfChanged(value);
+        }
+
+        float ViewportModel::getHDRWhite() const
+        {
+            return _p->hdrWhite->get();
+        }
+
+        std::shared_ptr<ftk::IObservable<float> > ViewportModel::observeHDRWhite() const
+        {
+            return _p->hdrWhite;
+        }
+
+        void ViewportModel::setHDRWhite(float value)
+        {
+            _p->hdrWhite->setIfChanged(value);
+        }
+
+        bool ViewportModel::getDither() const
+        {
+            return _p->dither->get();
+        }
+
+        std::shared_ptr<ftk::IObservable<bool> > ViewportModel::observeDither() const
+        {
+            return _p->dither;
+        }
+
+        void ViewportModel::setDither(bool value)
+        {
+            _p->dither->setIfChanged(value);
         }
 
         const HUDOptions& ViewportModel::getHUDOptions() const

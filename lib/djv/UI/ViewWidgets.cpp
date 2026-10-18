@@ -25,6 +25,10 @@
 #include <ftk/UI/RowLayout.h>
 #include <ftk/UI/ScreenshotTag.h>
 #include <ftk/UI/ScrollWidget.h>
+#include <ftk/GL/Init.h>
+#if defined(FTK_GPU)
+#include <ftk/GPU/System.h>
+#endif // FTK_GPU
 #include <tlRender/UI/Viewport.h>
 #include <ftk/Core/Format.h>
 
@@ -47,11 +51,18 @@ namespace djv
             std::shared_ptr<ftk::ComboBox> videoLevelsComboBox;
             std::shared_ptr<ftk::ComboBox> alphaBlendComboBox;
             std::shared_ptr<ftk::ComboBox> colorBufferComboBox;
+            std::vector<tl::HDR_EOTF> hdrTransfers;
+            std::shared_ptr<ftk::ComboBox> hdrTransferComboBox;
+            std::shared_ptr<ftk::FloatEdit> hdrWhiteEdit;
+            std::shared_ptr<ftk::CheckBox> ditherCheckBox;
             std::shared_ptr<ftk::FormLayout> layout;
 
             std::shared_ptr<ftk::Observer<ftk::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ftk::Observer<tl::DisplayOptions> > displayOptionsObserver;
             std::shared_ptr<ftk::Observer<ftk::ImageType> > colorBufferObserver;
+            std::shared_ptr<ftk::Observer<tl::HDR_EOTF> > hdrTransferObserver;
+            std::shared_ptr<ftk::Observer<float> > hdrWhiteObserver;
+            std::shared_ptr<ftk::Observer<bool> > ditherObserver;
         };
 
         void ViewOptionsWidget::_init(
@@ -115,6 +126,48 @@ namespace djv
             p.colorBufferComboBox->setHStretch(ftk::Stretch::Expanding);
             ftk::setScreenshotTag(p.colorBufferComboBox, "View.Options.ColorBuffer");
 
+            // What the picture is encoded for. Gamma HDR is not offered:
+            // nothing here draws it.
+            p.hdrTransfers = { tl::HDR_EOTF::SDR, tl::HDR_EOTF::ST2084 };
+            p.hdrTransferComboBox = ftk::ComboBox::create(
+                context,
+                std::vector<std::string>({ "SDR", "PQ" }));
+            p.hdrTransferComboBox->setHStretch(ftk::Stretch::Expanding);
+            p.hdrTransferComboBox->setTooltip(
+                "What the picture is display encoded for. Choose PQ when the "
+                "OCIO display is an HDR one, such as Rec.2100-PQ: on an HDR "
+                "display the picture is then shown as HDR. Windows are HDR "
+                "only with the GPU renderer.");
+            ftk::setScreenshotTag(p.hdrTransferComboBox, "View.Options.HDRTransfer");
+
+            p.hdrWhiteEdit = ftk::FloatEdit::create(context);
+            p.hdrWhiteEdit->setRange(80.F, 1000.F);
+            p.hdrWhiteEdit->setStep(1.F);
+            p.hdrWhiteEdit->setLargeStep(10.F);
+            p.hdrWhiteEdit->setPrecision(0);
+            p.hdrWhiteEdit->setDefault(203.F);
+            p.hdrWhiteEdit->setTooltip(
+                "The luminance, in nits, that the window's white stands for "
+                "when a PQ picture is shown, where the system does not say. "
+                "203 is the reference white for HDR.");
+            ftk::setScreenshotTag(p.hdrWhiteEdit, "View.Options.HDRWhite");
+#if defined(FTK_GPU)
+            const bool hdr = ftk::gpu::isEnabled();
+#else // FTK_GPU
+            const bool hdr = false;
+#endif // FTK_GPU
+            p.hdrTransferComboBox->setEnabled(hdr);
+            p.hdrWhiteEdit->setEnabled(hdr);
+
+            p.ditherCheckBox = ftk::CheckBox::create(context);
+            p.ditherCheckBox->setTooltip(
+                "Dither the picture where the window is eight bit, which "
+                "hides the banding of gradients.\n"
+                "\n"
+                "Only what is shown: the color picker, the magnifier and "
+                "the exports read the picture before it.");
+            ftk::setScreenshotTag(p.ditherCheckBox, "View.Options.Dither");
+
             p.layout = ftk::FormLayout::create(context);
             _setWidget(p.layout);
             p.layout->setMarginRole(ftk::SizeRole::Margin);
@@ -127,6 +180,9 @@ namespace djv
             p.layout->addRow("Video levels:", p.videoLevelsComboBox);
             p.layout->addRow("Alpha blend:", p.alphaBlendComboBox);
             p.layout->addRow("Color buffer:", p.colorBufferComboBox);
+            p.layout->addRow("HDR picture:", p.hdrTransferComboBox);
+            p.layout->addRow("HDR white:", p.hdrWhiteEdit);
+            p.layout->addRow("Dither:", p.ditherCheckBox);
 
             p.imageOptionsObserver = ftk::Observer<ftk::ImageOptions>::create(
                 viewportModel->observeImageOptions(),
@@ -162,6 +218,56 @@ namespace djv
                         index = i - p.colorBuffers.begin();
                     }
                     _p->colorBufferComboBox->setCurrentIndex(index);
+                });
+
+            p.hdrTransferObserver = ftk::Observer<tl::HDR_EOTF>::create(
+                viewportModel->observeHDRTransfer(),
+                [this](tl::HDR_EOTF value)
+                {
+                    FTK_P();
+                    int index = 0;
+                    const auto i = std::find(p.hdrTransfers.begin(), p.hdrTransfers.end(), value);
+                    if (i != p.hdrTransfers.end())
+                    {
+                        index = i - p.hdrTransfers.begin();
+                    }
+                    p.hdrTransferComboBox->setCurrentIndex(index);
+                });
+
+            p.hdrWhiteObserver = ftk::Observer<float>::create(
+                viewportModel->observeHDRWhite(),
+                [this](float value)
+                {
+                    _p->hdrWhiteEdit->setValue(value);
+                });
+
+            p.ditherObserver = ftk::Observer<bool>::create(
+                viewportModel->observeDither(),
+                [this](bool value)
+                {
+                    _p->ditherCheckBox->setChecked(value);
+                });
+
+            p.hdrTransferComboBox->setIndexCallback(
+                [this, viewportModel](int value)
+                {
+                    FTK_P();
+                    if (value >= 0 && value < static_cast<int>(p.hdrTransfers.size()))
+                    {
+                        viewportModel->setHDRTransfer(p.hdrTransfers[value]);
+                    }
+                });
+
+            p.hdrWhiteEdit->setCallback(
+                [viewportModel](float value)
+                {
+                    viewportModel->setHDRWhite(value);
+                });
+
+            p.ditherCheckBox->setCheckedCallback(
+                [viewportModel](bool value)
+                {
+                    viewportModel->setDither(value);
                 });
 
             p.channelsComboBox->setIndexCallback(

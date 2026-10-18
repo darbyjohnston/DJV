@@ -460,6 +460,7 @@ namespace djv
                     _hudUpdate();
                 });
 
+
             p.viewZoomObserver = ftk::Observer<double>::create(
                 observeZoom(),
                 [this](double value)
@@ -2290,7 +2291,9 @@ namespace djv
             const auto& colorSample = observeColorSample()->get();
             const auto& pick = observePick()->get();
             p.colorPickerSwatch->setColor(
-                colorSample.has_value() ? colorSample.value() : ftk::Color4F());
+                colorSample.has_value() ?
+                    getColorSampleDisplay(colorSample.value()) :
+                    ftk::Color4F());
             // The HUD sits under the pointer, so a line that changes width
             // as values come and go moves exactly where the eye is. The
             // widths hold a sign and two digits, so the ordinary zero to one

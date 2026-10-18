@@ -35,7 +35,7 @@ namespace djv
         //! Keeps a viewport showing what the models say: the comparison,
         //! the color pipeline (the OCIO and LUT options, and the input
         //! color space resolved for each file), the image and display
-        //! options, the background, and the color buffer.
+        //! options, the background, the color buffer, and the HDR settings.
         //!
         //! The main viewport and the magnifier show the same picture, and
         //! this is what makes them agree: an option that reaches the

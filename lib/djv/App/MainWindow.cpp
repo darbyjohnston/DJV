@@ -169,6 +169,7 @@ namespace djv
             std::shared_ptr<ftk::Observer<tl::OCIOOptions> > ocioOptionsObserver;
             std::shared_ptr<ftk::Observer<tl::LUTOptions> > lutOptionsObserver;
             std::shared_ptr<ftk::Observer<ftk::ImageType> > colorBufferObserver;
+            std::shared_ptr<ftk::Observer<bool> > ditherObserver;
             std::shared_ptr<ftk::ListObserver<std::string> > openToolsObserver;
             std::shared_ptr<ftk::Observer<std::pair<std::string, std::string> > > showSectionObserver;
             std::shared_ptr<ftk::Observer<models::MouseSettings> > mouseSettingsObserver;
@@ -568,6 +569,13 @@ namespace djv
                         ftk::WindowBufferType::F16);
                 });
 
+            p.ditherObserver = ftk::Observer<bool>::create(
+                app->getViewportModel()->observeDither(),
+                [this](bool value)
+                {
+                    setDither(value);
+                });
+
             p.openToolsObserver = ftk::ListObserver<std::string>::create(
                 app->getToolsModel()->observeOpenTools(),
                 [this](const std::vector<std::string>&)
@@ -836,7 +844,8 @@ namespace djv
                 // The export draws with OpenGL in this window's context,
                 // which is current once the window has been drawn and not
                 // before: a command given at startup can get here first,
-                // and nothing can then be made.
+                // and nothing can then be made. With the GPU renderer the
+                // window has no context and the export needs none.
                 _makeCurrent();
                 exportTool->exportMovie(overwrite, callback);
             }

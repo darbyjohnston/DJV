@@ -30,6 +30,8 @@ namespace djv
             std::shared_ptr<ftk::Observer<tl::DisplayOptions> > displayOptionsObserver;
             std::shared_ptr<ftk::Observer<tl::BackgroundOptions> > bgOptionsObserver;
             std::shared_ptr<ftk::Observer<ftk::ImageType> > colorBufferObserver;
+            std::shared_ptr<ftk::Observer<tl::HDR_EOTF> > hdrTransferObserver;
+            std::shared_ptr<ftk::Observer<float> > hdrWhiteObserver;
         };
 
         void ViewportBinding::_init(
@@ -132,6 +134,28 @@ namespace djv
                     if (auto viewport = _p->viewport.lock())
                     {
                         viewport->setColorBuffer(value);
+                    }
+                    _changed();
+                });
+
+            p.hdrTransferObserver = ftk::Observer<tl::HDR_EOTF>::create(
+                viewportModel->observeHDRTransfer(),
+                [this](tl::HDR_EOTF value)
+                {
+                    if (auto viewport = _p->viewport.lock())
+                    {
+                        viewport->setHDRTransfer(value);
+                    }
+                    _changed();
+                });
+
+            p.hdrWhiteObserver = ftk::Observer<float>::create(
+                viewportModel->observeHDRWhite(),
+                [this](float value)
+                {
+                    if (auto viewport = _p->viewport.lock())
+                    {
+                        viewport->setHDRWhite(value);
                     }
                     _changed();
                 });
