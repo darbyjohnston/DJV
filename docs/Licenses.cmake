@@ -71,8 +71,11 @@ foreach(KEY ${NAMES})
     string(REPLACE "\r\n" "\n" TEXT "${TEXT}")
     string(REGEX REPLACE "[ \t\r\n]+$" "" TEXT "${TEXT}")
 
+    # Wrapped as well as kept as written: most notices are wrapped by their
+    # authors, but an agreement written a paragraph to a line, for a dialog
+    # that wraps it, would otherwise be one line to scroll across.
     string(APPEND BODY
-        "<h2 id=\"${ID}\">${NAME}</h2>\n<pre>${TEXT}</pre>\n")
+        "<h2 id=\"${ID}\">${NAME}</h2>\n<pre class=\"notice\">${TEXT}</pre>\n")
 endforeach()
 
 set(PAGE "<!DOCTYPE html>

@@ -136,6 +136,8 @@ pre {
 
 pre code { padding: 0; background: none; }
 
+pre.notice { white-space: pre-wrap; }
+
 kbd {
     padding: .1em .45em;
     background: var(--code-bg);
