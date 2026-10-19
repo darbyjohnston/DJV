@@ -247,9 +247,10 @@ namespace djv
             auto copyButton = ftk::PushButton::create(context, "Copy");
             p.closeButton = ftk::PushButton::create(context, "Close");
 
+            setDialogSize(ftk::DialogSize::Full);
+
             auto layout = ftk::VerticalLayout::create(context, shared_from_this());
             layout->setSpacingRole(ftk::SizeRole::None);
-            layout->setStretch(ftk::Stretch::Expanding, ftk::Stretch::Expanding);
 
             auto textEdit = ftk::TextEdit::create(context, layout);
             textEdit->setReadOnly(true);
