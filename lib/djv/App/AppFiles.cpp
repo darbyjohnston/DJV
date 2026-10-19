@@ -1044,10 +1044,12 @@ namespace djv
                                 playerOptions.audioBufferFrameCount =
                                     p.settingsModel->getAudio().bufferFrameCount;
 #if defined(__APPLE__) && TARGET_OS_IPHONE
-                                // A second of cache before the clock runs:
-                                // the picture moves when it does, rather
-                                // than standing while the playhead runs
-                                // ahead of a reader that cannot keep up.
+                                // A second of cache before the clock runs,
+                                // at the start and after a seek: the picture
+                                // moves when it does, rather than standing
+                                // while the playhead runs ahead of a reader
+                                // that cannot keep up. Running, such a
+                                // reader drops frames instead.
                                 playerOptions.preroll = 1.F;
 #endif // TARGET_OS_IPHONE
                                 player = tl::Player::create(_context, timeline, playerOptions);
