@@ -379,6 +379,7 @@ namespace djv
             FTK_P();
 
             setTitle("Recent Files");
+            setDialogSize(ftk::DialogSize::Full);
 
             p.widget = RecentFilesWidget::create(
                 context,
