@@ -5,6 +5,7 @@ set(HEADERS
     AudioTool.h
     BottomToolBar.h
     Benchmark.h
+    Monkey.h
     Capture.h
     ColorActions.h
     ColorMenu.h
@@ -66,6 +67,7 @@ set(SOURCE
     AudioTool.cpp
     BottomToolBar.cpp
     Benchmark.cpp
+    Monkey.cpp
     Capture.cpp
     ColorActions.cpp
     ColorMenu.cpp

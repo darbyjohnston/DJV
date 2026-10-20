@@ -45,6 +45,24 @@ if(NOT DJV_TESTS_NO_GL)
     # A shot added to the manifest is a test added, so configure again.
     set_property(DIRECTORY APPEND PROPERTY
         CMAKE_CONFIGURE_DEPENDS ${DJV_CAPTURE_MANIFEST})
+
+    # Random input for half a minute on the sample sequence, with playback
+    # running, a fixed seed, and no error allowed in the log: what a
+    # tester does in the first minute, done by the thousand.
+    add_test(
+        NAME djv-monkey
+        COMMAND djv
+            -resetSettings
+            -settingsFile ${DJV_CAPTURE_OUTPUT}/monkey-settings.json
+            -monkey 30
+            -monkeySeed 1
+            -log
+            # Quoted: unquoted, CMake reads the "#" as a comment and the
+            # application was given "Counter." and nothing to play.
+            "etc/SampleData/Counter.#.png"
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+    set_tests_properties(djv-monkey PROPERTIES
+        ENVIRONMENT_MODIFICATION "${DJV_CAPTURE_ENV}")
 endif()
 
 if(DJV_PYTHON)

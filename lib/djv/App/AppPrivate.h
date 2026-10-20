@@ -101,9 +101,12 @@ namespace djv
             std::shared_ptr<ftk::CmdLineListOption<std::string> > command;
             std::shared_ptr<ftk::CmdLineOption<int> > debugLoop;
             std::shared_ptr<ftk::CmdLineOption<double> > benchmark;
+            std::shared_ptr<ftk::CmdLineOption<double> > monkey;
+            std::shared_ptr<ftk::CmdLineOption<int> > monkeySeed;
         };
 
         class Benchmark;
+        class Monkey;
 
         struct App::Private
         {
@@ -113,6 +116,7 @@ namespace djv
             //! that lived on its stack ended with its timer before a frame
             //! was drawn.
             std::shared_ptr<Benchmark> benchmark;
+            std::shared_ptr<Monkey> monkey;
 
             std::shared_ptr<models::AppInfoModel> appInfoModel;
             std::shared_ptr<models::SettingsModel> settingsModel;
