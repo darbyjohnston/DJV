@@ -149,6 +149,8 @@ namespace djv
             //! since the files were last announced.
             bool filesChanged = false;
             std::shared_ptr<ftk::Observable<std::shared_ptr<tl::Player> > > player;
+            //! A reload is under way; see _reload().
+            bool reloading = false;
             std::shared_ptr<models::ColorModel> colorModel;
             std::shared_ptr<ui::ColorResetDialog> colorResetDialog;
             std::shared_ptr<ui::RecentFilesDialog> recentFilesDialog;

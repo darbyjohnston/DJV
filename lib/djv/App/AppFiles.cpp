@@ -458,6 +458,17 @@ namespace djv
         void App::_reload(bool restructured)
         {
             FTK_P();
+            // One at a time: each reload opens the files again -- readers,
+            // decoders, thumbnails for every clip -- before the ones it
+            // replaces are gone, and a button held down on a tablet piled
+            // them up until the system took the application for its
+            // memory. Pressed again while the last one is still opening,
+            // nothing happens; the flag clears when the player arrives.
+            if (p.reloading)
+            {
+                return;
+            }
+            p.reloading = true;
             const auto activeFiles = p.activeFiles;
             const auto files = p.files;
             for (const auto& i : activeFiles)
@@ -1118,6 +1129,7 @@ namespace djv
                 p.droppedFrames += previous->getDroppedFrames();
             }
             p.player->setIfChanged(player);
+            p.reloading = false;
 
             // A file that is not being shown keeps its timeline, so coming
             // back to it does not open it again, but not its readers: each
