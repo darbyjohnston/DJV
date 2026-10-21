@@ -45,6 +45,15 @@ two of them, the wheels built by hand before tagging included.
     etc/release.py release 0.18.0 0.26.0 -
     etc/release.py dev 0.19.0 0.27.0 -
 
+Their numbers: the minor is bumped for a release with changes, which every
+DJV release is; the patch for a release that only fixes what the one before
+got wrong, so "0.18.1 fixes 0.18.0" is what pip users read. tlRender releases
+with feather-tk either way, since its wheel pins feather-tk exactly and a
+feather-tk fix reaches `pip install tlRender` only through tlRender's pin:
+
+    etc/release.py release 0.18.1 0.26.1 -
+    etc/release.py dev 0.19.0 0.27.0 -
+
 - [ ] Set `VERSION_MAJOR` / `MINOR` / `PATCH` in each `Version.h`:
       `deps/tlRender/deps/ftk/lib/ftk/Core/Version.h`,
       `deps/tlRender/lib/tlRender/Core/Version.h` and
