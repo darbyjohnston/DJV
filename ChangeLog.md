@@ -1,3 +1,18 @@
+## 3.7.6
+
+Changes:
+* Python: image pixels can be read and written as arrays, with
+  `numpy.asarray(image)` or `image.data`.
+* Python: `OffscreenRender` renders frames and comparisons to an image
+  without a window, including on Linux with no display.
+* Python: documentation for the player, timeline, and compare bindings.
+* C++: feather-tk's `Range.h` and `Size.h` no longer include
+  `nlohmann/json.hpp`; include it where it is used.
+
+Fixes:
+* Fix for OpenTimelineIO image sequences being read one frame off when the
+  available range does not start at the start frame.
+
 ## 3.7.5
 
 Changes:
