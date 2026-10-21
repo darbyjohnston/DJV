@@ -267,7 +267,7 @@ namespace djv
 #endif // TLRENDER_USD
             p.cmdLine.hideSetup = ftk::CmdLineFlag::create(
                 { "-hideSetup" },
-                "Hide the setup dialog that is shown on the first run.");
+                "Hide the tour that is shown on the first run.");
             p.cmdLine.version = ftk::CmdLineFlag::create(
                 { "-version" },
                 "Print the version and exit.");
@@ -587,11 +587,6 @@ namespace djv
         bool App::isSetupReady() const
         {
             return true;
-        }
-
-        std::vector<std::shared_ptr<ftk::IWidget> > App::createSetupPages()
-        {
-            return {};
         }
 
         std::shared_ptr<ui::StatusIndicator> App::createIndicator()

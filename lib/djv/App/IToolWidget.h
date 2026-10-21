@@ -45,6 +45,8 @@ namespace djv
             //! does nothing.
             DJV_APP_API virtual void scrollTo(const std::string& section);
 
+            DJV_APP_API void tickEvent(bool, bool, const ftk::TickEvent&) override;
+
             //! Open the named section and scroll to it.
             DJV_APP_API void openSection(const std::string& section);
 

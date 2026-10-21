@@ -119,13 +119,18 @@ namespace djv
             //! Save the window settings.
             DJV_APP_API void saveSettings();
 
-            //! Show the about dialog.
-            //! Show the setup dialog, if it is due: the first run, and not
-            //! hidden by -hideSetup or a scripted run. Nothing otherwise.
-            //! Shown when the window is made unless the application says it
-            //! is not ready (App::isSetupReady()), in which case the
+            //! The first start, when it is due: the first run, and not
+            //! hidden by -hideSetup or a scripted run. The sample timeline
+            //! opens and the tour runs, ending at the first settings.
+            //! Called when the window is made unless the application says
+            //! it is not ready (App::isSetupReady()), in which case the
             //! application calls this when it is.
-            DJV_APP_API void showSetupDialog();
+            DJV_APP_API void showFirstStart();
+
+            //! Show the tour of the window.
+            DJV_APP_API void showTour();
+
+            //! Show the about dialog.
 
             DJV_APP_API void showAboutDialog();
 
@@ -147,6 +152,8 @@ namespace djv
             void _timelinePreviewClose();
             void _windowUpdate();
             void _presentHint();
+
+            void _showTour(const std::function<void(void)>& done);
 
             FTK_PRIVATE();
         };

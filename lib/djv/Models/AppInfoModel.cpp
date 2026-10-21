@@ -167,6 +167,15 @@ namespace djv
             return std::string();
         }
 
+        std::string AppInfoModel::getDocsFile(const std::string& name) const
+        {
+            const std::string url = _getDocsFileURL(name);
+            const std::string prefix = "file://";
+            return 0 == url.compare(0, prefix.size(), prefix) ?
+                url.substr(prefix.size()) :
+                std::string();
+        }
+
         std::string AppInfoModel::getDocsURL() const
         {
             // An application whose own page was left out of a package still

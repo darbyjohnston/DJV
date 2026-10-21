@@ -6,6 +6,7 @@
 #include <djv/App/ExportTool.h>
 
 #include <djv/App/App.h>
+#include <djv/Models/FilesModel.h>
 #include <djv/App/AudioActions.h>
 #include <djv/App/AudioMenu.h>
 #include <djv/App/BottomToolBar.h>
@@ -30,6 +31,10 @@
 
 #include <ftk/Core/String.h>
 #include <ftk/UI/Tooltip.h>
+
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
 #include <djv/App/TabBar.h>
 #include <djv/App/TimelineActions.h>
 #include <djv/App/TimelineMenu.h>
@@ -41,13 +46,13 @@
 #include <djv/App/ViewMenu.h>
 #include <djv/App/ViewToolBar.h>
 #include <djv/UI/TimelinePreview.h>
+#include <djv/UI/TourOverlay.h>
 #include <djv/UI/Viewport.h>
 #include <djv/App/WindowActions.h>
 #include <djv/App/WindowMenu.h>
 #include <djv/App/WindowToolBar.h>
 #include <djv/UI/AboutDialog.h>
 #include <djv/UI/Init.h>
-#include <djv/UI/SetupDialog.h>
 #include <djv/UI/SysInfoDialog.h>
 #include <djv/Models/AppInfoModel.h>
 #include <djv/Models/ColorModel.h>
@@ -154,7 +159,7 @@ namespace djv
             std::shared_ptr<BottomToolBar> bottomToolBar;
             std::shared_ptr<StatusBar> statusBar;
             std::shared_ptr<ToolsWidget> toolsWidget;
-            std::shared_ptr<ui::SetupDialog> setupDialog;
+            std::shared_ptr<ui::TourOverlay> tourOverlay;
             std::shared_ptr<ui::AboutDialog> aboutDialog;
             std::shared_ptr<ui::SysInfoDialog> sysInfoDialog;
             std::shared_ptr<ftk::HorizontalLayout> toolBarLayout;
@@ -502,7 +507,7 @@ namespace djv
             // then shows it itself (App::isSetupReady()).
             if (app->isSetupReady())
             {
-                showSetupDialog();
+                showFirstStart();
             }
 
             p.playerObserver = ftk::Observer<std::shared_ptr<tl::Player> >::create(
@@ -856,32 +861,359 @@ namespace djv
             }
         }
 
-        void MainWindow::showSetupDialog()
+        void MainWindow::showFirstStart()
         {
             FTK_P();
             auto app = p.app.lock();
-            if (!app || p.setupDialog)
+            if (!app || p.tourOverlay)
                 return;
-            auto miscSettings = app->getSettingsModel()->getMisc();
+            auto settingsModel = app->getSettingsModel();
+            auto miscSettings = settingsModel->getMisc();
             if (!miscSettings.showSetup || app->getHideSetup())
                 return;
             // Cleared when it is shown, not when it is closed: a first run
-            // is shown the setup once, however it ends.
+            // is shown the tour once, however it ends.
             miscSettings.showSetup = false;
-            auto settingsModel = app->getSettingsModel();
             settingsModel->setMisc(miscSettings);
-            p.setupDialog = ui::SetupDialog::create(
-                getContext(),
-                app->getAppInfoModel(),
-                settingsModel,
-                app->getTimeUnitsModel(),
-                app->createSetupPages());
-            p.setupDialog->open(std::dynamic_pointer_cast<IWindow>(shared_from_this()));
-            p.setupDialog->setCloseCallback(
-                [this]
+
+            // The tour, which opens the sample timeline when nothing was
+            // asked for, and ends at the settings a first run should know
+            // of.
+            _showTour(nullptr);
+        }
+
+        void MainWindow::showTour()
+        {
+            _showTour(nullptr);
+        }
+
+        void MainWindow::_showTour(const std::function<void(void)>& done)
+        {
+            FTK_P();
+            auto app = p.app.lock();
+            if (!app || p.tourOverlay)
+                return;
+
+            // The steps point at the parts of the window by their screenshot
+            // tags, so a part turned off in the Window menu is skipped. The
+            // controls differ between a desk and a tablet, and so does the
+            // text.
+            // The sample files, so that the tour has pictures to point at
+            // and a newcomer starts with something playing rather than a
+            // file browser to learn: a turntable of a train model, shaded
+            // and as a wireframe, so that the compare step has two files
+            // that differ. When nothing is open, and where the
+            // documentation is installed, which is where the samples are
+            // (beside the iPad's documentation too).
+            auto filesModel = app->getFilesModel();
+            if (filesModel->getFiles().empty())
+            {
+                const std::string shaded = app->getAppInfoModel()->getDocsFile("Train-Shaded.otioz");
+                const std::string wireframe = app->getAppInfoModel()->getDocsFile("Train-Wireframe.otioz");
+                if (!shaded.empty() && !wireframe.empty())
                 {
-                    _p->setupDialog.reset();
+                    app->open(ftk::Path(shaded));
+                    app->open(ftk::Path(wireframe));
+                    // The shaded one in front, and the wireframe as B, so
+                    // the compare controls have something to compare from
+                    // the start; opening makes the last one current.
+                    filesModel->setA(0);
+                    filesModel->setB(1, true);
+                }
+            }
+
+            // The compare step puts the two files in a wipe, and the tour
+            // puts the comparison back as it was when it ends.
+            struct CompareState
+            {
+                bool changed = false;
+                tl::CompareOptions options;
+                std::vector<int> bIndexes;
+            };
+            auto compareState = std::make_shared<CompareState>();
+
+            auto toolsModel = app->getToolsModel();
+
+            // A control listed in a callout is an action's icon and name,
+            // so the list says what the toolbar shows.
+            const auto item = [this](const std::string& action)
+            {
+                ui::TourItem out;
+                if (auto a = getAction(action))
+                {
+                    out.icon = a->getIcon();
+                    out.text = a->getText();
+                }
+                return out;
+            };
+            std::vector<ui::TourItem> toolItems;
+            for (const auto& tool : toolsModel->getTools())
+            {
+                if (tool.toolBar)
+                {
+                    toolItems.push_back(item("Tools/" + tool.name));
+                }
+            }
+            // The tools proper, not the "None" that stands for no tool.
+            std::vector<ui::TourItem> mouseToolItems;
+            for (size_t i = static_cast<size_t>(models::MouseTool::None) + 1;
+                i < static_cast<size_t>(models::MouseTool::Count);
+                ++i)
+            {
+                mouseToolItems.push_back(item(ftk::Format("View/MouseTool_{0}").arg(i)));
+            }
+
+            std::vector<ui::TourStep> steps;
+
+            // A word first, in the middle of the window: what this is and
+            // how to leave it.
+            steps.push_back(ui::TourStep(
+                "",
+                ftk::Format("Welcome to {0} {1}").
+                    arg(app->getAppInfoModel()->getFullName()).
+                    arg(app->getAppInfoModel()->getVersion()),
+                "A short tour of the window follows.\n\n"
+                "Next goes on, Close skips it, and Tour in the Help menu "
+                "shows it again."));
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            steps.push_back(ui::TourStep(
+                "MainWindow.Viewport",
+                "The view",
+                "The view shows the current frame.").withNotes({
+                    "Pinch: zoom",
+                    "Two fingers: pan",
+                    "Double tap: frame the view",
+                    "Long press: context menu" }));
+            steps.push_back(ui::TourStep(
+                "MainWindow.FileToolBar",
+                "Files",
+                "Open, close, and reload files.").withItems({
+                    item("File/Open"),
+                    item("File/OpenAudio"),
+                    item("File/Close"),
+                    item("File/CloseAll"),
+                    item("File/Reload") }).withNotes({
+                    "Open shows the system's picker; Open Folder, in the "
+                    "File menu, opens the file browser inside a folder.",
+                    "Closed files can be opened again from Recent Files in "
+                    "the File menu." }));
+#else // TARGET_OS_IPHONE
+            steps.push_back(ui::TourStep(
+                "MainWindow.Viewport",
+                "The view",
+                "The view shows the current frame.").withNotes({
+                    "Mouse wheel: zoom",
+                    "Middle button: pan",
+                    "Backspace: frame the view" }));
+            steps.push_back(ui::TourStep(
+                "MainWindow.FileToolBar",
+                "Files",
+                "Open, close, and reload files.").withItems({
+                    item("File/Open"),
+                    item("File/OpenAudio"),
+                    item("File/Close"),
+                    item("File/CloseAll"),
+                    item("File/Reload") }).withNotes({
+                    "Files can also be dropped on the window.",
+                    "Closed files can be opened again from Recent Files in "
+                    "the File menu." }));
+#endif // TARGET_OS_IPHONE
+            steps.push_back(ui::TourStep(
+                "MainWindow.TabBar",
+                "Open files",
+                "Each open file has a tab, click to switch between them."));
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            steps.push_back(ui::TourStep(
+                "MainWindow.Timeline",
+                "Timeline",
+                "Clips, tracks, video thumbnails, and audio waveforms.").withNotes({
+                    "Drag: scrub the current frame",
+                    "Pinch: zoom",
+                    "Two fingers: pan" }));
+            steps.push_back(ui::TourStep(
+                "Playback.PlaybackControls",
+                "Playback",
+                "Playback, loop mode, and shuttle.").withItems({
+                    item("Playback/Reverse"),
+                    item("Playback/Stop"),
+                    item("Playback/Forward"),
+                    item("Playback/Loop"),
+                    item("Playback/Once"),
+                    item("Playback/PingPong") }).withNotes({
+                    "Forward or reverse again: faster",
+                    "Drag the shuttle: vary the speed" }));
+            steps.push_back(ui::TourStep(
+                "Playback.FrameControls",
+                "Frames",
+                "Frame controls and shuttle.").withItems({
+                    item("Frame/Start"),
+                    item("Frame/Prev"),
+                    item("Frame/Next"),
+                    item("Frame/End") }).withNotes({
+                    "Drag the shuttle: scrub the current frame" }));
+#else // TARGET_OS_IPHONE
+            steps.push_back(ui::TourStep(
+                "MainWindow.Timeline",
+                "Timeline",
+                "Clips, tracks, video thumbnails, and audio waveforms.").withNotes({
+                    "Drag: scrub the current frame",
+                    "Hover: preview the frame",
+                    "Mouse wheel: zoom",
+                    "Middle button: pan" }));
+            steps.push_back(ui::TourStep(
+                "Playback.PlaybackControls",
+                "Playback",
+                "Playback, loop mode, and shuttle.").withItems({
+                    item("Playback/Reverse"),
+                    item("Playback/Stop"),
+                    item("Playback/Forward"),
+                    item("Playback/Loop"),
+                    item("Playback/Once"),
+                    item("Playback/PingPong") }).withNotes({
+                    "Space: toggle playback",
+                    "Forward or reverse again: faster",
+                    "Drag the shuttle: vary the speed" }));
+            steps.push_back(ui::TourStep(
+                "Playback.FrameControls",
+                "Frames",
+                "Frame controls and shuttle.").withItems({
+                    item("Frame/Start"),
+                    item("Frame/Prev"),
+                    item("Frame/Next"),
+                    item("Frame/End") }).withNotes({
+                    "Arrow keys: step a frame",
+                    "Drag the shuttle: scrub the current frame" }));
+#endif // TARGET_OS_IPHONE
+            steps.push_back(ui::TourStep(
+                "Playback.TimeControls",
+                "Time",
+                "Current frame, duration, time units, and speed controls."));
+            {
+                std::vector<ui::TourItem> items = { item("View/Frame"), item("View/ZoomReset") };
+                items.insert(items.end(), mouseToolItems.begin(), mouseToolItems.end());
+                steps.push_back(ui::TourStep(
+                    "MainWindow.ViewToolBar",
+                    "View tools",
+                    "Frame and zoom the view, and the tool used for "
+                    "dragging.").withItems(items));
+            }
+            steps.push_back(ui::TourStep(
+                "MainWindow.CompareToolBar",
+                "Compare",
+                "Open a second file and choose a compare mode.",
+                [filesModel, compareState]
+                {
+                    // With two or more files open: the second as B, in a
+                    // wipe. Remembered once, so that Back and Next do not
+                    // remember the tour's own change as the user's.
+                    if (filesModel->getFiles().size() < 2)
+                        return;
+                    if (!compareState->changed)
+                    {
+                        compareState->changed = true;
+                        compareState->options = filesModel->getCompareOptions();
+                        compareState->bIndexes = filesModel->getBIndexes();
+                    }
+                    // B is a file that is not A, whichever A is by now.
+                    for (int i : filesModel->getBIndexes())
+                    {
+                        filesModel->setB(i, false);
+                    }
+                    filesModel->setB(0 == filesModel->getAIndex() ? 1 : 0, true);
+                    tl::CompareOptions options = compareState->options;
+                    options.compare = tl::Compare::Wipe;
+                    filesModel->setCompareOptions(options);
+                }).withItems({
+                    item("Compare/B"),
+                    item("Compare/Wipe"),
+                    item("Compare/Butterfly"),
+                    item("Compare/Overlay"),
+                    item("Compare/Difference"),
+                    item("Compare/Horizontal"),
+                    item("Compare/Vertical"),
+                    item("Compare/Tile") }).withNotes({
+                    "With two files open, the tour puts them in a wipe." }));
+            steps.push_back(ui::TourStep(
+                "MainWindow.ToolsToolBar",
+                "Tools",
+                "").withItems(toolItems));
+
+            // The settings a first run should know of, in the Settings
+            // tool, where they live: each step opens the tool at its
+            // section, and the controls are live under the callout.
+            steps.push_back(ui::TourStep(
+                "Settings.Cache",
+                "Cache settings",
+                "Memory for video and audio frames.\n\n"
+                "A larger cache plays more from memory.",
+                [toolsModel]
+                {
+                    toolsModel->showSection("Settings", "Cache");
+                }).withPlacement(ui::TourPlacement::Left));
+            steps.push_back(ui::TourStep(
+                "Settings.Style",
+                "Style settings",
+                "Colors, fonts, and sizes of the user interface.",
+                [toolsModel]
+                {
+                    toolsModel->showSection("Settings", "Style");
+                }).withPlacement(ui::TourPlacement::Left));
+            steps.push_back(ui::TourStep(
+                "Settings.FFmpeg",
+                "FFmpeg settings",
+                "Hardware decoding, decoder threads, and the FFmpeg programs "
+                "used for movies.",
+                [toolsModel]
+                {
+                    toolsModel->showSection("Settings", "FFmpeg");
+                }).withPlacement(ui::TourPlacement::Left));
+            steps.push_back(ui::TourStep(
+                "MainWindow.MenuBar",
+                "That is the tour",
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+                "The menus contain additional controls.\n\n"
+#else // TARGET_OS_IPHONE
+                "The menus contain additional controls and keyboard "
+                "shortcuts.\n\n"
+#endif // TARGET_OS_IPHONE
+                "Tour, in the Help menu, shows this again, and "
+                "Documentation shows the full documentation."));
+
+            // The tools the tour opens, and the comparison it sets, are put
+            // back as they were.
+            const std::vector<std::string> openTools = toolsModel->getOpenTools();
+            p.tourOverlay = ui::TourOverlay::create(getContext(), steps);
+            p.tourOverlay->setCloseCallback(
+                [this, toolsModel, openTools, filesModel, compareState, done]
+                {
+                    // Kept until this returns: the callback lives in the
+                    // overlay, and resetting the pointer would destroy it
+                    // with what it captured.
+                    auto overlay = _p->tourOverlay;
+                    _p->tourOverlay.reset();
+                    toolsModel->closeTools();
+                    for (const auto& tool : openTools)
+                    {
+                        toolsModel->setToolOpen(tool, true);
+                    }
+                    if (compareState->changed)
+                    {
+                        for (int i : filesModel->getBIndexes())
+                        {
+                            filesModel->setB(i, false);
+                        }
+                        for (int i : compareState->bIndexes)
+                        {
+                            filesModel->setB(i, true);
+                        }
+                        filesModel->setCompareOptions(compareState->options);
+                    }
+                    if (done)
+                    {
+                        done();
+                    }
                 });
+            p.tourOverlay->open(std::dynamic_pointer_cast<IWindow>(shared_from_this()));
         }
 
         void MainWindow::showAboutDialog()

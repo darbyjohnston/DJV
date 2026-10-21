@@ -19,6 +19,18 @@ install(
         PATTERN "*.svg"
         PATTERN "*.png")
 
+# The sample files, opened on a first start for the tour to point at (see
+# MainWindow::showFirstStart()): a turntable of a train model, shaded and
+# as a wireframe, so that comparing the two shows something. Beside the
+# documentation, since the application finds the documentation and not
+# much else at run time; the iPad bundles the documentation and so these.
+install(
+    FILES
+        ${PROJECT_SOURCE_DIR}/etc/SampleData/Train-Shaded.otioz
+        ${PROJECT_SOURCE_DIR}/etc/SampleData/Train-Wireframe.otioz
+    DESTINATION ${DEST}
+    COMPONENT docs)
+
 # The licenses page, written into the build tree by etc/Legal/CMakeLists.txt
 # because it describes this configuration rather than the repository. Before
 # the navigation below, which has to find it there to write the list into it.

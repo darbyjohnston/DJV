@@ -17,6 +17,7 @@ namespace djv
             Menu::_init(context, parent);
 
             auto actions = helpActions->getActions();
+            addAction(actions["Tour"]);
             addAction(actions["Documentation"]);
             const auto studio = actions.find("Studio");
             if (studio != actions.end())

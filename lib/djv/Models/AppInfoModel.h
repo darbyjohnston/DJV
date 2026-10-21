@@ -100,6 +100,11 @@ namespace djv
             //! which lives nowhere near the install.
             DJV_MODELS_API virtual std::string getDocsSearchPath() const;
 
+            //! Get a file installed with the documentation -- an
+            //! illustration, the sample timeline -- as a path, or an empty
+            //! string where the documentation is not installed.
+            DJV_MODELS_API std::string getDocsFile(const std::string& name) const;
+
             ///@}
 
             //! \name License

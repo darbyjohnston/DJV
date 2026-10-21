@@ -13,6 +13,8 @@
 #include <ftk/UI/Settings.h>
 #include <ftk/Core/Format.h>
 
+#include <optional>
+
 namespace djv
 {
     namespace app
@@ -30,6 +32,13 @@ namespace djv
             std::shared_ptr<ftk::ToolButton> closeButton;
             std::shared_ptr<ftk::VerticalLayout> toolLayout;
             std::shared_ptr<ftk::VerticalLayout> layout;
+
+            //! A section to scroll to once it has been laid out: a section
+            //! just expanded has not got its height until the next layout,
+            //! and a scroll before that shows its header at the bottom of
+            //! the pane with the controls below the fold.
+            std::optional<std::string> scrollSection;
+            int scrollTicks = 0;
         };
 
         void IToolWidget::_init(
@@ -111,8 +120,27 @@ namespace djv
                 if (auto bellows = i->second.lock())
                 {
                     bellows->setOpen(true);
-                    scrollTo(section);
+                    // Two ticks leave room for a layout between the
+                    // request and the scroll, whichever comes first in the
+                    // frame (as ToolsWidget does for the column).
+                    p.scrollSection = section;
+                    p.scrollTicks = 2;
                 }
+            }
+        }
+
+        void IToolWidget::tickEvent(
+            bool parentsVisible,
+            bool parentsEnabled,
+            const ftk::TickEvent& event)
+        {
+            ftk::IWidget::tickEvent(parentsVisible, parentsEnabled, event);
+            FTK_P();
+            if (p.scrollSection.has_value() && --p.scrollTicks <= 0)
+            {
+                const std::string section = p.scrollSection.value();
+                p.scrollSection.reset();
+                scrollTo(section);
             }
         }
 

@@ -218,6 +218,86 @@
         { "tool": "Review" },
         { "tooltip": "Review.Pen" }
       ]
+    },
+    {
+      "id": "tour",
+      "strict": true,
+      "window": { "w": 1000, "h": 700, "splitter2": 0.55 },
+      "setup": [
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "command": "Help/Tour" },
+        { "expect": "Tour.Prev", "enabled": false },
+        { "expect": "Tour.Title", "contains": "Welcome to" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Prev", "enabled": true },
+        { "expect": "Tour.Title", "text": "The view" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "text": "Files" },
+        { "click": "Tour.Prev" },
+        { "expect": "Tour.Title", "text": "The view" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "text": "Playback" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "text": "Tools" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "text": "Cache settings" },
+        { "expect": "Settings.Cache", "visible": true }
+      ]
+    },
+    {
+      "id": "tour-done",
+      "strict": true,
+      "window": { "w": 1000, "h": 700, "splitter2": 0.55 },
+      "setup": [
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "command": "Help/Tour" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "text": "That is the tour" },
+        { "expect": "Tour.Next", "text": "Done" },
+        { "expect": "Tour.Close", "visible": false },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "visible": false },
+        { "expect": "MainWindow.Tools", "visible": false }
+      ]
+    },
+    {
+      "id": "tour-present",
+      "strict": true,
+      "window": { "w": 1000, "h": 700, "splitter2": 0.55 },
+      "setup": [
+        { "open": "etc/SampleData/Counter.#.png" },
+        { "command": "Window/PresentMode", "args": { "value": true } },
+        { "command": "Help/Tour" },
+        { "expect": "Tour.Title", "contains": "Welcome to" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "text": "The view" },
+        { "click": "Tour.Next" },
+        { "wait": 2.0 },
+        { "expect": "Tour.Title", "text": "That is the tour" },
+        { "expect": "Tour.Next", "text": "Done" },
+        { "click": "Tour.Next" },
+        { "expect": "Tour.Title", "visible": false }
+      ]
     }
   ]
 }
