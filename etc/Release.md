@@ -54,6 +54,16 @@ feather-tk fix reaches `pip install tlRender` only through tlRender's pin:
     etc/release.py release 0.18.1 0.26.1 -
     etc/release.py dev 0.19.0 0.27.0 -
 
+tlRender can be released alone, when feather-tk has nothing new: a
+feather-tk version of `-` keeps the feather-tk release tlRender already
+pins, and points tlRender at that release's tag for the release commit, so
+tlRender's tag records the feather-tk its wheel is built with; `dev` points
+it back at feather-tk's main. feather-tk is never released without
+tlRender.
+
+    etc/release.py release - 0.26.2 -
+    etc/release.py dev - 0.27.0 -
+
 - [ ] Set `VERSION_MAJOR` / `MINOR` / `PATCH` in each `Version.h`:
       `deps/tlRender/deps/ftk/lib/ftk/Core/Version.h`,
       `deps/tlRender/lib/tlRender/Core/Version.h` and
