@@ -9,7 +9,7 @@ set(HEADERS
     RecentFilesDialog.h
     SeparateAudioDialog.h
     SettingsWidgets.h
-    SetupDialog.h
+    TourOverlay.h
     SpeedPopup.h
     StatusIndicator.h
     StatusIndicatorPopup.h
@@ -36,7 +36,7 @@ set(SOURCE
     RecentFilesDialog.cpp
     SeparateAudioDialog.cpp
     SettingsWidgets.cpp
-    SetupDialog.cpp
+    TourOverlay.cpp
     ShortcutsWidget.cpp
     SpeedPopup.cpp
     StatusIndicator.cpp

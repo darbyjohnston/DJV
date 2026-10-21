@@ -8,6 +8,7 @@
 
 #include <ftk/UI/DialogSystem.h>
 #include <ftk/UI/Divider.h>
+#include <ftk/UI/ScreenshotTag.h>
 #include <ftk/UI/FormLayout.h>
 #include <ftk/UI/Label.h>
 #include <ftk/UI/PushButton.h>
@@ -52,6 +53,7 @@ namespace djv
             vLayout2->setMarginRole(ftk::SizeRole::Margin);
             ui::CacheSettingsWidget::create(context, settingsModel, vLayout2);
             p.bellows["Cache"]->setWidget(vLayout2);
+            ftk::setScreenshotTag(p.bellows["Cache"], "Settings.Cache");
 
             p.bellows["FileBrowser"] = ftk::Bellows::create(context, "File Browser", vLayout);
             vLayout2 = ftk::VerticalLayout::create(context, vLayout);
@@ -115,6 +117,7 @@ namespace djv
             vLayout2->setMarginRole(ftk::SizeRole::Margin);
             ui::StyleSettingsWidget::create(context, settingsModel, vLayout2);
             p.bellows["Style"]->setWidget(vLayout2);
+            ftk::setScreenshotTag(p.bellows["Style"], "Settings.Style");
 
 #if defined(FTK_GPU)
             // Only where there is a choice of renderer to make.
@@ -145,6 +148,7 @@ namespace djv
                 vLayout2);
             ui::FFmpegSettingsWidget::create(context, settingsModel, vLayout2);
             p.bellows["FFmpeg"]->setWidget(vLayout2);
+            ftk::setScreenshotTag(p.bellows["FFmpeg"], "Settings.FFmpeg");
 #endif // TLRENDER_FFMPEG_PLUGIN
 
 #if defined(TLRENDER_USD)

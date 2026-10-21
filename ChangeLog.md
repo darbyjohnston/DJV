@@ -1,3 +1,12 @@
+## 3.7.6
+
+Changes:
+* A tour of the window on the first start, and again from Help > Tour: a
+  callout for each part of the window, in the window, ending at the cache,
+  style and FFmpeg settings. It replaces the setup dialog. The first start
+  also opens two sample files when no file was asked for: a turntable of a
+  train model, shaded and as a wireframe.
+
 ## 3.7.5
 
 Changes:

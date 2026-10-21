@@ -87,7 +87,21 @@ namespace djv
                     }
                 });
 
+            _addCommand(
+                "Tour",
+                "Show the tour of the window: each part of it, what it does, and how it is worked.",
+                [mainWindowWeak](const nlohmann::json&)
+                {
+                    if (auto mainWindow = mainWindowWeak.lock())
+                    {
+                        mainWindow->showTour();
+                    }
+                });
+
             // Create the actions.
+            _actions["Tour"] = ftk::Action::create(
+                "Tour",
+                _command("Tour"));
             _actions["Documentation"] = ftk::Action::create(
                 "Documentation",
                 _command("Documentation"));
