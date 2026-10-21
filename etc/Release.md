@@ -30,6 +30,16 @@ describe, in all three repositories, and prints what to push and tag:
 It refuses unless all three are on main, clean and up to date, and it
 pushes and tags nothing. The change log is still written by hand.
 
+feather-tk and tlRender are also released between DJV releases, for what
+their own users need. A DJV version of `-` does that: the two are released,
+and DJV keeps its version and its PyPI pins, so the DJV wheel already
+published goes on installing the releases it was built against; only DJV's
+pointer to tlRender moves. The rest of this checklist then applies to the
+two of them, the wheels built by hand before tagging included.
+
+    etc/release.py release 0.18.0 0.26.0 -
+    etc/release.py dev 0.19.0 0.27.0 -
+
 - [ ] Set `VERSION_MAJOR` / `MINOR` / `PATCH` in each `Version.h`:
       `deps/tlRender/deps/ftk/lib/ftk/Core/Version.h`,
       `deps/tlRender/lib/tlRender/Core/Version.h` and

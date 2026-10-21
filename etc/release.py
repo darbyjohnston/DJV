@@ -19,6 +19,14 @@ inside it:
 
     etc/release.py dev 0.18.0 0.26.0 3.9.0
 
+A DJV version of "-" releases feather-tk and tlRender alone, which they do
+between DJV releases: DJV keeps its version and its PyPI pins -- a DJV wheel
+already published goes on installing the releases it was built against --
+and only its pointer to tlRender moves:
+
+    etc/release.py release 0.18.0 0.26.0 -
+    etc/release.py dev 0.19.0 0.27.0 -
+
 Nothing is pushed and nothing is tagged: the commands for those are printed.
 The change log is not written either; "release" says so when it has no entry
 for the version. See etc/Release.md for the rest of a release.
@@ -95,8 +103,8 @@ def main():
     root = pathlib.Path(".")
     if not (root / "lib/djv/Models/Version.h").exists():
         sys.exit("Run this from DJV's directory")
-    versions = [args.ftk, args.tlrender, args.djv]
-    parsed = [parse_version(v) for v in versions]
+    versions = [args.ftk, args.tlrender, None if "-" == args.djv else args.djv]
+    parsed = [parse_version(v) if v is not None else None for v in versions]
     dev = "-dev" if "dev" == args.kind else ""
 
     # Nothing is changed unless everything can be: a release half made in
@@ -146,7 +154,12 @@ def main():
         inner = {"deps/tlRender": "deps/ftk", ".": "deps/tlRender"}.get(directory)
         inner_name = {"deps/tlRender": "feather-tk", ".": "tlRender"}.get(directory)
 
-        if "release" == args.kind:
+        if version is None:
+            # Not released this time: only the pointer moves, to the release
+            # inside it, and its pins stay with the releases it was built
+            # against.
+            commit(directory, "Update %s" % inner_name, [inner])
+        elif "release" == args.kind:
             # Built against the release inside it, then its own version.
             if inner:
                 if not args.dry_run:
@@ -177,7 +190,7 @@ def main():
             directory if directory != "." else "DJV", commit_hash, message))
 
     print()
-    if "release" == args.kind:
+    if "release" == args.kind and versions[2] is not None:
         changelog = (root / "ChangeLog.md").read_text()
         if not changelog.startswith("## %s\n" % args.djv):
             print("ChangeLog.md has no entry for %s yet." % args.djv)
@@ -192,6 +205,8 @@ def main():
         print("The tags, which can be pushed together -- each wheel build "
               "waits for the wheel it pins:")
         for (name, directory, _, _, _), version in zip(REPOS, versions):
+            if version is None:
+                continue
             d = (root / directory).resolve()
             print("    git -C %s tag %s && git -C %s push origin %s" %
                   (d, version, d, version))
