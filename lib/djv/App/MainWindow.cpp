@@ -954,15 +954,6 @@ namespace djv
                     toolItems.push_back(item("Tools/" + tool.name));
                 }
             }
-            // The tools proper, not the "None" that stands for no tool.
-            std::vector<ui::TourItem> mouseToolItems;
-            for (size_t i = static_cast<size_t>(models::MouseTool::None) + 1;
-                i < static_cast<size_t>(models::MouseTool::Count);
-                ++i)
-            {
-                mouseToolItems.push_back(item(ftk::Format("View/MouseTool_{0}").arg(i)));
-            }
-
             std::vector<ui::TourStep> steps;
 
             // A word first, in the middle of the window: what this is and
@@ -1088,15 +1079,12 @@ namespace djv
                 "Playback.TimeControls",
                 "Time",
                 "Current frame, duration, time units, and speed controls."));
-            {
-                std::vector<ui::TourItem> items = { item("View/Frame"), item("View/ZoomReset") };
-                items.insert(items.end(), mouseToolItems.begin(), mouseToolItems.end());
-                steps.push_back(ui::TourStep(
-                    "MainWindow.ViewToolBar",
-                    "View tools",
-                    "Frame and zoom the view, and the tool used for "
-                    "dragging.").withItems(items));
-            }
+            steps.push_back(ui::TourStep(
+                "MainWindow.ViewToolBar",
+                "View tools",
+                "Frame and zoom the view.").withItems({
+                    item("View/Frame"),
+                    item("View/ZoomReset") }));
             steps.push_back(ui::TourStep(
                 "MainWindow.CompareToolBar",
                 "Compare",
