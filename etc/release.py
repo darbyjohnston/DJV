@@ -130,9 +130,12 @@ def main():
             sys.exit("%s is on %s, not main" % (name, branch or "no branch"))
         # The pointer to a submodule shows as a change, and is expected: it
         # is one of the things committed here.
+        # The path is the last field, and not at a fixed column: the output
+        # comes back stripped, which takes the leading space off a first line
+        # like " M deps/ftk".
         dirty = [
             line for line in git(d, "status", "--porcelain").splitlines()
-            if line[3:] not in ("deps/ftk", "deps/tlRender")]
+            if line.split()[-1] not in ("deps/ftk", "deps/tlRender")]
         if dirty:
             sys.exit("%s has changes that are not committed:\n%s" %
                      (name, "\n".join(dirty)))
