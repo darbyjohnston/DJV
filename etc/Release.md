@@ -4,7 +4,12 @@ The repositories nest: DJV -> tlRender -> ftk. Anything touching more than
 one of them is done innermost first.
 
 DJV Studio is released separately and from its own checklist. Its version is
-always >= DJV's, so a DJV release is also a deadline for one there.
+always >= DJV's, so a DJV release is also a deadline for one there. The two
+share major and minor numbers -- a Studio license covers a major version, and
+"Studio 3.8" says which DJV it is built on -- and Studio may make patch
+releases of its own. A version number is never used twice across the two:
+after a Studio-only 3.7.7, DJV's next release is 3.7.8 or 3.8.0, not a
+different 3.7.7.
 
 ## Before building anything
 
