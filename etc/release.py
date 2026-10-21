@@ -19,6 +19,23 @@ inside it:
 
     etc/release.py dev 0.18.0 0.26.0 3.9.0
 
+A DJV version of "-" releases feather-tk and tlRender alone, which they do
+between DJV releases: DJV keeps its version and its PyPI pins -- a DJV wheel
+already published goes on installing the releases it was built against --
+and only its pointer to tlRender moves:
+
+    etc/release.py release 0.18.0 0.26.0 -
+    etc/release.py dev 0.19.0 0.27.0 -
+
+A feather-tk version of "-" releases tlRender alone, built against the
+feather-tk release its pyproject.toml already pins: tlRender's pointer is set
+to that release's tag, so that tlRender's tag records what its wheel is built
+with, and "dev" points it back at feather-tk's main. feather-tk cannot be
+released without tlRender, whose wheel pins it exactly:
+
+    etc/release.py release - 0.26.2 -
+    etc/release.py dev - 0.27.0 -
+
 Nothing is pushed and nothing is tagged: the commands for those are printed.
 The change log is not written either; "release" says so when it has no entry
 for the version. See etc/Release.md for the rest of a release.
@@ -95,8 +112,11 @@ def main():
     root = pathlib.Path(".")
     if not (root / "lib/djv/Models/Version.h").exists():
         sys.exit("Run this from DJV's directory")
-    versions = [args.ftk, args.tlrender, args.djv]
-    parsed = [parse_version(v) for v in versions]
+    versions = [None if "-" == v else v for v in (args.ftk, args.tlrender, args.djv)]
+    if versions[1] is None:
+        sys.exit("tlRender is always released: its wheel pins feather-tk exactly, "
+                 "and DJV's pins tlRender")
+    parsed = [parse_version(v) if v is not None else None for v in versions]
     dev = "-dev" if "dev" == args.kind else ""
 
     # Nothing is changed unless everything can be: a release half made in
@@ -127,7 +147,8 @@ def main():
         if args.dry_run:
             print("  %-10s %s" % (directory if directory != "." else "DJV", message))
             return
-        git(root / directory, "add", *paths)
+        if paths:
+            git(root / directory, "add", *paths)
         # A pointer that already names the commit has nothing to add.
         if git(root / directory, "diff", "--cached", "--name-only"):
             git(root / directory, "commit", "-q", "-m", message)
@@ -146,7 +167,34 @@ def main():
         inner = {"deps/tlRender": "deps/ftk", ".": "deps/tlRender"}.get(directory)
         inner_name = {"deps/tlRender": "feather-tk", ".": "tlRender"}.get(directory)
 
-        if "release" == args.kind:
+        if version is None:
+            if not inner:
+                # feather-tk, not released: nothing of its own changes.
+                continue
+            # Not released this time: only the pointer moves, to the release
+            # inside it, and its pins stay with the releases it was built
+            # against.
+            commit(directory, "Update %s" % inner_name, [inner])
+        elif "release" == args.kind and inner and not pins:
+            # Released against an inner release that is already out: the
+            # one its pyproject.toml pins, whose tag the pointer is set to
+            # without moving the checkout, which stays on main.
+            pinned = re.search(
+                r'"%s==([^"]+)"' % re.escape(inner_name),
+                (d / "pyproject.toml").read_text())
+            if not pinned:
+                sys.exit("%s/pyproject.toml: no pin of %s" % (d, inner_name))
+            tag = pinned.group(1)
+            sha = git(d / inner, "rev-parse", "--verify", "-q", tag + "^{commit}", check=False)
+            if not sha:
+                sys.exit("%s has no tag %s, which %s pins" % (inner_name, tag, name))
+            if not args.dry_run:
+                git(d, "update-index", "--cacheinfo", "160000,%s,%s" % (sha, inner))
+            commit(directory, "%s builds against %s %s" % (name, inner_name, tag), [])
+            if not args.dry_run:
+                set_version(d / header, prefix, numbers, dev)
+            commit(directory, "Version %s" % version, [header])
+        elif "release" == args.kind:
             # Built against the release inside it, then its own version.
             if inner:
                 if not args.dry_run:
@@ -177,7 +225,7 @@ def main():
             directory if directory != "." else "DJV", commit_hash, message))
 
     print()
-    if "release" == args.kind:
+    if "release" == args.kind and versions[2] is not None:
         changelog = (root / "ChangeLog.md").read_text()
         if not changelog.startswith("## %s\n" % args.djv):
             print("ChangeLog.md has no entry for %s yet." % args.djv)
@@ -192,6 +240,8 @@ def main():
         print("The tags, which can be pushed together -- each wheel build "
               "waits for the wheel it pins:")
         for (name, directory, _, _, _), version in zip(REPOS, versions):
+            if version is None:
+                continue
             d = (root / directory).resolve()
             print("    git -C %s tag %s && git -C %s push origin %s" %
                   (d, version, d, version))

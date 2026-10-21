@@ -4,7 +4,12 @@ The repositories nest: DJV -> tlRender -> ftk. Anything touching more than
 one of them is done innermost first.
 
 DJV Studio is released separately and from its own checklist. Its version is
-always >= DJV's, so a DJV release is also a deadline for one there.
+always >= DJV's, so a DJV release is also a deadline for one there. The two
+share major and minor numbers -- a Studio license covers a major version, and
+"Studio 3.8" says which DJV it is built on -- and Studio may make patch
+releases of its own. A version number is never used twice across the two:
+after a Studio-only 3.7.7, DJV's next release is 3.7.8 or 3.8.0, not a
+different 3.7.7.
 
 ## Before building anything
 
@@ -29,6 +34,35 @@ describe, in all three repositories, and prints what to push and tag:
 
 It refuses unless all three are on main, clean and up to date, and it
 pushes and tags nothing. The change log is still written by hand.
+
+feather-tk and tlRender are also released between DJV releases, for what
+their own users need. A DJV version of `-` does that: the two are released,
+and DJV keeps its version and its PyPI pins, so the DJV wheel already
+published goes on installing the releases it was built against; only DJV's
+pointer to tlRender moves. The rest of this checklist then applies to the
+two of them, the wheels built by hand before tagging included.
+
+    etc/release.py release 0.18.0 0.26.0 -
+    etc/release.py dev 0.19.0 0.27.0 -
+
+Their numbers: the minor is bumped for a release with changes, which every
+DJV release is; the patch for a release that only fixes what the one before
+got wrong, so "0.18.1 fixes 0.18.0" is what pip users read. tlRender releases
+with feather-tk either way, since its wheel pins feather-tk exactly and a
+feather-tk fix reaches `pip install tlRender` only through tlRender's pin:
+
+    etc/release.py release 0.18.1 0.26.1 -
+    etc/release.py dev 0.19.0 0.27.0 -
+
+tlRender can be released alone, when feather-tk has nothing new: a
+feather-tk version of `-` keeps the feather-tk release tlRender already
+pins, and points tlRender at that release's tag for the release commit, so
+tlRender's tag records the feather-tk its wheel is built with; `dev` points
+it back at feather-tk's main. feather-tk is never released without
+tlRender.
+
+    etc/release.py release - 0.26.2 -
+    etc/release.py dev - 0.27.0 -
 
 - [ ] Set `VERSION_MAJOR` / `MINOR` / `PATCH` in each `Version.h`:
       `deps/tlRender/deps/ftk/lib/ftk/Core/Version.h`,
