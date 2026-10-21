@@ -35,8 +35,9 @@ namespace djv
             //! has to hold still before the callout is placed beside it: a
             //! section expands on one layout pass and its pane scrolls to
             //! it two ticks later, and a callout placed at each of those
-            //! jumps.
-            const int settleTicks = 3;
+            //! jumps. One: the least that catches the scroll, since the
+            //! wait is felt against the steps that need none.
+            const int settleTicks = 1;
 
             //! And how long the callout waits for that at the most.
             const int settleTicksMax = 30;
@@ -618,7 +619,7 @@ namespace djv
                 return;
 
             p.target.reset();
-            p.cutout.reset();
+            std::optional<ftk::Box2I> cutout;
             if (p.step >= 0 && p.step < static_cast<int>(p.steps.size()))
             {
                 if (auto widget = _findTarget(p.steps[p.step].tag))
@@ -627,20 +628,21 @@ namespace djv
                     // What shows of it: a section of a tool taller than
                     // the tool's pane is ringed where it is seen, not down
                     // through whatever is under the pane.
-                    ftk::Box2I cutout = ftk::intersect(p.target.value(), g);
+                    ftk::Box2I c = ftk::intersect(p.target.value(), g);
                     for (auto parent = widget->getParent(); parent; parent = parent->getParent())
                     {
                         if (parent->doesClipChildren())
                         {
-                            cutout = ftk::intersect(cutout, parent->getChildrenClipRect());
+                            c = ftk::intersect(c, parent->getChildrenClipRect());
                         }
                     }
-                    if (cutout.isValid())
+                    if (c.isValid())
                     {
-                        p.cutout = cutout;
+                        cutout = c;
                     }
                 }
             }
+            p.cutout = cutout;
 
             // The callout: below the control, or above, to the right or
             // the left, the first with room for it; for a control too big
@@ -651,9 +653,9 @@ namespace djv
             const int w = std::min(std::max(hint.w, p.size.width), g.w() - p.size.margin * 2);
             const int h = std::min(hint.h, g.h() - p.size.margin * 2);
             ftk::Box2I box;
-            if (p.cutout.has_value())
+            if (cutout.has_value())
             {
-                const ftk::Box2I& c = p.cutout.value();
+                const ftk::Box2I& c = cutout.value();
                 const int gap = p.size.spacing + p.size.shadow;
                 const int cx = c.min.x + c.w() / 2 - w / 2;
                 const int cy = c.min.y + c.h() / 2 - h / 2;
