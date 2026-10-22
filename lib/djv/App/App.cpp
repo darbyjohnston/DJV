@@ -62,6 +62,7 @@
 #include <ftk/UI/Settings.h>
 #include <ftk/UI/SysLogModel.h>
 #include <ftk/Core/CmdLine.h>
+#include <ftk/Core/DiagSystem.h>
 #include <ftk/Core/Format.h>
 #include <ftk/Core/OS.h>
 #include <ftk/Core/Timer.h>
@@ -69,6 +70,7 @@
 #include <ctime>
 #include <ftk/Core/Path.h>
 
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -1224,6 +1226,57 @@ namespace djv
                     // the application runs until every window is gone.
                     _context->getSystem<ftk::FileBrowserSystem>()->close();
                 });
+
+            // Playback, first: whether it is keeping up, and if not whether
+            // the cache is full. The rest of the diagnostics are frames,
+            // memory and object counts, after it.
+            auto diagSystem = _context->getSystem<ftk::DiagSystem>();
+            auto groupOrder = diagSystem->getGroupOrder();
+            groupOrder.insert(groupOrder.begin(), "Playback");
+            diagSystem->setGroupOrder(groupOrder);
+            std::weak_ptr<App> appWeak(std::dynamic_pointer_cast<App>(shared_from_this()));
+            diagSystem->addSampler(
+                "Playback/Rate: {0}fps",
+                [appWeak]() -> int64_t
+                {
+                    auto app = appWeak.lock();
+                    return app && app->_p->mainWindow ?
+                        std::llround(app->_p->mainWindow->getViewport()->getFPS() * 10.0) :
+                        0;
+                },
+                ftk::DiagFormat{ 10.0, 1 });
+            diagSystem->addSampler(
+                "Playback/Dropped frames: {0}",
+                [appWeak]() -> int64_t
+                {
+                    auto app = appWeak.lock();
+                    auto player = app ? app->_p->player->get() : nullptr;
+                    return player ? player->getDroppedFrames() : 0;
+                });
+            diagSystem->addSampler(
+                "Playback/Video cache: {0}%",
+                [appWeak]() -> int64_t
+                {
+                    auto app = appWeak.lock();
+                    auto player = app ? app->_p->player->get() : nullptr;
+                    return player ?
+                        std::lround(player->observeCacheInfo()->get().videoPercentage * 10.F) :
+                        0;
+                },
+                // Tenths: the percentage is of the whole cache, and a short
+                // clip is well under one percent of it.
+                ftk::DiagFormat{ 10.0, 1 });
+            diagSystem->addSampler(
+                "Playback/Audio cache: {0}%",
+                [appWeak]() -> int64_t
+                {
+                    auto app = appWeak.lock();
+                    auto player = app ? app->_p->player->get() : nullptr;
+                    return player ?
+                        std::lround(player->observeCacheInfo()->get().audioPercentage * 10.F) :
+                        0;
+                },
+                ftk::DiagFormat{ 10.0, 1 });
 
             p.viewPosZoomObserver = ftk::Observer<std::pair<ftk::V2I, double> >::create(
                 p.mainWindow->getViewport()->observeViewPosAndZoom(),
