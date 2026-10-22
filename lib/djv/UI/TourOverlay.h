@@ -40,7 +40,7 @@ namespace djv
         //! tag (see ftk::setScreenshotTag()), and what the callout says: a
         //! line of description, then the controls as a list of icons and
         //! names, then notes on the mouse and the keys as bullets.
-        struct TourStep
+        struct DJV_UI_API_TYPE TourStep
         {
             //! A step may leave the action out, which an aggregate of the
             //! fields would warn about at every step without one.
@@ -57,9 +57,12 @@ namespace djv
 
             //! The controls, and the notes, which a step is given after it
             //! is made.
-            TourStep& withItems(const std::vector<TourItem>&);
-            TourStep& withNotes(const std::vector<std::string>&);
-            TourStep& withPlacement(TourPlacement);
+            // Exported: the application's tour is built from these in
+            // another library, which a Windows DLL only links to what it
+            // exports.
+            DJV_UI_API TourStep& withItems(const std::vector<TourItem>&);
+            DJV_UI_API TourStep& withNotes(const std::vector<std::string>&);
+            DJV_UI_API TourStep& withPlacement(TourPlacement);
 
             std::string tag;
             std::string title;

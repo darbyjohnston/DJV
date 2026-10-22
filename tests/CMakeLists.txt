@@ -16,6 +16,28 @@ if(NOT DJV_TESTS_NO_GL)
     math(EXPR DJV_CAPTURE_LAST "${DJV_CAPTURE_COUNT} - 1")
     foreach(i RANGE ${DJV_CAPTURE_LAST})
         string(JSON shot GET ${DJV_CAPTURE_JSON} shots ${i} id)
+        # A shot that needs a part of tlRender a build can leave out names
+        # its options in "requires", and is not a test where one of them is
+        # turned off: the GLES job builds without FFmpeg, so the sample
+        # movies do not open there, and the tour has no FFmpeg step. Only an
+        # option set off counts, as a config file sets it; one a build does
+        # not mention is taken to be on, as tlRender's options default.
+        string(JSON requiresCount ERROR_VARIABLE requiresError
+            LENGTH ${DJV_CAPTURE_JSON} shots ${i} requires)
+        set(requiresMissing)
+        if(NOT requiresError AND requiresCount GREATER 0)
+            math(EXPR requiresLast "${requiresCount} - 1")
+            foreach(j RANGE ${requiresLast})
+                string(JSON option GET ${DJV_CAPTURE_JSON} shots ${i} requires ${j})
+                if(DEFINED ${option} AND NOT ${${option}})
+                    list(APPEND requiresMissing ${option})
+                endif()
+            endforeach()
+        endif()
+        if(requiresMissing)
+            message(STATUS "Capture shot ${shot} needs ${requiresMissing}; not a test")
+            continue()
+        endif()
         add_test(
             NAME djv-capture-${shot}
             COMMAND djv
