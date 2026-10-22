@@ -206,6 +206,7 @@
     },
     {
       "id": "recent-folder",
+      "requires": ["TLRENDER_FFMPEG"],
       "strict": true,
       "window": { "w": 1000, "h": 600 },
       "setup": [
@@ -366,6 +367,7 @@
     },
     {
       "id": "tour-done",
+      "requires": ["TLRENDER_FFMPEG_PLUGIN"],
       "strict": true,
       "window": { "w": 1000, "h": 700, "splitter2": 0.55 },
       "setup": [
