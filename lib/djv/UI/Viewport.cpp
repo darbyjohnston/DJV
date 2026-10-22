@@ -46,6 +46,118 @@ namespace djv
 
             const std::chrono::seconds toastTimeout(5);
             const std::chrono::seconds hintTimeout(3);
+
+            // The top row of the HUD: one box on the left and one on the
+            // right. A row layout with a spacer between them let the spacer
+            // go negative when the two were wider than the viewport, and the
+            // right box was drawn over the left. Here the right box has the
+            // room it asks for, and the left box what is left, which its
+            // labels elide to.
+            class HUDRow : public ftk::IWidget
+            {
+            protected:
+                void _init(
+                    const std::shared_ptr<ftk::Context>& context,
+                    const std::shared_ptr<ftk::IWidget>& parent)
+                {
+                    IWidget::_init(context, "djv::ui::HUDRow", parent);
+                }
+
+                HUDRow() = default;
+
+            public:
+                virtual ~HUDRow() {}
+
+                static std::shared_ptr<HUDRow> create(
+                    const std::shared_ptr<ftk::Context>& context,
+                    const std::shared_ptr<ftk::IWidget>& parent = nullptr)
+                {
+                    auto out = std::shared_ptr<HUDRow>(new HUDRow);
+                    out->_init(context, parent);
+                    return out;
+                }
+
+                void setBoxes(
+                    const std::shared_ptr<ftk::IWidget>& left,
+                    const std::shared_ptr<ftk::IWidget>& right)
+                {
+                    _left = left;
+                    _right = right;
+                    _left->setParent(shared_from_this());
+                    _right->setParent(shared_from_this());
+                    setSizeUpdate();
+                }
+
+                ftk::Size2I getSizeHint() const override
+                {
+                    ftk::Size2I out;
+                    int count = 0;
+                    for (const auto& box : { _left, _right })
+                    {
+                        if (box && box->isVisible(false))
+                        {
+                            const ftk::Size2I hint = box->getSizeHint();
+                            out.w += hint.w;
+                            out.h = std::max(out.h, hint.h);
+                            ++count;
+                        }
+                    }
+                    if (count > 1)
+                    {
+                        out.w += _spacing;
+                    }
+                    return out;
+                }
+
+                void setGeometry(const ftk::Box2I& value) override
+                {
+                    IWidget::setGeometry(value);
+                    const ftk::Box2I& g = getGeometry();
+                    // Each box at the top or the bottom of the row, as it
+                    // says, so the boxes of a bottom row line up at the
+                    // bottom.
+                    const auto y = [&g](const std::shared_ptr<ftk::IWidget>& box, int h)
+                    {
+                        return ftk::VAlign::Bottom == box->getVAlign() ?
+                            g.max.y + 1 - h :
+                            g.min.y;
+                    };
+                    int rightWidth = 0;
+                    if (_right && _right->isVisible(false))
+                    {
+                        const ftk::Size2I hint = _right->getSizeHint();
+                        rightWidth = std::min(hint.w, g.w());
+                        _right->setGeometry(ftk::Box2I(
+                            g.max.x + 1 - rightWidth,
+                            y(_right, hint.h),
+                            rightWidth,
+                            hint.h));
+                    }
+                    if (_left && _left->isVisible(false))
+                    {
+                        const ftk::Size2I hint = _left->getSizeHint();
+                        const int room = g.w() - (rightWidth > 0 ? rightWidth + _spacing : 0);
+                        _left->setGeometry(ftk::Box2I(
+                            g.min.x,
+                            y(_left, hint.h),
+                            std::max(0, std::min(hint.w, room)),
+                            hint.h));
+                    }
+                }
+
+                void sizeHintEvent(const ftk::SizeHintEvent& event) override
+                {
+                    IWidget::sizeHintEvent(event);
+                    _spacing = event.style->getSizeRole(
+                        ftk::SizeRole::SpacingSmall,
+                        event.displayScale);
+                }
+
+            private:
+                std::shared_ptr<ftk::IWidget> _left;
+                std::shared_ptr<ftk::IWidget> _right;
+                int _spacing = 0;
+            };
         }
 
         struct Viewport::Private
@@ -171,6 +283,10 @@ namespace djv
             p.fileNameLabel = ftk::Label::create(context);
             p.fileNameLabel->setFont(ftk::FontType::Mono);
             p.fileNameLabel->setMarginRole(ftk::SizeRole::MarginSmall);
+            // Elided in the middle, which keeps the frame number and the
+            // extension, when the HUD is too narrow for it.
+            p.fileNameLabel->setElide(true, ftk::ElideMode::Middle);
+            p.fileNameLabel->setElideFullWidth(true);
 
             p.cacheLabel = ftk::Label::create(context);
             p.cacheLabel->setFont(ftk::FontType::Mono);
@@ -238,16 +354,17 @@ namespace djv
             p.toastLabel->setClipText(true);
             p.toastLabel->setVisible(false);
 
-            auto topLayout = ftk::HorizontalLayout::create(context, p.hudLayout);
-            topLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
-            topLayout->setVAlign(ftk::VAlign::Top);
-            p.hudLayouts[models::HUDPos::TopLeft]->setParent(topLayout);
-            auto spacer = ftk::Spacer::create(
-                context, ftk::Orientation::Horizontal, topLayout);
-            spacer->setStretch(ftk::Stretch::Expanding);
-            p.hudLayouts[models::HUDPos::TopRight]->setParent(topLayout);
+            auto topRow = HUDRow::create(context, p.hudLayout);
+            topRow->setVAlign(ftk::VAlign::Top);
+            // Filling, so the box takes the width the row gives it and its
+            // labels elide to it, rather than the width it asks for.
+            p.hudLayouts[models::HUDPos::TopLeft]->setHAlign(ftk::HAlign::Fill);
+            p.hudLayouts[models::HUDPos::TopLeft]->setClipChildren(true);
+            topRow->setBoxes(
+                p.hudLayouts[models::HUDPos::TopLeft],
+                p.hudLayouts[models::HUDPos::TopRight]);
 
-            spacer = ftk::Spacer::create(
+            auto spacer = ftk::Spacer::create(
                 context, ftk::Orientation::Vertical, p.hudLayout);
             spacer->setStretch(ftk::Stretch::Expanding);
 
@@ -274,14 +391,13 @@ namespace djv
             spacer = ftk::Spacer::create(
                 context, ftk::Orientation::Horizontal, toastLayout);
             spacer->setStretch(ftk::Stretch::Expanding);
-            auto bottomRowLayout = ftk::HorizontalLayout::create(context, bottomLayout);
-            bottomRowLayout->setSpacingRole(ftk::SizeRole::SpacingSmall);
-            bottomRowLayout->setVAlign(ftk::VAlign::Bottom);
-            p.hudLayouts[models::HUDPos::BottomLeft]->setParent(bottomRowLayout);
-            spacer = ftk::Spacer::create(
-                context, ftk::Orientation::Horizontal, bottomRowLayout);
-            spacer->setStretch(ftk::Stretch::Expanding);
-            p.hudLayouts[models::HUDPos::BottomRight]->setParent(bottomRowLayout);
+            auto bottomRow = HUDRow::create(context, bottomLayout);
+            bottomRow->setVAlign(ftk::VAlign::Bottom);
+            p.hudLayouts[models::HUDPos::BottomLeft]->setHAlign(ftk::HAlign::Fill);
+            p.hudLayouts[models::HUDPos::BottomLeft]->setClipChildren(true);
+            bottomRow->setBoxes(
+                p.hudLayouts[models::HUDPos::BottomLeft],
+                p.hudLayouts[models::HUDPos::BottomRight]);
 
             p.toastTimer = ftk::Timer::create(context);
 
