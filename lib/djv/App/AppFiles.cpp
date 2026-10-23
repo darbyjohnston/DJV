@@ -23,10 +23,12 @@
 #include <tlRender/IO/System.h>
 
 #include <ftk/GL/Window.h>
+#include <ftk/UI/DialogSystem.h>
 #include <ftk/UI/Settings.h>
 #include <ftk/Core/CmdLine.h>
 #include <ftk/Core/Format.h>
 #include <ftk/Core/OS.h>
+#include <ftk/Core/String.h>
 
 #if defined(__APPLE__)
 #include <TargetConditionals.h>
@@ -55,25 +57,6 @@ namespace djv
             _openDialog(std::filesystem::path(), false);
         }
 
-        void App::openFolderDialog()
-        {
-            FTK_P();
-            ftk::FileBrowserOpenOptions options;
-            options.title = "Open Folder";
-            options.mode = ftk::FileBrowserMode::Dir;
-            auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
-            fileBrowserSystem->open(
-                p.mainWindow,
-                [this](const std::vector<ftk::Path>& value)
-                {
-                    if (!value.empty())
-                    {
-                        _openDialog(ftk::toFileSystem(value.front().get()), true);
-                    }
-                },
-                options);
-        }
-
         void App::_openDialog(const std::filesystem::path& path, bool builtIn)
         {
             FTK_P();
@@ -95,9 +78,89 @@ namespace djv
                     // that file rather than the sequence it belongs to.
                     const bool gatherSeq =
                         fileBrowserSystem->getModel()->getOptions().dirList.seq;
-                    open(value, ftk::Path(), std::optional<ftk::RangeI64>(), gatherSeq);
+                    _withMediaFolder(
+                        value,
+                        [this, value, gatherSeq]
+                        {
+                            open(value, ftk::Path(), std::optional<ftk::RangeI64>(), gatherSeq);
+                        });
                 },
                 options);
+        }
+
+        void App::_withMediaFolder(
+            const std::vector<ftk::Path>& paths,
+            const std::function<void(void)>& next)
+        {
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            FTK_P();
+            // A file picked in place is readable, and nothing beside it:
+            // a timeline or review refers to its media by path, and a
+            // frame's name says it has a sequence around it; those come
+            // with the folder's grant, which the folder picker gives and
+            // the bookmark keeps. The folder is already readable when it
+            // is the application's own, or was picked before: listing it
+            // tells, so the question is asked only where it is needed.
+            const std::vector<std::string> seqExts =
+                tl::getExts(_context, static_cast<int>(tl::FileType::Seq));
+            for (const auto& path : paths)
+            {
+                const std::string ext = ftk::toLower(path.getExt());
+                const bool media = ".otio" == ext || models::reviewExtension() == ext;
+                const bool seq = !path.getNum().empty() && path.testExt(seqExts);
+                if (!media && !seq)
+                {
+                    continue;
+                }
+                const std::filesystem::path file = ftk::toFileSystem(path.get());
+                std::error_code ec;
+                std::filesystem::directory_iterator(file.parent_path(), ec);
+                if (!ec)
+                {
+                    continue;
+                }
+                const std::string question = media ?
+                    "{0} has external media references\n"
+                    "which need additional permission to open.\n"
+                    "\n"
+                    "Pick the folder containing the media?" :
+                    "{0} looks like a frame of an image sequence,\n"
+                    "which needs additional permission to open.\n"
+                    "\n"
+                    "Pick the folder containing the sequence?";
+                auto dialogSystem = _context->getSystem<ftk::DialogSystem>();
+                dialogSystem->confirm(
+                    "Media Folder",
+                    ftk::Format(question).arg(path.getFileName()),
+                    p.mainWindow,
+                    [this, file, next](bool value)
+                    {
+                        if (value)
+                        {
+                            ftk::FileBrowserOpenOptions options;
+                            options.title = "Media Folder";
+                            options.mode = ftk::FileBrowserMode::Dir;
+                            options.path = file.parent_path();
+                            auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
+                            fileBrowserSystem->open(
+                                _p->mainWindow,
+                                [next](const std::vector<ftk::Path>&)
+                                {
+                                    next();
+                                },
+                                options);
+                        }
+                        else
+                        {
+                            next();
+                        }
+                    },
+                    "Pick...",
+                    "Skip");
+                return;
+            }
+#endif // TARGET_OS_IPHONE
+            next();
         }
 
         void App::openPlaylist(const ftk::Path& path)

@@ -30,6 +30,10 @@
 
 #include <ftk/GL/Window.h>
 #include <ftk/UI/DialogSystem.h>
+
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
 #include <ftk/UI/Settings.h>
 #include <ftk/Core/CmdLine.h>
 #include <ftk/Core/Format.h>
@@ -312,13 +316,26 @@ namespace djv
                     auto dialogSystem = _context->getSystem<ftk::DialogSystem>();
                     // Pre-wrap with newlines: ftk::Label renders "\n" but cannot
                     // auto-wrap, so a long single line would scroll horizontally.
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+                    // Not found usually means not granted here: the
+                    // folder picker is what grants the files beside it.
+                    const std::string question =
+                        "{0} file(s) from this review could not be read\n"
+                        "and need additional permission to open.\n"
+                        "\n"
+                        "Pick the folder containing the media?";
+                    const std::string pick = "Pick...";
+#else // TARGET_OS_IPHONE
+                    const std::string question =
+                        "{0} file(s) from this review\n"
+                        "could not be found.\n"
+                        "\n"
+                        "Locate the folder that contains them?";
+                    const std::string pick = "Locate...";
+#endif // TARGET_OS_IPHONE
                     dialogSystem->confirm(
                         "Relocate Files",
-                        ftk::Format("{0} file(s) from this review\n"
-                            "could not be found.\n"
-                            "\n"
-                            "Locate the folder that contains them?").
-                            arg(missing.size()),
+                        ftk::Format(question).arg(missing.size()),
                         p.mainWindow,
                         [this, review, base, reviewPath](bool value)
                         {
@@ -342,7 +359,7 @@ namespace djv
                                     options);
                             }
                         },
-                        "Locate...",
+                        pick,
                         "Ignore");
                 }
             }
@@ -421,7 +438,12 @@ namespace djv
                 "Open Review",
                 [this](const std::filesystem::path& path)
                 {
-                    openReview(path);
+                    _withMediaFolder(
+                        { ftk::Path(ftk::fromFileSystem(path)) },
+                        [this, path]
+                        {
+                            openReview(path);
+                        });
                 });
         }
 

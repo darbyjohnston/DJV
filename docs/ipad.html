@@ -50,7 +50,7 @@
 <p>DJV Studio for the iPad is the same application as on the desktop: the same files, timelines, color management and comparison, drawn through Metal. This page covers what is different on a tablet: how files are reached, what a finger does in place of a mouse and keyboard, and what the hardware allows.</p>
 <h2 id="opening-files">Opening files</h2>
 <p>iOS grants an application access to files one at a time, through the system's picker. <b>File &gt; Open</b> shows the picker for a file: a movie, an image, an OpenTimelineIO timeline or bundle (.otioz), or a review. Files can be anywhere the Files app reaches: the iPad, iCloud Drive, a USB-C drive, or a network share added in Files.</p>
-<p><b>File &gt; Open Folder</b> shows the picker for a folder and then opens DJV's own file browser inside it. Use it for image sequences, which the browser lists as one entry, and for browsing a folder of media without going back to the picker for each file.</p>
+<p>A timeline, a review, or one frame of an image sequence refers to files beside it, which the picker's grant does not cover. Opening one asks for its folder, with the picker for folders: the grant then covers everything in the folder, the sequence is gathered from the frame, and the folder is remembered so it is not asked for again.</p>
 <p>Recent files are kept as bookmarks, so they open again without the picker, and they survive an update of the application.</p>
 <div class="note">A bundle (.otioz) is the easiest way to carry a cut to the iPad: the timeline and its media in one file, sent by AirDrop, copied to a drive, or opened in place from a share.</div>
 <h2 id="touch">Touch</h2>

@@ -65,7 +65,6 @@ namespace djv
             // reviews, three groups of the same shape -- then what acts
             // on the current file, then leaving.
             addAction(actions["Open"]);
-            addAction(actions["OpenFolder"]);
             addAction(actions["OpenAudio"]);
             addAction(actions["RecentFiles"]);
             p.menus["Recent"] = addSubMenu("Recent");
