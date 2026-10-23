@@ -13,6 +13,8 @@
 #include <ftk/UI/ButtonGroup.h>
 #include <ftk/UI/CheckBox.h>
 #include <ftk/UI/ComboBox.h>
+#include <djv/UI/FolderAccess.h>
+
 #include <ftk/UI/FileEdit.h>
 #include <ftk/UI/FloatEdit.h>
 #include <ftk/UI/FloatEditSlider.h>
@@ -266,7 +268,21 @@ namespace djv
             p.fileEdit->setCallback(
                 [this](const ftk::Path& value)
                 {
-                    _p->ocioModel->setFileName(value.get());
+                    // A configuration refers to its transforms by path; on
+                    // a tablet those need the folder's grant.
+                    auto ocioModel = _p->ocioModel;
+                    requestFolderAccess(
+                        getContext(),
+                        getWindow(),
+                        ftk::toFileSystem(value.get()),
+                        "{0} may refer to transforms beside it\n"
+                        "which need additional permission to open.\n"
+                        "\n"
+                        "Pick the folder containing the configuration?",
+                        [ocioModel, value]
+                        {
+                            ocioModel->setFileName(value.get());
+                        });
                 });
 
             p.inputComboBox->setIndexCallback(

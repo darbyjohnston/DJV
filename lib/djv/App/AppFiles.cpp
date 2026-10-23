@@ -9,6 +9,7 @@
 #include <djv/Models/Review.h>
 #include <djv/Models/TimeUnitsModel.h>
 
+#include <djv/UI/FolderAccess.h>
 #include <djv/UI/SeparateAudioDialog.h>
 #include <djv/Models/Parse.h>
 #include <djv/Models/Playlist.h>
@@ -23,7 +24,6 @@
 #include <tlRender/IO/System.h>
 
 #include <ftk/GL/Window.h>
-#include <ftk/UI/DialogSystem.h>
 #include <ftk/UI/Settings.h>
 #include <ftk/Core/CmdLine.h>
 #include <ftk/Core/Format.h>
@@ -35,6 +35,7 @@
 #endif // __APPLE__
 #include <ftk/Core/Timer.h>
 
+#include <algorithm>
 #include <ctime>
 #include <ftk/Core/Path.h>
 
@@ -92,15 +93,11 @@ namespace djv
             const std::vector<ftk::Path>& paths,
             const std::function<void(void)>& next)
         {
-#if defined(__APPLE__) && TARGET_OS_IPHONE
             FTK_P();
-            // A file picked in place is readable, and nothing beside it:
-            // a timeline or review refers to its media by path, and a
-            // frame's name says it has a sequence around it; those come
-            // with the folder's grant, which the folder picker gives and
-            // the bookmark keeps. The folder is already readable when it
-            // is the application's own, or was picked before: listing it
-            // tells, so the question is asked only where it is needed.
+            // A timeline or review refers to its media by path, and a
+            // frame's name says it has a sequence around it: on a tablet
+            // those need the folder's grant, which the first such file
+            // is asked for; see ui::requestFolderAccess().
             const std::vector<std::string> seqExts =
                 tl::getExts(_context, static_cast<int>(tl::FileType::Seq));
             for (const auto& path : paths)
@@ -113,53 +110,26 @@ namespace djv
                     continue;
                 }
                 const std::filesystem::path file = ftk::toFileSystem(path.get());
-                std::error_code ec;
-                std::filesystem::directory_iterator(file.parent_path(), ec);
-                if (!ec)
+                if (ui::hasFolderAccess(file))
                 {
                     continue;
                 }
-                const std::string question = media ?
-                    "{0} has external media references\n"
-                    "which need additional permission to open.\n"
-                    "\n"
-                    "Pick the folder containing the media?" :
-                    "{0} looks like a frame of an image sequence,\n"
-                    "which needs additional permission to open.\n"
-                    "\n"
-                    "Pick the folder containing the sequence?";
-                auto dialogSystem = _context->getSystem<ftk::DialogSystem>();
-                dialogSystem->confirm(
-                    "Media Folder",
-                    ftk::Format(question).arg(path.getFileName()),
+                ui::requestFolderAccess(
+                    _context,
                     p.mainWindow,
-                    [this, file, next](bool value)
-                    {
-                        if (value)
-                        {
-                            ftk::FileBrowserOpenOptions options;
-                            options.title = "Media Folder";
-                            options.mode = ftk::FileBrowserMode::Dir;
-                            options.path = file.parent_path();
-                            auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
-                            fileBrowserSystem->open(
-                                _p->mainWindow,
-                                [next](const std::vector<ftk::Path>&)
-                                {
-                                    next();
-                                },
-                                options);
-                        }
-                        else
-                        {
-                            next();
-                        }
-                    },
-                    "Pick...",
-                    "Skip");
+                    file,
+                    media ?
+                        "{0} has external media references\n"
+                        "which need additional permission to open.\n"
+                        "\n"
+                        "Pick the folder containing the media?" :
+                        "{0} looks like a frame of an image sequence,\n"
+                        "which needs additional permission to open.\n"
+                        "\n"
+                        "Pick the folder containing the sequence?",
+                    next);
                 return;
             }
-#endif // TARGET_OS_IPHONE
             next();
         }
 
@@ -209,7 +179,12 @@ namespace djv
                 p.mainWindow,
                 [this](const ftk::Path& value)
                 {
-                    openPlaylist(value);
+                    _withMediaFolder(
+                        { value },
+                        [this, value]
+                        {
+                            openPlaylist(value);
+                        });
                 },
                 options);
         }
@@ -270,12 +245,39 @@ namespace djv
             options.fileName = "playlist.otio";
             options.extensions.push_back(".otio");
             options.extensionsLabel = "Playlists";
+            // On a tablet the file is written to a temporary place and
+            // moved by the picker: the place it was written to, which the
+            // save recorded as a recent playlist, comes out of the list
+            // once the picker has moved or discarded it, and the
+            // destination goes in.
+            auto written = std::make_shared<ftk::Path>();
+            options.saved =
+                [this, written](const ftk::Path& value)
+                {
+                    FTK_P();
+                    std::vector<ftk::Path> recent = p.recentPlaylistsModel->getRecent();
+                    recent.erase(
+                        std::remove(recent.begin(), recent.end(), *written),
+                        recent.end());
+                    p.recentPlaylistsModel->setRecent(recent);
+                    if (!value.isEmpty())
+                    {
+                        p.recentPlaylistsModel->addRecent(value);
+                    }
+                };
             auto fileBrowserSystem = _context->getSystem<ftk::FileBrowserSystem>();
             fileBrowserSystem->open(
                 p.mainWindow,
-                [this](const ftk::Path& value)
+                [this, written](const ftk::Path& value)
                 {
                     savePlaylist(value);
+                    // As recorded by the save, with the extension it adds.
+                    std::string fileName = value.getFileName(true);
+                    if (".otio" != ftk::toLower(value.getExt()))
+                    {
+                        fileName += ".otio";
+                    }
+                    *written = ftk::Path(fileName);
                 },
                 options);
         }
@@ -288,8 +290,13 @@ namespace djv
             p.separateAudioDialog->setCallback(
                 [this](const ftk::Path& value, const ftk::Path& audio)
                 {
-                    open(value, audio);
                     _p->separateAudioDialog->close();
+                    _withMediaFolder(
+                        { value },
+                        [this, value, audio]
+                        {
+                            open(value, audio);
+                        });
                 });
             p.separateAudioDialog->setCloseCallback(
                 [this]

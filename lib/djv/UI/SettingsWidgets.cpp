@@ -37,6 +37,10 @@
 #include <ftk/Core/Format.h>
 #include <ftk/Core/String.h>
 
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
+
 #include <cctype>
 
 namespace djv
@@ -1458,10 +1462,14 @@ namespace djv
             p.layout->addRow("Hardware decoding:", p.hwAccelCheckBox);
             p.layout->addRow("Merge mono audio:", p.audioMergeCheckBox);
             p.layout->addRow("I/O threads:", p.threadsEdit);
+#if !(defined(__APPLE__) && TARGET_OS_IPHONE)
+            // A tablet runs no programs beside its own, so there are none
+            // to point at, and a location it cannot find reads as a fault.
             p.layout->addRow("ffmpeg location:", p.ffmpegEdit);
             p.layout->addRow("", p.ffmpegFoundLabel);
             p.layout->addRow("ffprobe location:", p.ffprobeEdit);
             p.layout->addRow("", p.ffprobeFoundLabel);
+#endif // TARGET_OS_IPHONE
 
             p.optionsObserver = ftk::Observer<tl::ffmpeg::Options>::create(
                 settings->observeFFmpeg(),

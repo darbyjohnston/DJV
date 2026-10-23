@@ -1175,8 +1175,12 @@ namespace djv
             steps.push_back(ui::TourStep(
                 "Settings.FFmpeg",
                 "FFmpeg settings",
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+                "Hardware decoding and decoder threads for movies.",
+#else // TARGET_OS_IPHONE
                 "Hardware decoding, decoder threads, and the FFmpeg programs "
                 "used for movies.",
+#endif // TARGET_OS_IPHONE
                 [toolsModel]
                 {
                     toolsModel->showSection("Settings", "FFmpeg");

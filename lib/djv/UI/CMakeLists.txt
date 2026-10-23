@@ -3,6 +3,7 @@ set(HEADERS
     AudioPopup.h
     ColorWidgets.h
     FileThumbnail.h
+    FolderAccess.h
     FrameRangePopup.h
     Init.h
     ColorResetDialog.h
@@ -30,6 +31,7 @@ set(SOURCE
     AudioPopup.cpp
     ColorWidgets.cpp
     FileThumbnail.cpp
+    FolderAccess.cpp
     FrameRangePopup.cpp
     Init.cpp
     ColorResetDialog.cpp
