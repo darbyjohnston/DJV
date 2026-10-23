@@ -230,7 +230,6 @@ namespace djv
             std::shared_ptr<ftk::ToolButton> clearDrawingButton;
 
             std::map<std::string, std::shared_ptr<ftk::Bellows> > bellows;
-            std::shared_ptr<ftk::ScrollWidget> scrollWidget;
 
             //! The marker being edited in place, or empty.
             std::string editingId;
@@ -440,14 +439,9 @@ namespace djv
             p.bellows["Markers"]->setToolWidget(markerToolLayout);
             p.bellows["Markers"]->setOpen(true);
 
-            p.scrollWidget = ftk::ScrollWidget::create(context);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->setWidget(layout);
-            // The markers have no natural end, so take what room is left
-            // rather than a band of its own while other tools sit at the
-            // height they need.
-            setVStretch(ftk::Stretch::Expanding);
-            _setWidget(p.scrollWidget);
+            // The tools share one scroll area, so the markers scroll with
+            // the panel rather than inside it.
+            _setWidget(layout);
 
             auto appWeak = std::weak_ptr<App>(app);
 
@@ -883,12 +877,16 @@ namespace djv
             if (p.scrollToEdit && p.editItem)
             {
                 p.scrollToEdit = false;
-                if (auto content = p.scrollWidget->getWidget())
+                // The scroll area belongs to the widget holding the tools.
+                if (auto scrollWidget = getParentT<ftk::ScrollWidget>())
                 {
-                    const ftk::Box2I& g = p.editItem->getGeometry();
-                    p.scrollWidget->scrollTo(ftk::Box2I(
-                        g.min - content->getGeometry().min,
-                        g.size()));
+                    if (const auto& content = scrollWidget->getWidget())
+                    {
+                        const ftk::Box2I& g = p.editItem->getGeometry();
+                        scrollWidget->scrollTo(ftk::Box2I(
+                            g.min - content->getGeometry().min,
+                            g.size()));
+                    }
                 }
             }
         }

@@ -47,6 +47,7 @@
 
 #if defined(__GLIBC__)
 #include <malloc.h>
+#include <algorithm>
 #endif // __GLIBC__
 
 namespace djv
@@ -370,6 +371,37 @@ namespace djv
                 options.fileName = p.reviewPath.empty() ?
                     std::string("review") + models::reviewExtension() :
                     ftk::fromFileSystem(p.reviewPath.filename());
+                // Where saving is in two steps (the iPad: see
+                // ftk::FileBrowserOpenOptions::saved), the review's path is
+                // where the system's picker put it, or what it was before
+                // when the picker was cancelled and the file written is
+                // gone.
+                const std::filesystem::path previous = p.reviewPath;
+                options.saved =
+                    [this, previous](const ftk::Path& value)
+                    {
+                        FTK_P();
+                        // The file written, which the save recorded as a
+                        // recent review, is gone: moved by the picker, or
+                        // removed when it was cancelled. Out of the list
+                        // either way, and the destination in.
+                        const ftk::Path written(ftk::fromFileSystem(p.reviewPath));
+                        std::vector<ftk::Path> recent = p.recentReviewsModel->getRecent();
+                        recent.erase(
+                            std::remove(recent.begin(), recent.end(), written),
+                            recent.end());
+                        p.recentReviewsModel->setRecent(recent);
+                        if (!value.isEmpty())
+                        {
+                            p.reviewPath = ftk::toFileSystem(value.get());
+                            p.recentReviewsModel->addRecent(value);
+                        }
+                        else
+                        {
+                            p.reviewPath = previous;
+                        }
+                        _updateWindowTitle();
+                    };
             }
             options.extensions = { models::reviewExtension() };
             options.extensionsLabel = "Review Session";

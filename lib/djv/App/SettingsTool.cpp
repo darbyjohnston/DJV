@@ -13,7 +13,6 @@
 #include <ftk/UI/Label.h>
 #include <ftk/UI/PushButton.h>
 #include <ftk/UI/RowLayout.h>
-#include <ftk/UI/ScrollWidget.h>
 
 namespace djv
 {
@@ -25,7 +24,6 @@ namespace djv
             std::shared_ptr<ftk::PushButton> resetButton;
             std::map<std::string, std::shared_ptr<ftk::Bellows> > bellows;
             std::shared_ptr<ftk::VerticalLayout> layout;
-            std::shared_ptr<ftk::ScrollWidget> scrollWidget;
         };
 
         void SettingsTool::_init(
@@ -176,14 +174,12 @@ namespace djv
 
             p.layout = ftk::VerticalLayout::create(context);
             p.layout->setSpacingRole(ftk::SizeRole::None);
-            p.scrollWidget = ftk::ScrollWidget::create(context, ftk::ScrollType::Both, p.layout);
             // The sections' labels share one width, so they line up as one
             // form would.
             ftk::setFormGroup(vLayout, ftk::FormGroup::create());
-
-            p.scrollWidget->setWidget(vLayout);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->setVStretch(ftk::Stretch::Expanding);
+            // The tools share one scroll area, so the sections and the
+            // buttons scroll with the panel rather than inside it.
+            vLayout->setParent(p.layout);
             ftk::Divider::create(context, ftk::Orientation::Vertical, p.layout);
             auto hLayout = ftk::HorizontalLayout::create(context, p.layout);
             hLayout->setMarginRole(ftk::SizeRole::MarginSmall);
@@ -191,10 +187,6 @@ namespace djv
             p.saveButton->setParent(hLayout);
             hLayout->addSpacer(ftk::Stretch::Expanding);
             p.resetButton->setParent(hLayout);
-            // The contents have no natural end, so this takes what room is
-            // left rather than a band of its own while other tools sit at
-            // the height they need.
-            setVStretch(ftk::Stretch::Expanding);
             _setWidget(p.layout);
 
             _loadSettings(p.bellows);
@@ -253,24 +245,6 @@ namespace djv
             auto out = std::shared_ptr<SettingsTool>(new SettingsTool);
             out->_init(context, app, mainWindow, parent);
             return out;
-        }
-
-        void SettingsTool::scrollTo(const std::string& value)
-        {
-            FTK_P();
-            if (auto i = p.bellows.find(value); i != p.bellows.end())
-            {
-                // scrollTo() expects the box in the scrolled content's
-                // coordinate space, but getGeometry() is in window space;
-                // translate by the content widget's origin (cf.
-                // ftk::ComboBoxMenu::_scrollToCurrent).
-                ftk::Box2I g = i->second->getGeometry();
-                if (const auto& widget = p.scrollWidget->getWidget())
-                {
-                    g = ftk::move(g, -widget->getGeometry().min);
-                }
-                p.scrollWidget->scrollTo(g);
-            }
         }
     }
 }

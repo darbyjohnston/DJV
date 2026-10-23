@@ -3,6 +3,10 @@
 
 #include <djv/App/FileToolBar.h>
 
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
+
 namespace djv
 {
     namespace app
@@ -18,6 +22,11 @@ namespace djv
 
             auto tmp = actions;
             addAction(tmp["Open"]);
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // The system's picker opens one file at a time; a folder, and
+            // the browser inside it, is how an image sequence is opened.
+            addAction(tmp["OpenFolder"]);
+#endif // TARGET_OS_IPHONE
             addAction(tmp["OpenAudio"]);
             addAction(tmp["Close"]);
             addAction(tmp["CloseAll"]);

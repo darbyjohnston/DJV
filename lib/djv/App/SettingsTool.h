@@ -35,9 +35,6 @@ namespace djv
                 const std::shared_ptr<MainWindow>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Scroll to the given section.
-            DJV_APP_API void scrollTo(const std::string&);
-
         private:
             FTK_PRIVATE();
         };

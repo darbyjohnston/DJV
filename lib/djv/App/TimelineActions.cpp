@@ -3,6 +3,10 @@
 
 #include <djv/App/TimelineActions.h>
 
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
+
 #include <djv/App/App.h>
 #include <djv/App/MainWindow.h>
 
@@ -288,6 +292,11 @@ namespace djv
             _actions["Preview"] = ftk::Action::create(
                 "Hover Preview",
                 _checkCommand("Preview"));
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // Nothing hovers on a tablet; the preview is off there, see
+            // SettingsModel.
+            _actions["Preview"]->setEnabled(false);
+#endif // TARGET_OS_IPHONE
             _actions["Thumbnails"] = ftk::Action::create(
                 "Video Thumbnails",
                 _checkCommand("Thumbnails"));

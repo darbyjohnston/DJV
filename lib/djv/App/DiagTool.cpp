@@ -11,7 +11,6 @@
 #include <ftk/UI/DiagWidget.h>
 #include <ftk/UI/GraphWidget.h>
 #include <ftk/UI/RowLayout.h>
-#include <ftk/UI/ScrollWidget.h>
 #include <ftk/Core/Format.h>
 #include <ftk/Core/String.h>
 #include <ftk/Core/Timer.h>
@@ -44,15 +43,9 @@ namespace djv
             p.diagWidget = ftk::DiagWidget::create(context);
             p.diagWidget->setMarginRole(ftk::SizeRole::Margin);
 
-            auto scrollWidget = ftk::ScrollWidget::create(context);
-            scrollWidget->setWidget(p.diagWidget);
-            scrollWidget->setBorder(false);
-            scrollWidget->setVStretch(ftk::Stretch::Expanding);
-            // The contents have no natural end, so this takes what room is
-            // left rather than a band of its own while other tools sit at
-            // the height they need.
-            setVStretch(ftk::Stretch::Expanding);
-            _setWidget(scrollWidget);
+            // The tools share one scroll area, so this sits at the height
+            // its graphs need rather than scrolling inside the panel.
+            _setWidget(p.diagWidget);
         }
 
         DiagTool::DiagTool() :

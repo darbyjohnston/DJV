@@ -57,9 +57,9 @@ namespace djv
             // One scroll area for the whole stack rather than one inside each
             // tool: a tool then takes the height its contents need instead of
             // an equal share of the panel, and there is a single scroll bar
-            // rather than one nested in another. Tools whose contents have no
-            // natural end -- the logs -- keep their own, which stops at the
-            // scroll area size role rather than growing without limit.
+            // rather than one nested in another. The log tools keep the text
+            // editor's own, which stops at the scroll area size role rather
+            // than growing with the log.
             p.scrollWidget = ftk::ScrollWidget::create(
                 context, ftk::ScrollType::Both);
             _setWidget(p.scrollWidget);

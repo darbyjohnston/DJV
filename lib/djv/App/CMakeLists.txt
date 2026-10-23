@@ -18,6 +18,7 @@ set(HEADERS
     ExportTool.h
     FileActions.h
     FileMenu.h
+    RecentLabels.h
     FileToolBar.h
     FilesTool.h
     FrameActions.h
@@ -80,6 +81,7 @@ set(SOURCE
     ExportTool.cpp
     FileActions.cpp
     FileMenu.cpp
+    RecentLabels.cpp
     FileToolBar.cpp
     FilesTool.cpp
     FrameActions.cpp

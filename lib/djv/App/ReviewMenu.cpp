@@ -6,6 +6,7 @@
 #include <ftk/Core/Path.h>
 
 #include <djv/App/App.h>
+#include <djv/App/RecentLabels.h>
 #include <djv/App/ReviewActions.h>
 #include <djv/Models/RecentFilesModel.h>
 
@@ -97,12 +98,14 @@ namespace djv
         {
             FTK_P();
             p.recentMenu->clear();
+            // As the File menu's: the names, with the paths in the tooltips.
+            const auto labels = getRecentLabels(value);
             for (auto i = value.rbegin(); i != value.rend(); ++i)
             {
                 const auto path = *i;
                 auto weak = std::weak_ptr<ReviewMenu>(std::dynamic_pointer_cast<ReviewMenu>(shared_from_this()));
                 auto action = ftk::Action::create(
-                    path.get(),
+                    labels[value.rend() - i - 1],
                     [weak, path]
                     {
                         if (auto widget = weak.lock())
@@ -114,6 +117,7 @@ namespace djv
                             widget->close();
                         }
                     });
+                action->setTooltip(path.get());
                 p.recentMenu->addAction(action);
             }
         }

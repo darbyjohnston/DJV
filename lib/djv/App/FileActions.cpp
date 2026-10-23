@@ -344,7 +344,7 @@ namespace djv
                 _command("OpenAudio"));
             _actions["OpenFolder"] = ftk::Action::create(
                 "Open Folder",
-                "Directory",
+                "DirectoryOpen",
                 _command("OpenFolder"));
             _actions["OpenFolder"]->setTooltip(
                 "Pick a folder with the system's dialog, then choose from it\n"

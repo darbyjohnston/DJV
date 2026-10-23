@@ -3,6 +3,10 @@
 
 #include <djv/UI/SettingsWidgets.h>
 
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif // __APPLE__
+
 #include <ftk/UI/App.h>
 #include <ftk/UI/CheckBox.h>
 #include <ftk/UI/ComboBox.h>
@@ -68,6 +72,10 @@ namespace djv
             // (DJV #899). The setting is stored where it always was.
             p.tooltipsCheckBox = ftk::CheckBox::create(context);
             p.tooltipsCheckBox->setHStretch(ftk::Stretch::Expanding);
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // Nothing hovers on a tablet; see SettingsModel.
+            p.tooltipsCheckBox->setEnabled(false);
+#endif // TARGET_OS_IPHONE
 
             p.layout = ftk::FormLayout::create(context);
 

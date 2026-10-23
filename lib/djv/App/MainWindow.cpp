@@ -1002,12 +1002,13 @@ namespace djv
                 "Files",
                 "Open, close, and reload files.").withItems({
                     item("File/Open"),
+                    item("File/OpenFolder"),
                     item("File/OpenAudio"),
                     item("File/Close"),
                     item("File/CloseAll"),
                     item("File/Reload") }).withNotes({
-                    "Open shows the system's picker; Open Folder, in the "
-                    "File menu, opens the file browser inside a folder.",
+                    "Open shows the system's picker; Open Folder opens the "
+                    "file browser inside a folder.",
                     "Closed files can be opened again from Recent Files in "
                     "the File menu." }));
 #else // TARGET_OS_IPHONE

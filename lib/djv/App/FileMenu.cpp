@@ -5,6 +5,7 @@
 
 #include <djv/App/App.h>
 #include <djv/App/FileActions.h>
+#include <djv/App/RecentLabels.h>
 #include <djv/Models/RecentFilesModel.h>
 
 #include <tlRender/Timeline/Util.h>
@@ -298,46 +299,11 @@ namespace djv
             }
         }
 
-        namespace
-        {
-            // The items are the file names, with the whole path in the
-            // tooltip: a path is long, and on a tablet it is a container
-            // or a share's mount that means nothing to anyone. A name that
-            // appears twice gets its directory's name in front, so that
-            // two shots' "plate.mov" can be told apart.
-            std::vector<std::string> recentLabels(const std::vector<ftk::Path>& value)
-            {
-                std::vector<std::string> names;
-                std::map<std::string, size_t> counts;
-                for (const auto& path : value)
-                {
-                    const std::string name = std::filesystem::path(path.get()).filename().string();
-                    names.push_back(name);
-                    ++counts[name];
-                }
-                std::vector<std::string> out;
-                for (size_t i = 0; i < value.size(); ++i)
-                {
-                    std::string label = names[i];
-                    if (counts[names[i]] > 1)
-                    {
-                        const std::string dir = std::filesystem::path(value[i].get()).parent_path().filename().string();
-                        if (!dir.empty())
-                        {
-                            label = dir + "/" + label;
-                        }
-                    }
-                    out.push_back(label);
-                }
-                return out;
-            }
-        }
-
         void FileMenu::_recentPlaylistsUpdate(const std::vector<ftk::Path>& value)
         {
             FTK_P();
             p.menus["RecentPlaylists"]->clear();
-            const auto labels = recentLabels(value);
+            const auto labels = getRecentLabels(value);
             for (auto i = value.rbegin(); i != value.rend(); ++i)
             {
                 const auto path = *i;
@@ -365,7 +331,7 @@ namespace djv
             FTK_P();
             p.menus["Recent"]->clear();
             // The newest ten; the recent files dialog has the rest.
-            const auto labels = recentLabels(value);
+            const auto labels = getRecentLabels(value);
             size_t count = 0;
             for (auto i = value.rbegin(); i != value.rend() && count < 10; ++i, ++count)
             {

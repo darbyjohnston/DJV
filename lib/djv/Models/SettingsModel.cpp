@@ -341,6 +341,12 @@ namespace djv
 
             MiscSettings misc;
             settings->getT(keys["Misc"], misc);
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // Nothing hovers on a tablet: a tooltip comes up under a
+            // finger about to tap. Off whatever the settings say, and the
+            // checkbox for it is disabled there.
+            misc.tooltipsEnabled = false;
+#endif // TARGET_OS_IPHONE
             p.misc = ftk::Observable<MiscSettings>::create(misc);
 
             MouseSettings mouse;
@@ -367,6 +373,14 @@ namespace djv
 
             TimelineSettings timeline;
             settings->getT(keys["Timeline"], timeline);
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // Nothing hovers on a tablet: the timeline's preview of the
+            // frame under the cursor, like a tooltip (see the misc
+            // settings above), comes up under a finger that is scrubbing
+            // or about to tap. Off whatever the settings say, and the
+            // menu item for it is disabled there.
+            timeline.preview = false;
+#endif // TARGET_OS_IPHONE
             p.timeline = ftk::Observable<TimelineSettings>::create(timeline);
 
             WindowSettings window;
