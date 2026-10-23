@@ -160,7 +160,7 @@ namespace djv
                     continue;
                 }
                 const std::filesystem::path file = docs / name;
-                if (!std::filesystem::exists(file))
+                if (!std::filesystem::exists(file, ec))
                 {
                     return std::string();
                 }

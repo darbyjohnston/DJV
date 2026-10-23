@@ -121,6 +121,9 @@ namespace djv
         {
             std::weak_ptr<ftk::Context> context;
             std::shared_ptr<ftk::Settings> settings;
+            //! Whether _init() got to the end: a model it threw out of has
+            //! no settings to save, and saving them crashed.
+            bool init = false;
             std::map<std::string, Shortcut> savedShortcuts;
             ShortcutsSettings shortcutsDefault;
 
@@ -292,9 +295,14 @@ namespace djv
             // for bytes that page cannot map, and this runs while settings
             // are loading: a browsed-to Korean directory would take the
             // application down on startup. Issue #779.
+            // With an error code: a path the process may not look at --
+            // one outside an iPad's sandbox, as a path saved on another
+            // machine is -- throws from exists() otherwise, and this runs
+            // while the settings load.
             const std::filesystem::path fileBrowserPath =
                 ftk::toFileSystem(fileBrowser.path);
-            if (std::filesystem::exists(fileBrowserPath))
+            std::error_code ec;
+            if (std::filesystem::exists(fileBrowserPath, ec))
             {
                 fileBrowserSystem->getModel()->setPath(fileBrowserPath);
             }
@@ -406,6 +414,7 @@ namespace djv
 #endif // TLRENDER_USD
 
             p.ioOptions = ftk::Observable<tl::IOOptions>::create(getIOOptions());
+            p.init = true;
         }
 
         SettingsModel::SettingsModel() :
@@ -414,7 +423,10 @@ namespace djv
 
         SettingsModel::~SettingsModel()
         {
-            save();
+            if (_p->init)
+            {
+                save();
+            }
         }
 
         std::shared_ptr<SettingsModel> SettingsModel::create(
